@@ -1,0 +1,27 @@
+package modus:models
+
+// Model information record
+record model-info {
+    // The name of the model, as specified in the modus.json manifest file
+    name: string,
+    // The full name of the model that the provider uses to identify the model
+    full-name: string,
+}
+
+// Models interface
+interface models {
+    // Get information about a specific model
+    get-model-info: func(
+        model-name: string
+    ) -> option<model-info>
+
+    // Invoke a model with JSON-serialized input
+    invoke-model: func(
+        model-name: string,
+        input: string
+    ) -> option<string>
+}
+
+world models-world {
+    import models
+}
