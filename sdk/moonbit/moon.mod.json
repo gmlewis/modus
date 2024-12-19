@@ -1,6 +1,16 @@
 {
   "name": "gmlewis/modus",
+  "version": "0.1.0",
   "deps": {
     "moonbitlang/x": "0.4.15"
-  }
+  },
+  "readme": "README.md",
+  "repository": "https://github.com/gmlewis/modus/sdk/moonbit",
+  "license": "Apache-2.0",
+  "keywords": [
+    "modus",
+    "moonbit",
+    "sdk"
+  ],
+  "description": "Experimental Modus SDK for the MoonBit programming language."
 }
