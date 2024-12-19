@@ -1,0 +1,13 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore environment variable files
+.env
+.env.*
+
+# Ignore build output directories
+build/
+
+# Ignore MoonBit dirs
+target/
+.mooncakes/

@@ -23,6 +23,11 @@ build/
 # Ignore node_modules folders
 node_modules/
 
+# Ignore MoonBit directories
+target/
+.mooncakes/
+update.sh
+
 # For now, our JS/TS/AS projects use NPM with package-lock.json files only.
 # Ignore lockfiles for other package managers.
 pnpm-lock.yaml
