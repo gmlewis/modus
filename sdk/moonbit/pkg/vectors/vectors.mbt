@@ -5,11 +5,6 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-///|
-pub(open) trait Addable {
-  op_add(Self, Self) -> Self
-}
-
 ///| add adds two vectors together and returns the result.
 pub fn add[T : Addable](a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
@@ -28,11 +23,6 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
   for i in 0..<len {
     a[i] += b[i]
   }
-}
-
-///|
-pub(open) trait Subtractable {
-  op_sub(Self, Self) -> Self
 }
 
 ///| subtract subtracts one vector from another and returns the result.
@@ -91,11 +81,6 @@ pub fn subtract_number_in_place[T : Subtractable](a : Array[T], b : T) -> Unit {
   }
 }
 
-///|
-pub(open) trait Multipliable {
-  op_mul(Self, Self) -> Self
-}
-
 ///| multiply_number Multiplys a number to each element of a vector and returns the result.
 pub fn multiply_number[T : Multipliable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
@@ -112,11 +97,6 @@ pub fn multiply_number_in_place[T : Multipliable](a : Array[T], b : T) -> Unit {
   for i in 0..<len {
     a[i] *= b
   }
-}
-
-///|
-pub(open) trait Divideable {
-  op_div(Self, Self) -> Self
 }
 
 ///| divide_number divides each element of a vector by a number and returns the result.
@@ -149,21 +129,6 @@ pub fn dot[T : Multipliable + Addable](a : Array[T], b : Array[T]) -> T {
   result
 }
 
-///|
-pub(open) trait SquareRootable {
-  sqrt(Self) -> Self
-}
-
-///|
-pub impl SquareRootable for Int with sqrt(self) {
-  self.to_double().sqrt().round().to_int()
-}
-
-///|
-pub impl SquareRootable for Int64 with sqrt(self) {
-  self.to_double().sqrt().round().to_int64()
-}
-
 ///| magnitude computes the magnitude of a vector.
 pub fn magnitude[T : Multipliable + Addable + SquareRootable](
   a : Array[T]
@@ -180,37 +145,25 @@ pub fn normalize[T : Multipliable + Divideable + Addable + SquareRootable](
 }
 
 ///| sum computes the sum of all elements in a vector.
-pub fn sum[T : Addable](a : Array[T]) -> T {
+pub fn sum[T : Addable + FromInt](a : Array[T]) -> T {
   let len = a.length()
-  guard len > 0
-  let mut result = a[0] // 0
-  for i in 1..<len {
+  let mut result = T::from_int(0)
+  for i in 0..<len {
     result += a[i]
   }
   result
 }
 
 ///| product computes the product of all elements in a vector.
-pub fn product[T : Multipliable](a : Array[T]) -> T {
+pub fn product[T : Multipliable + FromInt](a : Array[T]) -> T {
   let len = a.length()
   guard len > 0
-  let mut result = a[0] // 1
-  for i in 1..<len {
+  let mut result = T::from_int(1)
+  for i in 0..<len {
     result *= a[i]
   }
   result
 }
-
-///|
-pub(open) trait FromInt {
-  from_int(Int) -> Self
-}
-
-///|
-pub impl FromInt for Int with from_int(self) { self }
-
-///|
-pub impl FromInt for Float with from_int(self) { self.to_float() }
 
 ///| mean computes the mean of a vector.
 pub fn mean[T : Addable + Divideable + FromInt](a : Array[T]) -> T {
@@ -242,11 +195,6 @@ pub fn max[T : Compare](a : Array[T]) -> T {
     }
   }
   result
-}
-
-///|
-pub(open) trait Absoluteable {
-  abs(Self) -> Self
 }
 
 ///| abs computes the absolute value of each element in a vector.
