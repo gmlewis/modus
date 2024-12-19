@@ -1,5 +1,5 @@
 // SQL client interface
-interface client {
+interface sql-client {
     // Record type for query response
     record host-query-response {
         error: option<string>,
