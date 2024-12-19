@@ -201,10 +201,21 @@ pub fn product[T : Multipliable](a : Array[T]) -> T {
   result
 }
 
+///|
+pub(open) trait FromInt {
+  from_int(Int) -> Self
+}
+
+///|
+pub impl FromInt for Int with from_int(self) { self }
+
+///|
+pub impl FromInt for Float with from_int(self) { self.to_float() }
+
 ///| mean computes the mean of a vector.
-pub fn mean[T : Addable + Divideable](a : Array[T]) -> T {
-  let len = a.length()
-  sum(a) / len.to_double()
+pub fn mean[T : Addable + Divideable + FromInt](a : Array[T]) -> T {
+  let len = T::from_int(a.length())
+  sum(a) / len
 }
 
 ///| min computes the minimum element in a vector.

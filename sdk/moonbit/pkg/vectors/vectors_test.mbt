@@ -14,10 +14,26 @@ test "add" {
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
 
+  // UInt
+  let a = [1U, 2, 3]
+  let b = [4U, 5, 6]
+  let got = add(a, b)
+  inspect!(a, content="[1, 2, 3]")
+  inspect!(b, content="[4, 5, 6]")
+  inspect!(got, content="[5, 7, 9]")
+
   // Int64
   let a = [1L, 2, 3]
   let b = [4L, 5, 6]
   let got = add(a, b)
+  inspect!(got, content="[5, 7, 9]")
+
+  // UInt64
+  let a = [1UL, 2, 3]
+  let b = [4UL, 5, 6]
+  let got = add(a, b)
+  inspect!(a, content="[1, 2, 3]")
+  inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
 
   // Double
