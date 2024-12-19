@@ -1,30 +1,20 @@
-package modus:core
-
-// Import all component interfaces
-use collections.{collections}
-use console.{console}
-use db.{client as sql-client}
-use dgraph.{client as dgraph-client}
-use graphql.{client as graphql-client}
-use http.{client as http-client}
-use models.{models}
-use neo4j.{client as neo4j-client}
+package modus:core@0.1.0;
 
 // Define the complete Modus world with all capabilities
 world modus {
     // Database and storage
-    import collections
-    import sql-client
-    import dgraph-client
-    import neo4j-client
+    import collections;
+    // import sql-client;
+    // import dgraph-client;
+    // import neo4j-client;
 
-    // API and communication
-    import http-client
-    import graphql-client
+    // // API and communication
+    // import http-client;
+    // import graphql-client;
 
-    // AI and Models
-    import models
+    // // AI and Models
+    // import models;
 
-    // System utilities
-    import console
+    // // System utilities
+    // import console;
 }

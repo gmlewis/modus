@@ -1,23 +1,17 @@
-package modus:sql
-
-// Record type for query response
-record host-query-response {
-    error: option<string>,
-    result-json: option<string>,
-    rows-affected: u32,
-}
-
 // SQL client interface
 interface client {
+    // Record type for query response
+    record host-query-response {
+        error: option<string>,
+        result-json: option<string>,
+        rows-affected: u32,
+    }
+
     // Execute a SQL query with parameters
     execute-query: func(
         host-name: string,
         db-type: string,
         statement: string,
         params-json: string
-    ) -> option<host-query-response>
-}
-
-world sql-world {
-    import client
+    ) -> option<host-query-response>;
 }

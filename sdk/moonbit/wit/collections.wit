@@ -1,74 +1,72 @@
-package modus:collections
-
-// Enum for collection status
-enum collection-status {
-    success,
-    error,
-}
-
-// Record type for mutation results
-record collection-mutation-result {
-    collection: string,
-    status: string,
-    error: string,
-    operation: string,
-    keys: list<string>,
-}
-
-// Record type for search method mutation results
-record search-method-mutation-result {
-    collection: string,
-    status: string,
-    error: string,
-    operation: string,
-    search-method: string,
-}
-
-// Record type for search result objects
-record collection-search-result-object {
-    namespace: string,
-    key: string,
-    text: string,
-    labels: list<string>,
-    distance: float64,
-    score: float64,
-}
-
-// Record type for search results
-record collection-search-result {
-    collection: string,
-    status: string,
-    error: string,
-    search-method: string,
-    objects: list<collection-search-result-object>,
-}
-
-// Record type for classification label objects
-record collection-classification-label-object {
-    label: string,
-    confidence: float64,
-}
-
-// Record type for classification result objects
-record collection-classification-result-object {
-    key: string,
-    labels: list<string>,
-    distance: float64,
-    score: float64,
-}
-
-// Record type for classification results
-record collection-classification-result {
-    collection: string,
-    status: string,
-    error: string,
-    search-method: string,
-    labels-result: list<collection-classification-label-object>,
-    cluster: list<collection-classification-result-object>,
-}
-
 // Main collections interface
 interface collections {
+    // Enum for collection status
+    enum collection-status {
+        success,
+        error,
+    }
+
+    // Record type for mutation results
+    record collection-mutation-result {
+        collection: string,
+        status: string,
+        error: string,
+        operation: string,
+        keys: list<string>,
+    }
+
+    // Record type for search method mutation results
+    record search-method-mutation-result {
+        collection: string,
+        status: string,
+        error: string,
+        operation: string,
+        search-method: string,
+    }
+
+    // Record type for search result objects
+    record collection-search-result-object {
+        namespace: string,
+        key: string,
+        text: string,
+        labels: list<string>,
+        distance: f64,
+        score: f64,
+    }
+
+    // Record type for search results
+    record collection-search-result {
+        collection: string,
+        status: string,
+        error: string,
+        search-method: string,
+        objects: list<collection-search-result-object>,
+    }
+
+    // Record type for classification label objects
+    record collection-classification-label-object {
+        label: string,
+        confidence: f64,
+    }
+
+    // Record type for classification result objects
+    record collection-classification-result-object {
+        key: string,
+        labels: list<string>,
+        distance: f64,
+        score: f64,
+    }
+
+    // Record type for classification results
+    record collection-classification-result {
+        collection: string,
+        status: string,
+        error: string,
+        search-method: string,
+        labels-result: list<collection-classification-label-object>,
+        cluster: list<collection-classification-result-object>,
+    }
+
     // Upsert documents into a collection
     upsert: func(
         collection: string,
@@ -76,14 +74,14 @@ interface collections {
         keys: list<string>,
         texts: list<string>,
         labels: list<list<string>>
-    ) -> option<collection-mutation-result>
+    ) -> option<collection-mutation-result>;
 
     // Delete a document from a collection
     delete: func(
         collection: string,
         namespace: string,
         key: string
-    ) -> option<collection-mutation-result>
+    ) -> option<collection-mutation-result>;
 
     // Search documents in a collection
     search: func(
@@ -93,7 +91,7 @@ interface collections {
         text: string,
         limit: s32,
         return-text: bool
-    ) -> option<collection-search-result>
+    ) -> option<collection-search-result>;
 
     // Classify text using a collection
     classify-text: func(
@@ -101,14 +99,14 @@ interface collections {
         namespace: string,
         search-method: string,
         text: string
-    ) -> option<collection-classification-result>
+    ) -> option<collection-classification-result>;
 
     // Recompute index for a collection
     recompute-index: func(
         collection: string,
         namespace: string,
         search-method: string
-    ) -> option<search-method-mutation-result>
+    ) -> option<search-method-mutation-result>;
 
     // Compute distance between two documents
     compute-distance: func(
@@ -117,25 +115,25 @@ interface collections {
         search-method: string,
         key1: string,
         key2: string
-    ) -> option<collection-search-result-object>
+    ) -> option<collection-search-result-object>;
 
     // Get text for a document
     get-text: func(
         collection: string,
         namespace: string,
         key: string
-    ) -> option<string>
+    ) -> option<string>;
 
     // Dump all texts from a collection namespace
     dump-texts: func(
         collection: string,
         namespace: string
-    ) -> option<map<string, string>>
+    ) -> string; // option<map<string, string>>;
 
     // Get all namespaces in a collection
     get-namespaces: func(
         collection: string
-    ) -> option<list<string>>
+    ) -> option<list<string>>;
 
     // Get vector for a document
     get-vector: func(
@@ -143,26 +141,22 @@ interface collections {
         namespace: string,
         search-method: string,
         key: string
-    ) -> option<list<float32>>
+    ) -> option<list<f32>>;
 
     // Get labels for a document
     get-labels: func(
         collection: string,
         namespace: string,
         key: string
-    ) -> option<list<string>>
+    ) -> option<list<string>>;
 
     // Search by vector
     search-by-vector: func(
         collection: string,
         namespaces: list<string>,
         search-method: string,
-        vector: list<float32>,
+        vector: list<f32>,
         limit: s32,
         return-text: bool
-    ) -> option<collection-search-result>
-}
-
-world collections-world {
-    import collections
+    ) -> option<collection-search-result>;
 }

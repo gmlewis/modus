@@ -1,63 +1,57 @@
-package modus:neo4j
-
-// Spatial point records
-record point-2d {
-    x: float64,
-    y: float64,
-    spatial-ref-id: u32,
-}
-
-record point-3d {
-    x: float64,
-    y: float64,
-    z: float64,
-    spatial-ref-id: u32,
-}
-
-// Node and relationship records
-record node {
-    element-id: string,
-    labels: list<string>,
-    props: map<string, string>, // Properties serialized as JSON strings
-}
-
-record relationship {
-    element-id: string,
-    start-element-id: string,
-    end-element-id: string,
-    type: string,
-    props: map<string, string>, // Properties serialized as JSON strings
-}
-
-// Path record
-record path {
-    nodes: list<node>,
-    relationships: list<relationship>,
-}
-
-// Record for query results
-record record {
-    values: list<string>, // JSON serialized values
-    keys: list<string>,
-}
-
-// Query result record
-record eager-result {
-    keys: list<string>,
-    records: list<record>,
-}
-
 // Neo4j client interface
-interface client {
+interface neo4j-client {
+    // Spatial point records
+    record point2d {
+        x: f64,
+        y: f64,
+        spatial-ref-id: u32,
+    }
+
+    record point3d {
+        x: f64,
+        y: f64,
+        z: f64,
+        spatial-ref-id: u32,
+    }
+
+    // Node and relationship records
+    record node {
+        element-id: string,
+        labels: list<string>,
+        props: string // map<string, string>, // Properties serialized as JSON strings
+    }
+
+    record relationship {
+        element-id: string,
+        start-element-id: string,
+        end-element-id: string,
+        type-str: string,
+        props: string // map<string, string>, // Properties serialized as JSON strings
+    }
+
+    // Path record
+    record path {
+        nodes: list<node>,
+        relationships: list<relationship>,
+    }
+
+    // Record for query results
+    record result-record {
+        values: list<string>, // JSON serialized values
+        keys: list<string>,
+    }
+
+    // Query result record
+    record eager-result {
+        keys: list<string>,
+        records: list<result-record>,
+    }
+
     // Execute a Cypher query with parameters
     execute-query: func(
         host-name: string,
         db-name: string,
         query: string,
         parameters-json: string
-    ) -> option<eager-result>
-}
-
-world neo4j-world {
-    import client
+    ) -> option<eager-result>;
 }

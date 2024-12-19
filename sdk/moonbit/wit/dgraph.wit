@@ -1,47 +1,38 @@
-// Define the package namespace
-package modus:dgraph
+// Main dgraph client interface
+interface dgraph-client {
+    // Record types for request and response
+    record request {
+        query: query,
+        mutations: list<mutation>
+    }
 
-// Record types for request and response
-record request {
-     query: query,
-     mutations: list<mutation>
-}
-
-record query {
+    record query {
 				query: string,
-				variables: map<string, string>
-}
+				variables: string // map<string, string>,
+    }
 
-record mutation {
+    record mutation {
 				set-json: string,
 				del-json: string,
 				set-nquads: string,
 				del-nquads: string,
 				condition: string
-}
+    }
 
-record response {
-	json: string,
-	uids: map<string, string>
-}
+    record response {
+   	    json: string,
+       	uids: string // map<string, string>
+    }
 
-// Main dgraph client interface
-interface client {
     // Execute a query against the Dgraph database
-    execute-query: func(host-name: string, request: request) -> option<response>
+    execute-query: func(host-name: string, request: request) -> option<response>;
 
     // Alter the database schema
-    alter-schema: func(host-name: string, schema: string) -> option<string>
+    alter-schema: func(host-name: string, schema: string) -> option<string>;
 
     // Drop an attribute from the schema
-    drop-attribute: func(host-name: string, attr: string) -> option<string>
+    drop-attribute: func(host-name: string, attr: string) -> option<string>;
 
     // Drop all data from the database
-    drop-all-data: func(host-name: string) -> option<string>
-}
-
-// Define the world block
-world dgraph-world {
-    // Import the client interface
-    import client
+    drop-all-data: func(host-name: string) -> option<string>;
 }

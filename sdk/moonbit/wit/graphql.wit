@@ -1,15 +1,9 @@
-package modus:graphql
-
 // GraphQL client interface
-interface client {
+interface graphql-client {
     // Execute a GraphQL query with variables
     execute-query: func(
         host-name: string,
         statement: string,
         variables: string
-    ) -> option<string>
-}
-
-world graphql-world {
-    import client
+    ) -> option<string>;
 }
