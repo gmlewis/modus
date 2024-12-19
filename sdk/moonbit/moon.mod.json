@@ -1,3 +1,6 @@
 {
-  "name": "gmlewis/modus"
+  "name": "gmlewis/modus",
+  "deps": {
+    "moonbitlang/x": "0.4.15"
+  }
 }
