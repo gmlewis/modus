@@ -110,4 +110,4 @@
 // 
 // 	return data.GlobalQuote.Price, nil
 // }
-// 
+//

@@ -110,4 +110,4 @@
 // 	}
 // 	return collections.SearchByVector(myProducts, searchMethods[0], vec, collections.WithLimit(maxItems), collections.WithReturnText(true))
 // }
-// 
+//

@@ -215,4 +215,4 @@
 // 	//
 // 	// The console functions also allow you to better control the reported logging level.
 // }
-// 
+//
