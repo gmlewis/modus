@@ -4,7 +4,7 @@ pub(all) struct Point2d {
   x : Double
   y : Double
   spatial_ref_id : UInt
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub(all) struct Point3d {
@@ -12,14 +12,14 @@ pub(all) struct Point3d {
   y : Double
   z : Double
   spatial_ref_id : UInt
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Node and relationship records
 pub(all) struct Node {
   element_id : String
   labels : Array[String]
   props : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub(all) struct Relationship {
@@ -28,25 +28,25 @@ pub(all) struct Relationship {
   end_element_id : String
   type_str : String
   props : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Path record
 pub(all) struct Path {
   nodes : Array[Node]
   relationships : Array[Relationship]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record for query results
 pub(all) struct ResultRecord {
   values : Array[String]
   keys : Array[String]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Query result record
 pub(all) struct EagerResult {
   keys : Array[String]
   records : Array[ResultRecord]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Execute a Cypher query with parameters
 pub fn execute_query(

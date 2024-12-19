@@ -3,7 +3,7 @@
 pub(all) struct ModelInfo {
   name : String
   full_name : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Get information about a specific model
 pub fn get_model_info(model_name : String) -> ModelInfo? {

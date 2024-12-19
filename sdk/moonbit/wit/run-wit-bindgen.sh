@@ -6,4 +6,5 @@ rm -rf pkg/world* world moon.mod.json
 rep 'modus/core/' 'gmlewis/modus/wit/' pkg/moon.pkg.json interface/*/moon.pkg.json
 rep 'modus:core/' 'modus_' interface/*/ffi.mbt
 rep -- '-client' '_client' interface/*/ffi.mbt
+rep 'derive(Show, Eq)' 'derive(Show, Eq, FromJson, ToJson)' interface/*/top.mbt
 moon fmt

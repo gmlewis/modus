@@ -2,7 +2,7 @@
 ///| Headers type representation
 pub(all) struct Headers {
   data : Array[(String, String)]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| HTTP Request record
 pub(all) struct Request {
@@ -10,7 +10,7 @@ pub(all) struct Request {
   method : String
   headers : Headers?
   body : Bytes
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| HTTP Response record
 pub(all) struct Response {
@@ -18,7 +18,7 @@ pub(all) struct Response {
   status_text : String
   headers : Headers?
   body : Bytes
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Fetch performs an HTTP request and returns a response
 pub fn fetch(request : Request) -> Response? {

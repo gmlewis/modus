@@ -3,7 +3,7 @@
 pub(all) enum CollectionStatus {
   SUCCESS
   ERROR
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub fn ordinal(self : CollectionStatus) -> Int {
@@ -29,7 +29,7 @@ pub(all) struct CollectionMutationResult {
   error : String
   operation : String
   keys : Array[String]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for search method mutation results
 pub(all) struct SearchMethodMutationResult {
@@ -38,7 +38,7 @@ pub(all) struct SearchMethodMutationResult {
   error : String
   operation : String
   search_method : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for search result objects
 pub(all) struct CollectionSearchResultObject {
@@ -48,7 +48,7 @@ pub(all) struct CollectionSearchResultObject {
   labels : Array[String]
   distance : Double
   score : Double
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for search results
 pub(all) struct CollectionSearchResult {
@@ -57,13 +57,13 @@ pub(all) struct CollectionSearchResult {
   error : String
   search_method : String
   objects : Array[CollectionSearchResultObject]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for classification label objects
 pub(all) struct CollectionClassificationLabelObject {
   label : String
   confidence : Double
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for classification result objects
 pub(all) struct CollectionClassificationResultObject {
@@ -71,7 +71,7 @@ pub(all) struct CollectionClassificationResultObject {
   labels : Array[String]
   distance : Double
   score : Double
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Record type for classification results
 pub(all) struct CollectionClassificationResult {
@@ -81,7 +81,7 @@ pub(all) struct CollectionClassificationResult {
   search_method : String
   labels_result : Array[CollectionClassificationLabelObject]
   cluster : Array[CollectionClassificationResultObject]
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Upsert documents into a collection
 pub fn upsert(

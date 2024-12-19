@@ -4,7 +4,7 @@ pub(all) struct HostQueryResponse {
   error : String?
   result_json : String?
   rows_affected : UInt
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///| Execute a SQL query with parameters
 pub fn execute_query(
