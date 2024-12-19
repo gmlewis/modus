@@ -36,6 +36,12 @@ test "add" {
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
 
+  // Float
+  let a : Array[Float] = [1.0, 2, 3]
+  let b : Array[Float] = [4.0, 5, 6]
+  let got = add(a, b)
+  inspect!(got, content="[5, 7, 9]")
+
   // Double
   let a = [1.0, 2, 3]
   let b = [4.0, 5, 6]
@@ -47,6 +53,12 @@ test "add" {
   let b = [b'\x04', 5, 6]
   let got = add(a, b)
   inspect!(got, content="[b'\\x05', b'\\x07', b'\\x09']")
+
+  // BigInt
+  let a = [1N, 2, 3]
+  let b = [4N, 5, 6]
+  let got = add(a, b)
+  inspect!(got, content="[5, 7, 9]")
 }
 
 test "add_in_place" {
@@ -149,6 +161,8 @@ test "magnitude" {
   let got = magnitude(a)
   inspect!(a, content="[3, 4]")
   inspect!(got, content="5")
+  let got : Double = magnitude([])
+  inspect!(got, content="0")
 }
 
 test "normalize" {
@@ -163,6 +177,8 @@ test "sum" {
   let got = sum(a)
   inspect!(a, content="[1, 2, 3]")
   inspect!(got, content="6")
+  let got : Double = sum([])
+  inspect!(got, content="0")
 }
 
 test "product" {
@@ -170,6 +186,8 @@ test "product" {
   let got = product(a)
   inspect!(a, content="[1, 2, 3]")
   inspect!(got, content="6")
+  let got : Double = product([])
+  inspect!(got, content="1")
 }
 
 test "mean" {
@@ -177,6 +195,8 @@ test "mean" {
   let got = mean(a)
   inspect!(a, content="[1, 2, 3]")
   inspect!(got, content="2")
+  let got : Double = mean([])
+  inspect!(got, content="NaN")
 }
 
 test "min" {
@@ -195,6 +215,8 @@ test "abs" {
   let a = [-1, 2, -3]
   let got = abs(a)
   inspect!(got, content="[1, 2, 3]")
+  let got : Array[Double] = abs([])
+  inspect!(got, content="[]")
 }
 
 test "abs_in_place" {

@@ -118,26 +118,28 @@ pub fn divide_number_in_place[T : Divideable](a : Array[T], b : T) -> Unit {
 }
 
 ///| dot computes the dot product of two vectors.
-pub fn dot[T : Multipliable + Addable](a : Array[T], b : Array[T]) -> T {
+pub fn dot[T : Multipliable + Addable + FromInt](
+  a : Array[T],
+  b : Array[T]
+) -> T {
   let len = a.length()
-  guard len > 0
   guard len == b.length()
-  let mut result = a[0] * b[0]
-  for i in 1..<len {
+  let mut result = T::from_int(0)
+  for i in 0..<len {
     result += a[i] * b[i]
   }
   result
 }
 
 ///| magnitude computes the magnitude of a vector.
-pub fn magnitude[T : Multipliable + Addable + SquareRootable](
+pub fn magnitude[T : Multipliable + Addable + SquareRootable + FromInt](
   a : Array[T]
 ) -> T {
   dot(a, a).sqrt()
 }
 
 ///| normalize normalizes a vector to have a magnitude of 1.
-pub fn normalize[T : Multipliable + Divideable + Addable + SquareRootable](
+pub fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + FromInt](
   a : Array[T]
 ) -> Array[T] {
   let mag = magnitude(a)
@@ -157,7 +159,6 @@ pub fn sum[T : Addable + FromInt](a : Array[T]) -> T {
 ///| product computes the product of all elements in a vector.
 pub fn product[T : Multipliable + FromInt](a : Array[T]) -> T {
   let len = a.length()
-  guard len > 0
   let mut result = T::from_int(1)
   for i in 0..<len {
     result *= a[i]
@@ -217,14 +218,14 @@ pub fn abs_in_place[T : Absoluteable](a : Array[T]) -> Unit {
 }
 
 ///| euclidian_distance computes the Euclidian distance between two vectors.
-pub fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable](
+pub fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt](
   a : Array[T],
   b : Array[T]
 ) -> T {
   let len = a.length()
   guard len == b.length()
-  let mut result = (a[0] - b[0]) * (a[0] - b[0])
-  for i in 1..<len {
+  let mut result = T::from_int(0)
+  for i in 0..<len {
     result += (a[i] - b[i]) * (a[i] - b[i])
   }
   result.sqrt()
