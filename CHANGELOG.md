@@ -1,5 +1,10 @@
 # Change Log
 
+## UNRELEASED
+
+- chore: lint example test [#656](https://github.com/hypermodeinc/modus/pull/656)
+- fix: unused imports should not be included in metadata [#657](https://github.com/hypermodeinc/modus/pull/657)
+
 ## 2024-12-13 - Runtime 0.15.0
 
 - fix: doc comments from object fields should be present in generated GraphQL schema [#630](https://github.com/hypermodeinc/modus/pull/630)
