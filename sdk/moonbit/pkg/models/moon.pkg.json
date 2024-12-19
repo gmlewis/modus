@@ -1,5 +1,5 @@
 {
   "import": [
-    "gmlewis/modus/wit/interface/modus/core/models"
+    "gmlewis/modus/wit/interface/models"
   ]
 }
