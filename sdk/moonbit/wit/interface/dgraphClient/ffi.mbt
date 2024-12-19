@@ -10,13 +10,13 @@ fn wasmImportExecuteQuery(
   p6 : Int,
   p7 : Int,
   p8 : Int
-) = "modus:core/dgraph-client@0.1.0" "execute-query"
+) = "modus_dgraph_client" "execute-query"
 
 ///|
-fn wasmImportAlterSchema(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus:core/dgraph-client@0.1.0" "alter-schema"
+fn wasmImportAlterSchema(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus_dgraph_client" "alter-schema"
 
 ///|
-fn wasmImportDropAttribute(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus:core/dgraph-client@0.1.0" "drop-attribute"
+fn wasmImportDropAttribute(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus_dgraph_client" "drop-attribute"
 
 ///|
-fn wasmImportDropAllData(p0 : Int, p1 : Int, p2 : Int) = "modus:core/dgraph-client@0.1.0" "drop-all-data"
+fn wasmImportDropAllData(p0 : Int, p1 : Int, p2 : Int) = "modus_dgraph_client" "drop-all-data"

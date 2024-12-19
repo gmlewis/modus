@@ -10,4 +10,4 @@ fn wasmImportExecuteQuery(
   p6 : Int,
   p7 : Int,
   p8 : Int
-) = "modus:core/neo4j-client@0.1.0" "execute-query"
+) = "modus_neo4j_client" "execute-query"

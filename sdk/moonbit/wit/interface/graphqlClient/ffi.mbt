@@ -8,4 +8,4 @@ fn wasmImportExecuteQuery(
   p4 : Int,
   p5 : Int,
   p6 : Int
-) = "modus:core/graphql-client@0.1.0" "execute-query"
+) = "modus_graphql_client" "execute-query"

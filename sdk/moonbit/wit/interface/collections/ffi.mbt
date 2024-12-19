@@ -12,7 +12,7 @@ fn wasmImportUpsert(
   p8 : Int,
   p9 : Int,
   p10 : Int
-) = "modus:core/collections@0.1.0" "upsert"
+) = "modus_collections" "upsert"
 
 ///|
 fn wasmImportDelete(
@@ -23,7 +23,7 @@ fn wasmImportDelete(
   p4 : Int,
   p5 : Int,
   p6 : Int
-) = "modus:core/collections@0.1.0" "delete"
+) = "modus_collections" "delete"
 
 ///|
 fn wasmImportSearch(
@@ -38,7 +38,7 @@ fn wasmImportSearch(
   p8 : Int,
   p9 : Int,
   p10 : Int
-) = "modus:core/collections@0.1.0" "search"
+) = "modus_collections" "search"
 
 ///|
 fn wasmImportClassifyText(
@@ -51,7 +51,7 @@ fn wasmImportClassifyText(
   p6 : Int,
   p7 : Int,
   p8 : Int
-) = "modus:core/collections@0.1.0" "classify-text"
+) = "modus_collections" "classify-text"
 
 ///|
 fn wasmImportRecomputeIndex(
@@ -62,7 +62,7 @@ fn wasmImportRecomputeIndex(
   p4 : Int,
   p5 : Int,
   p6 : Int
-) = "modus:core/collections@0.1.0" "recompute-index"
+) = "modus_collections" "recompute-index"
 
 ///|
 fn wasmImportComputeDistance(
@@ -77,7 +77,7 @@ fn wasmImportComputeDistance(
   p8 : Int,
   p9 : Int,
   p10 : Int
-) = "modus:core/collections@0.1.0" "compute-distance"
+) = "modus_collections" "compute-distance"
 
 ///|
 fn wasmImportGetText(
@@ -88,13 +88,13 @@ fn wasmImportGetText(
   p4 : Int,
   p5 : Int,
   p6 : Int
-) = "modus:core/collections@0.1.0" "get-text"
+) = "modus_collections" "get-text"
 
 ///|
-fn wasmImportDumpTexts(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus:core/collections@0.1.0" "dump-texts"
+fn wasmImportDumpTexts(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus_collections" "dump-texts"
 
 ///|
-fn wasmImportGetNamespaces(p0 : Int, p1 : Int, p2 : Int) = "modus:core/collections@0.1.0" "get-namespaces"
+fn wasmImportGetNamespaces(p0 : Int, p1 : Int, p2 : Int) = "modus_collections" "get-namespaces"
 
 ///|
 fn wasmImportGetVector(
@@ -107,7 +107,7 @@ fn wasmImportGetVector(
   p6 : Int,
   p7 : Int,
   p8 : Int
-) = "modus:core/collections@0.1.0" "get-vector"
+) = "modus_collections" "get-vector"
 
 ///|
 fn wasmImportGetLabels(
@@ -118,7 +118,7 @@ fn wasmImportGetLabels(
   p4 : Int,
   p5 : Int,
   p6 : Int
-) = "modus:core/collections@0.1.0" "get-labels"
+) = "modus_collections" "get-labels"
 
 ///|
 fn wasmImportSearchByVector(
@@ -133,4 +133,4 @@ fn wasmImportSearchByVector(
   p8 : Int,
   p9 : Int,
   p10 : Int
-) = "modus:core/collections@0.1.0" "search-by-vector"
+) = "modus_collections" "search-by-vector"

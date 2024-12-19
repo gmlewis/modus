@@ -11,4 +11,4 @@ fn wasmImportFetch(
   p7 : Int,
   p8 : Int,
   p9 : Int
-) = "modus:core/http-client@0.1.0" "fetch"
+) = "modus_http_client" "fetch"

@@ -1,4 +1,4 @@
-package modus:core@0.1.0;
+package modus:core;
 
 // Define the complete Modus world with all capabilities
 world modus {
