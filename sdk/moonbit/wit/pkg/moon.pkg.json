@@ -7,5 +7,5 @@
                   "heap-start-address": 16
             }
       }
-      ,"import": [{ "path" : "modus/core/ffi", "alias" : "ffi" }]
+      ,"import": [{ "path" : "gmlewis/modus/wit/ffi", "alias" : "ffi" }]
 }

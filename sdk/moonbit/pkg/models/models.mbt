@@ -45,7 +45,7 @@ pub impl ModelPtr for ModelBase with set_info(self, info) { self.info = info }
 ///
 /// Note that of the generic type parameters, only [TModel] needs to be specified.  The others are inferred automatically.
 pub fn get_model(name : String) -> &Model!Error {
-  let info = host_get_model_info(name)
+  let info = @models.get_model_info(name)
   if info.is_none() {
     raise @json.JsonError("model not found: \{name}")
   }

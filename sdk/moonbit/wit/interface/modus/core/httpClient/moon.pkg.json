@@ -1,1 +1,0 @@
-{ "import": [{ "path" : "modus/core/ffi", "alias" : "ffi" }] }
