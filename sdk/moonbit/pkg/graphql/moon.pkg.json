@@ -1,5 +1,6 @@
 {
   "import": [
+    "gmlewis/modus/pkg/console",
     {
       "path": "gmlewis/modus/wit/interface/graphqlClient",
       "alias": "host"

@@ -22,40 +22,14 @@ pub fn execute[T : @json.FromJson](
 
   //
   let result : Response[T] = @json.from_json!(@json.parse!(response.unwrap()))
+  if result.errors.length() > 0 {
+    let err_str = @json.stringify(result.errors.to_json())
+    @console.error("GraphQL API Errors: \{err_str}")
+  }
+
+  //
   result
 }
-// func Execute[T any](hostName, statement string, variables map[string]any) (*Response[T], error) {
-// 	bytes, err := utils.JsonSerialize(variables)
-// 	if err != nil {
-// 		console.Error(err.Error())
-// 		return nil, err
-// 	}
-//
-// 	varsStr := string(bytes)
-//
-// 	response := hostExecuteQuery(&hostName, &statement, &varsStr)
-//
-// 	if response == nil {
-// 		return nil, errors.New("Failed to execute the GQL query.")
-// 	}
-//
-// 	var result Response[T]
-// 	err = utils.JsonDeserialize([]byte(*response), &result)
-// 	if err != nil {
-// 		console.Error(err.Error())
-// 		return nil, err
-// 	}
-//
-// 	if len(result.Errors) > 0 {
-// 		errBytes, err := utils.JsonSerialize(result.Errors)
-// 		if err != nil {
-// 			console.Error(err.Error())
-// 			return nil, err
-// 		}
-// 		console.Error(fmt.Sprint("GraphQL API Errors:" + string(errBytes)))
-// 	}
-// 	return &result, nil
-// }
 
 ///|
 pub(all) struct Response[T] {
@@ -72,6 +46,6 @@ pub(all) struct ErrorResult {
 
 ///|
 pub(all) struct CodeLocation {
-  line : UInt
-  column : UInt
+  line : Int // TODO: UInt
+  column : Int // TODO: UInt
 } derive(Show, Eq, FromJson, ToJson)
