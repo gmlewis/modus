@@ -5,30 +5,20 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-// package http
-//
-// import (
-// 	"encoding/json"
-// )
-//
-// type Response struct {
-// 	Status     uint16
-// 	StatusText string
-// 	Headers    *Headers
-// 	Body       []byte
-// }
-//
-// func (r *Response) Ok() bool {
-// 	return r.Status >= 200 && r.Status < 300
-// }
-//
-// func (r *Response) Text() string {
-// 	return string(r.Body)
-// }
-//
-// func (r *Response) JSON(result any) {
-// 	if err := json.Unmarshal(r.Body, result); err != nil {
-// 		panic(err)
-// 	}
-// }
-//
+///|
+pub(all) type Response @host.Response
+
+///|
+pub fn ok(self : Response) -> Bool {
+  self.status >= 200 && self.status < 300
+}
+
+///|
+pub fn text(self : Response) -> String {
+  self.body
+}
+
+///|
+pub fn json(self : Response) -> Json!Error {
+  @json.from_json!(@json.parse!(self.body))
+}

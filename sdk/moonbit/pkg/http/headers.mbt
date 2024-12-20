@@ -33,6 +33,15 @@ pub fn Headers::from_array(value : Array[Array[String]]) -> Headers {
 }
 
 ///|
+pub fn Headers::from_tuples(value : Array[(String, String)]) -> Headers {
+  let headers = Headers::new()
+  for tup in value {
+    headers.append(tup.0, tup.1)
+  }
+  headers
+}
+
+///|
 pub fn Headers::from_map(value : Map[String, String]) -> Headers {
   let headers = Headers::new()
   for name, value in value {
