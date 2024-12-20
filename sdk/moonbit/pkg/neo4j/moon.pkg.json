@@ -1,0 +1,9 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/console",
+    {
+      "path": "gmlewis/modus/wit/interface/neo4jClient",
+      "alias": "host"
+    }
+  ]
+}
