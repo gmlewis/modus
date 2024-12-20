@@ -64,6 +64,6 @@ pub fn text(self : Request) -> String {
 }
 
 ///|
-pub fn json(self : Request) -> Json!Error {
+pub fn json[T : @json.FromJson](self : Request) -> T!Error {
   @json.from_json!(@json.parse!(self.body))
 }

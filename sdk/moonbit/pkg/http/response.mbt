@@ -19,6 +19,6 @@ pub fn text(self : Response) -> String {
 }
 
 ///|
-pub fn json(self : Response) -> Json!Error {
+pub fn json[T : @json.FromJson](self : Response) -> T!Error {
   @json.from_json!(@json.parse!(self.body))
 }

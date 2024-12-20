@@ -5,37 +5,23 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-// package http
-//
-// import (
-// 	"errors"
-// 	"net/url"
-// )
-//
-// func Fetch[T *Request | string](requestOrUrl T, options ...*RequestOptions) (*Response, error) {
-//
-// 	if len(options) > 1 {
-// 		panic("Too many arguments to Fetch")
-// 	}
-//
-// 	var request *Request
-// 	switch t := any(requestOrUrl).(type) {
-// 	case *Request:
-// 		request = t.Clone(options...)
-// 	case string:
-// 		request = NewRequest(t, options...)
-// 	}
-//
-// 	if _, err := url.ParseRequestURI(request.Url); err != nil {
-// 		return nil, errors.New("Invalid URL")
-// 	}
-//
-// 	response := hostFetch(request)
-// 	if response == nil {
-// 		msg := "HTTP fetch failed. Check the logs for more information."
-// 		return nil, errors.New(msg)
-// 	}
-//
-// 	return response, nil
-// }
-//
+///|
+pub(all) type! HttpError String derive(Show, Eq)
+
+///|
+pub fn fetch_url(
+  url : String,
+  options~ : Array[RequestOptions] = []
+) -> Response!Error {
+  let request = Request::new(url, options~)
+  request.fetch!()
+}
+
+///|
+pub fn fetch(self : Request) -> Response!Error {
+  match @host.fetch(self._) {
+    Some(response) => response
+    None =>
+      raise HttpError("HTTP fetch failed. Check the logs for more information.")
+  }
+}
