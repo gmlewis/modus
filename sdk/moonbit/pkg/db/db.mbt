@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-type! DbError String derive(Show, Eq)
+pub(all) type! DbError String derive(Show, Eq)
 
 ///|
 pub fn execute(
@@ -84,7 +84,8 @@ pub fn do_query(
   let response = response.unwrap()
 
   //
-  let affected = response.rows_affected
+  // TODO: let affected = response.rows_affected
+  let affected = response.rows_affected.reinterpret_as_uint()
   if not(response.error.is_empty()) {
     raise DbError("database returned an error: \{response.error.unwrap()}")
   }

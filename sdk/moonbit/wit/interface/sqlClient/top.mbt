@@ -3,7 +3,7 @@
 pub(all) struct HostQueryResponse {
   error : String?
   result_json : String?
-  rows_affected : UInt
+  rows_affected : Int // TODO: UInt
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Execute a SQL query with parameters
@@ -49,7 +49,8 @@ pub fn execute_query(
       Option::Some(HostQueryResponse::{
         error: lifted,
         result_json: lifted11,
-        rows_affected: @ffi.load32(return_area + 28).reinterpret_as_uint(),
+        // TODO: rows_affected: @ffi.load32(return_area + 28).reinterpret_as_uint(),
+        rows_affected: @ffi.load32(return_area + 28),
       })
     }
     _ => panic()

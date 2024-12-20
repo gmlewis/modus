@@ -8,7 +8,7 @@
 ///| The models package provides a generic interface for invoking various AI models.
 
 ///| Provides information about a model.
-typealias ModelInfo = @host.ModelInfo
+pub typealias ModelInfo = @host.ModelInfo
 
 ///| Provides a generic interface for interacting with an AI model.
 pub(open) trait Model {
@@ -31,12 +31,10 @@ pub(all) struct ModelBase {
 pub impl Model for ModelBase with info(self) { self.info.unwrap() }
 
 ///|
-pub impl ModelPtr for ModelBase with set_info(self, info) {
-  self.info = Some(info)
-}
+impl ModelPtr for ModelBase with set_info(self, info) { self.info = Some(info) }
 
 ///|
-type! ModelError String derive(Show, Eq)
+pub(all) type! ModelError String derive(Show, Eq)
 
 ///| Gets a model object instance, which can be used to interact with the model.
 ///   - The generic type parameter [TModel] is used to specify the API that the model adheres to.

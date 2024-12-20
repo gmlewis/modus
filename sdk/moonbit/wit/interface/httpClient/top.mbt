@@ -9,21 +9,21 @@ pub(all) struct Request {
   url : String
   method : String
   headers : Headers?
-  body : Bytes
+  body : String // TODO: Bytes
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| HTTP Response record
 pub(all) struct Response {
-  status : UInt
+  status : Int // TODO: UInt
   status_text : String
   headers : Headers?
-  body : Bytes
+  body : String // TODO: Bytes
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Fetch performs an HTTP request and returns a response
 pub fn fetch(request : Request) -> Response? {
   let cleanupList : Array[@ffi.Cleanup] = []
-  let ignoreList : Array[@ffi.Any] = []
+  let ignoreList : Array[&@ffi.Any] = []
   let (lowered, lowered5, lowered6) = match request.headers {
     None => (0, 0, 0)
     Some(payload2) => {
@@ -51,7 +51,8 @@ pub fn fetch(request : Request) -> Response? {
     lowered,
     lowered5,
     lowered6,
-    @ffi.bytes2ptr(request.body),
+    // TODO: @ffi.bytes2ptr(request.body),
+    @ffi.bytes2ptr(request.body.to_bytes()),
     request.body.length(),
     return_area,
   )
@@ -82,12 +83,12 @@ pub fn fetch(request : Request) -> Response? {
       ignore(@ffi.load32(return_area + 32))
       let result20 = @ffi.ptr2bytes(@ffi.load32(return_area + 28))
       Option::Some(Response::{
-        status: @ffi.load16_u(return_area + 4)
-        .land(0xFFFF)
-        .reinterpret_as_uint(),
+        status: @ffi.load16_u(return_area + 4) & 0xFFFF,
+        // TODO: .reinterpret_as_uint(),
         status_text: result,
         headers: lifted,
-        body: result20,
+        // TODO: body: result20,
+        body: result20.to_unchecked_string(),
       })
     }
     _ => panic()

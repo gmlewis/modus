@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-typealias CollectionStatus = @host.CollectionStatus
+pub typealias CollectionStatus = @host.CollectionStatus
 
 // ///|
 // pub(all) enum CollectionStatus {
@@ -15,7 +15,7 @@ typealias CollectionStatus = @host.CollectionStatus
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionMutationResult = @host.CollectionMutationResult
+pub typealias CollectionMutationResult = @host.CollectionMutationResult
 
 // ///|
 // pub(all) struct CollectionMutationResult {
@@ -27,7 +27,7 @@ typealias CollectionMutationResult = @host.CollectionMutationResult
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias SearchMethodMutationResult = @host.SearchMethodMutationResult
+pub typealias SearchMethodMutationResult = @host.SearchMethodMutationResult
 
 // ///|
 // pub(all) struct SearchMethodMutationResult {
@@ -39,7 +39,7 @@ typealias SearchMethodMutationResult = @host.SearchMethodMutationResult
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionSearchResult = @host.CollectionSearchResult
+pub typealias CollectionSearchResult = @host.CollectionSearchResult
 
 // ///|
 // pub(all) struct CollectionSearchResult {
@@ -51,7 +51,7 @@ typealias CollectionSearchResult = @host.CollectionSearchResult
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionSearchResultObject = @host.CollectionSearchResultObject
+pub typealias CollectionSearchResultObject = @host.CollectionSearchResultObject
 
 // ///|
 // pub(all) struct CollectionSearchResultObject {
@@ -64,7 +64,7 @@ typealias CollectionSearchResultObject = @host.CollectionSearchResultObject
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionClassificationResult = @host.CollectionClassificationResult
+pub typealias CollectionClassificationResult = @host.CollectionClassificationResult
 
 // ///|
 // pub(all) struct CollectionClassificationResult {
@@ -77,7 +77,7 @@ typealias CollectionClassificationResult = @host.CollectionClassificationResult
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionClassificationLabelObject = @host.CollectionClassificationLabelObject
+pub typealias CollectionClassificationLabelObject = @host.CollectionClassificationLabelObject
 
 // ///|
 // pub(all) struct CollectionClassificationLabelObject {
@@ -86,7 +86,7 @@ typealias CollectionClassificationLabelObject = @host.CollectionClassificationLa
 // } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-typealias CollectionClassificationResultObject = @host.CollectionClassificationResultObject
+pub typealias CollectionClassificationResultObject = @host.CollectionClassificationResultObject
 
 // ///|
 // pub(all) struct CollectionClassificationResultObject {

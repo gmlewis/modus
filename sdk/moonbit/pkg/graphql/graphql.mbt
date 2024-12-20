@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-type! GraphQLError String derive(Show, Eq)
+pub(all) type! GraphQLError String derive(Show, Eq)
 
 ///|
 pub fn execute[T : @json.FromJson](

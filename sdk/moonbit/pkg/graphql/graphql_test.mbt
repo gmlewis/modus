@@ -1,21 +1,20 @@
-/*
- * Copyright 2024 Hypermode Inc.
- * Licensed under the terms of the Apache License, Version 2.0
- * See the LICENSE file that accompanied this code for further details.
- *
- * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
- * SPDX-License-Identifier: Apache-2.0
+// Copyright 2024 Hypermode Inc.
+// Licensed under the terms of the Apache License, Version 2.0
+// See the LICENSE file that accompanied this code for further details.
+//
+// SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
+// SPDX-License-Identifier: Apache-2.0
 
 // package graphql_test
-// 
+//
 // import (
 // 	"reflect"
 // 	"testing"
-// 
+//
 // 	"github.com/hypermodeinc/modus/sdk/go/pkg/graphql"
 // 	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
 // )
-// 
+//
 // func TestExecuteGQL(t *testing.T) {
 // 	hostName := "test"
 // 	statement := "query { test }"
@@ -30,16 +29,16 @@
 // 	if response == nil {
 // 		t.Fatalf("Expected a response, but received nil")
 // 	}
-// 
+//
 // 	expectedHostName := &hostName
 // 	expectedStatement := &statement
 // 	bytes, err := utils.JsonSerialize(variables)
 // 	if err != nil {
 // 		t.Errorf("Expected no error, but received: %s", err.Error())
 // 	}
-// 
+//
 // 	expectedVariables := string(bytes)
-// 
+//
 // 	values := graphql.GraphqlQueryCallStack.Pop()
 // 	if values == nil {
 // 		t.Fatalf("Expected a call to hostExecuteGQL, but none was made")
@@ -55,7 +54,7 @@
 // 		}
 // 	}
 // }
-// 
+//
 // func TestExecuteGQLWithErrors(t *testing.T) {
 // 	hostName := "test"
 // 	statement := "error"
@@ -70,16 +69,16 @@
 // 	if response == nil {
 // 		t.Fatalf("Expected a response, but received nil")
 // 	}
-// 
+//
 // 	expectedHostName := &hostName
 // 	expectedStatement := &statement
 // 	bytes, err := utils.JsonSerialize(variables)
 // 	if err != nil {
 // 		t.Errorf("Expected no error, but received: %s", err.Error())
 // 	}
-// 
+//
 // 	expectedVariables := string(bytes)
-// 
+//
 // 	values := graphql.GraphqlQueryCallStack.Pop()
 // 	if values == nil {
 // 		t.Fatalf("Expected a call to hostExecuteGQL, but none was made")

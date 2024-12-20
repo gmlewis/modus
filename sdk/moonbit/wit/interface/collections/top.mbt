@@ -92,7 +92,7 @@ pub fn upsert(
   labels : Array[Array[String]]
 ) -> CollectionMutationResult? {
   let cleanupList : Array[@ffi.Cleanup] = []
-  let ignoreList : Array[@ffi.Any] = []
+  let ignoreList : Array[&@ffi.Any] = []
   let address = @ffi.malloc(keys.length() * 8)
   for index = 0; index < keys.length(); index = index + 1 {
     let element : String = keys[index]
@@ -247,7 +247,7 @@ pub fn search(
   return_text : Bool
 ) -> CollectionSearchResult? {
   let cleanupList : Array[@ffi.Cleanup] = []
-  let ignoreList : Array[@ffi.Any] = []
+  let ignoreList : Array[&@ffi.Any] = []
   let address = @ffi.malloc(namespaces.length() * 8)
   for index = 0; index < namespaces.length(); index = index + 1 {
     let element : String = namespaces[index]
@@ -696,7 +696,7 @@ pub fn search_by_vector(
   return_text : Bool
 ) -> CollectionSearchResult? {
   let cleanupList : Array[@ffi.Cleanup] = []
-  let ignoreList : Array[@ffi.Any] = []
+  let ignoreList : Array[&@ffi.Any] = []
   let address = @ffi.malloc(namespaces.length() * 8)
   for index = 0; index < namespaces.length(); index = index + 1 {
     let element : String = namespaces[index]

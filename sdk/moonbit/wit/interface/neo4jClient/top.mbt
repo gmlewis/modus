@@ -3,7 +3,7 @@
 pub(all) struct Point2d {
   x : Double
   y : Double
-  spatial_ref_id : UInt
+  spatial_ref_id : Int // TODO: UInt
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
@@ -11,7 +11,7 @@ pub(all) struct Point3d {
   x : Double
   y : Double
   z : Double
-  spatial_ref_id : UInt
+  spatial_ref_id : Int // TODO: UInt
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Node and relationship records

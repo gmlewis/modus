@@ -6,19 +6,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-typealias Request = @host.Request
+pub typealias Request = @host.Request
 
 ///|
-// typealias Query = @host.Query
+pub typealias Query = @host.Query
 
 ///|
-// typealias Mutation = @host.Mutation
+pub typealias Mutation = @host.Mutation
 
 ///|
-typealias Response = @host.Response
+pub typealias Response = @host.Response
 
 ///|
-type! DgraphError String derive(Show, Eq)
+pub(all) type! DgraphError String derive(Show, Eq)
 
 ///| Executes a DQL query or mutation on the Dgraph database.
 pub fn execute(host_name : String, request : Request) -> Response!Error {

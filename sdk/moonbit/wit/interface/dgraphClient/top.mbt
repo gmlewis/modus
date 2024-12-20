@@ -30,7 +30,7 @@ pub(all) struct Response {
 ///| Execute a query against the Dgraph database
 pub fn execute_query(host_name : String, request : Request) -> Response? {
   let cleanupList : Array[@ffi.Cleanup] = []
-  let ignoreList : Array[@ffi.Any] = []
+  let ignoreList : Array[&@ffi.Any] = []
   let address = @ffi.malloc(request.mutations.length() * 40)
   for index = 0; index < request.mutations.length(); index = index + 1 {
     let element : Mutation = request.mutations[index]
