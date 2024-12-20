@@ -5,71 +5,68 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-// package experimental
-//
-// import (
-// 	"fmt"
-//
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-// )
-//
-// // A model that returns classification results for a list of text strings.
-// //
-// // NOTE: This model interface is experimental and may change in the future.
-// // It is primarily intended for use with with classification models hosted on Hypermode.
+///|
+pub(all) type! ExperimentalError String derive(Show, Eq, FromJson, ToJson)
+
+///| A model that returns classification results for a list of text strings.
+///
+/// NOTE: This model interface is experimental and may change in the future.
+/// It is primarily intended for use with with classification models hosted on Hypermode.
+pub(all) type ClassificationModel @models.ModelBase derive (
+  Show,
+  Eq,
+  FromJson,
+  ToJson,
+)
+
 // type ClassificationModel struct {
 // 	classificationModelBase
 // }
 //
 // type classificationModelBase = models.ModelBase[ClassificationModelInput, ClassificationModelOutput]
-//
-// // The input object for the classification model.
-// type ClassificationModelInput struct {
-//
-// 	// A list of one or more text strings to classify.
-// 	Instances []string `json:"instances"`
-// }
-//
-// // The output object for the classification model.
-// type ClassificationModelOutput struct {
-//
-// 	// A list of prediction results that correspond to each input text string.
-// 	Predictions []ClassifierResult `json:"predictions"`
-// }
-//
-// // A classification result for a single text string.
-// type ClassifierResult struct {
-//
-// 	// The classification label with the highest confidence.
-// 	Label string `json:"label"`
-//
-// 	// The confidence score for the classification label.
-// 	Confidence float32 `json:"confidence"`
-//
-// 	// The list of all classification labels with their corresponding probabilities.
-// 	Probabilities []ClassifierLabel `json:"probabilities"`
-// }
-//
-// // A classification label with its corresponding probability.
-// type ClassifierLabel struct {
-//
-// 	// The classification label.
-// 	Label string `json:"label"`
-//
-// 	// The probability value.
-// 	Probability float32 `json:"probability"`
-// }
-//
-// // Creates an input object for the classification model.
-// //
-// // The content parameter is a list of one or more text strings to classify.
-// func (m *ClassificationModel) CreateInput(content ...string) (*ClassificationModelInput, error) {
-// 	if len(content) == 0 {
-// 		return nil, fmt.Errorf("at least one text string must be provided")
-// 	}
-//
-// 	return &ClassificationModelInput{
-// 		Instances: content,
-// 	}, nil
-// }
-//
+
+///| The input object for the classification model.
+pub(all) struct ClassificationModelInput {
+  // A list of one or more text strings to classify.
+  instances : Array[String]
+} derive(Show, Eq, FromJson, ToJson)
+
+///| The output object for the classification model.
+pub(all) struct ClassificationModelOutput {
+  // A list of prediction results that correspond to each input text string.
+  predictions : Array[ClassifierResult]
+} derive(Show, Eq, FromJson, ToJson)
+
+///| A classification result for a single text string.
+pub(all) struct ClassifierResult {
+  // The classification label with the highest confidence.
+  label : String
+
+  // The confidence score for the classification label.
+  confidence : Double
+
+  // The list of all classification labels with their corresponding probabilities.
+  probabilities : Array[ClassifierLabel]
+} derive(Show, Eq, FromJson, ToJson)
+
+///| A classification label with its corresponding probability.
+pub(all) struct ClassifierLabel {
+  // The classification label.
+  label : String
+
+  // The probability value.
+  probability : Double
+} derive(Show, Eq, FromJson, ToJson)
+
+///| Creates an input object for the classification model.
+///
+/// The content parameter is a list of one or more text strings to classify.
+pub fn create_input(
+  self : ClassificationModel,
+  content : Array[String]
+) -> ClassificationModelInput!Error {
+  if content.length() == 0 {
+    raise ExperimentalError("at least one text string must be provided")
+  }
+  { instances: content }
+}

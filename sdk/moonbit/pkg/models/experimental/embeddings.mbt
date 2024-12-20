@@ -5,48 +5,44 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-// package experimental
-//
-// import (
-// 	"fmt"
-//
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-// )
-//
-// // A model that returns embeddings for a list of text strings.
-// //
-// // NOTE: This model interface is experimental and may change in the future.
-// // It is primarily intended for use with with embedding models hosted on Hypermode.
+///| A model that returns embeddings for a list of text strings.
+///
+/// NOTE: This model interface is experimental and may change in the future.
+/// It is primarily intended for use with with embedding models hosted on Hypermode.
+pub(all) type EmbeddingsModel @models.ModelBase derive (
+  Show,
+  Eq,
+  FromJson,
+  ToJson,
+)
+
 // type EmbeddingsModel struct {
 // 	embeddingsModelBase
 // }
 //
 // type embeddingsModelBase = models.ModelBase[EmbeddingsModelInput, EmbeddingsModelOutput]
-//
-// // The input object for the embeddings model.
-// type EmbeddingsModelInput struct {
-//
-// 	// A list of one or more text strings to create vector embeddings for.
-// 	Instances []string `json:"instances"`
-// }
-//
-// // The output object for the embeddings model.
-// type EmbeddingsModelOutput struct {
-//
-// 	// A list of vector embeddings that correspond to each input text string.
-// 	Predictions [][]float32 `json:"predictions"`
-// }
-//
-// // Creates an input object for the embeddings model.
-// //
-// // The content parameter is a list of one or more text strings to create vector embeddings for.
-// func (m *EmbeddingsModel) CreateInput(content ...string) (*EmbeddingsModelInput, error) {
-// 	if len(content) == 0 {
-// 		return nil, fmt.Errorf("at least one text string must be provided")
-// 	}
-//
-// 	return &EmbeddingsModelInput{
-// 		Instances: content,
-// 	}, nil
-// }
-//
+
+///| The input object for the embeddings model.
+pub(all) struct EmbeddingsModelInput {
+  // A list of one or more text strings to create vector embeddings for.
+  instances : Array[String]
+} derive(Show, Eq, FromJson, ToJson)
+
+///| The output object for the embeddings model.
+pub(all) struct EmbeddingsModelOutput {
+  // A list of vector embeddings that correspond to each input text string.
+  predictions : Array[Array[Double]]
+} derive(Show, Eq, FromJson, ToJson)
+
+///| Creates an input object for the embeddings model.
+///
+/// The content parameter is a list of one or more text strings to create vector embeddings for.
+pub fn create_input(
+  self : EmbeddingsModel,
+  content : Array[String]
+) -> EmbeddingsModelInput!Error {
+  if content.is_empty() {
+    raise ExperimentalError("at least one text string must be provided")
+  }
+  { instances: content }
+}

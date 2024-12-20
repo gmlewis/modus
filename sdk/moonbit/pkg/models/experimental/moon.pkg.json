@@ -1,1 +1,9 @@
-{}
+{
+  "import": [
+    "gmlewis/modus/pkg/models",
+    {
+      "path": "gmlewis/modus/wit/interface/models",
+      "alias": "host"
+    }
+  ]
+}
