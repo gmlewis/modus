@@ -56,7 +56,7 @@ export default class NewCommand extends BaseCommand {
     sdk: Flags.string({
       char: "s",
       description: "SDK to use",
-      options: ["go", "golang", "assemblyscript", "as"],
+      options: ["go", "golang", "mbt", "moonbit", "assemblyscript", "as"],
     }),
     // template: Flags.string({
     //   char: "t",
@@ -101,6 +101,9 @@ export default class NewCommand extends BaseCommand {
           choices: [
             {
               value: SDK.Go,
+            },
+            {
+              value: SDK.MoonBit,
             },
             {
               value: SDK.AssemblyScript,
@@ -191,6 +194,10 @@ export default class NewCommand extends BaseCommand {
           this.exit(1);
         }
         break;
+      case SDK.MoonBit: {
+        // TODO(gmlewis)
+        break;
+      }
       case SDK.Go: {
         const goVersion = await getGoVersion();
         const tinyGoVersion = await getTinyGoVersion();
@@ -324,6 +331,11 @@ export default class NewCommand extends BaseCommand {
         case SDK.AssemblyScript:
           await execFile("npm", ["pkg", "set", `name=${name}`], execOpts);
           await execFile("npm", ["install"], execOpts);
+          break;
+        case SDK.MoonBit:
+          await execFile("moon", ["update"], execOpts);
+          await execFile("moon", ["install"], execOpts);
+          await execFile("moon", ["fmt"], execOpts);
           break;
         case SDK.Go:
           await execFile("go", ["mod", "edit", "-module", name], execOpts);
