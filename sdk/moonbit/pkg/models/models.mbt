@@ -25,7 +25,7 @@ trait ModelPtr {
 pub(all) struct ModelBase {
   mut info : ModelInfo?
   debug : Bool
-}
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub impl Model for ModelBase with info(self) { self.info.unwrap() }
