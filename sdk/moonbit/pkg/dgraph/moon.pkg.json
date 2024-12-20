@@ -1,0 +1,8 @@
+{
+  "import": [
+    {
+      "path": "gmlewis/modus/wit/interface/dgraphClient",
+      "alias": "host"
+    }
+  ]
+}
