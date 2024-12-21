@@ -11,6 +11,7 @@ package compiler
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -21,7 +22,7 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-const minMoonBitVersion = "0.33.0"
+const minMoonBitVersion = "0.1.20241218"
 
 func Compile(config *config.Config) error {
 	args := []string{"build"}
@@ -31,6 +32,7 @@ func Compile(config *config.Config) error {
 	args = append(args, config.CompilerOptions...)
 	args = append(args, ".")
 
+	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -72,5 +74,6 @@ func getCompilerVersion(config *config.Config) (*version.Version, error) {
 		return nil, fmt.Errorf("unexpected output from '%s version': %s", compiler, output)
 	}
 
-	return version.NewVersion(parts[2])
+	log.Printf("GML: parts=%+v", parts)
+	return version.NewVersion(parts[1])
 }

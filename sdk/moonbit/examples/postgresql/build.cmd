@@ -6,7 +6,7 @@
 
 SET "PROJECTDIR=%~dp0"
 pushd ..\..\tools\modus-moonbit-build > nul
-moon run . "%PROJECTDIR%"
+go run . "%PROJECTDIR%"
 set "exit_code=%ERRORLEVEL%"
 popd > nul
 exit /b %exit_code%
