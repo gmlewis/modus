@@ -1,0 +1,9 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/db",
+    {
+      "path": "gmlewis/modus/wit/interface/sqlClient",
+      "alias": "host"
+    }
+  ]
+}
