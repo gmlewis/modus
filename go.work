@@ -21,4 +21,5 @@ use (
 	./sdk/go/examples/textgeneration
 	./sdk/go/examples/vectors
 	./sdk/go/templates/default
+	./sdk/moonbit/tools/modus-moonbit-build
 )

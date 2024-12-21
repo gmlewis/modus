@@ -5,7 +5,7 @@
 :: to invoke the modus-moonbit-build tool with the correct path to your project.
 
 SET "PROJECTDIR=%~dp0"
-pushd ..\..\tools\modus-go-build > nul
+pushd ..\..\tools\modus-moonbit-build > nul
 moon run . "%PROJECTDIR%"
 set "exit_code=%ERRORLEVEL%"
 popd > nul
