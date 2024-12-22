@@ -1,0 +1,12 @@
+{
+  "import": [
+    {
+      "path": "gmlewis/modus/wit/ffi",
+      "alias": "ffi"
+    },
+    {
+      "path": "gmlewis/modus/wit/interface/imports/wasi/cli/terminalOutput",
+      "alias": "terminalOutput"
+    }
+  ]
+}
