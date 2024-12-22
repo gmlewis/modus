@@ -10,48 +10,61 @@
 package modinfo
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
 
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
 
 	"github.com/hashicorp/go-version"
-	"golang.org/x/mod/modfile"
 )
 
-const sdkModulePath = "github.com/hypermodeinc/modus/sdk/go"
+const sdkModulePath = "gmlewis/modus"
 
 type ModuleInfo struct {
 	ModulePath      string
 	ModusSDKVersion *version.Version
 }
 
+type MoonModJSON struct {
+	Name        string            `json:"name"`
+	Version     string            `json:"version"`
+	Deps        map[string]string `json:"deps"`
+	Readme      string            `json:"readme"`
+	Repository  string            `json:"repository"`
+	License     string            `json:"license"`
+	Keywords    []string          `json:"keywords"`
+	Description string            `json:"description"`
+}
+
+type MoonPkgJSON struct {
+	Imports []json.RawMessage `json:"import"`
+}
+
 func CollectModuleInfo(config *config.Config) (*ModuleInfo, error) {
-	modFilePath := filepath.Join(config.SourceDir, "go.mod")
+	modFilePath := filepath.Join(config.SourceDir, "moon.mod.json")
 	data, err := os.ReadFile(modFilePath)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("moon.mod.json not found: %w", err)
 	}
 
-	modFile, err := modfile.Parse(modFilePath, data, nil)
-	if err != nil {
-		return nil, err
+	var moonMod MoonModJSON
+	if err := json.Unmarshal(data, &moonMod); err != nil {
+		return nil, fmt.Errorf("moon.mod.json json.Unmarshal: %w", err)
 	}
 
-	modPath := modFile.Module.Mod.Path
+	modPath := moonMod.Name
 	config.WasmFileName = path.Base(modPath) + ".wasm"
 
 	result := &ModuleInfo{
 		ModulePath: modPath,
 	}
 
-	for _, requiredModules := range modFile.Require {
-		mod := requiredModules.Mod
-		if mod.Path == sdkModulePath {
-			sVer := strings.TrimPrefix(mod.Version, "v")
-			if ver, err := version.NewVersion(sVer); err == nil {
+	for modName, modVer := range moonMod.Deps {
+		if modName == sdkModulePath {
+			if ver, err := version.NewVersion(modVer); err == nil {
 				result.ModusSDKVersion = ver
 			}
 		}
