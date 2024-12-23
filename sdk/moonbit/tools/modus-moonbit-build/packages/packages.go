@@ -14,6 +14,10 @@ import (
 	"go/token"
 	"go/types"
 	"log"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -231,9 +235,24 @@ type Config struct {
 // proceeding with further analysis. The [PrintErrors] function is
 // provided for convenient display of all errors.
 func Load(cfg *Config, patterns ...string) ([]*Package, error) {
-	log.Printf("GML: Load: not implemented yet. config=%#v, patterns=%#v", cfg, patterns)
-	// TODO
-	return nil, nil
+	sourceFiles, err := filepath.Glob(filepath.Join(cfg.Dir, "*.mbt"))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &Package{Name: "main"}
+	for _, sourceFile := range sourceFiles {
+		if strings.HasSuffix(sourceFile, "_test.mbt") { // ignore test files
+			continue
+		}
+		result.MoonBitFiles = append(result.MoonBitFiles, sourceFile)
+		buf, err := os.ReadFile(sourceFile)
+		if err != nil {
+			return nil, err
+		}
+		result.processSourceFile(sourceFile, buf)
+	}
+	return []*Package{result}, nil
 }
 
 // A Package describes a loaded MoonBit package.
@@ -352,6 +371,87 @@ type Package struct {
 	ForTest string
 }
 
+var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
+var commentRE = regexp.MustCompile(`(?m)^\s+//.*$`)
+var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
+var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
+
+func (p *Package) processSourceFile(filename string, buf []byte) {
+	src := "\n" + string(buf)
+	src = commentRE.ReplaceAllString(src, "")
+	m := pubFnRE.FindAllStringSubmatch(src, -1)
+
+	var decls []ast.Decl
+	for _, match := range m {
+		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
+		parts := strings.Split(fnSig, " -> ")
+		if len(parts) != 2 {
+			log.Printf("Warning: invalid function signature: '%v'; skipping", fnSig)
+			continue
+		}
+		fnSig = strings.TrimSpace(parts[0])
+		returnSig := strings.TrimSpace(parts[1])
+		ma := argsRE.FindStringSubmatch(fnSig)
+		if len(ma) != 3 {
+			log.Printf("Warning: invalid function signature: '%v'; skipping", fnSig)
+			continue
+		}
+		methodName := strings.TrimSpace(ma[1])
+
+		var resultsList *ast.FieldList
+		if returnSig != "Unit" {
+			resultsList = &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: &ast.Ident{Name: returnSig},
+					},
+				},
+			}
+		}
+
+		var paramsList []*ast.Field
+
+		allArgs := strings.TrimSpace(ma[2])
+		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
+		allArgParts := strings.Split(allArgs, ",")
+		for _, arg := range allArgParts {
+			arg = strings.TrimSpace(arg)
+			if arg == "" {
+				continue
+			}
+			argParts := strings.Split(arg, ":")
+			if len(argParts) != 2 {
+				log.Printf("Warning: invalid argument: '%v'; skipping", arg)
+				continue
+			}
+			argName := strings.TrimSpace(argParts[0])
+			argType := strings.TrimSpace(argParts[1])
+			paramsList = append(paramsList, &ast.Field{
+				Names: []*ast.Ident{{Name: argName}},
+				Type:  &ast.Ident{Name: argType},
+			})
+		}
+
+		decl := &ast.FuncDecl{
+			Name: &ast.Ident{Name: methodName},
+			Type: &ast.FuncType{
+				Params: &ast.FieldList{
+					List: paramsList,
+				},
+				Results: resultsList,
+			},
+		}
+
+		decls = append(decls, decl)
+	}
+
+	p.Syntax = append(p.Syntax, &ast.File{
+		Name:  &ast.Ident{Name: filename},
+		Decls: decls,
+		//TODO: Imports: imports,
+	})
+}
+
 // Module provides module information for a package.
 //
 // It also defines part of the JSON schema of [DriverResponse].
@@ -374,19 +474,19 @@ type ModuleError struct {
 	Err string // the error itself
 }
 
-func init() {
-	// packagesinternal.GetDepsErrors = func(p interface{}) []*packagesinternal.PackageError {
-	// 	return p.(*Package).depsErrors
-	// }
-	// packagesinternal.SetModFile = func(config interface{}, value string) {
-	// 	config.(*Config).modFile = value
-	// }
-	// packagesinternal.SetModFlag = func(config interface{}, value string) {
-	// 	config.(*Config).modFlag = value
-	// }
-	// packagesinternal.TypecheckCgo = int(typecheckCgo)
-	// packagesinternal.DepsErrors = int(needInternalDepsErrors)
-}
+// func init() {
+// packagesinternal.GetDepsErrors = func(p interface{}) []*packagesinternal.PackageError {
+// 	return p.(*Package).depsErrors
+// }
+// packagesinternal.SetModFile = func(config interface{}, value string) {
+// 	config.(*Config).modFile = value
+// }
+// packagesinternal.SetModFlag = func(config interface{}, value string) {
+// 	config.(*Config).modFlag = value
+// }
+// packagesinternal.TypecheckCgo = int(typecheckCgo)
+// packagesinternal.DepsErrors = int(needInternalDepsErrors)
+// }
 
 // An Error describes a problem with a package's metadata, syntax, or types.
 type Error struct {
