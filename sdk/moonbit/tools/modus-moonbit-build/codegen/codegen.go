@@ -15,11 +15,11 @@ import (
 	"path/filepath"
 )
 
-const pre_file = "modus_pre_generated.go"
-const post_file = "modus_post_generated.go"
+const pre_file = "modus_pre_generated.mbt"
+const post_file = "modus_post_generated.mbt"
 
 func cleanup(dir string) error {
-	globs := []string{"modus*_generated.go", "hyp*_generated.go"}
+	globs := []string{"modus*_generated.mbt", "hyp*_generated.mbt"}
 	files := []string{}
 
 	for _, g := range globs {

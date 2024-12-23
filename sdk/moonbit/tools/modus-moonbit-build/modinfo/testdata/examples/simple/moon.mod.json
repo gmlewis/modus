@@ -1,6 +1,6 @@
 {
   "name": "gmlewis/modus/examples/simple-example",
-  "version": "0.1.0",
+  "version": "10.2.0",
   "deps": {
     "gmlewis/modus": {
       "path": "../../"

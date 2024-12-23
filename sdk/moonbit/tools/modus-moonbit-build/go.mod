@@ -16,6 +16,7 @@ require (
 )
 
 require (
+	github.com/google/go-cmp v0.6.0
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect

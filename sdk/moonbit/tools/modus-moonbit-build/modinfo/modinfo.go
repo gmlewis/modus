@@ -29,34 +29,29 @@ type ModuleInfo struct {
 }
 
 type MoonModJSON struct {
-	Name        string            `json:"name"`
-	Version     string            `json:"version"`
-	Deps        map[string]string `json:"deps"`
-	Readme      string            `json:"readme"`
-	Repository  string            `json:"repository"`
-	License     string            `json:"license"`
-	Keywords    []string          `json:"keywords"`
-	Description string            `json:"description"`
+	Name        string                     `json:"name"`
+	Version     string                     `json:"version"`
+	Deps        map[string]json.RawMessage `json:"deps"`
+	Readme      string                     `json:"readme"`
+	Repository  string                     `json:"repository"`
+	License     string                     `json:"license"`
+	Keywords    []string                   `json:"keywords"`
+	Description string                     `json:"description"`
 }
 
 type MoonPkgJSON struct {
 	Imports []json.RawMessage `json:"import"`
 }
 
-func CollectModuleInfo(config *config.Config) (*ModuleInfo, error) {
-	modFilePath := filepath.Join(config.SourceDir, "moon.mod.json")
-	data, err := os.ReadFile(modFilePath)
+// CollectModuleInfo collects module information from moon.mod.json.
+func CollectModuleInfo(cfg *config.Config) (*ModuleInfo, error) {
+	moonMod, err := parseMoonModJSON(cfg.SourceDir)
 	if err != nil {
-		return nil, fmt.Errorf("moon.mod.json not found: %w", err)
-	}
-
-	var moonMod MoonModJSON
-	if err := json.Unmarshal(data, &moonMod); err != nil {
-		return nil, fmt.Errorf("moon.mod.json json.Unmarshal: %w", err)
+		return nil, fmt.Errorf("parseMoonModJSON: %w", err)
 	}
 
 	modPath := moonMod.Name
-	config.WasmFileName = path.Base(modPath) + ".wasm"
+	cfg.WasmFileName = path.Base(modPath) + ".wasm"
 
 	result := &ModuleInfo{
 		ModulePath: modPath,
@@ -64,11 +59,51 @@ func CollectModuleInfo(config *config.Config) (*ModuleInfo, error) {
 
 	for modName, modVer := range moonMod.Deps {
 		if modName == sdkModulePath {
-			if ver, err := version.NewVersion(modVer); err == nil {
-				result.ModusSDKVersion = ver
+			var dst any
+			if err := json.Unmarshal(modVer, &dst); err != nil {
+				return nil, fmt.Errorf("moon.mod.json json.Unmarshal: %w", err)
+			}
+			switch v := dst.(type) {
+			case string:
+				if ver, err := version.NewVersion(v); err == nil {
+					result.ModusSDKVersion = ver
+				} else {
+					return nil, fmt.Errorf("version.NewVersion: %w", err)
+				}
+			case map[string]interface{}:
+				if path, ok := v["path"].(string); ok {
+					sdkPath := filepath.Join(cfg.SourceDir, path)
+					sdkMoonMod, err := parseMoonModJSON(sdkPath)
+					if err != nil {
+						return nil, fmt.Errorf("parseMoonModJSON: %w", err)
+					}
+					if ver, err := version.NewVersion(sdkMoonMod.Version); err == nil {
+						result.ModusSDKVersion = ver
+					} else {
+						return nil, fmt.Errorf("version.NewVersion: %w", err)
+					}
+				}
+			default:
+				return nil, fmt.Errorf("unexpected type for modus version: %T", dst)
 			}
 		}
 	}
 
 	return result, nil
+}
+
+func parseMoonModJSON(sourceDir string) (*MoonModJSON, error) {
+	moonModPath := filepath.Join(sourceDir, "moon.mod.json")
+	f, err := os.Open(moonModPath)
+	if err != nil {
+		return nil, fmt.Errorf("os.Open: %w", err)
+	}
+	defer f.Close()
+
+	var moonMod MoonModJSON
+	if err := json.NewDecoder(f).Decode(&moonMod); err != nil {
+		return nil, fmt.Errorf("json.Decode: %w", err)
+	}
+
+	return &moonMod, nil
 }
