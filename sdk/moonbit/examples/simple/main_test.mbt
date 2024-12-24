@@ -9,10 +9,10 @@ test "log_message" {
   let msg = "Hello, World!"
   log_message(msg)
 
-  // TODO:
-  // let values = @console.log_call_stack.pop()
-  // inspect!(values[0], content="")
-  // inspect!(values[1], content="")
+  //
+  let values = @console.log_call_stack.pop()
+  inspect!(values[0], content="")
+  inspect!(values[1], content="")
 }
 
 test "add" {

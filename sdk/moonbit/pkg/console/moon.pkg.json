@@ -1,5 +1,6 @@
 {
   "import": [
+    "gmlewis/modus/pkg/testutils",
     {
       "path": "gmlewis/modus/wit/interface/console",
       "alias": "host"
