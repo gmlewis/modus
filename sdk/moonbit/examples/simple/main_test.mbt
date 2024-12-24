@@ -1,181 +1,104 @@
-// 
-// 
 // This example is part of the Modus project, licensed under the Apache License 2.0.
+// You may modify and use this example in accordance with the license.
+// See the LICENSE file that accompanied this code for further details.
 
-//  * See the LICENSE file that accompanied this code for further details.
-//  */
-// 
-// package main
-// 
-// /*
-// 	These tests are fairly straightforward.
-// 	They are here to demonstrate how to write tests for your functions.
-// */
-// 
-// import (
-// 	"testing"
-// 	"time"
-// 
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/console"
-// )
-// 
-// func TestLogMessage(t *testing.T) {
-// 	msg := "Hello, World!"
-// 
-// 	LogMessage(msg)
-// 
-// 	values := console.LogCallStack.Pop()
-// 	if values[0] != "" {
-// 		t.Errorf(`LogCalls[0] = %s; want ""`, values[0])
-// 	}
-// 	if values[1] != msg {
-// 		t.Errorf(`LogCalls[1] = %s; want "%s"`, values[1], msg)
-// 	}
-// }
-// 
-// func TestAdd(t *testing.T) {
-// 	result := Add(1, 2)
-// 	if result != 3 {
-// 		t.Errorf("Add(1, 2) = %d; want 3", result)
-// 	}
-// }
-// 
-// func TestAdd3(t *testing.T) {
-// 	a := 1
-// 	b := 2
-// 	c := 3
-// 	result := Add3(a, b, &c)
-// 	if result != 6 {
-// 		t.Errorf("Add3(%d, %d, %d) = %d; want 6", a, b, c, result)
-// 	}
-// }
-// 
-// func TestAddN(t *testing.T) {
-// 	// Test case 1: Empty arguments
-// 	result := AddN()
-// 	if result != 0 {
-// 		t.Errorf("AddN() = %d; want 0", result)
-// 	}
-// 
-// 	// Test case 2: Single argument
-// 	result = AddN(5)
-// 	if result != 5 {
-// 		t.Errorf("AddN(5) = %d; want 5", result)
-// 	}
-// 
-// 	// Test case 3: Multiple arguments
-// 	result = AddN(1, 2, 3, 4, 5)
-// 	if result != 15 {
-// 		t.Errorf("AddN(1, 2, 3, 4, 5) = %d; want 15", result)
-// 	}
-// 
-// 	// Test case 4: Negative numbers
-// 	result = AddN(-1, -2, -3)
-// 	if result != -6 {
-// 		t.Errorf("AddN(-1, -2, -3) = %d; want -6", result)
-// 	}
-// }
-// 
-// func TestGetCurrentTime(t *testing.T) {
-// 	// mock the clock for testing
-// 	now := time.Now()
-// 	nowFunc = func() time.Time { return now }
-// 
-// 	expected := now
-// 	result := GetCurrentTime()
-// 	if result != expected {
-// 		t.Errorf("GetCurrentTime() = %v; want %v", result, expected)
-// 	}
-// }
-// 
-// func TestGetCurrentTimeFormatted(t *testing.T) {
-// 	// mock the clock for testing
-// 	now := time.Now()
-// 	nowFunc = func() time.Time { return now }
-// 
-// 	expected := now.Format(time.DateTime)
-// 	result := GetCurrentTimeFormatted()
-// 	if result != expected {
-// 		t.Errorf("GetCurrentTimeFormatted() = %s; want %s", result, expected)
-// 	}
-// }
-// 
-// func TestGetFullName(t *testing.T) {
-// 	firstName := "John"
-// 	lastName := "Doe"
-// 	expected := "John Doe"
-// 	result := GetFullName(firstName, lastName)
-// 	if result != expected {
-// 		t.Errorf("GetFullName(%s, %s) = %s; want %s", firstName, lastName, result, expected)
-// 	}
-// }
-// 
-// func TestSayHello(t *testing.T) {
-// 	name := "Alice"
-// 	expected := "Hello, Alice!"
-// 	result := SayHello(&name)
-// 	if result != expected {
-// 		t.Errorf("SayHello(%s) = %s; want %s", name, result, expected)
-// 	}
-// }
-// 
-// func TestGetPerson(t *testing.T) {
-// 	expected := Person{
-// 		FirstName: "John",
-// 		LastName:  "Doe",
-// 		Age:       42,
-// 	}
-// 	result := GetPerson()
-// 	if result != expected {
-// 		t.Errorf("GetPerson() = %v; want %v", result, expected)
-// 	}
-// }
-// 
-// func TestGetRandomPerson(t *testing.T) {
-// 	result := GetRandomPerson()
-// 	if result.FirstName == "" || result.LastName == "" || result.Age == 0 {
-// 		t.Errorf("GetRandomPerson() returned an invalid person: %v", result)
-// 	}
-// }
-// 
-// func TestGetPeople(t *testing.T) {
-// 	expected := []Person{
-// 		{
-// 			FirstName: "Bob",
-// 			LastName:  "Smith",
-// 			Age:       42,
-// 		},
-// 		{
-// 			FirstName: "Alice",
-// 			LastName:  "Jones",
-// 			Age:       35,
-// 		},
-// 		{
-// 			FirstName: "Charlie",
-// 			LastName:  "Brown",
-// 			Age:       8,
-// 		},
-// 	}
-// 	result := GetPeople()
-// 	if len(result) != len(expected) {
-// 		t.Errorf("GetPeople() returned %d people; want %d", len(result), len(expected))
-// 	}
-// 	for i := range expected {
-// 		if result[i] != expected[i] {
-// 			t.Errorf("GetPeople()[%d] = %v; want %v", i, result[i], expected[i])
-// 		}
-// 	}
-// }
-// 
-// func TestGetNameAndAge(t *testing.T) {
-// 	expectedName := "John Doe"
-// 	expectedAge := 42
-// 	resultName, resultAge := GetNameAndAge()
-// 	if resultName != expectedName {
-// 		t.Errorf("GetNameAndAge() returned name %s; want %s", resultName, expectedName)
-// 	}
-// 	if resultAge != expectedAge {
-// 		t.Errorf("GetNameAndAge() returned age %d; want %d", resultAge, expectedAge)
-// 	}
-// }
-//
+// These tests are fairly straightforward.
+// They are here to demonstrate how to write tests for your functions.
+
+test "log_message" {
+  let msg = "Hello, World!"
+  log_message(msg)
+
+  // TODO:
+  // let values = @console.log_call_stack.pop()
+  // inspect!(values[0], content="")
+  // inspect!(values[1], content="")
+}
+
+test "add" {
+  let result = add(1, 2)
+  inspect!(result, content="3")
+}
+
+test "add3" {
+  let a = 1
+  let b = 2
+  let c = 3
+  let result = add3(a, b, c~)
+  inspect!(result, content="6")
+}
+
+test "add_n" {
+  // Test case 1: Empty arguments
+  let result = add_n([])
+  inspect!(result, content="0")
+
+  // Test case 2: Single argument
+  let result = add_n([5])
+  inspect!(result, content="5")
+
+  // Test case 3: Multiple arguments
+  let result = add_n([1, 2, 3, 4, 5])
+  inspect!(result, content="15")
+
+  // Test case 4: Negative numbers
+  let result = add_n([-1, -2, -3])
+  inspect!(result, content="-6")
+}
+
+test "get_current_time" {
+  let result = get_current_time!(now=@wallClock.Datetime::{
+    seconds: 1704067200,
+    nanoseconds: 0,
+  })
+  inspect!(result, content="2024-01-01T00:00:00Z")
+}
+
+test "get_current_time_formatted" {
+  let result = get_current_time_formatted!(now=@wallClock.Datetime::{
+    seconds: 1704067200,
+    nanoseconds: 0,
+  })
+  inspect!(result, content="2024-01-01T00:00:00Z")
+}
+
+test "get_full_name" {
+  let first_name = "John"
+  let last_name = "Doe"
+  let result = get_full_name(first_name, last_name)
+  inspect!(result, content="John Doe")
+}
+
+test "say_hello" {
+  let name = Some("Alice")
+  let result = say_hello(name~)
+  inspect!(result, content="Hello, Alice!")
+  let result = say_hello()
+  inspect!(result, content="Hello!")
+}
+
+test "get_person" {
+  let result = get_person()
+  inspect!(result, content="{firstName: \"John\", lastName: \"Doe\", age: 42}")
+}
+
+test "get_random_person" {
+  let result = get_random_person()
+  assert_not_eq!(result.firstName, "")
+  assert_not_eq!(result.lastName, "")
+  assert_not_eq!(result.age, 0)
+}
+
+test "get_people" {
+  let result = get_people()
+  inspect!(
+    result,
+    content="[{firstName: \"Bob\", lastName: \"Smith\", age: 42}, {firstName: \"Alice\", lastName: \"Jones\", age: 35}, {firstName: \"Charlie\", lastName: \"Brown\", age: 8}]",
+  )
+}
+
+test "get_name_and_age" {
+  let (name, age) = get_name_and_age()
+  inspect!(name, content="John Doe")
+  inspect!(age, content="42")
+}
