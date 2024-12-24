@@ -8,11 +8,10 @@ package packages
 // See doc.go for package documentation and implementation notes.
 
 import (
-	"context"
 	"encoding/json"
+	"fmt"
 	"go/ast"
 	"go/token"
-	"go/types"
 	"log"
 	"os"
 	"path/filepath"
@@ -130,81 +129,81 @@ type Config struct {
 	// Mode controls the level of information returned for each package.
 	Mode LoadMode
 
-	// Context specifies the context for the load operation.
-	// Cancelling the context may cause [Load] to abort and
-	// return an error.
-	Context context.Context
+	// // Context specifies the context for the load operation.
+	// // Cancelling the context may cause [Load] to abort and
+	// // return an error.
+	// Context context.Context
 
-	// Logf is the logger for the config.
-	// If the user provides a logger, debug logging is enabled.
-	// If the GOPACKAGESDEBUG environment variable is set to true,
-	// but the logger is nil, default to log.Printf.
-	Logf func(format string, args ...interface{})
+	// // Logf is the logger for the config.
+	// // If the user provides a logger, debug logging is enabled.
+	// // If the GOPACKAGESDEBUG environment variable is set to true,
+	// // but the logger is nil, default to log.Printf.
+	// Logf func(format string, args ...interface{})
 
 	// Dir is the directory in which to run the build system's query tool
 	// that provides information about the packages.
 	// If Dir is empty, the tool is run in the current directory.
 	Dir string
 
-	// Env is the environment to use when invoking the build system's query tool.
-	// If Env is nil, the current environment is used.
-	// As in os/exec's Cmd, only the last value in the slice for
-	// each environment key is used. To specify the setting of only
-	// a few variables, append to the current environment, as in:
-	//
-	//	opt.Env = append(os.Environ(), "GOOS=plan9", "GOARCH=386")
-	//
-	Env []string
+	// // Env is the environment to use when invoking the build system's query tool.
+	// // If Env is nil, the current environment is used.
+	// // As in os/exec's Cmd, only the last value in the slice for
+	// // each environment key is used. To specify the setting of only
+	// // a few variables, append to the current environment, as in:
+	// //
+	// //	opt.Env = append(os.Environ(), "GOOS=plan9", "GOARCH=386")
+	// //
+	// Env []string
 
-	// BuildFlags is a list of command-line flags to be passed through to
-	// the build system's query tool.
-	BuildFlags []string
+	// // BuildFlags is a list of command-line flags to be passed through to
+	// // the build system's query tool.
+	// BuildFlags []string
 
-	// Fset provides source position information for syntax trees and types.
-	// If Fset is nil, Load will use a new fileset, but preserve Fset's value.
-	Fset *token.FileSet
+	// // Fset provides source position information for syntax trees and types.
+	// // If Fset is nil, Load will use a new fileset, but preserve Fset's value.
+	// Fset *token.FileSet
 
-	// ParseFile is called to read and parse each file
-	// when preparing a package's type-checked syntax tree.
-	// It must be safe to call ParseFile simultaneously from multiple goroutines.
-	// If ParseFile is nil, the loader will uses parser.ParseFile.
-	//
-	// ParseFile should parse the source from src and use filename only for
-	// recording position information.
-	//
-	// An application may supply a custom implementation of ParseFile
-	// to change the effective file contents or the behavior of the parser,
-	// or to modify the syntax tree. For example, selectively eliminating
-	// unwanted function bodies can significantly accelerate type checking.
-	ParseFile func(fset *token.FileSet, filename string, src []byte) (*ast.File, error)
+	// // ParseFile is called to read and parse each file
+	// // when preparing a package's type-checked syntax tree.
+	// // It must be safe to call ParseFile simultaneously from multiple goroutines.
+	// // If ParseFile is nil, the loader will uses parser.ParseFile.
+	// //
+	// // ParseFile should parse the source from src and use filename only for
+	// // recording position information.
+	// //
+	// // An application may supply a custom implementation of ParseFile
+	// // to change the effective file contents or the behavior of the parser,
+	// // or to modify the syntax tree. For example, selectively eliminating
+	// // unwanted function bodies can significantly accelerate type checking.
+	// ParseFile func(fset *token.FileSet, filename string, src []byte) (*ast.File, error)
 
-	// If Tests is set, the loader includes not just the packages
-	// matching a particular pattern but also any related test packages,
-	// including test-only variants of the package and the test executable.
-	//
-	// For example, when using the go command, loading "fmt" with Tests=true
-	// returns four packages, with IDs "fmt" (the standard package),
-	// "fmt [fmt.test]" (the package as compiled for the test),
-	// "fmt_test" (the test functions from source files in package fmt_test),
-	// and "fmt.test" (the test binary).
-	//
-	// In build systems with explicit names for tests,
-	// setting Tests may have no effect.
-	Tests bool
+	// // If Tests is set, the loader includes not just the packages
+	// // matching a particular pattern but also any related test packages,
+	// // including test-only variants of the package and the test executable.
+	// //
+	// // For example, when using the go command, loading "fmt" with Tests=true
+	// // returns four packages, with IDs "fmt" (the standard package),
+	// // "fmt [fmt.test]" (the package as compiled for the test),
+	// // "fmt_test" (the test functions from source files in package fmt_test),
+	// // and "fmt.test" (the test binary).
+	// //
+	// // In build systems with explicit names for tests,
+	// // setting Tests may have no effect.
+	// Tests bool
 
-	// Overlay is a mapping from absolute file paths to file contents.
-	//
-	// For each map entry, [Load] uses the alternative file
-	// contents provided by the overlay mapping instead of reading
-	// from the file system. This mechanism can be used to enable
-	// editor-integrated tools to correctly analyze the contents
-	// of modified but unsaved buffers, for example.
-	//
-	// The overlay mapping is passed to the build system's driver
-	// (see "The driver protocol") so that it too can report
-	// consistent package metadata about unsaved files. However,
-	// drivers may vary in their level of support for overlays.
-	Overlay map[string][]byte
+	// // Overlay is a mapping from absolute file paths to file contents.
+	// //
+	// // For each map entry, [Load] uses the alternative file
+	// // contents provided by the overlay mapping instead of reading
+	// // from the file system. This mechanism can be used to enable
+	// // editor-integrated tools to correctly analyze the contents
+	// // of modified but unsaved buffers, for example.
+	// //
+	// // The overlay mapping is passed to the build system's driver
+	// // (see "The driver protocol") so that it too can report
+	// // consistent package metadata about unsaved files. However,
+	// // drivers may vary in their level of support for overlays.
+	// Overlay map[string][]byte
 }
 
 // Load loads and returns the MoonBit packages named by the given patterns.
@@ -235,6 +234,29 @@ type Config struct {
 // proceeding with further analysis. The [PrintErrors] function is
 // provided for convenient display of all errors.
 func Load(cfg *Config, patterns ...string) ([]*Package, error) {
+	// process imports
+	var imports []*ast.ImportSpec
+	buf, err := os.ReadFile(filepath.Join(cfg.Dir, "moon.pkg.json"))
+	if err != nil {
+		return nil, err
+	}
+	var moonPkgJSON MoonPkgJSON
+	if err := json.Unmarshal(buf, &moonPkgJSON); err != nil {
+		return nil, err
+	}
+	for _, imp := range moonPkgJSON.Imports {
+		var jsonMsg any
+		if err := json.Unmarshal(imp, &jsonMsg); err != nil {
+			return nil, err
+		}
+		switch v := jsonMsg.(type) {
+		case string:
+			imports = append(imports, &ast.ImportSpec{Path: &ast.BasicLit{Value: fmt.Sprintf("%q", v)}})
+		default:
+			log.Printf("Warning: unexpected import type: %T; skipping", jsonMsg)
+		}
+	}
+
 	sourceFiles, err := filepath.Glob(filepath.Join(cfg.Dir, "*.mbt"))
 	if err != nil {
 		return nil, err
@@ -250,9 +272,14 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		if err != nil {
 			return nil, err
 		}
-		result.processSourceFile(sourceFile, buf)
+		result.processSourceFile(sourceFile, buf, imports)
 	}
+
 	return []*Package{result}, nil
+}
+
+type MoonPkgJSON struct {
+	Imports []json.RawMessage `json:"import"`
 }
 
 // A Package describes a loaded MoonBit package.
@@ -271,21 +298,21 @@ type Package struct {
 	// Name is the package name as it appears in the package source code.
 	Name string
 
-	// PkgPath is the package path as used by the go/types package.
-	PkgPath string
+	// // PkgPath is the package path as used by the go/types package.
+	// PkgPath string
 
-	// Dir is the directory associated with the package, if it exists.
-	//
-	// For packages listed by the go command, this is the directory containing
-	// the package files.
-	Dir string
+	// // Dir is the directory associated with the package, if it exists.
+	// //
+	// // For packages listed by the go command, this is the directory containing
+	// // the package files.
+	// Dir string
 
-	// Errors contains any errors encountered querying the metadata
-	// of the package, or while parsing or type-checking its files.
-	Errors []Error
+	// // Errors contains any errors encountered querying the metadata
+	// // of the package, or while parsing or type-checking its files.
+	// Errors []Error
 
-	// TypeErrors contains the subset of errors produced during type checking.
-	TypeErrors []types.Error
+	// // TypeErrors contains the subset of errors produced during type checking.
+	// TypeErrors []types.Error
 
 	// MoonBitFiles lists the absolute file paths of the package's MoonBit source files.
 	// It may include files that should not be compiled, for example because
@@ -293,60 +320,60 @@ type Package struct {
 	// unsafe/unsafe.go or builtin/builtin.go, or are subject to cgo preprocessing.
 	MoonBitFiles []string
 
-	// CompiledMoonBitFiles lists the absolute file paths of the package's source
-	// files that are suitable for type checking.
-	// This may differ from MoonBitFiles if files are processed before compilation.
-	CompiledMoonBitFiles []string
+	// // CompiledMoonBitFiles lists the absolute file paths of the package's source
+	// // files that are suitable for type checking.
+	// // This may differ from MoonBitFiles if files are processed before compilation.
+	// CompiledMoonBitFiles []string
 
-	// OtherFiles lists the absolute file paths of the package's non-MoonBit source files,
-	// including assembly, C, C++, Fortran, Objective-C, SWIG, and so on.
-	OtherFiles []string
+	// // OtherFiles lists the absolute file paths of the package's non-MoonBit source files,
+	// // including assembly, C, C++, Fortran, Objective-C, SWIG, and so on.
+	// OtherFiles []string
 
-	// EmbedFiles lists the absolute file paths of the package's files
-	// embedded with go:embed.
-	EmbedFiles []string
+	// // EmbedFiles lists the absolute file paths of the package's files
+	// // embedded with go:embed.
+	// EmbedFiles []string
 
-	// EmbedPatterns lists the absolute file patterns of the package's
-	// files embedded with go:embed.
-	EmbedPatterns []string
+	// // EmbedPatterns lists the absolute file patterns of the package's
+	// // files embedded with go:embed.
+	// EmbedPatterns []string
 
-	// IgnoredFiles lists source files that are not part of the package
-	// using the current build configuration but that might be part of
-	// the package using other build configurations.
-	IgnoredFiles []string
+	// // IgnoredFiles lists source files that are not part of the package
+	// // using the current build configuration but that might be part of
+	// // the package using other build configurations.
+	// IgnoredFiles []string
 
-	// ExportFile is the absolute path to a file containing type
-	// information for the package as provided by the build system.
-	ExportFile string
+	// // ExportFile is the absolute path to a file containing type
+	// // information for the package as provided by the build system.
+	// ExportFile string
 
 	// Imports maps import paths appearing in the package's MoonBit source files
 	// to corresponding loaded Packages.
 	Imports map[string]*Package
 
-	// Module is the module information for the package if it exists.
-	//
-	// Note: it may be missing for std and cmd; see MoonBit issue #65816.
-	Module *Module
+	// // Module is the module information for the package if it exists.
+	// //
+	// // Note: it may be missing for std and cmd; see MoonBit issue #65816.
+	// Module *Module
 
-	// -- The following fields are not part of the driver JSON schema. --
+	// // -- The following fields are not part of the driver JSON schema. --
 
-	// Types provides type information for the package.
-	// The NeedTypes LoadMode bit sets this field for packages matching the
-	// patterns; type information for dependencies may be missing or incomplete,
-	// unless NeedDeps and NeedImports are also set.
-	//
-	// Each call to [Load] returns a consistent set of type
-	// symbols, as defined by the comment at [types.Identical].
-	// Avoid mixing type information from two or more calls to [Load].
-	Types *types.Package `json:"-"`
+	// // Types provides type information for the package.
+	// // The NeedTypes LoadMode bit sets this field for packages matching the
+	// // patterns; type information for dependencies may be missing or incomplete,
+	// // unless NeedDeps and NeedImports are also set.
+	// //
+	// // Each call to [Load] returns a consistent set of type
+	// // symbols, as defined by the comment at [types.Identical].
+	// // Avoid mixing type information from two or more calls to [Load].
+	// Types *types.Package `json:"-"`
 
 	// Fset provides position information for Types, TypesInfo, and Syntax.
 	// It is set only when Types is set.
 	Fset *token.FileSet `json:"-"`
 
-	// IllTyped indicates whether the package or any dependency contains errors.
-	// It is set only when Types is set.
-	IllTyped bool `json:"-"`
+	// // IllTyped indicates whether the package or any dependency contains errors.
+	// // It is set only when Types is set.
+	// IllTyped bool `json:"-"`
 
 	// Syntax is the package's syntax trees, for the files listed in CompiledMoonBitFiles.
 	//
@@ -358,17 +385,17 @@ type Package struct {
 	// removed.  If parsing returned nil, Syntax may be shorter than CompiledMoonBitFiles.
 	Syntax []*ast.File `json:"-"`
 
-	// TypesInfo provides type information about the package's syntax trees.
-	// It is set only when Syntax is set.
-	TypesInfo *types.Info `json:"-"`
+	// // TypesInfo provides type information about the package's syntax trees.
+	// // It is set only when Syntax is set.
+	// TypesInfo *types.Info `json:"-"`
 
-	// TypesSizes provides the effective size function for types in TypesInfo.
-	TypesSizes types.Sizes `json:"-"`
+	// // TypesSizes provides the effective size function for types in TypesInfo.
+	// TypesSizes types.Sizes `json:"-"`
 
-	// -- internal --
+	// // -- internal --
 
-	// ForTest is the package under test, if any.
-	ForTest string
+	// // ForTest is the package under test, if any.
+	// ForTest string
 }
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
@@ -376,7 +403,7 @@ var commentRE = regexp.MustCompile(`(?m)^\s+//.*$`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
 
-func (p *Package) processSourceFile(filename string, buf []byte) {
+func (p *Package) processSourceFile(filename string, buf []byte, imports []*ast.ImportSpec) {
 	src := "\n" + string(buf)
 	src = commentRE.ReplaceAllString(src, "")
 	m := pubFnRE.FindAllStringSubmatch(src, -1)
@@ -446,9 +473,9 @@ func (p *Package) processSourceFile(filename string, buf []byte) {
 	}
 
 	p.Syntax = append(p.Syntax, &ast.File{
-		Name:  &ast.Ident{Name: filename},
-		Decls: decls,
-		//TODO: Imports: imports,
+		Name:    &ast.Ident{Name: filename},
+		Decls:   decls,
+		Imports: imports,
 	})
 }
 
@@ -546,17 +573,17 @@ type flatPackage struct {
 // not intended for use by clients of the API and we may change the format.
 func (p *Package) MarshalJSON() ([]byte, error) {
 	flat := &flatPackage{
-		ID:                   p.ID,
-		Name:                 p.Name,
-		PkgPath:              p.PkgPath,
-		Errors:               p.Errors,
-		MoonBitFiles:         p.MoonBitFiles,
-		CompiledMoonBitFiles: p.CompiledMoonBitFiles,
-		OtherFiles:           p.OtherFiles,
-		EmbedFiles:           p.EmbedFiles,
-		EmbedPatterns:        p.EmbedPatterns,
-		IgnoredFiles:         p.IgnoredFiles,
-		ExportFile:           p.ExportFile,
+		ID:   p.ID,
+		Name: p.Name,
+		// PkgPath:              p.PkgPath,
+		// Errors:               p.Errors,
+		MoonBitFiles: p.MoonBitFiles,
+		// CompiledMoonBitFiles: p.CompiledMoonBitFiles,
+		// OtherFiles:           p.OtherFiles,
+		// EmbedFiles:           p.EmbedFiles,
+		// EmbedPatterns:        p.EmbedPatterns,
+		// IgnoredFiles:         p.IgnoredFiles,
+		// ExportFile:           p.ExportFile,
 	}
 	if len(p.Imports) > 0 {
 		flat.Imports = make(map[string]string, len(p.Imports))
@@ -575,17 +602,17 @@ func (p *Package) UnmarshalJSON(b []byte) error {
 		return err
 	}
 	*p = Package{
-		ID:                   flat.ID,
-		Name:                 flat.Name,
-		PkgPath:              flat.PkgPath,
-		Errors:               flat.Errors,
-		MoonBitFiles:         flat.MoonBitFiles,
-		CompiledMoonBitFiles: flat.CompiledMoonBitFiles,
-		OtherFiles:           flat.OtherFiles,
-		EmbedFiles:           flat.EmbedFiles,
-		EmbedPatterns:        flat.EmbedPatterns,
-		IgnoredFiles:         flat.IgnoredFiles,
-		ExportFile:           flat.ExportFile,
+		ID:   flat.ID,
+		Name: flat.Name,
+		// PkgPath:              flat.PkgPath,
+		// Errors:               flat.Errors,
+		MoonBitFiles: flat.MoonBitFiles,
+		// CompiledMoonBitFiles: flat.CompiledMoonBitFiles,
+		// OtherFiles:           flat.OtherFiles,
+		// EmbedFiles:           flat.EmbedFiles,
+		// EmbedPatterns:        flat.EmbedPatterns,
+		// IgnoredFiles:         flat.IgnoredFiles,
+		// ExportFile:           flat.ExportFile,
 	}
 	if len(flat.Imports) > 0 {
 		p.Imports = make(map[string]*Package, len(flat.Imports))

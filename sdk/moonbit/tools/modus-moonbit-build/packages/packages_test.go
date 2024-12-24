@@ -55,6 +55,191 @@ var wantPackages = []*Package{
 							},
 						},
 					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "add3"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Int"}},
+									{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+									{Names: []*ast.Ident{{Name: "c~"}}, Type: &ast.Ident{Name: "Int = 0"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "Int"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "add_n"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "args"}}, Type: &ast.Ident{Name: "Array[Int]"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "Int"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_current_time"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime = @wallClock.now()"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "@time.PlainDateTime!Error"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_current_time_formatted"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime = @wallClock.now()"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "String!Error"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_full_name"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "first_name"}}, Type: &ast.Ident{Name: "String"}},
+									{Names: []*ast.Ident{{Name: "last_name"}}, Type: &ast.Ident{Name: "String"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "String"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "say_hello"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String? = None"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "String"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_person"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "Person"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_random_person"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "Person"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_people"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "Array[Person]"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "get_name_and_age"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "(String, Int)"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "test_normal_error"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "input"}}, Type: &ast.Ident{Name: "String"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "String!Error"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "test_alternative_error"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: []*ast.Field{
+									{Names: []*ast.Ident{{Name: "input"}}, Type: &ast.Ident{Name: "String"}},
+								},
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.Ident{Name: "String"}},
+								},
+							},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "test_abort"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "test_exit"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+						},
+					},
+					&ast.FuncDecl{
+						Name: &ast.Ident{Name: "test_logging"},
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{},
+						},
+					},
 				},
 				Imports: []*ast.ImportSpec{
 					{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
