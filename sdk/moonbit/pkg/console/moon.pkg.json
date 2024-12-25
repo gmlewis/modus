@@ -5,5 +5,14 @@
       "path": "gmlewis/modus/wit/interface/console",
       "alias": "host"
     }
-  ]
+  ],
+  "targets": {
+    "console_js.mbt": [
+      "js"
+    ],
+    "console_nonjs.mbt": [
+      "not",
+      "js"
+    ]
+  }
 }
