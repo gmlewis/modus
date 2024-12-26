@@ -4,5 +4,8 @@
     "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
     "moonbitlang/x/sys",
     "moonbitlang/x/time"
+  ],
+  "test-import": [
+    "gmlewis/modus/pkg/testutils"
   ]
 }

@@ -11,8 +11,12 @@ test "log_message" {
 
   //
   let values = @console.log_call_stack.pop()
-  inspect!(values[0], content="")
-  inspect!(values[1], content="")
+  inspect!(
+    values,
+    content=
+      #|["", "Hello, World!"]
+    ,
+  )
 }
 
 test "add" {
@@ -51,7 +55,7 @@ test "get_current_time" {
     seconds: 1704067200,
     nanoseconds: 0,
   })
-  inspect!(result, content="2024-01-01T00:00:00Z")
+  inspect!(result, content="2024-01-01T00:00:00")
 }
 
 test "get_current_time_formatted" {
@@ -59,7 +63,7 @@ test "get_current_time_formatted" {
     seconds: 1704067200,
     nanoseconds: 0,
   })
-  inspect!(result, content="2024-01-01T00:00:00Z")
+  inspect!(result, content="2024-01-01T00:00:00")
 }
 
 test "get_full_name" {
