@@ -28,6 +28,7 @@ export function GetSdkTagPrefix(sdk: SDK): string {
 export enum SDK {
   AssemblyScript = "AssemblyScript",
   Go = "Go",
+  MoonBit = "MoonBit",
 }
 
 export function parseSDK(sdk: string): SDK {
@@ -38,6 +39,10 @@ export function parseSDK(sdk: string): SDK {
     case "go":
     case "golang":
       return SDK.Go;
+    case "mbt":
+    case "moonbit":
+    case "moon":
+      return SDK.MoonBit;
     default:
       throw new Error(`Unknown SDK: ${sdk}`);
   }
