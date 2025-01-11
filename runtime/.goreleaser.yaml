@@ -5,7 +5,7 @@ monorepo:
   tag_prefix: runtime/
   dir: runtime
 git:
-  tag_sort: "-version:creatordate"
+  tag_sort: -version:creatordate
   prerelease_suffix: "-"
 before:
   hooks:
@@ -23,7 +23,14 @@ builds:
       - amd64
       - arm64
     mod_timestamp: "{{ .CommitTimestamp }}"
-    ldflags: -s -w -X github.com/hypermodeinc/modus/runtime/config.version={{.Version}}
+    ldflags:
+      - -s
+      - -w
+      - -X github.com/hypermodeinc/modus/runtime/config.version={{.Version}}
+      - >-
+        {{- if eq .Os "windows"}}
+          -checklinkname=0
+        {{- end }}
 
 # temporarily disabled
 # notarize:
@@ -39,8 +46,8 @@ builds:
 
 archives:
   - files:
-      - "../README.md"
-      - "../LICENSE"
+      - ../README.md
+      - ../LICENSE
     name_template: "{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format: tar.gz
     # use zip for windows archives
@@ -48,7 +55,7 @@ archives:
       - goos: windows
         format: zip
 checksum:
-  name_template: "checksums.txt"
+  name_template: checksums.txt
 release:
   prerelease: auto
 changelog:

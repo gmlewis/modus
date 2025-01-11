@@ -1,4 +1,6 @@
-go 1.23.4
+go 1.23.1
+
+toolchain go1.23.4
 
 use (
 	./lib/manifest
@@ -19,6 +21,7 @@ use (
 	./sdk/go/examples/postgresql
 	./sdk/go/examples/simple
 	./sdk/go/examples/textgeneration
+	./sdk/go/examples/time
 	./sdk/go/examples/vectors
 	./sdk/go/templates/default
 	./sdk/moonbit/tools/modus-moonbit-build

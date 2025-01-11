@@ -328,7 +328,7 @@ export default class NewCommand extends BaseCommand {
       // Apply SDK-specific modifications
       const execOpts = { env: process.env, cwd: dir, shell: true };
       switch (sdk) {
-        case SDK.AssemblyScript:
+        case SDK.AssemblyScript: {
           await execFile("npm", ["pkg", "set", `name=${name}`], execOpts);
           await execFile("npm", ["install"], execOpts);
           break;
@@ -337,10 +337,15 @@ export default class NewCommand extends BaseCommand {
           await execFile("moon", ["install"], execOpts);
           await execFile("moon", ["fmt"], execOpts);
           break;
-        case SDK.Go:
+        }
+        case SDK.Go: {
+          const goVersion = await getGoVersion();
+          await execFile("go", ["mod", "edit", "-go", goVersion!], execOpts);
           await execFile("go", ["mod", "edit", "-module", name], execOpts);
           await execFile("go", ["mod", "download"], execOpts);
+          await execFile("go", ["mod", "tidy"], execOpts);
           break;
+        }
       }
 
       if (createGitRepo) {

@@ -11,7 +11,7 @@
         "FORCE_COLOR": "1",
         "MODUS_ENV": "dev",
         "MODUS_DEBUG": "true",
-        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable"
+        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable" // checkov:skip=CKV_SECRET_4
       },
       "args": [
         "--refresh=1s",
@@ -29,7 +29,7 @@
         "FORCE_COLOR": "1",
         "MODUS_ENV": "dev",
         "MODUS_DEBUG": "true",
-        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable"
+        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable" // checkov:skip=CKV_SECRET_4
       },
       "args": ["--refresh=1s", "--appPath", "${input:appPath}"]
     },
@@ -47,7 +47,7 @@
         "AWS_REGION": "${input:awsRegion}",
         "AWS_PROFILE": "${input:awsProfile}",
         "AWS_SDK_LOAD_CONFIG": "true",
-        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable"
+        "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable" // checkov:skip=CKV_SECRET_4
       },
       "args": [
         "--useAwsStorage",
@@ -74,6 +74,29 @@
       "mode": "auto",
       "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
       "args": ["${workspaceFolder}/sdk/go/examples/${input:exampleApp}"],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
+      "name": "Debug Build Runtime AssemblyScript Test App",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm install --prefix ${workspaceFolder}/sdk/assemblyscript/src && npm install && npm run build",
+      "cwd": "${workspaceFolder}/runtime/languages/assemblyscript/testdata",
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
+      "name": "Debug Build Runtime Go Test App",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
+      "args": ["${workspaceFolder}/runtime/languages/golang/testdata"],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -163,6 +186,10 @@
         {
           "label": "Text Generation Model Example",
           "value": "textgeneration"
+        },
+        {
+          "label": "Time Example",
+          "value": "time"
         },
         {
           "label": "Vectors API Example",

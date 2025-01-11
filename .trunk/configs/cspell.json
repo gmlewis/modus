@@ -22,7 +22,9 @@
     "bedrockruntime",
     "binaryen",
     "buger",
+    "buildmode",
     "cconf",
+    "checklinkname",
     "chewxy",
     "classid",
     "codegen",
@@ -96,6 +98,7 @@
     "Lessable",
     "lestrrat",
     "linkname",
+    "localtime",
     "logit",
     "logits",
     "logprob",
@@ -175,6 +178,7 @@
     "tseslint",
     "tsrv",
     "typedarray",
+    "tzif",
     "uids",
     "uncategorized",
     "Unmarshalled",
@@ -208,6 +212,7 @@
     "xsync",
     "xxhash",
     "zenquotes",
-    "zerolog"
+    "zerolog",
+    "zoneinfo"
   ]
 }
