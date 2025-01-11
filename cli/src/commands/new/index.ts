@@ -56,7 +56,7 @@ export default class NewCommand extends BaseCommand {
     sdk: Flags.string({
       char: "s",
       description: "SDK to use",
-      options: ["go", "golang", "mbt", "moonbit", "assemblyscript", "as"],
+      options: ["go", "golang", "mbt", "moonbit", "moon", "assemblyscript", "as"],
     }),
     // template: Flags.string({
     //   char: "t",
@@ -332,7 +332,8 @@ export default class NewCommand extends BaseCommand {
           await execFile("npm", ["pkg", "set", `name=${name}`], execOpts);
           await execFile("npm", ["install"], execOpts);
           break;
-        case SDK.MoonBit:
+        }
+        case SDK.MoonBit: {
           await execFile("moon", ["update"], execOpts);
           await execFile("moon", ["install"], execOpts);
           await execFile("moon", ["fmt"], execOpts);

@@ -146,8 +146,7 @@ async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
   }
   const name = moduleName.split("/").pop();  // Return module name after last '/'.
 
-  const modName = "github.com/hypermodeinc/modus/sdk/moonbit";
-  const versionField = fields.deps?["gmlewis/modus"];
+  const versionField = fields.deps?.["gmlewis/modus"];
   let sdkVersion: string | undefined;
   try {
     if (versionField) {
