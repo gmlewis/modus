@@ -61,8 +61,8 @@ pub(all) struct ClassifierLabel {
 ///| Creates an input object for the classification model.
 ///
 /// The content parameter is a list of one or more text strings to classify.
-pub fn create_input(
-  self : ClassificationModel,
+pub fn ClassificationModel::create_input(
+  _self : ClassificationModel,
   content : Array[String]
 ) -> ClassificationModelInput!Error {
   if content.length() == 0 {

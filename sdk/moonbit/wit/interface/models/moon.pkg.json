@@ -1,1 +1,5 @@
-{ "import": [{ "path" : "gmlewis/modus/wit/ffi", "alias" : "ffi" }] }
+{
+  "import": [
+    "gmlewis/modus/wit/ffi"
+  ]
+}

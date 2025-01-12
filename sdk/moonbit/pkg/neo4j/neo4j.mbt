@@ -196,7 +196,7 @@ pub fn as_map(self : Record) -> Map[String, String] {
 }
 
 ///|
-pub fn get_property(self : Entity, key : String) -> PropertyValue!Error {
+pub fn get_property(self : &Entity, key : String) -> PropertyValue!Error {
   let raw_val = self.get_properties().get(key)
   if raw_val.is_empty() {
     raise Neo4jError("Key not found in node")

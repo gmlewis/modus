@@ -363,7 +363,7 @@ pub let response_format_text : ResponseFormat = {
 ///  - You must also instruct the model to produce JSON yourself via a system or user message.
 ///  - Additionally, if you need an array you must ask for an object that wraps the array,
 ///    because the model will not reliably produce arrays directly (ie., there is no "json_array" option).
-let response_format_json : ResponseFormat = {
+pub let response_format_json : ResponseFormat = {
   type_: "json_object",
   json_schema: None,
 }

@@ -7,7 +7,7 @@ pub(all) struct Headers {
 ///| HTTP Request record
 pub(all) struct Request {
   url : String
-  method : String
+  method_ : String
   headers : Headers?
   body : String // TODO: Bytes
 } derive(Show, Eq, FromJson, ToJson)
@@ -46,8 +46,8 @@ pub fn fetch(request : Request) -> Response? {
   wasmImportFetch(
     @ffi.str2ptr(request.url),
     request.url.iter().count(),
-    @ffi.str2ptr(request.method),
-    request.method.iter().count(),
+    @ffi.str2ptr(request.method_),
+    request.method_.iter().count(),
     lowered,
     lowered5,
     lowered6,
@@ -94,7 +94,7 @@ pub fn fetch(request : Request) -> Response? {
     _ => panic()
   }
   ignore(request.url)
-  ignore(request.method)
+  ignore(request.method_)
   ignore(request.body)
   @ffi.free(return_area)
   cleanupList.each(fn(cleanup) { @ffi.free(cleanup.address) })

@@ -37,8 +37,8 @@ pub(all) struct EmbeddingsModelOutput {
 ///| Creates an input object for the embeddings model.
 ///
 /// The content parameter is a list of one or more text strings to create vector embeddings for.
-pub fn create_input(
-  self : EmbeddingsModel,
+pub fn EmbeddingsModel::create_input(
+  _self : EmbeddingsModel,
   content : Array[String]
 ) -> EmbeddingsModelInput!Error {
   if content.is_empty() {

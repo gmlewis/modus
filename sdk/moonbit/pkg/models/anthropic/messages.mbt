@@ -114,14 +114,6 @@ impl @json.FromJson for ToolChoice with from_json(json, path) {
   match json {
     Object({ "type": String("auto") }) => Auto
     Object({ "type": String("any") }) => Any
-    Object({ "type": String("tool"), "name": String(name) })
-    | Object(
-      {
-        "type": String("tool"),
-        "name": String(name),
-        "disable_parallel_tool_use": False,
-      }
-    ) => Tool(name, false)
     Object(
       {
         "type": String("tool"),
@@ -129,6 +121,8 @@ impl @json.FromJson for ToolChoice with from_json(json, path) {
         "disable_parallel_tool_use": True,
       }
     ) => Tool(name, true)
+    Object({ "type": String("tool"), "name": String(name) }) =>
+      Tool(name, false)
     _ => raise @json.JsonDecodeError((path, "ToolChoice: expected object"))
   }
 }
@@ -138,13 +132,13 @@ impl ToJson for ToolChoice with to_json(self) {
   match self {
     Auto => Object({ "type": "auto" })
     Any => Object({ "type": "any" })
-    Tool(name, false) => Object({ "type": "tool", "name": name.to_json() })
     Tool(name, true) =>
       Object({
         "type": "tool",
         "name": name.to_json(),
         "disable_parallel_tool_use": True,
       })
+    Tool(name, false) => Object({ "type": "tool", "name": name.to_json() })
   }
 }
 

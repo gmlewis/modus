@@ -24,13 +24,13 @@ pub fn Request::new(
   url : String,
   options~ : Array[RequestOptions] = []
 ) -> Request {
-  let req = Request({ url, method: "GET", headers: None, body: "" })
+  let req = Request({ url, method_: "GET", headers: None, body: "" })
   req.clone(options)
 }
 
 ///|
 pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
-  let mut method = self.method
+  let mut method_ = self.method_
   let mut headers = match self.headers {
     Some(value) => Headers::from_tuples(value.data)
     None => Headers::new()
@@ -38,7 +38,7 @@ pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
   let mut body = self.body
   for option in options {
     match option {
-      RequestOptions::Method(value) => method = value
+      RequestOptions::Method(value) => method_ = value
       RequestOptions::HeaderArray(value) => headers = Headers::from_array(value)
       RequestOptions::HeaderMap(value) => headers = Headers::from_map(value)
       RequestOptions::HeaderMapArray(value) =>
@@ -55,7 +55,7 @@ pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
   } else {
     None
   }
-  Request({ url: self.url, method, headers, body })
+  Request({ url: self.url, method_, headers, body })
 }
 
 ///|

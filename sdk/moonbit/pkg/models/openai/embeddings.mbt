@@ -69,13 +69,13 @@ pub(all) struct EmbeddingsModelOutput {
 pub(all) type EncodingFormat String derive(Show, Eq, FromJson, ToJson)
 
 ///| The output embeddings are encoded as an array of floating-point numbers.
-const ENCODING_FORMAT_FLOAT = "float"
+pub const ENCODING_FORMAT_FLOAT = "float"
 
 ///| The output embeddings are encoded as a base64-encoded string,
 /// containing an binary representation of an array of floating-point numbers.
 ///
 /// NOTE: This format is not currently supported.
-const ENCODING_FORMAT_BASE64 = "base64"
+pub const ENCODING_FORMAT_BASE64 = "base64"
 
 ///| The output vector embeddings data.
 pub(all) struct Embedding {

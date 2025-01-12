@@ -16,10 +16,10 @@ pub(open) trait Model {
   invoke(Self, Json) -> Json!Error
 }
 
-///| Provides a generic interface for setting the model information (used internally).
-trait ModelPtr {
-  set_info(Self, ModelInfo) -> Unit
-}
+// ///| Provides a generic interface for setting the model information (used internally).
+// trait ModelPtr {
+//   set_info(Self, ModelInfo) -> Unit
+// }
 
 ///| Provides a base implementation for all models.
 pub(all) struct ModelBase {
@@ -30,8 +30,8 @@ pub(all) struct ModelBase {
 ///|
 pub impl Model for ModelBase with info(self) { self.info.unwrap() }
 
-///|
-impl ModelPtr for ModelBase with set_info(self, info) { self.info = Some(info) }
+// ///|
+// impl ModelPtr for ModelBase with set_info(self, info) { self.info = Some(info) }
 
 ///|
 pub(all) type! ModelError String derive(Show, Eq)

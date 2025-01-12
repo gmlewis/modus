@@ -1,16 +1,7 @@
 {
   "import": [
-    {
-      "path": "gmlewis/modus/wit/ffi",
-      "alias": "ffi"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/sockets/network",
-      "alias": "network"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/sockets/tcp",
-      "alias": "tcp"
-    }
+    "gmlewis/modus/wit/ffi",
+    "gmlewis/modus/wit/interface/imports/wasi/sockets/network",
+    "gmlewis/modus/wit/interface/imports/wasi/sockets/tcp"
   ]
 }

@@ -1,12 +1,6 @@
 {
   "import": [
-    {
-      "path": "gmlewis/modus/wit/ffi",
-      "alias": "ffi"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/filesystem/types",
-      "alias": "types"
-    }
+    "gmlewis/modus/wit/ffi",
+    "gmlewis/modus/wit/interface/imports/wasi/filesystem/types"
   ]
 }

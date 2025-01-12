@@ -1,20 +1,8 @@
 {
   "import": [
-    {
-      "path": "gmlewis/modus/wit/ffi",
-      "alias": "ffi"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/io/error",
-      "alias": "error"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/io/poll",
-      "alias": "poll"
-    },
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/io/streams",
-      "alias": "streams"
-    }
+    "gmlewis/modus/wit/ffi",
+    "gmlewis/modus/wit/interface/imports/wasi/io/error",
+    "gmlewis/modus/wit/interface/imports/wasi/io/poll",
+    "gmlewis/modus/wit/interface/imports/wasi/io/streams"
   ]
 }
