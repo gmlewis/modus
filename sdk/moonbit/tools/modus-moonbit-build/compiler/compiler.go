@@ -22,7 +22,7 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-const minMoonBitVersion = "0.1.20241218"
+const minMoonBitVersion = "0.1.20250108"
 
 func Compile(config *config.Config) error {
 	args := []string{"build"}
@@ -32,7 +32,7 @@ func Compile(config *config.Config) error {
 	args = append(args, config.CompilerOptions...)
 	args = append(args, ".")
 
-	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '")) // TODO(gmlewis): remove
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -74,6 +74,6 @@ func getCompilerVersion(config *config.Config) (*version.Version, error) {
 		return nil, fmt.Errorf("unexpected output from '%s version': %s", compiler, output)
 	}
 
-	log.Printf("GML: parts=%+v", parts)
+	log.Printf("GML: parts=%+v", parts) // TODO(gmlewis): remove
 	return version.NewVersion(parts[1])
 }

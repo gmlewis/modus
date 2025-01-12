@@ -16,6 +16,7 @@ import (
 	"github.com/hypermodeinc/modus/runtime/langsupport"
 	"github.com/hypermodeinc/modus/runtime/languages/assemblyscript"
 	"github.com/hypermodeinc/modus/runtime/languages/golang"
+	"github.com/hypermodeinc/modus/runtime/languages/moonbit"
 )
 
 var lang_AssemblyScript = langsupport.NewLanguage(
@@ -32,12 +33,23 @@ var lang_Go = langsupport.NewLanguage(
 	golang.NewWasmAdapter,
 )
 
+var lang_MoonBit = langsupport.NewLanguage(
+	"MoonBit",
+	moonbit.LanguageTypeInfo(),
+	moonbit.NewPlanner,
+	moonbit.NewWasmAdapter,
+)
+
 func AssemblyScript() langsupport.Language {
 	return lang_AssemblyScript
 }
 
 func GoLang() langsupport.Language {
 	return lang_Go
+}
+
+func MoonBit() langsupport.Language {
+	return lang_MoonBit
 }
 
 func GetLanguageForSDK(sdk string) (langsupport.Language, error) {
@@ -54,6 +66,8 @@ func GetLanguageForSDK(sdk string) (langsupport.Language, error) {
 		return AssemblyScript(), nil
 	case "modus-sdk-go":
 		return GoLang(), nil
+	case "modus-sdk-mbt":
+		return MoonBit(), nil
 	}
 
 	return nil, fmt.Errorf("unsupported SDK: %s", sdk)

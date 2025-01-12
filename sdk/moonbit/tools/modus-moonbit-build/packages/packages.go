@@ -439,7 +439,7 @@ func (p *Package) processSourceFile(filename string, buf []byte, imports []*ast.
 		var paramsList []*ast.Field
 
 		allArgs := strings.TrimSpace(ma[2])
-		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
+		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig) // TODO(gmlewis): remove
 		allArgParts := strings.Split(allArgs, ",")
 		for _, arg := range allArgParts {
 			arg = strings.TrimSpace(arg)

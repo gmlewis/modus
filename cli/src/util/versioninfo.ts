@@ -14,7 +14,9 @@ import * as fs from "./fs.js";
 import * as globals from "../custom/globals.js";
 
 export function getSdkPath(sdk: globals.SDK, version: string): string {
-  return path.join(globals.ModusHomeDir, "sdk", sdk.toLowerCase(), version);
+  const sdkPath = path.join(globals.ModusHomeDir, "sdk", sdk.toLowerCase(), version);
+  console.log(`GML: util/versioninfo.ts: sdkPath=${sdkPath}`); // TODO(gmlewis): remove
+  return sdkPath;
 }
 
 export function getRuntimePath(version: string): string {
@@ -135,6 +137,7 @@ export async function fetchItemVersionsFromModusPreviewAll(item: string): Promis
 
 export async function getLatestSdkVersion(sdk: globals.SDK, includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
+  console.log(`GML: util/versioninfo.ts: getLatestSdkVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
   const version = data["sdk/" + sdk.toLowerCase()];
   return version ? version : undefined;
 }
@@ -152,7 +155,9 @@ export async function getLatestCliVersion(includePrerelease: boolean): Promise<s
 }
 
 export async function getAllSdkVersions(sdk: globals.SDK, includePrerelease: boolean): Promise<string[]> {
-  return await getAllVersions(globals.GetSdkTagPrefix(sdk), includePrerelease);
+  const allVersions = await getAllVersions(globals.GetSdkTagPrefix(sdk), includePrerelease);
+  console.log(`GML: util/versioninfo.ts: getAllSdkVersions: allVersions=${allVersions}`); // TODO(gmlewis): remove
+  return allVersions;
 }
 
 export async function getAllRuntimeVersions(includePrerelease: boolean): Promise<string[]> {
