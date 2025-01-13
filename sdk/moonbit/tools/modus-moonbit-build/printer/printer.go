@@ -13,11 +13,27 @@ package printer
 
 import (
 	"fmt"
+	"go/ast"
 	"go/token"
 	"io"
+	"log"
+	"strings"
 )
 
 // Fprint "pretty-prints" a Go AST node to w as MoonBit source code.
 func Fprint(w io.Writer, fset *token.FileSet, node any) {
-	fmt.Fprintf(w, "printer.Fprint: TODO: %T", node)
+	var params []string
+	resultType := "Unit"
+	switch n := node.(type) {
+	case *ast.FuncType:
+		for _, param := range n.Params.List {
+			params = append(params, fmt.Sprintf("%v : %v", param.Names[0].Name, param.Type))
+		}
+		if n.Results != nil {
+			resultType = n.Results.List[0].Type.(*ast.Ident).Name
+		}
+		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
+	default:
+		log.Printf("WARNING: printer.FPrint: unhandled node type %T\n", node)
+	}
 }

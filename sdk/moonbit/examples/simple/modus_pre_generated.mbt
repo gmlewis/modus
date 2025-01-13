@@ -2,3 +2,71 @@
 
 fn main {}
 
+pub extern "wasm" fn __modus_log_message(message : String) -> Unit =
+  #|;; TODO: log_message(message)
+
+
+pub extern "wasm" fn __modus_add(x : Int, y : Int) -> Int =
+  #|;; TODO: return add(x, y)
+
+
+pub extern "wasm" fn __modus_add3(a : Int, b : Int, c~ : Int = 0) -> Int =
+  #|;; TODO: return add3(a, b, c~)
+
+
+pub extern "wasm" fn __modus_add_n(args : Array[Int]) -> Int =
+  #|;; TODO: return add_n(args)
+
+
+pub extern "wasm" fn __modus_get_current_time(now~ : @wallClock.Datetime = @wallClock.now()) -> @time.PlainDateTime!Error =
+  #|;; TODO: return get_current_time(now~)
+
+
+pub extern "wasm" fn __modus_get_current_time_formatted(now~ : @wallClock.Datetime = @wallClock.now()) -> String!Error =
+  #|;; TODO: return get_current_time_formatted(now~)
+
+
+pub extern "wasm" fn __modus_get_full_name(first_name : String, last_name : String) -> String =
+  #|;; TODO: return get_full_name(first_name, last_name)
+
+
+pub extern "wasm" fn __modus_say_hello(name~ : String? = None) -> String =
+  #|;; TODO: return say_hello(name~)
+
+
+pub extern "wasm" fn __modus_get_person() -> Person =
+  #|;; TODO: return get_person()
+
+
+pub extern "wasm" fn __modus_get_random_person() -> Person =
+  #|;; TODO: return get_random_person()
+
+
+pub extern "wasm" fn __modus_get_people() -> Array[Person] =
+  #|;; TODO: return get_people()
+
+
+pub extern "wasm" fn __modus_get_name_and_age() -> (String, Int) =
+  #|;; TODO: return get_name_and_age()
+
+
+pub extern "wasm" fn __modus_test_normal_error(input : String) -> String!Error =
+  #|;; TODO: return test_normal_error(input)
+
+
+pub extern "wasm" fn __modus_test_alternative_error(input : String) -> String =
+  #|;; TODO: return test_alternative_error(input)
+
+
+pub extern "wasm" fn __modus_test_abort() -> Unit =
+  #|;; TODO: test_abort()
+
+
+pub extern "wasm" fn __modus_test_exit() -> Unit =
+  #|;; TODO: test_exit()
+
+
+pub extern "wasm" fn __modus_test_logging() -> Unit =
+  #|;; TODO: test_logging()
+
+

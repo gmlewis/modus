@@ -230,9 +230,9 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 	// b.WriteString("import (\n")
 	// for pkg, name := range imports {
 	// 	if pkg == name || strings.HasSuffix(pkg, "/"+name) {
-	// 		b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
+	// 		b.WriteString(fmt.Sprintf("  \"%s\"\n", pkg))
 	// 	} else {
-	// 		b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
+	// 		b.WriteString(fmt.Sprintf("  %s \"%s\"\n", name, pkg))
 	// 	}
 	// }
 	// b.WriteString(")\n\n")
@@ -267,22 +267,19 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		// TODO: Write Go AST as MoonBit source code.
-		b.WriteString("//go:export ")
-		b.WriteString(name)
-		b.WriteString("\n")
-		b.WriteString("func __modus_")
+		b.WriteString(`pub extern "wasm" fn __modus_`)
 		b.WriteString(name)
 
 		buf := &bytes.Buffer{}
 		printer.Fprint(buf, pkg.Fset, fn.Type)
-		decl := strings.TrimPrefix(buf.String(), "func")
+		decl := strings.TrimPrefix(buf.String(), "fn")
 		for a, n := range info.aliases {
 			re := regexp.MustCompile(`\b` + a + `\.`)
 			decl = re.ReplaceAllString(decl, n+".")
 		}
 
 		b.WriteString(decl)
-		b.WriteString(" {\n")
+		b.WriteString(" =\n")
 
 		inputParams := &bytes.Buffer{}
 		inputParams.WriteByte('(')
@@ -308,7 +305,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		if hasErrorReturn {
-			b.WriteString("\t")
+			b.WriteString("  #|;; TODO: ")
 			if results != nil {
 				for i, r := range results.List {
 					n := len(r.Names)
@@ -327,12 +324,12 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			b.Write(inputParams.Bytes())
 			b.WriteByte('\n')
 
-			b.WriteString("\tif err != nil {\n")
-			b.WriteString("\t\tconsole.Error(err.Error())\n")
-			b.WriteString("\t}\n")
+			b.WriteString("  if err != nil {\n")
+			b.WriteString("    console.Error(err.Error())\n")
+			b.WriteString("  }\n")
 
 			if numResults > 0 {
-				b.WriteString("\treturn ")
+				b.WriteString("  return ")
 				for i := 0; i < numResults; i++ {
 					if i > 0 {
 						b.WriteString(", ")
@@ -344,7 +341,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			}
 
 		} else {
-			b.WriteString("\t")
+			b.WriteString("  #|;; TODO: ")
 			if results != nil && results.NumFields() > 0 {
 				b.WriteString("return ")
 			}
@@ -352,13 +349,14 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			b.Write(inputParams.Bytes())
 			b.WriteByte('\n')
 		}
-		b.WriteString("}\n\n")
+		b.WriteString("\n\n")
 	}
 
 	return nil
 }
 
 func getExportedFuncName(fn *ast.FuncDecl) string {
+	// TODO
 	if fn.Body != nil && fn.Doc != nil {
 		for _, c := range fn.Doc.List {
 			parts := strings.Split(c.Text, " ")
