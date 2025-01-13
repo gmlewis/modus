@@ -77,12 +77,12 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 	result := &Package{
 		ID:      "moonbit-main", // unused?
 		Name:    "main",
-		PkgPath: cfg.Dir,
+		PkgPath: "@" + filepath.Base(cfg.Dir),
 		TypesInfo: &types.Info{
 			Defs: map[*ast.Ident]types.Object{},
 		},
 	}
-	pkg := types.NewPackage(cfg.Dir, "main")
+	pkg := types.NewPackage(result.PkgPath, "main")
 	for _, sourceFile := range sourceFiles {
 		if strings.HasSuffix(sourceFile, "_test.mbt") { // ignore test files
 			continue

@@ -13,8 +13,8 @@ import (
 	"bytes"
 	"fmt"
 	"go/ast"
-	"go/printer"
 	"go/token"
+	"log"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -22,6 +22,7 @@ import (
 
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
+	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/printer"
 )
 
 func PreProcess(config *config.Config) error {
@@ -115,12 +116,12 @@ func getFunctionsNeedingWrappers(pkg *packages.Package) []*funcInfo {
 			} else {
 				name = pkgPath[strings.LastIndex(pkgPath, "/")+1:]
 			}
-			imports[name] = pkgPath
+			imports["@"+name] = pkgPath
 		}
 
 		for _, d := range f.Decls {
 			if fn, ok := d.(*ast.FuncDecl); ok {
-				if fn.Name.IsExported() && getExportedFuncName(fn) == "" {
+				if getExportedFuncName(fn) == "" {
 
 					var fields []*ast.Field
 					if fn.Type.Params != nil {
@@ -169,6 +170,14 @@ func getImportNames(e ast.Expr) []string {
 		if id, ok := t.X.(*ast.Ident); ok {
 			return []string{id.Name}
 		}
+	case *ast.Ident: // TODO: maybe this is not appropriate but instead should be one of the above.
+		name := t.Name
+		if strings.HasPrefix(name, "@") {
+			parts := strings.Split(name, ".")
+			return []string{parts[0]}
+		}
+	default:
+		log.Printf("WARNING: getImportNames: unhandled type %T", t)
 	}
 	return nil
 }
@@ -183,19 +192,19 @@ func getRequiredImports(fns []*funcInfo) map[string]string {
 			name := pkgPath[strings.LastIndex(pkgPath, "/")+1:]
 
 			// make sure the name is not a reserved word
-			if token.IsKeyword(name) {
+			if token.IsKeyword(name) { // TODO: Use MoonBit reserved words
 				name = fmt.Sprintf("%s_", name)
 			}
 
 			// make sure each package's name is unique
-			n := name
+			n := "@" + name
 			for i := 1; ; i++ {
 				if p, ok := names[n]; !ok {
 					break
 				} else if p == pkgPath {
 					break
 				}
-				n = fmt.Sprintf("%s%d", name, i)
+				n = fmt.Sprintf("@%s%d", name, i)
 			}
 
 			imports[pkgPath] = n
@@ -257,9 +266,9 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			results.List = results.List[:len(results.List)-1]
 		}
 
+		// TODO: Write Go AST as MoonBit source code.
 		b.WriteString("//go:export ")
-		b.WriteString(strings.ToLower(name[:1]))
-		b.WriteString(name[1:])
+		b.WriteString(name)
 		b.WriteString("\n")
 		b.WriteString("func __modus_")
 		b.WriteString(name)

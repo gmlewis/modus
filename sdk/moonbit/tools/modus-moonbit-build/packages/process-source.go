@@ -17,8 +17,8 @@ import (
 )
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
-var commentRE = regexp.MustCompile(`(?m)^\s+//.*$`)
-var pubStructRE = regexp.MustCompile(`(?ms)\npub.*? struct\s+(.*?)\s+{`)
+var commentRE = regexp.MustCompile(`(?m)^\s*//.*$`)
+var pubStructRE = regexp.MustCompile(`\npub\(.*?\) struct\s+(.*?)\s+{`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
 
