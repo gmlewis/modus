@@ -21,7 +21,8 @@ import (
 )
 
 // Fprint "pretty-prints" a Go AST node to w as MoonBit source code.
-func Fprint(w io.Writer, fset *token.FileSet, node any) {
+// It returns true if the function can raise an error.
+func Fprint(w io.Writer, fset *token.FileSet, node any) bool {
 	var params []string
 	resultType := "Unit"
 	switch n := node.(type) {
@@ -33,7 +34,11 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) {
 			resultType = n.Results.List[0].Type.(*ast.Ident).Name
 		}
 		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
+		if strings.Contains(resultType, "!") {
+			return true
+		}
 	default:
 		log.Printf("WARNING: printer.FPrint: unhandled node type %T\n", node)
 	}
+	return false
 }

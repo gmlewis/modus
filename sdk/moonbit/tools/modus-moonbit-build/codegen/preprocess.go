@@ -267,11 +267,11 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		// TODO: Write Go AST as MoonBit source code.
-		b.WriteString(`pub extern "wasm" fn __modus_`)
+		b.WriteString(`pub fn __modus_`)
 		b.WriteString(name)
 
 		buf := &bytes.Buffer{}
-		printer.Fprint(buf, pkg.Fset, fn.Type)
+		returnMayRaiseError := printer.Fprint(buf, pkg.Fset, fn.Type)
 		decl := strings.TrimPrefix(buf.String(), "fn")
 		for a, n := range info.aliases {
 			re := regexp.MustCompile(`\b` + a + `\.`)
@@ -279,7 +279,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		b.WriteString(decl)
-		b.WriteString(" =\n")
+		b.WriteString(" {\n")
 
 		inputParams := &bytes.Buffer{}
 		inputParams.WriteByte('(')
@@ -305,7 +305,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		if hasErrorReturn {
-			b.WriteString("  #|;; TODO: ")
+			b.WriteString("  ")
 			if results != nil {
 				for i, r := range results.List {
 					n := len(r.Names)
@@ -329,7 +329,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			b.WriteString("  }\n")
 
 			if numResults > 0 {
-				b.WriteString("  return ")
+				b.WriteString("  ") // return ")
 				for i := 0; i < numResults; i++ {
 					if i > 0 {
 						b.WriteString(", ")
@@ -341,15 +341,18 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			}
 
 		} else {
-			b.WriteString("  #|;; TODO: ")
-			if results != nil && results.NumFields() > 0 {
-				b.WriteString("return ")
-			}
+			b.WriteString("  ")
+			// if results != nil && results.NumFields() > 0 {
+			// 	b.WriteString("return ")
+			// }
 			b.WriteString(name)
+			if returnMayRaiseError {
+				b.WriteString("!")
+			}
 			b.Write(inputParams.Bytes())
 			b.WriteByte('\n')
 		}
-		b.WriteString("\n\n")
+		b.WriteString("}\n\n")
 	}
 
 	return nil
