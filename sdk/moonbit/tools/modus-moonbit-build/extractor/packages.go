@@ -12,7 +12,7 @@ package extractor
 import (
 	"os"
 
-	"golang.org/x/tools/go/packages"
+	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 )
 
 func loadPackages(dir string) (map[string]*packages.Package, error) {
@@ -26,7 +26,7 @@ func loadPackages(dir string) (map[string]*packages.Package, error) {
 	cfg := &packages.Config{
 		Mode: mode,
 		Dir:  dir,
-		Env:  append(os.Environ(), "GOOS=wasip1", "GOARCH=wasm"),
+		Env:  os.Environ(),
 	}
 
 	pkgs, err := packages.Load(cfg, "./...")

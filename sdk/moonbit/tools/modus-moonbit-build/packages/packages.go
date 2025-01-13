@@ -9,14 +9,9 @@ package packages
 
 import (
 	"encoding/json"
-	"fmt"
 	"go/ast"
 	"go/token"
-	"log"
-	"os"
-	"path/filepath"
-	"regexp"
-	"strings"
+	"go/types"
 	"time"
 )
 
@@ -145,15 +140,15 @@ type Config struct {
 	// If Dir is empty, the tool is run in the current directory.
 	Dir string
 
-	// // Env is the environment to use when invoking the build system's query tool.
-	// // If Env is nil, the current environment is used.
-	// // As in os/exec's Cmd, only the last value in the slice for
-	// // each environment key is used. To specify the setting of only
-	// // a few variables, append to the current environment, as in:
-	// //
-	// //	opt.Env = append(os.Environ(), "GOOS=plan9", "GOARCH=386")
-	// //
-	// Env []string
+	// Env is the environment to use when invoking the build system's query tool.
+	// If Env is nil, the current environment is used.
+	// As in os/exec's Cmd, only the last value in the slice for
+	// each environment key is used. To specify the setting of only
+	// a few variables, append to the current environment, as in:
+	//
+	//	opt.Env = append(os.Environ(), "GOOS=plan9", "GOARCH=386")
+	//
+	Env []string
 
 	// // BuildFlags is a list of command-line flags to be passed through to
 	// // the build system's query tool.
@@ -206,78 +201,6 @@ type Config struct {
 	// Overlay map[string][]byte
 }
 
-// Load loads and returns the MoonBit packages named by the given patterns.
-//
-// The cfg parameter specifies loading options; nil behaves the same as an empty [Config].
-//
-// The [Config.Mode] field is a set of bits that determine what kinds
-// of information should be computed and returned. Modes that require
-// more information tend to be slower. See [LoadMode] for details
-// and important caveats. Its zero value is equivalent to
-// [NeedName] | [NeedFiles] | [NeedCompiledMoonBitFiles].
-//
-// Each call to Load returns a new set of [Package] instances.
-// The Packages and their Imports form a directed acyclic graph.
-//
-// If the [NeedTypes] mode flag was set, each call to Load uses a new
-// [types.Importer], so [types.Object] and [types.Type] values from
-// different calls to Load must not be mixed as they will have
-// inconsistent notions of type identity.
-//
-// If any of the patterns was invalid as defined by the
-// underlying build system, Load returns an error.
-// It may return an empty list of packages without an error,
-// for instance for an empty expansion of a valid wildcard.
-// Errors associated with a particular package are recorded in the
-// corresponding Package's Errors list, and do not cause Load to
-// return an error. Clients may need to handle such errors before
-// proceeding with further analysis. The [PrintErrors] function is
-// provided for convenient display of all errors.
-func Load(cfg *Config, patterns ...string) ([]*Package, error) {
-	// process imports
-	var imports []*ast.ImportSpec
-	buf, err := os.ReadFile(filepath.Join(cfg.Dir, "moon.pkg.json"))
-	if err != nil {
-		return nil, err
-	}
-	var moonPkgJSON MoonPkgJSON
-	if err := json.Unmarshal(buf, &moonPkgJSON); err != nil {
-		return nil, err
-	}
-	for _, imp := range moonPkgJSON.Imports {
-		var jsonMsg any
-		if err := json.Unmarshal(imp, &jsonMsg); err != nil {
-			return nil, err
-		}
-		switch v := jsonMsg.(type) {
-		case string:
-			imports = append(imports, &ast.ImportSpec{Path: &ast.BasicLit{Value: fmt.Sprintf("%q", v)}})
-		default:
-			log.Printf("Warning: unexpected import type: %T; skipping", jsonMsg)
-		}
-	}
-
-	sourceFiles, err := filepath.Glob(filepath.Join(cfg.Dir, "*.mbt"))
-	if err != nil {
-		return nil, err
-	}
-
-	result := &Package{Name: "main"}
-	for _, sourceFile := range sourceFiles {
-		if strings.HasSuffix(sourceFile, "_test.mbt") { // ignore test files
-			continue
-		}
-		result.MoonBitFiles = append(result.MoonBitFiles, sourceFile)
-		buf, err := os.ReadFile(sourceFile)
-		if err != nil {
-			return nil, err
-		}
-		result.processSourceFile(sourceFile, buf, imports)
-	}
-
-	return []*Package{result}, nil
-}
-
 type MoonPkgJSON struct {
 	Imports []json.RawMessage `json:"import"`
 }
@@ -298,8 +221,8 @@ type Package struct {
 	// Name is the package name as it appears in the package source code.
 	Name string
 
-	// // PkgPath is the package path as used by the go/types package.
-	// PkgPath string
+	// PkgPath is the package path as used by the go/types package.
+	PkgPath string
 
 	// // Dir is the directory associated with the package, if it exists.
 	// //
@@ -385,9 +308,9 @@ type Package struct {
 	// removed.  If parsing returned nil, Syntax may be shorter than CompiledMoonBitFiles.
 	Syntax []*ast.File `json:"-"`
 
-	// // TypesInfo provides type information about the package's syntax trees.
-	// // It is set only when Syntax is set.
-	// TypesInfo *types.Info `json:"-"`
+	// TypesInfo provides type information about the package's syntax trees.
+	// It is set only when Syntax is set.
+	TypesInfo *types.Info `json:"-"`
 
 	// // TypesSizes provides the effective size function for types in TypesInfo.
 	// TypesSizes types.Sizes `json:"-"`
@@ -396,87 +319,6 @@ type Package struct {
 
 	// // ForTest is the package under test, if any.
 	// ForTest string
-}
-
-var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
-var commentRE = regexp.MustCompile(`(?m)^\s+//.*$`)
-var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
-var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
-
-func (p *Package) processSourceFile(filename string, buf []byte, imports []*ast.ImportSpec) {
-	src := "\n" + string(buf)
-	src = commentRE.ReplaceAllString(src, "")
-	m := pubFnRE.FindAllStringSubmatch(src, -1)
-
-	var decls []ast.Decl
-	for _, match := range m {
-		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
-		parts := strings.Split(fnSig, " -> ")
-		if len(parts) != 2 {
-			log.Printf("Warning: invalid function signature: '%v'; skipping", fnSig)
-			continue
-		}
-		fnSig = strings.TrimSpace(parts[0])
-		returnSig := strings.TrimSpace(parts[1])
-		ma := argsRE.FindStringSubmatch(fnSig)
-		if len(ma) != 3 {
-			log.Printf("Warning: invalid function signature: '%v'; skipping", fnSig)
-			continue
-		}
-		methodName := strings.TrimSpace(ma[1])
-
-		var resultsList *ast.FieldList
-		if returnSig != "Unit" {
-			resultsList = &ast.FieldList{
-				List: []*ast.Field{
-					{
-						Type: &ast.Ident{Name: returnSig},
-					},
-				},
-			}
-		}
-
-		var paramsList []*ast.Field
-
-		allArgs := strings.TrimSpace(ma[2])
-		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig) // TODO(gmlewis): remove
-		allArgParts := strings.Split(allArgs, ",")
-		for _, arg := range allArgParts {
-			arg = strings.TrimSpace(arg)
-			if arg == "" {
-				continue
-			}
-			argParts := strings.Split(arg, ":")
-			if len(argParts) != 2 {
-				log.Printf("Warning: invalid argument: '%v'; skipping", arg)
-				continue
-			}
-			argName := strings.TrimSpace(argParts[0])
-			argType := strings.TrimSpace(argParts[1])
-			paramsList = append(paramsList, &ast.Field{
-				Names: []*ast.Ident{{Name: argName}},
-				Type:  &ast.Ident{Name: argType},
-			})
-		}
-
-		decl := &ast.FuncDecl{
-			Name: &ast.Ident{Name: methodName},
-			Type: &ast.FuncType{
-				Params: &ast.FieldList{
-					List: paramsList,
-				},
-				Results: resultsList,
-			},
-		}
-
-		decls = append(decls, decl)
-	}
-
-	p.Syntax = append(p.Syntax, &ast.File{
-		Name:    &ast.Ident{Name: filename},
-		Decls:   decls,
-		Imports: imports,
-	})
 }
 
 // Module provides module information for a package.

@@ -16,14 +16,15 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/tools/go/packages"
+	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 )
 
 var wellKnownTypes = map[string]bool{
-	"[]byte":        true,
-	"string":        true,
-	"time.Time":     true,
-	"time.Duration": true,
+	"Bytes":       true,
+	"Array[Byte]": true,
+	"String":      true,
+	// "time.Time":     true,
+	// "time.Duration": true,
 }
 
 func getFuncDeclaration(fn *types.Func, pkgs map[string]*packages.Package) *ast.FuncDecl {
@@ -101,25 +102,11 @@ func getImportedFunctions(pkgs map[string]*packages.Package) map[string]*types.F
 }
 
 func getExportedFuncName(fn *ast.FuncDecl) string {
-	// Exported functions must have a body, and are decorated in one of the following forms:
-	// TODO
-
-	if fn.Body != nil && fn.Doc != nil {
-		for _, c := range fn.Doc.List {
-			parts := strings.Split(c.Text, " ")
-			if len(parts) == 2 {
-				switch parts[0] {
-				// TODO
-				case "//export", "//go:export", "//go:wasmexport":
-					return parts[1]
-				}
-			}
-		}
-	}
-	return ""
+	return fn.Name.Name
 }
 
 func getImportedFuncName(fn *ast.FuncDecl) string {
+	// TODO
 	// Imported functions have no body, and are decorated as follows:
 
 	if fn.Body == nil && fn.Doc != nil {

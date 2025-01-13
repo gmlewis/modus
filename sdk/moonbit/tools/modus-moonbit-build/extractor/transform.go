@@ -16,8 +16,8 @@ import (
 	"strings"
 
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
+	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
-	"golang.org/x/tools/go/packages"
 )
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {
