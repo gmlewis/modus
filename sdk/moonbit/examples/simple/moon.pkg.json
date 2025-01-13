@@ -1,4 +1,5 @@
 {
+  "is-main": true,
   "import": [
     "gmlewis/modus/pkg/console",
     "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",

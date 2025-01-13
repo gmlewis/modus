@@ -22,7 +22,7 @@ import (
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/modinfo"
 )
 
-const sdkName = "modus-sdk-go"
+const sdkName = "modus-sdk-mbt"
 
 func GenerateMetadata(config *config.Config, mod *modinfo.ModuleInfo) (*metadata.Metadata, error) {
 	if _, err := os.Stat(config.SourceDir); err != nil {

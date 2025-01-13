@@ -22,15 +22,15 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-const minMoonBitVersion = "0.1.20250108"
+const (
+	minMoonBitVersion = "0.1.20250107"
+	wasmBuildDir      = "target/wasm/release/build"
+)
 
 func Compile(config *config.Config) error {
 	args := []string{"build"}
 	args = append(args, "--target", "wasm")
-	args = append(args, "-o", filepath.Join(config.OutputDir, config.WasmFileName))
-
 	args = append(args, config.CompilerOptions...)
-	args = append(args, ".")
 
 	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '")) // TODO(gmlewis): remove
 	cmd := exec.Command(config.CompilerPath, args...)
@@ -40,8 +40,18 @@ func Compile(config *config.Config) error {
 	cmd.Stderr = os.Stderr
 
 	cmd.Env = append(os.Environ()) // , "GOOS=wasip1", "GOARCH=wasm")
+	if err := cmd.Run(); err != nil {
+		return err
+	}
 
-	return cmd.Run()
+	// Copy the resulting .wasm file into the build directory
+	wasmInFile := filepath.Join(config.SourceDir, wasmBuildDir, config.WasmFileName)
+	buf, err := os.ReadFile(wasmInFile)
+	if err != nil {
+		return err
+	}
+	wasmOutFile := filepath.Join(config.OutputDir, config.WasmFileName)
+	return os.WriteFile(wasmOutFile, buf, 0644)
 }
 
 func Validate(config *config.Config) error {

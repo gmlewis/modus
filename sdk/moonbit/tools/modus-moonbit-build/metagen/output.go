@@ -33,7 +33,7 @@ func LogToConsole(meta *metadata.Metadata) {
 	writeHeader(w, "Metadata:")
 	writeTable(w, [][]string{
 		{"Plugin Name", meta.Plugin},
-		{"Go Module", meta.Module},
+		{"MoonBit Module", meta.Module},
 		{"Modus SDK", meta.SDK},
 		{"Build ID", meta.BuildId},
 		{"Build Timestamp", meta.BuildTime},
