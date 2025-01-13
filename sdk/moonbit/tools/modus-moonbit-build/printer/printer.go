@@ -33,10 +33,13 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) bool {
 		if n.Results != nil {
 			resultType = n.Results.List[0].Type.(*ast.Ident).Name
 		}
-		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
-		if strings.Contains(resultType, "!") {
-			return true
+		errorIndex := strings.Index(resultType, "!")
+		returnMayRaiseError := errorIndex >= 0
+		if returnMayRaiseError {
+			resultType = resultType[:errorIndex] // strip off error type
 		}
+		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
+		return returnMayRaiseError
 	default:
 		log.Printf("WARNING: printer.FPrint: unhandled node type %T\n", node)
 	}

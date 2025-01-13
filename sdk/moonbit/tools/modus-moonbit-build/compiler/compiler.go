@@ -27,7 +27,30 @@ const (
 	wasmBuildDir      = "target/wasm/release/build"
 )
 
+func format(config *config.Config) error {
+	args := []string{"fmt"}
+	args = append(args, config.CompilerOptions...)
+
+	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	cmd := exec.Command(config.CompilerPath, args...)
+	cmd.Dir = config.SourceDir
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	cmd.Env = append(os.Environ())
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func Compile(config *config.Config) error {
+	if err := format(config); err != nil {
+		return err
+	}
+
 	args := []string{"build"}
 	args = append(args, "--target", "wasm")
 	args = append(args, config.CompilerOptions...)

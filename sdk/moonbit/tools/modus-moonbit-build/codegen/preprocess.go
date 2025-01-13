@@ -17,7 +17,6 @@ import (
 	"log"
 	"path/filepath"
 	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
@@ -243,35 +242,16 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		fn := info.function
 		name := fn.Name.Name
 		params := fn.Type.Params
-		results := fn.Type.Results
 
-		hasErrorReturn := false
-		if results != nil {
-			for i := len(results.List) - 1; i >= 0; i-- {
-				t := results.List[i].Type
-				if ident, ok := t.(*ast.Ident); ok && ident.Name == "error" {
-					if i == len(results.List)-1 && len(results.List[i].Names) <= 1 {
-						hasErrorReturn = true
-					} else {
-						return fmt.Errorf("only one error can be returned, and it must be the last return value, for function %s", name)
-					}
-				}
-			}
-		}
-
-		if hasErrorReturn {
-			imports["gmlewis/modus/pkg/console"] = "console"
-
-			// remove the error return value from the function signature
-			results.List = results.List[:len(results.List)-1]
-		}
-
-		// TODO: Write Go AST as MoonBit source code.
 		b.WriteString(`pub fn __modus_`)
 		b.WriteString(name)
 
 		buf := &bytes.Buffer{}
-		returnMayRaiseError := printer.Fprint(buf, pkg.Fset, fn.Type)
+		hasErrorReturn := printer.Fprint(buf, pkg.Fset, fn.Type)
+		if hasErrorReturn {
+			imports["gmlewis/modus/pkg/console"] = "@console"
+		}
+
 		decl := strings.TrimPrefix(buf.String(), "fn")
 		for a, n := range info.aliases {
 			re := regexp.MustCompile(`\b` + a + `\.`)
@@ -299,56 +279,20 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 		inputParams.WriteByte(')')
 
-		numResults := 0
-		if results != nil {
-			numResults = results.NumFields()
-		}
-
 		if hasErrorReturn {
-			b.WriteString("  ")
-			if results != nil {
-				for i, r := range results.List {
-					n := len(r.Names)
-					if n == 0 {
-						n = 1
-					}
-					for j := 0; j < n; j++ {
-						b.WriteByte('r')
-						b.WriteString(strconv.Itoa(i + j))
-						b.WriteString(", ")
-					}
-				}
-			}
-			b.WriteString("err := ")
+			b.WriteString("  try ")
 			b.WriteString(name)
+			b.WriteByte('!')
 			b.Write(inputParams.Bytes())
-			b.WriteByte('\n')
-
-			b.WriteString("  if err != nil {\n")
-			b.WriteString("    console.Error(err.Error())\n")
+			b.WriteString(" {\n")
+			b.WriteString("    e => {\n")
+			b.WriteString("      @console.error(e.to_string())\n")
+			b.WriteString("      abort(e.to_string())\n")
+			b.WriteString("    }\n")
 			b.WriteString("  }\n")
-
-			if numResults > 0 {
-				b.WriteString("  ") // return ")
-				for i := 0; i < numResults; i++ {
-					if i > 0 {
-						b.WriteString(", ")
-					}
-					b.WriteByte('r')
-					b.WriteString(strconv.Itoa(i))
-				}
-				b.WriteByte('\n')
-			}
-
 		} else {
 			b.WriteString("  ")
-			// if results != nil && results.NumFields() > 0 {
-			// 	b.WriteString("return ")
-			// }
 			b.WriteString(name)
-			if returnMayRaiseError {
-				b.WriteString("!")
-			}
 			b.Write(inputParams.Bytes())
 			b.WriteByte('\n')
 		}
