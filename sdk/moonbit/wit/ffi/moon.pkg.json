@@ -1,1 +1,11 @@
-{}
+{
+  "targets": {
+    "top.mbt": [
+      "not",
+      "js"
+    ],
+    "top_js.mbt": [
+      "js"
+    ]
+  }
+}
