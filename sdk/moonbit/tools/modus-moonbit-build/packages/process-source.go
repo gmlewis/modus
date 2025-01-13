@@ -8,8 +8,8 @@ package packages
 // See doc.go for package documentation and implementation notes.
 
 import (
-	"fmt"
 	"go/ast"
+	"go/token"
 	"go/types"
 	"log"
 	"regexp"
@@ -18,15 +18,51 @@ import (
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
 var commentRE = regexp.MustCompile(`(?m)^\s+//.*$`)
+var pubStructRE = regexp.MustCompile(`(?ms)\npub.*? struct\s+(.*?)\s+{`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
 
 func (p *Package) processSourceFile(typesPkg *types.Package, filename string, buf []byte, imports []*ast.ImportSpec) {
 	src := "\n" + string(buf)
 	src = commentRE.ReplaceAllString(src, "")
-	m := pubFnRE.FindAllStringSubmatch(src, -1)
 
 	var decls []ast.Decl
+
+	m := pubStructRE.FindAllStringSubmatch(src, -1)
+	decls = p.processPubStructs(typesPkg, decls, m)
+
+	m = pubFnRE.FindAllStringSubmatch(src, -1)
+	decls = p.processPubFns(typesPkg, decls, m)
+
+	p.Syntax = append(p.Syntax, &ast.File{
+		Name:    &ast.Ident{Name: filename},
+		Decls:   decls,
+		Imports: imports,
+	})
+}
+
+func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
+	for _, match := range m {
+		name := match[1]
+		typeSpec := &ast.TypeSpec{
+			Name: &ast.Ident{Name: name},
+			Type: &ast.StructType{
+				Fields: &ast.FieldList{}, // TODO
+			},
+		}
+		decl := &ast.GenDecl{
+			Tok:   token.TYPE,
+			Specs: []ast.Spec{typeSpec},
+		}
+
+		decls = append(decls, decl)
+		p.TypesInfo.Defs[typeSpec.Name] = types.NewTypeName(0, typesPkg, name, nil) // TODO
+	}
+
+	return decls
+}
+
+func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
 	var resultsTuple *types.Tuple
 	for _, match := range m {
 		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
@@ -53,7 +89,7 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 					},
 				},
 			}
-			resultType := &moonType{argType: returnSig}
+			resultType := types.NewNamed(types.NewTypeName(0, typesPkg, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
 			resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
 		}
 
@@ -79,7 +115,7 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 				Names: []*ast.Ident{{Name: argName}},
 				Type:  &ast.Ident{Name: argType},
 			})
-			paramsVars = append(paramsVars, types.NewVar(0, nil, argName, &moonType{argName: argName, argType: argType}))
+			paramsVars = append(paramsVars, types.NewVar(0, nil, argName, &moonType{typeName: argType}))
 		}
 
 		decl := &ast.FuncDecl{
@@ -98,16 +134,11 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 			types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false)) // TODO
 	}
 
-	p.Syntax = append(p.Syntax, &ast.File{
-		Name:    &ast.Ident{Name: filename},
-		Decls:   decls,
-		Imports: imports,
-	})
+	return decls
 }
 
 type moonType struct {
-	argName string
-	argType string
+	typeName string
 }
 
 func (t *moonType) Underlying() types.Type {
@@ -115,8 +146,5 @@ func (t *moonType) Underlying() types.Type {
 }
 
 func (t *moonType) String() string {
-	if t.argName == "" {
-		return t.argType
-	}
-	return fmt.Sprintf("%v: %v", t.argName, t.argType)
+	return t.typeName
 }

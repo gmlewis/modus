@@ -10,19 +10,17 @@
 package extractor
 
 import (
-	"fmt"
 	"go/ast"
 	"go/types"
-	"os"
 	"strings"
 
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 )
 
 var wellKnownTypes = map[string]bool{
-	"Bytes":       true,
-	"Array[Byte]": true,
-	"String":      true,
+	"Bytes":       true, // 1
+	"Array[Byte]": true, // 2
+	"String":      true, // 3
 	// "time.Time":     true,
 	// "time.Duration": true,
 }
@@ -167,9 +165,9 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		return true
 	}
 
-	// skip byte[] and string, because they're hardcoded as type id 1 and 2
+	// skip Bytes, Arary[Byte], and String, because they're hardcoded as type id 1, 2, and 3
 	switch name {
-	case "[]byte", "string":
+	case "Bytes", "Array[Byte]", "String":
 		return true
 	}
 
@@ -179,10 +177,10 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		return true
 	case *types.Named:
 		// required types are required to be exported, so that we can use them in generated code
-		if !t.Obj().Exported() {
-			fmt.Fprintf(os.Stderr, "ERROR: Required type %s is not exported. Rename it to start with a capital letter and try again.\n", name)
-			os.Exit(1)
-		}
+		// if !t.Obj().Exported() {
+		// 	fmt.Fprintf(os.Stderr, "ERROR: Required type %s is not exported. Rename it to start with a capital letter and try again.\n", name)
+		// 	os.Exit(1)
+		// }
 
 		u := t.Underlying()
 		m[name] = u

@@ -44,7 +44,7 @@ func CollectProgramInfo(config *config.Config, meta *metadata.Metadata) error {
 		}
 	}
 
-	id := uint32(3) // 1 and 2 are reserved for []byte and string
+	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String
 	keys := utils.MapKeys(requiredTypes)
 	sort.Strings(keys)
 	for _, name := range keys {
