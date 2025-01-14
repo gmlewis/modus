@@ -11,7 +11,7 @@
 // type testModelBase = models.ModelBase[TestModelInput, TestModelOutput]
 
 ///|
-struct TestModel {}
+// struct TestModel {}
 // type TestModel struct {
 // 	testModelBase
 // }

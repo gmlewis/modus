@@ -1,5 +1,18 @@
 {
   "import": [
     "gmlewis/modus/wit/ffi"
-  ]
+  ],
+  "targets": {
+    "ffi.mbt": [
+      "not",
+      "js"
+    ],
+    "top.mbt": [
+      "not",
+      "js"
+    ],
+    "top_js.mbt": [
+      "js"
+    ]
+  }
 }
