@@ -207,7 +207,7 @@ type MoonPkgJSON struct {
 	Imports    []json.RawMessage `json:"import,omitempty"`
 	TestImport []json.RawMessage `json:"test-import,omitempty"`
 	// Targets is a map of filenames followed by its compilation rules.
-	// e.g. "file_notjs": ["not", "js"], "file_js": ["js"], etc.
+	// e.g. "file_notjs.mbt": ["not", "js"], "file_js.mbt": ["js"], etc.
 	Targets map[string][]string `json:"targets,omitempty"`
 	// LinkTargets is a map of link targets (e.g. "wasm", "js", etc.)
 	// followed by its exports.

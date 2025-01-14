@@ -1,1 +1,8 @@
-{}
+{
+  "targets": {
+    "stack.mbt": [
+      "not",
+      "wasm"
+    ]
+  }
+}
