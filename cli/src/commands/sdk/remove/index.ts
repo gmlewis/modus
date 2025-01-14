@@ -178,6 +178,7 @@ export default class SDKRemoveCommand extends BaseCommand {
           this.exit(1);
         } else {
           const sdkText = `Modus ${sdk} SDK ${args.version}`;
+          console.log(`GML: sdk/remove/index.ts: run: args=${JSON.stringify(args)}`); // TODO(gmlewis): remove
           const isInstalled = await vi.sdkVersionIsInstalled(sdk, args.version);
           if (!isInstalled) {
             this.log(chalk.yellow(sdkText + "is not installed."));
@@ -207,6 +208,7 @@ export default class SDKRemoveCommand extends BaseCommand {
   private async removeSDK(sdk: SDK, version: string): Promise<void> {
     const sdkText = `Modus ${sdk} SDK ${version}`;
     await withSpinner(chalk.dim("Removing " + sdkText), async (spinner) => {
+      this.log(`GML2: sdk/remove/index.ts: installSDK: sdk=${sdk}, version=${version}`); // TODO(gmlewis): remove
       const dir = vi.getSdkPath(sdk, version);
       try {
         await fs.rm(dir, { recursive: true, force: true });

@@ -47,6 +47,7 @@ export default class BuildCommand extends BaseCommand {
     }
 
     const app = await getAppInfo(appPath);
+    console.log(`GML: build/index.ts: run: app=${JSON.stringify(app)}`); // TODO(gmlewis): remove
 
     if (!flags["no-logo"]) {
       this.log(getHeader(this.config.version));
@@ -85,6 +86,20 @@ export default class BuildCommand extends BaseCommand {
           if (os.platform() === "win32") buildTool += ".exe";
           if (!(await fs.exists(buildTool))) {
             this.logError("Modus Go Build tool is not installed");
+            return;
+          }
+          return await execFileWithExitCode(buildTool, ["."], execOpts);
+        }
+        case SDK.MoonBit: {
+          const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
+          if (!version) {
+            this.logError("No installed version of the Modus MoonBit SDK");
+            return;
+          }
+          let buildTool = path.join(vi.getSdkPath(app.sdk, version), "modus-moonbit-build");
+          if (os.platform() === "win32") buildTool += ".exe";
+          if (!(await fs.exists(buildTool))) {
+            this.logError("Modus MoonBit Build tool is not installed");
             return;
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
