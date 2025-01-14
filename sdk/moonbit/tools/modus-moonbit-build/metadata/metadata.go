@@ -12,6 +12,7 @@ package metadata
 import (
 	"fmt"
 	"go/token"
+	"log"
 	"sort"
 	"strings"
 
@@ -102,17 +103,20 @@ func (f *Function) String(m *Metadata) string {
 
 	switch len(f.Results) {
 	case 0:
+		b.WriteString(" -> Unit")
 		return b.String()
 	case 1:
 		r := f.Results[0]
 		if r.Name == "" {
-			b.WriteString(" ")
+			b.WriteString(" -> ")
 			b.WriteString(utils.GetNameForType(r.Type, imports))
 			return b.String()
 		}
 	}
 
-	b.WriteString(" (")
+	log.Printf("programming error - this should not happen for MoonBit.")
+
+	b.WriteString(" -> (")
 	for i, r := range f.Results {
 		if i > 0 {
 			b.WriteString(", ")
@@ -145,7 +149,7 @@ func (t *TypeDefinition) String(m *Metadata) string {
 			b.WriteString(", ")
 		}
 		b.WriteString(f.Name)
-		b.WriteString(" ")
+		b.WriteString(" : ")
 		b.WriteString(utils.GetNameForType(f.Type, imports))
 	}
 	b.WriteString(" }")

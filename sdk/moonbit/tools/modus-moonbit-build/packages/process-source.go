@@ -18,7 +18,7 @@ import (
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
 var commentRE = regexp.MustCompile(`(?m)^\s*//.*$`)
-var pubStructRE = regexp.MustCompile(`\npub\(.*?\) struct\s+(.*?)\s+{`)
+var pubStructRE = regexp.MustCompile(`(?ms)\npub\(.*?\) struct\s+(.*?)\s+{(.*?)\n}`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
 
@@ -44,10 +44,34 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
 	for _, match := range m {
 		name := match[1]
+		var fields []*ast.Field
+		var fieldVars []*types.Var
+		allFields := strings.Split(match[2], "\n")
+		for _, field := range allFields {
+			field = strings.TrimSpace(field)
+			if field == "" {
+				continue
+			}
+			fieldParts := strings.Split(field, ":")
+			if len(fieldParts) != 2 {
+				log.Printf("Warning: invalid field: '%v'; skipping", field)
+				continue
+			}
+			fieldName := strings.TrimSpace(fieldParts[0])
+			fieldType := strings.TrimSpace(fieldParts[1])
+			fields = append(fields, &ast.Field{
+				Names: []*ast.Ident{{Name: fieldName}},
+				Type:  &ast.Ident{Name: fieldType},
+			})
+			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, &moonType{typeName: fieldType}))
+		}
+
 		typeSpec := &ast.TypeSpec{
-			Name: &ast.Ident{Name: name},
+			Name: &ast.Ident{Name: typesPkg.Path() + "." + name},
 			Type: &ast.StructType{
-				Fields: &ast.FieldList{}, // TODO
+				Fields: &ast.FieldList{
+					List: fields,
+				},
 			},
 		}
 		decl := &ast.GenDecl{
@@ -56,7 +80,8 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		}
 
 		decls = append(decls, decl)
-		p.TypesInfo.Defs[typeSpec.Name] = types.NewTypeName(0, typesPkg, name, nil) // TODO
+		underlying := types.NewStruct(fieldVars, nil)
+		p.TypesInfo.Defs[typeSpec.Name] = types.NewTypeName(0, typesPkg, name, underlying) // TODO
 	}
 
 	return decls
@@ -89,7 +114,21 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 					},
 				},
 			}
-			resultType := types.NewNamed(types.NewTypeName(0, typesPkg, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
+			var resultType *types.Named
+			customName := typesPkg.Path() + "." + returnSig
+			for ident, customType := range p.TypesInfo.Defs {
+				if ident.Name == customName {
+					if customType, ok := customType.(*types.TypeName); ok {
+						underlying := customType.Type().Underlying()
+						resultType = types.NewNamed(customType, underlying, nil)
+						break
+					}
+				}
+			}
+			if resultType == nil {
+				resultType = types.NewNamed(types.NewTypeName(0, nil, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
+			}
+			// resultType := types.NewNamed(types.NewTypeName(0, typesPkg, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
 			resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
 		}
 
@@ -97,7 +136,7 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		var paramsVars []*types.Var
 
 		allArgs := strings.TrimSpace(ma[2])
-		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig) // TODO(gmlewis): remove
+		// log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
 		allArgParts := strings.Split(allArgs, ",")
 		for _, arg := range allArgParts {
 			arg = strings.TrimSpace(arg)

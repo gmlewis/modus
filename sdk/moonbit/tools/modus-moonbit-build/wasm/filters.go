@@ -11,6 +11,7 @@ package wasm
 
 import (
 	"path/filepath"
+	"strings"
 
 	"github.com/hypermodeinc/modus/lib/wasmextractor"
 	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
@@ -49,7 +50,10 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
-			delete(meta.FnExports, name)
+			//TODO: delete(meta.FnExports, name)
+			if strings.HasPrefix(name, "__modus_") {
+				delete(meta.FnExports, name)
+			}
 		}
 	}
 
@@ -59,13 +63,13 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 		for _, param := range fn.Parameters {
 			if _, ok := meta.Types[param.Type]; ok {
 				keptTypes[param.Type] = meta.Types[param.Type]
-				delete(meta.Types, param.Type)
+				//TODO: delete(meta.Types, param.Type)
 			}
 		}
 		for _, result := range fn.Results {
 			if _, ok := meta.Types[result.Type]; ok {
 				keptTypes[result.Type] = meta.Types[result.Type]
-				delete(meta.Types, result.Type)
+				//TODO: delete(meta.Types, result.Type)
 			}
 		}
 	}
@@ -78,8 +82,8 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 			if _, ok := meta.Types[t]; ok {
 				if _, ok := keptTypes[t]; !ok {
 					keptTypes[t] = meta.Types[t]
-					delete(meta.Types, t)
-					dirty = true
+					//TODO: delete(meta.Types, t)
+					//TODO: dirty = true
 				}
 			}
 		}

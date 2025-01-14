@@ -106,7 +106,7 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 			if genDecl, ok := decl.(*ast.GenDecl); ok && genDecl.Tok == token.TYPE {
 				for _, spec := range genDecl.Specs {
 					if typeSpec, ok := spec.(*ast.TypeSpec); ok {
-						if typeSpec.Name.Name == objName {
+						if typeSpec.Name.Name == name || typeSpec.Name.Name == objName {
 							if structType, ok := typeSpec.Type.(*ast.StructType); ok {
 								return genDecl, structType
 							}

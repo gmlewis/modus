@@ -11,7 +11,6 @@ package compiler
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -31,14 +30,14 @@ func format(config *config.Config) error {
 	args := []string{"fmt"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	// log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	cmd.Env = append(os.Environ())
+	cmd.Env = os.Environ()
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -55,14 +54,14 @@ func Compile(config *config.Config) error {
 	args = append(args, "--target", "wasm")
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '")) // TODO(gmlewis): remove
+	// log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	cmd.Env = append(os.Environ()) // , "GOOS=wasip1", "GOARCH=wasm")
+	cmd.Env = os.Environ()
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -107,6 +106,6 @@ func getCompilerVersion(config *config.Config) (*version.Version, error) {
 		return nil, fmt.Errorf("unexpected output from '%s version': %s", compiler, output)
 	}
 
-	log.Printf("GML: parts=%+v", parts) // TODO(gmlewis): remove
+	// log.Printf("GML: parts=%+v", parts)
 	return version.NewVersion(parts[1])
 }

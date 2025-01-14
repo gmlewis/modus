@@ -12,6 +12,7 @@ package metagen
 import (
 	"fmt"
 	"path"
+	"path/filepath"
 
 	"os"
 
@@ -30,7 +31,8 @@ func GenerateMetadata(config *config.Config, mod *modinfo.ModuleInfo) (*metadata
 	}
 
 	meta := metadata.NewMetadata()
-	meta.Module = mod.ModulePath
+	// meta.Module = mod.ModulePath  // "gmlewis/modus/examples/simple-example"
+	meta.Module = "@" + filepath.Base(config.SourceDir) // "@simple"
 	meta.Plugin = path.Base(mod.ModulePath)
 
 	meta.SDK = sdkName
