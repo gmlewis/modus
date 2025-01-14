@@ -28,11 +28,21 @@ struct TestModelOutput {
 
 test "get_model" {
   let model = get_model!("test")
+  inspect!(
+    model,
+    content=
+      #|{info: Some({name: "test", full_name: "test-mock-model"}), debug: false}
+    ,
+  )
   let info = model.info()
-  assert_eq!(info.name, "test")
-  assert_eq!(info.full_name, "test-mock-model")
-  assert_false!(model.debug)
+  inspect!(
+    info,
+    content=
+      #|{name: "test", full_name: "test-mock-model"}
+    ,
+  )
 }
+
 // func TestGetModel(t *testing.T) {
 // 	modelName := "test"
 // 	model, err := models.GetModel[TestModel](modelName)

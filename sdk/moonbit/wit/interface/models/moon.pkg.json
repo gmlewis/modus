@@ -3,16 +3,15 @@
     "gmlewis/modus/wit/ffi"
   ],
   "targets": {
-    "ffi.mbt": [
-      "not",
-      "js"
+    "ffi_wasm.mbt": [
+      "wasm"
     ],
-    "top.mbt": [
-      "not",
-      "js"
+    "top_wasm.mbt": [
+      "wasm"
     ],
-    "top_js.mbt": [
-      "js"
+    "top_notwasm.mbt": [
+      "not",
+      "wasm"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "targets": {
-    "top.mbt": [
-      "not",
-      "js"
+    "top_wasm.mbt": [
+      "wasm"
     ],
-    "top_js.mbt": [
-      "js"
+    "top_notwasm.mbt": [
+      "not",
+      "wasm"
     ]
   }
 }

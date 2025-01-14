@@ -7,12 +7,12 @@
     }
   ],
   "targets": {
-    "console_js.mbt": [
-      "js"
-    ],
-    "console_nonjs.mbt": [
+    "console_notwasm.mbt": [
       "not",
-      "js"
+      "wasm"
+    ],
+    "console_wasm.mbt": [
+      "wasm"
     ]
   }
 }

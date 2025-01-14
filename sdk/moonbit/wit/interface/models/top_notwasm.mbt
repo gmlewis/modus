@@ -13,5 +13,5 @@ pub fn get_model_info(model_name : String) -> ModelInfo? {
 
 ///| Invoke a model with JSON-serialized input
 pub fn invoke_model(model_name : String, input : String) -> String? {
-  Some(input)
+  Some("\{model_name}-mock-model: \{input}")
 }

@@ -87,10 +87,12 @@ test "get_person" {
 }
 
 test "get_random_person" {
+  // The same seed is always used, so the result is deterministic.
   let result = get_random_person()
-  assert_not_eq!(result.firstName, "")
-  assert_not_eq!(result.lastName, "")
-  assert_not_eq!(result.age, 0)
+  inspect!(
+    result,
+    content="{firstName: \"Charlie\", lastName: \"Brown\", age: 8}",
+  )
 }
 
 test "get_people" {
