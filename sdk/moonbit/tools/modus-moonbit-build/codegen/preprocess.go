@@ -41,7 +41,7 @@ func PreProcess(config *config.Config) error {
 	imports := getRequiredImports(functions)
 
 	body := &bytes.Buffer{}
-	writeMainFunc(body, pkg)
+	// writeMainFunc(body, pkg)
 	if err := writeFuncWrappers(body, pkg, imports, functions); err != nil {
 		return err
 	}
@@ -79,22 +79,22 @@ func getMainPackage(dir string) (*packages.Package, error) {
 	return pkg, nil
 }
 
-func writeMainFunc(b *bytes.Buffer, pkg *packages.Package) {
-	// see if there is a main function
-	for _, f := range pkg.Syntax {
-		for _, d := range f.Decls {
-			if fn, ok := d.(*ast.FuncDecl); ok {
-				if fn.Name.Name == "main" {
-					// found, nothing to do
-					return
-				}
-			}
-		}
-	}
+// func writeMainFunc(b *bytes.Buffer, pkg *packages.Package) {
+// 	// see if there is a main function
+// 	for _, f := range pkg.Syntax {
+// 		for _, d := range f.Decls {
+// 			if fn, ok := d.(*ast.FuncDecl); ok {
+// 				if fn.Name.Name == "main" {
+// 					// found, nothing to do
+// 					return
+// 				}
+// 			}
+// 		}
+// 	}
 
-	// add a main function
-	b.WriteString("fn main {}\n\n")
-}
+// 	// add a main function
+// 	b.WriteString("fn main {}\n\n")
+// }
 
 type funcInfo struct {
 	function *ast.FuncDecl

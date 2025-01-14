@@ -1,5 +1,4 @@
 {
-  "is-main": true,
   "import": [
     "gmlewis/modus/pkg/console",
     "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
@@ -11,12 +10,10 @@
   ],
   "targets": {
     "modus_post_generated.mbt": [
-      "not",
-      "js"
+      "wasm"
     ],
     "modus_pre_generated.mbt": [
-      "not",
-      "js"
+      "wasm"
     ]
   },
   "link": {
