@@ -8,5 +8,29 @@
   ],
   "test-import": [
     "gmlewis/modus/pkg/testutils"
-  ]
+  ],
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_log_message",
+        "__modus_add",
+        "__modus_add3",
+        "__modus_add_n",
+        "__modus_get_current_time",
+        "__modus_get_current_time_formatted",
+        "__modus_get_full_name",
+        "__modus_say_hello",
+        "__modus_get_person",
+        "__modus_get_random_person",
+        "__modus_get_people",
+        "__modus_get_name_and_age",
+        "__modus_test_normal_error",
+        "__modus_test_alternative_error",
+        "__modus_test_abort",
+        "__modus_test_exit",
+        "__modus_test_logging"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }

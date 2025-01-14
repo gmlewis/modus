@@ -39,10 +39,6 @@ type MoonModJSON struct {
 	Description string                     `json:"description"`
 }
 
-type MoonPkgJSON struct {
-	Imports []json.RawMessage `json:"import"`
-}
-
 // CollectModuleInfo collects module information from moon.mod.json.
 func CollectModuleInfo(cfg *config.Config) (*ModuleInfo, error) {
 	moonMod, err := parseMoonModJSON(cfg.SourceDir)

@@ -201,8 +201,23 @@ type Config struct {
 	// Overlay map[string][]byte
 }
 
+// MoonPkgJSON represents the JSON format of the moon.pkg.json file.
 type MoonPkgJSON struct {
-	Imports []json.RawMessage `json:"import"`
+	IsMain     bool              `json:"is-main,omitempty"`
+	Imports    []json.RawMessage `json:"import,omitempty"`
+	TestImport []json.RawMessage `json:"test-import,omitempty"`
+	// Targets is a map of filenames followed by its compilation rules.
+	// e.g. "file_notjs": ["not", "js"], "file_js": ["js"], etc.
+	Targets map[string][]string `json:"targets,omitempty"`
+	// LinkTargets is a map of link targets (e.g. "wasm", "js", etc.)
+	// followed by its exports.
+	LinkTargets map[string]*LinkTarget `json:"link,omitempty"`
+}
+
+// LinkTarget represents the JSON format of a link target in moon.pkg.json.
+type LinkTarget struct {
+	Exports          []string `json:"exports,omitempty"`
+	ExportMemoryName string   `json:"export-memory-name,omitempty"`
 }
 
 // A Package describes a loaded MoonBit package.

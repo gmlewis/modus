@@ -30,6 +30,7 @@ func LogToConsole(meta *metadata.Metadata) {
 	}
 	w := color.Output
 
+	fmt.Fprintln(w)
 	writeHeader(w, "Metadata:")
 	writeTable(w, [][]string{
 		{"Plugin Name", meta.Plugin},
@@ -46,7 +47,11 @@ func LogToConsole(meta *metadata.Metadata) {
 		writeHeader(w, "Functions:")
 		for _, k := range meta.FnExports.SortedKeys() {
 			fn := meta.FnExports[k]
-			writeItem(w, fn.String(meta))
+			name := fn.String(meta)
+			if strings.Contains(name, "__modus_") {
+				continue
+			}
+			writeItem(w, name)
 		}
 		fmt.Fprintln(w)
 	}

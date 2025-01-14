@@ -11,6 +11,7 @@ package compiler
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -30,7 +31,7 @@ func format(config *config.Config) error {
 	args := []string{"fmt"}
 	args = append(args, config.CompilerOptions...)
 
-	// log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	log.Printf("Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -46,6 +47,7 @@ func format(config *config.Config) error {
 }
 
 func Compile(config *config.Config) error {
+	log.SetFlags(0)
 	if err := format(config); err != nil {
 		return err
 	}
@@ -54,7 +56,7 @@ func Compile(config *config.Config) error {
 	args = append(args, "--target", "wasm")
 	args = append(args, config.CompilerOptions...)
 
-	// log.Printf("GML: Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	log.Printf("Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
