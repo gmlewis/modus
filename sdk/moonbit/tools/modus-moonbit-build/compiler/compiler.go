@@ -27,11 +27,30 @@ const (
 	wasmBuildDir      = "target/wasm/release/build"
 )
 
-func format(config *config.Config) error {
+func moonFmt(config *config.Config) error {
 	args := []string{"fmt"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	cmd := exec.Command(config.CompilerPath, args...)
+	cmd.Dir = config.SourceDir
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	cmd.Env = os.Environ()
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func moonTestWasmGC(config *config.Config) error {
+	args := []string{"test", "--target", "wasm-gc"}
+	args = append(args, config.CompilerOptions...)
+
+	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -48,15 +67,19 @@ func format(config *config.Config) error {
 
 func Compile(config *config.Config) error {
 	log.SetFlags(0)
-	if err := format(config); err != nil {
+
+	if err := moonFmt(config); err != nil {
 		return err
 	}
 
-	args := []string{"build"}
-	args = append(args, "--target", "wasm")
+	if err := moonTestWasmGC(config); err != nil {
+		return err
+	}
+
+	args := []string{"build", "--target", "wasm"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("Running: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -108,6 +131,5 @@ func getCompilerVersion(config *config.Config) (*version.Version, error) {
 		return nil, fmt.Errorf("unexpected output from '%s version': %s", compiler, output)
 	}
 
-	// log.Printf("GML: parts=%+v", parts)
 	return version.NewVersion(parts[1])
 }
