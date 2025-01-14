@@ -228,6 +228,9 @@ type LinkTarget struct {
 // It also defines part of the JSON schema of [DriverResponse].
 // See the package documentation for an overview.
 type Package struct {
+	// MoonPkgJSON is the parsed moon.pkg.json file.
+	MoonPkgJSON MoonPkgJSON
+
 	// ID is a unique identifier for a package,
 	// in a syntax provided by the underlying build system.
 	//

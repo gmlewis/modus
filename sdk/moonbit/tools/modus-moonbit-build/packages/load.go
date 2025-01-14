@@ -81,6 +81,7 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		TypesInfo: &types.Info{
 			Defs: map[*ast.Ident]types.Object{},
 		},
+		MoonPkgJSON: moonPkgJSON,
 	}
 	pkg := types.NewPackage(result.PkgPath, "main")
 	for _, sourceFile := range sourceFiles {

@@ -25,7 +25,6 @@ import (
 )
 
 func PreProcess(config *config.Config) error {
-
 	// cleanup from previous runs first
 	err := cleanup(config.SourceDir)
 	if err != nil {
@@ -49,7 +48,14 @@ func PreProcess(config *config.Config) error {
 	header := &bytes.Buffer{}
 	writePreProcessHeader(header, imports)
 
-	return writeBuffersToFile(filepath.Join(config.SourceDir, pre_file), header, body)
+	if err := writeBuffersToFile(filepath.Join(config.SourceDir, pre_file), header, body); err != nil {
+		return err
+	}
+
+	moonPkgJSON := &bytes.Buffer{}
+	updateMoonPkgJSON(moonPkgJSON, pkg, imports, functions)
+
+	return writeBuffersToFile(filepath.Join(config.SourceDir, "moon.pkg.json"), moonPkgJSON)
 }
 
 func getMainPackage(dir string) (*packages.Package, error) {
