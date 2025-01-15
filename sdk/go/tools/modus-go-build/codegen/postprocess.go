@@ -16,9 +16,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/config"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/metadata"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/utils"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/utils"
 )
 
 func PostProcess(config *config.Config, meta *metadata.Metadata) error {
