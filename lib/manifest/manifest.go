@@ -86,7 +86,7 @@ func IsCurrentVersion(version int) bool {
 }
 
 func ValidateManifest(content []byte) error {
-	log.Printf("GML: manifest.go: ValidateManifest")
+	log.Printf("GML: manifest.go: ValidateManifest: content:\n%s", content)
 	r := bytes.NewReader(jsonc.ToJSON(content))
 	doc, err := jsonschema.UnmarshalJSON(r)
 	if err != nil {

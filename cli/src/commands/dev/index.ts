@@ -386,6 +386,11 @@ function getGlobsToWatch(sdk: SDK) {
       excluded.push("**/*_generated.go", "**/*.generated.go", "**/*_test.go");
       break;
 
+    case SDK.MoonBit:
+      included.push("**/*.mbt", "**/moon.mod.json", "**/moon.pkg.json");
+      excluded.push("**/*_generated.mbt", "**/*.generated.mbt", "**/*_test.mbt", "**/*_wbtest.mbt", "**/*_bbtest.mbt");
+      break;
+
     default:
       throw new Error(`Unsupported SDK: ${sdk}`);
   }

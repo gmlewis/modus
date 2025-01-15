@@ -76,6 +76,7 @@ export default class BuildCommand extends BaseCommand {
             }
           }
           return await execFileWithExitCode("npx", ["modus-as-build"], execOpts);
+
         case SDK.Go: {
           const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
           if (!version) {
@@ -90,6 +91,7 @@ export default class BuildCommand extends BaseCommand {
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
         }
+
         case SDK.MoonBit: {
           const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
           if (!version) {
@@ -104,6 +106,7 @@ export default class BuildCommand extends BaseCommand {
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
         }
+
         default:
           this.logError("Unsupported SDK");
           this.exit(1);
