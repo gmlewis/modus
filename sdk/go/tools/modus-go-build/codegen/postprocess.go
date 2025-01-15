@@ -54,8 +54,12 @@ func writePostProcessHeader(b *bytes.Buffer, meta *metadata.Metadata, imports ma
 	for pkg, name := range imports {
 		if pkg != "" && pkg != "unsafe" && pkg != meta.Module {
 			if pkg == name || strings.HasSuffix(pkg, "/"+name) {
+				// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+				pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 				b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
 			} else {
+				// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+				pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 				b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
 			}
 		}
