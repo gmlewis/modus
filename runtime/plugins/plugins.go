@@ -12,6 +12,7 @@ package plugins
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -51,7 +52,11 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 	for fnName, fnMeta := range md.FnExports {
 		fnDef, ok := exports[fnName]
 		if !ok {
-			return nil, fmt.Errorf("no wasm function definition found for %s", fnName)
+			log.Printf("GML: plugins.go: NewPlugin: function %q not found - trying '__modus_%[1]v' instead ...", fnName)
+			fnName = "__modus_" + fnName
+			if fnDef, ok = exports[fnName]; !ok {
+				return nil, fmt.Errorf("no wasm function definition found for %s", fnName)
+			}
 		}
 
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)

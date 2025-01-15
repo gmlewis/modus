@@ -78,7 +78,7 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
-	result := len(typ) > 2 && typ[0] == '[' && typ[1] != ']' // TODO(gmlewis)
+	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
 	log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
 	return result
 }
@@ -174,7 +174,9 @@ func (lti *langTypeInfo) IsStringType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsTimestampType(typ string) bool {
-	result := typ == "time.Time" // TODO(gmlewis)
+	// Special case for MoonBit wasi "timestamp"-like struct.
+	// Could also have an initializer, like: '@wallClock.Datetime = @wallClock.now()'
+	result := strings.HasPrefix(typ, "@wallClock.Datetime")
 	log.Printf("GML: typeinfo.go: IsTimestampType('%v') = %v", typ, result)
 	return result
 }
@@ -205,12 +207,17 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
-		return lti.getReflectedType(typ, customTypes)
+		result, err := lti.getReflectedType(typ, customTypes)
+		log.Printf("GML: typeinfo.go: A: GetReflectedType('%v') = %v", typ, result)
+		return result, err
 	} else {
-		return lti.getReflectedType(typ, nil)
+		result, err := lti.getReflectedType(typ, nil)
+		log.Printf("GML: typeinfo.go: B: GetReflectedType('%v') = %v", typ, result)
+		return result, err
 	}
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
+	log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = ..", typ)
 	return nil, errors.New("langTypeInfo.getReflectedType not implemented yet for MoonBit")
 }

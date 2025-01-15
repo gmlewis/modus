@@ -12,11 +12,21 @@ in each SDK.
 To work on the MoonBit SDK locally, first clone the repo and then run the following commands:
 
 ```bash
+$ REPODIR=$(pwd)
 $ cd cli
 $ ./build.sh
-$ cd ../sdk/moonbit/examples/simple
+$ cd ${REPODIR}/sdk/moonbit/examples/simple
 $ ./update.sh
 $ ./build.sh
-$ ./modus-local.sh install MoonBit
+$ ./modus-local.sh install MoonBit  (currently fails - needs workaround)
+
+# start of workaround...
+$ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
+$ ./install.sh
+$ cd ${REPODIR}/runtime
+$ ./install.sh
+$ cd ${REPODIR}/sdk/moonbit/examples/simple
+# ...end of workaround
+
 $ ./modus-local.sh dev
 ```
