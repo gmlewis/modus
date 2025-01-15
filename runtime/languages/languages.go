@@ -11,6 +11,7 @@ package languages
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -53,13 +54,13 @@ func MoonBit() langsupport.Language {
 }
 
 func GetLanguageForSDK(sdk string) (langsupport.Language, error) {
-
 	// strip version if present
 	sdkName := sdk
 	if i := strings.Index(sdkName, "@"); i != -1 {
 		sdkName = sdkName[:i]
 	}
 
+	log.Printf("GML: languages.go: GetLanguageForSDK(sdk=%q), sdkName=%q", sdk, sdkName)
 	// each SDK has a corresponding language implementation
 	switch sdkName {
 	case "modus-sdk-as":
