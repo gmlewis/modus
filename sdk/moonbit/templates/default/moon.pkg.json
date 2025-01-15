@@ -1,0 +1,26 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/console",
+    "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
+    "moonbitlang/x/sys",
+    "moonbitlang/x/time"
+  ],
+  "test-import": [
+    "gmlewis/modus/pkg/testutils"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}
