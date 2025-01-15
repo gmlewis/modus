@@ -17,8 +17,8 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
 )
 
 func LogToConsole(meta *metadata.Metadata) {

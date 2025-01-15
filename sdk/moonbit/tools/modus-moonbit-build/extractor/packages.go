@@ -12,7 +12,7 @@ package extractor
 import (
 	"os"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 )
 
 func loadPackages(dir string) (map[string]*packages.Package, error) {

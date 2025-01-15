@@ -19,9 +19,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/printer"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/printer"
 )
 
 func PreProcess(config *config.Config) error {

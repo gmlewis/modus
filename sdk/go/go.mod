@@ -1,4 +1,5 @@
-module github.com/hypermodeinc/modus/sdk/go
+module github.com/gmlewis/modus/sdk/go
+// Temporarily changed "hypermodinc" to "gmlewis" for development purposes.
 
 go 1.23.1
 

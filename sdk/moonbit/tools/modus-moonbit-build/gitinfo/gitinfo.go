@@ -13,8 +13,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
 )
 
 func TryCollectGitInfo(config *config.Config, meta *metadata.Metadata) {

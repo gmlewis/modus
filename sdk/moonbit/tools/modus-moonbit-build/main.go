@@ -17,13 +17,13 @@ import (
 	"time"
 
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/codegen"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/compiler"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/config"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/metagen"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/modinfo"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/wasm"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/codegen"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/compiler"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metagen"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/modinfo"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/wasm"
 )
 
 func main() {

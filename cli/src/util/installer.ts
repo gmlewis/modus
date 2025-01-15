@@ -75,6 +75,7 @@ export async function installBuildTools(sdk: SDK, sdkVersion: string) {
 }
 
 async function installGoBuildTools(sdkVersion: string) {
+  console.log(`GML: util/installer.ts: installGoBuildTools: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
   const sdkPath = vi.getSdkPath(SDK.Go, sdkVersion);
 
   const ext = os.platform() === "win32" ? ".exe" : "";
@@ -88,6 +89,7 @@ async function installGoBuildTools(sdkVersion: string) {
   }
 
   const module = `github.com/${GitHubOwner}/${GitHubRepo}/sdk/go/tools/modus-go-build@${sdkVersion}`;
+  console.log(`GML: util/installer.ts: installGoBuildTools: Running: GOBIN=${sdkPath} go install ${module}`); // TODO(gmlewis): remove
   await execFile("go", ["install", module], {
     shell: true,
     env: {
@@ -113,6 +115,7 @@ async function installMoonBitBuildTools(sdkVersion: string) {
   }
 
   const module = `github.com/${GitHubOwner}/${GitHubRepo}/sdk/go/tools/modus-moonbit-build@${sdkVersion}`;
+  console.log(`GML: util/installer.ts: installMoonBitBuildTools: Running: GOBIN=${sdkPath} go install ${module}`); // TODO(gmlewis): remove
   await execFile("go", ["install", module], {
     shell: true,
     env: {

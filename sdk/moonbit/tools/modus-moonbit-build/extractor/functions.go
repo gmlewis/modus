@@ -14,7 +14,7 @@ import (
 	"go/types"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
 )
 
 var wellKnownTypes = map[string]bool{

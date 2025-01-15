@@ -16,7 +16,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
+	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
 	"github.com/rs/xid"
 )
 

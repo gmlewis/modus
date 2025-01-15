@@ -1,4 +1,6 @@
-module github.com/hypermodeinc/modus/sdk/moonbit/tools/modus-moonbit-build
+module github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build
+
+// Temporarily changed "hypermodinc" to "gmlewis" for development purposes.
 
 go 1.23.0
 
