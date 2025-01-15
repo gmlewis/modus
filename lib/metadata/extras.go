@@ -10,7 +10,7 @@
 package metadata
 
 import (
-	"github.com/hypermodeinc/modus/lib/wasmextractor"
+	"github.com/gmlewis/modus/lib/wasmextractor"
 )
 
 func GetMetadataFromWasm(wasm []byte) (*Metadata, error) {

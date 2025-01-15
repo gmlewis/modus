@@ -14,8 +14,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )

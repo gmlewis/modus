@@ -113,7 +113,7 @@ async function getGoAppInfo(appPath: string): Promise<ModusAppInfo> {
   }
   const name = moduleLine.split(" ")[1];
 
-  const modName = "github.com/hypermodeinc/modus/sdk/go";
+  const modName = "github.com/gmlewis/modus/sdk/go";
   const versionLine = lines.find((line) => line.includes(modName))?.trim();
   let sdkVersion: string | undefined;
   try {

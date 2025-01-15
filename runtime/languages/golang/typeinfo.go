@@ -19,9 +19,9 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 var _langTypeInfo = &langTypeInfo{}
@@ -63,7 +63,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 }
 
 func (lti *langTypeInfo) GetNameForType(typ string) string {
-	// "github.com/hypermodeinc/modus/sdk/go/examples/simple.Person" -> "Person"
+	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
 
 	if lti.IsPointerType(typ) {
 		return "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))

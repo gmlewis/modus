@@ -13,10 +13,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/languages/assemblyscript"
-	"github.com/hypermodeinc/modus/runtime/languages/golang"
-	"github.com/hypermodeinc/modus/runtime/languages/moonbit"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/languages/assemblyscript"
+	"github.com/gmlewis/modus/runtime/languages/golang"
+	"github.com/gmlewis/modus/runtime/languages/moonbit"
 )
 
 var lang_AssemblyScript = langsupport.NewLanguage(

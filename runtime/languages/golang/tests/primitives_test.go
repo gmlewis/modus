@@ -13,7 +13,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func TestBoolInput_false(t *testing.T) {

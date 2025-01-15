@@ -10,7 +10,7 @@
 // import (
 // 	"testing"
 //
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/neo4j"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/neo4j"
 // )
 //
 // var (

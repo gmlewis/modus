@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/hypermodeinc/modus/lib/wasmextractor"
+	"github.com/gmlewis/modus/lib/wasmextractor"
 	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"

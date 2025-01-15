@@ -13,7 +13,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )

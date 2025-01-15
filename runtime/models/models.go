@@ -15,12 +15,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/httpclient"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/secrets"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/httpclient"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func GetModel(modelName string) (*manifest.ModelInfo, error) {

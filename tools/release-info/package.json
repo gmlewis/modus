@@ -12,13 +12,13 @@
     "pretty": "prettier --write .",
     "pretty:check": "prettier --check ."
   },
-  "repository": "github:hypermodeinc/modus",
+  "repository": "github:gmlewis/modus",
   "author": "Hypermode Inc.",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/hypermodeinc/modus/issues"
+    "url": "https://github.com/gmlewis/modus/issues"
   },
-  "homepage": "https://github.com/hypermodeinc/modus",
+  "homepage": "https://github.com/gmlewis/modus",
   "dependencies": {
     "semver": "^7.6.3"
   },

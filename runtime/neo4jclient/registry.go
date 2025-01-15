@@ -13,9 +13,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/secrets"
+	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/secrets"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"github.com/puzpuzpuz/xsync/v3"

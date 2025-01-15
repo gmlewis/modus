@@ -5,8 +5,8 @@
 // package main
 // 
 // import (
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models/experimental"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models/experimental"
 // )
 // 
 // func GetEmbeddingsForTextWithMiniLM(text string) ([]float32, error) {

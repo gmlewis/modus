@@ -14,9 +14,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/langsupport/primitives"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/langsupport/primitives"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"golang.org/x/exp/constraints"
 )

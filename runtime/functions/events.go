@@ -13,7 +13,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/app"
 )
 
 type FunctionsLoadedCallback = func(ctx context.Context)

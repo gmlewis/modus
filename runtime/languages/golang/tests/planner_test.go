@@ -15,7 +15,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
 func TestGetHandler_int(t *testing.T) {

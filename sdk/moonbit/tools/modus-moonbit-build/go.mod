@@ -5,8 +5,8 @@ module github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build
 go 1.23.0
 
 require (
-	github.com/hypermodeinc/modus/lib/manifest v0.15.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0
+	github.com/gmlewis/modus/lib/manifest v0.15.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
 )
 
 require (

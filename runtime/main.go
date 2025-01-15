@@ -12,13 +12,13 @@ package main
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/config"
-	"github.com/hypermodeinc/modus/runtime/envfiles"
-	"github.com/hypermodeinc/modus/runtime/httpserver"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/services"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/envfiles"
+	"github.com/gmlewis/modus/runtime/httpserver"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/services"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func main() {

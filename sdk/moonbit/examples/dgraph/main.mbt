@@ -8,7 +8,7 @@
 // 	"encoding/json"
 // 	"fmt"
 // 
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/dgraph"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/dgraph"
 // )
 // 
 // const hostName = "dgraph"

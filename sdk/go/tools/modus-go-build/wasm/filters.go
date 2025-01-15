@@ -12,7 +12,7 @@ package wasm
 import (
 	"path/filepath"
 
-	"github.com/hypermodeinc/modus/lib/wasmextractor"
+	"github.com/gmlewis/modus/lib/wasmextractor"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/utils"

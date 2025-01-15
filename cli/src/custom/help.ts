@@ -152,7 +152,7 @@ export default class CustomHelp extends Help {
 
     const links = [
       { name: "Docs:", url: "https://docs.hypermode.com/modus" },
-      { name: "GitHub:", url: "https://github.com/hypermodeinc/modus" },
+      { name: "GitHub:", url: "https://github.com/gmlewis/modus" },
       { name: "Discord:", url: "https://discord.hypermode.com (#modus)" },
     ];
 

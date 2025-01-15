@@ -16,16 +16,16 @@ import (
 	"slices"
 	"time"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/collections/in_mem"
-	"github.com/hypermodeinc/modus/runtime/collections/in_mem/sequential"
-	"github.com/hypermodeinc/modus/runtime/collections/index"
-	"github.com/hypermodeinc/modus/runtime/collections/index/interfaces"
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/collections/in_mem"
+	"github.com/gmlewis/modus/runtime/collections/in_mem/sequential"
+	"github.com/gmlewis/modus/runtime/collections/index"
+	"github.com/gmlewis/modus/runtime/collections/index/interfaces"
+	"github.com/gmlewis/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 )
 
 const batchSize = 25

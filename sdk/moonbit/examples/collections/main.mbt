@@ -5,9 +5,9 @@
 // package main
 // 
 // import (
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/collections"
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models/experimental"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/collections"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models/experimental"
 // )
 // 
 // const (

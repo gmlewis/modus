@@ -13,8 +13,8 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/utils"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 

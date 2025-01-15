@@ -6,7 +6,7 @@
 // package main
 // 
 // import (
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/neo4j"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/neo4j"
 // )
 // 
 // // The name of the PostgreSQL host, as specified in the modus.json manifest

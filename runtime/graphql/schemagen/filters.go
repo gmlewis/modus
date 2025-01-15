@@ -9,7 +9,7 @@
 
 package schemagen
 
-import "github.com/hypermodeinc/modus/runtime/manifestdata"
+import "github.com/gmlewis/modus/runtime/manifestdata"
 
 func getFieldFilter() func(*FieldDefinition) bool {
 	embedders := getEmbedderFields()

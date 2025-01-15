@@ -5,8 +5,8 @@
 // package main
 // 
 // import (
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-// 	"github.com/hypermodeinc/modus/sdk/go/pkg/models/openai"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models"
+// 	"github.com/gmlewis/modus/sdk/go/pkg/models/openai"
 // )
 // 
 // func GetEmbeddingsForTextWithOpenAI(text string) ([]float32, error) {

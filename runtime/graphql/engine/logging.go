@@ -13,7 +13,7 @@ import (
 	"context"
 	"unsafe"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/logger"
 
 	"github.com/jensneuse/abstractlogger"
 	"github.com/rs/zerolog"

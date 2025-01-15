@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 var testTimeStr = "2024-12-31T23:59:59.999999999Z"

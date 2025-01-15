@@ -15,9 +15,9 @@ import (
 	"io"
 	"path"
 
-	"github.com/hypermodeinc/modus/runtime/aws"
-	"github.com/hypermodeinc/modus/runtime/config"
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/aws"
+	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/logger"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
