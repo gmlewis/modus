@@ -1,2 +1,6 @@
 #!/bin/bash -ex
-../../../../cli/bin/modus.js dev
+
+# If no arguments are provided, set default to "dev"
+args=("${@:-"dev"}")
+
+../../../../cli/bin/modus.js "${args[@]}"
