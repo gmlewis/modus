@@ -51,7 +51,7 @@ export async function fetchModusLatest() {
   }
 
   // TODO(gmlewis): temporary hack to be removed upon official release
-  data["sdk/moonbit"] = "v0.16.0"
+  data["sdk/moonbit"] = "v0.16.2"
 
   versionData.latest = data;
   return data;
@@ -71,7 +71,7 @@ export async function fetchModusPreview() {
   }
 
   // TODO(gmlewis): temporary hack to be removed upon official release
-  data["sdk/moonbit"] = "v0.16.0"
+  data["sdk/moonbit"] = "v0.16.2"
 
   versionData.preview = data;
   return data;
@@ -91,7 +91,7 @@ export async function fetchModusAll() {
   }
 
   // TODO(gmlewis): temporary hack to be removed upon official release
-  data["sdk/moonbit"] = ["v0.16.0"]
+  data["sdk/moonbit"] = ["v0.16.2"]
 
   versionData.all = data;
   return data;
@@ -111,7 +111,7 @@ export async function fetchModusPreviewAll() {
   }
 
   // TODO(gmlewis): temporary hack to be removed upon official release
-  data["sdk/moonbit"] = ["v0.16.0"]
+  data["sdk/moonbit"] = ["v0.16.2"]
 
   versionData.allPreview = data;
   return data;
