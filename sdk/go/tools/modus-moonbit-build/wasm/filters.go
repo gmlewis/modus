@@ -14,9 +14,9 @@ import (
 	"strings"
 
 	"github.com/gmlewis/modus/lib/wasmextractor"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {

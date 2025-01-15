@@ -16,11 +16,11 @@ import (
 
 	"os"
 
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/extractor"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/gitinfo"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/modinfo"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/extractor"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/gitinfo"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 )
 
 const sdkName = "modus-sdk-mbt"

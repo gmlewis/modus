@@ -17,7 +17,7 @@ import (
 	"log"
 	"slices"
 
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 )
 
 // updateMoonPkgJSON updates the moon.pkg.json file with the new imports

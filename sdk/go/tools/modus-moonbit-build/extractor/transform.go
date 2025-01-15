@@ -15,9 +15,9 @@ import (
 	"go/types"
 	"strings"
 
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/packages"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/utils"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {

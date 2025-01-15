@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
-	"github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 )
 
 func TestCollectModuleInfo(t *testing.T) {
