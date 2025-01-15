@@ -45,7 +45,8 @@ async function getInfoFromApp(appPath: string): Promise<ModusAppInfo> {
     return await getGoAppInfo(appPath);
   }
 
-  if (await fs.exists(path.join(appPath, "moon.mod.json"))) {
+  if (await fs.exists(path.join(appPath, "moon.mod.json")) ||
+      await fs.exists(path.join(appPath, "moon.pkg.json"))) {
     return await getMoonBitAppInfo(appPath);
   }
 
@@ -136,9 +137,11 @@ async function getGoAppInfo(appPath: string): Promise<ModusAppInfo> {
 
 async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
   const sdk = SDK.MoonBit;
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: appPath: ${appPath}`);
 
   const data = await fs.readFile(path.join(appPath, "moon.mod.json"), "utf8");
   const fields = JSON.parse(data);
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: fields: ${JSON.stringify(fields)}`);
 
   const moduleName = fields.name;
   if (!moduleName) {
@@ -147,9 +150,17 @@ async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
   const name = moduleName.split("/").pop();  // Return module name after last '/'.
 
   const versionField = fields.deps?.["gmlewis/modus"];
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: versionField: ${JSON.stringify(versionField)}`);
   let sdkVersion: string | undefined;
   try {
-    if (versionField) {
+    if (versionField?.path) {
+      // retrieve the `version` field from the `moon.mod.json` file in the SDK itself:
+      const data = await fs.readFile(path.join(appPath, versionField.path, "moon.mod.json"), "utf8");
+      const fields = JSON.parse(data);
+      if (fields?.version) {
+        sdkVersion = "v"+fields.version;
+      }
+    } else if (versionField && typeof versionField === "string") {
       sdkVersion = "v"+versionField;
     }
   } catch {
@@ -159,5 +170,6 @@ async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
     sdkVersion = "latest";
   }
 
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: returning: ${JSON.stringify({ name, sdk, sdkVersion })}`);
   return { name, sdk, sdkVersion };
 }
