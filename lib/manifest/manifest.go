@@ -14,6 +14,7 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/santhosh-tekuri/jsonschema/v6"
@@ -58,21 +59,26 @@ func (m *Manifest) GetVariables() map[string][]string {
 }
 
 func init() {
+	log.Printf("GML: manifest.go: init A")
 	doc, err := jsonschema.UnmarshalJSON(strings.NewReader(schemaContent))
 	if err != nil {
 		panic(fmt.Errorf("failed to parse manifest schema: %w", err))
 	}
 
+	log.Printf("GML: manifest.go: init B")
 	c := jsonschema.NewCompiler()
 	if err := c.AddResource("modus.json", doc); err != nil {
 		panic(fmt.Errorf("failed to add manifest schema: %w", err))
 	}
 
+	log.Printf("GML: manifest.go: init C")
 	if sch, err := c.Compile("modus.json"); err != nil {
 		panic(fmt.Errorf("failed to compile manifest schema: %w", err))
 	} else {
 		schema = sch
 	}
+
+	log.Printf("GML: manifest.go: init D")
 }
 
 func IsCurrentVersion(version int) bool {
@@ -80,6 +86,7 @@ func IsCurrentVersion(version int) bool {
 }
 
 func ValidateManifest(content []byte) error {
+	log.Printf("GML: manifest.go: ValidateManifest")
 	r := bytes.NewReader(jsonc.ToJSON(content))
 	doc, err := jsonschema.UnmarshalJSON(r)
 	if err != nil {
