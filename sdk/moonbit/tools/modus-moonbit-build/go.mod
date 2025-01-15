@@ -1,11 +1,10 @@
 module github.com/gmlewis/modus/sdk/moonbit/tools/modus-moonbit-build
-
 // Temporarily changed "hypermodinc" to "gmlewis" for development purposes.
 
 go 1.23.0
 
 require (
-	github.com/gmlewis/modus/lib/manifest v0.15.0
+	github.com/gmlewis/modus/lib/manifest v0.16.0
 	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
 )
 

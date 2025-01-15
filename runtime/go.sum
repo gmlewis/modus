@@ -138,12 +138,6 @@ github.com/hashicorp/golang-lru v1.0.2 h1:dV3g9Z/unq5DpblPpw+Oqcv4dU/1omnb4Ok8iP
 github.com/hashicorp/golang-lru v1.0.2/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
 github.com/hashicorp/golang-lru/v2 v2.0.7 h1:a+bsQ5rvGLjzHuww6tVxozPZFVghXaHOwFs4luLUK2k=
 github.com/hashicorp/golang-lru/v2 v2.0.7/go.mod h1:QeFd9opnmA6QUJc5vARoKUSoFhyfM2/ZepoAG6RGpeM=
-github.com/gmlewis/modus/lib/manifest v0.16.0 h1:O40na0MUM7UulFOXcuWw1cOH5C77+xSSUPHW4gHj9k4=
-github.com/gmlewis/modus/lib/manifest v0.16.0/go.mod h1:ymRlTZWerFnIUVpvEonTMTo38EDYzHcGSNYTOv2MITk=
-github.com/gmlewis/modus/lib/metadata v0.15.0 h1:Qu75TZg7l43Fi61EhnjasTHZvztrGA90vzDLnCB6ILI=
-github.com/gmlewis/modus/lib/metadata v0.15.0/go.mod h1:vnIwX2DpQyGk93DawGgIaqC5jEdvMeA9tGtvefbwTJw=
-github.com/gmlewis/modus/lib/wasmextractor v0.13.0 h1:9o8qqAllL9qIPYqc5adF+Aw3XWLmLqPiBPMu0AIyiMI=
-github.com/gmlewis/modus/lib/wasmextractor v0.13.0/go.mod h1:YCesMU95vF5qkscLMKSYr92OloLe1KGwyiqW2i4OmnE=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=
