@@ -14,7 +14,7 @@ package console
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/testutils"
+	"github.com/gmlewis/modus/sdk/go/pkg/testutils"
 )
 
 var LogCallStack = testutils.NewCallStack()

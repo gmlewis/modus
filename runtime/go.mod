@@ -1,4 +1,4 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
 go 1.23.1
 

@@ -13,7 +13,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/postgresql"
+	"github.com/gmlewis/modus/sdk/go/pkg/postgresql"
 )
 
 func TestLocationString(t *testing.T) {

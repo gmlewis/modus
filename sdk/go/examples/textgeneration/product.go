@@ -6,7 +6,7 @@
 
 package main
 
-import "github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+import "github.com/gmlewis/modus/sdk/go/pkg/utils"
 
 // The Product struct and the sample product will be used in the some of the examples.
 

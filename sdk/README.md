@@ -17,5 +17,6 @@ $ ./build.sh
 $ cd ../sdk/moonbit/examples/simple
 $ ./update.sh
 $ ./build.sh
-$ ./run.sh
+$ ./modus-local.sh install MoonBit
+$ ./modus-local.sh dev
 ```

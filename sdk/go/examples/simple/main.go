@@ -13,7 +13,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/console"
+	"github.com/gmlewis/modus/sdk/go/pkg/console"
 )
 
 // Logs a message.

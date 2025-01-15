@@ -7,7 +7,7 @@
 package main
 
 import (
-	"github.com/hypermodeinc/modus/sdk/go/pkg/vectors"
+	"github.com/gmlewis/modus/sdk/go/pkg/vectors"
 )
 
 func Add(a, b []float64) []float64 {

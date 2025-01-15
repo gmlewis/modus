@@ -14,8 +14,8 @@ package db_test
 import (
 	"testing"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/db"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/db"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 var (
