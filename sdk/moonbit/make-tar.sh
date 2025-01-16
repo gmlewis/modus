@@ -23,10 +23,11 @@ esac
 # Remove the unwanted directories before creating tar file
 rm -rf templates/default/.mooncakes templates/default/target
 # Create the tar file
-TARFILE=templates_moonbit_v0.16.2.tar.gz
+MOONBIT_SDK_VERSION=v0.16.3
+TARFILE=templates_moonbit_${MOONBIT_SDK_VERSION}.tar.gz
 tar ${TAR_OPTIONS} -zcvf ${TARFILE} templates
 
 # Copy the files into place
-cp sdk.json ${TARFILE} ${HOME}/.modus/sdk/moonbit/v0.16.2
+cp sdk.json ${TARFILE} ${HOME}/.modus/sdk/moonbit/${MOONBIT_SDK_VERSION}
 # Make them easy to upload to GitHub
 cp sdk.json ${TARFILE} ~/Downloads
