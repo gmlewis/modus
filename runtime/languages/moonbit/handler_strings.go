@@ -204,6 +204,10 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	for i, codeUnit := range codeUnits {
 		binary.LittleEndian.PutUint16(data[8+i*2:], codeUnit)
 	}
+	// write 6 trailing bytes to output
+	binary.LittleEndian.PutUint16(data[size-6:], 0x0100)
+	binary.LittleEndian.PutUint16(data[size-4:], 0)
+	binary.LittleEndian.PutUint16(data[size-2:], 0)
 
 	return data
 }
