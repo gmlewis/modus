@@ -88,7 +88,6 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 }
 
 func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
-	var resultsTuple *types.Tuple
 	for _, match := range m {
 		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
 		parts := strings.Split(fnSig, " -> ")
@@ -106,6 +105,7 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		methodName := strings.TrimSpace(ma[1])
 
 		var resultsList *ast.FieldList
+		var resultsTuple *types.Tuple
 		if returnSig != "Unit" {
 			resultsList = &ast.FieldList{
 				List: []*ast.Field{
@@ -136,7 +136,7 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		var paramsVars []*types.Var
 
 		allArgs := strings.TrimSpace(ma[2])
-		// log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
+		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
 		allArgParts := strings.Split(allArgs, ",")
 		for _, arg := range allArgParts {
 			arg = strings.TrimSpace(arg)
@@ -168,7 +168,10 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		}
 
 		decls = append(decls, decl)
-		paramsTuple := types.NewTuple(paramsVars...)
+		var paramsTuple *types.Tuple
+		if len(paramsVars) > 0 {
+			paramsTuple = types.NewTuple(paramsVars...)
+		}
 		p.TypesInfo.Defs[decl.Name] = types.NewFunc(0, typesPkg, methodName,
 			types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false)) // TODO
 	}

@@ -43,7 +43,7 @@ func TestPackage(t *testing.T) {
 		if diff := cmp.Diff(wantStr, gotStr); diff != "" {
 			t.Logf("gotDef: %#v", gotDef)
 			t.Logf("gotDef.Type(): %#v", gotDef.Type())
-			t.Logf("gotDef.Type().Underlying(): %#v", gotDef.Type().Underlying())
+			// t.Logf("gotDef.Type().Underlying(): %#v", gotDef.Type().Underlying())
 			t.Errorf("Load() mismatch for TypesInfo.Defs[%q] (-want +got):\n%v", k, diff)
 		}
 	}
@@ -348,15 +348,12 @@ var wantPackages = []*Package{
 				{Name: "say_hello"}: types.NewFunc(0, testdataPkg, "say_hello", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "name~", &moonType{typeName: "String? = None"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "test_abort"}: types.NewFunc(0, testdataPkg, "test_abort", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
+				{Name: "test_abort"}: types.NewFunc(0, testdataPkg, "test_abort", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
 				{Name: "test_alternative_error"}: types.NewFunc(0, testdataPkg, "test_alternative_error", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "input", &moonType{typeName: "String"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "test_exit"}: types.NewFunc(0, testdataPkg, "test_exit", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "test_logging"}: types.NewFunc(0, testdataPkg, "test_logging", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
+				{Name: "test_exit"}:    types.NewFunc(0, testdataPkg, "test_exit", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
+				{Name: "test_logging"}: types.NewFunc(0, testdataPkg, "test_logging", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
 				{Name: "test_normal_error"}: types.NewFunc(0, testdataPkg, "test_normal_error", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "input", &moonType{typeName: "String"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
