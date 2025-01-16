@@ -31,5 +31,8 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "trunk.io"
+  },
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
   }
 }

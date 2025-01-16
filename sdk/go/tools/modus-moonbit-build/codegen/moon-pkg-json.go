@@ -49,23 +49,30 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	pkg.MoonPkgJSON.Targets["modus_post_generated.mbt"] = []string{"wasm"}
 	pkg.MoonPkgJSON.Targets["modus_pre_generated.mbt"] = []string{"wasm"}
 
-	currentExports := map[string]bool{}
+	// currentExports := map[string]bool{}  // no need to preserve current exports
 	if pkg.MoonPkgJSON.LinkTargets == nil {
 		pkg.MoonPkgJSON.LinkTargets = map[string]*packages.LinkTarget{
 			"wasm": {ExportMemoryName: "memory"},
 		}
-	} else if wasmLinkTarget, ok := pkg.MoonPkgJSON.LinkTargets["wasm"]; ok {
-		wasmLinkTarget.ExportMemoryName = "memory"
-		for _, export := range wasmLinkTarget.Exports {
-			currentExports[export] = true
-		}
 	}
+	wasmLinkTarget, ok := pkg.MoonPkgJSON.LinkTargets["wasm"]
+	if ok {
+		wasmLinkTarget.ExportMemoryName = "memory"
+	} else {
+		wasmLinkTarget = &packages.LinkTarget{ExportMemoryName: "memory"}
+		pkg.MoonPkgJSON.LinkTargets["wasm"] = wasmLinkTarget
+	}
+	// for _, export := range wasmLinkTarget.Exports {
+	// 	currentExports[export] = true
+	// }
+	wasmLinkTarget.Exports = nil // clear out existing exports
+
 	for _, fn := range functions {
-		modusName := fmt.Sprintf("__modus_%v", fn.function.Name.Name)
-		if _, ok := currentExports[modusName]; !ok {
-			log.Printf("adding link.wasm.export %q to moon.pkg.json", modusName)
-			pkg.MoonPkgJSON.LinkTargets["wasm"].Exports = append(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports, modusName)
-		}
+		modusName := fmt.Sprintf("__modus_%v:%[1]v", fn.function.Name.Name)
+		// if _, ok := currentExports[modusName]; !ok {
+		log.Printf("adding link.wasm.export %q to moon.pkg.json", modusName)
+		pkg.MoonPkgJSON.LinkTargets["wasm"].Exports = append(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports, modusName)
+		// }
 	}
 	slices.Sort(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports)
 
