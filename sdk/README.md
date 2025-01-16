@@ -18,17 +18,6 @@ $ ./build.sh
 $ cd ${REPODIR}/sdk/moonbit/examples/hello-world
 $ ./update.sh
 $ ./build.sh
-$ ./modus-local.sh sdk install MoonBit  (currently fails - needs workaround)
-
-# start of workaround...
-$ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
-$ ./install.sh
-$ cd ${REPODIR}/runtime
-$ ./install.sh
-$ cd ${REPODIR}/sdk/moonbit
-$ ./make-tar.sh
-$ cd examples/hello-world
-# ...end of workaround
-
+$ ./modus-local.sh sdk install moonbit
 $ ./modus-local.sh dev
 ```
