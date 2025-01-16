@@ -136,7 +136,7 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		var paramsVars []*types.Var
 
 		allArgs := strings.TrimSpace(ma[2])
-		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
+		// log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
 		allArgParts := strings.Split(allArgs, ",")
 		for _, arg := range allArgParts {
 			arg = strings.TrimSpace(arg)
