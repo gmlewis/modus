@@ -41,16 +41,21 @@ for platform in "${platforms[@]}"; do
   export GOOS GOARCH
 
   # Build the binary
-  go build
+  go build -ldflags "-checklinkname=0"
 
   # Define the TAR file name
   TARFILE="runtime_${MOONBIT_SDK_VERSION}_${GOOS}_${GOARCH}.tar.gz"
 
+  BINARY_EXTENSION=
+  if [[ "$GOOS" == "windows" ]]; then
+    BINARY_EXTENSION=".exe"
+  fi
+
   # Move the runtime binary
-  mv runtime ../modus_runtime
+  mv runtime${BINARY_EXTENSION} ../modus_runtime${BINARY_EXTENSION}
 
   # Create the tarball and copy it to ${HOME}/Downloads
-  pushd .. > /dev/null && tar ${TAR_OPTIONS} -zcvf "${TARFILE}" LICENSE README.md modus_runtime && cp "${TARFILE}" ${HOME}/Downloads && popd > /dev/null
+  pushd .. > /dev/null && tar ${TAR_OPTIONS} -zcvf "${TARFILE}" LICENSE README.md modus_runtime${BINARY_EXTENSION} && cp "${TARFILE}" ${HOME}/Downloads && popd > /dev/null
 done
 
 mkdir -p ${HOME}/.modus/runtime/${MOONBIT_SDK_VERSION}
