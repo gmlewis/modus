@@ -59,6 +59,7 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			}
 		}
 
+		log.Printf("GML: plugins.go: NewPlugin: FnExports: fnName='%v': calling planner.GetPlan ...", fnName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get execution plan for %s: %w", fnName, err)
@@ -81,6 +82,7 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			continue
 		}
 
+		log.Printf("GML: plugins.go: NewPlugin: FnImports: importName='%v': calling planner.GetPlan ...", importName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get execution plan for %s: %w", importName, err)

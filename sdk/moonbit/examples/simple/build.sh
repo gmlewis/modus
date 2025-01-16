@@ -5,7 +5,7 @@
 # to invoke the modus-moonbit-build tool with the correct path to your project.
 
 PROJECTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-pushd ../../tools/modus-moonbit-build > /dev/null
+pushd ../../../go/tools/modus-moonbit-build > /dev/null
 go run . "$PROJECTDIR"
 exit_code=$?
 popd > /dev/null

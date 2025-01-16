@@ -12,9 +12,12 @@ package moonbit
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"reflect"
 	"strings"
+	"time"
+	"unsafe"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -218,6 +221,115 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
-	log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = ..", typ)
-	return nil, errors.New("langTypeInfo.getReflectedType not implemented yet for MoonBit")
+	// special case - '@wallClock.Datetime' is handled by `time.Time`
+	if strings.HasPrefix(typ, "@wallClock.Datetime") {
+		log.Printf("GML: typeinfo.go: Z: getReflectedType('%v') - translating to 'time.Time'", typ)
+		typ = "time.Time"
+	}
+
+	if customTypes != nil {
+		if rt, ok := customTypes[typ]; ok {
+			log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
+			return rt, nil
+		}
+	}
+
+	if rt, ok := reflectedTypeMap[typ]; ok {
+		log.Printf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
+		return rt, nil
+	}
+
+	if lti.IsPointerType(typ) {
+		tt := lti.GetUnderlyingType(typ)
+		targetType, err := lti.getReflectedType(tt, customTypes)
+		if err != nil {
+			return nil, err
+		}
+		result := reflect.PointerTo(targetType)
+		log.Printf("GML: typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
+		return result, nil
+	}
+
+	if lti.IsSliceType(typ) {
+		et := lti.GetListSubtype(typ)
+		if et == "" {
+			return nil, fmt.Errorf("invalid slice type: %s", typ)
+		}
+
+		elementType, err := lti.getReflectedType(et, customTypes)
+		if err != nil {
+			return nil, err
+		}
+		result := reflect.SliceOf(elementType)
+		log.Printf("GML: typeinfo.go: D: getReflectedType('%v') = %v", typ, result)
+		return result, nil
+	}
+
+	if lti.IsArrayType(typ) {
+		et := lti.GetListSubtype(typ)
+		if et == "" {
+			return nil, fmt.Errorf("invalid array type: %s", typ)
+		}
+
+		size, err := lti.ArrayLength(typ)
+		if err != nil {
+			return nil, err
+		}
+
+		elementType, err := lti.getReflectedType(et, customTypes)
+		if err != nil {
+			return nil, err
+		}
+		result := reflect.ArrayOf(size, elementType)
+		log.Printf("GML: typeinfo.go: E: getReflectedType('%v') = %v", typ, result)
+		return result, nil
+	}
+
+	if lti.IsMapType(typ) {
+		kt, vt := lti.GetMapSubtypes(typ)
+		if kt == "" || vt == "" {
+			return nil, fmt.Errorf("invalid map type: %s", typ)
+		}
+
+		keyType, err := lti.getReflectedType(kt, customTypes)
+		if err != nil {
+			return nil, err
+		}
+		valType, err := lti.getReflectedType(vt, customTypes)
+		if err != nil {
+			return nil, err
+		}
+
+		result := reflect.MapOf(keyType, valType)
+		log.Printf("GML: typeinfo.go: F: getReflectedType('%v') = %v", typ, result)
+		return result, nil
+	}
+
+	// All other types are custom classes, which are represented as a map[string]any
+	log.Printf("GML: typeinfo.go: G: getReflectedType('%v') = %v", typ, rtMapStringAny)
+	return rtMapStringAny, nil
+}
+
+var rtMapStringAny = reflect.TypeFor[map[string]any]()
+var reflectedTypeMap = map[string]reflect.Type{
+	"bool":           reflect.TypeFor[bool](),
+	"byte":           reflect.TypeFor[byte](),
+	"uint":           reflect.TypeFor[uint](),
+	"uint8":          reflect.TypeFor[uint8](),
+	"uint16":         reflect.TypeFor[uint16](),
+	"uint32":         reflect.TypeFor[uint32](),
+	"uint64":         reflect.TypeFor[uint64](),
+	"uintptr":        reflect.TypeFor[uintptr](),
+	"int":            reflect.TypeFor[int](),
+	"int8":           reflect.TypeFor[int8](),
+	"int16":          reflect.TypeFor[int16](),
+	"int32":          reflect.TypeFor[int32](),
+	"int64":          reflect.TypeFor[int64](),
+	"rune":           reflect.TypeFor[rune](),
+	"float32":        reflect.TypeFor[float32](),
+	"float64":        reflect.TypeFor[float64](),
+	"string":         reflect.TypeFor[string](),
+	"time.Time":      reflect.TypeFor[time.Time](),
+	"time.Duration":  reflect.TypeFor[time.Duration](),
+	"unsafe.Pointer": reflect.TypeFor[unsafe.Pointer](),
 }

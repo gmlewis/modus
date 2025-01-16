@@ -144,7 +144,7 @@ pub fn test_exit() -> Unit {
 
   @console.error("This is an error message.")
   @sys.exit(1)
-  @console.log("This line will not be executed.")
+  println("This line will not be executed.")
 }
 
 ///| Tests logging at different levels.
