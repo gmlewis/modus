@@ -52,6 +52,7 @@ export async function fetchModusLatest() {
 
   // TODO(gmlewis): temporary hack to be removed upon official release
   data["sdk/moonbit"] = "v0.16.4"
+  data["runtime"] = "v0.16.4"
 
   versionData.latest = data;
   return data;
@@ -72,6 +73,7 @@ export async function fetchModusPreview() {
 
   // TODO(gmlewis): temporary hack to be removed upon official release
   data["sdk/moonbit"] = "v0.16.4"
+  data["runtime"] = "v0.16.4"
 
   versionData.preview = data;
   return data;
@@ -92,6 +94,7 @@ export async function fetchModusAll() {
 
   // TODO(gmlewis): temporary hack to be removed upon official release
   data["sdk/moonbit"] = ["v0.16.4"]
+  data["runtime"] = ["v0.16.4"]
 
   versionData.all = data;
   return data;
@@ -112,6 +115,7 @@ export async function fetchModusPreviewAll() {
 
   // TODO(gmlewis): temporary hack to be removed upon official release
   data["sdk/moonbit"] = ["v0.16.4"]
+  data["runtime"] = ["v0.16.4"]
 
   versionData.allPreview = data;
   return data;
@@ -158,12 +162,14 @@ export async function getLatestSdkVersion(sdk: globals.SDK, includePrerelease: b
 
 export async function getLatestRuntimeVersion(includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
+  console.log(`GML: util/versioninfo.ts: getLatestRuntimeVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
   const version = data["runtime"];
   return version ? version : undefined;
 }
 
 export async function getLatestCliVersion(includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
+  console.log(`GML: util/versioninfo.ts: getLatestCliVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
   const version = data["cli"];
   return version ? version : undefined;
 }

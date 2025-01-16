@@ -43,7 +43,7 @@ export default class RuntimeInstallCommand extends BaseCommand {
 
   async run(): Promise<void> {
     const { args, flags } = await this.parse(RuntimeInstallCommand);
-    this.log(`GML: runtime/install/index.ts: flags=${flags}`); // TODO(gmlewis): remove
+    this.log(`GML: runtime/install/index.ts: flags=${JSON.stringify(flags)}`); // TODO(gmlewis): remove
 
     if (!flags["no-logo"]) {
       this.log(getHeader(this.config.version));
