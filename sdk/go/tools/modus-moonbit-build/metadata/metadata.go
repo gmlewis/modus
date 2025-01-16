@@ -85,7 +85,6 @@ func NewMetadata() *Metadata {
 }
 
 func (f *Function) String(m *Metadata) string {
-
 	imports := m.GetImports()
 
 	b := strings.Builder{}
@@ -96,8 +95,9 @@ func (f *Function) String(m *Metadata) string {
 			b.WriteString(", ")
 		}
 		b.WriteString(p.Name)
-		b.WriteString(" ")
-		b.WriteString(utils.GetNameForType(p.Type, imports))
+		b.WriteString(" : ")
+		// b.WriteString(utils.GetNameForType(p.Type, imports))
+		b.WriteString(p.Type)
 	}
 	b.WriteString(")")
 
@@ -109,7 +109,8 @@ func (f *Function) String(m *Metadata) string {
 		r := f.Results[0]
 		if r.Name == "" {
 			b.WriteString(" -> ")
-			b.WriteString(utils.GetNameForType(r.Type, imports))
+			// b.WriteString(utils.GetNameForType(r.Type, imports))
+			b.WriteString(r.Type)
 			return b.String()
 		}
 	}

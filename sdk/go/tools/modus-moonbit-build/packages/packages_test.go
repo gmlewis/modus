@@ -214,7 +214,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Person"}},
+									{Type: &ast.Ident{Name: "@testdata.Person"}},
 								},
 							},
 						},
@@ -225,7 +225,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Person"}},
+									{Type: &ast.Ident{Name: "@testdata.Person"}},
 								},
 							},
 						},
@@ -236,7 +236,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Array[Person]"}},
+									{Type: &ast.Ident{Name: "Array[@testdata.Person]"}},
 								},
 							},
 						},
@@ -337,7 +337,7 @@ var wantPackages = []*Package{
 				{Name: "get_name_and_age"}: types.NewFunc(0, testdataPkg, "get_name_and_age", types.NewSignatureType(nil, nil, nil, nil,
 					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "(String, Int)"})), false)),
 				{Name: "get_people"}: types.NewFunc(0, testdataPkg, "get_people", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Array[Person]"})), false)),
+					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Array[@testdata.Person]"})), false)),
 				{Name: "get_person"}: types.NewFunc(0, testdataPkg, "get_person", types.NewSignatureType(nil, nil, nil, nil,
 					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@testdata.Person"})), false)),
 				{Name: "get_random_person"}: types.NewFunc(0, testdataPkg, "get_random_person", types.NewSignatureType(nil, nil, nil, nil,
