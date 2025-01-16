@@ -11,9 +11,11 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"log"
+	"unicode/utf16"
 	"unsafe"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -65,12 +67,28 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 }
 
 func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	if len(vals) != 2 {
-		return nil, errors.New("expected 2 values when decoding a string")
+	if len(vals) != 1 {
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
 	}
 
-	data, size := uint32(vals[0]), uint32(vals[1])
-	return h.doReadString(wa, data, size)
+	offset := uint32(vals[0])
+	size := uint32(8)
+	bytes, ok := wa.Memory().Read(offset, size)
+	if !ok {
+		return "", fmt.Errorf("failed to read string data from WASM memory (offset: %v, size: %v)", offset, size)
+	}
+
+	if bytes[0] != 0xff || bytes[1] != 0xff || bytes[2] != 0xff || bytes[3] != 0xff {
+		log.Printf("WARNING: stringHandler.Decode: expected 'ffffffff' but got '%02x%02x%02x%02x'; continuing",
+			bytes[0], bytes[1], bytes[2], bytes[3])
+	}
+	size = binary.LittleEndian.Uint32(bytes[4:8])
+	bytes, ok = wa.Memory().Read(offset, size)
+	if !ok {
+		return "", fmt.Errorf("failed to read string data from WASM memory (offset: %v, size: %v)", offset, size)
+	}
+
+	return convertMoonBitUTF16ToUTF8(bytes)
 }
 
 func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
@@ -153,4 +171,24 @@ func (h *stringHandler) writeStringHeader(wa langsupport.WasmAdapter, data, size
 	}
 
 	return nil
+}
+
+// convertMoonBitUTF16ToUTF8 converts a MoonBit UTF-16 String to a Go UTF-8 string.
+func convertMoonBitUTF16ToUTF8(data []byte) (string, error) {
+	if len(data) < 8 {
+		return "", fmt.Errorf("data too short to contain metadata")
+	}
+	data = data[8:]
+
+	var codeUnits []uint16
+	for i := 0; i+1 < len(data); i += 2 {
+		codeUnit := binary.LittleEndian.Uint16(data[i:])
+		if codeUnit == 0 || codeUnit == 256 {
+			break
+		}
+		codeUnits = append(codeUnits, codeUnit)
+	}
+
+	runes := utf16.Decode(codeUnits)
+	return string(runes), nil
 }
