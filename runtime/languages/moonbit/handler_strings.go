@@ -53,6 +53,8 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 		return nil, err
 	}
 
+	log.Printf("stringHandler.Write: Calling doWriteString: str='%v'", str)
+
 	ptr, cln, err := h.doWriteString(ctx, wa, str)
 	if err != nil {
 		return cln, err
@@ -97,19 +99,14 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, nil, err
 	}
 
-	// bytes := convertGoUTF8ToUTF16(str)
+	bytes := convertGoUTF8ToUTF16(str)
 
-	ptr, cln, err := h.doWriteString(ctx, wa, str)
+	ptr, cln, err := h.doWriteBytes(ctx, wa, bytes)
 	if err != nil {
 		return nil, cln, err
 	}
 
-	data, size, err := h.readStringHeader(wa, ptr)
-	if err != nil {
-		return nil, cln, err
-	}
-
-	return []uint64{uint64(data), uint64(size)}, cln, nil
+	return []uint64{uint64(ptr)}, cln, nil
 }
 
 func (h *stringHandler) doReadString(wa langsupport.WasmAdapter, offset, size uint32) (string, error) {
@@ -209,4 +206,19 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	}
 
 	return data
+}
+
+func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAdapter, bytes []byte) (uint32, utils.Cleaner, error) {
+	const id = 2 // ID for string is always 2
+	size := uint32(len(bytes))
+	ptr, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
+	if err != nil {
+		return 0, cln, err
+	}
+
+	if ok := wa.Memory().Write(ptr, bytes); !ok {
+		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (size: %d)", size)
+	}
+
+	return ptr, cln, nil
 }

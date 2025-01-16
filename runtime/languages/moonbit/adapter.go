@@ -11,7 +11,7 @@ package moonbit
 
 import (
 	"context"
-	"fmt"
+	"errors"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -50,6 +50,77 @@ func (wa *wasmAdapter) PreInvoke(ctx context.Context, plan langsupport.Execution
 }
 
 func (wa *wasmAdapter) AllocateMemory(ctx context.Context, size uint32) (uint32, utils.Cleaner, error) {
-	// TODO(gmlewis)
-	return 0, nil, fmt.Errorf("wasmAdapter.AllocateMemory not implemented yet for MoonBit")
+	return wa.allocateAndPinMemory(ctx, size, 1)
+}
+
+// Allocate and pin memory within the MoonBit module.
+// The cleaner returned will unpin the memory when invoked.
+func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classId uint32) (uint32, utils.Cleaner, error) {
+	ptr, err := wa.allocateWasmMemory(ctx, size, classId)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	if err := wa.pinWasmMemory(ctx, ptr); err != nil {
+		return 0, nil, err
+	}
+
+	cln := utils.NewCleanerN(1)
+	cln.AddCleanup(func() error {
+		return wa.unpinWasmMemory(ctx, ptr)
+	})
+
+	return ptr, cln, nil
+}
+
+// Allocate memory within the MoonBit module.
+// TODO
+func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classId uint32) (uint32, error) {
+	return 0, errors.New("wasmAdapter.allocateWasmMemory not yet implemented for MoonBit")
+	// res, err := wa.fnNew.Call(ctx, uint64(size), uint64(classId))
+	// if err != nil {
+	// 	return 0, fmt.Errorf("failed to allocate WASM memory (size: %d, id: %d): %w", size, classId, err)
+	// }
+	//
+	// ptr := uint32(res[0])
+	// if ptr == 0 {
+	// 	return 0, errors.New("failed to allocate WASM memory")
+	// }
+	//
+	// return ptr, nil
+}
+
+// Pin a managed object in memory within the MoonBit module.
+// This prevents it from being garbage collected.
+// TODO
+func (wa *wasmAdapter) pinWasmMemory(ctx context.Context, ptr uint32) error {
+	return errors.New("wasmAdapter.pinWasmMemory not yet implemented for MoonBit")
+	// _, err := wa.fnPin.Call(ctx, uint64(ptr))
+	// if err != nil {
+	// 	return fmt.Errorf("failed to pin object in WASM memory: %w", err)
+	// }
+	// return nil
+}
+
+// Unpin a previously-pinned managed object in memory within the MoonBit module.
+// This allows it to be garbage collected.
+// TODO
+func (wa *wasmAdapter) unpinWasmMemory(ctx context.Context, ptr uint32) error {
+	return errors.New("wasmAdapter.unpinWasmMemory not yet implemented for MoonBit")
+	// _, err := wa.fnUnpin.Call(ctx, uint64(ptr))
+	// if err != nil {
+	// 	return fmt.Errorf("failed to unpin object in WASM memory: %w", err)
+	// }
+	// return nil
+}
+
+// Sets that arguments length before calling a function that takes a variable number of arguments.
+// TODO
+func (wa *wasmAdapter) setArgumentsLength(ctx context.Context, length int) error {
+	return errors.New("wasmAdapter.setArgumentsLength not yet implemented for MoonBit")
+	// _, err := wa.fnSetArgumentsLength.Call(ctx, uint64(length))
+	// if err != nil {
+	// 	return fmt.Errorf("failed to set arguments length: %w", err)
+	// }
+	// return nil
 }
