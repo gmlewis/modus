@@ -1,2 +1,4 @@
-github.com/gmlewis/modus/sdk/go v0.16.0 h1:NrXb4GjUerrSvP1/xwi/iz5vBY0YF10T4pevS0wL2Ks=
-github.com/gmlewis/modus/sdk/go v0.16.0/go.mod h1:iOTGA6UQPm8/37Oix5/YD8zWg0c8m/k5d9DVKfM5FCw=
+github.com/gmlewis/modus/sdk/go v0.16.1 h1:TBZlC/wuGQCXlEiDS+QaxAMfCqP9+UKl2mEmk/j5qKo=
+github.com/gmlewis/modus/sdk/go v0.16.1/go.mod h1:iOTGA6UQPm8/37Oix5/YD8zWg0c8m/k5d9DVKfM5FCw=
+github.com/hypermodeinc/modus/sdk/go v0.16.1 h1:r4P9jtDI/4t0Lj/aVAezXSSfMOJ2ksuKk5xWuvQAK7g=
+github.com/hypermodeinc/modus/sdk/go v0.16.1/go.mod h1:T3yLwJbP8Byf/Z6xovxP90hp8ECnpvajGdmbklW4pAk=

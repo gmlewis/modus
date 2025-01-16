@@ -34,5 +34,3 @@ require (
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 )
-
-replace github.com/gmlewis/modus/lib/manifest v0.16.0 => ../../lib/manifest

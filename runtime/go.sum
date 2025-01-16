@@ -91,8 +91,8 @@ github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHk
 github.com/frankban/quicktest v1.14.6/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
 github.com/getsentry/sentry-go v0.31.1 h1:ELVc0h7gwyhnXHDouXkhqTFSO5oslsRDk0++eyE0KJ4=
 github.com/getsentry/sentry-go v0.31.1/go.mod h1:CYNcMMz73YigoHljQRG+qPF+eMq8gG72XcGN/p71BAY=
-github.com/gmlewis/modus/lib/manifest v0.16.0 h1:tjOH2BR9vO6fKDh7WlyU+q15BgzSM14Ghtg7Px5kz0I=
-github.com/gmlewis/modus/lib/manifest v0.16.0/go.mod h1:Dhe3p7z3S6YjYwUqGPSQtF8RUXy/mUzqskxQpEX3UrM=
+github.com/gmlewis/modus/lib/manifest v0.16.1 h1:UnjYA83gxKqPA7xF4uMDizgcS5WqTVifjKhmEeDkAPc=
+github.com/gmlewis/modus/lib/manifest v0.16.1/go.mod h1:XK946veTyWPuKOVK+ykLGzFEhR7p3hghasaX5sWJnQk=
 github.com/gmlewis/modus/lib/metadata v0.15.0 h1:e5kI8JAaRnChSqRiiEOdZ9igRjt7S+3UTjrSFoIQdUU=
 github.com/gmlewis/modus/lib/metadata v0.15.0/go.mod h1:lZ9NIJPkMVXcmvzLWjkvLe8A5hL4xWtQ4EyRAngg72c=
 github.com/gmlewis/modus/lib/wasmextractor v0.13.0 h1:ndDuaeI+zAFgILSzQCJuS6OWUpb4Gz5I1v7a3Z6i5PU=
