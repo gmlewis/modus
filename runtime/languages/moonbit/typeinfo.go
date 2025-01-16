@@ -11,14 +11,16 @@ package moonbit
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
+	"math"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 	"unsafe"
 
+	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
 )
@@ -42,13 +44,57 @@ func (lti *langTypeInfo) GetListSubtype(typ string) string {
 }
 
 func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
-	log.Printf("GML: typeinfo.go: GetMapSubtypes('%v') = '','' - not implemented yet", typ)
-	return "", "" // TODO(gmlewis)
+	const prefix = "Map[" // e.g. Map[String,Int]
+	if !strings.HasPrefix(typ, prefix) {
+		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		return "", ""
+	}
+
+	n := 1
+	for i := len(prefix); i < len(typ); i++ {
+		switch typ[i] {
+		case '[':
+			n++
+		case ']':
+			n--
+		case ',':
+			if n == 1 {
+				r1, r2 := typ[len(prefix):i], typ[i+1:len(typ)-1]
+				log.Printf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				return r1, r2
+			}
+		}
+	}
+
+	log.Printf("GML: typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	return "", ""
 }
 
 func (lti *langTypeInfo) GetNameForType(typ string) string {
-	log.Printf("GML: typeinfo.go: GetNameForType('%v') = '' - not implemented yet", typ)
-	return "" // TODO(gmlewis)
+	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
+
+	if lti.IsPointerType(typ) { // TODO
+		result := "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))
+		log.Printf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
+		return result
+	}
+
+	if lti.IsListType(typ) {
+		result := "[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
+		log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+		return result
+	}
+
+	if lti.IsMapType(typ) {
+		kt, vt := lti.GetMapSubtypes(typ)
+		result := "Map[" + lti.GetNameForType(kt) + "," + lti.GetNameForType(vt) + "]"
+		log.Printf("GML: typeinfo.go: C: GetNameForType('%v') = '%v'", typ, result)
+		return result
+	}
+
+	result := typ[strings.LastIndex(typ, ".")+1:]
+	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
+	return result
 }
 
 func (lti *langTypeInfo) IsObjectType(typ string) bool {
@@ -185,15 +231,144 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 }
 
 func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
-	return 0, errors.New("langTypeInfo.ArrayLength not implemented yet for MoonBit")
+	log.Printf("GML: typeinfo.go: ENTER ArrayLength('%v')", typ)
+	i := strings.Index(typ, "]")
+	if i == -1 {
+		return -1, fmt.Errorf("invalid array type: %s", typ)
+	}
+
+	size := typ[1:i]
+	if size == "" {
+		return -1, fmt.Errorf("invalid array type: %s", typ)
+	}
+
+	parsedSize, err := strconv.Atoi(size)
+	if err != nil {
+		return -1, err
+	}
+	if parsedSize < 0 || parsedSize > math.MaxUint32 {
+		return -1, fmt.Errorf("array size out of bounds: %s", size)
+	}
+
+	log.Printf("GML: typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
+	return parsedSize, nil
+}
+
+func (lti *langTypeInfo) getSizeOfArray(ctx context.Context, typ string) (uint32, error) {
+	// array size is the element size times the number of elements, aligned to the element size
+	arrSize, err := lti.ArrayLength(typ)
+	if err != nil {
+		return 0, err
+	}
+	if arrSize == 0 {
+		return 0, nil
+	}
+
+	t := lti.GetListSubtype(typ)
+	elementAlignment, err := lti.GetAlignmentOfType(ctx, t)
+	if err != nil {
+		return 0, err
+	}
+	elementSize, err := lti.GetSizeOfType(ctx, t)
+	if err != nil {
+		return 0, err
+	}
+
+	size := langsupport.AlignOffset(elementSize, elementAlignment)*uint32(arrSize-1) + elementSize
+	return size, nil
+}
+
+func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint32, error) {
+	def, err := lti.GetTypeDefinition(ctx, typ)
+	if err != nil {
+		return 0, err
+	}
+	if len(def.Fields) == 0 {
+		return 0, nil
+	}
+
+	offset := uint32(0)
+	maxAlign := uint32(1)
+	for _, field := range def.Fields {
+		size, err := lti.GetSizeOfType(ctx, field.Type)
+		if err != nil {
+			return 0, err
+		}
+		alignment, err := lti.GetAlignmentOfType(ctx, field.Type)
+		if err != nil {
+			return 0, err
+		}
+		if alignment > maxAlign {
+			maxAlign = alignment
+		}
+		offset = langsupport.AlignOffset(offset, alignment)
+		offset += size
+	}
+
+	size := langsupport.AlignOffset(offset, maxAlign)
+	return size, nil
 }
 
 func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (uint32, error) {
-	return 0, errors.New("langTypeInfo.GetAlignmentOfType not implemented yet for MoonBit")
+
+	// reference: https://github.com/tinygo-org/tinygo/blob/release/compiler/sizes.go
+
+	// primitives align to their natural size
+	if lti.IsPrimitiveType(typ) {
+		result, err := lti.GetSizeOfType(ctx, typ)
+		log.Printf("GML: typeinfo.go: A: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		return result, err
+	}
+
+	// arrays align to the alignment of their element type
+	if lti.IsArrayType(typ) {
+		t := lti.GetListSubtype(typ)
+		result, err := lti.GetAlignmentOfType(ctx, t)
+		log.Printf("GML: typeinfo.go: B: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		return result, err
+	}
+
+	// reference types align to the pointer size (4 bytes on 32-bit wasm)
+	if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
+		log.Printf("GML: typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
+		return 4, nil
+	}
+
+	// time.Time has 3 fields, the maximum alignment is 8 bytes
+	if lti.IsTimestampType(typ) {
+		log.Printf("GML: typeinfo.go: D: GetAlignmentOfType('%v') = 8", typ)
+		return 8, nil
+	}
+
+	// structs align to the maximum alignment of their fields
+	result, err := lti.getAlignmentOfStruct(ctx, typ)
+	log.Printf("GML: typeinfo.go: E: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+	return result, err
 }
 
 func (lti *langTypeInfo) ObjectsUseMaxFieldAlignment() bool {
 	return true // TODO(gmlewis)
+}
+
+func (lti *langTypeInfo) getAlignmentOfStruct(ctx context.Context, typ string) (uint32, error) {
+	def, err := lti.GetTypeDefinition(ctx, typ)
+	if err != nil {
+		return 0, err
+	}
+
+	max := uint32(1)
+	for _, field := range def.Fields {
+		align, err := lti.GetAlignmentOfType(ctx, field.Type)
+		if err != nil {
+			return 0, err
+		}
+		if align > max {
+			max = align
+		}
+	}
+
+	log.Printf("GML: typeinfo.go: getAlignmentOfStruct('%v') = %v", typ, max)
+	return max, nil
 }
 
 func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uint32, error) {
@@ -201,11 +376,130 @@ func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uin
 }
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
-	return 0, errors.New("langTypeInfo.GetEncodingLengthOfType not implemented yet for MoonBit")
+	if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
+		log.Printf("GML: typeinfo.go: A: GetEncodingLengthOfType('%v') = 1", typ)
+		return 1, nil
+	} else if lti.IsStringType(typ) {
+		log.Printf("GML: typeinfo.go: B: GetEncodingLengthOfType('%v') = 2", typ)
+		return 2, nil
+	} else if lti.IsSliceType(typ) || lti.IsTimestampType(typ) {
+		log.Printf("GML: typeinfo.go: C: GetEncodingLengthOfType('%v') = 3", typ)
+		return 3, nil
+	} else if lti.IsArrayType(typ) {
+		result, err := lti.getEncodingLengthOfArray(ctx, typ)
+		log.Printf("GML: typeinfo.go: D: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
+		return result, err
+	} else if lti.IsObjectType(typ) {
+		result, err := lti.getEncodingLengthOfStruct(ctx, typ)
+		log.Printf("GML: typeinfo.go: E: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
+		return result, err
+	}
+
+	return 0, fmt.Errorf("unable to determine encoding length for type: %s", typ)
+}
+
+func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ string) (uint32, error) {
+	arrSize, err := lti.ArrayLength(typ)
+	if err != nil {
+		return 0, err
+	}
+	if arrSize == 0 {
+		log.Printf("GML: typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
+		return 0, nil
+	}
+
+	t := lti.GetListSubtype(typ)
+	elementLen, err := lti.GetEncodingLengthOfType(ctx, t)
+	if err != nil {
+		return 0, err
+	}
+
+	result := uint32(arrSize) * elementLen
+	log.Printf("GML: typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
+	return result, nil
+}
+
+func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ string) (uint32, error) {
+	def, err := lti.GetTypeDefinition(ctx, typ)
+	if err != nil {
+		return 0, err
+	}
+
+	total := uint32(0)
+	for _, field := range def.Fields {
+		len, err := lti.GetEncodingLengthOfType(ctx, field.Type)
+		if err != nil {
+			return 0, err
+		}
+		total += len
+	}
+
+	log.Printf("GML: typeinfo.go: getEncodingLengthOfStruct('%v') = %v", typ, total)
+	return total, nil
 }
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
-	return 0, errors.New("langTypeInfo.GetSizeOfType not implemented yet for MoonBit")
+	switch typ {
+	case "int8", "uint8", "bool", "byte":
+		log.Printf("GML: typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
+		return 1, nil
+	case "int16", "uint16":
+		log.Printf("GML: typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
+		return 2, nil
+	case "int32", "uint32", "float32", "rune",
+		"int", "uint", "uintptr", "unsafe.Pointer": // we only support 32-bit wasm
+		log.Printf("GML: typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
+		return 4, nil
+	case "int64", "uint64", "float64", "time.Duration":
+		log.Printf("GML: typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
+		return 8, nil
+	}
+
+	if lti.IsStringType(typ) {
+		// string header is a 4 byte pointer and 4 byte length
+		log.Printf("GML: typeinfo.go: E: GetSizeOfType('%v') = 8", typ)
+		return 8, nil
+	}
+
+	if lti.IsPointerType(typ) {
+		log.Printf("GML: typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
+		return 4, nil
+	}
+
+	if lti.IsMapType(typ) {
+		// maps are passed by reference using a 4 byte pointer
+		log.Printf("GML: typeinfo.go: G: GetSizeOfType('%v') = 4", typ)
+		return 4, nil
+	}
+
+	if lti.IsSliceType(typ) {
+		// slice header is a 4 byte pointer, 4 byte length, 4 byte capacity
+		log.Printf("GML: typeinfo.go: H: GetSizeOfType('%v') = 12", typ)
+		return 12, nil
+	}
+
+	if lti.IsTimestampType(typ) {
+		// time.Time has 3 fields: 8 byte uint64, 8 byte int64, 4 byte pointer
+		log.Printf("GML: typeinfo.go: I: GetSizeOfType('%v') = 20", typ)
+		return 20, nil
+	}
+
+	if lti.IsArrayType(typ) {
+		result, err := lti.getSizeOfArray(ctx, typ)
+		log.Printf("GML: typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
+		return result, err
+	}
+
+	result, err := lti.getSizeOfStruct(ctx, typ)
+	log.Printf("GML: typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)
+	return result, err
+}
+
+func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
+	md := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
+	result, err := md.GetTypeDefinition(typ)
+	log.Printf("GML: typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)
+	return result, err
 }
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
