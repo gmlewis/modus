@@ -97,6 +97,8 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, nil, err
 	}
 
+	// bytes := convertGoUTF8ToUTF16(str)
+
 	ptr, cln, err := h.doWriteString(ctx, wa, str)
 	if err != nil {
 		return nil, cln, err
@@ -173,7 +175,7 @@ func (h *stringHandler) writeStringHeader(wa langsupport.WasmAdapter, data, size
 	return nil
 }
 
-// convertMoonBitUTF16ToUTF8 converts a MoonBit UTF-16 String to a Go UTF-8 string.
+// convertMoonBitUTF16ToUTF8 converts a wasm-encoded MoonBit UTF-16 String to a Go UTF-8 string.
 func convertMoonBitUTF16ToUTF8(data []byte) (string, error) {
 	if len(data) < 8 {
 		return "", fmt.Errorf("data too short to contain metadata")
@@ -191,4 +193,20 @@ func convertMoonBitUTF16ToUTF8(data []byte) (string, error) {
 
 	runes := utf16.Decode(codeUnits)
 	return string(runes), nil
+}
+
+// convertGoUTF8ToUTF16 converts a Go UTF-8 string to a wasm-encoded MoonBit UTF-16 String.
+func convertGoUTF8ToUTF16(str string) []byte {
+	runes := []rune(str)
+	codeUnits := utf16.Encode(runes)
+
+	size := 8 + len(codeUnits)*2 + 6
+	data := make([]byte, size)
+	binary.LittleEndian.PutUint32(data[0:], 0xffffffff)
+	binary.LittleEndian.PutUint32(data[4:], uint32(size)) // TODO: Is this the correct length to report?
+	for i, codeUnit := range codeUnits {
+		binary.LittleEndian.PutUint16(data[8+i*2:], codeUnit)
+	}
+
+	return data
 }

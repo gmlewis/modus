@@ -44,3 +44,43 @@ func TestConvertMoonBitUTF16ToUTF8(t *testing.T) {
 		})
 	}
 }
+
+func TestConvertGoUTF8ToUTF16(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name  string
+		input string
+	}{
+		{
+			name:  "Simple ASCII",
+			input: "Hello, World!",
+		},
+		{
+			name:  "UTF-8 with emojis",
+			input: "Hello, 🌍!",
+		},
+		{
+			name:  "UTF-8 with non-Latin characters",
+			input: "こんにちは世界",
+		},
+		{
+			name:  "UTF-8 with mixed characters",
+			input: "Hello, 世界! 🌍",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			encoded := convertGoUTF8ToUTF16(tt.input)
+			decoded, err := convertMoonBitUTF16ToUTF8(encoded)
+			if err != nil {
+				t.Errorf("convertMoonBitUTF16ToUTF8() error = %v", err)
+				return
+			}
+			if decoded != tt.input {
+				t.Errorf("Round trip conversion failed: got = %v, want = %v", decoded, tt.input)
+			}
+		})
+	}
+}
