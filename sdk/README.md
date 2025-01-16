@@ -15,7 +15,7 @@ To work on the MoonBit SDK locally, first clone the repo and then run the follow
 $ REPODIR=$(pwd)
 $ cd cli
 $ ./build.sh
-$ cd ${REPODIR}/sdk/moonbit/examples/simple
+$ cd ${REPODIR}/sdk/moonbit/examples/hello-world
 $ ./update.sh
 $ ./build.sh
 $ ./modus-local.sh install MoonBit  (currently fails - needs workaround)
@@ -25,7 +25,9 @@ $ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
 $ ./install.sh
 $ cd ${REPODIR}/runtime
 $ ./install.sh
-$ cd ${REPODIR}/sdk/moonbit/examples/simple
+$ cd ${REPODIR}/sdk/moonbit
+$ ./make-tar.sh
+$ cd examples/hello-world
 # ...end of workaround
 
 $ ./modus-local.sh dev
