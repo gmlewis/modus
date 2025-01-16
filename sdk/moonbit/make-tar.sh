@@ -28,6 +28,7 @@ TARFILE=templates_moonbit_${MOONBIT_SDK_VERSION}.tar.gz
 tar ${TAR_OPTIONS} -zcvf ${TARFILE} templates
 
 # Copy the files into place
+mkdir -p ${HOME}/.modus/sdk/moonbit/${MOONBIT_SDK_VERSION}
 cp sdk.json ${TARFILE} ${HOME}/.modus/sdk/moonbit/${MOONBIT_SDK_VERSION}
 # Make them easy to upload to GitHub
 cp sdk.json ${TARFILE} ~/Downloads
