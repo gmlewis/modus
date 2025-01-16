@@ -8,6 +8,7 @@ package packages
 // See doc.go for package documentation and implementation notes.
 
 import (
+	"fmt"
 	"go/ast"
 	"go/token"
 	"go/types"
@@ -103,59 +104,11 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 			continue
 		}
 		methodName := strings.TrimSpace(ma[1])
-
-		var resultsList *ast.FieldList
-		var resultsTuple *types.Tuple
-		if returnSig != "Unit" {
-			resultsList = &ast.FieldList{
-				List: []*ast.Field{
-					{
-						Type: &ast.Ident{Name: returnSig},
-					},
-				},
-			}
-			var resultType *types.Named
-			customName := typesPkg.Path() + "." + returnSig
-			for ident, customType := range p.TypesInfo.Defs {
-				if ident.Name == customName {
-					if customType, ok := customType.(*types.TypeName); ok {
-						underlying := customType.Type().Underlying()
-						resultType = types.NewNamed(customType, underlying, nil)
-						break
-					}
-				}
-			}
-			if resultType == nil {
-				resultType = types.NewNamed(types.NewTypeName(0, nil, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
-			}
-			// resultType := types.NewNamed(types.NewTypeName(0, typesPkg, returnSig, nil), nil, nil) // &moonType{typeName: returnSig}
-			resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
-		}
-
-		var paramsList []*ast.Field
-		var paramsVars []*types.Var
-
 		allArgs := strings.TrimSpace(ma[2])
 		log.Printf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
-		allArgParts := strings.Split(allArgs, ",")
-		for _, arg := range allArgParts {
-			arg = strings.TrimSpace(arg)
-			if arg == "" {
-				continue
-			}
-			argParts := strings.Split(arg, ":")
-			if len(argParts) != 2 {
-				log.Printf("Warning: invalid argument: '%v'; skipping", arg)
-				continue
-			}
-			argName := strings.TrimSpace(argParts[0])
-			argType := strings.TrimSpace(argParts[1])
-			paramsList = append(paramsList, &ast.Field{
-				Names: []*ast.Ident{{Name: argName}},
-				Type:  &ast.Ident{Name: argType},
-			})
-			paramsVars = append(paramsVars, types.NewVar(0, nil, argName, &moonType{typeName: argType}))
-		}
+
+		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
+		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
 		decl := &ast.FuncDecl{
 			Name: &ast.Ident{Name: methodName},
@@ -177,6 +130,77 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 	}
 
 	return decls
+}
+
+func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (paramsList []*ast.Field, paramsVars []*types.Var) {
+	allArgParts := strings.Split(allArgs, ",")
+	for _, arg := range allArgParts {
+		arg = strings.TrimSpace(arg)
+		if arg == "" {
+			continue
+		}
+		argParts := strings.Split(arg, ":")
+		if len(argParts) != 2 {
+			log.Printf("Warning: invalid argument: '%v'; skipping", arg)
+			continue
+		}
+		argName := strings.TrimSpace(argParts[0])
+		argType := strings.TrimSpace(argParts[1])
+		paramsList = append(paramsList, &ast.Field{
+			Names: []*ast.Ident{{Name: argName}},
+			Type:  &ast.Ident{Name: argType},
+		})
+		paramType := p.getMoonBitNamedType(typesPkg, argType)
+		paramsVars = append(paramsVars, types.NewVar(0, nil, argName, paramType)) // &moonType{typeName: argType}))
+	}
+
+	return paramsList, paramsVars
+}
+
+func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig string) (resultsList *ast.FieldList, resultsTuple *types.Tuple) {
+	if returnSig != "Unit" {
+		resultsList = &ast.FieldList{
+			List: []*ast.Field{{Type: &ast.Ident{Name: returnSig}}},
+		}
+		resultType := p.getMoonBitNamedType(typesPkg, returnSig)
+		resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
+	}
+
+	return resultsList, resultsTuple
+}
+
+func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType *types.Named) {
+	customName := typesPkg.Path() + "." + typeSignature
+	for ident, customType := range p.TypesInfo.Defs {
+		if ident.Name == customName {
+			if customType, ok := customType.(*types.TypeName); ok {
+				underlying := customType.Type().Underlying()
+				resultType = types.NewNamed(customType, underlying, nil)
+				log.Printf("GML: checkCustomMoonBitNamedType: found custom type for typeSignature=%q", typeSignature)
+				break
+			}
+		}
+	}
+	return resultType
+}
+
+func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType *types.Named) {
+	log.Printf("GML: getMoonBitNamedType(typeSignature=%q)", typeSignature)
+	// TODO: write a parser that can handle any MoonBit type.
+	if strings.HasPrefix(typeSignature, "Array[") && strings.HasSuffix(typeSignature, "]") {
+		tmpSignature := typeSignature[6 : len(typeSignature)-1]
+		resultType = p.checkCustomMoonBitType(typesPkg, tmpSignature)
+		if resultType != nil {
+			tmpSignature = fmt.Sprintf("Array[%v.%v]", typesPkg.Path(), tmpSignature)
+			return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
+		}
+	}
+
+	resultType = p.checkCustomMoonBitType(typesPkg, typeSignature)
+	if resultType == nil {
+		resultType = types.NewNamed(types.NewTypeName(0, nil, typeSignature, nil), nil, nil) // &moonType{typeName: typeSignature}
+	}
+	return resultType
 }
 
 type moonType struct {

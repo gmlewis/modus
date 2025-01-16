@@ -214,7 +214,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@testdata.Person"}},
+									{Type: &ast.Ident{Name: "Person"}},
 								},
 							},
 						},
@@ -225,7 +225,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@testdata.Person"}},
+									{Type: &ast.Ident{Name: "Person"}},
 								},
 							},
 						},
@@ -236,7 +236,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Array[@testdata.Person]"}},
+									{Type: &ast.Ident{Name: "Array[Person]"}},
 								},
 							},
 						},
