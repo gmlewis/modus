@@ -23,4 +23,7 @@ $ ./modus-local.sh dev  # Visit the API Explorer and try it out
 # Now update the local Modus Runtime to support more examples:
 $ cd ${REPODIR}/runtime
 $ ./build.sh
+# Now update the local Modus MoonBit SDK to support more examples:
+$ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
+$ ./install.sh
 ```
