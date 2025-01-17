@@ -1,0 +1,18 @@
+{
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_hello_option_none:hello_option_none"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}

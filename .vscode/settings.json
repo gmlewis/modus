@@ -34,5 +34,8 @@
   },
   "[go]": {
     "editor.defaultFormatter": "golang.go"
+  },
+  "[moonbit]": {
+    "editor.defaultFormatter": "moonbit.moonbit-lang"
   }
 }
