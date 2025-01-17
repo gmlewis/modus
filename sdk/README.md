@@ -19,5 +19,8 @@ $ cd ${REPODIR}/sdk/moonbit/examples/hello-world
 $ ./update.sh
 $ ./build.sh
 $ ./modus-local.sh sdk install moonbit
-$ ./modus-local.sh dev
+$ ./modus-local.sh dev  # Visit the API Explorer and try it out
+# Now update the local Modus Runtime to support more examples:
+$ cd ${REPODIR}/runtime
+$ ./build.sh
 ```
