@@ -6,6 +6,8 @@
 
 package main
 
+func ptr(s string) *string { return &s }
+
 // HelloOptionString demonstrates how the Modus Runtime for Go handles
 // optional strings as return values.
 func HelloOptionString(nilString, emptyString bool) *string {
@@ -13,10 +15,8 @@ func HelloOptionString(nilString, emptyString bool) *string {
 	case nilString:
 		return nil
 	case emptyString:
-		s := ""
-		return &s
+		return ptr("")
 	default:
-		s := "Hello, World!"
-		return &s
+		return ptr("Hello, World!")
 	}
 }

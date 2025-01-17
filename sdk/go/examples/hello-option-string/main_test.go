@@ -12,8 +12,6 @@ import (
 	"testing"
 )
 
-func ptr(s string) *string { return &s }
-
 func TestHelloOptionString(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
