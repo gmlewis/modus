@@ -108,9 +108,25 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 	return result
 }
 
-func (lti *langTypeInfo) GetUnderlyingType(typ string) string {
-	result := strings.TrimPrefix(typ, "*") // TODO(gmlewis)
-	log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') = '%v' - TODO", typ, result)
+func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
+	// TODO
+	// result := strings.TrimPrefix(typ, "*") // for Go
+	if strings.Contains(typ, " = ") { // remove initializer
+		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing ' = '", typ)
+		typ = strings.Split(typ, " = ")[0]
+	}
+	if strings.HasSuffix(typ, "?") {
+		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing '?'", typ)
+		typ = typ[:len(typ)-1]
+	}
+	switch typ {
+	case "Bool", "Byte", "Char", "Int", "Int64", "Uint", "Uint64", "Float", "Double", "String":
+		result = typ
+	default:
+		result = typ
+		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') = '%v' - UNHANDLED DEFAULT CASE", typ, result)
+	}
+	log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') = '%v'", typ, result)
 	return result
 }
 
@@ -133,7 +149,7 @@ func (lti *langTypeInfo) IsArrayType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsBooleanType(typ string) bool {
-	result := typ == "Bool"
+	result := typ == "Bool" || strings.HasPrefix(typ, "Bool = ")
 	log.Printf("GML: typeinfo.go: IsBooleanType('%v') = %v", typ, result)
 	return result
 }
@@ -194,7 +210,9 @@ func (lti *langTypeInfo) IsNullableType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsPointerType(typ string) bool {
-	result := strings.HasPrefix(typ, "*") // TODO(gmlewis)
+	// TODO
+	// result := strings.HasPrefix(typ, "*")  // for Go
+	result := strings.HasSuffix(typ, "?")
 	log.Printf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
 	return result
 }
