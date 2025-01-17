@@ -6,26 +6,17 @@
 
 package main
 
-import (
-	"errors"
-	"fmt"
-	"math/rand"
-	"os"
-	"time"
-
-	"github.com/gmlewis/modus/sdk/go/pkg/console"
-)
-
+// HelloOptionString demonstrates how the Modus Runtime for Go handles
+// optional strings as return values.
 func HelloOptionString(nilString, emptyString bool) *string {
-     switch {
-     case nilString:
-     return nil
-     case emptyString:
-     s := ""
-     return &s
-     default:
-     s := "Hello, World!"
-     return &s
-     }
+	switch {
+	case nilString:
+		return nil
+	case emptyString:
+		s := ""
+		return &s
+	default:
+		s := "Hello, World!"
+		return &s
+	}
 }
-
