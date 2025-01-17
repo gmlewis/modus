@@ -11,11 +11,13 @@ package models
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/config"
 	"github.com/gmlewis/modus/runtime/db"
 	"github.com/gmlewis/modus/runtime/httpclient"
 	"github.com/gmlewis/modus/runtime/manifestdata"
@@ -89,6 +91,13 @@ func PostToModelEndpoint[TResult any](ctx context.Context, model *manifest.Model
 	res, err := utils.PostHttp[TResult](ctx, url, payload, bs)
 	if err != nil {
 		var empty TResult
+		var httpe *utils.HttpError
+		if errors.As(err, &httpe) {
+			if config.IsDevEnvironment() && httpe.StatusCode == http.StatusNotFound {
+				return empty, fmt.Errorf("model %s is not available in the local dev environment", model.SourceModel)
+			}
+		}
+
 		return empty, err
 	}
 
