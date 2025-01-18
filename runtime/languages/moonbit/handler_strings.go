@@ -40,7 +40,7 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return "", nil
 	}
 
-	data, size, err := h.readStringHeader(wa, offset)
+	data, size, err := h.readStringHeader(ctx, wa, offset)
 	if err != nil {
 		return "", err
 	}
@@ -63,7 +63,7 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 		return cln, err
 	}
 
-	data, size, err := h.readStringHeader(wa, ptr)
+	data, size, err := h.readStringHeader(ctx, wa, ptr)
 	if err != nil {
 		return cln, err
 	}
@@ -91,7 +91,7 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 	// }
 	// size = binary.LittleEndian.Uint32(bytes[4:8])
 
-	offset, size, err := h.readStringHeader(wa, uint32(vals[0]))
+	offset, size, err := h.readStringHeader(ctx, wa, uint32(vals[0]))
 	if err != nil {
 		return "", err
 	}
@@ -121,7 +121,10 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	// Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
-	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
+	// Note that ptr2str assumes that the 8 bytes before the null-terminated UTF-16 string are available for
+	// writing into, and will return the offset 8-bytes before the passed `offset`.
+	log.Printf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
+	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset)) // +8))
 	if err != nil {
 		return nil, cln, err
 	}
@@ -176,12 +179,19 @@ func (h *stringHandler) doWriteString(ctx context.Context, wa langsupport.WasmAd
 	*/
 }
 
-func (h *stringHandler) readStringHeader(wa langsupport.WasmAdapter, offset uint32) (data, size uint32, err error) {
+func (h *stringHandler) readStringHeader(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (data, size uint32, err error) {
 	log.Printf("GML: handler_strings.go: stringHandler.readStringHeader(offset: %v)", offset)
 
 	if offset == 0 {
 		return 0, 0, nil
 	}
+
+	// First, call str2ptr to get the pointer to the string data.
+	res, err := wa.(*wasmAdapter).fnStr2ptr.Call(ctx, uint64(offset))
+	if err != nil {
+		return 0, 0, err
+	}
+	log.Printf("GML: handler_strings.go: stringHandler.readStringHeader: fnStr2ptr.Call(%v) returned %+v", offset, res)
 
 	// val, ok := wa.Memory().ReadUint64Le(offset)
 	// if !ok {
@@ -246,13 +256,14 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	size := 8 + len(codeUnits)*2 + 6
 	data := make([]byte, size)
 	binary.LittleEndian.PutUint32(data[0:], 0xffffffff)
-	binary.LittleEndian.PutUint32(data[4:], uint32(size)) // TODO: Is this the correct length to report?
+	// binary.LittleEndian.PutUint32(data[4:], uint32(size)) // TODO: Is this the correct length to report?
+	binary.LittleEndian.PutUint32(data[4:], uint32(243)) // according to `ptr2str`
 	for i, codeUnit := range codeUnits {
 		binary.LittleEndian.PutUint16(data[8+i*2:], codeUnit)
 	}
 	// write 6 trailing bytes to output
-	binary.LittleEndian.PutUint16(data[size-6:], 0x0100)
-	binary.LittleEndian.PutUint16(data[size-4:], 0)
+	binary.LittleEndian.PutUint16(data[size-6:], 0) // null-terminate the string
+	binary.LittleEndian.PutUint16(data[size-4:], 0x0100)
 	binary.LittleEndian.PutUint16(data[size-2:], 0)
 
 	return data
