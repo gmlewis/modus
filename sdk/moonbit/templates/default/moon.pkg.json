@@ -10,6 +10,8 @@
   "link": {
     "wasm": {
       "exports": [
+        "__modus_say_hello:say_hello",
+        "__modus_say_hello_WithDefaults:say_hello_WithDefaults"
       ],
       "export-memory-name": "memory"
     }
