@@ -115,12 +115,18 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 
 	bytes := convertGoUTF8ToUTF16(str)
 
-	ptr, cln, err := h.doWriteBytes(ctx, wa, bytes)
+	offset, cln, err := h.doWriteBytes(ctx, wa, bytes)
 	if err != nil {
 		return nil, cln, err
 	}
 
-	return []uint64{uint64(ptr)}, cln, nil
+	// Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
+	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
+	if err != nil {
+		return nil, cln, err
+	}
+
+	return res, cln, nil
 }
 
 func (h *stringHandler) doReadString(wa langsupport.WasmAdapter, offset, size uint32) (string, error) {
@@ -253,18 +259,17 @@ func convertGoUTF8ToUTF16(str string) []byte {
 }
 
 func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAdapter, bytes []byte) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.doWriteBytes(bytes: %+v)", bytes)
-
 	const id = 2 // ID for string is always 2
 	size := uint32(len(bytes))
-	ptr, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
+	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
 	if err != nil {
 		return 0, cln, err
 	}
 
-	if ok := wa.Memory().Write(ptr, bytes); !ok {
-		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (size: %d)", size)
+	log.Printf("GML: handler_strings.go: stringHandler.doWriteBytes(bytes(%v): %+v), got offset: %v", size, bytes, offset)
+	if ok := wa.Memory().Write(offset, bytes); !ok {
+		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (offset: %v, size: %v)", offset, size)
 	}
 
-	return ptr, cln, nil
+	return offset, cln, nil
 }

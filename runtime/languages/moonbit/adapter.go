@@ -122,6 +122,7 @@ func (wa *wasmAdapter) GetFunction(name string) wasm.Function {
 }
 
 func (wa *wasmAdapter) PreInvoke(ctx context.Context, plan langsupport.ExecutionPlan) error {
+	log.Printf("GML: adapter.go: wasmAdapter.PreInvoke")
 	return nil
 }
 
@@ -139,9 +140,7 @@ func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID u
 
 	cln := utils.NewCleanerN(1)
 	cln.AddCleanup(func() error {
-		// TODO: Why is the runtime immediately freeing the memory?
-		// return wa.freeWasmMemory(ctx, ptr)
-		return nil
+		return wa.freeWasmMemory(ctx, ptr)
 	})
 
 	return ptr, cln, nil
@@ -149,18 +148,18 @@ func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID u
 
 // Allocate memory within the MoonBit module.
 func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uint32) (uint32, error) {
-	log.Printf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v)", size, classID)
 	res, err := wa.fnRealloc.Call(ctx, 0, 0, 0, uint64(size))
 	if err != nil {
 		return 0, fmt.Errorf("failed to allocate WASM memory (size: %v, id: %v): %w", size, classID, err)
 	}
 
-	ptr := uint32(res[0])
-	if ptr == 0 {
+	offset := uint32(res[0])
+	if offset == 0 {
 		return 0, errors.New("failed to allocate WASM memory")
 	}
 
-	return ptr, nil
+	log.Printf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v): offset: %v", size, classID, offset)
+	return offset, nil
 }
 
 // Free memory within the MoonBit module.

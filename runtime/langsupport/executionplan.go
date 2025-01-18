@@ -12,6 +12,7 @@ package langsupport
 import (
 	"context"
 	"fmt"
+	"log"
 	"runtime/debug"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -88,12 +89,14 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 
 	// Get the wasm function
 	fnName := plan.FnMetadata().Name
+	log.Printf("GML: executionplan.go: InvokeFunction: fnName='%v'", fnName)
 	fn := wa.GetFunction(fnName)
 	if fn == nil {
 		return nil, fmt.Errorf("function %s not found in wasm module", fnName)
 	}
 
 	// Get parameters to pass as input to the function
+	log.Printf("GML: executionplan.go: InvokeFunction: plan.getWasmParameters")
 	params, cln, err := plan.getWasmParameters(ctx, wa, parameters)
 	defer func() {
 		// Clean up any resources allocated for the parameters (when done)
@@ -108,23 +111,27 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Pre-invoke hook
+	log.Printf("GML: executionplan.go: InvokeFunction: wa.PreInvoke")
 	if err := wa.PreInvoke(ctx, plan); err != nil {
 		return nil, err
 	}
 
 	// Call the function
+	log.Printf("GML: executionplan.go: InvokeFunction: fn.Call(%q, %+v)", fnName, params)
 	res, err := fn.Call(ctx, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	// Get the result indirection pointer (if any)
+	log.Printf("GML: executionplan.go: InvokeFunction: plan.UseResultIndirection")
 	var indirectPtr uint32
 	if plan.UseResultIndirection() {
 		indirectPtr = uint32(params[0])
 	}
 
 	// Interpret and return the results
+	log.Printf("GML: executionplan.go: InvokeFunction: plan.interpretWasmResults")
 	return plan.interpretWasmResults(ctx, wa, res, indirectPtr)
 }
 

@@ -13,6 +13,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 	"runtime/debug"
 	"time"
@@ -273,7 +274,7 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 		// Prepare to call the host function
 		results := make([]any, 0, numResults)
 		wrappedFn := func() error {
-
+			log.Printf("GML: hostfns.go: wrappedFn: calling host function: %v, numParams: %v, numResults: %v", fullName, numParams, numResults)
 			// invoke the function
 			out := rvFunc.Call(inputs)
 
@@ -293,6 +294,7 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 				}
 			}
 
+			log.Printf("GML: hostfns.go: wrappedFn: successfully called host function: %v, numParams: %v, numResults: %v", fullName, numParams, numResults)
 			return nil
 		}
 
