@@ -23,7 +23,7 @@ esac
 # Remove the unwanted directories before creating tar file
 rm -rf templates/default/.mooncakes templates/default/target
 # Create the tar file
-MOONBIT_SDK_VERSION=v0.16.4
+MOONBIT_SDK_VERSION=v0.16.5
 TARFILE=templates_moonbit_${MOONBIT_SDK_VERSION}.tar.gz
 tar ${TAR_OPTIONS} -zcvf ${TARFILE} templates
 

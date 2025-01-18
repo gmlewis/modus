@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-MOONBIT_SDK_VERSION=v0.16.4
+MOONBIT_SDK_VERSION=v0.16.5
 
 # Detect the operating system
 OS="$(uname -s)"
