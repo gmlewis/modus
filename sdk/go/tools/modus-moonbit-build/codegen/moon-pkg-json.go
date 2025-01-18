@@ -65,7 +65,48 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	// for _, export := range wasmLinkTarget.Exports {
 	// 	currentExports[export] = true
 	// }
-	wasmLinkTarget.Exports = nil // clear out existing exports
+
+	// TODO: Only include the exports that are actually needed.
+	wasmLinkTarget.Exports = []string{ // clear out existing exports
+		"cabi_realloc",
+		"extend16",
+		"extend8",
+		"store8",
+		"load8_u",
+		"load8",
+		"store16",
+		"load16",
+		"load16_u",
+		"store32",
+		"load32",
+		"store64",
+		"load64",
+		"storef32",
+		"loadf32",
+		"storef64",
+		"loadf64",
+		"f32_to_i32",
+		"f32_to_i64",
+		"malloc",
+		"free",
+		"copy",
+		"str2ptr",
+		"ptr2str",
+		"bytes2ptr",
+		"ptr2bytes",
+		"uint_array2ptr",
+		"uint64_array2ptr",
+		"int_array2ptr",
+		"int64_array2ptr",
+		"float_array2ptr",
+		"double_array2ptr",
+		"ptr2uint_array",
+		"ptr2int_array",
+		"ptr2float_array",
+		"ptr2uint64_array",
+		"ptr2int64_array",
+		"ptr2double_array",
+	}
 
 	for _, fn := range functions {
 		modusName := fmt.Sprintf("__modus_%v:%[1]v", fn.function.Name.Name)

@@ -12,6 +12,8 @@ package moonbit
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -23,14 +25,88 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 	return &wasmAdapter{
 		mod:         mod,
 		visitedPtrs: make(map[uint32]int),
-		// TODO(gmlewis)
+		fnRealloc:   mod.ExportedFunction("cabi_realloc"), // pub fn cabi_realloc(src_offset : Int, src_size : Int, _dst_alignment : Int, dst_size : Int) -> Int
+		fnExtend16:  mod.ExportedFunction("extend16"),     // pub fn extend16(value : Int) -> Int
+		fnExtend8:   mod.ExportedFunction("extend8"),      // pub fn extend8(value : Int) -> Int
+		fnStore8:    mod.ExportedFunction("store8"),       // pub fn store8(offset : Int, value : Int)
+		fnLoad8_u:   mod.ExportedFunction("load8_u"),      // pub fn load8_u(offset : Int) -> Int
+		fnLoad8:     mod.ExportedFunction("load8"),        // pub fn load8(offset : Int) -> Int
+		fnStore16:   mod.ExportedFunction("store16"),      // pub fn store16(offset : Int, value : Int)
+		fnLoad16:    mod.ExportedFunction("load16"),       // pub fn load16(offset : Int) -> Int
+		fnLoad16_u:  mod.ExportedFunction("load16_u"),     // pub fn load16_u(offset : Int) -> Int
+		fnStore32:   mod.ExportedFunction("store32"),      // pub fn store32(offset : Int, value : Int)
+		fnLoad32:    mod.ExportedFunction("load32"),       // pub fn load32(offset : Int) -> Int
+		fnStore64:   mod.ExportedFunction("store64"),      // pub fn store64(offset : Int, value : Int64)
+		fnLoad64:    mod.ExportedFunction("load64"),       // pub fn load64(offset : Int) -> Int64
+		fnStoref32:  mod.ExportedFunction("storef32"),     // pub fn storef32(offset : Int, value : Float)
+		fnLoadf32:   mod.ExportedFunction("loadf32"),      // pub fn loadf32(offset : Int) -> Float
+		fnStoref64:  mod.ExportedFunction("storef64"),     // pub fn storef64(offset : Int, value : Double)
+		fnLoadf64:   mod.ExportedFunction("loadf64"),      // pub fn loadf64(offset : Int) -> Double
+		// fnF32_to_i32:       mod.ExportedFunction("f32_to_i32"),       // pub fn f32_to_i32(value : Float) -> Int
+		// fnF32_to_i64:       mod.ExportedFunction("f32_to_i64"),       // pub fn f32_to_i64(value : Float) -> Int64
+		fnMalloc:           mod.ExportedFunction("malloc"),           // pub fn malloc(size : Int) -> Int
+		fnFree:             mod.ExportedFunction("free"),             // pub fn free(position : Int)
+		fnCopy:             mod.ExportedFunction("copy"),             // pub fn copy(dest : Int, src : Int) -> Unit
+		fnStr2ptr:          mod.ExportedFunction("str2ptr"),          // pub fn str2ptr(str : String) -> Int
+		fnPtr2str:          mod.ExportedFunction("ptr2str"),          // pub fn ptr2str(ptr : Int) -> String
+		fnBytes2ptr:        mod.ExportedFunction("bytes2ptr"),        // pub fn bytes2ptr(bytes : Bytes) -> Int
+		fnPtr2bytes:        mod.ExportedFunction("ptr2bytes"),        // pub fn ptr2bytes(ptr : Int) -> Bytes
+		fnUint_array2ptr:   mod.ExportedFunction("uint_array2ptr"),   // pub fn uint_array2ptr(array : FixedArray[UInt]) -> Int
+		fnUint64_array2ptr: mod.ExportedFunction("uint64_array2ptr"), // pub fn uint64_array2ptr(array : FixedArray[UInt64]) -> Int
+		fnInt_array2ptr:    mod.ExportedFunction("int_array2ptr"),    // pub fn int_array2ptr(array : FixedArray[Int]) -> Int
+		fnInt64_array2ptr:  mod.ExportedFunction("int64_array2ptr"),  // pub fn int64_array2ptr(array : FixedArray[Int64]) -> Int
+		fnFloat_array2ptr:  mod.ExportedFunction("float_array2ptr"),  // pub fn float_array2ptr(array : FixedArray[Float]) -> Int
+		fnDouble_array2ptr: mod.ExportedFunction("double_array2ptr"), // pub fn double_array2ptr(array : FixedArray[Double]) -> Int
+		fnPtr2uint_array:   mod.ExportedFunction("ptr2uint_array"),   // pub fn ptr2uint_array(ptr : Int) -> FixedArray[UInt]
+		fnPtr2int_array:    mod.ExportedFunction("ptr2int_array"),    // pub fn ptr2int_array(ptr : Int) -> FixedArray[Int]
+		fnPtr2float_array:  mod.ExportedFunction("ptr2float_array"),  // pub fn ptr2float_array(ptr : Int) -> FixedArray[Float]
+		fnPtr2uint64_array: mod.ExportedFunction("ptr2uint64_array"), // pub fn ptr2uint64_array(ptr : Int) -> FixedArray[UInt64]
+		fnPtr2int64_array:  mod.ExportedFunction("ptr2int64_array"),  // pub fn ptr2int64_array(ptr : Int) -> FixedArray[Int64]
+		fnPtr2double_array: mod.ExportedFunction("ptr2double_array"), // pub fn ptr2double_array(ptr : Int) -> FixedArray[Double]
 	}
 }
 
 type wasmAdapter struct {
 	mod         wasm.Module
 	visitedPtrs map[uint32]int
-	// TODO(gmlewis)
+	fnRealloc   wasm.Function
+	fnExtend16  wasm.Function
+	fnExtend8   wasm.Function
+	fnStore8    wasm.Function
+	fnLoad8_u   wasm.Function
+	fnLoad8     wasm.Function
+	fnStore16   wasm.Function
+	fnLoad16    wasm.Function
+	fnLoad16_u  wasm.Function
+	fnStore32   wasm.Function
+	fnLoad32    wasm.Function
+	fnStore64   wasm.Function
+	fnLoad64    wasm.Function
+	fnStoref32  wasm.Function
+	fnLoadf32   wasm.Function
+	fnStoref64  wasm.Function
+	fnLoadf64   wasm.Function
+	// fnF32_to_i32       wasm.Function
+	// fnF32_to_i64       wasm.Function
+	fnMalloc           wasm.Function
+	fnFree             wasm.Function
+	fnCopy             wasm.Function
+	fnStr2ptr          wasm.Function
+	fnPtr2str          wasm.Function
+	fnBytes2ptr        wasm.Function
+	fnPtr2bytes        wasm.Function
+	fnUint_array2ptr   wasm.Function
+	fnUint64_array2ptr wasm.Function
+	fnInt_array2ptr    wasm.Function
+	fnInt64_array2ptr  wasm.Function
+	fnFloat_array2ptr  wasm.Function
+	fnDouble_array2ptr wasm.Function
+	fnPtr2uint_array   wasm.Function
+	fnPtr2int_array    wasm.Function
+	fnPtr2float_array  wasm.Function
+	fnPtr2uint64_array wasm.Function
+	fnPtr2int64_array  wasm.Function
+	fnPtr2double_array wasm.Function
 }
 
 func (*wasmAdapter) TypeInfo() langsupport.LanguageTypeInfo {
@@ -55,72 +131,50 @@ func (wa *wasmAdapter) AllocateMemory(ctx context.Context, size uint32) (uint32,
 
 // Allocate and pin memory within the MoonBit module.
 // The cleaner returned will unpin the memory when invoked.
-func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classId uint32) (uint32, utils.Cleaner, error) {
-	ptr, err := wa.allocateWasmMemory(ctx, size, classId)
+func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID uint32) (uint32, utils.Cleaner, error) {
+	ptr, err := wa.allocateWasmMemory(ctx, size, classID)
 	if err != nil {
-		return 0, nil, err
-	}
-
-	if err := wa.pinWasmMemory(ctx, ptr); err != nil {
 		return 0, nil, err
 	}
 
 	cln := utils.NewCleanerN(1)
 	cln.AddCleanup(func() error {
-		return wa.unpinWasmMemory(ctx, ptr)
+		// TODO: Why is the runtime immediately freeing the memory?
+		// return wa.freeWasmMemory(ctx, ptr)
+		return nil
 	})
 
 	return ptr, cln, nil
 }
 
 // Allocate memory within the MoonBit module.
-// TODO
-func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classId uint32) (uint32, error) {
-	return 0, errors.New("wasmAdapter.allocateWasmMemory not yet implemented for MoonBit")
-	// res, err := wa.fnNew.Call(ctx, uint64(size), uint64(classId))
-	// if err != nil {
-	// 	return 0, fmt.Errorf("failed to allocate WASM memory (size: %d, id: %d): %w", size, classId, err)
-	// }
-	//
-	// ptr := uint32(res[0])
-	// if ptr == 0 {
-	// 	return 0, errors.New("failed to allocate WASM memory")
-	// }
-	//
-	// return ptr, nil
+func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uint32) (uint32, error) {
+	log.Printf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v)", size, classID)
+	res, err := wa.fnRealloc.Call(ctx, 0, 0, 0, uint64(size))
+	if err != nil {
+		return 0, fmt.Errorf("failed to allocate WASM memory (size: %v, id: %v): %w", size, classID, err)
+	}
+
+	ptr := uint32(res[0])
+	if ptr == 0 {
+		return 0, errors.New("failed to allocate WASM memory")
+	}
+
+	return ptr, nil
 }
 
-// Pin a managed object in memory within the MoonBit module.
-// This prevents it from being garbage collected.
-// TODO
-func (wa *wasmAdapter) pinWasmMemory(ctx context.Context, ptr uint32) error {
-	return errors.New("wasmAdapter.pinWasmMemory not yet implemented for MoonBit")
-	// _, err := wa.fnPin.Call(ctx, uint64(ptr))
-	// if err != nil {
-	// 	return fmt.Errorf("failed to pin object in WASM memory: %w", err)
-	// }
-	// return nil
-}
+// Free memory within the MoonBit module.
+func (wa *wasmAdapter) freeWasmMemory(ctx context.Context, offset uint32) error {
+	log.Printf("GML: wasmAdapter.freeWasmMemory(offset: %v)", offset)
+	res, err := wa.fnRealloc.Call(ctx, uint64(offset), 0, 0, 0)
+	if err != nil {
+		return fmt.Errorf("failed to free WASM memory (offset: %v): %w", offset, err)
+	}
 
-// Unpin a previously-pinned managed object in memory within the MoonBit module.
-// This allows it to be garbage collected.
-// TODO
-func (wa *wasmAdapter) unpinWasmMemory(ctx context.Context, ptr uint32) error {
-	return errors.New("wasmAdapter.unpinWasmMemory not yet implemented for MoonBit")
-	// _, err := wa.fnUnpin.Call(ctx, uint64(ptr))
-	// if err != nil {
-	// 	return fmt.Errorf("failed to unpin object in WASM memory: %w", err)
-	// }
-	// return nil
-}
+	ptr := uint32(res[0])
+	if ptr != 0 {
+		return fmt.Errorf("failed to free WASM memory: non-zero result: %v", ptr)
+	}
 
-// Sets that arguments length before calling a function that takes a variable number of arguments.
-// TODO
-func (wa *wasmAdapter) setArgumentsLength(ctx context.Context, length int) error {
-	return errors.New("wasmAdapter.setArgumentsLength not yet implemented for MoonBit")
-	// _, err := wa.fnSetArgumentsLength.Call(ctx, uint64(length))
-	// if err != nil {
-	// 	return fmt.Errorf("failed to set arguments length: %w", err)
-	// }
-	// return nil
+	return nil
 }
