@@ -1,5 +1,5 @@
 {
-  "name": "username/hello",
+  "name": "username/say-hello",
   "version": "0.1.0",
   "deps": {
     "gmlewis/modus": "0.16.5",

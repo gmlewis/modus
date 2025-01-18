@@ -1,7 +1,8 @@
 # Modus MoonBit SDK
 
-This is an experimental SDK for Modus for the [MoonBit] programming language.
+This is an experimental [Modus SDK] for the [MoonBit] programming language.
 
+[Modus SDK]: https://github.com/gmlewis/modus
 [MoonBit]: https://www.moonbitlang.com/
 
 ## Local Development
