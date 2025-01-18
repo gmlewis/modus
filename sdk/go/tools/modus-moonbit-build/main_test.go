@@ -16,14 +16,65 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-//go:embed packages/testdata/simple-example.mbt
-var packagesSimpleExample string
+func TestAllTestDataIdentical(t *testing.T) {
+	t.Parallel()
 
-//go:embed packages/testdata/moon.mod.json
-var packagesMoonModJSON string
+	compareTwo(t, codegenTestData, metagenTestData)
+	compareTwo(t, codegenTestData, packagesTestData)
+}
 
-//go:embed packages/testdata/moon.pkg.json
-var packagesMoonPkgJSON string
+func compareTwo(t *testing.T, a, b *testData) {
+	t.Helper()
+
+	if diff := cmp.Diff(a.simpleExample, b.simpleExample); diff != "" {
+		t.Errorf("%v/testdata/simple-example.mbt != %v/testdata/simple-example.mbt:\n%v", a.name, b.name, diff)
+	}
+
+	if diff := cmp.Diff(a.moonModJSON, b.moonModJSON); diff != "" {
+		t.Errorf("%v/testdata/moon.mod.json != %v/testdata/moon.mod.json:\n%v", a.name, b.name, diff)
+	}
+
+	if diff := cmp.Diff(a.moonPkgJSON, b.moonPkgJSON); diff != "" {
+		t.Errorf("%v/testdata/moon.pkg.json != %v/testdata/moon.pkg.json:\n%v", a.name, b.name, diff)
+	}
+}
+
+type testData struct {
+	name          string
+	simpleExample string
+	moonModJSON   string
+	moonPkgJSON   string
+}
+
+var codegenTestData = &testData{
+	name:          "codegen",
+	simpleExample: codegenSimpleExample,
+	moonModJSON:   codegenMoonModJSON,
+	moonPkgJSON:   codegenMoonPkgJSON,
+}
+
+var metagenTestData = &testData{
+	name:          "metagen",
+	simpleExample: metagenSimpleExample,
+	moonModJSON:   metagenMoonModJSON,
+	moonPkgJSON:   metagenMoonPkgJSON,
+}
+
+var packagesTestData = &testData{
+	name:          "packages",
+	simpleExample: packagesSimpleExample,
+	moonModJSON:   packagesMoonModJSON,
+	moonPkgJSON:   packagesMoonPkgJSON,
+}
+
+//go:embed codegen/testdata/simple-example.mbt
+var codegenSimpleExample string
+
+//go:embed codegen/testdata/moon.mod.json
+var codegenMoonModJSON string
+
+//go:embed codegen/testdata/moon.pkg.json
+var codegenMoonPkgJSON string
 
 //go:embed metagen/testdata/simple-example.mbt
 var metagenSimpleExample string
@@ -34,18 +85,11 @@ var metagenMoonModJSON string
 //go:embed metagen/testdata/moon.pkg.json
 var metagenMoonPkgJSON string
 
-func TestAllTestDataIdentical(t *testing.T) {
-	t.Parallel()
+//go:embed packages/testdata/simple-example.mbt
+var packagesSimpleExample string
 
-	if diff := cmp.Diff(packagesSimpleExample, metagenSimpleExample); diff != "" {
-		t.Errorf("packages/testdata/simple-example.mbt != metagen/testdata/simple-example.mbt:\n%v", diff)
-	}
+//go:embed packages/testdata/moon.mod.json
+var packagesMoonModJSON string
 
-	if diff := cmp.Diff(packagesMoonModJSON, metagenMoonModJSON); diff != "" {
-		t.Errorf("packages/testdata/moon.mod.json != metagen/testdata/moon.mod.json:\n%v", diff)
-	}
-
-	if diff := cmp.Diff(packagesMoonPkgJSON, metagenMoonPkgJSON); diff != "" {
-		t.Errorf("packages/testdata/moon.pkg.json != metagen/testdata/moon.pkg.json:\n%v", diff)
-	}
-}
+//go:embed packages/testdata/moon.pkg.json
+var packagesMoonPkgJSON string
