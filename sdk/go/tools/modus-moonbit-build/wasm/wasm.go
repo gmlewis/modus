@@ -15,13 +15,16 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
-func WriteMetadata(config *config.Config, meta *metadata.Metadata) error {
+func WriteMetadata(config *config.Config, originalMeta *metadata.Metadata) error {
+	meta := stripTildesFromNamedParams(originalMeta)
+
 	metaJson, err := utils.JsonSerialize(meta, false)
 	if err != nil {
 		return err
@@ -115,4 +118,37 @@ func getWasmBytes(wasmFilePath string) ([]byte, error) {
 	}
 
 	return wasmBytes, nil
+}
+
+func stripTildesFromNamedParams(originalMeta *metadata.Metadata) *metadata.Metadata {
+	fnExports := metadata.FunctionMap{}
+	for _, fn := range originalMeta.FnExports {
+		params := make([]*metadata.Parameter, 0, len(fn.Parameters))
+		for _, p := range fn.Parameters {
+			name := strings.TrimSuffix(p.Name, "~")
+			params = append(params, &metadata.Parameter{
+				Name: name,
+				Type: p.Type,
+			})
+		}
+		newFn := &metadata.Function{
+			Name:       fn.Name,
+			Parameters: params,
+			Results:    fn.Results,
+			Docs:       fn.Docs,
+		}
+		fnExports[fn.Name] = newFn
+	}
+	return &metadata.Metadata{
+		Plugin:    originalMeta.Plugin,
+		Module:    originalMeta.Module,
+		SDK:       originalMeta.SDK,
+		BuildID:   originalMeta.BuildID,
+		BuildTime: originalMeta.BuildTime,
+		GitRepo:   originalMeta.GitRepo,
+		GitCommit: originalMeta.GitCommit,
+		FnExports: fnExports,
+		FnImports: originalMeta.FnImports,
+		Types:     originalMeta.Types,
+	}
 }

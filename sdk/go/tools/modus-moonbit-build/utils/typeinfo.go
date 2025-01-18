@@ -21,16 +21,16 @@ func GetNameForType(t string, imports map[string]string) string {
 	}
 
 	if IsPointerType(t) {
-		return "*" + GetNameForType(GetUnderlyingType(t), imports)
+		return "*" + GetNameForType(GetUnderlyingType(t), imports) // TODO
 	}
 
 	if IsListType(t) {
-		return arrayPrefix(t) + GetNameForType(GetArraySubtype(t), imports)
+		return "Array[" + GetNameForType(GetArraySubtype(t), imports) + "]"
 	}
 
 	if IsMapType(t) {
 		kt, vt := GetMapSubtypes(t)
-		return "map[" + GetNameForType(kt, imports) + "]" + GetNameForType(vt, imports)
+		return "Map[" + GetNameForType(kt, imports) + "," + GetNameForType(vt, imports) + "]"
 	}
 
 	pkgPath := t[:sep]
@@ -75,11 +75,12 @@ func GetPackageNamesForType(t string) []string {
 }
 
 func GetArraySubtype(t string) string {
-	return t[strings.Index(t, "]")+1:]
+	// return t[strings.Index(t, "]")+1:]
+	return t[6 : len(t)-1]
 }
 
 func GetMapSubtypes(t string) (string, string) {
-	const prefix = "map["
+	const prefix = "Map["
 	if !strings.HasPrefix(t, prefix) {
 		return "", ""
 	}
@@ -89,11 +90,12 @@ func GetMapSubtypes(t string) (string, string) {
 		switch t[i] {
 		case '[':
 			n++
+		case ',':
+			if n == 1 {
+				return t[len(prefix):i], t[i+1 : len(t)-1]
+			}
 		case ']':
 			n--
-			if n == 0 {
-				return t[len(prefix):i], t[i+1:]
-			}
 		}
 	}
 
@@ -101,12 +103,11 @@ func GetMapSubtypes(t string) (string, string) {
 }
 
 func GetUnderlyingType(t string) string {
-	return strings.TrimPrefix(t, "*")
+	return strings.TrimSuffix(t, "?")
 }
 
 func IsListType(t string) bool {
-	// covers both slices and arrays
-	return strings.HasPrefix(t, "[")
+	return strings.HasPrefix(t, "Array[")
 }
 
 func IsSliceType(t string) bool {
@@ -117,20 +118,16 @@ func IsArrayType(t string) bool {
 	return IsListType(t) && !IsSliceType(t)
 }
 
-func arrayPrefix(t string) string {
-	return t[:strings.Index(t, "]")+1]
-}
-
 func IsMapType(t string) bool {
-	return strings.HasPrefix(t, "map[")
+	return strings.HasPrefix(t, "Map[")
 }
 
-func IsPointerType(t string) bool {
+func IsPointerType(t string) bool { // TODO
 	return strings.HasPrefix(t, "*")
 }
 
 func IsStringType(t string) bool {
-	return t == "string"
+	return t == "String"
 }
 
 func IsStructType(t string) bool {
@@ -139,13 +136,15 @@ func IsStructType(t string) bool {
 
 func IsPrimitiveType(t string) bool {
 	switch t {
-	case "bool",
-		"int", "int8", "int16", "int32", "int64",
-		"uint", "uint8", "uint16", "uint32", "uint64",
-		"uintptr", "byte", "rune",
-		"float32", "float64",
-		"complex64", "complex128",
-		"unsafe.Pointer", "time.Duration":
+	case "Bool",
+		"Int", "Int8", "Int16", "Int32", "Int64",
+		"Uint", "Uint8", "Uint16", "Uint32", "Uint64",
+		// "Uintptr",
+		"Byte", "Char",
+		"Float", "Double",
+		// "Complex64", "Complex128",
+		// "Unsafe.Pointer",
+		"time.Duration":
 		return true
 	}
 

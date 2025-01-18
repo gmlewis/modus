@@ -36,7 +36,7 @@ func LogToConsole(meta *metadata.Metadata) {
 		{"Plugin Name", meta.Plugin},
 		{"MoonBit Module", meta.Module},
 		{"Modus SDK", meta.SDK},
-		{"Build ID", meta.BuildId},
+		{"Build ID", meta.BuildID},
 		{"Build Timestamp", meta.BuildTime},
 		{"Git Repository", meta.GitRepo},
 		{"Git Commit", meta.GitCommit},

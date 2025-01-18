@@ -28,7 +28,8 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) bool {
 	switch n := node.(type) {
 	case *ast.FuncType:
 		for _, param := range n.Params.List {
-			params = append(params, fmt.Sprintf("%v : %v", param.Names[0].Name, param.Type))
+			name := strings.TrimSuffix(param.Names[0].Name, "~")
+			params = append(params, fmt.Sprintf("%v : %v", name, param.Type))
 		}
 		if n.Results != nil {
 			resultType = n.Results.List[0].Type.(*ast.Ident).Name

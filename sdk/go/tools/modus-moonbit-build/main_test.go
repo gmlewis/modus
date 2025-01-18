@@ -16,7 +16,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestAllTestDataIdentical(t *testing.T) {
+func TestAllTestDataIsIdentical(t *testing.T) {
 	t.Parallel()
 
 	compareTwo(t, codegenTestData, metagenTestData)

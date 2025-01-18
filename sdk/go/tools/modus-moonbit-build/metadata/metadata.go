@@ -29,7 +29,7 @@ type Metadata struct {
 	Plugin    string      `json:"plugin"`
 	Module    string      `json:"module"`
 	SDK       string      `json:"sdk"`
-	BuildId   string      `json:"buildId"`
+	BuildID   string      `json:"buildId"`
 	BuildTime string      `json:"buildTs"`
 	GitRepo   string      `json:"gitRepo,omitempty"`
 	GitCommit string      `json:"gitCommit,omitempty"`
@@ -76,7 +76,7 @@ type Field struct {
 
 func NewMetadata() *Metadata {
 	return &Metadata{
-		BuildId:   xid.New().String(),
+		BuildID:   xid.New().String(),
 		BuildTime: utils.TimeNow(),
 		FnExports: make(FunctionMap),
 		FnImports: make(FunctionMap),
