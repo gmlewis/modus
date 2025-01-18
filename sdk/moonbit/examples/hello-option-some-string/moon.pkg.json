@@ -10,7 +10,8 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_hello_option_some_string:hello_option_some_string"
+        "__modus_hello_option_some_string:hello_option_some_string",
+        "__modus_hello_option_some_string_WithDefaults:hello_option_some_string_WithDefaults"
       ],
       "export-memory-name": "memory"
     }

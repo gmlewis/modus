@@ -10,7 +10,8 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_hello_world_with_optional_arg:hello_world_with_optional_arg"
+        "__modus_hello_world_with_optional_arg:hello_world_with_optional_arg",
+        "__modus_hello_world_with_optional_arg_WithDefaults:hello_world_with_optional_arg_WithDefaults"
       ],
       "export-memory-name": "memory"
     }

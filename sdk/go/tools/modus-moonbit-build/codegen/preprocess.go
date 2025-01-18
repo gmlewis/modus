@@ -285,6 +285,8 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 		inputParams.WriteByte(')')
 
+		name = strings.TrimSuffix(name, "_WithDefaults")
+
 		if hasErrorReturn {
 			b.WriteString("  try ")
 			b.WriteString(name)

@@ -110,24 +110,78 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
-		decl := &ast.FuncDecl{
-			Name: &ast.Ident{Name: methodName},
-			Type: &ast.FuncType{
-				Params: &ast.FieldList{
-					List: paramsList,
-				},
-				Results: resultsList,
-			},
+		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, paramsList, paramsVars, resultsList, resultsTuple)
+		if functionParamsHasDefaultValue(paramsList) {
+			newMethodName, newParamsList, newParamsVars := duplicateMethodWithDefaultValues(methodName, paramsList, paramsVars)
+			decls = p.addExportedFunctionDecls(typesPkg, decls, newMethodName, newParamsList, newParamsVars, resultsList, resultsTuple)
 		}
-
-		decls = append(decls, decl)
-		var paramsTuple *types.Tuple
-		if len(paramsVars) > 0 {
-			paramsTuple = types.NewTuple(paramsVars...)
-		}
-		p.TypesInfo.Defs[decl.Name] = types.NewFunc(0, typesPkg, methodName,
-			types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false)) // TODO
 	}
+
+	return decls
+}
+
+func functionParamsHasDefaultValue(paramsList []*ast.Field) bool {
+	for _, param := range paramsList {
+		paramType, ok := param.Type.(*ast.Ident)
+		if ok && strings.Contains(paramType.Name, "=") {
+			return true
+		}
+	}
+	return false
+}
+
+func duplicateMethodWithDefaultValues(methodName string, paramsList []*ast.Field, paramsVars []*types.Var) (string, []*ast.Field, []*types.Var) {
+	newMethodName := methodName + "_WithDefaults"
+	newParamsList := make([]*ast.Field, 0, len(paramsList))
+	newParamsVars := make([]*types.Var, 0, len(paramsVars))
+	for _, param := range paramsList {
+		paramType, ok := param.Type.(*ast.Ident)
+		if !ok {
+			log.Fatalf("programming error: expected *ast.Ident, got %T", param.Type)
+		}
+		if strings.Contains(paramType.Name, "=") {
+			continue
+		}
+		newParam := &ast.Field{
+			Names: param.Names,
+			Type:  param.Type,
+		}
+		newParamsList = append(newParamsList, newParam)
+	}
+	for _, param := range paramsVars {
+		switch paramType := param.Type().(type) {
+		case *types.Named:
+			paramTypeName := paramType.Obj().Name()
+			if strings.Contains(paramTypeName, "=") {
+				continue
+			}
+		default:
+			log.Fatalf("programming error: expected *moonType, got %T", paramType)
+		}
+		newParam := types.NewVar(0, nil, param.Name(), param.Type())
+		newParamsVars = append(newParamsVars, newParam)
+	}
+	return newMethodName, newParamsList, newParamsVars
+}
+
+func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.Decl, methodName string, paramsList []*ast.Field, paramsVars []*types.Var, resultsList *ast.FieldList, resultsTuple *types.Tuple) []ast.Decl {
+	decl := &ast.FuncDecl{
+		Name: &ast.Ident{Name: methodName},
+		Type: &ast.FuncType{
+			Params: &ast.FieldList{
+				List: paramsList,
+			},
+			Results: resultsList,
+		},
+	}
+
+	decls = append(decls, decl)
+	var paramsTuple *types.Tuple
+	if len(paramsVars) > 0 {
+		paramsTuple = types.NewTuple(paramsVars...)
+	}
+	p.TypesInfo.Defs[decl.Name] = types.NewFunc(0, typesPkg, methodName,
+		types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false)) // TODO
 
 	return decls
 }
