@@ -23,6 +23,8 @@ import (
 	"github.com/spf13/cast"
 )
 
+const stringHeaderSize = 8
+
 func (p *planner) NewStringHandler(ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &stringHandler{*NewTypeHandler(ti)}
 	p.AddHandler(handler)
@@ -121,13 +123,12 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	// Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
-	// Note that ptr2str assumes that the 8 bytes before the null-terminated UTF-16 string are available for
-	// writing into, and will return the offset 8-bytes before the passed `offset`.
 	log.Printf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
-	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset)) // +8))
+	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
 	if err != nil {
 		return nil, cln, err
 	}
+	// res[0] += stringHeaderSize
 
 	return res, cln, nil
 }
@@ -253,18 +254,12 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	runes := []rune(str)
 	codeUnits := utf16.Encode(runes)
 
-	size := 8 + len(codeUnits)*2 + 6
+	size := (len(codeUnits) + 1) * 2 // null-terminated UTF-16 string
 	data := make([]byte, size)
-	binary.LittleEndian.PutUint32(data[0:], 0xffffffff)
-	// binary.LittleEndian.PutUint32(data[4:], uint32(size)) // TODO: Is this the correct length to report?
-	binary.LittleEndian.PutUint32(data[4:], uint32(243)) // according to `ptr2str`
 	for i, codeUnit := range codeUnits {
-		binary.LittleEndian.PutUint16(data[8+i*2:], codeUnit)
+		binary.LittleEndian.PutUint16(data[i*2:], codeUnit)
 	}
-	// write 6 trailing bytes to output
-	binary.LittleEndian.PutUint16(data[size-6:], 0) // null-terminate the string
-	binary.LittleEndian.PutUint16(data[size-4:], 0x0100)
-	binary.LittleEndian.PutUint16(data[size-2:], 0)
+	binary.LittleEndian.PutUint16(data[size-2:], 0) // null-terminate the string
 
 	return data
 }
