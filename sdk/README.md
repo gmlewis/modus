@@ -27,3 +27,10 @@ $ ./build.sh
 $ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
 $ ./install.sh
 ```
+
+## Status
+
+The following MoonBit examples work:
+
+-[x] `sdk/moonbit/examples/hello-option-empty-string`
+-[x] `sdk/moonbit/examples/hello-world`

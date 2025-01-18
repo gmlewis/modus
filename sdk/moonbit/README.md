@@ -28,6 +28,11 @@ $ ./install.sh
 
 ## Status
 
+The following MoonBit examples work:
+
+-[x] `sdk/moonbit/examples/hello-option-empty-string`
+-[x] `sdk/moonbit/examples/hello-world`
+
 The code has been updated to support compiler:
 
 ```bash
