@@ -110,9 +110,11 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
-		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, paramsList, paramsVars, resultsList, resultsTuple)
+		newParamsList, newParamsVars := stripDefaultValues(paramsList, paramsVars)
+		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, newParamsList, newParamsVars, resultsList, resultsTuple)
+
 		if functionParamsHasDefaultValue(paramsList) {
-			newMethodName, newParamsList, newParamsVars := duplicateMethodWithDefaultValues(methodName, paramsList, paramsVars)
+			newMethodName, newParamsList, newParamsVars := duplicateMethodWithoutDefaultParams(methodName, paramsList, paramsVars)
 			decls = p.addExportedFunctionDecls(typesPkg, decls, newMethodName, newParamsList, newParamsVars, resultsList, resultsTuple)
 		}
 	}
@@ -130,10 +132,48 @@ func functionParamsHasDefaultValue(paramsList []*ast.Field) bool {
 	return false
 }
 
-func duplicateMethodWithDefaultValues(methodName string, paramsList []*ast.Field, paramsVars []*types.Var) (string, []*ast.Field, []*types.Var) {
-	newMethodName := methodName + "_WithDefaults"
+func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*ast.Field, []*types.Var) {
+	if len(paramsList) == 0 {
+		return nil, nil
+	}
 	newParamsList := make([]*ast.Field, 0, len(paramsList))
+	for _, param := range paramsList {
+		if paramType, ok := param.Type.(*ast.Ident); ok {
+			if strings.Contains(paramType.Name, "=") {
+				// newName := strings.TrimSuffix(param.Names[0].Name, "~")  // cannot remove yet, as it is needed in modus_pre_generated.mbt.
+				newType := strings.Split(paramType.Name, " = ")[0]
+				newParamsList = append(newParamsList, &ast.Field{
+					Names: []*ast.Ident{{Name: param.Names[0].Name}},
+					Type:  &ast.Ident{Name: newType},
+				})
+			} else {
+				newParamsList = append(newParamsList, param)
+			}
+		}
+	}
 	newParamsVars := make([]*types.Var, 0, len(paramsVars))
+	for _, param := range paramsVars {
+		var paramTypeName string
+		switch paramType := param.Type().(type) {
+		case *types.Named:
+			paramTypeName = strings.Split(paramType.Obj().Name(), " = ")[0]
+		default:
+			log.Fatalf("programming error: expected *moonType, got %T", paramType)
+		}
+		// newName := strings.TrimSuffix(param.Name(), "~")  // still needed
+		newParam := types.NewVar(0, nil, param.Name(), types.NewNamed(types.NewTypeName(0, nil, paramTypeName, nil), nil, nil))
+		newParamsVars = append(newParamsVars, newParam)
+	}
+
+	return newParamsList, newParamsVars
+}
+
+func duplicateMethodWithoutDefaultParams(methodName string, paramsList []*ast.Field, paramsVars []*types.Var) (string, []*ast.Field, []*types.Var) {
+	newMethodName := methodName + "_WithDefaults"
+	if len(paramsList) == 0 {
+		return newMethodName, nil, nil
+	}
+	newParamsList := make([]*ast.Field, 0, len(paramsList))
 	for _, param := range paramsList {
 		paramType, ok := param.Type.(*ast.Ident)
 		if !ok {
@@ -148,6 +188,7 @@ func duplicateMethodWithDefaultValues(methodName string, paramsList []*ast.Field
 		}
 		newParamsList = append(newParamsList, newParam)
 	}
+	newParamsVars := make([]*types.Var, 0, len(paramsVars))
 	for _, param := range paramsVars {
 		switch paramType := param.Type().(type) {
 		case *types.Named:

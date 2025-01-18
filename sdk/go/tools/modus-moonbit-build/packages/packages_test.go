@@ -122,7 +122,7 @@ var wantPackages = []*Package{
 								List: []*ast.Field{
 									{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Int"}},
 									{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
-									{Names: []*ast.Ident{{Name: "c~"}}, Type: &ast.Ident{Name: "Int = 0"}},
+									{Names: []*ast.Ident{{Name: "c~"}}, Type: &ast.Ident{Name: "Int"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -168,7 +168,7 @@ var wantPackages = []*Package{
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime = @wallClock.now()"}},
+									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -194,7 +194,7 @@ var wantPackages = []*Package{
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime = @wallClock.now()"}},
+									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -236,7 +236,7 @@ var wantPackages = []*Package{
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String? = None"}},
+									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String?"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -368,7 +368,7 @@ var wantPackages = []*Package{
 				{Name: "add3"}: types.NewFunc(0, testdataPkg, "add3", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "a", &moonType{typeName: "Int"}),
 					types.NewVar(0, nil, "b", &moonType{typeName: "Int"}),
-					types.NewVar(0, nil, "c~", &moonType{typeName: "Int = 0"}),
+					types.NewVar(0, nil, "c~", &moonType{typeName: "Int"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
 				{Name: "add3_WithDefaults"}: types.NewFunc(0, testdataPkg, "add3_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "a", &moonType{typeName: "Int"}),
@@ -378,11 +378,11 @@ var wantPackages = []*Package{
 					types.NewVar(0, nil, "args", &moonType{typeName: "Array[Int]"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
 				{Name: "get_current_time"}: types.NewFunc(0, testdataPkg, "get_current_time", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime = @wallClock.now()"}),
+					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.PlainDateTime!Error"})), false)),
 				{Name: "get_current_time_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.PlainDateTime!Error"})), false)),
 				{Name: "get_current_time_formatted"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime = @wallClock.now()"}),
+					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
 				{Name: "get_current_time_formatted_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
 				{Name: "get_full_name"}: types.NewFunc(0, testdataPkg, "get_full_name", types.NewSignatureType(nil, nil, nil, types.NewTuple(
@@ -401,7 +401,7 @@ var wantPackages = []*Package{
 					types.NewVar(0, nil, "message", &moonType{typeName: "String"}),
 				), nil, false)),
 				{Name: "say_hello"}: types.NewFunc(0, testdataPkg, "say_hello", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "name~", &moonType{typeName: "String? = None"}),
+					types.NewVar(0, nil, "name~", &moonType{typeName: "String?"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
 				{Name: "say_hello_WithDefaults"}: types.NewFunc(0, testdataPkg, "say_hello_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
 				{Name: "test_abort"}:             types.NewFunc(0, testdataPkg, "test_abort", types.NewSignatureType(nil, nil, nil, nil, nil, false)),

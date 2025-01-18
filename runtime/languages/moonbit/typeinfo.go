@@ -31,8 +31,6 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 }
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
-	// Cannot strip off the default values at this point due to the need to match the metadata.
-	// typeName = strings.Split(typeName, " = ")[0] // remove default value
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
 
@@ -112,7 +110,6 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 	// TODO
 	// result := strings.TrimPrefix(typ, "*") // for Go
-	typ = strings.Split(typ, " = ")[0] // remove default value
 	if strings.HasSuffix(typ, "?") {
 		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing '?'", typ)
 		typ = typ[:len(typ)-1]
@@ -532,18 +529,14 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
-	typeWithoutDefaultValues := strings.Split(typ, " = ")[0] // remove default value
-
 	if customTypes != nil {
-		// if rt, ok := customTypes[typ]; ok {
-		if rt, ok := customTypes[typeWithoutDefaultValues]; ok {
+		if rt, ok := customTypes[typ]; ok {
 			log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
 			return rt, nil
 		}
 	}
 
-	// if rt, ok := reflectedTypeMap[typ]; ok {
-	if rt, ok := reflectedTypeMap[typeWithoutDefaultValues]; ok {
+	if rt, ok := reflectedTypeMap[typ]; ok {
 		log.Printf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
 		return rt, nil
 	}

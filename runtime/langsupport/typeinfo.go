@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"reflect"
-	"strings"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -51,14 +50,12 @@ type TypeInfo interface {
 }
 
 func GetTypeInfo(ctx context.Context, lti LanguageTypeInfo, typeName string, typeCache map[string]TypeInfo) (TypeInfo, error) {
-	typeNameWithoutDefaultValues := strings.Split(typeName, " = ")[0]
-
-	if t, ok := typeCache[typeNameWithoutDefaultValues]; ok {
+	if t, ok := typeCache[typeName]; ok {
 		return t, nil
 	}
 
-	info := &typeInfo{name: typeNameWithoutDefaultValues}
-	typeCache[typeNameWithoutDefaultValues] = info
+	info := &typeInfo{name: typeName}
+	typeCache[typeName] = info
 
 	flags := typeFlags(0)
 
