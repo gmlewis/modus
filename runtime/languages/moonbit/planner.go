@@ -13,6 +13,7 @@ package moonbit
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -66,8 +67,10 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	if err != nil {
 		return nil, fmt.Errorf("failed to get type info for %s: %w", typeName, err)
 	}
+	log.Printf("GML: planner.go: GetTypeInfo: %#v", ti)
 
 	if ti.IsPrimitive() {
+		log.Printf("GML: planner.go: ti.IsPrimitive(): %v", typeName)
 		return p.NewPrimitiveHandler(ti)
 	} else if ti.IsString() {
 		return p.NewStringHandler(ti)

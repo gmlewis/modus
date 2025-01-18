@@ -18,7 +18,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"unsafe"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -32,6 +31,8 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 }
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
+	// Cannot strip off the default values at this point due to the need to match the metadata.
+	// typeName = strings.Split(typeName, " = ")[0] // remove default value
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
 
@@ -111,10 +112,7 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 	// TODO
 	// result := strings.TrimPrefix(typ, "*") // for Go
-	if strings.Contains(typ, " = ") { // remove initializer
-		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing ' = '", typ)
-		typ = strings.Split(typ, " = ")[0]
-	}
+	typ = strings.Split(typ, " = ")[0] // remove default value
 	if strings.HasSuffix(typ, "?") {
 		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing '?'", typ)
 		typ = typ[:len(typ)-1]
@@ -515,6 +513,7 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 
 func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
 	md := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
+	// Must use original type definition from SDK (with default values) to match the saved metadata.
 	result, err := md.GetTypeDefinition(typ)
 	log.Printf("GML: typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)
 	return result, err
@@ -533,20 +532,18 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
-	// special case - '@wallClock.Datetime' is handled by `time.Time`
-	if strings.HasPrefix(typ, "@wallClock.Datetime") {
-		log.Printf("GML: typeinfo.go: Z: getReflectedType('%v') - translating to 'time.Time'", typ)
-		typ = "time.Time"
-	}
+	typeWithoutDefaultValues := strings.Split(typ, " = ")[0] // remove default value
 
 	if customTypes != nil {
-		if rt, ok := customTypes[typ]; ok {
+		// if rt, ok := customTypes[typ]; ok {
+		if rt, ok := customTypes[typeWithoutDefaultValues]; ok {
 			log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
 			return rt, nil
 		}
 	}
 
-	if rt, ok := reflectedTypeMap[typ]; ok {
+	// if rt, ok := reflectedTypeMap[typ]; ok {
+	if rt, ok := reflectedTypeMap[typeWithoutDefaultValues]; ok {
 		log.Printf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
 		return rt, nil
 	}
@@ -624,24 +621,25 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 
 var rtMapStringAny = reflect.TypeFor[map[string]any]()
 var reflectedTypeMap = map[string]reflect.Type{
-	"bool":           reflect.TypeFor[bool](),
-	"byte":           reflect.TypeFor[byte](),
-	"uint":           reflect.TypeFor[uint](),
-	"uint8":          reflect.TypeFor[uint8](),
-	"uint16":         reflect.TypeFor[uint16](),
-	"uint32":         reflect.TypeFor[uint32](),
-	"uint64":         reflect.TypeFor[uint64](),
-	"uintptr":        reflect.TypeFor[uintptr](),
-	"int":            reflect.TypeFor[int](),
-	"int8":           reflect.TypeFor[int8](),
-	"int16":          reflect.TypeFor[int16](),
-	"int32":          reflect.TypeFor[int32](),
-	"int64":          reflect.TypeFor[int64](),
-	"rune":           reflect.TypeFor[rune](),
-	"float32":        reflect.TypeFor[float32](),
-	"float64":        reflect.TypeFor[float64](),
-	"string":         reflect.TypeFor[string](),
-	"time.Time":      reflect.TypeFor[time.Time](),
-	"time.Duration":  reflect.TypeFor[time.Duration](),
-	"unsafe.Pointer": reflect.TypeFor[unsafe.Pointer](),
+	"Bool":                reflect.TypeFor[bool](),
+	"Byte":                reflect.TypeFor[byte](),
+	"Uint":                reflect.TypeFor[uint](),
+	"Uint8":               reflect.TypeFor[uint8](),
+	"Uint16":              reflect.TypeFor[uint16](),
+	"Uint32":              reflect.TypeFor[uint32](),
+	"Uint64":              reflect.TypeFor[uint64](),
+	"Uintptr":             reflect.TypeFor[uintptr](),
+	"Int":                 reflect.TypeFor[int](),
+	"Int8":                reflect.TypeFor[int8](),
+	"Int16":               reflect.TypeFor[int16](),
+	"Int32":               reflect.TypeFor[int32](),
+	"Int64":               reflect.TypeFor[int64](),
+	"Char":                reflect.TypeFor[rune](),
+	"Float":               reflect.TypeFor[float32](),
+	"Double":              reflect.TypeFor[float64](),
+	"String":              reflect.TypeFor[string](),
+	"@time.PlainTime":     reflect.TypeFor[time.Time](),
+	"@time.Duration":      reflect.TypeFor[time.Duration](),
+	"@wallClock.Datetime": reflect.TypeFor[time.Time](),
+	// "Unsafe.pointer": reflect.TypeFor[unsafe.Pointer](),
 }

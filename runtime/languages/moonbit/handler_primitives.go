@@ -33,38 +33,38 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	}()
 
 	switch ti.Name() {
-	case "bool":
+	case "Bool":
 		return newPrimitiveHandler[bool](ti), nil
-	case "uint8", "byte":
+	case "Uint8", "Byte":
 		return newPrimitiveHandler[uint8](ti), nil
-	case "uint16":
+	case "Uint16":
 		return newPrimitiveHandler[uint16](ti), nil
-	case "uint32":
+	case "Uint32":
 		return newPrimitiveHandler[uint32](ti), nil
-	case "uint64":
+	case "Uint64":
 		return newPrimitiveHandler[uint64](ti), nil
-	case "int8":
+	case "Int8":
 		return newPrimitiveHandler[int8](ti), nil
-	case "int16":
+	case "Int16":
 		return newPrimitiveHandler[int16](ti), nil
-	case "int32", "rune":
+	case "Int32", "Char":
 		return newPrimitiveHandler[int32](ti), nil
-	case "int64":
+	case "Int64":
 		return newPrimitiveHandler[int64](ti), nil
-	case "float32":
+	case "Float":
 		return newPrimitiveHandler[float32](ti), nil
-	case "float64":
+	case "Double":
 		return newPrimitiveHandler[float64](ti), nil
-	case "int":
+	case "Int":
 		return newPrimitiveHandler[int](ti), nil
-	case "uint":
+	case "Uint":
 		return newPrimitiveHandler[uint](ti), nil
-	case "uintptr":
-		return newPrimitiveHandler[uintptr](ti), nil
-	case "time.Duration":
+	// case "uintptr":
+	// return newPrimitiveHandler[uintptr](ti), nil
+	case "@time.Duration":
 		return newPrimitiveHandler[time.Duration](ti), nil
 	default:
-		return nil, fmt.Errorf("unsupported primitive type: %s", ti.Name())
+		return nil, fmt.Errorf("unsupported primitive MoonBit type: %s", ti.Name())
 	}
 }
 
