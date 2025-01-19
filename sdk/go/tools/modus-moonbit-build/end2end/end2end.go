@@ -19,6 +19,8 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -45,9 +47,29 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 
 	go func() {
 		must(cmd.Start())
-		log.Printf("Waiting for Modus CLI to finish...")
+
+		pid := cmd.Process.Pid
+		log.Printf("Waiting for Modus CLI to finish... (pid: %v)", pid)
+		time.Sleep(5 * time.Second)
+
+		// Get child PIDs
+		childPIDs, err := getChildPIDs(pid)
+		if err != nil {
+			fmt.Printf("Error getting child PIDs: %v\n", err)
+			return
+		}
+
+		fmt.Printf("Child PIDs: %+v\n", childPIDs)
+
 		if err := cmd.Wait(); err != nil {
 			log.Printf("cmd.Wait: %v", err)
+		}
+
+		for _, childPID := range childPIDs {
+			log.Printf("Killing child PID %v", childPID)
+			if err := killProcess(childPID); err != nil {
+				log.Printf("Failed to kill child PID %v: %v", childPID, err)
+			}
 		}
 	}()
 
@@ -88,6 +110,46 @@ func waitForPortToBeFree(port int, timeout time.Duration) bool {
 		time.Sleep(500 * time.Millisecond)
 	}
 	return false
+}
+
+// getChildPIDs returns the PIDs of all child processes of the given parent PID
+func getChildPIDs(parentPID int) ([]int, error) {
+	out, err := exec.Command("pgrep", "-P", strconv.Itoa(parentPID)).Output()
+	if err != nil {
+		return nil, fmt.Errorf("pgrep failed: %v", err)
+	}
+
+	// Parse the output of pgrep
+	lines := strings.Split(strings.TrimSpace(string(out)), "\n")
+	childPIDs := make([]int, 0, len(lines))
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+		pid, err := strconv.Atoi(line)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse PID: %v", err)
+		}
+		childPIDs = append(childPIDs, pid)
+	}
+
+	return childPIDs, nil
+}
+
+// killProcess kills a process by PID
+func killProcess(pid int) error {
+	process, err := os.FindProcess(pid)
+	if err != nil {
+		return fmt.Errorf("failed to find process: %v", err)
+	}
+
+	// Send a SIGKILL signal to the process
+	err = process.Kill()
+	if err != nil {
+		return fmt.Errorf("failed to kill process: %v", err)
+	}
+
+	return nil
 }
 
 func must(arg0 any, args ...any) {
