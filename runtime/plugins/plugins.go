@@ -49,6 +49,28 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 
 	ctx = context.WithValue(ctx, utils.MetadataContextKey, md)
 
+	// // Add an execution plan for the host function "spectest.print_char"
+	// printCharFnName := "spectest.print_char"
+	// printCharFnMeta := &metadata.Function{
+	// 	Name:       printCharFnName,
+	// 	Parameters: []*metadata.Parameter{{Name: "r", Type: "i32"}},
+	// }
+	// printCharFnDef := &customFnDef{
+	// 	moduleName: "spectest",
+	// 	debugName:  "spectest.print_char",
+	// 	name:       "print_char",
+	// 	paramNames: []string{"r"},
+	// 	paramTypes: []wasm.ValueType{wasm.ValueTypeI32},
+	// 	fn: func(r rune) {
+	// 		log.Printf("GML: plugins.go: customFnDef.GoFunction: %v = %[1]c", r)
+	// 	},
+	// }
+	// plan, err := planner.GetPlan(ctx, printCharFnMeta, printCharFnDef)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed to get execution plan for %v: %w", printCharFnName, err)
+	// }
+	// plans[printCharFnName] = plan
+
 	for fnName, fnMeta := range md.FnExports {
 		fnDef, ok := exports[fnName]
 		if !ok {
@@ -58,7 +80,7 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 		log.Printf("GML: plugins.go: NewPlugin: FnExports: fnName='%v': calling planner.GetPlan ...", fnName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get execution plan for %s: %w", fnName, err)
+			return nil, fmt.Errorf("failed to get execution plan for %v: %w", fnName, err)
 		}
 		plans[fnName] = plan
 	}
@@ -118,3 +140,27 @@ func GetPluginFromContext(ctx context.Context) (*Plugin, bool) {
 	p, ok := ctx.Value(utils.PluginContextKey).(*Plugin)
 	return p, ok
 }
+
+// type customFnDef struct {
+// 	moduleName  string
+// 	debugName   string
+// 	name        string
+// 	exportNames []string
+// 	paramNames  []string
+// 	paramTypes  []wasm.ValueType
+// 	resultNames []string
+// 	resultTypes []wasm.ValueType
+// 	fn          any
+// }
+
+// func (c *customFnDef) ModuleName() string             { return c.moduleName }
+// func (c *customFnDef) Name() string                   { return c.name }
+// func (c *customFnDef) DebugName() string              { return c.debugName }
+// func (c *customFnDef) ExportNames() []string          { return c.exportNames }
+// func (c *customFnDef) ParamNames() []string           { return c.paramNames }
+// func (c *customFnDef) ParamTypes() []wasm.ValueType   { return c.paramTypes }
+// func (c *customFnDef) ResultNames() []string          { return c.resultNames }
+// func (c *customFnDef) ResultTypes() []wasm.ValueType  { return c.resultTypes }
+// func (c *customFnDef) GoFunction() any                { return c.fn }
+// func (c *customFnDef) Import() (string, string, bool) { return c.moduleName, c.name, true }
+// func (c *customFnDef) Index() uint32                  { return 0 }

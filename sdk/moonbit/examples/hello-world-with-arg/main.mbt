@@ -4,5 +4,6 @@
 
 ///|
 pub fn hello_world_with_arg(name : String) -> String {
+  println("Got 'name' param with length: \{name.length()}: '\{name}'")
   "Hello, \{name}!"
 }

@@ -309,8 +309,9 @@ export default class DevCommand extends BaseCommand {
     let lastModified = 0;
     let lastBuild = 0;
     let paused = true;
+    let building = false;
     setInterval(async () => {
-      if (paused) {
+      if (paused || building) {
         return;
       }
       paused = true;
@@ -318,6 +319,7 @@ export default class DevCommand extends BaseCommand {
       if (lastBuild > lastModified) {
         return;
       }
+      building = true;
       lastBuild = Date.now();
 
       try {
@@ -331,6 +333,7 @@ export default class DevCommand extends BaseCommand {
         this.log(chalk.dim("Press Ctrl+C at any time to stop the server."));
       } finally {
         runtimeOutput.resume();
+        building = false;
       }
     }, delay);
 
@@ -360,9 +363,10 @@ export default class DevCommand extends BaseCommand {
         ignoreInitial: true,
         persistent: true,
       })
-      .on("all", (sourcePath) => {
+      .on("all", (event, sourcePath) => {
+        if (building) { return; }
         this.log()
-        this.log(chalk.magentaBright(`Detected source code change to '${sourcePath}'. Rebuilding...`));
+        this.log(chalk.magentaBright(`Detected source code event '${event}' to '${sourcePath}'. Rebuilding...`));
         this.log()
         lastModified = Date.now();
         paused = false;

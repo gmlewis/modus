@@ -23,7 +23,7 @@ import (
 	"github.com/spf13/cast"
 )
 
-const stringHeaderSize = 8
+// const stringHeaderSize = 8
 
 func (p *planner) NewStringHandler(ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &stringHandler{*NewTypeHandler(ti)}
@@ -151,6 +151,7 @@ func (h *stringHandler) doReadString(wa langsupport.WasmAdapter, offset, size ui
 	if !ok {
 		return "", fmt.Errorf("failed to read string data from WASM memory B: (offset: %v, size: %v)", offset, size)
 	}
+	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v", bytes)
 
 	return convertMoonBitUTF16ToUTF8(bytes)
 }
@@ -208,6 +209,7 @@ func (h *stringHandler) readStringHeader(ctx context.Context, wa langsupport.Was
 	if !ok {
 		return 0, 0, fmt.Errorf("failed to read string data from WASM memory A: (offset: %v, size: %v)", offset, size)
 	}
+	log.Printf("GML: handler_strings.go: stringHandler.readStringHeader: bytes: %+v", bytes)
 
 	if bytes[0] != 0xff || bytes[1] != 0xff || bytes[2] != 0xff || bytes[3] != 0xff {
 		log.Printf("WARNING: stringHandler.Decode: expected 'ffffffff' but got '%02x%02x%02x%02x'; continuing",
