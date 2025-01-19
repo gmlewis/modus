@@ -37,7 +37,7 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
-	result := typ[strings.Index(typ, "]")+1:] // TODO(gmlewis)
+	result := typ[6 : len(typ)-1] // Array[...]
 	log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 	return result
 }
@@ -132,12 +132,15 @@ func (lti *langTypeInfo) IsListType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsSliceType(typ string) bool {
-	result := len(typ) > 2 && typ[0] == '[' && typ[1] == ']' // TODO(gmlewis)
+	// MoonBit Arrays are similar to Go slices.
+	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
+	// result := len(typ) > 2 && typ[0] == '[' && typ[1] == ']' // for Go
 	log.Printf("GML: typeinfo.go: IsSliceType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
+	// TODO: MoonBit Arrays do not have a fixed length, unlike Go.
 	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
 	log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
 	return result
@@ -529,6 +532,7 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
+	log.Printf("GML: typeinfo.go: ENTER getReflectedType('%v')", typ)
 	if customTypes != nil {
 		if rt, ok := customTypes[typ]; ok {
 			log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
