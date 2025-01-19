@@ -12,6 +12,7 @@ package config
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -24,6 +25,7 @@ type Config struct {
 	CompilerOptions []string
 	WasmFileName    string
 	OutputDir       string
+	EndToEndTests   []*Plugin
 }
 
 func GetConfig() (*Config, error) {
@@ -36,6 +38,8 @@ func GetConfig() (*Config, error) {
 
 	flag.StringVar(&c.CompilerPath, "compiler", defaultCompilerPath, "Path to the compiler to use.")
 	flag.StringVar(&c.OutputDir, "output", "build", "Output directory for the generated files. Relative paths are resolved relative to the source directory.")
+	var endToEndTestsFilename string
+	flag.StringVar(&endToEndTestsFilename, "test", "", "Path to the end-to-end tests JSON file (e.g. '-test end-to-end-tests.json').")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "modus-moonbit-build - The build tool for MoonBit-based Modus apps")
@@ -45,6 +49,15 @@ func GetConfig() (*Config, error) {
 	}
 
 	flag.Parse()
+
+	if endToEndTestsFilename != "" {
+		if err := c.loadEndToEndTests(endToEndTestsFilename); err != nil {
+			log.Printf("Error loading end-to-end tests JSON file: %v", err)
+			flag.Usage()
+			os.Exit(1)
+		}
+		return c, nil
+	}
 
 	if flag.NArg() < 1 {
 		flag.Usage()

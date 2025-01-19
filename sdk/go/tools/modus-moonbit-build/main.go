@@ -14,6 +14,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/gmlewis/modus/lib/manifest"
@@ -43,6 +44,21 @@ func main() {
 		log.Println("Configuration loaded.")
 	}
 
+	if len(config.EndToEndTests) > 0 {
+		_, thisFilename, _, _ := runtime.Caller(0)
+		repoAbsPath := filepath.Join(filepath.Dir(thisFilename), "../../../..")
+		for _, plugin := range config.EndToEndTests {
+			config.SourceDir = filepath.Join(repoAbsPath, plugin.Path)
+			config.WasmFileName = plugin.Name + ".wasm"
+			config.OutputDir = filepath.Join(config.SourceDir, "build")
+			buildPlugin(config, start, trace)
+		}
+	} else {
+		buildPlugin(config, start, trace)
+	}
+}
+
+func buildPlugin(config *config.Config, start time.Time, trace bool) {
 	if err := compiler.Validate(config); err != nil {
 		exitWithError("Error", err)
 	}

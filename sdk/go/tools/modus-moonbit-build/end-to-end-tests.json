@@ -1,5 +1,5 @@
 {
-  "tests": [
+  "plugins": [
     {
       "name": "hello-option-empty-string",
       "path": "sdk/moonbit/examples/hello-option-empty-string",
