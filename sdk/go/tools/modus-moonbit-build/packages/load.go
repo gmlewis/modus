@@ -69,6 +69,9 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		}
 	}
 
+	// ensure that "is-main" is false:
+	moonPkgJSON.IsMain = false
+
 	sourceFiles, err := filepath.Glob(filepath.Join(cfg.Dir, "*.mbt"))
 	if err != nil {
 		return nil, err

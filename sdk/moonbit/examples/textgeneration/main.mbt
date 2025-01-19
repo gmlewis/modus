@@ -14,12 +14,12 @@ const MODEL_NAME = "text-generator"
 ///|
 fn generate_text(instruction : String, prompt : String) -> String!Error {
   // The imported ChatModel type follows the OpenAI Chat completion model input format.
-  let model = models.get_model!(MODEL_NAME)
+  let model = @models.get_model!(MODEL_NAME)
 
   // We'll start by creating an input object using the instruction and prompt provided.
-  let input = model.create_input(
-    openai.new_system_message(instruction),
-    openai.new_user_message(prompt),
+  let input = @models.create_input(
+    @openai.new_system_message(instruction),
+    @openai.new_user_message(prompt),
     // ... if we wanted to add more messages, we could do so here.
   )
 
@@ -27,7 +27,7 @@ fn generate_text(instruction : String, prompt : String) -> String!Error {
   input.temperature = 0.7
 
   // Here we invoke the model with the input we created.
-  let output = model.invoke(input)
+  let output = @models.invoke(input)
 
   // The output is also specific to the ChatModel interface.
   // Here we return the trimmed content of the first choice.
@@ -168,8 +168,3 @@ fn generate_text(instruction : String, prompt : String) -> String!Error {
 // 	return products, nil
 // }
 //
-
-///|
-fn main {
-
-}
