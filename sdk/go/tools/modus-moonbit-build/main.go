@@ -21,6 +21,7 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/codegen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/compiler"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/end2end"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
@@ -51,7 +52,7 @@ func main() {
 			config.SourceDir = filepath.Join(repoAbsPath, plugin.Path)
 			config.WasmFileName = plugin.Name + ".wasm"
 			config.OutputDir = filepath.Join(config.SourceDir, "build")
-			buildPlugin(config, start, trace)
+			end2end.RunTest(config, repoAbsPath, start, trace, plugin)
 		}
 	} else {
 		buildPlugin(config, start, trace)
