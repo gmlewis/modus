@@ -23,8 +23,6 @@ import (
 	"github.com/spf13/cast"
 )
 
-// const stringHeaderSize = 8
-
 func (p *planner) NewStringHandler(ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &stringHandler{*NewTypeHandler(ti)}
 	p.AddHandler(handler)
@@ -128,7 +126,14 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	if err != nil {
 		return nil, cln, err
 	}
-	// res[0] += stringHeaderSize
+
+	// For debugging purposes:
+	memBytes, ok := wa.Memory().Read(offset-8, uint32(len(bytes)+16))
+	if !ok {
+		log.Printf("GML: handler_strings.go: stringHandler.Encode: failed to read memory bytes")
+	} else {
+		log.Printf("GML: handler_strings.go: stringHandler.Encode: memBytes: %+v", memBytes)
+	}
 
 	return res, cln, nil
 }
@@ -207,17 +212,21 @@ func (h *stringHandler) readStringHeader(ctx context.Context, wa langsupport.Was
 
 	bytes, ok := wa.Memory().Read(offset, uint32(8))
 	if !ok {
-		return 0, 0, fmt.Errorf("failed to read string data from WASM memory A: (offset: %v, size: %v)", offset, size)
+		return 0, 0, fmt.Errorf("failed to read string header from WASM memory A: (offset: %v, size: 8)", offset)
 	}
-	log.Printf("GML: handler_strings.go: stringHandler.readStringHeader: bytes: %+v", bytes)
-
-	if bytes[0] != 0xff || bytes[1] != 0xff || bytes[2] != 0xff || bytes[3] != 0xff {
-		log.Printf("WARNING: stringHandler.Decode: expected 'ffffffff' but got '%02x%02x%02x%02x'; continuing",
-			bytes[0], bytes[1], bytes[2], bytes[3])
+	words := binary.LittleEndian.Uint32(bytes[4:8]) >> 8
+	size = uint32(8 + words*4)
+	memBlock, ok := wa.Memory().Read(offset, size)
+	if !ok {
+		return 0, 0, fmt.Errorf("failed to read string memBlock from WASM memory A: (offset: %v, size: %v)", offset, size)
 	}
-	size = binary.LittleEndian.Uint32(bytes[4:8])
+	remainderOffset := words*4 + 7
+	remainder := uint32(3 - memBlock[remainderOffset]%4)
+	size = (words-1)*4 + remainder
+	log.Printf("GML: handler_strings.go: stringHandler.readStringHeader: memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
+		memBlock, words, remainderOffset, remainder, size)
 
-	return offset, size, nil
+	return offset + 8, size, nil
 }
 
 func (h *stringHandler) writeStringHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {
@@ -233,17 +242,9 @@ func (h *stringHandler) writeStringHeader(wa langsupport.WasmAdapter, data, size
 
 // convertMoonBitUTF16ToUTF8 converts a wasm-encoded MoonBit UTF-16 String to a Go UTF-8 string.
 func convertMoonBitUTF16ToUTF8(data []byte) (string, error) {
-	if len(data) < 8 {
-		return "", fmt.Errorf("data too short to contain metadata")
-	}
-	data = data[8:]
-
-	var codeUnits []uint16
-	for i := 0; i+1 < len(data); i += 2 {
+	codeUnits := make([]uint16, 0, len(data)/2)
+	for i := 0; i < len(data); i += 2 {
 		codeUnit := binary.LittleEndian.Uint16(data[i:])
-		if codeUnit == 0 || codeUnit == 256 {
-			break
-		}
 		codeUnits = append(codeUnits, codeUnit)
 	}
 
@@ -256,12 +257,11 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	runes := []rune(str)
 	codeUnits := utf16.Encode(runes)
 
-	size := (len(codeUnits) + 1) * 2 // null-terminated UTF-16 string
+	size := len(codeUnits) * 2
 	data := make([]byte, size)
 	for i, codeUnit := range codeUnits {
 		binary.LittleEndian.PutUint16(data[i*2:], codeUnit)
 	}
-	binary.LittleEndian.PutUint16(data[size-2:], 0) // null-terminate the string
 
 	return data
 }

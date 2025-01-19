@@ -34,6 +34,8 @@ The following MoonBit examples work:
 - [x] `sdk/moonbit/examples/hello-option-none`
 - [x] `sdk/moonbit/examples/hello-option-some-string`
 - [x] `sdk/moonbit/examples/hello-world`
+- [x] `sdk/moonbit/examples/hello-world-with-arg`
+- [x] `sdk/moonbit/examples/hello-world-with-optional-arg`
 
 The code has been updated to support compiler:
 
