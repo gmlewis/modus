@@ -42,8 +42,10 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
 
 	go func() {
-		if err := cmd.Run(); err != nil {
-			log.Printf("Error running Modus CLI: %v", err)
+		must(cmd.Start())
+		log.Printf("Waiting for Modus CLI to finish...")
+		if err := cmd.Wait(); err != nil {
+			log.Printf("cmd.Wait: %v", err)
 		}
 	}()
 
@@ -51,6 +53,9 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	// Kill the Modus CLI
 	log.Printf("Terminating Modus CLI")
 	must(cmd.Cancel())
+	// cancel()
+	log.Printf("Waiting for Modus CLI to terminate and release its port")
+	time.Sleep(20 * time.Second)
 }
 
 func must(arg0 any, args ...any) {
