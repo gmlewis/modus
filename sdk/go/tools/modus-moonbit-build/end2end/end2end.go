@@ -13,7 +13,9 @@ package end2end
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -53,9 +55,39 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	// Kill the Modus CLI
 	log.Printf("Terminating Modus CLI")
 	must(cmd.Cancel())
-	// cancel()
+	// if cmd.Process != nil {
+	// 	if err := cmd.Process.Kill(); err != nil {
+	// 		log.Printf("Failed to kill Modus CLI: %v", err)
+	// 	}
+	// }
+	cancel() // Cancel the context
+
 	log.Printf("Waiting for Modus CLI to terminate and release its port")
-	time.Sleep(20 * time.Second)
+	if !waitForPortToBeFree(8686, 20*time.Second) {
+		log.Printf("Port 8686 is still in use after waiting")
+	} else {
+		log.Printf("Port 8686 is now free")
+	}
+}
+
+func isPortInUse(port int) bool {
+	conn, err := net.DialTimeout("tcp", fmt.Sprintf("127.0.0.1:%v", port), time.Second)
+	if err != nil {
+		return false
+	}
+	conn.Close()
+	return true
+}
+
+func waitForPortToBeFree(port int, timeout time.Duration) bool {
+	start := time.Now()
+	for time.Since(start) < timeout {
+		if !isPortInUse(port) {
+			return true
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+	return false
 }
 
 func must(arg0 any, args ...any) {
