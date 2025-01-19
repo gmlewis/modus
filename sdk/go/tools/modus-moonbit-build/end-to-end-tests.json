@@ -1,0 +1,180 @@
+{
+  "tests": [
+    {
+      "name": "hello-option-empty-string",
+      "path": "sdk/moonbit/examples/hello-option-empty-string",
+      "endpoints": [
+        {
+          "name": "hello_option_empty_string",
+          "args": [
+            {
+              "name": "some",
+              "value": false
+            }
+          ],
+          "expect": null
+        },
+        {
+          "name": "hello_option_empty_string",
+          "args": [
+            {
+              "name": "some",
+              "value": true
+            }
+          ],
+          "expect": ""
+        },
+        {
+          "name": "hello_option_empty_string_WithDefaults",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "name": "hello-option-none",
+      "path": "sdk/moonbit/examples/hello-option-none",
+      "endpoints": [
+        {
+          "name": "hello_option_none",
+          "args": [
+            {
+              "name": "some",
+              "value": false
+            }
+          ],
+          "expect": null
+        },
+        {
+          "name": "hello_option_none",
+          "args": [
+            {
+              "name": "some",
+              "value": true
+            }
+          ],
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none_WithDefaults",
+          "expect": null
+        }
+      ]
+    },
+    {
+      "name": "hello-option-some-string",
+      "path": "sdk/moonbit/examples/hello-option-some-string",
+      "endpoints": [
+        {
+          "name": "hello_option_some_string",
+          "args": [
+            {
+              "name": "some",
+              "value": false
+            }
+          ],
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "args": [
+            {
+              "name": "some",
+              "value": true
+            }
+          ],
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_option_some_string_WithDefaults",
+          "expect": "Hello, World!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world",
+      "path": "sdk/moonbit/examples/hello-world",
+      "endpoints": [
+        {
+          "name": "hello_world",
+          "expect": "Hello, World!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world-with-arg",
+      "path": "sdk/moonbit/examples/hello-world-with-arg",
+      "endpoints": [
+        {
+          "name": "hello_world_with_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": ""
+            }
+          ],
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": "MoonBit"
+            }
+          ],
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": "世界 🌍"
+            }
+          ],
+          "expect": "Hello, 世界 🌍!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world-with-optional-arg",
+      "path": "sdk/moonbit/examples/hello-world-with-optional-arg",
+      "endpoints": [
+        {
+          "name": "hello_world_with_optional_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": ""
+            }
+          ],
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": "MoonBit"
+            }
+          ],
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "args": [
+            {
+              "name": "name",
+              "value": "世界 🌍"
+            }
+          ],
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg_WithDefaults",
+          "expect": "Hello, World!"
+        }
+      ]
+    }
+  ]
+}
