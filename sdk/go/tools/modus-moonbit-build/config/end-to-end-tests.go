@@ -11,7 +11,9 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
+	"strings"
 )
 
 type EndToEndTests struct {
@@ -23,10 +25,30 @@ type Arg struct {
 	Value json.RawMessage `json:"value"`
 }
 
+func (a *Arg) String() string {
+	val, _ := a.Value.MarshalJSON()
+	return fmt.Sprintf("%q:%s", a.Name, val)
+}
+
 type Endpoint struct {
 	Name   string          `json:"name"`
 	Args   []*Arg          `json:"args,omitempty"`
 	Expect json.RawMessage `json:"expect"`
+}
+
+func (e *Endpoint) QueryBody() string {
+	if len(e.Args) == 0 {
+		return fmt.Sprintf(`{"query": "query {\n  %v\n}", "variables": {}}`, e.Name)
+	}
+	return fmt.Sprintf(`{"query": "query {\n  %v\n}", "variables": {%v}}`, e.Name, e.Params())
+}
+
+func (e *Endpoint) Params() string {
+	var args []string
+	for _, arg := range e.Args {
+		args = append(args, arg.String())
+	}
+	return fmt.Sprintf("%v", strings.Join(args, ","))
 }
 
 type Plugin struct {

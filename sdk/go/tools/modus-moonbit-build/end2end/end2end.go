@@ -23,6 +23,8 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 )
 
+const graphqlPort = 8686
+
 func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace bool, plugin *config.Plugin) {
 	cwd, err := os.Getwd()
 	must(err)
@@ -32,6 +34,13 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 
 	log.Printf("Changing directory to %q", config.SourceDir)
 	must(os.Chdir(config.SourceDir))
+
+	log.Printf("Waiting for Modus CLI to terminate and release its port")
+	if !waitForPortToBeFree(graphqlPort, 20*time.Second) {
+		log.Printf("Start of main loop: port %v is still in use after waiting", graphqlPort)
+	} else {
+		log.Printf("Start of main loop: port %v is now free", graphqlPort)
+	}
 
 	log.Printf("Running Modus CLI for %q", plugin.Name)
 	cliCmd := filepath.Join(repoAbsPath, "cli/bin/modus.js")
@@ -46,8 +55,12 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 		must(cmd.Start())
 
 		pid := cmd.Process.Pid
-		log.Printf("Waiting for Modus CLI to finish... (pid: %v)", pid)
-		time.Sleep(5 * time.Second)
+		// Wait for port 8686 to be in use:
+		if !waitForPortToBeInUse(graphqlPort, 20*time.Second) {
+			log.Printf("WARNING: Modus CLI runner: port %v is not in use after waiting - did the Modus CLI start?", graphqlPort)
+		} else {
+			log.Printf("\n\nModus CLI runner: port %v is now ready for use.", graphqlPort)
+		}
 
 		// Get child PIDs
 		childPIDs, err := getChildPIDs(pid)
@@ -55,36 +68,41 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 			fmt.Printf("Error getting child PIDs: %v\n", err)
 			return
 		}
+		defer func() {
+			for _, childPID := range childPIDs {
+				log.Printf("Killing child PID %v", childPID)
+				if err := killProcess(childPID); err != nil {
+					log.Printf("Failed to kill child PID %v: %v", childPID, err)
+				}
+			}
+		}()
 
-		fmt.Printf("Child PIDs: %+v\n", childPIDs)
-
+		log.Printf("Waiting for Modus CLI to finish... (pid: %v, child pids: %+v)", pid, childPIDs)
 		if err := cmd.Wait(); err != nil {
 			log.Printf("cmd.Wait: %v", err)
 		}
-
-		for _, childPID := range childPIDs {
-			log.Printf("Killing child PID %v", childPID)
-			if err := killProcess(childPID); err != nil {
-				log.Printf("Failed to kill child PID %v: %v", childPID, err)
-			}
-		}
 	}()
 
-	time.Sleep(20 * time.Second)
+	if !waitForPortToBeInUse(graphqlPort, 20*time.Second) {
+		log.Printf("WARNING: Prior to testing endpoints: port %v is not in use after waiting - did the Modus CLI start?", graphqlPort)
+	} else {
+		log.Printf("\n\nPrior to testing endpoints: port %v is now ready for use.", graphqlPort)
+	}
+
+	// Test each endpoint
+	for _, endpoint := range plugin.Endpoints {
+		must(testEndpoint(ctx, endpoint))
+	}
+
 	// Kill the Modus CLI
 	log.Printf("Terminating Modus CLI")
 	must(cmd.Cancel())
-	// if cmd.Process != nil {
-	// 	if err := cmd.Process.Kill(); err != nil {
-	// 		log.Printf("Failed to kill Modus CLI: %v", err)
-	// 	}
-	// }
 	cancel() // Cancel the context
 
 	log.Printf("Waiting for Modus CLI to terminate and release its port")
-	if !waitForPortToBeFree(8686, 20*time.Second) {
-		log.Printf("Port 8686 is still in use after waiting")
+	if !waitForPortToBeFree(graphqlPort, 20*time.Second) {
+		log.Printf("End of main loop: port %v is still in use after waiting", graphqlPort)
 	} else {
-		log.Printf("Port 8686 is now free")
+		log.Printf("End of main loop: port %v is now free", graphqlPort)
 	}
 }

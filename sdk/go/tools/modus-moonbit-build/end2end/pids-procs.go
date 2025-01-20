@@ -40,6 +40,17 @@ func waitForPortToBeFree(port int, timeout time.Duration) bool {
 	return false
 }
 
+func waitForPortToBeInUse(port int, timeout time.Duration) bool {
+	start := time.Now()
+	for time.Since(start) < timeout {
+		if isPortInUse(port) {
+			return true
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+	return false
+}
+
 // getChildPIDs returns the PIDs of all child processes of the given parent PID
 func getChildPIDs(parentPID int) ([]int, error) {
 	out, err := exec.Command("pgrep", "-P", strconv.Itoa(parentPID)).Output()
