@@ -9,7 +9,7 @@ For example, updates to the `manifest` subdirectory are tagged as `lib/manifest/
 installed with
 
 ```sh
-go get -u github.com/hypermodeinc/modus/lib/manifest
+go get -u github.com/gmlewis/modus/lib/manifest
 ```
 
 ## Usage outside Modus

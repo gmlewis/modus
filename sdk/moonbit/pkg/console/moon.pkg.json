@@ -1,0 +1,18 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/testutils",
+    {
+      "path": "gmlewis/modus/wit/interface/console",
+      "alias": "host"
+    }
+  ],
+  "targets": {
+    "console_notwasm.mbt": [
+      "not",
+      "wasm"
+    ],
+    "console_wasm.mbt": [
+      "wasm"
+    ]
+  }
+}

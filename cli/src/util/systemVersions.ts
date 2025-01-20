@@ -54,3 +54,13 @@ export async function getNPMVersion(): Promise<string | undefined> {
     /* empty */
   }
 }
+
+export async function getMoonBitVersion(): Promise<string | undefined> {
+  try {
+    const result = await execFile("moon", ["version"], EXEC_OPTIONS);
+    const parts = result.stdout.split(" ");
+    return parts.length > 1 ? parts[1].trim() : undefined;
+  } catch {
+    /* empty */
+  }
+}

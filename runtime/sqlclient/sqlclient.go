@@ -13,8 +13,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func Initialize() {

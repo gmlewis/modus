@@ -20,7 +20,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -221,8 +221,12 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 	b.WriteString("import (\n")
 	for pkg, name := range imports {
 		if pkg == name || strings.HasSuffix(pkg, "/"+name) {
+			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 			b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
 		} else {
+			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 			b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
 		}
 	}
@@ -251,7 +255,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		if hasErrorReturn {
-			imports["github.com/hypermodeinc/modus/sdk/go/pkg/console"] = "console"
+			imports["github.com/gmlewis/modus/sdk/go/pkg/console"] = "console"
 
 			// remove the error return value from the function signature
 			results.List = results.List[:len(results.List)-1]

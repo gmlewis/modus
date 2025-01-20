@@ -1,0 +1,6 @@
+{
+  "import": [
+    "gmlewis/modus/wit/ffi",
+    "gmlewis/modus/wit/interface/imports/wasi/http/types"
+  ]
+}

@@ -13,9 +13,9 @@ import (
 	"context"
 	"fmt"
 
-	hmConfig "github.com/hypermodeinc/modus/runtime/config"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	hmConfig "github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"

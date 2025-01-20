@@ -18,13 +18,13 @@ import * as vi from "../../util/versioninfo.js";
 import * as http from "../../util/http.js";
 import { execFile, exec } from "../../util/cp.js";
 import { isOnline } from "../../util/index.js";
-import { MinGoVersion, MinNodeVersion, MinTinyGoVersion, SDK, parseSDK } from "../../custom/globals.js";
+import { MinGoVersion, MinNodeVersion, MinTinyGoVersion, MinMoonBitVersion, SDK, parseSDK } from "../../custom/globals.js";
 import { withSpinner } from "../../util/index.js";
 import { extract } from "../../util/tar.js";
 import SDKInstallCommand from "../sdk/install/index.js";
 import { getHeader } from "../../custom/header.js";
 import * as inquirer from "@inquirer/prompts";
-import { getGoVersion, getTinyGoVersion } from "../../util/systemVersions.js";
+import { getGoVersion, getTinyGoVersion, getMoonBitVersion } from "../../util/systemVersions.js";
 import { generateAppName } from "../../util/appname.js";
 import { BaseCommand } from "../../baseCommand.js";
 import { isErrorWithName } from "../../util/errors.js";
@@ -56,7 +56,7 @@ export default class NewCommand extends BaseCommand {
     sdk: Flags.string({
       char: "s",
       description: "SDK to use",
-      options: ["go", "golang", "assemblyscript", "as"],
+      options: ["go", "golang", "mbt", "moonbit", "moon", "assemblyscript", "as"],
     }),
     // template: Flags.string({
     //   char: "t",
@@ -101,6 +101,9 @@ export default class NewCommand extends BaseCommand {
           choices: [
             {
               value: SDK.Go,
+            },
+            {
+              value: SDK.MoonBit,
             },
             {
               value: SDK.AssemblyScript,
@@ -191,6 +194,7 @@ export default class NewCommand extends BaseCommand {
           this.exit(1);
         }
         break;
+
       case SDK.Go: {
         const goVersion = await getGoVersion();
         const tinyGoVersion = await getTinyGoVersion();
@@ -240,6 +244,59 @@ export default class NewCommand extends BaseCommand {
         this.log(`Make sure to add Go and TinyGo to your PATH. You can check for yourself by running:`);
         this.log(`${chalk.dim("$")} go version`);
         this.log(`${chalk.dim("$")} tinygo version`);
+        this.log();
+
+        this.exit(1);
+        break;  // to make VSCode linter happy.
+      }
+
+      case SDK.MoonBit: {
+        const goVersion = await getGoVersion();
+        const moonBitVersion = await getMoonBitVersion();
+
+        const foundGo = !!goVersion;
+        const foundMoonBit = !!moonBitVersion;
+
+        const okGo = foundGo && semver.gte(goVersion, MinGoVersion);
+        const okMoonBit = foundMoonBit && semver.gte(moonBitVersion, MinMoonBitVersion);
+
+        if (okGo && okMoonBit) {
+          break;
+        }
+
+        this.log(`The Modus MoonBit SDK requires both of the following:`);
+
+        if (okGo) {
+          this.log(chalk.dim(`• Go v${MinGoVersion} or newer `) + chalk.green(`(found v${goVersion})`));
+        } else if (foundGo) {
+          this.log(chalk.dim(`• Go v${MinGoVersion} or newer `) + chalk.red(`(found v${goVersion})`));
+        } else {
+          this.log(chalk.dim(`• Go v${MinGoVersion} or newer `) + chalk.red("(not found)"));
+        }
+
+        if (okMoonBit) {
+          this.log(chalk.dim(`• MoonBit v${MinMoonBitVersion} or newer `) + chalk.green(`(found v${moonBitVersion})`));
+        } else if (foundMoonBit) {
+          this.log(chalk.dim(`• MoonBit v${MinMoonBitVersion} or newer `) + chalk.red(`(found v${moonBitVersion})`));
+        } else {
+          this.log(chalk.dim(`• MoonBit v${MinMoonBitVersion} or newer `) + chalk.red("(not found)"));
+        }
+
+        this.log();
+
+        if (!okGo) {
+          this.log(chalk.yellow(`Please install Go ${MinGoVersion} or newer from https://go.dev/dl`));
+          this.log();
+        }
+
+        if (!okMoonBit) {
+          this.log(chalk.yellow(`Please install MoonBit ${MinMoonBitVersion} or newer from https://www.moonbitlang.com/download/`));
+          this.log();
+        }
+
+        this.log(`Make sure to add Go and MoonBit to your PATH. You can check for yourself by running:`);
+        this.log(`${chalk.dim("$")} go version`);
+        this.log(`${chalk.dim("$")} moon version`);
         this.log();
 
         this.exit(1);
@@ -300,6 +357,7 @@ export default class NewCommand extends BaseCommand {
     }
 
     const sdkVersion = installedSdkVersion;
+    this.logError(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
     const sdkPath = vi.getSdkPath(sdk, sdkVersion);
     const templatesArchive = path.join(sdkPath, "templates.tar.gz");
     if (!(await fs.exists(templatesArchive))) {
@@ -326,12 +384,20 @@ export default class NewCommand extends BaseCommand {
           await execFile("npm", ["install"], execOpts);
           break;
         }
+
         case SDK.Go: {
           const goVersion = await getGoVersion();
           await execFile("go", ["mod", "edit", "-go", goVersion!], execOpts);
           await execFile("go", ["mod", "edit", "-module", name], execOpts);
           await execFile("go", ["mod", "download"], execOpts);
           await execFile("go", ["mod", "tidy"], execOpts);
+          break;
+        }
+
+        case SDK.MoonBit: {
+          await execFile("moon", ["update"], execOpts);
+          await execFile("moon", ["install"], execOpts);
+          await execFile("moon", ["fmt"], execOpts);
           break;
         }
       }

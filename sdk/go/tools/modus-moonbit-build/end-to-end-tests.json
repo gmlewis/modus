@@ -1,0 +1,125 @@
+{
+  "plugins": [
+    {
+      "name": "hello-option-empty-string",
+      "path": "sdk/moonbit/examples/hello-option-empty-string",
+      "endpoints": [
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_empty_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_empty_string_WithDefaults\n}","variables":{}},
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "name": "hello-option-none",
+      "path": "sdk/moonbit/examples/hello-option-none",
+      "endpoints": [
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none_WithDefaults",
+          "query": {"query":"query {\n  hello_option_none_WithDefaults\n}","variables":{}},
+          "expect": null
+        }
+      ]
+    },
+    {
+      "name": "hello-option-some-string",
+      "path": "sdk/moonbit/examples/hello-option-some-string",
+      "endpoints": [
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":true}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_option_some_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_some_string_WithDefaults\n}","variables":{}},
+          "expect": "Hello, World!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world",
+      "path": "sdk/moonbit/examples/hello-world",
+      "endpoints": [
+        {
+          "name": "hello_world",
+          "query": {"query":"query {\n  hello_world\n}","variables":{}},
+          "expect": "Hello, World!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world-with-arg",
+      "path": "sdk/moonbit/examples/hello-world-with-arg",
+      "endpoints": [
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        }
+      ]
+    },
+    {
+      "name": "hello-world-with-optional-arg",
+      "path": "sdk/moonbit/examples/hello-world-with-optional-arg",
+      "endpoints": [
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg_WithDefaults",
+          "query": {"query":"query {\n  hello_world_with_optional_arg_WithDefaults\n}","variables":{}},
+          "expect": "Hello, World!"
+        }
+      ]
+    }
+  ]
+}

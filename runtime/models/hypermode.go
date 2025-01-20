@@ -16,9 +16,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/config"
-	"github.com/hypermodeinc/modus/runtime/secrets"
+	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/secrets"
 )
 
 var _hypermodeModelHost string

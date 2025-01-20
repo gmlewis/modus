@@ -16,9 +16,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 
 	"github.com/buger/jsonparser"
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/engine/datasource/httpclient"

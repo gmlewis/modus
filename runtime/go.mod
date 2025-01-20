@@ -1,13 +1,13 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
 go 1.23.1
 
 toolchain go1.23.4
 
 require (
-	github.com/hypermodeinc/modus/lib/manifest v0.16.1
-	github.com/hypermodeinc/modus/lib/metadata v0.15.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 // indirect
+	github.com/gmlewis/modus/lib/manifest v0.16.1
+	github.com/gmlewis/modus/lib/metadata v0.15.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
 )
 
 require (
@@ -114,7 +114,6 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/r3labs/sse/v2 v2.10.0 // indirect
-	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect

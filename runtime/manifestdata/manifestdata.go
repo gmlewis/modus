@@ -13,10 +13,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/storage"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/storage"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 const manifestFileName = "modus.json"
