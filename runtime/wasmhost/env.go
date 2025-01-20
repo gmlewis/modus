@@ -12,8 +12,10 @@ package wasmhost
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"time"
+	"unicode/utf16"
 
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
@@ -46,13 +48,39 @@ func instantiateEnvHostFunctions(ctx context.Context, r wazero.Runtime) error {
 	// MoonBit has a function `println` that is used to print to the console.
 	// It is implemented in the host environment with a function called `spectest.print_char`
 	// that prints a single character at a time to stderr. However, we buffer it until
-	// a newline is encountered, at which point we print the entire line to stderr.
+	// a newline is encountered, at which point we print the entire line to stderr
+	// (along with an extra newline just for visibility).
 	var printBuffer string
+	var highSurrogate uint16 // Temporary storage for a high surrogate
 	printChar := func(ctx context.Context, stack []uint64) {
-		char := rune(stack[0]) // TODO: Does this need UTF16 to UTF8 conversion?
-		printBuffer += string(char)
-		if char == '\n' {
-			fmt.Fprintf(os.Stderr, "println: %v\n", printBuffer)
+		utf16CodeUnit := uint16(stack[0])
+
+		// Check if the code unit is a high surrogate
+		if utf16CodeUnit >= 0xD800 && utf16CodeUnit <= 0xDBFF {
+			// Store the high surrogate and wait for the low surrogate
+			highSurrogate = utf16CodeUnit
+			return
+		}
+
+		// Check if the code unit is a low surrogate
+		if utf16CodeUnit >= 0xDC00 && utf16CodeUnit <= 0xDFFF {
+			// If we have a stored high surrogate, decode the surrogate pair
+			if highSurrogate != 0 {
+				// Decode the surrogate pair into a UTF-8 string
+				decodedString := string(utf16.Decode([]uint16{highSurrogate, utf16CodeUnit}))
+				printBuffer += decodedString
+				highSurrogate = 0 // Reset the high surrogate
+			} else {
+				log.Printf("WARNING: Invalid UTF-16 low surrogate without a high surrogate: %v", utf16CodeUnit)
+				printBuffer += string(rune(utf16CodeUnit))
+			}
+			return
+		}
+		// Regular UTF-16 code unit (not part of a surrogate pair)
+		printBuffer += string(rune(utf16CodeUnit))
+
+		if utf16CodeUnit == '\n' {
+			fmt.Fprintf(os.Stderr, "println: %v\n", printBuffer) // yes, two newlines here for visibility.
 			printBuffer = ""
 		}
 	}
