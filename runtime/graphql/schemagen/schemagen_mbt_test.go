@@ -226,6 +226,9 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 		WithField("values", "[]string")
 
 	result, err := GetGraphQLSchema(context.Background(), md)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	t.Log(result.Schema)
 
