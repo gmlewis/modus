@@ -28,6 +28,23 @@ $ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
 $ ./install.sh
 ```
 
+## End-to-end Test Suite
+
+To run the end-to-end test suite, cd to either the [`sdk/go`](/sdk/go) directory
+or the [`sdk/go/tools/modus-moonbit-build`](/sdk/go/tools/modus-moonbit-build) directory and run:
+
+```bash
+$ ./test-all.sh
+```
+
+To add a new plugin or endpoint to the end-to-end test suite, update this file:
+[end-to-end-tests.json](/sdk/go/tools/modus-moonbit-build/end-to-end-tests.json)
+
+The `query` field is easy to fill in by opening the Chrome Devtools "Network"
+tab while running the Modus API Explorer and clicking on the most recent
+"graphql" request. Then under "Payload" click on "View Source" and copy
+the query string to paste into the JSON file directly.
+
 ## Status
 
 The following MoonBit examples work:
