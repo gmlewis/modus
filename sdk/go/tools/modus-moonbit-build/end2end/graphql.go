@@ -22,9 +22,22 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
+type GraphQLResponse struct {
+	Data map[string]any `json:"data"`
+}
+
 func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
+	if endpoint == nil || endpoint.Name == "" || endpoint.Query == nil {
+		buf, _ := json.Marshal(endpoint)
+		return fmt.Errorf("testEndpoint: invalid endpoint specification: %s", buf)
+	}
+
 	query := endpoint.QueryBody()
 	log.Printf("\n\n*** Testing endpoint with query body: '%v'", query)
+	expect, err := json.Marshal(endpoint.Expect)
+	if err != nil {
+		return err
+	}
 
 	// Create a new HTTP POST request with the context
 	req, err := http.NewRequestWithContext(ctx, "POST", "http://localhost:8686/graphql", bytes.NewBufferString(query))
@@ -44,20 +57,25 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 	defer resp.Body.Close()
 
 	// Read and print the response body
-	got, err := io.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("\n\n***Response: %s\n", got)
-	expect, err := json.Marshal(endpoint.Expect)
+	fmt.Printf("\n\n***Response: %s\n", respBody)
+	var res GraphQLResponse
+	if err := json.Unmarshal(respBody, &res); err != nil {
+		return err
+	}
+	got, err := json.Marshal(res.Data[endpoint.Name])
 	if err != nil {
 		return err
 	}
 
 	if diff := cmp.Diff(expect, got); diff != "" {
-		return fmt.Errorf("Response from '%v' endpoint =\n%s\nwant:\n%s", endpoint.Name, got, expect)
+		return fmt.Errorf("test: FAIL: Response from '%v' endpoint =\n%s\nwant:\n%s", endpoint.Name, got, expect)
 	}
+	log.Printf("Test: OK passed for endpoint '%v'", endpoint.Name)
 
 	return nil
 }

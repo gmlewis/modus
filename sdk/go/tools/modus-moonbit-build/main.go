@@ -52,8 +52,11 @@ func main() {
 			config.SourceDir = filepath.Join(repoAbsPath, plugin.Path)
 			config.WasmFileName = plugin.Name + ".wasm"
 			config.OutputDir = filepath.Join(config.SourceDir, "build")
-			end2end.RunTest(config, repoAbsPath, start, trace, plugin)
+			if err := end2end.RunTest(config, repoAbsPath, start, trace, plugin); err != nil {
+				exitWithError("Error running end-to-end test", err)
+			}
 		}
+		log.Printf("\n\n*** ALL END-TO-END TESTS PASSED ***\n\n")
 	} else {
 		buildPlugin(config, start, trace)
 	}

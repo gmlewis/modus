@@ -15,6 +15,8 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -91,11 +93,76 @@ func killProcess(pid int) error {
 	return nil
 }
 
-func must(arg0 any, args ...any) {
-	switch t := arg0.(type) {
-	case error:
-		log.Fatal(t)
-	case string:
-		log.Fatalf(t, args...)
+func getPIDUsingPort(port int) (int, error) {
+	os := runtime.GOOS
+
+	switch os {
+	case "darwin", "linux": // macOS and Linux
+		return getPIDUsingPortUnix(port)
+	case "windows":
+		return getPIDUsingPortWindows(port)
+	default:
+		return 0, fmt.Errorf("unsupported operating system: %s", os)
+	}
+}
+
+// macOS and Linux
+func getPIDUsingPortUnix(port int) (int, error) {
+	args := []string{"-i", fmt.Sprintf(":%v", port)}
+	log.Printf("getPIDUsingPortUnix: running command: lsof %v", strings.Join(args, " "))
+	cmd := exec.Command("lsof", args...)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return 0, fmt.Errorf("error executing lsof: %w, Output: %s", err, string(output))
+	}
+	log.Printf("getPIDUsingPortUnix: lsof output:\n%s", output)
+
+	// output might contain multiple lines starting with 'p'. We only want the first one
+	lines := strings.Split(string(output), "\n")
+
+	for _, line := range lines {
+		parts := strings.Fields(line)
+		if len(parts) < 2 || parts[0] != "modus_run" || parts[1] == "PID" {
+			continue
+		}
+		pid, err := strconv.Atoi(parts[1])
+		if err != nil {
+			continue // ignore this line, try next one
+		}
+		return pid, nil
+	}
+
+	return 0, fmt.Errorf("no process found using port %v", port)
+}
+
+// Windows
+func getPIDUsingPortWindows(port int) (int, error) {
+	cmd := exec.Command("netstat", "-ano", "-p", "TCP")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return 0, fmt.Errorf("error executing netstat: %w, Output: %s", err, string(output))
+	}
+
+	re := regexp.MustCompile(fmt.Sprintf(`\s+TCP\s+\S+:%d\s+\S+\s+LISTENING\s+(\d+)\s*`, port))
+	matches := re.FindStringSubmatch(string(output))
+
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("no process found using port %d", port)
+	}
+
+	pid, err := strconv.Atoi(matches[1])
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert pid: %w", err)
+	}
+
+	return pid, nil
+}
+
+func killAllPIDs(pids []int) {
+	for _, pid := range pids {
+		if err := killProcess(pid); err != nil {
+			log.Printf("WARNING: failed to kill process with pid %v: %v", pid, err)
+		}
 	}
 }

@@ -40,6 +40,8 @@ func GetConfig() (*Config, error) {
 	flag.StringVar(&c.OutputDir, "output", "build", "Output directory for the generated files. Relative paths are resolved relative to the source directory.")
 	var endToEndTestsFilename string
 	flag.StringVar(&endToEndTestsFilename, "test", "", "Path to the end-to-end tests JSON file (e.g. '-test end-to-end-tests.json').")
+	var pluginsFlag string
+	flag.StringVar(&pluginsFlag, "plugins", "", "Comma-separated list of plugin names to test. Must use with -test flag.")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "modus-moonbit-build - The build tool for MoonBit-based Modus apps")
@@ -51,7 +53,7 @@ func GetConfig() (*Config, error) {
 	flag.Parse()
 
 	if endToEndTestsFilename != "" {
-		if err := c.loadEndToEndTests(endToEndTestsFilename); err != nil {
+		if err := c.loadEndToEndTests(endToEndTestsFilename, pluginsFlag); err != nil {
 			log.Printf("Error loading end-to-end tests JSON file: %v", err)
 			flag.Usage()
 			os.Exit(1)
