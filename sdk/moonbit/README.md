@@ -13,7 +13,7 @@ To work on the MoonBit SDK locally, first clone the repo and then run the follow
 $ REPODIR=$(pwd)
 $ cd cli
 $ ./build.sh
-$ cd ${REPODIR}/sdk/moonbit/examples/hello-world
+$ cd ${REPODIR}/sdk/moonbit/examples/test-suite
 $ ./update.sh
 $ ./build.sh
 $ ./modus-local.sh sdk install moonbit
@@ -47,12 +47,7 @@ the query string to paste into the JSON file directly.
 
 The following MoonBit examples work:
 
-- [x] `sdk/moonbit/examples/hello-option-empty-string`
-- [x] `sdk/moonbit/examples/hello-option-none`
-- [x] `sdk/moonbit/examples/hello-option-some-string`
-- [x] `sdk/moonbit/examples/hello-world`
-- [x] `sdk/moonbit/examples/hello-world-with-arg`
-- [x] `sdk/moonbit/examples/hello-world-with-optional-arg`
+- [x] `sdk/moonbit/examples/test-suite`
 
 The code has been updated to support compiler:
 
