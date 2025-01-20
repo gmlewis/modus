@@ -37,6 +37,10 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
+	if len(typ) < 8 {
+		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
+		return ""
+	}
 	result := typ[6 : len(typ)-1] // Array[...]
 	log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 	return result
@@ -79,7 +83,7 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 	}
 
 	if lti.IsListType(typ) {
-		result := "[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
+		result := "Array[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
 		log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
@@ -126,8 +130,9 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 }
 
 func (lti *langTypeInfo) IsListType(typ string) bool {
-	result := len(typ) > 2 && typ[0] == '[' // TODO(gmlewis)
-	log.Printf("GML: typeinfo.go: IsListType('%v') = %v - TODO", typ, result)
+	// result := len(typ) > 2 && typ[0] == '[' // for Go
+	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
+	log.Printf("GML: typeinfo.go: IsListType('%v') = %v", typ, result)
 	return result
 }
 
@@ -512,7 +517,10 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 }
 
 func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
-	md := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
+	md, ok := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
+	if !ok {
+		return nil, fmt.Errorf("typeinfo.go: GetTypeDefinition('%v'): metadata not found in context", typ)
+	}
 	// Must use original type definition from SDK (with default values) to match the saved metadata.
 	result, err := md.GetTypeDefinition(typ)
 	log.Printf("GML: typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)

@@ -189,6 +189,9 @@ func Test_GetGraphQLSchema_AssemblyScript(t *testing.T) {
 		WithField("values", "~lib/array/Array<~lib/string/String>")
 
 	result, err := GetGraphQLSchema(context.Background(), md)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	t.Log(result.Schema)
 
