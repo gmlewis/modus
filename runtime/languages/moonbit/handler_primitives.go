@@ -35,32 +35,29 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	switch ti.Name() {
 	case "Bool":
 		return newPrimitiveHandler[bool](ti), nil
-	case "Uint8", "Byte":
-		return newPrimitiveHandler[uint8](ti), nil
-	case "Uint16":
-		return newPrimitiveHandler[uint16](ti), nil
-	case "Uint32":
-		return newPrimitiveHandler[uint32](ti), nil
-	case "Uint64":
-		return newPrimitiveHandler[uint64](ti), nil
-	case "Int8":
-		return newPrimitiveHandler[int8](ti), nil
-	case "Int16":
+		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number
+	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveHandler[int16](ti), nil
-	case "Int32", "Char":
+	case "Int": // 32-bit signed integer, e.g. `42`
 		return newPrimitiveHandler[int32](ti), nil
-	case "Int64":
+	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveHandler[int64](ti), nil
-	case "Float":
-		return newPrimitiveHandler[float32](ti), nil
-	case "Double":
+	case "UInt16": // 16-bit unsigned integer, e.g. `(14 : UInt16)`
+		return newPrimitiveHandler[uint16](ti), nil
+	case "UInt": // 32-bit unsigned integer, e.g. `14U`
+		return newPrimitiveHandler[uint32](ti), nil
+	case "UInt64": // 64-bit unsigned integer, e.g. `14UL`
+		return newPrimitiveHandler[uint64](ti), nil
+	case "Double": // 64-bit floating point, defined by IEEE754, e.g. `3.14`
 		return newPrimitiveHandler[float64](ti), nil
-	case "Int":
-		return newPrimitiveHandler[int](ti), nil
-	case "Uint":
-		return newPrimitiveHandler[uint](ti), nil
-	// case "uintptr":
-	// return newPrimitiveHandler[uintptr](ti), nil
+	case "Float": // 32-bit floating point, defined by IEEE754, e.g. `(3.14 : Float)`
+		return newPrimitiveHandler[float32](ti), nil
+	case "Char": // represents a Unicode code point, e.g. `'a'`, `'\x41'`, `'\u{30}'`, `'\u03B1'`,
+		return newPrimitiveHandler[uint16](ti), nil
+	case "Byte": // either a single ASCII character, e.g. `b'a'`, `b'\xff'`
+		return newPrimitiveHandler[uint8](ti), nil
+	// case "BigInt": // represents numeric values larger than other types, e.g. `10000000000000000000000N`
+	// case "String": // holds a sequence of UTF-16 code units, e.g. `"Hello, World!"`
 	case "@time.Duration":
 		return newPrimitiveHandler[time.Duration](ti), nil
 	default:

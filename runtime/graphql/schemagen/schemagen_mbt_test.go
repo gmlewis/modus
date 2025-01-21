@@ -413,45 +413,48 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		expectedTypeDefs    []*TypeDefinition
 	}{
 		// Plain non-nullable types
-		{"String", false, "String!", nil, nil},
-		{"String", true, "String!", nil, nil},
 		{"Bool", false, "Boolean!", nil, nil},
 		{"Bool", true, "Boolean!", nil, nil},
-		// {"Int8", false, "Int!", nil, nil},
-		// {"Int8", true, "Int!", nil, nil},
-		// {"Int16", false, "Int!", nil, nil},
-		// {"Int16", true, "Int!", nil, nil},
-		// {"Int", false, "Int!", nil, nil},
-		// {"Int", true, "Int!", nil, nil},
-		// {"Byte", false, "Int!", nil, nil},
-		// {"Byte", true, "Int!", nil, nil},
-		// {"Uint16", false, "Int!", nil, nil},
-		// {"Uint16", true, "Int!", nil, nil},
-		{"Float", false, "Float!", nil, nil},
-		{"Float", true, "Float!", nil, nil},
+		{"Byte", false, "Int!", nil, nil},
+		{"Byte", true, "Int!", nil, nil},
+		{"Char", false, "Int!", nil, nil},
+		{"Char", true, "Int!", nil, nil},
+		{"Double", false, "Float!", nil, nil},
 		{"Double", false, "Float!", nil, nil},
 		{"Double", true, "Float!", nil, nil},
+		{"Double", true, "Float!", nil, nil},
+		{"Float", false, "Float!", nil, nil},
+		{"Float", false, "Float!", nil, nil},
+		{"Float", true, "Float!", nil, nil},
+		{"Float", true, "Float!", nil, nil},
+		{"Int", false, "Int!", nil, nil},
+		{"Int", true, "Int!", nil, nil},
+		{"Int16", false, "Int!", nil, nil},
+		{"Int16", true, "Int!", nil, nil},
+		{"String", false, "String!", nil, nil},
+		{"String", true, "String!", nil, nil},
+		{"UInt16", false, "Int!", nil, nil},
+		{"UInt16", true, "Int!", nil, nil},
 
-		// TODO:
-		// // Slice types
-		// {"[]string", false, "[String!]", nil, nil},
-		// {"[]string", true, "[String!]", nil, nil},
-		// {"[][]string", false, "[[String!]]", nil, nil},
-		// {"[][]string", true, "[[String!]]", nil, nil},
+		// Slice types
+		{"Array[String]", false, "[String!]", nil, nil},
+		{"Array[String]", true, "[String!]", nil, nil},
+		{"Array[Array[String]]", false, "[[String!]]", nil, nil},
+		{"Array[Array[String]]", true, "[[String!]]", nil, nil},
 		// {"[]*string", false, "[String]", nil, nil},
 		// {"[]*string", true, "[String]", nil, nil},
 
-		// // Custom scalar types
+		// Custom scalar types
+		{"Int64", false, "Int64!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Int64", true, "Int64!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"UInt", false, "UInt!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"UInt", true, "UInt!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"UInt64", false, "UInt64!", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"UInt64", true, "UInt64!", nil, []*TypeDefinition{{Name: "UInt64"}}},
 		// {"time.Time", false, "Timestamp!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
 		// {"time.Time", true, "Timestamp!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
-		// {"int64", false, "Int64!", nil, []*TypeDefinition{{Name: "Int64"}}},
-		// {"int64", true, "Int64!", nil, []*TypeDefinition{{Name: "Int64"}}},
-		// {"uInt", false, "UInt!", nil, []*TypeDefinition{{Name: "UInt"}}},
-		// {"uInt", true, "UInt!", nil, []*TypeDefinition{{Name: "UInt"}}},
-		// {"uint64", false, "UInt64!", nil, []*TypeDefinition{{Name: "UInt64"}}},
-		// {"uint64", true, "UInt64!", nil, []*TypeDefinition{{Name: "UInt64"}}},
 
-		// // Custom types
+		// Custom types
 		// {"testdata.User", false, "User!",
 		// 	[]*metadata.TypeDefinition{{
 		// 		Name: "User",
@@ -487,14 +490,14 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		// 		},
 		// 	}}},
 
-		// {"*bool", false, "Boolean", nil, nil},
-		// {"*bool", true, "Boolean", nil, nil},
-		// {"*int", false, "Int", nil, nil},
-		// {"*int", true, "Int", nil, nil},
-		// {"*float64", false, "Float", nil, nil},
-		// {"*float64", true, "Float", nil, nil},
-		// {"*string", false, "String", nil, nil},
-		// {"*string", true, "String", nil, nil},
+		{"Bool?", false, "Boolean", nil, nil},
+		{"Bool?", true, "Boolean", nil, nil},
+		{"Int?", false, "Int", nil, nil},
+		{"Int?", true, "Int", nil, nil},
+		{"Double?", false, "Float", nil, nil},
+		{"Double?", true, "Float", nil, nil},
+		{"String?", false, "String", nil, nil},
+		{"String?", true, "String", nil, nil},
 		// {"*testdata.Foo", false, "Foo", // scalar
 		// 	[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
 		// 	[]*TypeDefinition{{Name: "Foo"}}},
@@ -502,7 +505,7 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		// 	[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
 		// 	[]*TypeDefinition{{Name: "Foo"}}},
 
-		// // Map types
+		// Map types
 		// {"map[string]string", false, "[StringStringPair!]", nil, []*TypeDefinition{{
 		// 	Name: "StringStringPair",
 		// 	Fields: []*FieldDefinition{

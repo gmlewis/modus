@@ -189,13 +189,13 @@ func (lti *langTypeInfo) IsFloatType(typ string) bool {
 
 func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 	switch typ {
-	case "Int", "Int64",
-		"Uint", "Uint64",
+	case "Int", "Int16", "Int64",
+		"UInt", "UInt16", "UInt64",
 		"Byte", "Char": // TODO(gmlewis)
-		log.Printf("GML: typeinfo.go: IsIntegerType('%v') = true - TODO", typ)
+		log.Printf("GML: typeinfo.go: IsIntegerType('%v') = true", typ)
 		return true
 	default:
-		log.Printf("GML: typeinfo.go: IsIntegerType('%v') = false - TODO", typ)
+		log.Printf("GML: typeinfo.go: IsIntegerType('%v') = false", typ)
 		return false
 	}
 }
@@ -461,17 +461,16 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
 	switch typ {
-	case "int8", "uint8", "bool", "byte":
+	case "Bool", "Byte":
 		log.Printf("GML: typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
 		return 1, nil
-	case "int16", "uint16":
+	case "Char", "Int16", "UInt16":
 		log.Printf("GML: typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
 		return 2, nil
-	case "int32", "uint32", "float32", "rune",
-		"int", "uint", "uintptr", "unsafe.Pointer": // we only support 32-bit wasm
+	case "Int", "UInt", "Float": // we only support 32-bit wasm
 		log.Printf("GML: typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
-	case "int64", "uint64", "float64", "time.Duration":
+	case "Int64", "UInt64", "Double", "@time.Duration":
 		log.Printf("GML: typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
 		return 8, nil
 	}
@@ -628,23 +627,17 @@ var rtMapStringAny = reflect.TypeFor[map[string]any]()
 var reflectedTypeMap = map[string]reflect.Type{
 	"Bool":                reflect.TypeFor[bool](),
 	"Byte":                reflect.TypeFor[byte](),
-	"Uint":                reflect.TypeFor[uint](),
-	"Uint8":               reflect.TypeFor[uint8](),
-	"Uint16":              reflect.TypeFor[uint16](),
-	"Uint32":              reflect.TypeFor[uint32](),
-	"Uint64":              reflect.TypeFor[uint64](),
-	"Uintptr":             reflect.TypeFor[uintptr](),
-	"Int":                 reflect.TypeFor[int](),
-	"Int8":                reflect.TypeFor[int8](),
-	"Int16":               reflect.TypeFor[int16](),
-	"Int32":               reflect.TypeFor[int32](),
-	"Int64":               reflect.TypeFor[int64](),
-	"Char":                reflect.TypeFor[rune](),
-	"Float":               reflect.TypeFor[float32](),
+	"Char":                reflect.TypeFor[uint16](),
 	"Double":              reflect.TypeFor[float64](),
+	"Float":               reflect.TypeFor[float32](),
+	"Int":                 reflect.TypeFor[int32](),
+	"Int16":               reflect.TypeFor[int16](),
+	"Int64":               reflect.TypeFor[int64](),
 	"String":              reflect.TypeFor[string](),
-	"@time.PlainTime":     reflect.TypeFor[time.Time](),
+	"UInt":                reflect.TypeFor[uint32](),
+	"UInt16":              reflect.TypeFor[uint16](),
+	"UInt64":              reflect.TypeFor[uint64](),
 	"@time.Duration":      reflect.TypeFor[time.Duration](),
+	"@time.PlainTime":     reflect.TypeFor[time.Time](),
 	"@wallClock.Datetime": reflect.TypeFor[time.Time](),
-	// "Unsafe.pointer": reflect.TypeFor[unsafe.Pointer](),
 }
