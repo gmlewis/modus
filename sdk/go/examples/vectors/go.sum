@@ -1,4 +1,4 @@
 github.com/gmlewis/modus/sdk/go v0.16.0 h1:NrXb4GjUerrSvP1/xwi/iz5vBY0YF10T4pevS0wL2Ks=
 github.com/gmlewis/modus/sdk/go v0.16.0/go.mod h1:iOTGA6UQPm8/37Oix5/YD8zWg0c8m/k5d9DVKfM5FCw=
-golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 h1:1UoZQm6f0P/ZO0w1Ri+f+ifG/gXhegadRdwBIXEFWDo=
-golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67/go.mod h1:qj5a5QZpwLU2NLQudwIN5koi3beDhSAlJwa67PuM98c=
+golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8 h1:yqrTHse8TCMW1M1ZCP+VAR/l0kKxwaAIqN/il7x4voA=
+golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8/go.mod h1:tujkw807nyEEAamNbDrEGzRav+ilXA7PCRAd6xsmwiU=

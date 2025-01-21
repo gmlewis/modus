@@ -8,6 +8,21 @@ package main
 
 func ptr(s string) *string { return &s }
 
+// HelloArrayOfInts demonstrates how the Modus Runtime for Go handles
+// nilable slices of ints as return values.
+func HelloArrayOfInts(nilSlice bool, numInts int) []int {
+	if nilSlice {
+		return nil
+	}
+
+	result := make([]int, 0, numInts)
+	for i := 0; i < numInts; i++ {
+		result = append(result, i)
+	}
+
+	return result
+}
+
 // HelloOptionString demonstrates how the Modus Runtime for Go handles
 // optional strings as return values.
 func HelloOptionString(nilString, emptyString bool) *string {

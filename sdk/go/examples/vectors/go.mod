@@ -6,4 +6,4 @@ toolchain go1.23.4
 
 require github.com/gmlewis/modus/sdk/go v0.16.0
 
-require golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
+require golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8 // indirect

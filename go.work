@@ -16,11 +16,11 @@ use (
 	./sdk/go/examples/dgraph
 	./sdk/go/examples/embedding
 	./sdk/go/examples/graphql
-	./sdk/go/examples/hello-option-string
 	./sdk/go/examples/http
 	./sdk/go/examples/neo4j
 	./sdk/go/examples/postgresql
 	./sdk/go/examples/simple
+	./sdk/go/examples/test-suite
 	./sdk/go/examples/textgeneration
 	./sdk/go/examples/time
 	./sdk/go/examples/vectors

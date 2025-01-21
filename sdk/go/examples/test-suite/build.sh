@@ -12,7 +12,7 @@ popd >/dev/null || exit
 
 if command -v wasm2wat >/dev/null 2>&1; then
   # If wasm2wat is available, run the command
-  wasm2wat build/hello-option-string.wasm > build/hello-option-string.wat
+  wasm2wat build/test-suite.wasm > build/test-suite.wat
 fi
 
 exit "${exit_code}"

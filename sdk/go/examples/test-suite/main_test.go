@@ -10,7 +10,50 @@ package main
 
 import (
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
+
+func TestHelloArrayOfInts(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name     string
+		nilSlice bool
+		numInts  int
+		want     []int
+	}{
+		{
+			name:     "nil slice",
+			nilSlice: true,
+			numInts:  5,
+			want:     nil,
+		},
+		{
+			name:     "empty slice",
+			nilSlice: false,
+			numInts:  0,
+			want:     []int{},
+		},
+		{
+			name:     "non-empty slice",
+			nilSlice: false,
+			numInts:  3,
+			want:     []int{0, 1, 2},
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			got := HelloArrayOfInts(tt.nilSlice, tt.numInts)
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("HelloArrayOfInts() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
 
 func TestHelloOptionString(t *testing.T) {
 	t.Parallel()

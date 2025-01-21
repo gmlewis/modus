@@ -145,8 +145,10 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
-	// TODO: MoonBit Arrays do not have a fixed length, unlike Go.
-	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
+	// MoonBit Arrays do not have a fixed length, unlike Go, so Array[T] is _NOT_ an "array" type.
+	// Instead, a MoonBit Array is a slice type.
+	result := strings.HasPrefix(typ, "FixedArray[") && strings.HasSuffix(typ, "]")
+	// result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
 	log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
 	return result
 }
@@ -213,9 +215,11 @@ func (lti *langTypeInfo) IsNullableType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsPointerType(typ string) bool {
-	// TODO
+	// TODO: Is Ref[T] the only pointer/reference type in MoonBit?
 	// result := strings.HasPrefix(typ, "*")  // for Go
-	result := strings.HasSuffix(typ, "?")
+	// WRONG! Option[T] is _NOT_ a pointer type! // result := strings.HasSuffix(typ, "?")
+	// THIS BREAKS THE TEST SUITE!!! // result := false
+	result := strings.HasSuffix(typ, "?") // This is currently needed for the test suite!!!  FIND OUT WHY!!!
 	log.Printf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
 	return result
 }

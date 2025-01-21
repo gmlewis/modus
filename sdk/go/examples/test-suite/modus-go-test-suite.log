@@ -1,0 +1,403 @@
++ args=("${@:-"dev"}")
++ export MODUS_TRACE=true
++ MODUS_TRACE=true
++ ../../../../cli/bin/modus.js dev
+GML: util/versioninfo.ts: getLatestSdkVersion: data={"sdk/assemblyscript":"v0.16.2","sdk/go":"v0.16.1","cli":"v0.16.6","runtime":"v0.16.5","sdk/moonbit":"v0.16.5"}
+GML: util/versioninfo.ts: getLatestSdkVersion: version="v0.16.1"
+GML: dev/index.ts: run: app={"name":"hello-option-string","sdk":"Go","sdkVersion":"v0.16.1"}
+
+▗▖  ▗▖ ▗▄▖ ▗▄▄▄ ▗▖ ▗▖ ▗▄▄▖
+▐▛▚▞▜▌▐▌ ▐▌▐▌  █▐▌ ▐▌▐▌   
+▐▌  ▐▌▐▌ ▐▌▐▌  █▐▌ ▐▌ ▝▀▚▖
+▐▌  ▐▌▝▚▄▞▘▐▙▄▄▀▝▚▄▞▘▗▄▄▞▘
+
+Modus CLI v0.0.0
+
+GML: util/versioninfo.ts: sdkVersionIsInstalled: sdk=Go, version=v0.16.1
+GML: util/versioninfo.ts: getSdkPath: sdkPath=/Users/glenn/.modus/sdk/go/v0.16.1, version=v0.16.1
+GML: util/versioninfo.ts: findLatestCompatibleRuntimeVersion: sdk=Go, sdkVersion=v0.16.1
+GML: util/versioninfo.ts: getSdkPath: sdkPath=/Users/glenn/.modus/sdk/go/v0.16.1, version=v0.16.1
+GML: util/versioninfo.ts: getLatestSdkVersion: data={"sdk/assemblyscript":"v0.16.2","sdk/go":"v0.16.1","cli":"v0.16.6","runtime":"v0.16.5","sdk/moonbit":"v0.16.5"}
+GML: util/versioninfo.ts: getLatestSdkVersion: version="v0.16.1"
+GML: build/index.ts: run: app={"name":"hello-option-string","sdk":"Go","sdkVersion":"v0.16.1"}
+GML: util/versioninfo.ts: sdkVersionIsInstalled: sdk=Go, version=v0.16.1
+GML: util/versioninfo.ts: getSdkPath: sdkPath=/Users/glenn/.modus/sdk/go/v0.16.1, version=v0.16.1
+- Building hello-option-string
+GML: util/versioninfo.ts: getSdkPath: sdkPath=/Users/glenn/.modus/sdk/go/v0.16.1, version=v0.16.1
+Build succeeded! 🎉
+
+Metadata:
+  Plugin Name:     hello-option-string
+  Go Module:       hello-option-string
+  Modus SDK:       modus-sdk-go
+  Build ID:        cu7g4qvrack6msjqpgn0
+  Build Timestamp: 2025-01-21T02:11:55.566Z
+  Git Repository:  https://github.com/gmlewis/modus
+  Git Commit:      622df6781de7e7f6cb45b48217e458536953a077
+
+Functions:
+  helloArrayOfInts(nilSlice bool, numInts int) []int
+  helloOptionString(nilString bool, emptyString bool) *string
+
+2025/01/20 21:11:55 GML: manifest.go: init A
+2025/01/20 21:11:55 GML: manifest.go: init B
+2025/01/20 21:11:55 GML: manifest.go: init C
+2025/01/20 21:11:55 GML: manifest.go: init D
+2025/01/20 21:11:55 Starting build process...
+2025/01/20 21:11:55 Configuration loaded.
+2025/01/20 21:11:55 Configuration validated.
+2025/01/20 21:11:55 Module info collected.
+2025/01/20 21:11:55 Pre-processing done.
+2025/01/20 21:11:55 Metadata generated.
+2025/01/20 21:11:55 Post-processing done.
+2025/01/20 21:11:56 Wasm compiled.
+2025/01/20 21:11:56 Metadata filtered.
+2025/01/20 21:11:56 Metadata written.
+2025/01/20 21:11:56 GML: manifest.go: ValidateManifest
+2025/01/20 21:11:56 Manifest copied.
+2025/01/20 21:11:56 Build completed in 0.56 seconds.
+
+[90m21:11:57.671[0m [32mINF[0m [1mStarting Modus Runtime.[0m [36menvironment=[0mdev [36mversion=[0mv0.16.4-68-g622df67
+[90m21:11:57.672[0m [32mINF[0m [1mUsing local app directory.[0m [36mpath=[0m/Users/glenn/src/github.com/gmlewis/modus/sdk/go/examples/test-suite/build
+[90m21:11:57.672[0m [32mINF[0m [1mLoading manifest file.[0m [36mfilename=[0mmodus.json
+[90m21:11:57.673[0m [32mINF[0m [1mRegistered GraphQL endpoint.[0m [36murl=[0mhttp://localhost:8686/graphql
+
+Your local endpoint is ready!
+• GraphQL (default): http://localhost:8686/graphql
+
+View endpoint: http://localhost:8686/explorer
+
+Changes will automatically be applied when you save your files.
+Press Ctrl+C at any time to stop the server.
+
+GML: languages.go: GetLanguageForSDK(sdk="modus-sdk-go"), sdkName="modus-sdk-go"
+GML: plugins.go: NewPlugin: FnExports: fnName='helloArrayOfInts': calling planner.GetPlan ...
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPrimitiveType('bool') = true
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsArrayType('bool') = false
+GML: typeinfo.go: C: IsByteSequenceType('bool') = false
+GML: typeinfo.go: IsStringType('bool') = false
+GML: typeinfo.go: IsTimestampType('bool') = false
+GML: typeinfo.go: IsListType('bool') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPrimitiveType('bool') = true
+GML: typeinfo.go: IsObjectType('bool') = false
+GML: typeinfo.go: B: getReflectedType('bool') = bool
+GML: typeinfo.go: B: GetReflectedType('bool') = bool, err=<nil>
+GML: typeinfo.go: A: GetSizeOfType('bool') = 1
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPrimitiveType('bool') = true
+GML: typeinfo.go: A: GetSizeOfType('bool') = 1
+GML: typeinfo.go: A: GetAlignmentOfType('bool') = 1, err=<nil>
+GML: typeinfo.go: A: GetSizeOfType('bool') = 1
+GML: typeinfo.go: GetDataSizeOfType('bool') = 1, err=<nil>
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPrimitiveType('bool') = true
+GML: typeinfo.go: A: GetEncodingLengthOfType('bool') = 1
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsPrimitiveType('int') = true
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsFloatType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsSignedIntegerType('int') = true
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsSliceType('int') = false
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsNullableType('int') = false
+GML: typeinfo.go: IsArrayType('int') = false
+GML: typeinfo.go: C: IsByteSequenceType('int') = false
+GML: typeinfo.go: IsStringType('int') = false
+GML: typeinfo.go: IsTimestampType('int') = false
+GML: typeinfo.go: IsListType('int') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsPrimitiveType('int') = true
+GML: typeinfo.go: IsObjectType('int') = false
+GML: typeinfo.go: B: getReflectedType('int') = int
+GML: typeinfo.go: B: GetReflectedType('int') = int, err=<nil>
+GML: typeinfo.go: C: GetSizeOfType('int') = 4
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsPrimitiveType('int') = true
+GML: typeinfo.go: C: GetSizeOfType('int') = 4
+GML: typeinfo.go: A: GetAlignmentOfType('int') = 4, err=<nil>
+GML: typeinfo.go: C: GetSizeOfType('int') = 4
+GML: typeinfo.go: GetDataSizeOfType('int') = 4, err=<nil>
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsPrimitiveType('int') = true
+GML: typeinfo.go: A: GetEncodingLengthOfType('int') = 1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+GML: typeinfo.go: IsBooleanType('[]int') = false
+GML: typeinfo.go: C: IsIntegerType('[]int') = false
+GML: typeinfo.go: C: IsFloatType('[]int') = false
+GML: typeinfo.go: IsPrimitiveType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: IsNullableType('[]int') = true
+GML: typeinfo.go: GetUnderlyingType('[]int') = '[]int'
+GML: typeinfo.go: IsArrayType('[]int') = false
+GML: typeinfo.go: C: IsByteSequenceType('[]int') = false
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsTimestampType('[]int') = false
+GML: typeinfo.go: IsListType('[]int') = true (covers slices and arrays)
+GML: typeinfo.go: GetListSubtype('[]int') = 'int'
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: GetListSubtype('[]int') = 'int'
+GML: typeinfo.go: B: getReflectedType('int') = int
+GML: typeinfo.go: D: getReflectedType('[]int') = []int
+GML: typeinfo.go: B: GetReflectedType('[]int') = []int, err=<nil>
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsMapType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: H: GetSizeOfType('[]int') = 12
+GML: typeinfo.go: IsBooleanType('[]int') = false
+GML: typeinfo.go: C: IsIntegerType('[]int') = false
+GML: typeinfo.go: C: IsFloatType('[]int') = false
+GML: typeinfo.go: IsPrimitiveType('[]int') = false
+GML: typeinfo.go: IsArrayType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: C: GetAlignmentOfType('[]int') = 4
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsMapType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: H: GetSizeOfType('[]int') = 12
+GML: typeinfo.go: GetDataSizeOfType('[]int') = 12, err=<nil>
+GML: typeinfo.go: IsBooleanType('[]int') = false
+GML: typeinfo.go: C: IsIntegerType('[]int') = false
+GML: typeinfo.go: C: IsFloatType('[]int') = false
+GML: typeinfo.go: IsPrimitiveType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsMapType('[]int') = false
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: C: GetEncodingLengthOfType('[]int') = 3
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsMapType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: H: GetSizeOfType('[]int') = 12
+GML: plugins.go: NewPlugin: FnExports: fnName='helloOptionString': calling planner.GetPlan ...
+GML: typeinfo.go: IsBooleanType('*string') = false
+GML: typeinfo.go: C: IsIntegerType('*string') = false
+GML: typeinfo.go: C: IsFloatType('*string') = false
+GML: typeinfo.go: IsPrimitiveType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: GetUnderlyingType('*string') = 'string'
+GML: typeinfo.go: IsBooleanType('string') = false
+GML: typeinfo.go: C: IsIntegerType('string') = false
+GML: typeinfo.go: C: IsFloatType('string') = false
+GML: typeinfo.go: IsPrimitiveType('string') = false
+GML: typeinfo.go: IsPointerType('string') = false
+GML: typeinfo.go: IsPointerType('string') = false
+GML: typeinfo.go: IsSliceType('string') = false
+GML: typeinfo.go: IsMapType('string') = false
+GML: typeinfo.go: IsNullableType('string') = false
+GML: typeinfo.go: IsArrayType('string') = false
+GML: typeinfo.go: C: IsByteSequenceType('string') = false
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: IsListType('string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('string') = false
+GML: typeinfo.go: IsBooleanType('string') = false
+GML: typeinfo.go: C: IsIntegerType('string') = false
+GML: typeinfo.go: C: IsFloatType('string') = false
+GML: typeinfo.go: IsPrimitiveType('string') = false
+GML: typeinfo.go: IsListType('string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('string') = false
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: IsObjectType('string') = false
+GML: typeinfo.go: B: getReflectedType('string') = string
+GML: typeinfo.go: B: GetReflectedType('string') = string, err=<nil>
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: E: GetSizeOfType('string') = 8
+GML: typeinfo.go: IsBooleanType('string') = false
+GML: typeinfo.go: C: IsIntegerType('string') = false
+GML: typeinfo.go: C: IsFloatType('string') = false
+GML: typeinfo.go: IsPrimitiveType('string') = false
+GML: typeinfo.go: IsArrayType('string') = false
+GML: typeinfo.go: IsPointerType('string') = false
+GML: typeinfo.go: IsSliceType('string') = false
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: C: GetAlignmentOfType('string') = 4
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: E: GetSizeOfType('string') = 8
+GML: typeinfo.go: GetDataSizeOfType('string') = 8, err=<nil>
+GML: typeinfo.go: IsBooleanType('string') = false
+GML: typeinfo.go: C: IsIntegerType('string') = false
+GML: typeinfo.go: C: IsFloatType('string') = false
+GML: typeinfo.go: IsPrimitiveType('string') = false
+GML: typeinfo.go: IsPointerType('string') = false
+GML: typeinfo.go: IsMapType('string') = false
+GML: typeinfo.go: IsStringType('string') = true
+GML: typeinfo.go: B: GetEncodingLengthOfType('string') = 2
+GML: typeinfo.go: IsArrayType('*string') = false
+GML: typeinfo.go: C: IsByteSequenceType('*string') = false
+GML: typeinfo.go: IsStringType('*string') = false
+GML: typeinfo.go: IsTimestampType('*string') = false
+GML: typeinfo.go: IsListType('*string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('*string') = false
+GML: typeinfo.go: IsBooleanType('*string') = false
+GML: typeinfo.go: C: IsIntegerType('*string') = false
+GML: typeinfo.go: C: IsFloatType('*string') = false
+GML: typeinfo.go: IsPrimitiveType('*string') = false
+GML: typeinfo.go: IsListType('*string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('*string') = false
+GML: typeinfo.go: IsStringType('*string') = false
+GML: typeinfo.go: IsTimestampType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: IsObjectType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: GetUnderlyingType('*string') = 'string'
+GML: typeinfo.go: B: getReflectedType('string') = string
+GML: typeinfo.go: C: getReflectedType('*string') = *string
+GML: typeinfo.go: B: GetReflectedType('*string') = *string, err=<nil>
+GML: typeinfo.go: IsStringType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: F: GetSizeOfType('*string') = 4
+GML: typeinfo.go: IsBooleanType('*string') = false
+GML: typeinfo.go: C: IsIntegerType('*string') = false
+GML: typeinfo.go: C: IsFloatType('*string') = false
+GML: typeinfo.go: IsPrimitiveType('*string') = false
+GML: typeinfo.go: IsArrayType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: C: GetAlignmentOfType('*string') = 4
+GML: typeinfo.go: IsStringType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: F: GetSizeOfType('*string') = 4
+GML: typeinfo.go: GetDataSizeOfType('*string') = 4, err=<nil>
+GML: typeinfo.go: IsBooleanType('*string') = false
+GML: typeinfo.go: C: IsIntegerType('*string') = false
+GML: typeinfo.go: C: IsFloatType('*string') = false
+GML: typeinfo.go: IsPrimitiveType('*string') = false
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: A: GetEncodingLengthOfType('*string') = 1
+[90m21:11:57.680[0m [32mINF[0m [1mLoaded plugin.[0m [36mfilename=[0mhello-option-string.wasm [36mlanguage=[0mGo [36msdk=[0mmodus-sdk-go [36msdk_version=[0m
+GML: languages.go: GetLanguageForSDK(sdk="modus-sdk-go"), sdkName="modus-sdk-go"
+GML: typeinfo.go: IsListType('[]int') = true (covers slices and arrays)
+GML: typeinfo.go: IsListType('*string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('*string') = false
+GML: typeinfo.go: IsTimestampType('*string') = false
+GML: typeinfo.go: GetUnderlyingType('*string') = 'string'
+GML: typeinfo.go: IsListType('*string') = false (covers slices and arrays)
+GML: typeinfo.go: IsMapType('*string') = false
+GML: typeinfo.go: IsTimestampType('*string') = false
+GML: typeinfo.go: GetUnderlyingType('*string') = 'string'
+GML: typeinfo.go: IsListType('[]int') = true (covers slices and arrays)
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsStringType('bool') = false
+GML: typeinfo.go: IsArrayType('bool') = false
+GML: typeinfo.go: C: IsByteSequenceType('bool') = false
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsSliceType('int') = false
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsNullableType('int') = false
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsSliceType('int') = false
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsNullableType('int') = false
+GML: typeinfo.go: IsStringType('int') = false
+GML: typeinfo.go: IsArrayType('int') = false
+GML: typeinfo.go: C: IsByteSequenceType('int') = false
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsFloatType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsSignedIntegerType('int') = true
+GML: typeinfo.go: C: GetSizeOfType('int') = 4
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: IsNullableType('[]int') = true
+GML: typeinfo.go: IsPointerType('[]int') = false
+GML: typeinfo.go: IsSliceType('[]int') = true
+GML: typeinfo.go: IsNullableType('[]int') = true
+GML: typeinfo.go: GetUnderlyingType('[]int') = '[]int'
+GML: typeinfo.go: IsStringType('[]int') = false
+GML: typeinfo.go: IsArrayType('[]int') = false
+GML: typeinfo.go: C: IsByteSequenceType('[]int') = false
+GML: typeinfo.go: IsBooleanType('[]int') = false
+GML: typeinfo.go: C: IsFloatType('[]int') = false
+GML: typeinfo.go: C: IsIntegerType('[]int') = false
+GML: typeinfo.go: IsTimestampType('[]int') = false
+GML: typeinfo.go: IsListType('[]int') = true (covers slices and arrays)
+GML: typeinfo.go: GetListSubtype('[]int') = 'int'
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsSliceType('int') = false
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsNullableType('int') = false
+GML: typeinfo.go: IsPointerType('int') = false
+GML: typeinfo.go: IsSliceType('int') = false
+GML: typeinfo.go: IsMapType('int') = false
+GML: typeinfo.go: IsNullableType('int') = false
+GML: typeinfo.go: IsStringType('int') = false
+GML: typeinfo.go: IsArrayType('int') = false
+GML: typeinfo.go: C: IsByteSequenceType('int') = false
+GML: typeinfo.go: IsBooleanType('int') = false
+GML: typeinfo.go: C: IsFloatType('int') = false
+GML: typeinfo.go: C: IsIntegerType('int') = true
+GML: typeinfo.go: IsSignedIntegerType('int') = true
+GML: typeinfo.go: C: GetSizeOfType('int') = 4
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsStringType('bool') = false
+GML: typeinfo.go: IsArrayType('bool') = false
+GML: typeinfo.go: C: IsByteSequenceType('bool') = false
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsPointerType('bool') = false
+GML: typeinfo.go: IsSliceType('bool') = false
+GML: typeinfo.go: IsMapType('bool') = false
+GML: typeinfo.go: IsNullableType('bool') = false
+GML: typeinfo.go: IsStringType('bool') = false
+GML: typeinfo.go: IsArrayType('bool') = false
+GML: typeinfo.go: C: IsByteSequenceType('bool') = false
+GML: typeinfo.go: IsBooleanType('bool') = true
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: IsNullableType('*string') = true
+GML: typeinfo.go: IsPointerType('*string') = true
+GML: typeinfo.go: IsNullableType('*string') = true
+GML: typeinfo.go: GetUnderlyingType('*string') = 'string'
+GML: typeinfo.go: IsPointerType('string') = false
+GML: typeinfo.go: IsSliceType('string') = false
+GML: typeinfo.go: IsMapType('string') = false
+GML: typeinfo.go: IsNullableType('string') = false
+GML: typeinfo.go: IsStringType('string') = true
+[90m21:11:57.681[0m [32mINF[0m [1mRegistered function.[0m [36mfunction=[0mhelloArrayOfInts
+[90m21:11:57.682[0m [32mINF[0m [1mRegistered function.[0m [36mfunction=[0mhelloOptionString
+[90m21:12:00.843[0m [32mINF[0m [1mInterrupt signal received.  Stopping HTTP server...[0m
+[90m21:12:00.844[0m [32mINF[0m [1mShutdown complete.[0m
+Runtime terminated successfully.
+

@@ -12,6 +12,7 @@ package config
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"time"
 )
@@ -41,6 +42,7 @@ func parseCommandLineFlags() {
 	flag.BoolVar(&showVersion, "v", false, versionUsage+" (shorthand)")
 
 	flag.Parse()
+	log.SetFlags(0)
 
 	if showVersion {
 		fmt.Println(GetProductVersion())
