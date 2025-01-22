@@ -1,6 +1,11 @@
 {
-  "cSpell.flagWords": ["teh", "hte"],
-  "cSpell.import": ["${workspaceRoot}/.trunk/configs/cspell.json"],
+  "cSpell.flagWords": [
+    "teh",
+    "hte"
+  ],
+  "cSpell.import": [
+    "${workspaceRoot}/.trunk/configs/cspell.json"
+  ],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "trunk.io",
   "trunk.autoInit": false,
@@ -24,10 +29,10 @@
     "editor.defaultFormatter": "trunk.io"
   },
   "[json]": {
-    "editor.defaultFormatter": "trunk.io"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "trunk.io"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[typescript]": {
     "editor.defaultFormatter": "trunk.io"

@@ -3,28 +3,13 @@ package modinfo
 import (
 	"testing"
 
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 )
 
 func TestCollectModuleInfo(t *testing.T) {
 	t.Parallel()
-
-	// wd, err := os.Getwd()
-	// if err != nil {
-	// 	t.Fatal(err)
-	// }
-	// _, filename, _, _ := runtime.Caller(0)
-	// testDir := filepath.Dir(filename)
-	// t.Logf("Change dir from %v to %v...", wd, testDir)
-	// if err := os.Chdir(testDir); err != nil {
-	// 	t.Fatal(err)
-	// }
-	// defer func() {
-	// 	t.Logf("Change dir back to %v", wd)
-	// 	os.Chdir(wd)
-	// }()
 
 	tests := []struct {
 		name      string

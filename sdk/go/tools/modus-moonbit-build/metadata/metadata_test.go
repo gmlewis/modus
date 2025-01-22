@@ -9,10 +9,23 @@
 
 package metadata
 
-import "testing"
+import (
+	_ "embed"
+	"encoding/json"
+	"testing"
+)
+
+//go:embed testdata/simple-example-metadata.json
+var simpleExampleMetadataJSON []byte
 
 func TestFunction_String(t *testing.T) {
 	t.Parallel()
+
+	var meta *Metadata
+	if err := json.Unmarshal(simpleExampleMetadataJSON, &meta); err != nil || meta == nil || meta.FnExports == nil {
+		t.Fatalf("json.Unmarshal: %v", err)
+	}
+
 	tests := []struct {
 		name string
 		want string
@@ -39,8 +52,8 @@ func TestFunction_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			f := testMetadata.FnExports[tt.name]
-			got := f.String(testMetadata)
+			f := meta.FnExports[tt.name]
+			got := f.String(meta)
 			if got != tt.want {
 				t.Errorf("function.String = %q, want %q", got, tt.want)
 			}
@@ -48,6 +61,7 @@ func TestFunction_String(t *testing.T) {
 	}
 }
 
+/*
 var testMetadata = &Metadata{
 	FnExports: map[string]*Function{
 		"add": {
@@ -149,3 +163,4 @@ var testMetadata = &Metadata{
 		},
 	},
 }
+*/
