@@ -7,6 +7,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+//go:generate go run gen-metadata-testdata.go
+
 package metadata
 
 import (

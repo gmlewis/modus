@@ -1,1 +1,264 @@
-{}
+{
+  "plugin": "simple-example",
+  "module": "@testdata",
+  "sdk": "modus-sdk-mbt@40.11.0",
+  "buildId": "cu8j3j7rack5o0gss3gg",
+  "buildTs": "2025-01-22T17:58:36.573Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "999782ed95e22798656085a8de60085d78c8fbc8",
+  "fnExports": {
+    "add": {
+      "parameters": [
+        {
+          "name": "x",
+          "type": "Int"
+        },
+        {
+          "name": "y",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "add3": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c~",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "add3_WithDefaults": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "add_n": {
+      "parameters": [
+        {
+          "name": "args",
+          "type": "Array[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "get_current_time": {
+      "parameters": [
+        {
+          "name": "now~",
+          "type": "@wallClock.Datetime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ]
+    },
+    "get_current_time_WithDefaults": {
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ]
+    },
+    "get_current_time_formatted": {
+      "parameters": [
+        {
+          "name": "now~",
+          "type": "@wallClock.Datetime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_current_time_formatted_WithDefaults": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_full_name": {
+      "parameters": [
+        {
+          "name": "first_name",
+          "type": "String"
+        },
+        {
+          "name": "last_name",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "get_name_and_age": {
+      "results": [
+        {
+          "type": "(String, Int)"
+        }
+      ]
+    },
+    "get_people": {
+      "results": [
+        {
+          "type": "Array[@testdata.Person]"
+        }
+      ]
+    },
+    "get_person": {
+      "results": [
+        {
+          "type": "@testdata.Person"
+        }
+      ]
+    },
+    "get_random_person": {
+      "results": [
+        {
+          "type": "@testdata.Person"
+        }
+      ]
+    },
+    "log_message": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "say_hello": {
+      "parameters": [
+        {
+          "name": "name~",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "say_hello_WithDefaults": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "test_abort": {},
+    "test_alternative_error": {
+      "parameters": [
+        {
+          "name": "input",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "test_exit": {},
+    "test_logging": {},
+    "test_normal_error": {
+      "parameters": [
+        {
+          "name": "input",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(String, Int)": {
+      "id": 4
+    },
+    "@testdata.Person": {
+      "id": 5,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "String"
+        },
+        {
+          "name": "lastName",
+          "type": "String"
+        },
+        {
+          "name": "age",
+          "type": "Int"
+        }
+      ]
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 6
+    },
+    "@wallClock.Datetime": {
+      "id": 7
+    },
+    "Array[@testdata.Person]": {
+      "id": 8
+    },
+    "Array[Int]": {
+      "id": 9
+    },
+    "Int": {
+      "id": 10
+    },
+    "String!Error": {
+      "id": 11
+    },
+    "String?": {
+      "id": 12
+    }
+  }
+}
