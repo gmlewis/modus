@@ -11,6 +11,7 @@ package schemagen
 
 import (
 	"context"
+	"log"
 	"testing"
 
 	"github.com/gmlewis/modus/lib/manifest"
@@ -21,7 +22,7 @@ import (
 )
 
 func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
-
+	log.SetFlags(0)
 	manifest := &manifest.Manifest{
 		Models:      map[string]manifest.ModelInfo{},
 		Connections: map[string]manifest.ConnectionInfo{},
@@ -62,37 +63,37 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 		WithParameter("items", "Map[String,String]").
 		WithResult("Map[String,String]")
 
-	// md.FnExports.AddFunction("test_default_int_params").
-	// 	WithParameter("a", "Int").
-	// 	WithParameter("b", "Int", 0).
-	// 	WithParameter("c", "Int", 1)
+	md.FnExports.AddFunction("test_default_int_params").
+		WithParameter("a", "Int").
+		WithParameter("b~", "Int", 0).
+		WithParameter("c~", "Int", 1)
 
-	// md.FnExports.AddFunction("test_default_string_params").
-	// 	WithParameter("a", "String").
-	// 	WithParameter("b", "String", "").
-	// 	WithParameter("c", "String", `a"b`).
-	// 	WithParameter("d", "*string").
-	// 	WithParameter("e", "*string", nil).
-	// 	WithParameter("f", "*string", "").
-	// 	WithParameter("g", "*string", "test")
+	md.FnExports.AddFunction("test_default_string_params").
+		WithParameter("a", "String").
+		WithParameter("b~", "String", "").
+		WithParameter("c~", "String", `a"b`).
+		WithParameter("d~", "String?").
+		WithParameter("e~", "String?", nil).
+		WithParameter("f~", "String?", "").
+		WithParameter("g~", "String?", "test")
 
-	// md.FnExports.AddFunction("test_default_array_params").
-	// 	WithParameter("a", "[]Int").
-	// 	WithParameter("b", "[]Int", []int32{}).
-	// 	WithParameter("c", "[]Int", []int32{1, 2, 3}).
-	// 	WithParameter("d", "*[]Int").
-	// 	WithParameter("e", "*[]Int", nil).
-	// 	WithParameter("f", "*[]Int", []int32{}).
-	// 	WithParameter("g", "*[]Int", []int32{1, 2, 3})
+	md.FnExports.AddFunction("test_default_array_params").
+		WithParameter("a", "Array[Int]").
+		WithParameter("b~", "Array[Int]", []int32{}).
+		WithParameter("c~", "Array[Int]", []int32{1, 2, 3}).
+		WithParameter("d~", "Array[Int]?").
+		WithParameter("e~", "Array[Int]?", nil).
+		WithParameter("f~", "Array[Int]?", []int32{}).
+		WithParameter("g~", "Array[Int]?", []int32{1, 2, 3})
 
-	// md.FnExports.AddFunction("get_person").
-	// 	WithResult("testdata.Person")
+	md.FnExports.AddFunction("get_person").
+		WithResult("@testdata.Person")
 
 	// md.FnExports.AddFunction("list_people").
-	// 	WithResult("[]testdata.Person")
+	// 	WithResult("Array[@testdata.Person]")
 
 	// md.FnExports.AddFunction("add_person").
-	// 	WithParameter("person", "testdata.Person")
+	// 	WithParameter("person", "@testdata.Person")
 
 	// md.FnExports.AddFunction("get_product_map").
 	// 	WithResult("map[string]testdata.Product")
@@ -101,96 +102,96 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 
 	// md.FnExports.AddFunction("test_pointers").
 	// 	WithParameter("a", "*Int").
-	// 	WithParameter("b", "[]*Int").
-	// 	WithParameter("c", "*[]Int").
-	// 	WithParameter("d", "[]*testdata.Person").
-	// 	WithParameter("e", "*[]testdata.Person").
-	// 	WithResult("*testdata.Person").
+	// 	WithParameter("b", "Array[*]Int").
+	// 	WithParameter("c", "Array[Int]?").
+	// 	WithParameter("d", "Array[*]@testdata.Person").
+	// 	WithParameter("e", "Array[testdata]?.Person").
+	// 	WithResult("*@testdata.Person").
 	// 	WithDocs(metadata.Docs{
 	// 		Lines: []string{
 	// 			"This function tests that pointers are working correctly",
 	// 		},
 	// 	})
 
-	// md.Types.AddType("*Int")
-	// md.Types.AddType("[]*Int")
-	// md.Types.AddType("*[]Int")
-	// md.Types.AddType("[]*testdata.Person")
-	// md.Types.AddType("*[]testdata.Person")
-	// md.Types.AddType("*testdata.Person")
+	md.Types.AddType("Int?")
+	md.Types.AddType("Array[Int?]")
+	md.Types.AddType("Array[Int]?")
+	md.Types.AddType("Array[@testdata.Person?]")
+	md.Types.AddType("Array[@testdata.Person]?")
+	md.Types.AddType("@testdata.Person?")
 
-	// // This should be excluded from the final schema
-	// md.FnExports.AddFunction("my_embedder").
-	// 	WithParameter("text", "String").
-	// 	WithResult("[]float64")
+	// This should be excluded from the final schema
+	md.FnExports.AddFunction("my_embedder").
+		WithParameter("text", "String").
+		WithResult("Array[Double]")
 
-	// // Generated input object from the output object
-	// md.FnExports.AddFunction("test_obj1").
-	// 	WithParameter("obj", "testdata.Obj1").
-	// 	WithResult("testdata.Obj1")
+	// Generated input object from the output object
+	md.FnExports.AddFunction("test_obj1").
+		WithParameter("obj", "@testdata.Obj1").
+		WithResult("@testdata.Obj1")
 
-	// md.Types.AddType("testdata.Obj1").
-	// 	WithField("id", "Int").
-	// 	WithField("name", "String")
+	md.Types.AddType("@testdata.Obj1").
+		WithField("id", "Int").
+		WithField("name", "String")
 
-	// // Separate input and output objects defined
-	// md.FnExports.AddFunction("test_obj2").
-	// 	WithParameter("obj", "testdata.Obj2Input").
-	// 	WithResult("testdata.Obj2")
-	// md.Types.AddType("testdata.Obj2").
-	// 	WithField("id", "Int").
-	// 	WithField("name", "String")
-	// md.Types.AddType("testdata.Obj2Input").
-	// 	WithField("name", "String")
+	// Separate input and output objects defined
+	md.FnExports.AddFunction("test_obj2").
+		WithParameter("obj", "@testdata.Obj2Input").
+		WithResult("@testdata.Obj2")
+	md.Types.AddType("@testdata.Obj2").
+		WithField("id", "Int").
+		WithField("name", "String")
+	md.Types.AddType("@testdata.Obj2Input").
+		WithField("name", "String")
 
-	// // Generated input object without output object
-	// md.FnExports.AddFunction("test_obj3").
-	// 	WithParameter("obj", "testdata.Obj3")
-	// md.Types.AddType("testdata.Obj3").
-	// 	WithField("name", "String")
+	// Generated input object without output object
+	md.FnExports.AddFunction("test_obj3").
+		WithParameter("obj", "@testdata.Obj3")
+	md.Types.AddType("@testdata.Obj3").
+		WithField("name", "String")
 
-	// // Single input object defined without output object
-	// md.FnExports.AddFunction("test_obj4").
-	// 	WithParameter("obj", "testdata.Obj4Input")
-	// md.Types.AddType("testdata.Obj4Input").
-	// 	WithField("name", "String")
+	// Single input object defined without output object
+	md.FnExports.AddFunction("test_obj4").
+		WithParameter("obj", "@testdata.Obj4Input")
+	md.Types.AddType("@testdata.Obj4Input").
+		WithField("name", "String")
 
-	// // Test slice of pointers to structs
-	// md.FnExports.AddFunction("test_obj5").
-	// 	WithResult("[]*testdata.Obj5")
-	// md.Types.AddType("[]*testdata.Obj5")
-	// md.Types.AddType("*testdata.Obj5")
-	// md.Types.AddType("testdata.Obj5").
-	// 	WithField("name", "String")
+	// Test slice of pointers to structs
+	md.FnExports.AddFunction("test_obj5").
+		WithResult("Array[@testdata.Obj5?]")
+	md.Types.AddType("Array[@testdata.Obj5?]")
+	md.Types.AddType("@testdata.Obj5?")
+	md.Types.AddType("@testdata.Obj5").
+		WithField("name", "String")
 
-	// // Test slice of structs
-	// md.FnExports.AddFunction("test_obj6").
-	// 	WithResult("[]testdata.Obj6")
-	// md.Types.AddType("[]testdata.Obj6")
-	// md.Types.AddType("testdata.Obj6").
-	// 	WithField("name", "String")
+	// Test slice of structs
+	md.FnExports.AddFunction("test_obj6").
+		WithResult("Array[@testdata.Obj6]")
+	md.Types.AddType("Array[@testdata.Obj6]")
+	md.Types.AddType("@testdata.Obj6").
+		WithField("name", "String")
 
-	// md.Types.AddType("[]Int")
-	// md.Types.AddType("[]float64")
-	// md.Types.AddType("[]testdata.Person")
-	// md.Types.AddType("map[string,string]")
-	// md.Types.AddType("map[string]testdata.Product")
+	md.Types.AddType("Array[Int]")
+	md.Types.AddType("Array[Double]")
+	md.Types.AddType("Array[@testdata.Person]")
+	md.Types.AddType("Map[String,String]")
+	md.Types.AddType("Map[String,@testdata.Product]")
 
-	// md.Types.AddType("testdata.Company").
-	// 	WithField("name", "String")
+	md.Types.AddType("@testdata.Company").
+		WithField("name", "String")
 
-	// md.Types.AddType("testdata.Product").
-	// 	WithField("name", "String").
-	// 	WithField("price", "float64").
-	// 	WithField("manufacturer", "testdata.Company").
-	// 	WithField("components", "[]testdata.Product")
+	md.Types.AddType("@testdata.Product").
+		WithField("name", "String").
+		WithField("price", "Double").
+		WithField("manufacturer", "@testdata.Company").
+		WithField("components", "Array[@testdata.Product]")
 
-	// md.Types.AddType("testdata.Person").
-	// 	WithField("name", "String").
-	// 	WithField("age", "Int").
-	// 	WithField("addresses", "[]testdata.Address")
+	md.Types.AddType("@testdata.Person").
+		WithField("name", "String").
+		WithField("age", "Int").
+		WithField("addresses", "Array[@testdata.Address]")
 
-	// md.Types.AddType("testdata.Address").
+	// md.Types.AddType("@testdata.Address").
 	// 	WithField("street", "String", &metadata.Docs{
 	// 		Lines: []string{
 	// 			"Street that the user lives on",
@@ -204,7 +205,7 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	// 		},
 	// 	}).
 	// 	WithField("postalCode", "String").
-	// 	WithField("location", "testdata.Coordinates").
+	// 	WithField("location", "@testdata.Coordinates").
 	// 	WithDocs(metadata.Docs{
 	// 		Lines: []string{
 	// 			"Address represents a physical address.",
@@ -213,14 +214,14 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	// 		},
 	// 	})
 
-	// md.Types.AddType("testdata.Coordinates").
-	// 	WithField("lat", "float64").
-	// 	WithField("lon", "float64")
+	// md.Types.AddType("@testdata.Coordinates").
+	// 	WithField("lat", "Double").
+	// 	WithField("lon", "Double")
 
 	// // This should be excluded from the final schema
-	// md.Types.AddType("testdata.Header").
+	// md.Types.AddType("@testdata.Header").
 	// 	WithField("name", "String").
-	// 	WithField("values", "[]string")
+	// 	WithField("values", "Array[string]")
 
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
@@ -234,7 +235,17 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 
 type Query {
   current_time: Timestamp!
+  person: Person!
   say_hello(name~: String! = "World"): String!
+  test_default_array_params(a: [Int!]!, b~: [Int!]! = [], c~: [Int!]! = [1,2,3], d~: [Int!], e~: [Int!] = null, f~: [Int!] = [], g~: [Int!] = [1,2,3]): Void
+  test_default_int_params(a: Int!, b~: Int! = 0, c~: Int! = 1): Void
+  test_default_string_params(a: String!, b~: String! = "", c~: String! = "a\"b", d~: String, e~: String = null, f~: String = "", g~: String = "test"): Void
+  test_obj1(obj: Obj1Input!): Obj1!
+  test_obj2(obj: Obj2Input!): Obj2!
+  test_obj3(obj: Obj3Input!): Void
+  test_obj4(obj: Obj4Input!): Void
+  test_obj5: [Obj5]!
+  test_obj6: [Obj6!]!
   transform(items: [StringStringPairInput!]!): [StringStringPair!]!
 }
 
@@ -244,10 +255,52 @@ type Mutation {
 }
 
 scalar Timestamp
+scalar Void
+
+input Obj1Input {
+  id: Int!
+  name: String!
+}
+
+input Obj2Input {
+  name: String!
+}
+
+input Obj3Input {
+  name: String!
+}
+
+input Obj4Input {
+  name: String!
+}
 
 input StringStringPairInput {
   key: String!
   value: String!
+}
+
+type Obj1 {
+  id: Int!
+  name: String!
+}
+
+type Obj2 {
+  id: Int!
+  name: String!
+}
+
+type Obj5 {
+  name: String!
+}
+
+type Obj6 {
+  name: String!
+}
+
+type Person {
+  name: String!
+  age: Int!
+  addresses: [Address!]!
 }
 
 type StringStringPair {

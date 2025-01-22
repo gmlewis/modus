@@ -11,6 +11,7 @@ package schemagen
 
 import (
 	"context"
+	"log"
 	"strings"
 	"testing"
 
@@ -24,7 +25,7 @@ import (
 )
 
 func Test_GetGraphQLSchema_Go(t *testing.T) {
-
+	log.SetFlags(0)
 	manifest := &manifest.Manifest{
 		Models:      map[string]manifest.ModelInfo{},
 		Connections: map[string]manifest.ConnectionInfo{},
