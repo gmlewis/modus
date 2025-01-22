@@ -470,7 +470,7 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		{"Array[String]?", true, "[String!]", nil, nil},
 		{"Array[Array[String]?]?", false, "[[String!]]", nil, nil},
 		{"Array[Array[String]?]?", true, "[[String!]]", nil, nil},
-		// Option[Array[...]] types with nullable element types:
+		// Option[Array[Option[...]]] types with nullable element types:
 		{"Array[Int?]?", false, "[Int]", nil, nil},
 		{"Array[Int?]?", true, "[Int]", nil, nil},
 		{"Array[Array[Int?]?]?", false, "[[Int]]", nil, nil},
@@ -489,7 +489,7 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		{"Array[String]", true, "[String!]!", nil, nil},
 		{"Array[Array[String]]", false, "[[String!]!]!", nil, nil},
 		{"Array[Array[String]]", true, "[[String!]!]!", nil, nil},
-		// Array[...] types with nullable element types:
+		// Array[Option[...]] types with nullable element types:
 		{"Array[Int?]", false, "[Int]!", nil, nil},
 		{"Array[Int?]", true, "[Int]!", nil, nil},
 		{"Array[Array[Int?]]", false, "[[Int]!]!", nil, nil},
@@ -508,6 +508,51 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		{"UInt64", true, "UInt64!", nil, []*TypeDefinition{{Name: "UInt64"}}},
 		// {"time.Time", false, "Timestamp!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
 		// {"time.Time", true, "Timestamp!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// Option[...] variations:
+		{"Int64?", false, "Int64", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Int64?", true, "Int64", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"UInt?", false, "UInt", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"UInt?", true, "UInt", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"UInt64?", false, "UInt64", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"UInt64?", true, "UInt64", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		// {"time.Time?", false, "Timestamp", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// {"time.Time?", true, "Timestamp", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// Option[Array[...]] variations:
+		{"Array[Int64]?", false, "[Int64!]", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[Int64]?", true, "[Int64!]", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[UInt]?", false, "[UInt!]", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt]?", true, "[UInt!]", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt64]?", false, "[UInt64!]", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"Array[UInt64]?", true, "[UInt64!]", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		// {"Array[time.Time]?", false, "[Timestamp!]", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// {"Array[time.Time]?", true, "[Timestamp!]", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// Option[Array[Option[...]]] variations:
+		{"Array[Int64?]?", false, "[Int64]", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[Int64?]?", true, "[Int64]", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[UInt?]?", false, "[UInt]", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt?]?", true, "[UInt]", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt64?]?", false, "[UInt64]", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"Array[UInt64?]?", true, "[UInt64]", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		// {"Array[time.Time?]?", false, "[Timestamp]", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// {"Array[time.Time?]?", true, "[Timestamp]", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// Array[...] variations:
+		{"Array[Int64]", false, "[Int64!]!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[Int64]", true, "[Int64!]!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[UInt]", false, "[UInt!]!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt]", true, "[UInt!]!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt64]", false, "[UInt64!]!", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"Array[UInt64]", true, "[UInt64!]!", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		// {"Array[time.Time]", false, "[Timestamp!]!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// {"Array[time.Time]", true, "[Timestamp!]!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// Array[Option[...]] variations:
+		{"Array[Int64?]", false, "[Int64]!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[Int64?]", true, "[Int64]!", nil, []*TypeDefinition{{Name: "Int64"}}},
+		{"Array[UInt?]", false, "[UInt]!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt?]", true, "[UInt]!", nil, []*TypeDefinition{{Name: "UInt"}}},
+		{"Array[UInt64?]", false, "[UInt64]!", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		{"Array[UInt64?]", true, "[UInt64]!", nil, []*TypeDefinition{{Name: "UInt64"}}},
+		// {"Array[time.Time?]", false, "[Timestamp]!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
+		// {"Array[time.Time?]", true, "[Timestamp]!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
 
 		// Custom types
 		// {"testdata.User", false, "User!",
