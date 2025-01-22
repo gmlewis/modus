@@ -89,29 +89,29 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md.FnExports.AddFunction("get_person").
 		WithResult("@testdata.Person")
 
-	// md.FnExports.AddFunction("list_people").
-	// 	WithResult("Array[@testdata.Person]")
+	md.FnExports.AddFunction("list_people").
+		WithResult("Array[@testdata.Person]")
 
-	// md.FnExports.AddFunction("add_person").
-	// 	WithParameter("person", "@testdata.Person")
+	md.FnExports.AddFunction("add_person").
+		WithParameter("person", "@testdata.Person")
 
-	// md.FnExports.AddFunction("get_product_map").
-	// 	WithResult("map[string]testdata.Product")
+	md.FnExports.AddFunction("get_product_map").
+		WithResult("Map[String,@testdata.Product]")
 
-	// md.FnExports.AddFunction("do_nothing")
+	md.FnExports.AddFunction("do_nothing")
 
-	// md.FnExports.AddFunction("test_pointers").
-	// 	WithParameter("a", "*Int").
-	// 	WithParameter("b", "Array[*]Int").
-	// 	WithParameter("c", "Array[Int]?").
-	// 	WithParameter("d", "Array[*]@testdata.Person").
-	// 	WithParameter("e", "Array[testdata]?.Person").
-	// 	WithResult("*@testdata.Person").
-	// 	WithDocs(metadata.Docs{
-	// 		Lines: []string{
-	// 			"This function tests that pointers are working correctly",
-	// 		},
-	// 	})
+	md.FnExports.AddFunction("test_options").
+		WithParameter("a", "Int?").
+		WithParameter("b", "Array[Int?]").
+		WithParameter("c", "Array[Int]?").
+		WithParameter("d", "Array[@testdata.Person?]").
+		WithParameter("e", "Array[@testdata.Person]?").
+		WithResult("@testdata.Person?").
+		WithDocs(metadata.Docs{
+			Lines: []string{
+				"This function tests that options are working correctly",
+			},
+		})
 
 	md.Types.AddType("Int?")
 	md.Types.AddType("Array[Int?]")
@@ -191,37 +191,37 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 		WithField("age", "Int").
 		WithField("addresses", "Array[@testdata.Address]")
 
-	// md.Types.AddType("@testdata.Address").
-	// 	WithField("street", "String", &metadata.Docs{
-	// 		Lines: []string{
-	// 			"Street that the user lives on",
-	// 		},
-	// 	}).
-	// 	WithField("city", "String").
-	// 	WithField("state", "String").
-	// 	WithField("country", "String", &metadata.Docs{
-	// 		Lines: []string{
-	// 			"Country that the user is from",
-	// 		},
-	// 	}).
-	// 	WithField("postalCode", "String").
-	// 	WithField("location", "@testdata.Coordinates").
-	// 	WithDocs(metadata.Docs{
-	// 		Lines: []string{
-	// 			"Address represents a physical address.",
-	// 			"Each field corresponds to a specific part of the address.",
-	// 			"The location field stores geospatial coordinates.",
-	// 		},
-	// 	})
+	md.Types.AddType("@testdata.Address").
+		WithField("street", "String", &metadata.Docs{
+			Lines: []string{
+				"Street that the user lives on",
+			},
+		}).
+		WithField("city", "String").
+		WithField("state", "String").
+		WithField("country", "String", &metadata.Docs{
+			Lines: []string{
+				"Country that the user is from",
+			},
+		}).
+		WithField("postalCode", "String").
+		WithField("location", "@testdata.Coordinates").
+		WithDocs(metadata.Docs{
+			Lines: []string{
+				"Address represents a physical address.",
+				"Each field corresponds to a specific part of the address.",
+				"The location field stores geospatial coordinates.",
+			},
+		})
 
-	// md.Types.AddType("@testdata.Coordinates").
-	// 	WithField("lat", "Double").
-	// 	WithField("lon", "Double")
+	md.Types.AddType("@testdata.Coordinates").
+		WithField("lat", "Double").
+		WithField("lon", "Double")
 
-	// // This should be excluded from the final schema
-	// md.Types.AddType("@testdata.Header").
-	// 	WithField("name", "String").
-	// 	WithField("values", "Array[string]")
+	// This should be excluded from the final schema
+	md.Types.AddType("@testdata.Header").
+		WithField("name", "String").
+		WithField("values", "Array[String]")
 
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
@@ -235,7 +235,10 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 
 type Query {
   current_time: Timestamp!
+  do_nothing: Void
+  people: [Person!]!
   person: Person!
+  product_map: [StringProductPair!]!
   say_hello(name~: String! = "World"): String!
   test_default_array_params(a: [Int!]!, b~: [Int!]! = [], c~: [Int!]! = [1,2,3], d~: [Int!], e~: [Int!] = null, f~: [Int!] = [], g~: [Int!] = [1,2,3]): Void
   test_default_int_params(a: Int!, b~: Int! = 0, c~: Int! = 1): Void
@@ -246,16 +249,46 @@ type Query {
   test_obj4(obj: Obj4Input!): Void
   test_obj5: [Obj5]!
   test_obj6: [Obj6!]!
+  """
+  This function tests that options are working correctly
+  """
+  test_options(a: Int, b: [Int]!, c: [Int!], d: [PersonInput]!, e: [PersonInput!]): Person
   transform(items: [StringStringPairInput!]!): [StringStringPair!]!
 }
 
 type Mutation {
   add(a: Int!, b: Int!): Int!
   add3(a: Int!, b: Int!, c~: Int! = 0): Int!
+  add_person(person: PersonInput!): Void
 }
 
 scalar Timestamp
 scalar Void
+
+"""
+Address represents a physical address.
+Each field corresponds to a specific part of the address.
+The location field stores geospatial coordinates.
+"""
+input AddressInput {
+  """
+  Street that the user lives on
+  """
+  street: String!
+  city: String!
+  state: String!
+  """
+  Country that the user is from
+  """
+  country: String!
+  postalCode: String!
+  location: CoordinatesInput!
+}
+
+input CoordinatesInput {
+  lat: Float!
+  lon: Float!
+}
 
 input Obj1Input {
   id: Int!
@@ -274,9 +307,44 @@ input Obj4Input {
   name: String!
 }
 
+input PersonInput {
+  name: String!
+  age: Int!
+  addresses: [AddressInput!]!
+}
+
 input StringStringPairInput {
   key: String!
   value: String!
+}
+
+"""
+Address represents a physical address.
+Each field corresponds to a specific part of the address.
+The location field stores geospatial coordinates.
+"""
+type Address {
+  """
+  Street that the user lives on
+  """
+  street: String!
+  city: String!
+  state: String!
+  """
+  Country that the user is from
+  """
+  country: String!
+  postalCode: String!
+  location: Coordinates!
+}
+
+type Company {
+  name: String!
+}
+
+type Coordinates {
+  lat: Float!
+  lon: Float!
 }
 
 type Obj1 {
@@ -303,171 +371,23 @@ type Person {
   addresses: [Address!]!
 }
 
+type Product {
+  name: String!
+  price: Float!
+  manufacturer: Company!
+  components: [Product!]!
+}
+
+type StringProductPair {
+  key: String!
+  value: Product!
+}
+
 type StringStringPair {
   key: String!
   value: String!
 }
 `[1:]
-
-	/* TODO:
-	   	expectedSchema := `
-	   # Modus GraphQL Schema (auto-generated)
-
-	   type Query {
-	     current_time: Timestamp!
-	     do_nothing: Void
-	     people: [Person!]
-	     person: Person!
-	     product_map: [StringProductPair!]
-	     say_hello(name: String!): String!
-	     test_default_array_params(a: [Int!], b: [Int!] = [], c: [Int!] = [1,2,3], d: [Int!], e: [Int!] = null, f: [Int!] = [], g: [Int!] = [1,2,3]): Void
-	     test_default_int_params(a: Int!, b: Int! = 0, c: Int! = 1): Void
-	     test_default_string_params(a: String!, b: String! = "", c: String! = "a\"b", d: String, e: String = null, f: String = "", g: String = "test"): Void
-	     test_obj1(obj: Obj1Input!): Obj1!
-	     test_obj2(obj: Obj2Input!): Obj2!
-	     test_obj3(obj: Obj3Input!): Void
-	     test_obj4(obj: Obj4Input!): Void
-	     test_obj5: [Obj5]
-	     test_obj6: [Obj6!]
-	     """
-	     This function tests that pointers are working correctly
-	     """
-	     test_pointers(a: Int, b: [Int], c: [Int!], d: [PersonInput], e: [PersonInput!]): Person
-	     transform(items: [StringStringPairInput!]): [StringStringPair!]
-	   }
-
-	   type Mutation {
-	     add(a: Int!, b: Int!): Int!
-	     add_person(person: PersonInput!): Void
-	   }
-
-	   scalar Timestamp
-	   scalar Void
-
-	   """
-	   Address represents a physical address.
-	   Each field corresponds to a specific part of the address.
-	   The location field stores geospatial coordinates.
-	   """
-	   input AddressInput {
-	     """
-	     Street that the user lives on
-	     """
-	     street: String!
-	     city: String!
-	     state: String!
-	     """
-	     Country that the user is from
-	     """
-	     country: String!
-	     postalCode: String!
-	     location: CoordinatesInput!
-	   }
-
-	   input CoordinatesInput {
-	     lat: Float!
-	     lon: Float!
-	   }
-
-	   input Obj1Input {
-	     id: Int!
-	     name: String!
-	   }
-
-	   input Obj2Input {
-	     name: String!
-	   }
-
-	   input Obj3Input {
-	     name: String!
-	   }
-
-	   input Obj4Input {
-	     name: String!
-	   }
-
-	   input PersonInput {
-	     name: String!
-	     age: Int!
-	     addresses: [AddressInput!]
-	   }
-
-	   input StringStringPairInput {
-	     key: String!
-	     value: String!
-	   }
-
-	   """
-	   Address represents a physical address.
-	   Each field corresponds to a specific part of the address.
-	   The location field stores geospatial coordinates.
-	   """
-	   type Address {
-	     """
-	     Street that the user lives on
-	     """
-	     street: String!
-	     city: String!
-	     state: String!
-	     """
-	     Country that the user is from
-	     """
-	     country: String!
-	     postalCode: String!
-	     location: Coordinates!
-	   }
-
-	   type Company {
-	     name: String!
-	   }
-
-	   type Coordinates {
-	     lat: Float!
-	     lon: Float!
-	   }
-
-	   type Obj1 {
-	     id: Int!
-	     name: String!
-	   }
-
-	   type Obj2 {
-	     id: Int!
-	     name: String!
-	   }
-
-	   type Obj5 {
-	     name: String!
-	   }
-
-	   type Obj6 {
-	     name: String!
-	   }
-
-	   type Person {
-	     name: String!
-	     age: Int!
-	     addresses: [Address!]
-	   }
-
-	   type Product {
-	     name: String!
-	     price: Float!
-	     manufacturer: Company!
-	     components: [Product!]
-	   }
-
-	   type StringProductPair {
-	     key: String!
-	     value: Product!
-	   }
-
-	   type StringStringPair {
-	     key: String!
-	     value: String!
-	   }
-	   `[1:]
-	*/
 
 	require.Nil(t, err)
 	require.Equal(t, expectedSchema, result.Schema)
