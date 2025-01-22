@@ -112,8 +112,8 @@ Currently, the supported languages you may choose from are:
   - If you are primarily used to writing back-end apps, you'll likely prefer to use Go.
 
 - [MoonBit](https://moonbitlang.com/) - A Rust-like programming language designed for WebAssembly.
-  - If you are interested in learning a new programming language with excellent tooling,
-    make sure to check out MoonBit.
+  - If you are interested in learning a new programming language with excellent tooling
+    and a fantastic developer experience, make sure to check out MoonBit.
 
 Additional programming languages may be supported in the future.
 
