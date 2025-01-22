@@ -76,11 +76,17 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
 
-	if lti.IsPointerType(typ) { // TODO
-		result := "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))
+	if lti.IsOptionType(typ) { // TODO
+		result := lti.GetNameForType(lti.GetUnderlyingType(typ)) + "?"
 		log.Printf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
+
+	// if lti.IsPointerType(typ) { // TODO
+	// 	result := "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))
+	// 	log.Printf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
+	// 	return result
+	// }
 
 	if lti.IsListType(typ) {
 		result := "Array[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
@@ -106,7 +112,8 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 		!lti.IsMapType(typ) &&
 		!lti.IsStringType(typ) &&
 		!lti.IsTimestampType(typ) &&
-		!lti.IsPointerType(typ)
+		!lti.IsOptionType(typ)
+		// !lti.IsPointerType(typ)
 	log.Printf("GML: typeinfo.go: IsObjectType('%v') = %v", typ, result)
 	return result
 }
@@ -114,10 +121,7 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 	// TODO
 	// result := strings.TrimPrefix(typ, "*") // for Go
-	if strings.HasSuffix(typ, "?") {
-		log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') - removing '?'", typ)
-		typ = typ[:len(typ)-1]
-	}
+	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
 	case "Bool", "Byte", "Char", "Int", "Int64", "Uint", "Uint64", "Float", "Double", "String":
 		result = typ
@@ -208,21 +212,34 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 	return result
 }
 
+// In MoonBit, the only nullable type is Option[T].
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
-	result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ) // TODO(gmlewis)
+	result := lti.IsOptionType(typ) // lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ) // TODO(gmlewis)
 	log.Printf("GML: typeinfo.go: IsNullableType('%v') = %v", typ, result)
 	return result
 }
 
-func (lti *langTypeInfo) IsPointerType(typ string) bool {
-	// TODO: Is Ref[T] the only pointer/reference type in MoonBit?
-	// result := strings.HasPrefix(typ, "*")  // for Go
-	// WRONG! Option[T] is _NOT_ a pointer type! // result := strings.HasSuffix(typ, "?")
-	// THIS BREAKS THE TEST SUITE!!! // result := false
-	result := strings.HasSuffix(typ, "?") // This is currently needed for the test suite!!!  FIND OUT WHY!!!
-	log.Printf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
+func (lti *langTypeInfo) IsOptionType(typ string) bool {
+	result := strings.HasSuffix(typ, "?")
+	log.Printf("GML: typeinfo.go: IsOptionType('%v') = %v", typ, result)
 	return result
 }
+
+// NOTE! This is _NOT_ a pointer type in MoonBit!
+// To satisfy the languages.TypeInfo interface, we must implement this method.
+func (lti *langTypeInfo) IsPointerType(typ string) bool {
+	return lti.IsOptionType(typ)
+}
+
+// func (lti *langTypeInfo) IsPointerType(typ string) bool {
+// 	// TODO: Is Ref[T] the only pointer/reference type in MoonBit?
+// 	// result := strings.HasPrefix(typ, "*")  // for Go
+// 	// WRONG! Option[T] is _NOT_ a pointer type! // result := strings.HasSuffix(typ, "?")
+// 	result := false
+// 	// result := strings.HasSuffix(typ, "?") // This is currently needed for the test suite!!!  FIND OUT WHY!!!
+// 	log.Printf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
+// 	return result
+// }
 
 func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
 	result := lti.IsBooleanType(typ) || lti.IsIntegerType(typ) || lti.IsFloatType(typ) // TODO(gmlewis)
@@ -354,7 +371,8 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 	}
 
 	// reference types align to the pointer size (4 bytes on 32-bit wasm)
-	if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
+	// if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
+	if lti.IsOptionType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
 		log.Printf("GML: typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
 		return 4, nil
 	}
@@ -401,7 +419,8 @@ func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uin
 }
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
-	if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
+	// if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
+	if lti.IsPrimitiveType(typ) || lti.IsOptionType(typ) || lti.IsMapType(typ) {
 		log.Printf("GML: typeinfo.go: A: GetEncodingLengthOfType('%v') = 1", typ)
 		return 1, nil
 	} else if lti.IsStringType(typ) {
@@ -485,10 +504,15 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 		return 8, nil
 	}
 
-	if lti.IsPointerType(typ) {
+	if lti.IsOptionType(typ) {
 		log.Printf("GML: typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
+
+	// if lti.IsPointerType(typ) {
+	// 	log.Printf("GML: typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
+	// 	return 4, nil
+	// }
 
 	if lti.IsMapType(typ) {
 		// maps are passed by reference using a 4 byte pointer
@@ -556,7 +580,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		return rt, nil
 	}
 
-	if lti.IsPointerType(typ) {
+	if lti.IsOptionType(typ) {
 		tt := lti.GetUnderlyingType(typ)
 		targetType, err := lti.getReflectedType(tt, customTypes)
 		if err != nil {
@@ -566,6 +590,17 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		log.Printf("GML: typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
 		return result, nil
 	}
+
+	// if lti.IsPointerType(typ) {
+	// 	tt := lti.GetUnderlyingType(typ)
+	// 	targetType, err := lti.getReflectedType(tt, customTypes)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	result := reflect.PointerTo(targetType)
+	// 	log.Printf("GML: typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
+	// 	return result, nil
+	// }
 
 	if lti.IsSliceType(typ) {
 		et := lti.GetListSubtype(typ)

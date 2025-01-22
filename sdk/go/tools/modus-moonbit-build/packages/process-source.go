@@ -136,6 +136,7 @@ func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*as
 	if len(paramsList) == 0 {
 		return nil, nil
 	}
+
 	newParamsList := make([]*ast.Field, 0, len(paramsList))
 	for _, param := range paramsList {
 		if paramType, ok := param.Type.(*ast.Ident); ok {
@@ -151,6 +152,7 @@ func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*as
 			}
 		}
 	}
+
 	newParamsVars := make([]*types.Var, 0, len(paramsVars))
 	for _, param := range paramsVars {
 		var paramTypeName string

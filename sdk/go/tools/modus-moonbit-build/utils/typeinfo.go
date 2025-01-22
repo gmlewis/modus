@@ -20,9 +20,13 @@ func GetNameForType(t string, imports map[string]string) string {
 		return t
 	}
 
-	if IsPointerType(t) {
-		return "*" + GetNameForType(GetUnderlyingType(t), imports) // TODO
+	if IsOptionType(t) {
+		return GetNameForType(GetUnderlyingType(t), imports) + "?"
 	}
+
+	// if IsPointerType(t) {
+	// 	return "*" + GetNameForType(GetUnderlyingType(t), imports) // TODO
+	// }
 
 	if IsListType(t) {
 		return "Array[" + GetNameForType(GetArraySubtype(t), imports) + "]"
@@ -44,9 +48,13 @@ func GetNameForType(t string, imports map[string]string) string {
 }
 
 func GetPackageNamesForType(t string) []string {
-	if IsPointerType(t) {
+	if IsOptionType(t) {
 		return GetPackageNamesForType(GetUnderlyingType(t))
 	}
+
+	// if IsPointerType(t) {
+	// 	return GetPackageNamesForType(GetUnderlyingType(t))
+	// }
 
 	if IsListType(t) {
 		return GetPackageNamesForType(GetArraySubtype(t))
@@ -74,9 +82,9 @@ func GetPackageNamesForType(t string) []string {
 	return nil
 }
 
-func GetArraySubtype(t string) string {
+func GetArraySubtype(t string) string { // FixedArray[] are fixed length, Array[] are dynamic
 	// return t[strings.Index(t, "]")+1:]
-	return t[6 : len(t)-1]
+	return strings.TrimSuffix(strings.TrimPrefix(t, "FixedArray["), "]")
 }
 
 func GetMapSubtypes(t string) (string, string) {
@@ -107,31 +115,37 @@ func GetUnderlyingType(t string) string {
 }
 
 func IsListType(t string) bool {
-	return strings.HasPrefix(t, "Array[")
+	return strings.HasPrefix(t, "Array[") // TODO
 }
 
 func IsSliceType(t string) bool {
-	return strings.HasPrefix(t, "[]")
+	return strings.HasPrefix(t, "Array[") && strings.HasSuffix(t, "]")
 }
 
 func IsArrayType(t string) bool {
-	return IsListType(t) && !IsSliceType(t)
+	// return IsListType(t) && !IsSliceType(t)
+	return strings.HasPrefix(t, "FixedArray[") && strings.HasSuffix(t, "]")
 }
 
 func IsMapType(t string) bool {
-	return strings.HasPrefix(t, "Map[")
+	return strings.HasPrefix(t, "Map[") && strings.HasSuffix(t, "]")
 }
 
-func IsPointerType(t string) bool { // TODO
-	return strings.HasPrefix(t, "*")
+func IsOptionType(t string) bool {
+	return strings.HasSuffix(t, "?")
 }
+
+// func IsPointerType(t string) bool { // TODO
+// 	return strings.HasPrefix(t, "*")
+// }
 
 func IsStringType(t string) bool {
 	return t == "String"
 }
 
 func IsStructType(t string) bool {
-	return !IsPointerType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
+	// return !IsPointerType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
+	return !IsOptionType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
 }
 
 func IsPrimitiveType(t string) bool {

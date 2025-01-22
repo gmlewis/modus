@@ -89,7 +89,8 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 		}
 
 		for _, t := range keptTypes {
-			if utils.IsPointerType(t.Name) {
+			// if utils.IsPointerType(t.Name) {
+			if utils.IsOptionType(t.Name) {
 				keep(utils.GetUnderlyingType(t.Name))
 			} else if utils.IsListType(t.Name) {
 				keep(utils.GetArraySubtype(t.Name))
