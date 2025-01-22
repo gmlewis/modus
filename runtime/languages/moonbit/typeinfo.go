@@ -266,9 +266,8 @@ func (lti *langTypeInfo) IsStringType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsTimestampType(typ string) bool {
-	// Special case for MoonBit wasi "timestamp"-like struct.
-	// Could also have an initializer, like: '@wallClock.Datetime = @wallClock.now()'
-	result := strings.HasPrefix(typ, "@wallClock.Datetime")
+	// Special case for MoonBit moonbitlang/x or wasi "timestamp"-like struct.
+	result := strings.HasPrefix(typ, "@time.PlainDateTime") || strings.HasPrefix(typ, "@wallClock.Datetime")
 	log.Printf("GML: typeinfo.go: IsTimestampType('%v') = %v", typ, result)
 	return result
 }
