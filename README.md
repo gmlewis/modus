@@ -111,9 +111,11 @@ Currently, the supported languages you may choose from are:
 - [Go](https://go.dev/) - A general-purpose programming language originally designed by Google.
   - If you are primarily used to writing back-end apps, you'll likely prefer to use Go.
 
-- [MoonBit](https://moonbitlang.com/) - A Rust-like programming language designed for WebAssembly.
+- [MoonBit](https://moonbitlang.com/) - A Rust-like programming language (but without pointers,
+  lifetimes, or borrow checking — _FTW_) designed for WebAssembly (that creates tiny `.wasm` files 🎉).
   - If you are interested in learning a new programming language with excellent tooling
-    and a fantastic developer experience, make sure to check out MoonBit.
+    and a fantastic developer experience, make sure to check out MoonBit. (It additionally has `js`,
+    `wasm-gc`, _and_ `native` compile-time targets!)
 
 Additional programming languages may be supported in the future.
 
