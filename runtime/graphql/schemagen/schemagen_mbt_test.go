@@ -555,47 +555,47 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 		// {"Array[time.Time?]", true, "[Timestamp]!", nil, []*TypeDefinition{{Name: "Timestamp"}}},
 
 		// Custom types
-		// {"testdata.User", false, "User!",
-		// 	[]*metadata.TypeDefinition{{
-		// 		Name: "User",
-		// 		Fields: []*metadata.Field{
-		// 			{Name: "firstName", Type: "String"},
-		// 			{Name: "lastName", Type: "String"},
-		// 			{Name: "age", Type: "uint8"},
-		// 		},
-		// 	}},
-		// 	[]*TypeDefinition{{
-		// 		Name: "User",
-		// 		Fields: []*FieldDefinition{
-		// 			{Name: "firstName", Type: "String!"},
-		// 			{Name: "lastName", Type: "String!"},
-		// 			{Name: "age", Type: "Int!"},
-		// 		},
-		// 	}}},
-		// {"testdata.User", true, "UserInput!",
-		// 	[]*metadata.TypeDefinition{{
-		// 		Name: "User",
-		// 		Fields: []*metadata.Field{
-		// 			{Name: "firstName", Type: "String"},
-		// 			{Name: "lastName", Type: "String"},
-		// 			{Name: "age", Type: "uint8"},
-		// 		},
-		// 	}},
-		// 	[]*TypeDefinition{{
-		// 		Name: "UserInput",
-		// 		Fields: []*FieldDefinition{
-		// 			{Name: "firstName", Type: "String!"},
-		// 			{Name: "lastName", Type: "String!"},
-		// 			{Name: "age", Type: "Int!"},
-		// 		},
-		// 	}}},
+		{"@testdata.User", false, "User!",
+			[]*metadata.TypeDefinition{{
+				Name: "User",
+				Fields: []*metadata.Field{
+					{Name: "firstName", Type: "String"},
+					{Name: "lastName", Type: "String"},
+					{Name: "age", Type: "Byte"},
+				},
+			}},
+			[]*TypeDefinition{{
+				Name: "User",
+				Fields: []*FieldDefinition{
+					{Name: "firstName", Type: "String!"},
+					{Name: "lastName", Type: "String!"},
+					{Name: "age", Type: "Int!"},
+				},
+			}}},
+		{"testdata.User", true, "UserInput!",
+			[]*metadata.TypeDefinition{{
+				Name: "User",
+				Fields: []*metadata.Field{
+					{Name: "firstName", Type: "String"},
+					{Name: "lastName", Type: "String"},
+					{Name: "age", Type: "Byte"},
+				},
+			}},
+			[]*TypeDefinition{{
+				Name: "UserInput",
+				Fields: []*FieldDefinition{
+					{Name: "firstName", Type: "String!"},
+					{Name: "lastName", Type: "String!"},
+					{Name: "age", Type: "Int!"},
+				},
+			}}},
 
-		// {"*testdata.Foo", false, "Foo", // scalar
-		// 	[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
-		// 	[]*TypeDefinition{{Name: "Foo"}}},
-		// {"*testdata.Foo", true, "Foo", // scalar
-		// 	[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
-		// 	[]*TypeDefinition{{Name: "Foo"}}},
+		{"@testdata.Foo?", false, "Foo", // Option[Foo]
+			[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
+			[]*TypeDefinition{{Name: "Foo"}}},
+		{"@testdata.Foo?", true, "Foo", // Option[Foo]
+			[]*metadata.TypeDefinition{{Name: "testdata.Foo"}},
+			[]*TypeDefinition{{Name: "Foo"}}},
 
 		// Map types
 		// {"map[string]string", false, "[StringStringPair!]", nil, []*TypeDefinition{{
