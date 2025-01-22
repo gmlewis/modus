@@ -40,28 +40,27 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md := metadata.NewPluginMetadata()
 	md.SDK = "modus-sdk-mbt"
 
-	// TODO:
-	// md.FnExports.AddFunction("add").
-	// 	WithParameter("a", "Int").
-	// 	WithParameter("b", "Int").
-	// 	WithResult("Int")
+	md.FnExports.AddFunction("add").
+		WithParameter("a", "Int").
+		WithParameter("b", "Int").
+		WithResult("Int")
 
-	// md.FnExports.AddFunction("add3").
-	// 	WithParameter("a", "Int").
-	// 	WithParameter("b", "Int").
-	// 	WithParameter("c~", "Int").
-	// 	WithResult("Int")
+	md.FnExports.AddFunction("add3").
+		WithParameter("a", "Int").
+		WithParameter("b", "Int").
+		WithParameter("c~", "Int", 0).
+		WithResult("Int")
 
-	// md.FnExports.AddFunction("say_hello").
-	// 	WithParameter("name~", "String").
-	// 	WithResult("String")
+	md.FnExports.AddFunction("say_hello").
+		WithParameter("name~", "String", "World").
+		WithResult("String")
 
-	// md.FnExports.AddFunction("current_time").
-	// 	WithResult("time.Time")
+	md.FnExports.AddFunction("current_time").
+		WithResult("@time.PlainDateTime")
 
-	// md.FnExports.AddFunction("transform").
-	// 	WithParameter("items", "map[string,string]").
-	// 	WithResult("map[string,string]")
+	md.FnExports.AddFunction("transform").
+		WithParameter("items", "Map[String,String]").
+		WithResult("Map[String,String]")
 
 	// md.FnExports.AddFunction("test_default_int_params").
 	// 	WithParameter("a", "Int").
@@ -232,6 +231,29 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 
 	expectedSchema := `
 # Modus GraphQL Schema (auto-generated)
+
+type Query {
+  current_time: Timestamp!
+  say_hello(name~: String! = "World"): String!
+  transform(items: [StringStringPairInput!]!): [StringStringPair!]!
+}
+
+type Mutation {
+  add(a: Int!, b: Int!): Int!
+  add3(a: Int!, b: Int!, c~: Int! = 0): Int!
+}
+
+scalar Timestamp
+
+input StringStringPairInput {
+  key: String!
+  value: String!
+}
+
+type StringStringPair {
+  key: String!
+  value: String!
+}
 `[1:]
 
 	/* TODO:
