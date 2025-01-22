@@ -82,9 +82,10 @@ func GetPackageNamesForType(t string) []string {
 	return nil
 }
 
-func GetArraySubtype(t string) string { // FixedArray[] are fixed length, Array[] are dynamic
-	// return t[strings.Index(t, "]")+1:]
-	return strings.TrimSuffix(strings.TrimPrefix(t, "FixedArray["), "]")
+func GetArraySubtype(t string) string {
+	// TODO: FixedArray[] are fixed length, Array[] are dynamic
+	// Go: return t[strings.Index(t, "]")+1:]
+	return strings.TrimSuffix(strings.TrimPrefix(t, "Array["), "]")
 }
 
 func GetMapSubtypes(t string) (string, string) {
@@ -115,7 +116,9 @@ func GetUnderlyingType(t string) string {
 }
 
 func IsListType(t string) bool {
-	return strings.HasPrefix(t, "Array[") // TODO
+	// Go: covers both slices and arrays
+	// Go: return strings.HasPrefix(t, "[")
+	return strings.HasPrefix(t, "Array[") && strings.HasSuffix(t, "]") // TODO
 }
 
 func IsSliceType(t string) bool {

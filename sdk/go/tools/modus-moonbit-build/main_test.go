@@ -62,6 +62,7 @@ func TestAllTestDataIsIdentical(t *testing.T) {
 	// Make the "BuildID" and "BuildTime" fields match the JSON version:
 	metaLive.BuildID = metaJSON.BuildID
 	metaLive.BuildTime = metaJSON.BuildTime
+	metaLive.GitCommit = metaJSON.GitCommit
 
 	if diff := cmp.Diff(metaJSON, metaLive); diff != "" {
 		t.Errorf("metadata/testdata/simple-example-metadata.json != live metadata:\n%v", diff)

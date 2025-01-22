@@ -31,7 +31,11 @@
         "MODUS_DEBUG": "true",
         "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable" // checkov:skip=CKV_SECRET_4
       },
-      "args": ["--refresh=1s", "--appPath", "${input:appPath}"]
+      "args": [
+        "--refresh=1s",
+        "--appPath",
+        "${input:appPath}"
+      ]
     },
     {
       "name": "Debug Modus Runtime (aws storage)",
@@ -73,7 +77,23 @@
       "request": "launch",
       "mode": "auto",
       "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
-      "args": ["${workspaceFolder}/sdk/go/examples/${input:exampleApp}"],
+      "args": [
+        "${workspaceFolder}/sdk/go/examples/${input:exampleApp}"
+      ],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
+      "name": "Debug Build Example MoonBit App",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "${workspaceFolder}/sdk/moonbit/examples/${input:exampleApp}"
+      ],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -96,7 +116,23 @@
       "request": "launch",
       "mode": "auto",
       "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
-      "args": ["${workspaceFolder}/runtime/languages/golang/testdata"],
+      "args": [
+        "${workspaceFolder}/runtime/languages/golang/testdata"
+      ],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
+      "name": "Debug Build Runtime MoonBit Test App",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "${workspaceFolder}/runtime/languages/moonbit/testdata"
+      ],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -166,6 +202,10 @@
         {
           "label": "GraphQL Client Example",
           "value": "graphql"
+        },
+        {
+          "label": "Hello Array[Int] Example",
+          "value": "hello-array-of-ints"
         },
         {
           "label": "HTTP Client Example",
