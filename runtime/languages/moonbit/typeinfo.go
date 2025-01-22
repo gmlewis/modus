@@ -213,10 +213,9 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 }
 
 // In MoonBit, the only nullable type is Option[T].
-// NOTE however, that Modus Runtime definitions do not correspond to MoonBit definitions!
-// A Runtime "Array" _MUST_ be Nullable for the type system to work properly.
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
-	result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
+	// result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
+	result := lti.IsOptionType(typ) // lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
 	log.Printf("GML: typeinfo.go: IsNullableType('%v') = %v", typ, result)
 	return result
 }
