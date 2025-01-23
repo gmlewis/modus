@@ -26,21 +26,19 @@ pub fn add_n(args : Array[Int]) -> Int {
 ///| Returns the current time.
 pub fn get_current_time(
   /// now is optional so we can mock time in tests
-  now~ : @wallClock.Datetime = @wallClock.now()
-) -> @time.PlainDateTime!Error {
-  @time.PlainDateTime::from_unix_second!(
-    now.seconds.reinterpret_as_int64(),
-    0,
-    @time.utc_offset,
-  )
+  now~ : @wallClock.Datetime = @wallClock.now(),
+  zone~ : @time.Zone = @time.utc_zone
+) -> @time.ZonedDateTime!Error {
+  @time.unix!(now.seconds.reinterpret_as_int64(), zone~)
 }
 
 ///| Returns the current time formatted as a string.
 pub fn get_current_time_formatted(
   /// now is optional so we can mock time in tests
-  now~ : @wallClock.Datetime = @wallClock.now()
+  now~ : @wallClock.Datetime = @wallClock.now(),
+  zone~ : @time.Zone = @time.utc_zone
 ) -> String!Error {
-  get_current_time!(now~).to_string()
+  get_current_time!(now~, zone~).to_string()
 }
 
 ///| Combines the first and last name of a person, and returns the full name.

@@ -27,8 +27,8 @@ pub fn add_n(args : Array[Int]) -> Int {
 pub fn get_current_time(
   /// now is optional so we can mock time in tests
   now~ : @wallClock.Datetime = @wallClock.now()
-) -> @time.PlainDateTime!Error {
-  @time.PlainDateTime::from_unix_second!(
+) -> @time.ZonedDateTime!Error {
+  @time.ZonedDateTime::from_unix_second!(
     now.seconds.reinterpret_as_int64(),
     0,
     @time.utc_offset,

@@ -68,7 +68,7 @@ pub fn __modus_add_n(args : Array[Int]) -> Int {
   add_n(args)
 }
 
-pub fn __modus_get_current_time(now : @wallClock.Datetime) -> @time.PlainDateTime {
+pub fn __modus_get_current_time(now : @wallClock.Datetime) -> @time.ZonedDateTime {
   try get_current_time!(now~) {
     e => {
       @console.error(e.to_string())
@@ -77,7 +77,7 @@ pub fn __modus_get_current_time(now : @wallClock.Datetime) -> @time.PlainDateTim
   }
 }
 
-pub fn __modus_get_current_time_WithDefaults() -> @time.PlainDateTime {
+pub fn __modus_get_current_time_WithDefaults() -> @time.ZonedDateTime {
   try get_current_time!() {
     e => {
       @console.error(e.to_string())

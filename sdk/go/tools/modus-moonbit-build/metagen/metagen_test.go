@@ -83,11 +83,11 @@ var wantFnExports = metadata.FunctionMap{
 	"get_current_time": {
 		Name:       "get_current_time",
 		Parameters: []*metadata.Parameter{{Name: "now~", Type: "@wallClock.Datetime"}},
-		Results:    []*metadata.Result{{Type: "@time.PlainDateTime!Error"}},
+		Results:    []*metadata.Result{{Type: "@time.ZonedDateTime!Error"}},
 	},
 	"get_current_time_WithDefaults": {
 		Name:    "get_current_time_WithDefaults",
-		Results: []*metadata.Result{{Type: "@time.PlainDateTime!Error"}},
+		Results: []*metadata.Result{{Type: "@time.ZonedDateTime!Error"}},
 	},
 	"get_current_time_formatted": {
 		Name:       "get_current_time_formatted",
@@ -150,7 +150,7 @@ var wantTypes = metadata.TypeMap{
 			{Name: "age", Type: "Int"},
 		},
 	},
-	"@time.PlainDateTime!Error": {Id: 6, Name: "@time.PlainDateTime!Error"},
+	"@time.ZonedDateTime!Error": {Id: 6, Name: "@time.ZonedDateTime!Error"},
 	"@wallClock.Datetime":       {Id: 7, Name: "@wallClock.Datetime"},
 	"Array[@testdata.Person]":   {Id: 8, Name: "Array[@testdata.Person]"},
 	"Array[Int]":                {Id: 9, Name: "Array[Int]"},

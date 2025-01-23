@@ -173,7 +173,7 @@ var wantPackages = []*Package{
 							},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@time.PlainDateTime!Error"}},
+									{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
 								},
 							},
 						},
@@ -184,7 +184,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{List: []*ast.Field{}},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@time.PlainDateTime!Error"}},
+									{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
 								},
 							},
 						},
@@ -379,8 +379,8 @@ var wantPackages = []*Package{
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
 				{Name: "get_current_time"}: types.NewFunc(0, testdataPkg, "get_current_time", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
-				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.PlainDateTime!Error"})), false)),
-				{Name: "get_current_time_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.PlainDateTime!Error"})), false)),
+				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
+				{Name: "get_current_time_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
 				{Name: "get_current_time_formatted"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),

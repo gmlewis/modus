@@ -84,14 +84,14 @@
       ],
       "results": [
         {
-          "type": "@time.PlainDateTime!Error"
+          "type": "@time.ZonedDateTime!Error"
         }
       ]
     },
     "get_current_time_WithDefaults": {
       "results": [
         {
-          "type": "@time.PlainDateTime!Error"
+          "type": "@time.ZonedDateTime!Error"
         }
       ]
     },
@@ -239,7 +239,7 @@
         }
       ]
     },
-    "@time.PlainDateTime!Error": {
+    "@time.ZonedDateTime!Error": {
       "id": 6
     },
     "@wallClock.Datetime": {

@@ -51,19 +51,21 @@ test "add_n" {
 }
 
 test "get_current_time" {
-  let result = get_current_time!(now=@wallClock.Datetime::{
-    seconds: 1704067200,
-    nanoseconds: 0,
-  })
-  inspect!(result, content="2024-01-01T00:00:00")
+  let zone = @time.fixed_zone!("EST", -5 * 60 * 60)
+  let result = get_current_time!(
+    now=@wallClock.Datetime::{ seconds: 1704067200, nanoseconds: 0 },
+    zone~,
+  )
+  inspect!(result, content="2023-12-31T19:00:00-05:00[EST]")
 }
 
 test "get_current_time_formatted" {
-  let result = get_current_time_formatted!(now=@wallClock.Datetime::{
-    seconds: 1704067200,
-    nanoseconds: 0,
-  })
-  inspect!(result, content="2024-01-01T00:00:00")
+  let zone = @time.fixed_zone!("PST", -8 * 60 * 60)
+  let result = get_current_time_formatted!(
+    now=@wallClock.Datetime::{ seconds: 1704067200, nanoseconds: 0 },
+    zone~,
+  )
+  inspect!(result, content="2023-12-31T16:00:00-08:00[PST]")
 }
 
 test "get_full_name" {

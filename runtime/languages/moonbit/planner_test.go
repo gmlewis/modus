@@ -60,7 +60,7 @@ func TestGetPlan(t *testing.T) {
 		WithResult("String")
 
 	md.FnExports.AddFunction("current_time").
-		WithResult("@time.PlainDateTime")
+		WithResult("@time.ZonedDateTime")
 
 	md.FnExports.AddFunction("transform").
 		WithParameter("items", "Map[String,String]").

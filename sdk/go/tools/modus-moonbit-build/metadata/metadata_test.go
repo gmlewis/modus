@@ -33,7 +33,7 @@ func TestFunction_String(t *testing.T) {
 		{name: "add", want: "(x : Int, y : Int) -> Int"},
 		{name: "add3", want: "(a : Int, b : Int, c~ : Int) -> Int"},
 		{name: "add_n", want: "(args : Array[Int]) -> Int"},
-		{name: "get_current_time", want: "(now~ : @wallClock.Datetime) -> @time.PlainDateTime!Error"},
+		{name: "get_current_time", want: "(now~ : @wallClock.Datetime) -> @time.ZonedDateTime!Error"},
 		{name: "get_current_time_formatted", want: "(now~ : @wallClock.Datetime) -> String!Error"},
 		{name: "get_full_name", want: "(first_name : String, last_name : String) -> String"},
 		{name: "get_name_and_age", want: "() -> (String, Int)"},
