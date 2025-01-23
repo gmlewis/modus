@@ -12,6 +12,7 @@ package moonbit
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -100,6 +101,8 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdap
 }
 
 func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
+
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
 	}

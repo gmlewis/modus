@@ -12,6 +12,7 @@ package moonbit
 import (
 	"context"
 	"fmt"
+	"log"
 	"reflect"
 	"strings"
 
@@ -128,6 +129,8 @@ func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 }
 
 func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
+
 	switch len(h.fieldHandlers) {
 	case 0:
 		return nil, nil

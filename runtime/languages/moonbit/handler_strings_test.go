@@ -1,6 +1,8 @@
 package moonbit
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestConvertMoonBitUTF16ToUTF8(t *testing.T) {
 	t.Parallel()

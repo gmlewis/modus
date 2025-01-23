@@ -12,6 +12,7 @@ package moonbit
 import (
 	"context"
 	"errors"
+	"log"
 	"time"
 	"unsafe"
 
@@ -72,6 +73,8 @@ func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, off
 }
 
 func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_time.go: timeHandler.Decode(vals: %+v)", vals)
+
 	if len(vals) != 3 {
 		return nil, errors.New("decodeTime: expected 3 values")
 	}

@@ -164,6 +164,8 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 }
 
 func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_maps.go: mapHandler.Decode(vals: %+v)", vals)
+
 	mapPtr := uint32(vals[0])
 	if mapPtr == 0 {
 		return nil, nil

@@ -70,6 +70,8 @@ func (h *pointerHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func (h *pointerHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_pointers.go: pointerHandler.Decode(vals: %+v)", vals)
+
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
 	}

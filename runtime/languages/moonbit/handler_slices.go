@@ -78,6 +78,8 @@ func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 }
 
 func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	log.Printf("GML: handler_slices.go: sliceHandler.Decode(vals: %+v)", vals)
+
 	if len(vals) != 3 {
 		return nil, errors.New("expected 3 values when decoding a slice")
 	}
