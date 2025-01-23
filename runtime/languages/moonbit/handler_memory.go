@@ -18,30 +18,33 @@ import (
 	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
-func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32) (data, size uint32, err error) {
+func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, err error) {
 	if offset == 0 {
 		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v) = (data=0, size=0)", offset)
-		return 0, 0, nil
+		return nil, nil
 	}
 
 	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8))
 	if !ok {
-		return 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", offset)
+		return nil, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", offset)
 	}
 	words := binary.LittleEndian.Uint32(memBlockHeader[4:8]) >> 8
-	size = uint32(8 + words*4)
+	size := uint32(8 + words*4)
 	memBlock, ok := wa.Memory().Read(offset, size)
 	if !ok {
-		return 0, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", offset, size)
+		return nil, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", offset, size)
 	}
 	remainderOffset := words*4 + 7
 	remainder := uint32(3 - memBlock[remainderOffset]%4)
 	size = (words-1)*4 + remainder
-	log.Printf("GML: handler_memory.go: memoryBlockAtOffset: memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
-		memBlock, words, remainderOffset, remainder, size)
+	log.Printf("GML: handler_memory.go: memoryBlockAtOffset: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
+		memBlockHeader, memBlock, words, remainderOffset, remainder, size)
+	if size <= 0 {
+		return nil, nil
+	}
 
 	log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, size)
-	return offset + 8, size, nil
+	return memBlock[8 : size+8], nil
 }
 
 func writeMemoryBlockHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {

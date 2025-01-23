@@ -145,9 +145,15 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
 
-	// note: capacity is not used here
-	data, size := uint32(vals[0]), uint32(vals[1])
-	return h.doReadSlice(wa, data, size)
+	data, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: data=%+v", data)
+
+	// return h.doReadSlice(wa, data, size)
+	return nil, nil
 }
 
 func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {

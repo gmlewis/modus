@@ -39,12 +39,12 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return "", nil
 	}
 
-	data, size, err := memoryBlockAtOffset(wa, offset)
+	data, err := memoryBlockAtOffset(wa, offset)
 	if err != nil {
 		return "", err
 	}
 
-	return h.doReadString(wa, data, size)
+	return doReadString(data)
 }
 
 func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -62,10 +62,11 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 		return cln, err
 	}
 
-	data, size, err := memoryBlockAtOffset(wa, ptr)
+	memBlock, err := memoryBlockAtOffset(wa, ptr)
 	if err != nil {
 		return cln, err
 	}
+	data, size := offset+8, uint32(len(memBlock))
 
 	return cln, writeMemoryBlockHeader(wa, data, size, offset)
 }
@@ -77,31 +78,12 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
 	}
 
-	// offset := uint32(vals[0])
-	// size := uint32(8)
-	// bytes, ok := wa.Memory().Read(offset, size)
-	// if !ok {
-	// 	return "", fmt.Errorf("failed to read string data from WASM memory A: (offset: %v, size: %v)", offset, size)
-	// }
-
-	// if bytes[0] != 0xff || bytes[1] != 0xff || bytes[2] != 0xff || bytes[3] != 0xff {
-	// 	log.Printf("WARNING: stringHandler.Decode: expected 'ffffffff' but got '%02x%02x%02x%02x'; continuing",
-	// 		bytes[0], bytes[1], bytes[2], bytes[3])
-	// }
-	// size = binary.LittleEndian.Uint32(bytes[4:8])
-
-	offset, size, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	data, err := memoryBlockAtOffset(wa, uint32(vals[0]))
 	if err != nil {
 		return "", err
 	}
 
-	// bytes, ok = wa.Memory().Read(offset, size)
-	// if !ok {
-	// 	return "", fmt.Errorf("failed to read string data from WASM memory B: (offset: %v, size: %v)", offset, size)
-	// }
-
-	// return convertMoonBitUTF16ToUTF8(bytes)
-	return h.doReadString(wa, offset, size)
+	return doReadString(data)
 }
 
 func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
@@ -137,25 +119,12 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	return res, cln, nil
 }
 
-func (h *stringHandler) doReadString(wa langsupport.WasmAdapter, offset, size uint32) (string, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.doReadString(offset: %v, size: %v)", offset, size)
+func doReadString(bytes []byte) (string, error) {
+	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v", bytes)
 
-	if offset == 0 || size == 0 {
+	if len(bytes) == 0 {
 		return "", nil
 	}
-
-	// bytes, ok := wa.Memory().Read(offset, size)
-	// if !ok {
-	// 	return "", fmt.Errorf("failed to read string data from WASM memory C: (offset: %v, size: %v)", offset, size)
-	// }
-
-	// return unsafe.String(&bytes[0], size), nil
-
-	bytes, ok := wa.Memory().Read(offset, size)
-	if !ok {
-		return "", fmt.Errorf("failed to read string data from WASM memory B: (offset: %v, size: %v)", offset, size)
-	}
-	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v", bytes)
 
 	return convertMoonBitUTF16ToUTF8(bytes)
 }

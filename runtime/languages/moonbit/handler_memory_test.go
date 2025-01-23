@@ -35,15 +35,13 @@ func TestMemoryBlockAtOffset(t *testing.T) {
 		name         string
 		offset       uint32
 		memBlock     []byte
-		expectedData uint32
-		expectedSize uint32
+		expectedSize int
 		expectedErr  error
 	}{
 		{
 			name:         "Valid memory block, UTF-16 String 'Hello, ...0!' with remainder 0",
 			offset:       100,
 			memBlock:     []byte{1, 0, 0, 0, 243, 7, 0, 0, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 46, 0, 46, 0, 46, 0, 48, 0, 33, 0, 97, 0, 109, 3},
-			expectedData: 108,
 			expectedSize: 24,
 			expectedErr:  nil,
 		},
@@ -51,7 +49,6 @@ func TestMemoryBlockAtOffset(t *testing.T) {
 			name:         "Valid memory block, UTF-16 String 'Hello, 2!' with remainder 2",
 			offset:       100,
 			memBlock:     []byte{1, 0, 0, 0, 243, 5, 0, 0, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 50, 0, 33, 0, 32, 1},
-			expectedData: 108,
 			expectedSize: 18,
 			expectedErr:  nil,
 		},
@@ -66,10 +63,11 @@ func TestMemoryBlockAtOffset(t *testing.T) {
 			mockMem.On("Read", tt.offset, uint32(8)).Return(tt.memBlock[:8], true)
 			mockMem.On("Read", tt.offset, uint32(len(tt.memBlock))).Return(tt.memBlock, true)
 
-			data, size, err := memoryBlockAtOffset(mockWA, tt.offset)
-			if data != tt.expectedData || size != tt.expectedSize || (err != nil && err.Error() != tt.expectedErr.Error()) {
-				t.Errorf("memoryBlockAtOffset() = (data: %v, size: %v, err: %v), want (data: %v, size: %v, err: %v)",
-					data, size, err, tt.expectedData, tt.expectedSize, tt.expectedErr)
+			data, err := memoryBlockAtOffset(mockWA, tt.offset)
+			size := len(data)
+			if size != tt.expectedSize || (err != nil && err.Error() != tt.expectedErr.Error()) {
+				t.Errorf("memoryBlockAtOffset() = (data: %v, size: %v, err: %v), want (size: %v, err: %v)",
+					data, size, err, tt.expectedSize, tt.expectedErr)
 			}
 		})
 	}
