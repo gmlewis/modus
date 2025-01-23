@@ -35,38 +35,66 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 	}
 
 	switch ti.ListElementType().Name() {
-	case "bool":
+	case "Bool":
 		return newPrimitiveSliceHandler[bool](ti, typeDef), nil
-	case "uint8", "byte":
-		return newPrimitiveSliceHandler[uint8](ti, typeDef), nil
-	case "uint16":
-		return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
-	case "uint32":
-		return newPrimitiveSliceHandler[uint32](ti, typeDef), nil
-	case "uint64":
-		return newPrimitiveSliceHandler[uint64](ti, typeDef), nil
-	case "int8":
-		return newPrimitiveSliceHandler[int8](ti, typeDef), nil
-	case "int16":
+		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number
+	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveSliceHandler[int16](ti, typeDef), nil
-	case "int32", "rune":
+	case "Int": // 32-bit signed integer, e.g. `42`
 		return newPrimitiveSliceHandler[int32](ti, typeDef), nil
-	case "int64":
+	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveSliceHandler[int64](ti, typeDef), nil
-	case "float32":
-		return newPrimitiveSliceHandler[float32](ti, typeDef), nil
-	case "float64":
+	case "UInt16": // 16-bit unsigned integer, e.g. `(14 : UInt16)`
+		return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
+	case "UInt": // 32-bit unsigned integer, e.g. `14U`
+		return newPrimitiveSliceHandler[uint32](ti, typeDef), nil
+	case "UInt64": // 64-bit unsigned integer, e.g. `14UL`
+		return newPrimitiveSliceHandler[uint64](ti, typeDef), nil
+	case "Double": // 64-bit floating point, defined by IEEE754, e.g. `3.14`
 		return newPrimitiveSliceHandler[float64](ti, typeDef), nil
-	case "int":
-		return newPrimitiveSliceHandler[int](ti, typeDef), nil
-	case "uint":
-		return newPrimitiveSliceHandler[uint](ti, typeDef), nil
-	case "uintptr":
-		return newPrimitiveSliceHandler[uintptr](ti, typeDef), nil
-	case "time.Duration":
+	case "Float": // 32-bit floating point, defined by IEEE754, e.g. `(3.14 : Float)`
+		return newPrimitiveSliceHandler[float32](ti, typeDef), nil
+	case "Char": // represents a Unicode code point, e.g. `'a'`, `'\x41'`, `'\u{30}'`, `'\u03B1'`,
+		return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
+	case "Byte": // either a single ASCII character, e.g. `b'a'`, `b'\xff'`
+		return newPrimitiveSliceHandler[uint8](ti, typeDef), nil
+	// case "BigInt": // represents numeric values larger than other types, e.g. `10000000000000000000000N`
+	// case "String": // holds a sequence of UTF-16 code units, e.g. `"Hello, World!"`
+	case "@time.Duration":
 		return newPrimitiveSliceHandler[time.Duration](ti, typeDef), nil
+		// For Go:
+	// case "bool":
+	// return newPrimitiveSliceHandler[bool](ti, typeDef), nil
+	// case "uint8", "byte":
+	// return newPrimitiveSliceHandler[uint8](ti, typeDef), nil
+	// case "uint16":
+	// return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
+	// case "uint32":
+	// return newPrimitiveSliceHandler[uint32](ti, typeDef), nil
+	// case "uint64":
+	// return newPrimitiveSliceHandler[uint64](ti, typeDef), nil
+	// case "int8":
+	// return newPrimitiveSliceHandler[int8](ti, typeDef), nil
+	// case "int16":
+	// return newPrimitiveSliceHandler[int16](ti, typeDef), nil
+	// case "int32", "rune":
+	// return newPrimitiveSliceHandler[int32](ti, typeDef), nil
+	// case "int64":
+	// return newPrimitiveSliceHandler[int64](ti, typeDef), nil
+	// case "float32":
+	// return newPrimitiveSliceHandler[float32](ti, typeDef), nil
+	// case "float64":
+	// return newPrimitiveSliceHandler[float64](ti, typeDef), nil
+	// case "int":
+	// return newPrimitiveSliceHandler[int](ti, typeDef), nil
+	// case "uint":
+	// return newPrimitiveSliceHandler[uint](ti, typeDef), nil
+	// case "uintptr":
+	// return newPrimitiveSliceHandler[uintptr](ti, typeDef), nil
+	// case "time.Duration":
+	// return newPrimitiveSliceHandler[time.Duration](ti, typeDef), nil
 	default:
-		return nil, fmt.Errorf("unsupported primitive slice type: %s", ti.Name())
+		return nil, fmt.Errorf("unsupported primitive MoonBit slice type: %s", ti.Name())
 	}
 }
 

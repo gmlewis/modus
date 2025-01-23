@@ -65,7 +65,7 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 
 	ti, err := GetTypeInfo(ctx, typeName, p.typeCache)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get type info for %s: %w", typeName, err)
+		return nil, fmt.Errorf("failed to get type info for %v: %w", typeName, err)
 	}
 	log.Printf("GML: planner.go: GetTypeInfo: %#v", ti)
 

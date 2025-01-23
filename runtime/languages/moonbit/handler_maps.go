@@ -35,13 +35,13 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 
 	keyType := ti.MapKeyType()
 	valueType := ti.MapValueType()
-	keysHandler, err := p.GetHandler(ctx, "[]"+keyType.Name())
+	keysHandler, err := p.GetHandler(ctx, "Array["+keyType.Name()+"]")
 	if err != nil {
 		return nil, err
 	}
 	handler.keysHandler = keysHandler
 
-	valuesHandler, err := p.GetHandler(ctx, "[]"+valueType.Name())
+	valuesHandler, err := p.GetHandler(ctx, "Array["+valueType.Name()+"]")
 	if err != nil {
 		return nil, err
 	}
