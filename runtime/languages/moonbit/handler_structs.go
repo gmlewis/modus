@@ -57,6 +57,7 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_structs.go: structHandler.Read(offset: %v)", offset)
 
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs

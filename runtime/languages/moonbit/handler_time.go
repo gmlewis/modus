@@ -31,6 +31,8 @@ type timeHandler struct {
 }
 
 func (h *timeHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_time.go: timeHandler.Read(offset: %v)", offset)
+
 	if offset == 0 {
 		return nil, nil
 	}

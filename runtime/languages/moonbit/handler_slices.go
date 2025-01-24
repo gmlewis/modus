@@ -52,6 +52,8 @@ type sliceHandler struct {
 }
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
+
 	if offset == 0 {
 		return nil, nil
 	}

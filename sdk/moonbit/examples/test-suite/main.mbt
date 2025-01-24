@@ -58,10 +58,28 @@ pub fn hello_world() -> String {
 
 ///|
 pub fn hello_array_of_ints(n~ : Int = 3) -> Array[Int] {
+  if n < 0 {
+    println("returning: []")
+    return []
+  }
   let arr = Array::new(capacity=n)
   for i in 1..=n {
     arr.push(i)
   }
   println("hello_array_of_ints(\{n}): returning array of ints: \{arr}")
   arr
+}
+
+///|
+pub fn hello_array_of_ints_option(n~ : Int = 3) -> Array[Int]? {
+  if n < 0 {
+    println("returning: None")
+    return None
+  }
+  let arr = Array::new(capacity=n)
+  for i in 1..=n {
+    arr.push(i)
+  }
+  println("returning array of ints: \{arr}")
+  Some(arr)
 }

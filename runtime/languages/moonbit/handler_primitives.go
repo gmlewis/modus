@@ -79,6 +79,8 @@ type primitiveHandler[T primitive] struct {
 }
 
 func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, offset)
+
 	val, ok := h.converter.Read(wa.Memory(), offset)
 	if !ok {
 		return 0, fmt.Errorf("failed to read %s from memory", h.typeInfo.Name())

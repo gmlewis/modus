@@ -114,16 +114,19 @@ type primitiveSliceHandler[T primitive] struct {
 }
 
 func (h *primitiveSliceHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	if offset == 0 {
-		return nil, nil
-	}
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler[%T].Read(offset: %v)", []T{}, offset)
+	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
-	data, size, _, err := wa.(*wasmAdapter).readSliceHeader(offset)
-	if err != nil {
-		return nil, err
-	}
+	// if offset == 0 {
+	// 	return nil, nil
+	// }
 
-	return h.doReadSlice(wa, data, size)
+	// data, size, _, err := wa.(*wasmAdapter).readSliceHeader(offset)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// return h.doReadSlice(wa, data, size)
 }
 
 func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {

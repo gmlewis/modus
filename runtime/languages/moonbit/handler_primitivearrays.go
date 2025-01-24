@@ -85,6 +85,8 @@ type primitiveArrayHandler[T primitive] struct {
 }
 
 func (h *primitiveArrayHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_primitiveArrays.go: primitiveArrayHandler[%T].Read(offset: %v)", []T{}, offset)
+
 	if h.arrayLen == 0 {
 		return [0]T{}, nil
 	}

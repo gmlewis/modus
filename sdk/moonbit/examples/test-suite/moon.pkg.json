@@ -12,6 +12,8 @@
       "exports": [
         "__modus_hello_array_of_ints:hello_array_of_ints",
         "__modus_hello_array_of_ints_WithDefaults:hello_array_of_ints_WithDefaults",
+        "__modus_hello_array_of_ints_option:hello_array_of_ints_option",
+        "__modus_hello_array_of_ints_option_WithDefaults:hello_array_of_ints_option_WithDefaults",
         "__modus_hello_option_empty_string:hello_option_empty_string",
         "__modus_hello_option_empty_string_WithDefaults:hello_option_empty_string_WithDefaults",
         "__modus_hello_option_none:hello_option_none",

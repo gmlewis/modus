@@ -48,10 +48,13 @@ type pointerHandler struct {
 }
 
 func (h *pointerHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_pointers.go: pointerHandler.Read(offset: %v)", offset)
+
 	ptr, ok := wa.Memory().ReadUint32Le(offset)
 	if !ok {
 		return nil, errors.New("failed to read pointer from memory")
 	}
+	log.Printf("GML: handler_pointers.go: pointerHandler.Read(offset: %v): ptr=%v", offset, ptr)
 
 	return h.readData(ctx, wa, ptr)
 }
@@ -73,8 +76,30 @@ func (h *pointerHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter,
 	log.Printf("GML: handler_pointers.go: pointerHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
+		return nil, fmt.Errorf("expected 1 value, got %v: %+v", len(vals), vals)
 	}
+
+	// memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: memBlock=%+v", memBlock)
+	// if len(memBlock) == 0 {
+	// 	return nil, nil
+	// }
+
+	// sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+	// // numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+	// // log.Printf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v", sliceOffset)
+
+	// sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// // log.Printf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock=%+v", sliceOffset, numElements, sliceMemBlock)
+	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v), sliceMemBlock(%v bytes)=%+v", sliceOffset, len(sliceMemBlock), sliceMemBlock)
 
 	return h.readData(ctx, wa, uint32(vals[0]))
 }
@@ -98,6 +123,7 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("GML: handler_pointers.go: pointerHandler.readData: data=%#v", data)
 
 	ptr := utils.MakePointer(data)
 	return ptr, nil

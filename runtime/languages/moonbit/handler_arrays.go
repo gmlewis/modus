@@ -47,6 +47,8 @@ type arrayHandler struct {
 }
 
 func (h *arrayHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+	log.Printf("GML: handler_arrays.go: arrayHandler.Read(offset: %v)", offset)
+
 	elementSize := h.elementHandler.TypeInfo().Size()
 	items := reflect.New(h.typeInfo.ReflectedType()).Elem()
 	for i := 0; i < h.arrayLen; i++ {
