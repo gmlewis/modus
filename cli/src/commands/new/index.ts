@@ -357,7 +357,7 @@ export default class NewCommand extends BaseCommand {
     }
 
     const sdkVersion = installedSdkVersion;
-    this.logError(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
+    this.log(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
     const sdkPath = vi.getSdkPath(sdk, sdkVersion);
     const templatesArchive = path.join(sdkPath, "templates.tar.gz");
     if (!(await fs.exists(templatesArchive))) {
@@ -395,6 +395,10 @@ export default class NewCommand extends BaseCommand {
         }
 
         case SDK.MoonBit: {
+          const buildShFile = path.join(dir, "build.sh")
+          await replaceAll(buildShFile, "say-hello", name);
+          const moonModJson = path.join(dir, "moon.mod.json")
+          await replaceAll(moonModJson, "say-hello", name);
           await execFile("moon", ["update"], execOpts);
           await execFile("moon", ["install"], execOpts);
           await execFile("moon", ["fmt"], execOpts);
@@ -457,4 +461,13 @@ async function isInGitRepo(dir: string) {
   } catch {
     return false;
   }
+}
+
+/**
+ * replaceAll reads a file, performs strings substitutions, then writes it back out.
+ */
+async function replaceAll(file: string, fromStr: string, toStr: string) {
+  const buf = await fs.readFile(file, "utf8");
+  const result = buf.replaceAll(fromStr, toStr);
+  await fs.writeFile(file, result, { encoding: "utf8", flag: "w", mode: 0o644});
 }

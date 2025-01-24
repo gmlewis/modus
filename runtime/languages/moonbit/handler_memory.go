@@ -18,7 +18,7 @@ import (
 	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
-func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, words uint32, err error) {
+func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
 		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v) = (data=0, size=0)", offset)
 		return nil, 0, nil
@@ -34,7 +34,9 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte
 	if !ok {
 		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", offset, size)
 	}
-	log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), words=%v, memBlock=%+v", offset, size, words, memBlock)
+	if len(dbgHackToRemove) > 0 {
+		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), words=%v, memBlock=%+v", offset, size, words, memBlock)
+	}
 	return memBlock, words, nil
 }
 

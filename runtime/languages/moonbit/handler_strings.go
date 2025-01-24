@@ -127,7 +127,7 @@ func doReadString(bytes []byte) (string, error) {
 	}
 
 	s, err := convertMoonBitUTF16ToUTF8(bytes)
-	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v = '%v'", bytes, s)
+	// log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v = '%v'", bytes, s)
 	return s, err
 }
 
@@ -204,15 +204,20 @@ func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte,
 		return nil, err
 	}
 
+	result, err := stringDataFromMemBlock(memBlock, words)
+	log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, len(result))
+	return result, err
+}
+
+func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err error) {
 	remainderOffset := words*4 + 7
 	remainder := uint32(3 - memBlock[remainderOffset]%4)
 	size := (words-1)*4 + remainder
-	log.Printf("GML: handler_memory.go: stringDataAtOffset: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
-		memBlock[0:8], memBlock, words, remainderOffset, remainder, size)
+	// log.Printf("GML: handler_memory.go: stringDataFromMemBlock: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
+	// 	memBlock[0:8], memBlock, words, remainderOffset, remainder, size)
 	if size <= 0 {
 		return nil, nil
 	}
 
-	log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, size)
 	return memBlock[8 : size+8], nil
 }
