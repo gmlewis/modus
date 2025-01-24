@@ -36,13 +36,26 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 
 	keyType := ti.MapKeyType()
 	valueType := ti.MapValueType()
-	keysHandler, err := p.GetHandler(ctx, "Array["+keyType.Name()+"]")
+
+	sliceOfKeysHandler, err := p.GetHandler(ctx, "Array["+keyType.Name()+"]")
+	if err != nil {
+		return nil, err
+	}
+	handler.sliceOfKeysHandler = sliceOfKeysHandler
+
+	keysHandler, err := p.GetHandler(ctx, keyType.Name())
 	if err != nil {
 		return nil, err
 	}
 	handler.keysHandler = keysHandler
 
-	valuesHandler, err := p.GetHandler(ctx, "Array["+valueType.Name()+"]")
+	sliceOfValuesHandler, err := p.GetHandler(ctx, "Array["+valueType.Name()+"]")
+	if err != nil {
+		return nil, err
+	}
+	handler.sliceOfValuesHandler = sliceOfValuesHandler
+
+	valuesHandler, err := p.GetHandler(ctx, valueType.Name())
 	if err != nil {
 		return nil, err
 	}
@@ -79,12 +92,14 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 
 type mapHandler struct {
 	typeHandler
-	typeDef          *metadata.TypeDefinition
-	keysHandler      langsupport.TypeHandler
-	valuesHandler    langsupport.TypeHandler
-	usePseudoMap     bool
-	rtPseudoMap      reflect.Type
-	rtPseudoMapSlice reflect.Type
+	typeDef              *metadata.TypeDefinition
+	sliceOfKeysHandler   langsupport.TypeHandler
+	sliceOfValuesHandler langsupport.TypeHandler
+	keysHandler          langsupport.TypeHandler
+	valuesHandler        langsupport.TypeHandler
+	usePseudoMap         bool
+	rtPseudoMap          reflect.Type
+	rtPseudoMapSlice     reflect.Type
 }
 
 func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
@@ -235,32 +250,96 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), lastKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[36:40], lastKVPair, len(lastKVPairMemBlock), lastKVPairMemBlock)
 	// dumpMemBlock(wa, "lastKVPair", lastKVPairMemBlock)
 
-	log.Printf("GML: handler_maps.go: ORIGINAL mapHandler.Decode(vals: %+v)", vals)
-
-	mapPtr := uint32(vals[0])
-	if mapPtr == 0 {
-		return nil, nil
-	}
-
-	// we need to make a pointer to the map data
-	ptr, cln, err := wa.(*wasmAdapter).AllocateMemory(ctx, 4)
-	defer func() {
-		if cln != nil {
-			if e := cln.Clean(); e != nil && err == nil {
-				err = e
-			}
-		}
-	}()
+	// Make a slice of keys and a slice of values, and turn it into a map.
+	size := int(numElements)
+	rvKeys, rvVals, err := h.readMapKeysAndValues(ctx, wa, sliceMemBlock, size)
 	if err != nil {
-		return nil, fmt.Errorf("failed to allocate memory for map pointer: %w", err)
+		return nil, err
 	}
 
-	if ok := wa.Memory().WriteUint32Le(ptr, mapPtr); !ok {
-		return nil, errors.New("failed to write map pointer data to memory")
+	// return a map
+	m := reflect.MakeMapWithSize(h.typeInfo.ReflectedType(), size)
+	for i := 0; i < size; i++ {
+		m.SetMapIndex(rvKeys.Index(i), rvVals.Index(i))
+	}
+	return m.Interface(), nil
+
+	// log.Printf("GML: handler_maps.go: ORIGINAL mapHandler.Decode(vals: %+v)", vals)
+
+	// mapPtr := uint32(vals[0])
+	// if mapPtr == 0 {
+	// 	return nil, nil
+	// }
+
+	// // we need to make a pointer to the map data
+	// ptr, cln, err := wa.(*wasmAdapter).AllocateMemory(ctx, 4)
+	// defer func() {
+	// 	if cln != nil {
+	// 		if e := cln.Clean(); e != nil && err == nil {
+	// 			err = e
+	// 		}
+	// 	}
+	// }()
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed to allocate memory for map pointer: %w", err)
+	// }
+
+	// if ok := wa.Memory().WriteUint32Le(ptr, mapPtr); !ok {
+	// 	return nil, errors.New("failed to write map pointer data to memory")
+	// }
+
+	// // now we can use that pointer to read the map
+	// return h.Read(ctx, wa, ptr)
+}
+
+func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.WasmAdapter, sliceMemBlock []byte, size int) (rvKeys, rvVals reflect.Value, err error) {
+	rvKeys = reflect.MakeSlice(h.sliceOfKeysHandler.TypeInfo().ReflectedType(), size, size)
+	rvVals = reflect.MakeSlice(h.sliceOfValuesHandler.TypeInfo().ReflectedType(), size, size)
+
+	var sliceIndex int
+	for i := 8; i < len(sliceMemBlock); i += 4 {
+		tupleOffset := binary.LittleEndian.Uint32(sliceMemBlock[i : i+4])
+		if tupleOffset == 0 {
+			continue
+		}
+		newMemBlock, _, err := memoryBlockAtOffset(wa, tupleOffset)
+		if err != nil {
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: memoryBlockAtOffset failed: %v", err)
+			continue
+		}
+		// refCount := binary.LittleEndian.Uint32(newMemBlock[0:4])
+		moonBitType := newMemBlock[4]
+		moonBitTypeName := moonBitBlockType[moonBitType]
+		if moonBitTypeName != "Tuple" {
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: expected moonBitTypeName 'Tuple', got %v", moonBitTypeName)
+			continue
+		}
+		nmbLen := len(newMemBlock)
+		keyOffset := binary.LittleEndian.Uint32(newMemBlock[nmbLen-8:])
+		valueOffset := binary.LittleEndian.Uint32(newMemBlock[nmbLen-4:])
+
+		key, err := h.keysHandler.Read(ctx, wa, keyOffset)
+		if err != nil {
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: keysHandler.Read failed: %v", err)
+			continue
+		}
+		if !utils.HasNil(key) {
+			rvKeys.Index(int(sliceIndex)).Set(reflect.ValueOf(key))
+		}
+
+		value, err := h.valuesHandler.Read(ctx, wa, valueOffset)
+		if err != nil {
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: valuesHandler.Read failed: %v", err)
+			continue
+		}
+		if !utils.HasNil(value) {
+			rvVals.Index(int(sliceIndex)).Set(reflect.ValueOf(value))
+		}
+
+		sliceIndex++
 	}
 
-	// now we can use that pointer to read the map
-	return h.Read(ctx, wa, ptr)
+	return rvKeys, rvVals, nil
 }
 
 func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte) {

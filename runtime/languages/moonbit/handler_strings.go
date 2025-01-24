@@ -33,9 +33,9 @@ type stringHandler struct {
 }
 
 func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v)", offset)
 
 	if offset == 0 {
+		log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v): ''", offset)
 		return "", nil
 	}
 
@@ -44,7 +44,9 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return "", err
 	}
 
-	return doReadString(data)
+	s, err := doReadString(data)
+	log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v): '%v'", offset, s)
+	return s, err
 }
 
 func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {

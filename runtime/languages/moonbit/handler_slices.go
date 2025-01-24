@@ -54,7 +54,7 @@ type sliceHandler struct {
 }
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_eslices.go: sliceHandler.Read(offset: %v), type=%T", offset, h.emptyValue)
+	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", offset, h.emptyValue)
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
 	// log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
