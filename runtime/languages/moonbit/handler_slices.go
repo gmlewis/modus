@@ -11,7 +11,9 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
+	"fmt"
 	"log"
 	"reflect"
 
@@ -52,18 +54,21 @@ type sliceHandler struct {
 }
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
+	log.Printf("GML: handler_eslices.go: sliceHandler.Read(offset: %v), type=%T", offset, h.emptyValue)
+	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
-	if offset == 0 {
-		return nil, nil
-	}
+	// log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
 
-	data, size, _, err := wa.(*wasmAdapter).readSliceHeader(offset)
-	if err != nil {
-		return nil, err
-	}
+	// if offset == 0 {
+	// 	return nil, nil
+	// }
 
-	return h.doReadSlice(ctx, wa, data, size)
+	// data, size, _, err := wa.(*wasmAdapter).readSliceHeader(offset)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// return h.doReadSlice(ctx, wa, data, size)
 }
 
 func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -82,13 +87,50 @@ func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	log.Printf("GML: handler_slices.go: sliceHandler.Decode(vals: %+v)", vals)
 
-	if len(vals) != 3 {
-		return nil, errors.New("expected 3 values when decoding a slice")
+	if len(vals) != 1 {
+		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
 
 	// note: capacity is not used here
-	data, size := uint32(vals[0]), uint32(vals[1])
-	return h.doReadSlice(ctx, wa, data, size)
+	// data, size := uint32(vals[0]), uint32(vals[1])
+
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	if err != nil {
+		return nil, err
+	}
+
+	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+	if sliceOffset == 0 {
+		return nil, nil // nil slice
+	}
+	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+	if numElements == 0 {
+		return h.emptyValue, nil // empty slice
+	}
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+
+	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset)
+	if err != nil {
+		return nil, err
+	}
+
+	// return h.doReadSlice(ctx, wa, sliceOffset, size)
+
+	// elementSize := h.elementHandler.TypeInfo().Size()
+	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+	for i := uint32(0); i < numElements; i++ {
+		// itemOffset := data + i*elementSize
+		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
+		item, err := h.elementHandler.Read(ctx, wa, itemOffset)
+		if err != nil {
+			return nil, err
+		}
+		if !utils.HasNil(item) {
+			items.Index(int(i)).Set(reflect.ValueOf(item))
+		}
+	}
+
+	return items.Interface(), nil
 }
 
 func (h *sliceHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {

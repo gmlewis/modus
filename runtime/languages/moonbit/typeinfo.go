@@ -62,7 +62,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 			n--
 		case ',':
 			if n == 1 {
-				r1, r2 := typ[len(prefix):i], typ[i+1:len(typ)-1]
+				r1, r2 := strings.TrimSpace(typ[len(prefix):i]), strings.TrimSpace(typ[i+1:len(typ)-1])
 				log.Printf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}

@@ -146,7 +146,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
+		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
 	}
 
 	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))

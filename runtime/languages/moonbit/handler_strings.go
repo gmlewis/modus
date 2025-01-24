@@ -120,13 +120,15 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func doReadString(bytes []byte) (string, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v", bytes)
 
 	if len(bytes) == 0 {
+		log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: [] = ''")
 		return "", nil
 	}
 
-	return convertMoonBitUTF16ToUTF8(bytes)
+	s, err := convertMoonBitUTF16ToUTF8(bytes)
+	log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v = '%v'", bytes, s)
+	return s, err
 }
 
 func (h *stringHandler) doWriteString(ctx context.Context, wa langsupport.WasmAdapter, str string) (uint32, utils.Cleaner, error) {

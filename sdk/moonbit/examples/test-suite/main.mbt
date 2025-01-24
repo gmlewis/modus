@@ -59,7 +59,7 @@ pub fn hello_world() -> String {
 ///|
 pub fn hello_array_of_ints(n~ : Int = 3) -> Array[Int] {
   if n < 0 {
-    println("returning: []")
+    println("hello_array_of_ints(\{n}): returning: []")
     return []
   }
   let arr = Array::new(capacity=n)
@@ -73,13 +73,43 @@ pub fn hello_array_of_ints(n~ : Int = 3) -> Array[Int] {
 ///|
 pub fn hello_array_of_ints_option(n~ : Int = 3) -> Array[Int]? {
   if n < 0 {
-    println("returning: None")
+    println("hello_array_of_ints_option(\{n}): returning: None")
     return None
   }
   let arr = Array::new(capacity=n)
   for i in 1..=n {
     arr.push(i)
   }
-  println("returning array of ints: \{arr}")
+  println("hello_array_of_ints_option(\{n}): returning array of ints: \{arr}")
+  Some(arr)
+}
+
+///|
+pub fn hello_array_of_strings(n~ : Int = 3) -> Array[String] {
+  if n < 0 {
+    println("hello_array_of_strings(\{n}): returning: []")
+    return []
+  }
+  let arr = Array::new(capacity=n)
+  for i in 1..=n {
+    arr.push("\{i}")
+  }
+  println("hello_array_of_strings(\{n}): returning array of strings: \{arr}")
+  arr
+}
+
+///|
+pub fn hello_array_of_strings_option(n~ : Int = 3) -> Array[String]? {
+  if n < 0 {
+    println("hello_array_of_strings_option(\{n}): returning: None")
+    return None
+  }
+  let arr = Array::new(capacity=n)
+  for i in 1..=n {
+    arr.push("\{i}")
+  }
+  println(
+    "hello_array_of_strings_option(\{n}): returning array of strings: \{arr}",
+  )
   Some(arr)
 }
