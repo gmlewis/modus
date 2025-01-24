@@ -168,6 +168,116 @@
           "name": "hello_array_of_strings_option",
           "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":6}},
           "expect": ["1","2","3","4","5","6"]
+        },
+        {
+          "name": "hello_primitive_bool_min",
+          "query": {"query":"query {\n  hello_primitive_bool_min\n}","variables":{}},
+          "expect": false
+        },
+        {
+          "name": "hello_primitive_bool_max",
+          "query": {"query":"query {\n  hello_primitive_bool_max\n}","variables":{}},
+          "expect": true
+        },
+        {
+          "name": "hello_primitive_byte_min",
+          "query": {"query":"query {\n  hello_primitive_byte_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_byte_max",
+          "query": {"query":"query {\n  hello_primitive_byte_max\n}","variables":{}},
+          "expect": 255
+        },
+        {
+          "name": "hello_primitive_char_min",
+          "query": {"query":"query {\n  hello_primitive_char_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_char_max",
+          "query": {"query":"query {\n  hello_primitive_char_max\n}","variables":{}},
+          "expect": 65535
+        },
+        {
+          "name": "hello_primitive_double_min",
+          "query": {"query":"query {\n  hello_primitive_double_min\n}","variables":{}},
+          "expect": -1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_double_max",
+          "query": {"query":"query {\n  hello_primitive_double_max\n}","variables":{}},
+          "expect": 1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_float_min",
+          "query": {"query":"query {\n  hello_primitive_float_min\n}","variables":{}},
+          "expect": -3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_float_max",
+          "query": {"query":"query {\n  hello_primitive_float_max\n}","variables":{}},
+          "expect": 3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_int_min",
+          "query": {"query":"query {\n  hello_primitive_int_min\n}","variables":{}},
+          "expect": -2147483648
+        },
+        {
+          "name": "hello_primitive_int_max",
+          "query": {"query":"query {\n  hello_primitive_int_max\n}","variables":{}},
+          "expect": 2147483647
+        },
+        {
+          "name": "hello_primitive_int16_min",
+          "query": {"query":"query {\n  hello_primitive_int16_min\n}","variables":{}},
+          "expect": -32768
+        },
+        {
+          "name": "hello_primitive_int16_max",
+          "query": {"query":"query {\n  hello_primitive_int16_max\n}","variables":{}},
+          "expect": 32767
+        },
+        {
+          "name": "hello_primitive_int64_min",
+          "query": {"query":"query {\n  hello_primitive_int64_min\n}","variables":{}},
+          "expect": -9223372036854776000
+        },
+        {
+          "name": "hello_primitive_int64_max",
+          "query": {"query":"query {\n  hello_primitive_int64_max\n}","variables":{}},
+          "expect": 9223372036854776000
+        },
+        {
+          "name": "hello_primitive_uint_min",
+          "query": {"query":"query {\n  hello_primitive_uint_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint_max",
+          "query": {"query":"query {\n  hello_primitive_uint_max\n}","variables":{}},
+          "expect": 4294967295
+        },
+        {
+          "name": "hello_primitive_uint16_min",
+          "query": {"query":"query {\n  hello_primitive_uint16_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint16_max",
+          "query": {"query":"query {\n  hello_primitive_uint16_max\n}","variables":{}},
+          "expect": 65535
+        },
+        {
+          "name": "hello_primitive_uint64_min",
+          "query": {"query":"query {\n  hello_primitive_uint64_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint64_max",
+          "query": {"query":"query {\n  hello_primitive_uint64_max\n}","variables":{}},
+          "expect": 18446744073709552000
         }
       ]
     }
