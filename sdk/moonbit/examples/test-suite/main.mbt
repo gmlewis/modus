@@ -55,3 +55,13 @@ pub fn hello_world() -> String {
   println("hello_world: No params")
   "Hello, World!"
 }
+
+///|
+pub fn hello_array_of_ints(n~ : Int = 3) -> Array[Int] {
+  let arr = Array::new(capacity=n)
+  for i in 1..=n {
+    arr.push(i)
+  }
+  println("hello_array_of_ints(\{n}): returning array of ints: \{arr}")
+  arr
+}

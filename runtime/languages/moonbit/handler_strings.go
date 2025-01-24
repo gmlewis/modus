@@ -39,7 +39,7 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return "", nil
 	}
 
-	data, err := memoryBlockAtOffset(wa, offset)
+	data, err := stringDataAtOffset(wa, offset)
 	if err != nil {
 		return "", err
 	}
@@ -62,7 +62,7 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 		return cln, err
 	}
 
-	memBlock, err := memoryBlockAtOffset(wa, ptr)
+	memBlock, err := stringDataAtOffset(wa, ptr)
 	if err != nil {
 		return cln, err
 	}
@@ -78,7 +78,7 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
 	}
 
-	data, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	data, err := stringDataAtOffset(wa, uint32(vals[0]))
 	if err != nil {
 		return "", err
 	}
@@ -194,4 +194,23 @@ func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAda
 	}
 
 	return offset, cln, nil
+}
+
+func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, err error) {
+	memBlock, words, err := memoryBlockAtOffset(wa, offset)
+	if err != nil {
+		return nil, err
+	}
+
+	remainderOffset := words*4 + 7
+	remainder := uint32(3 - memBlock[remainderOffset]%4)
+	size := (words-1)*4 + remainder
+	log.Printf("GML: handler_memory.go: stringDataAtOffset: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
+		memBlock[0:8], memBlock, words, remainderOffset, remainder, size)
+	if size <= 0 {
+		return nil, nil
+	}
+
+	log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, size)
+	return memBlock[8 : size+8], nil
 }

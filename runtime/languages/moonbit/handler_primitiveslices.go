@@ -11,6 +11,7 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"log"
@@ -145,15 +146,25 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
 
-	data, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
 	if err != nil {
 		return nil, err
 	}
 
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: data=%+v", data)
+	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+	size := numElements * uint32(h.converter.TypeSize())
 
-	// return h.doReadSlice(wa, data, size)
-	return nil, nil
+	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
+
+	items := h.converter.BytesToSlice(sliceMemBlock[8:])
+	return items, nil
 }
 
 func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {

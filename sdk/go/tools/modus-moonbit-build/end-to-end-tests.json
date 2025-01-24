@@ -88,6 +88,21 @@
           "name": "hello_world_with_optional_arg_WithDefaults",
           "query": {"query":"query {\n  hello_world_with_optional_arg_WithDefaults\n}","variables":{}},
           "expect": "Hello, 世界 🌍 from MoonBit!"
+        },
+        {
+          "name": "hello_array_of_ints_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_ints_WithDefaults\n}","variables":{}},
+          "expect": [1,2,3]
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":6}},
+          "expect": [1,2,3,4,5,6]
         }
       ]
     }
