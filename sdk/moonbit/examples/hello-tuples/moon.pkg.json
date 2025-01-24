@@ -10,8 +10,12 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_say_hello:say_hello",
-        "__modus_say_hello_WithDefaults:say_hello_WithDefaults",
+        "__modus_hack:hack",
+        "__modus_hello_tuples_2_strings:hello_tuples_2_strings",
+        "__modus_hello_tuples_3_strings:hello_tuples_3_strings",
+        "__modus_hello_tuples_4_strings:hello_tuples_4_strings",
+        "__modus_hello_tuples_5_strings:hello_tuples_5_strings",
+        "__modus_hello_tuples_6_strings:hello_tuples_6_strings",
         "bytes2ptr",
         "cabi_realloc",
         "copy",

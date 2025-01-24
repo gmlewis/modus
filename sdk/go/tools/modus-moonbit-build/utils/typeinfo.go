@@ -154,14 +154,11 @@ func IsStructType(t string) bool {
 func IsPrimitiveType(t string) bool {
 	switch t {
 	case "Bool",
-		"Int", "Int8", "Int16", "Int32", "Int64",
-		"Uint", "Uint8", "Uint16", "Uint32", "Uint64",
-		// "Uintptr",
+		"Int", "Int16", "Int64",
+		"UInt", "UInt16", "UInt64",
 		"Byte", "Char",
 		"Float", "Double",
-		// "Complex64", "Complex128",
-		// "Unsafe.Pointer",
-		"time.Duration":
+		"@time.Duration":
 		return true
 	}
 
