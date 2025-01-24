@@ -188,8 +188,8 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:])
 	log.Printf("GML: handler_maps.go: mapHandler.Decode: sliceOffset=%+v=%v", memBlock[8:12], sliceOffset)
-	ptr1 := binary.LittleEndian.Uint32(memBlock[12:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: ptr1=%+v=%v", memBlock[12:16], ptr1)
+	// ptr1 := binary.LittleEndian.Uint32(memBlock[12:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: ptr1=%+v=%v", memBlock[12:16], ptr1)
 	numElements := binary.LittleEndian.Uint32(memBlock[16:])
 	log.Printf("GML: handler_maps.go: mapHandler.Decode: numElements=%+v=%v", memBlock[16:20], numElements)
 
@@ -199,42 +199,41 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 		return m.Interface(), nil
 	}
 
-	const2 := binary.LittleEndian.Uint32(memBlock[20:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: const2=%+v=%v", memBlock[20:24], const2)
-	const3 := binary.LittleEndian.Uint32(memBlock[24:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: const3=%+v=%v", memBlock[24:28], const3)
-	const4 := binary.LittleEndian.Uint32(memBlock[28:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: const4=%+v=%v", memBlock[28:32], const4)
-	firstKVPair := binary.LittleEndian.Uint32(memBlock[32:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: firstKVPair=%+v=%v", memBlock[32:36], firstKVPair)
-	lastKVPair := binary.LittleEndian.Uint32(memBlock[36:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
-	// size := numElements * uint32(h.converter.TypeSize())
+	// const2 := binary.LittleEndian.Uint32(memBlock[20:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const2=%+v=%v", memBlock[20:24], const2)
+	// const3 := binary.LittleEndian.Uint32(memBlock[24:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const3=%+v=%v", memBlock[24:28], const3)
+	// const4 := binary.LittleEndian.Uint32(memBlock[28:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const4=%+v=%v", memBlock[28:32], const4)
+	// firstKVPair := binary.LittleEndian.Uint32(memBlock[32:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: firstKVPair=%+v=%v", memBlock[32:36], firstKVPair)
+	// lastKVPair := binary.LittleEndian.Uint32(memBlock[36:])
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
 
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
 	if err != nil {
 		return nil, err
 	}
-	ptr1MemBlock, _, err := memoryBlockAtOffset(wa, ptr1)
-	if err != nil {
-		return nil, err
-	}
-	firstKVPairMemBlock, _, err := memoryBlockAtOffset(wa, firstKVPair)
-	if err != nil {
-		return nil, err
-	}
-	lastKVPairMemBlock, _, err := memoryBlockAtOffset(wa, lastKVPair)
-	if err != nil {
-		return nil, err
-	}
+	// ptr1MemBlock, _, err := memoryBlockAtOffset(wa, ptr1)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// firstKVPairMemBlock, _, err := memoryBlockAtOffset(wa, firstKVPair)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// lastKVPairMemBlock, _, err := memoryBlockAtOffset(wa, lastKVPair)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[8:12], sliceOffset, len(sliceMemBlock), sliceMemBlock)
 	dumpMemBlock(wa, "sliceMemBlock", sliceMemBlock)
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), ptr1(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[12:16], ptr1, len(ptr1MemBlock), ptr1MemBlock)
-	dumpMemBlock(wa, "ptr1", ptr1MemBlock)
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), firstKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[32:36], firstKVPair, len(firstKVPairMemBlock), firstKVPairMemBlock)
-	dumpMemBlock(wa, "firstKVPair", firstKVPairMemBlock)
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), lastKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[36:40], lastKVPair, len(lastKVPairMemBlock), lastKVPairMemBlock)
-	dumpMemBlock(wa, "lastKVPair", lastKVPairMemBlock)
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), ptr1(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[12:16], ptr1, len(ptr1MemBlock), ptr1MemBlock)
+	// dumpMemBlock(wa, "ptr1", ptr1MemBlock)
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), firstKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[32:36], firstKVPair, len(firstKVPairMemBlock), firstKVPairMemBlock)
+	// dumpMemBlock(wa, "firstKVPair", firstKVPairMemBlock)
+	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), lastKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[36:40], lastKVPair, len(lastKVPairMemBlock), lastKVPairMemBlock)
+	// dumpMemBlock(wa, "lastKVPair", lastKVPairMemBlock)
 
 	log.Printf("GML: handler_maps.go: ORIGINAL mapHandler.Decode(vals: %+v)", vals)
 
