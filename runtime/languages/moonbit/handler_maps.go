@@ -274,17 +274,37 @@ func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte
 		if err != nil {
 			continue
 		}
-		if len(newMemBlock) > 8 && newMemBlock[0] == 255 && newMemBlock[1] == 255 && newMemBlock[2] == 255 && newMemBlock[3] == 255 && newMemBlock[4] == 243 {
+		refCount := binary.LittleEndian.Uint32(newMemBlock[0:4])
+		moonBitType := newMemBlock[4]
+		moonBitTypeName := moonBitBlockType[moonBitType]
+
+		switch moonBitTypeName {
+		case "String":
 			stringData, err := stringDataFromMemBlock(newMemBlock, words)
 			if err == nil {
 				s, err := doReadString(stringData)
 				if err == nil {
-					log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): memBlock[%v:%v]=%+v=@%v=%+v = '%v'", namePrefix, len(memBlock), i, i+4, memBlock[i:i+4], ptr, newMemBlock, s)
+					log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => '%v'",
+						namePrefix, len(memBlock), refCount, i, i+4, memBlock[i:i+4], ptr, newMemBlock, s)
+					continue
+				}
+			}
+		case "Tuple":
+			if newMemBlock[5] == 5 {
+				nmbLen := len(newMemBlock)
+				s1ptr := binary.LittleEndian.Uint32(newMemBlock[nmbLen-8:])
+				s1, err1 := stringDataAtOffset(wa, s1ptr)
+				s2ptr := binary.LittleEndian.Uint32(newMemBlock[nmbLen-4:])
+				s2, err2 := stringDataAtOffset(wa, s2ptr)
+				if err1 == nil && err2 == nil {
+					log.Printf(`GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => ("%s","%s")`,
+						namePrefix, len(memBlock), refCount, i, i+4, memBlock[i:i+4], ptr, newMemBlock, s1, s2)
 					continue
 				}
 			}
 		}
-		log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): memBlock[%v:%v]=%+v=@%v=%+v", namePrefix, len(memBlock), i, i+4, memBlock[i:i+4], ptr, newMemBlock)
+		log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, moonBitType=%v(%v), memBlock[%v:%v]=%+v=@%v=%+v",
+			namePrefix, len(memBlock), refCount, moonBitType, moonBitTypeName, i, i+4, memBlock[i:i+4], ptr, newMemBlock)
 	}
 }
 

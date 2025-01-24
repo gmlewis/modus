@@ -18,6 +18,11 @@ import (
 	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
+var moonBitBlockType = map[byte]string{
+	0:   "Tuple",
+	243: "String",
+}
+
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
 		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v) = (data=0, size=0)", offset)
@@ -35,7 +40,10 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", offset, size)
 	}
 	if len(dbgHackToRemove) > 0 {
-		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), words=%v, memBlock=%+v", offset, size, words, memBlock)
+		moonBitType := memBlockHeader[4]
+		moonBitTypeName := moonBitBlockType[moonBitType]
+		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
+			offset, size, moonBitType, moonBitTypeName, words, memBlock)
 	}
 	return memBlock, words, nil
 }

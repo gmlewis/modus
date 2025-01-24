@@ -205,7 +205,7 @@ func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte,
 	}
 
 	result, err := stringDataFromMemBlock(memBlock, words)
-	log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, len(result))
+	// log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, len(result))
 	return result, err
 }
 
