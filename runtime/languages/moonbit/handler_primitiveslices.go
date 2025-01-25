@@ -184,6 +184,7 @@ func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.Wa
 	return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
 }
 
+/*
 func (h *primitiveSliceHandler[T]) doReadSlice(wa langsupport.WasmAdapter, data, size uint32) (any, error) {
 	if data == 0 {
 		// nil slice
@@ -204,6 +205,7 @@ func (h *primitiveSliceHandler[T]) doReadSlice(wa langsupport.WasmAdapter, data,
 	items := h.converter.BytesToSlice(buf)
 	return items, nil
 }
+*/
 
 func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
 	log.Printf("GML: handler_primitiveslices.go: doWriteSlice is not yet implemented for MoonBit")

@@ -147,6 +147,7 @@ func (h *sliceHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, o
 	return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
 }
 
+/*
 func (h *sliceHandler) doReadSlice(ctx context.Context, wa langsupport.WasmAdapter, data, size uint32) (any, error) {
 	if data == 0 {
 		// nil slice
@@ -173,6 +174,7 @@ func (h *sliceHandler) doReadSlice(ctx context.Context, wa langsupport.WasmAdapt
 
 	return items.Interface(), nil
 }
+*/
 
 // type sliceWriter interface {
 // 	doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error)
