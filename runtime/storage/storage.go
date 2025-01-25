@@ -13,8 +13,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/gmlewis/modus/runtime/config"
-
+	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
@@ -36,7 +35,7 @@ func Initialize(ctx context.Context) {
 	span, ctx := utils.NewSentrySpanForCurrentFunc(ctx)
 	defer span.Finish()
 
-	if config.UseAwsStorage {
+	if app.Config().UseAwsStorage() {
 		provider = &awsStorageProvider{}
 	} else {
 		provider = &localStorageProvider{}

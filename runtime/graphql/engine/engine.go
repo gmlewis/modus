@@ -19,7 +19,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gmlewis/modus/lib/metadata"
-	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/graphql/datasource"
 	"github.com/gmlewis/modus/runtime/graphql/schemagen"
 	"github.com/gmlewis/modus/runtime/logger"
@@ -81,7 +81,7 @@ func generateSchema(ctx context.Context, md *metadata.Metadata) (*gql.Schema, *d
 	}
 
 	if utils.DebugModeEnabled() {
-		if config.UseJsonLogging {
+		if app.Config().UseJsonLogging() {
 			logger.Debug(ctx).Str("schema", generated.Schema).Msg("Generated schema")
 		} else {
 			fmt.Fprintf(os.Stderr, "\n%s\n", color.BlueString(generated.Schema))

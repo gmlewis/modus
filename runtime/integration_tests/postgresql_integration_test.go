@@ -25,7 +25,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/httpserver"
 	"github.com/gmlewis/modus/runtime/services"
 
@@ -108,9 +108,11 @@ func updateManifest(t *testing.T, jsonManifest []byte) func() {
 
 func TestMain(m *testing.M) {
 	// setup config
-	config.AppPath = testPluginsPath
-	config.RefreshInterval = refreshPluginInterval
-	config.Port = httpListenPort
+	cfg := app.NewAppConfig().
+		WithAppPath(testPluginsPath).
+		WithRefreshInterval(refreshPluginInterval).
+		WithPort(httpListenPort)
+	app.SetConfig(cfg)
 
 	// Create the main background context
 	ctx := context.Background()

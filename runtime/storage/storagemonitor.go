@@ -13,7 +13,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/gmlewis/modus/runtime/config"
+	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/logger"
 )
 
@@ -44,7 +44,7 @@ func NewStorageMonitor(patterns ...string) *StorageMonitor {
 
 func (sm *StorageMonitor) Start(ctx context.Context) {
 	go func() {
-		ticker := time.NewTicker(config.RefreshInterval)
+		ticker := time.NewTicker(app.Config().RefreshInterval())
 		defer ticker.Stop()
 
 		var loggedError = false

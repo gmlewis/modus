@@ -12,7 +12,6 @@ package services
 import (
 	"context"
 
-	"github.com/gmlewis/modus/runtime/aws"
 	"github.com/gmlewis/modus/runtime/collections"
 	"github.com/gmlewis/modus/runtime/db"
 	"github.com/gmlewis/modus/runtime/dgraphclient"
@@ -50,10 +49,10 @@ func Start(ctx context.Context) context.Context {
 	sqlclient.Initialize()
 	dgraphclient.Initialize()
 	neo4jclient.Initialize()
-	aws.Initialize(ctx)
 	secrets.Initialize(ctx)
 	storage.Initialize(ctx)
 	db.Initialize(ctx)
+	db.InitModusDb(ctx)
 	collections.Initialize(ctx)
 	manifestdata.MonitorManifestFile(ctx)
 	envfiles.MonitorEnvFiles(ctx)
@@ -76,9 +75,10 @@ func Stop(ctx context.Context) {
 
 	collections.Shutdown(ctx)
 	middleware.Shutdown()
-	sqlclient.ShutdownPGPools()
+	sqlclient.Shutdown()
 	dgraphclient.ShutdownConns()
 	neo4jclient.CloseDrivers(ctx)
 	logger.Close()
 	db.Stop(ctx)
+	db.CloseModusDb(ctx)
 }
