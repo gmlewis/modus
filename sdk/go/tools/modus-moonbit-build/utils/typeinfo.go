@@ -101,7 +101,7 @@ func GetMapSubtypes(t string) (string, string) {
 			n++
 		case ',':
 			if n == 1 {
-				return t[len(prefix):i], t[i+1 : len(t)-1]
+				return strings.TrimSpace(t[len(prefix):i]), strings.TrimSpace(t[i+1 : len(t)-1])
 			}
 		case ']':
 			n--

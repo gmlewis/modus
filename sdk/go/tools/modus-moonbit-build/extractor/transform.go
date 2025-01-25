@@ -78,6 +78,8 @@ func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package
 			ret.Parameters[i] = &metadata.Parameter{
 				Name: p.Name(),
 				Type: p.Type().String(),
+				// TODO: Add default value here if it is a constant literal
+				// Default:
 			}
 		}
 	}

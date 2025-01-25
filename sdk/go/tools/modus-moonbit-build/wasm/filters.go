@@ -10,6 +10,8 @@
 package wasm
 
 import (
+	"fmt"
+	"log"
 	"path/filepath"
 	"strings"
 
@@ -39,6 +41,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
+			log.Printf("GML: wasm/filters.go: FilterMetadata: removing unused FnImport: %v", name)
 			delete(meta.FnImports, name)
 		}
 	}
@@ -52,6 +55,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 		if _, ok := exports[name]; !ok {
 			//TODO: delete(meta.FnExports, name)
 			if strings.HasPrefix(name, "__modus_") {
+				log.Printf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
 				delete(meta.FnExports, name)
 			}
 		}
@@ -98,6 +102,8 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 				kt, vt := utils.GetMapSubtypes(t.Name)
 				keep(kt)
 				keep(vt)
+				keep(fmt.Sprintf("Array[%v]", kt))
+				keep(fmt.Sprintf("Array[%v]", vt))
 			}
 
 			for _, field := range t.Fields {

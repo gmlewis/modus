@@ -11,6 +11,7 @@ package codegen
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"go/ast"
 	"go/printer"
@@ -71,6 +72,14 @@ func getMainPackage(dir string) (*packages.Package, error) {
 	}
 
 	pkg := pkgs[0]
+
+	if len(pkg.Errors) > 0 {
+		errs := make([]error, len(pkg.Errors))
+		for i, e := range pkg.Errors {
+			errs[i] = e
+		}
+		return nil, fmt.Errorf("errors loading packages: %w", errors.Join(errs...))
+	}
 
 	if pkg.Name != "main" {
 		return nil, fmt.Errorf("expected root package name to be 'main', got %s", pkg.Name)

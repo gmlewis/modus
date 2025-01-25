@@ -51,7 +51,7 @@ pub fn hello_maps_n_items(n~ : Int = 3) -> Map[String, String] {
   map
 }
 
-///|
-pub fn hack() -> Array[String] {
-  ["d", "e", "f"]
-}
+// ///|
+// pub fn hack() -> Array[String] {
+//   ["d", "e", "f"]
+// }

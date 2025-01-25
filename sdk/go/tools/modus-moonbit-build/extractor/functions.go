@@ -10,8 +10,10 @@
 package extractor
 
 import (
+	"fmt"
 	"go/ast"
 	"go/types"
+	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
@@ -184,6 +186,21 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 
 		u := t.Underlying()
 		m[name] = u
+		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+
+		// Because the MoonBit SDK is currently using *types.Named for _ALL_ types, more processing needs to happen here.
+		if strings.HasPrefix(name, "Map[") && strings.HasSuffix(name, "]") {
+			parts := strings.Split(name[4:len(name)-1], ",")
+			// Force the planner to make a plan for slices of the keys and values of the map.
+			keyType := strings.TrimSpace(parts[0])
+			keyName := fmt.Sprintf("Array[%v]", keyType)
+			m[keyName] = nil
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", keyName)
+			valueType := strings.TrimSpace(parts[1])
+			valueName := fmt.Sprintf("Array[%v]", valueType)
+			m[valueName] = nil
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+		}
 
 		// skip fields for some well-known types
 		if wellKnownTypes[name] {
@@ -216,10 +233,15 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 			return true
 		}
 	case *types.Map:
+		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: A")
 		if addRequiredTypes(t.Key(), m) {
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: B")
 			if addRequiredTypes(t.Elem(), m) {
+				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: C")
 				if addRequiredTypes(types.NewSlice(t.Key()), m) {
+					log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: D")
 					if addRequiredTypes(types.NewSlice(t.Elem()), m) {
+						log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: m[%q]=%T", name, t)
 						m[name] = t
 						return true
 					}

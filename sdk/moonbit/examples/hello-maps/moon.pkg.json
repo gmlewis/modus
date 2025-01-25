@@ -10,7 +10,6 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_hack:hack",
         "__modus_hello_maps_0_items:hello_maps_0_items",
         "__modus_hello_maps_1_item:hello_maps_1_item",
         "__modus_hello_maps_2_items:hello_maps_2_items",

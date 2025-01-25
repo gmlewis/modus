@@ -37,7 +37,9 @@ type planner struct {
 }
 
 func (p *planner) AddHandler(h langsupport.TypeHandler) {
-	p.typeHandlers[h.TypeInfo().Name()] = h
+	name := h.TypeInfo().Name()
+	log.Printf("GML: planner.go: AddHandler: '%v'", name)
+	p.typeHandlers[name] = h
 }
 
 func (p *planner) AllHandlers() map[string]langsupport.TypeHandler {

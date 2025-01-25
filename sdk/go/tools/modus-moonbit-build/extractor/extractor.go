@@ -11,10 +11,12 @@ package extractor
 
 import (
 	"go/types"
+	"log"
 	"sort"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
@@ -24,6 +26,10 @@ func CollectProgramInfo(config *config.Config, meta *metadata.Metadata) error {
 		return err
 	}
 
+	return collectProgramInfoFromPkgs(pkgs, meta)
+}
+
+func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadata.Metadata) error {
 	requiredTypes := make(map[string]types.Type)
 
 	for name, f := range getExportedFunctions(pkgs) {
@@ -58,6 +64,7 @@ func CollectProgramInfo(config *config.Config, meta *metadata.Metadata) error {
 				Id:   id,
 				Name: name,
 			}
+			log.Printf("GML: extractor.go: CollectProgramInfo: meta.Types[%q] = %#v\n", name, meta.Types[name])
 		}
 		id++
 	}

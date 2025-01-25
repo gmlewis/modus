@@ -204,8 +204,8 @@
           "value": "graphql"
         },
         {
-          "label": "Hello Array[Int] Example",
-          "value": "hello-array-of-ints"
+          "label": "Hello Maps Example",
+          "value": "hello-maps"
         },
         {
           "label": "HTTP Client Example",
@@ -222,6 +222,10 @@
         {
           "label": "Simple Example",
           "value": "simple"
+        },
+        {
+          "label": "Test Suite",
+          "value": "test-suite"
         },
         {
           "label": "Text Generation Model Example",

@@ -42,6 +42,7 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 		return nil, err
 	}
 	handler.sliceOfKeysHandler = sliceOfKeysHandler
+	p.AddHandler(sliceOfKeysHandler)
 
 	keysHandler, err := p.GetHandler(ctx, keyType.Name())
 	if err != nil {
@@ -54,6 +55,7 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 		return nil, err
 	}
 	handler.sliceOfValuesHandler = sliceOfValuesHandler
+	p.AddHandler(sliceOfValuesHandler)
 
 	valuesHandler, err := p.GetHandler(ctx, valueType.Name())
 	if err != nil {
