@@ -243,7 +243,8 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// 	return nil, err
 	// }
 	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[8:12], sliceOffset, len(sliceMemBlock), sliceMemBlock)
-	dumpMemBlock(wa, "sliceMemBlock", sliceMemBlock)
+	// dumpMemBlock(wa, "sliceMemBlock", sliceMemBlock)
+
 	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), ptr1(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[12:16], ptr1, len(ptr1MemBlock), ptr1MemBlock)
 	// dumpMemBlock(wa, "ptr1", ptr1MemBlock)
 	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), firstKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[32:36], firstKVPair, len(firstKVPairMemBlock), firstKVPairMemBlock)
@@ -300,10 +301,11 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 	var sliceIndex int
 	for i := 8; i < len(sliceMemBlock); i += 4 {
 		tupleOffset := binary.LittleEndian.Uint32(sliceMemBlock[i : i+4])
+		log.Printf("GML: handler_maps.go: readMapKeysAndValues: tupleOffset=sliceMemBlock[%v:%v]=%+v=%v", i, i+4, sliceMemBlock[i:i+4], tupleOffset)
 		if tupleOffset == 0 {
 			continue
 		}
-		newMemBlock, _, err := memoryBlockAtOffset(wa, tupleOffset)
+		newMemBlock, _, err := memoryBlockAtOffset(wa, tupleOffset, true)
 		if err != nil {
 			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: memoryBlockAtOffset failed: %v", err)
 			continue
@@ -349,8 +351,8 @@ func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte
 		if ptr == 0 {
 			continue
 		}
-		newMemBlock, words, err := memoryBlockAtOffset(wa, ptr)
-		if err != nil {
+		newMemBlock, words, err := memoryBlockAtOffset(wa, ptr, true)
+		if err != nil || len(newMemBlock) < 8 {
 			continue
 		}
 		refCount := binary.LittleEndian.Uint32(newMemBlock[0:4])

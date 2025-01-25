@@ -10,13 +10,6 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_hello_maps_0_items:hello_maps_0_items",
-        "__modus_hello_maps_1_item:hello_maps_1_item",
-        "__modus_hello_maps_2_items:hello_maps_2_items",
-        "__modus_hello_maps_3_items:hello_maps_3_items",
-        "__modus_hello_maps_4_items:hello_maps_4_items",
-        "__modus_hello_maps_5_items:hello_maps_5_items",
-        "__modus_hello_maps_6_items:hello_maps_6_items",
         "__modus_hello_maps_n_items:hello_maps_n_items",
         "__modus_hello_maps_n_items_WithDefaults:hello_maps_n_items_WithDefaults",
         "bytes2ptr",
