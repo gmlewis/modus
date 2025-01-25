@@ -189,8 +189,9 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
 
 		// Because the MoonBit SDK is currently using *types.Named for _ALL_ types, more processing needs to happen here.
-		if strings.HasPrefix(name, "Map[") && strings.HasSuffix(name, "]") {
-			parts := strings.Split(name[4:len(name)-1], ",")
+		if strings.HasPrefix(name, "Map[") {
+			t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
+			parts := strings.Split(t, ",")
 			// Force the planner to make a plan for slices of the keys and values of the map.
 			keyType := strings.TrimSpace(parts[0])
 			keyName := fmt.Sprintf("Array[%v]", keyType)

@@ -278,6 +278,46 @@
           "name": "hello_primitive_uint64_max",
           "query": {"query":"query {\n  hello_primitive_uint64_max\n}","variables":{}},
           "expect": 18446744073709552000
+        },
+        {
+          "name": "hello_maps_n_items_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
+        },
+        {
+          "name": "hello_maps_n_items_option_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_option_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
         }
       ]
     }

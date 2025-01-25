@@ -106,9 +106,8 @@ type mapHandler struct {
 
 func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
 	log.Printf("GML: handler_maps.go: mapHandler.Read(offset: %v)", offset)
+	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
-	log.Printf("GML: handler_maps.go: mapHandler.Read is not yet implemented for MoonBit")
-	return nil, nil
 	/*
 	   	if offset == 0 {
 	   		return nil, nil

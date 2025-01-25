@@ -93,6 +93,7 @@ func GetMapSubtypes(t string) (string, string) {
 	if !strings.HasPrefix(t, prefix) {
 		return "", ""
 	}
+	t = strings.TrimSuffix(t, "?")
 
 	n := 1
 	for i := len(prefix); i < len(t); i++ {

@@ -52,6 +52,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
+	typ = strings.TrimSuffix(typ, "?")
 
 	n := 1
 	for i := len(prefix); i < len(typ); i++ {
