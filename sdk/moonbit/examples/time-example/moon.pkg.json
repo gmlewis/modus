@@ -1,0 +1,23 @@
+{
+  "import": [
+    "gmlewis/modus/localtime",
+    "moonbitlang/x/time"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_say_hello:say_hello",
+        "__modus_say_hello_WithDefaults:say_hello_WithDefaults"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}
