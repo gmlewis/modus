@@ -13,7 +13,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/logger"
 	"github.com/gmlewis/modus/runtime/storage"
 	"github.com/gmlewis/modus/runtime/utils"

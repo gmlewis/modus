@@ -1,4 +1,4 @@
-module github.com/gmlewis/modus/lib/manifest
+module github.com/hypermodeinc/modus/lib/manifest
 
 go 1.23.1
 

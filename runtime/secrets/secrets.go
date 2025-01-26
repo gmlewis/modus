@@ -20,7 +20,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/logger"
 	"github.com/gmlewis/modus/runtime/utils"
 )

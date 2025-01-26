@@ -15,7 +15,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 )
 
 type localSecretsProvider struct {

@@ -15,9 +15,10 @@ import (
 	"net/http"
 	"runtime"
 
-	"github.com/gmlewis/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/manifestdata"
 	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/hypermodeinc/modus/lib/manifest"
 )
 
 //go:embed content

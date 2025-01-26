@@ -345,6 +345,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 	return rvKeys, rvVals, nil
 }
 
+/*
 func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte) {
 	for i := 8; i < len(memBlock); i += 4 {
 		ptr := binary.LittleEndian.Uint32(memBlock[i : i+4])
@@ -388,6 +389,7 @@ func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte
 			namePrefix, len(memBlock), refCount, moonBitType, moonBitTypeName, i, i+4, memBlock[i:i+4], ptr, newMemBlock)
 	}
 }
+*/
 
 func (h *mapHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
 	ptr, cln, err := h.doWriteMap(ctx, wa, obj)

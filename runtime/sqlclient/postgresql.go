@@ -13,7 +13,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/hypermodeinc/modus/lib/manifest"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

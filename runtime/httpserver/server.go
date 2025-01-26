@@ -21,7 +21,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/explorer"
 	"github.com/gmlewis/modus/runtime/graphql"

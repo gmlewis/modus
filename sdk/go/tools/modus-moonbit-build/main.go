@@ -17,7 +17,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/codegen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/compiler"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"

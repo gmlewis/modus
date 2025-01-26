@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/languages"
 	"github.com/gmlewis/modus/runtime/manifestdata"

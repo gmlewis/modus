@@ -16,7 +16,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/app"
 	"github.com/gmlewis/modus/runtime/db"
 	"github.com/gmlewis/modus/runtime/httpclient"

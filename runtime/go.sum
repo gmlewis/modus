@@ -232,6 +232,10 @@ github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nos
 github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/getsentry/sentry-go v0.31.1 h1:ELVc0h7gwyhnXHDouXkhqTFSO5oslsRDk0++eyE0KJ4=
 github.com/getsentry/sentry-go v0.31.1/go.mod h1:CYNcMMz73YigoHljQRG+qPF+eMq8gG72XcGN/p71BAY=
+github.com/gmlewis/modus/lib/metadata v0.15.0 h1:e5kI8JAaRnChSqRiiEOdZ9igRjt7S+3UTjrSFoIQdUU=
+github.com/gmlewis/modus/lib/metadata v0.15.0/go.mod h1:lZ9NIJPkMVXcmvzLWjkvLe8A5hL4xWtQ4EyRAngg72c=
+github.com/gmlewis/modus/lib/wasmextractor v0.13.0 h1:ndDuaeI+zAFgILSzQCJuS6OWUpb4Gz5I1v7a3Z6i5PU=
+github.com/gmlewis/modus/lib/wasmextractor v0.13.0/go.mod h1:1GwshpisrWC/rUmBB4Kdh/HlbRBLvhIXQFBQvoETKQo=
 github.com/go-chi/chi v3.3.2+incompatible/go.mod h1:eB3wogJHnLi3x/kFX2A+IbTBlXxmMeXJVKy9tTv1XzQ=
 github.com/go-errors/errors v1.4.2 h1:J6MZopCL4uSllY1OfXM374weqZFFItUbrImctkmUxIA=
 github.com/go-errors/errors v1.4.2/go.mod h1:sIVyrIiJhuEF+Pj9Ebtd6P/rEYROXFi3BopGUQ5a5Og=
@@ -414,10 +418,6 @@ github.com/hypermodeinc/dgraph/v24 v24.0.3-0.20250123224129-a0d027dcffe0 h1:yOWD
 github.com/hypermodeinc/dgraph/v24 v24.0.3-0.20250123224129-a0d027dcffe0/go.mod h1:cxYPGOzHMDPQbv5uf9i2CI/dWKrKcyVmRLX7j/P3DxM=
 github.com/hypermodeinc/modus/lib/manifest v0.17.0 h1:IelVTN1Bj3ErdyqRLk+3CCPKJJxKnEDsIwL3Rl48TKY=
 github.com/hypermodeinc/modus/lib/manifest v0.17.0/go.mod h1:E/lB1Je+vugQhIOfbnJJShTurKzNBp9ZfgQnOrqmfQI=
-github.com/hypermodeinc/modus/lib/metadata v0.15.0 h1:Qu75TZg7l43Fi61EhnjasTHZvztrGA90vzDLnCB6ILI=
-github.com/hypermodeinc/modus/lib/metadata v0.15.0/go.mod h1:vnIwX2DpQyGk93DawGgIaqC5jEdvMeA9tGtvefbwTJw=
-github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 h1:9o8qqAllL9qIPYqc5adF+Aw3XWLmLqPiBPMu0AIyiMI=
-github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0/go.mod h1:YCesMU95vF5qkscLMKSYr92OloLe1KGwyiqW2i4OmnE=
 github.com/hypermodeinc/modusdb v0.0.0-20250124181856-b77a41ecb3c1 h1:4XPtzPNBUukALNGBbgFYZd/XWj5o7lKQMdS1/2n6hNE=
 github.com/hypermodeinc/modusdb v0.0.0-20250124181856-b77a41ecb3c1/go.mod h1:IS/JNdx7dhcHd3yE+NbpNh3tPuti+SEEzAlK2SSKTKk=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=

@@ -16,7 +16,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/gmlewis/modus/lib/manifest"
+	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/runtime/collections/in_mem"
 	"github.com/gmlewis/modus/runtime/collections/in_mem/sequential"
 	"github.com/gmlewis/modus/runtime/collections/index"

@@ -13,7 +13,7 @@ package models
 // 	"context"
 // 	"fmt"
 
-// 	"github.com/gmlewis/modus/lib/manifest"
+// 	"github.com/hypermodeinc/modus/lib/manifest"
 // 	hyp_aws "github.com/gmlewis/modus/runtime/aws"
 // 	"github.com/gmlewis/modus/runtime/db"
 // 	"github.com/gmlewis/modus/runtime/utils"

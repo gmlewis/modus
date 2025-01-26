@@ -5,9 +5,9 @@ go 1.23.1
 toolchain go1.23.5
 
 require (
-	github.com/gmlewis/modus/lib/manifest v0.17.0
 	github.com/gmlewis/modus/lib/metadata v0.15.0
 	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
+	github.com/hypermodeinc/modus/lib/manifest v0.17.0
 )
 
 require (
@@ -66,6 +66,7 @@ require (
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 )
 
 require (
