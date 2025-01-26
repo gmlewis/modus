@@ -19,11 +19,11 @@ $ cd ${REPODIR}/sdk/moonbit/examples/test-suite
 $ ./update.sh
 $ ./build.sh
 $ ./modus-local.sh sdk install moonbit
-$ ./modus-local.sh dev  # Visit the API Explorer and try it out
-# Now update the local Modus Runtime to support more examples:
+$ ./modus-local.sh dev  # This will most likely fail until you run the following steps:
+# Update the local Modus Runtime to support more examples:
 $ cd ${REPODIR}/runtime
 $ ./build.sh
-# Now update the local Modus MoonBit SDK to support more examples:
+# Update the local Modus MoonBit SDK to support more examples:
 $ cd ${REPODIR}/sdk/go/tools/modus-moonbit-build
 $ ./install.sh
 ```
