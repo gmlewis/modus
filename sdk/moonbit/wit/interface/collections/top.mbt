@@ -614,7 +614,7 @@ pub fn get_vector(
   namespace : String,
   search_method : String,
   key : String
-) -> Array[Double]? {
+) -> FixedArray[Float]? {
   let return_area = @ffi.malloc(12)
   wasmImportGetVector(
     @ffi.str2ptr(collection),
@@ -627,16 +627,14 @@ pub fn get_vector(
     key.iter().count(),
     return_area,
   )
-  let lifted : Array[Double]? = match @ffi.load8_u(return_area + 0) {
+  let lifted : FixedArray[Float]? = match @ffi.load8_u(return_area + 0) {
     0 => Option::None
     1 => {
-      let array : Array[Double] = []
-      for index = 0; index < @ffi.load32(return_area + 8); index = index + 1 {
-        let base3 = @ffi.load32(return_area + 4) + index * 4
-        array.push(@ffi.loadf32(base3 + 0).to_double())
-      }
-      @ffi.free(@ffi.load32(return_area + 4))
-      Option::Some(array)
+      let result = @ffi.ptr2float_array(
+        @ffi.load32(return_area + 4),
+        @ffi.load32(return_area + 8),
+      )
+      Option::Some(result)
     }
     _ => panic()
   }
@@ -691,7 +689,7 @@ pub fn search_by_vector(
   collection : String,
   namespaces : Array[String],
   search_method : String,
-  vector : Array[Double],
+  vector : FixedArray[Float],
   limit : Int,
   return_text : Bool
 ) -> CollectionSearchResult? {
@@ -705,12 +703,6 @@ pub fn search_by_vector(
     @ffi.store32(base + 0, @ffi.str2ptr(element))
     ignoreList.push(element)
   }
-  let address2 = @ffi.malloc(vector.length() * 4)
-  for index3 = 0; index3 < vector.length(); index3 = index3 + 1 {
-    let element0 : Double = vector[index3]
-    let base1 = address2 + index3 * 4
-    @ffi.storef32(base1 + 0, element0.to_float())
-  }
   let return_area = @ffi.malloc(44)
   wasmImportSearchByVector(
     @ffi.str2ptr(collection),
@@ -719,7 +711,7 @@ pub fn search_by_vector(
     namespaces.length(),
     @ffi.str2ptr(search_method),
     search_method.iter().count(),
-    address2,
+    @ffi.float_array2ptr(vector),
     vector.length(),
     limit,
     if return_text {
@@ -735,48 +727,48 @@ pub fn search_by_vector(
       ignore(@ffi.load32(return_area + 8))
       let result = @ffi.ptr2str(@ffi.load32(return_area + 4))
       ignore(@ffi.load32(return_area + 16))
-      let result8 = @ffi.ptr2str(@ffi.load32(return_area + 12))
+      let result4 = @ffi.ptr2str(@ffi.load32(return_area + 12))
       ignore(@ffi.load32(return_area + 24))
-      let result9 = @ffi.ptr2str(@ffi.load32(return_area + 20))
+      let result5 = @ffi.ptr2str(@ffi.load32(return_area + 20))
       ignore(@ffi.load32(return_area + 32))
-      let result10 = @ffi.ptr2str(@ffi.load32(return_area + 28))
-      let array20 : Array[CollectionSearchResultObject] = []
-      for index21 = 0
-          index21 < @ffi.load32(return_area + 40)
-          index21 = index21 + 1 {
-        let base12 = @ffi.load32(return_area + 36) + index21 * 48
-        ignore(@ffi.load32(base12 + 4))
-        let result13 = @ffi.ptr2str(@ffi.load32(base12 + 0))
-        ignore(@ffi.load32(base12 + 12))
-        let result14 = @ffi.ptr2str(@ffi.load32(base12 + 8))
-        ignore(@ffi.load32(base12 + 20))
-        let result15 = @ffi.ptr2str(@ffi.load32(base12 + 16))
+      let result6 = @ffi.ptr2str(@ffi.load32(return_area + 28))
+      let array16 : Array[CollectionSearchResultObject] = []
+      for index17 = 0
+          index17 < @ffi.load32(return_area + 40)
+          index17 = index17 + 1 {
+        let base8 = @ffi.load32(return_area + 36) + index17 * 48
+        ignore(@ffi.load32(base8 + 4))
+        let result9 = @ffi.ptr2str(@ffi.load32(base8 + 0))
+        ignore(@ffi.load32(base8 + 12))
+        let result10 = @ffi.ptr2str(@ffi.load32(base8 + 8))
+        ignore(@ffi.load32(base8 + 20))
+        let result11 = @ffi.ptr2str(@ffi.load32(base8 + 16))
         let array : Array[String] = []
-        for index19 = 0
-            index19 < @ffi.load32(base12 + 28)
-            index19 = index19 + 1 {
-          let base17 = @ffi.load32(base12 + 24) + index19 * 8
-          ignore(@ffi.load32(base17 + 4))
-          let result18 = @ffi.ptr2str(@ffi.load32(base17 + 0))
-          array.push(result18)
+        for index15 = 0
+            index15 < @ffi.load32(base8 + 28)
+            index15 = index15 + 1 {
+          let base13 = @ffi.load32(base8 + 24) + index15 * 8
+          ignore(@ffi.load32(base13 + 4))
+          let result14 = @ffi.ptr2str(@ffi.load32(base13 + 0))
+          array.push(result14)
         }
-        @ffi.free(@ffi.load32(base12 + 24))
-        array20.push(CollectionSearchResultObject::{
-          namespace: result13,
-          key: result14,
-          text: result15,
+        @ffi.free(@ffi.load32(base8 + 24))
+        array16.push(CollectionSearchResultObject::{
+          namespace: result9,
+          key: result10,
+          text: result11,
           labels: array,
-          distance: @ffi.loadf64(base12 + 32),
-          score: @ffi.loadf64(base12 + 40),
+          distance: @ffi.loadf64(base8 + 32),
+          score: @ffi.loadf64(base8 + 40),
         })
       }
       @ffi.free(@ffi.load32(return_area + 36))
       Option::Some(CollectionSearchResult::{
         collection: result,
-        status: result8,
-        error: result9,
-        search_method: result10,
-        objects: array20,
+        status: result4,
+        error: result5,
+        search_method: result6,
+        objects: array16,
       })
     }
     _ => panic()
@@ -784,7 +776,7 @@ pub fn search_by_vector(
   ignore(collection)
   @ffi.free(address)
   ignore(search_method)
-  @ffi.free(address2)
+  ignore(vector)
   @ffi.free(return_area)
   cleanupList.each(fn(cleanup) { @ffi.free(cleanup.address) })
   ignore(ignoreList)

@@ -17,4 +17,5 @@ world modus {
 
     // System utilities
     import console;
+    import localtime;
 }

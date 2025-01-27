@@ -1,7 +1,9 @@
 {
   "import": [
-    "gmlewis/modus/localtime",
-    "moonbitlang/x/time"
+    "gmlewis/modus/pkg/localtime",
+    "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
+    "moonbitlang/x/time",
+    "gmlewis/modus/pkg/console"
   ],
   "targets": {
     "modus_post_generated.mbt": [
@@ -14,8 +16,49 @@
   "link": {
     "wasm": {
       "exports": [
-        "__modus_say_hello:say_hello",
-        "__modus_say_hello_WithDefaults:say_hello_WithDefaults"
+        "__modus_get_local_time:get_local_time",
+        "__modus_get_local_time_zone:get_local_time_zone",
+        "__modus_get_time_in_zone:get_time_in_zone",
+        "__modus_get_utc_time:get_utc_time",
+        "__modus_get_utc_time_WithDefaults:get_utc_time_WithDefaults",
+        "bytes2ptr",
+        "cabi_realloc",
+        "copy",
+        "double_array2ptr",
+        "extend16",
+        "extend8",
+        "f32_to_i32",
+        "f32_to_i64",
+        "float_array2ptr",
+        "free",
+        "int64_array2ptr",
+        "int_array2ptr",
+        "load16",
+        "load16_u",
+        "load32",
+        "load64",
+        "load8",
+        "load8_u",
+        "loadf32",
+        "loadf64",
+        "malloc",
+        "ptr2bytes",
+        "ptr2double_array",
+        "ptr2float_array",
+        "ptr2int64_array",
+        "ptr2int_array",
+        "ptr2str",
+        "ptr2uint64_array",
+        "ptr2uint_array",
+        "store16",
+        "store32",
+        "store64",
+        "store8",
+        "storef32",
+        "storef64",
+        "str2ptr",
+        "uint64_array2ptr",
+        "uint_array2ptr"
       ],
       "export-memory-name": "memory"
     }

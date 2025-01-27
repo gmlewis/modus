@@ -12,6 +12,7 @@ package metagen
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 
@@ -59,6 +60,10 @@ func LogToConsole(meta *metadata.Metadata) {
 	types := make([]string, 0, len(meta.Types))
 	for _, k := range meta.Types.SortedKeys(meta.Module) {
 		t := meta.Types[k]
+		// if i := strings.Index(k, "!"); i >= 0 {
+		// 	k = k[:i]
+		// }
+		log.Printf("GML: metagen/output.go: LogToConsole: type k: %v", k)
 		if len(t.Fields) > 0 && strings.HasPrefix(k, meta.Module) {
 			types = append(types, k)
 		}
@@ -67,7 +72,9 @@ func LogToConsole(meta *metadata.Metadata) {
 	if len(types) > 0 {
 		writeHeader(w, "Custom Types:")
 		for _, t := range types {
-			writeItem(w, meta.Types[t].String(meta))
+			s := meta.Types[t].String(meta)
+			log.Printf("GML: metagen/output.go: LogToConsole: custom type s: %v", s)
+			writeItem(w, s)
 		}
 		fmt.Fprintln(w)
 	}
@@ -78,7 +85,6 @@ func LogToConsole(meta *metadata.Metadata) {
 		fmt.Fprintln(w, string(metaJson))
 		fmt.Fprintln(w)
 	}
-
 }
 
 func writeHeader(w io.Writer, text string) {

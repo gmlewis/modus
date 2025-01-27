@@ -1,0 +1,5 @@
+// Interface for time functions
+interface localtime {
+    get-time-in-zone: func(timezone: string) -> string;
+    get-time-zone-data: func(timezone: string, format: string) -> list<u8>;
+}

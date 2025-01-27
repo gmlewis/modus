@@ -6,13 +6,15 @@
 
 PROJECTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 pushd ../../../go/tools/modus-moonbit-build > /dev/null
+MODUS_DEBUG=true
+MODUS_TRACE=true
 go run . "$PROJECTDIR"
 exit_code=$?
 popd > /dev/null
 
 if command -v wasm2wat >/dev/null 2>&1; then
   # If wasm2wat is available, run the command
-  wasm2wat build/time.wasm > build/time.wat
+  wasm2wat build/time-example.wasm > build/time-example.wat
 fi
 
 exit $exit_code

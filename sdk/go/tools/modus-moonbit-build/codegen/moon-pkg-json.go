@@ -39,7 +39,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	for k := range imports {
 		if _, ok := currentImports[k]; !ok {
 			log.Printf("adding import %q to moon.pkg.json", k)
-			pkg.MoonPkgJSON.Imports = append(pkg.MoonPkgJSON.Imports, json.RawMessage(k))
+			pkg.MoonPkgJSON.Imports = append(pkg.MoonPkgJSON.Imports, json.RawMessage(`"`+k+`"`))
 		}
 	}
 

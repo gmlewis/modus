@@ -184,6 +184,11 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		// 	os.Exit(1)
 		// }
 
+		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
+		if i := strings.Index(name, "!"); i >= 0 {
+			name = name[:i]
+		}
+
 		u := t.Underlying()
 		m[name] = u
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)

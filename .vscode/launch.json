@@ -237,7 +237,7 @@
         },
         {
           "label": "Time Example",
-          "value": "time"
+          "value": "time-example"
         },
         {
           "label": "Vectors API Example",

@@ -91,12 +91,12 @@ pub extern "js" fn f32_to_i64(value : Float) -> Int64 =
 //   #|(func (param f32) (result i64) local.get 0 f32.convert_i64_s)
 
 ///|
-extern "js" fn malloc_inline(size : Int) -> Int =
-  #|(size) => 0
+// extern "js" fn malloc_inline(size : Int) -> Int =
+//   #|(size) => 0
 // #|(func (param i32) (result i32) local.get 0 call $moonbit.malloc)
 
 ///|
-pub fn malloc(size : Int) -> Int {
+pub fn malloc(_size : Int) -> Int {
   // let words = size / 4 + 1
   // let address = malloc_inline(8 + words * 4)
   // store32(address, 1)
@@ -112,17 +112,17 @@ pub extern "js" fn free(position : Int) =
 //   #|(func (param i32) local.get 0 i32.const 8 i32.sub call $moonbit.decref)
 
 ///|
-pub fn copy(dest : Int, src : Int) -> Unit {
-  // let src = src - 8
-  // let dest = dest - 8
-  // let src_len = load32(src + 4) & 0xFFFFFF
-  // let dest_len = load32(dest + 4) & 0xFFFFFF
-  // let min = if src_len < dest_len { src_len } else { dest_len }
-  // copy_inline(dest, src, min)
-}
+// fn copy(_dest : Int, _src : Int) -> Unit {
+// let src = src - 8
+// let dest = dest - 8
+// let src_len = load32(src + 4) & 0xFFFFFF
+// let dest_len = load32(dest + 4) & 0xFFFFFF
+// let min = if src_len < dest_len { src_len } else { dest_len }
+// copy_inline(dest, src, min)
+// }
 
 ///|
-extern "js" fn copy_inline(dest : Int, src : Int, len : Int) =
+pub extern "js" fn copy_inline(dest : Int, src : Int, len : Int) =
   #|(dest, src, len) => {}
 // #|(func (param i32) (param i32) (param i32) local.get 0 local.get 1 local.get 2 memory.copy)
 
@@ -192,47 +192,47 @@ pub extern "js" fn ptr2float_array(ptr : Int) -> FixedArray[Float] =
 //   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "js" fn ptr2uint64_array_ffi(ptr : Int) -> FixedArray[UInt64] =
-  #|(ptr) => []
+// extern "js" fn ptr2uint64_array_ffi(ptr : Int) -> FixedArray[UInt64] =
+//   #|(ptr) => []
 //  #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
 ///|
-pub fn ptr2uint64_array(ptr : Int) -> FixedArray[UInt64] {
+pub fn ptr2uint64_array(_ptr : Int) -> FixedArray[UInt64] {
   // set_64_header_ffi(ptr - 4)
   // ptr2uint64_array_ffi(ptr)
   []
 }
 
 ///|
-extern "js" fn ptr2int64_array_ffi(ptr : Int) -> FixedArray[Int64] =
-  #|(ptr) => []
+// extern "js" fn ptr2int64_array_ffi(ptr : Int) -> FixedArray[Int64] =
+// #|(ptr) => []
 //  #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
 ///|
-pub fn ptr2int64_array(ptr : Int) -> FixedArray[Int64] {
+pub fn ptr2int64_array(_ptr : Int) -> FixedArray[Int64] {
   // set_64_header_ffi(ptr - 4)
   // ptr2int64_array_ffi(ptr)
   []
 }
 
 ///|
-extern "js" fn ptr2double_array_ffi(ptr : Int) -> FixedArray[Double] =
-  #|(ptr) => []
+// extern "js" fn ptr2double_array_ffi(ptr : Int) -> FixedArray[Double] =
+//   #|(ptr) => []
 //  #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
 
 ///|
-pub fn ptr2double_array(ptr : Int) -> FixedArray[Double] {
+pub fn ptr2double_array(_ptr : Int) -> FixedArray[Double] {
   // set_64_header_ffi(ptr - 4)
   // ptr2double_array_ffi(ptr)
   []
 }
 
 ///|
-fn set_64_header_ffi(offset : Int) -> Unit {
-  // let len = load32(offset)
-  // store32(offset, len >> 1)
-  // store8(offset, 241)
-}
+// fn set_64_header_ffi(offset : Int) -> Unit {
+// let len = load32(offset)
+// store32(offset, len >> 1)
+// store8(offset, 241)
+// }
 
 ///|
 pub(open) trait Any {}

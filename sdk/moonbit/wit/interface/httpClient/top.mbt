@@ -9,15 +9,15 @@ pub(all) struct Request {
   url : String
   method_ : String
   headers : Headers?
-  body : String // TODO: Bytes
+  body : FixedArray[Byte]
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| HTTP Response record
 pub(all) struct Response {
-  status : Int // TODO: UInt
+  status : UInt
   status_text : String
   headers : Headers?
-  body : String // TODO: Bytes
+  body : FixedArray[Byte]
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Fetch performs an HTTP request and returns a response
@@ -51,8 +51,7 @@ pub fn fetch(request : Request) -> Response? {
     lowered,
     lowered5,
     lowered6,
-    // TODO: @ffi.bytes2ptr(request.body),
-    @ffi.bytes2ptr(request.body.to_bytes()),
+    @ffi.bytes2ptr(request.body),
     request.body.length(),
     return_area,
   )
@@ -80,15 +79,17 @@ pub fn fetch(request : Request) -> Response? {
         }
         _ => panic()
       }
-      ignore(@ffi.load32(return_area + 32))
-      let result20 = @ffi.ptr2bytes(@ffi.load32(return_area + 28))
+      let result20 = @ffi.ptr2bytes(
+        @ffi.load32(return_area + 28),
+        @ffi.load32(return_area + 32),
+      )
       Option::Some(Response::{
-        status: @ffi.load16_u(return_area + 4) & 0xFFFF,
-        // TODO: .reinterpret_as_uint(),
+        status: @ffi.load16_u(return_area + 4)
+        .land(0xFFFF)
+        .reinterpret_as_uint(),
         status_text: result,
         headers: lifted,
-        // TODO: body: result20,
-        body: result20.to_unchecked_string(),
+        body: result20,
       })
     }
     _ => panic()
