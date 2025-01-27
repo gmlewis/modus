@@ -12,11 +12,10 @@
 
 ///|
 // Returns the current time in UTC.
-pub fn get_utc_time(
-  /// now is optional so we can mock time in tests
-  now~ : @wallClock.Datetime = @wallClock.now()
-) -> @time.ZonedDateTime!Error {
-  @time.unix!(now.seconds.reinterpret_as_int64())
+pub fn get_utc_time() -> @time.ZonedDateTime!Error {
+  let (seconds, _) = @clock.walltime()
+  let now = seconds.reinterpret_as_int64()
+  @time.unix!(now)
 }
 
 ///|

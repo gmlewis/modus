@@ -1,19 +1,11 @@
 {
   "import": [
+    "gmlewis/modus/wit/interface/clock",
     {
       "path": "gmlewis/modus/wit/interface/localtime",
       "alias": "host"
     },
     "moonbitlang/x/sys",
     "moonbitlang/x/time"
-  ],
-  "targets": {
-    "localtime_notwasm.mbt": [
-      "not",
-      "wasm"
-    ],
-    "localtime_wasm.mbt": [
-      "wasm"
-    ]
-  }
+  ]
 }

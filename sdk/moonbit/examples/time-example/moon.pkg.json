@@ -1,7 +1,7 @@
 {
   "import": [
     "gmlewis/modus/pkg/localtime",
-    "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
+    "gmlewis/modus/wit/interface/clock",
     "moonbitlang/x/time",
     "gmlewis/modus/pkg/console"
   ],
@@ -20,7 +20,6 @@
         "__modus_get_local_time_zone:get_local_time_zone",
         "__modus_get_time_in_zone:get_time_in_zone",
         "__modus_get_utc_time:get_utc_time",
-        "__modus_get_utc_time_WithDefaults:get_utc_time_WithDefaults",
         "bytes2ptr",
         "cabi_realloc",
         "copy",
