@@ -1,11 +1,1 @@
-
-{
-      "link": {
-            "wasm": {
-                  "exports": ["cabi_realloc:cabi_realloc"],
-                  "export-memory-name": "memory",
-                  "heap-start-address": 16
-            }
-      }
-      ,"import": [{ "path" : "gmlewis/modus/wit/ffi", "alias" : "ffi" }]
-}
+{"targets":{"ffi_wasm.mbt":["wasm"]}}

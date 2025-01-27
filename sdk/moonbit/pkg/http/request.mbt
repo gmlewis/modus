@@ -24,7 +24,7 @@ pub fn Request::new(
   url : String,
   options~ : Array[RequestOptions] = []
 ) -> Request {
-  let req = Request({ url, method_: "GET", headers: None, body: "" })
+  let req = Request({ url, method_: "GET", headers: None, body: [] })
   req.clone(options)
 }
 
@@ -45,8 +45,12 @@ pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
         headers = Headers::from_map_array(value)
       RequestOptions::HeaderTuples(value) =>
         headers = Headers::from_tuples(value)
-      RequestOptions::BodyString(value) => body = value
-      RequestOptions::BodyJson(value) => body = @json.stringify(value)
+      RequestOptions::BodyString(value) =>
+        body = FixedArray::from_array(@string.to_bytes(value).to_array())
+      RequestOptions::BodyJson(value) =>
+        body = FixedArray::from_array(
+          @string.to_bytes(@json.stringify(value)).to_array(),
+        )
     }
   }
   let data = headers.entries()
@@ -59,11 +63,11 @@ pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
 }
 
 ///|
-pub fn text(self : Request) -> String {
-  self.body
+pub fn Request::text(self : Request) -> String {
+  self.body.to_string() // TODO
 }
 
 ///|
-pub fn json[T : @json.FromJson](self : Request) -> T!Error {
-  @json.from_json!(@json.parse!(self.body))
+pub fn Request::json[T : @json.FromJson](self : Request) -> T!Error {
+  @json.from_json!(@json.parse!(self.body.to_string())) // TODO
 }

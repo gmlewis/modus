@@ -1,1 +1,1 @@
-{ "import": [{ "path" : "gmlewis/modus/wit/ffi", "alias" : "ffi" }] }
+{"targets":{"top_wasm.mbt":["wasm"],"ffi_wasm.mbt":["wasm"]}}

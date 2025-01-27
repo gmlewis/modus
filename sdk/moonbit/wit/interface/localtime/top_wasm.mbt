@@ -12,7 +12,7 @@ pub fn get_time_in_zone(timezone : String) -> String {
   let result = @ffi.ptr2str(@ffi.load32(return_area + 0))
   ignore(timezone)
   @ffi.free(return_area)
-  result
+  return result
 }
 
 ///|
@@ -35,5 +35,5 @@ pub fn get_time_zone_data(
   ignore(timezone)
   ignore(format)
   @ffi.free(return_area)
-  result
+  return result
 }

@@ -1,0 +1,1 @@
+Defines interface for random number generation for use with wazero.

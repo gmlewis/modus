@@ -1,1 +1,7 @@
-{ "import": [{ "path" : "gmlewis/modus/wit/ffi", "alias" : "ffi" }] }
+{
+  "targets": {
+    "top_notwasm.mbt": [ "not", "wasm" ],
+    "top_wasm.mbt": [ "wasm" ],
+    "ffi_wasm.mbt": [ "wasm" ]
+  }
+}

@@ -2,5 +2,5 @@
 interface random {
     // Read random bytes into the provided buffer
     // Returns number of bytes read
-    read: func(buf: list<u8>) -> result<u32, string>
+    read: func(buf: list<u8>) -> result<u32, string>;
 }

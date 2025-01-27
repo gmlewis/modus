@@ -85,7 +85,7 @@ pub fn do_query(
 
   //
   // TODO: let affected = response.rows_affected
-  let affected = response.rows_affected.reinterpret_as_uint()
+  let affected = response.rows_affected
   if not(response.error.is_empty()) {
     raise DbError("database returned an error: \{response.error.unwrap()}")
   }

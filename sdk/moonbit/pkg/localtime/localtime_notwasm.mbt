@@ -10,13 +10,15 @@
 /// - If the TZ environment variable is set on the host, the time zone is set to the value of the variable.
 /// - Otherwise, the time zone is set to the host's local time zone.
 pub fn now() -> @time.ZonedDateTime!Error {
-  @time.unix!(@wallClock.now().seconds.reinterpret_as_int64())
+  // @time.unix!(@wallClock.now().seconds.reinterpret_as_int64()) // TODO
+  fail!("Not implemented")
 }
 
 ///| now_in_zone returns the current time in the given time zone.
 /// The time zone should be a valid IANA time zone identifier, such as "America/New_York".
 pub fn now_in_zone(_timezone : String) -> @time.ZonedDateTime!Error {
-  @time.unix!(@wallClock.now().seconds.reinterpret_as_int64())
+  // @time.unix!(@wallClock.now().seconds.reinterpret_as_int64())
+  fail!("Not implemented")
 }
 
 ///| get_time_zone returns the local time zone identifier, in IANA format.
@@ -28,8 +30,8 @@ pub fn get_time_zone() -> String {
 // The time zone should be a valid IANA time zone identifier, such as "America/New_York".
 ///|
 pub fn get_location(_timezone : String) -> @time.Zone!Error {
+  // @time.utc_zone
   fail!("Not implemented")
-  @time.utc_zone
 }
 
 // is_valid_time_zone returns true if the given time zone is valid.

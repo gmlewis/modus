@@ -1,6 +1,5 @@
 {
   "import": [
-    "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
     {
       "path": "gmlewis/modus/wit/interface/localtime",
       "alias": "host"

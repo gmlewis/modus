@@ -22,7 +22,9 @@ pub fn now() -> @time.ZonedDateTime!Error {
 
   // Otherwise, let the host get the local time with the current offset applied.
   // @host.get_local_time()
-  @time.unix!(@wallClock.now().seconds.reinterpret_as_int64()) // TODO
+  // @time.unix!(@wallClock.now().seconds.reinterpret_as_int64()) // TODO
+  let (seconds, _nanos) = @host.walltime()
+  @time.unix!(seconds)
 }
 
 ///| now_in_zone returns the current time in the given time zone.

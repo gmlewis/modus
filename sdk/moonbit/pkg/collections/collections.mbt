@@ -258,7 +258,7 @@ pub fn search(
 pub fn search_by_vector(
   collection : String,
   search_method : String,
-  vector : Array[Double],
+  vector : FixedArray[Float],
   opts : Array[SearchOption]
 ) -> CollectionSearchResult!Error {
   if collection == "" {
@@ -485,7 +485,7 @@ pub fn get_vector(
   search_method : String,
   key : String,
   opts : Array[NamespaceOption]
-) -> Array[Double]!Error {
+) -> FixedArray[Float]!Error {
   if collection == "" {
     raise CollectionError("Collection name is required")
   }

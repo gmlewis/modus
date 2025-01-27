@@ -14,11 +14,11 @@ pub fn ok(self : Response) -> Bool {
 }
 
 ///|
-pub fn text(self : Response) -> String {
-  self.body
+pub fn Response::text(self : Response) -> String {
+  self.body.to_string() // TODO
 }
 
 ///|
-pub fn json[T : @json.FromJson](self : Response) -> T!Error {
-  @json.from_json!(@json.parse!(self.body))
+pub fn Response::json[T : @json.FromJson](self : Response) -> T!Error {
+  @json.from_json!(@json.parse!(self.body.to_string())) // TODO
 }
