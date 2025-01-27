@@ -1,8 +1,0 @@
-{
-  "import": [
-    {
-      "path": "gmlewis/modus/wit/ffi",
-      "alias": "ffi"
-    }
-  ]
-}

@@ -1,7 +1,0 @@
-{
-  "import": [
-    "gmlewis/modus/wit/ffi",
-    "gmlewis/modus/wit/interface/imports/wasi/sockets/network",
-    "gmlewis/modus/wit/interface/imports/wasi/sockets/udp"
-  ]
-}

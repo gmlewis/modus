@@ -1,0 +1,8 @@
+// Defines interface for system time and for use with wazero.
+interface clock {
+    // Get the current wall clock time in seconds and nanoseconds since Unix epoch (UTC).
+    walltime: func() -> tuple<u64, u32>
+
+    // Get monotonic time in nanoseconds.
+    nanotime: func() -> u64
+}

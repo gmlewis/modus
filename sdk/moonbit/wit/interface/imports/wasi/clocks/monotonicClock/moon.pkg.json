@@ -1,8 +1,0 @@
-{
-  "import": [
-    {
-      "path": "gmlewis/modus/wit/interface/imports/wasi/io/poll",
-      "alias": "poll"
-    }
-  ]
-}
