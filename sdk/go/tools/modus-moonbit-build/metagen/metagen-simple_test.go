@@ -20,7 +20,7 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-func TestGenerateMetadata(t *testing.T) {
+func TestGenerateMetadata_Simple(t *testing.T) {
 	config := &config.Config{
 		SourceDir: "testdata/simple-example",
 	}
@@ -46,20 +46,20 @@ func TestGenerateMetadata(t *testing.T) {
 		t.Errorf("meta.SDK = %q, want %q", got, want)
 	}
 
-	if diff := cmp.Diff(wantFnExports, meta.FnExports); diff != "" {
+	if diff := cmp.Diff(wantSimpleFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantFnImports, meta.FnImports); diff != "" {
+	if diff := cmp.Diff(wantSimpleFnImports, meta.FnImports); diff != "" {
 		t.Errorf("meta.FnImports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantTypes, meta.Types); diff != "" {
+	if diff := cmp.Diff(wantSimpleTypes, meta.Types); diff != "" {
 		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
 	}
 }
 
-var wantFnExports = metadata.FunctionMap{
+var wantSimpleFnExports = metadata.FunctionMap{
 	"add": {
 		Name:       "add",
 		Parameters: []*metadata.Parameter{{Name: "x", Type: "Int"}, {Name: "y", Type: "Int"}},
@@ -138,9 +138,9 @@ var wantFnExports = metadata.FunctionMap{
 	},
 }
 
-var wantFnImports = metadata.FunctionMap{}
+var wantSimpleFnImports = metadata.FunctionMap{}
 
-var wantTypes = metadata.TypeMap{
+var wantSimpleTypes = metadata.TypeMap{
 	"(String, Int)": {Id: 4, Name: "(String, Int)"},
 	"@simple-example.Person": {
 		Id:   5,
