@@ -1,3 +1,4 @@
+// -*- compile-command: "go generate ./..."; -*-
 //go:build ignore
 
 /*
@@ -16,6 +17,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -27,22 +29,32 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-const (
-	filename = "testdata/simple-example-metadata.json"
+var (
+	genTestCases = []string{"simple-example", "time-example"}
 )
 
 func main() {
 	log.SetFlags(0)
-	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
-
 	_, thisFile, _, _ := runtime.Caller(0)
-	sourceDir := filepath.Join(filepath.Dir(thisFile), "../metagen/testdata")
+	baseDir := filepath.Dir(thisFile)
+
+	for _, name := range genTestCases {
+		genJSON(name, baseDir)
+	}
+
+	log.Printf("Done.")
+}
+
+func genJSON(name, baseDir string) {
+	filename := fmt.Sprintf("testdata/%v-metadata.json", name)
+	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
+	sourceDir := filepath.Join(baseDir, "../metagen/testdata", name)
 
 	config := &config.Config{
 		SourceDir: sourceDir,
 	}
 	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
+		ModulePath:      fmt.Sprintf("github.com/gmlewis/modus/examples/%v", name),
 		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
 	}
 
@@ -59,6 +71,4 @@ func main() {
 	if err := os.WriteFile(filename, buf, 0644); err != nil {
 		log.Fatalf("os.WriteFile: %v", err)
 	}
-
-	log.Printf("Done.")
 }

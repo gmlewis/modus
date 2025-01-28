@@ -48,7 +48,7 @@ func TestAllTestDataIsIdentical(t *testing.T) {
 	}
 
 	config := &config.Config{
-		SourceDir: "metagen/testdata",
+		SourceDir: "metagen/testdata/simple-example",
 	}
 	mod := &modinfo.ModuleInfo{
 		ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
@@ -122,13 +122,13 @@ var codegenMoonModJSON string
 //go:embed codegen/testdata/moon.pkg.json
 var codegenMoonPkgJSON string
 
-//go:embed metagen/testdata/simple-example.mbt
+//go:embed metagen/testdata/simple-example/simple-example.mbt
 var metagenSimpleExample string
 
-//go:embed metagen/testdata/moon.mod.json
+//go:embed metagen/testdata/simple-example/moon.mod.json
 var metagenMoonModJSON string
 
-//go:embed metagen/testdata/moon.pkg.json
+//go:embed metagen/testdata/simple-example/moon.pkg.json
 var metagenMoonPkgJSON string
 
 //go:embed packages/testdata/simple-example.mbt

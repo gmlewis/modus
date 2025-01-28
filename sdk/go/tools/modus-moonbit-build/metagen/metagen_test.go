@@ -22,7 +22,7 @@ import (
 
 func TestGenerateMetadata(t *testing.T) {
 	config := &config.Config{
-		SourceDir: "testdata",
+		SourceDir: "testdata/simple-example",
 	}
 	mod := &modinfo.ModuleInfo{
 		ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
@@ -38,7 +38,7 @@ func TestGenerateMetadata(t *testing.T) {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
 	}
 
-	if got, want := meta.Module, "@testdata"; got != want {
+	if got, want := meta.Module, "@simple-example"; got != want {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
@@ -106,12 +106,12 @@ var wantFnExports = metadata.FunctionMap{
 	"get_name_and_age": {Name: "get_name_and_age", Results: []*metadata.Result{{Type: "(String, Int)"}}},
 	"get_people": {
 		Name:    "get_people",
-		Results: []*metadata.Result{{Type: "Array[@testdata.Person]"}},
+		Results: []*metadata.Result{{Type: "Array[@simple-example.Person]"}},
 	},
-	"get_person": {Name: "get_person", Results: []*metadata.Result{{Type: "@testdata.Person"}}},
+	"get_person": {Name: "get_person", Results: []*metadata.Result{{Type: "@simple-example.Person"}}},
 	"get_random_person": {
 		Name:    "get_random_person",
-		Results: []*metadata.Result{{Type: "@testdata.Person"}},
+		Results: []*metadata.Result{{Type: "@simple-example.Person"}},
 	},
 	"log_message": {
 		Name:       "log_message",
@@ -142,19 +142,19 @@ var wantFnImports = metadata.FunctionMap{}
 
 var wantTypes = metadata.TypeMap{
 	"(String, Int)": {Id: 4, Name: "(String, Int)"},
-	"@testdata.Person": {
+	"@simple-example.Person": {
 		Id:   5,
-		Name: "@testdata.Person",
+		Name: "@simple-example.Person",
 		Fields: []*metadata.Field{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"},
 			{Name: "age", Type: "Int"},
 		},
 	},
-	"@time.ZonedDateTime":     {Id: 6, Name: "@time.ZonedDateTime"},
-	"@wallClock.Datetime":     {Id: 7, Name: "@wallClock.Datetime"},
-	"Array[@testdata.Person]": {Id: 8, Name: "Array[@testdata.Person]"},
-	"Array[Int]":              {Id: 9, Name: "Array[Int]"},
-	"Int":                     {Id: 10, Name: "Int"},
-	"String":                  {Id: 11, Name: "String"},
-	"String?":                 {Id: 12, Name: "String?"},
+	"@time.ZonedDateTime":           {Id: 6, Name: "@time.ZonedDateTime"},
+	"@wallClock.Datetime":           {Id: 7, Name: "@wallClock.Datetime"},
+	"Array[@simple-example.Person]": {Id: 8, Name: "Array[@simple-example.Person]"},
+	"Array[Int]":                    {Id: 9, Name: "Array[Int]"},
+	"Int":                           {Id: 10, Name: "Int"},
+	"String":                        {Id: 11, Name: "String"},
+	"String?":                       {Id: 12, Name: "String?"},
 }

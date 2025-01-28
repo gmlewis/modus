@@ -1,0 +1,53 @@
+{
+  "plugin": "time-example",
+  "module": "@time-example",
+  "sdk": "modus-sdk-mbt@40.11.0",
+  "buildId": "cuchgdnrackd4dau4kdg",
+  "buildTs": "2025-01-28T17:47:34.934Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "50791a86bb223b71d5fc2bca8b2e8b2a310c5f98",
+  "fnExports": {
+    "get_local_time": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_local_time_zone": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "get_time_in_zone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_utc_time": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ]
+    }
+  },
+  "types": {
+    "@time.ZonedDateTime": {
+      "id": 4
+    },
+    "String": {
+      "id": 5
+    }
+  }
+}

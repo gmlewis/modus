@@ -1,11 +1,11 @@
 {
   "plugin": "simple-example",
-  "module": "@testdata",
+  "module": "@simple-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cubffuvrackc7j2bjoh0",
-  "buildTs": "2025-01-27T03:05:31.509Z",
+  "buildId": "cuchgdnrackd4dau4kd0",
+  "buildTs": "2025-01-28T17:47:34.733Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "7519f1c3753cd07cc551d7ed22140a780cbcca7d",
+  "gitCommit": "50791a86bb223b71d5fc2bca8b2e8b2a310c5f98",
   "fnExports": {
     "add": {
       "parameters": [
@@ -142,21 +142,21 @@
     "get_people": {
       "results": [
         {
-          "type": "Array[@testdata.Person]"
+          "type": "Array[@simple-example.Person]"
         }
       ]
     },
     "get_person": {
       "results": [
         {
-          "type": "@testdata.Person"
+          "type": "@simple-example.Person"
         }
       ]
     },
     "get_random_person": {
       "results": [
         {
-          "type": "@testdata.Person"
+          "type": "@simple-example.Person"
         }
       ]
     },
@@ -222,7 +222,7 @@
     "(String, Int)": {
       "id": 4
     },
-    "@testdata.Person": {
+    "@simple-example.Person": {
       "id": 5,
       "fields": [
         {
@@ -245,7 +245,7 @@
     "@wallClock.Datetime": {
       "id": 7
     },
-    "Array[@testdata.Person]": {
+    "Array[@simple-example.Person]": {
       "id": 8
     },
     "Array[Int]": {
