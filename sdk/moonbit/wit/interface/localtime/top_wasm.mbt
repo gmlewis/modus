@@ -2,17 +2,21 @@
 
 ///|
 pub fn get_time_in_zone(timezone : String) -> String {
-  let return_area = @ffi.malloc(8)
-  wasmImportGetTimeInZone(
-    @ffi.str2ptr(timezone),
-    timezone.iter().count(),
-    return_area,
-  )
-  ignore(@ffi.load32(return_area + 4))
-  let result = @ffi.ptr2str(@ffi.load32(return_area + 0))
-  ignore(timezone)
-  @ffi.free(return_area)
-  return result
+  // let return_area = @ffi.malloc(8)
+  // wasmImportGetTimeInZone(
+  //   @ffi.str2ptr(timezone),
+  //   timezone.iter().count(),
+  //   return_area,
+  // )
+  // ignore(@ffi.load32(return_area + 4))
+  // let result = @ffi.ptr2str(@ffi.load32(return_area + 0))
+  // ignore(timezone)
+  // @ffi.free(return_area)
+  // return result
+
+  let ptr = wasmImportGetTimeInZone(0) // TODO
+  println("GML: wit/interface/localtime: get_time_in_zone: ptr: \{ptr}")
+  ""
 }
 
 ///|

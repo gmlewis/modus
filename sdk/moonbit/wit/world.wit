@@ -16,8 +16,7 @@ world modus {
     import models;
 
     // System utilities
-    import clock;
     import console;
     import localtime;
-    import random;
+    import wasi;
 }

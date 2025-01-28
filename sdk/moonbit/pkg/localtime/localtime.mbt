@@ -23,8 +23,7 @@ pub fn now() -> @time.ZonedDateTime!Error {
   // Otherwise, let the host get the local time with the current offset applied.
   // @host.get_local_time()
   // @time.unix!(@wallClock.now().seconds.reinterpret_as_int64()) // TODO
-  let (seconds, _nanos) = @clock.walltime()
-  @time.unix!(seconds.reinterpret_as_int64())
+  @time.unix!(@wasi.now())
 }
 
 ///| now_in_zone returns the current time in the given time zone.
@@ -42,15 +41,16 @@ pub fn now_in_zone(timezone : String) -> @time.ZonedDateTime!Error {
   println(
     "GML: pkg/localtime: now_in_zone: timezone: \{timezone}, result: \{result}",
   )
-  let (seconds, _nanos) = @clock.walltime()
-  @time.unix!(seconds.reinterpret_as_int64())
+  @time.unix!(@wasi.now())
 }
 
 ///| get_time_zone returns the local time zone identifier, in IANA format.
 pub fn get_time_zone() -> String {
-  let env_vars = @sys.get_env_vars()
-  println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
-  env_vars["TZ"].or("")
+  // let env_vars = @sys.get_env_vars()
+  // println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
+  // env_vars["TZ"].or("")
+  println("GML: pkg/localtime: get_time_zone")
+  "TODO"
 }
 
 ///| get_location returns the @time.Zone for the given time zone.

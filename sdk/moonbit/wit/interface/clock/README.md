@@ -1,1 +1,0 @@
-Defines interface for system time and for use with wazero.

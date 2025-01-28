@@ -5,7 +5,7 @@
 // NOTES:
 //
 // - To get the local time, you should use the `localtime` package provided by Modus - as shown in the examples below.
-//   If you actually want UTC, you should prefer `@time.unix!(@wallClock.now())`.
+//   If you actually want UTC, you should prefer `@time.unix!(@wasi.now())`.
 //
 // - If you return a `@time.ZonedDateTime` object to Modus, it will be converted to UTC - regardless of the time zone.
 //   Thus, if you need to return a time object to Modus, you should return a formatted string instead - Preferably in RFC3339 (ISO 8601) format.
@@ -13,14 +13,14 @@
 ///|
 // Returns the current time in UTC.
 pub fn get_utc_time() -> @time.ZonedDateTime!Error {
-  let (seconds, _) = @clock.walltime()
-  let now = seconds.reinterpret_as_int64()
-  @time.unix!(now)
+  println("GML: get_utc_time")
+  @time.unix!(@wasi.now())
 }
 
 ///|
 // Returns the current local time.
 pub fn get_local_time() -> String!Error {
+  println("GML: get_local_time")
   let now = @localtime.now!()
   // now.format(@localtime.RFC3339)
   now.to_string()
@@ -29,6 +29,7 @@ pub fn get_local_time() -> String!Error {
 ///|
 // Returns the current time in a specified time zone.
 pub fn get_time_in_zone(tz : String) -> String!Error {
+  println("GML: get_time_in_zone: tz: \{tz}")
   let now = @localtime.now_in_zone!(tz)
   // now.format(@localtime.RFC3339)
   now.to_string()
@@ -37,6 +38,7 @@ pub fn get_time_in_zone(tz : String) -> String!Error {
 ///|
 // Returns the local time zone identifier.
 pub fn get_local_time_zone() -> String {
+  println("GML: get_local_time_zone")
   @localtime.get_time_zone()
 }
 

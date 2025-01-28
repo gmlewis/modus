@@ -1,6 +1,6 @@
 {
   "import": [
-    "gmlewis/modus/wit/interface/clock",
+    "gmlewis/modus/wit/interface/wasi",
     {
       "path": "gmlewis/modus/wit/interface/localtime",
       "alias": "host"
