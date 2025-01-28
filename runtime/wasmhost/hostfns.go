@@ -96,6 +96,7 @@ func (host *wasmHost) RegisterHostFunction(modName, funcName string, fn any, opt
 
 func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...HostFunctionOption) (*hostFunction, error) {
 	fullName := modName + "." + funcName
+	log.Printf("GML: hostfns.go: newHostFunction: fullName='%v'", fullName)
 	rvFunc := reflect.ValueOf(fn)
 	if rvFunc.Kind() != reflect.Func {
 		return nil, fmt.Errorf("host function %s is not a function type", fullName)
@@ -203,6 +204,7 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 
 	// Make the host function wrapper
 	hf.function = wasm.GoFunc(func(ctx context.Context, stack []uint64) {
+		log.Printf("GML: hostfns.go: wasm.GoFunc callback for fullName='%v'", fullName)
 		span, ctx := utils.NewSentrySpanForCurrentFunc(ctx)
 		defer span.Finish()
 

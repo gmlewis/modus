@@ -24,20 +24,23 @@ pub fn get_time_zone_data(
   timezone : String,
   format : String
 ) -> FixedArray[Byte] {
-  let return_area = @ffi.malloc(8)
-  wasmImportGetTimeZoneData(
-    @ffi.str2ptr(timezone),
-    timezone.iter().count(),
-    @ffi.str2ptr(format),
-    format.iter().count(),
-    return_area,
-  )
-  let result = @ffi.ptr2bytes(
-    @ffi.load32(return_area + 0),
-    @ffi.load32(return_area + 4),
-  )
-  ignore(timezone)
-  ignore(format)
-  @ffi.free(return_area)
-  return result
+  // let return_area = @ffi.malloc(8)
+  // wasmImportGetTimeZoneData(
+  //   @ffi.str2ptr(timezone),
+  //   timezone.iter().count(),
+  //   @ffi.str2ptr(format),
+  //   format.iter().count(),
+  //   return_area,
+  // )
+  // let result = @ffi.ptr2bytes(
+  //   @ffi.load32(return_area + 0),
+  //   @ffi.load32(return_area + 4),
+  // )
+  // ignore(timezone)
+  // ignore(format)
+  // @ffi.free(return_area)
+  // return result
+  let ptr = wasmImportGetTimeZoneData(0, 0) // TODO
+  println("GML: wit/interface/localtime: get_time_zone_data: ptr: \{ptr}")
+  []
 }

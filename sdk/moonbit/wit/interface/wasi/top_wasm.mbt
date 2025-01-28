@@ -18,12 +18,16 @@ pub fn clock_time_get(
   clockid : UInt,
   precision : UInt64
 ) -> Result[UInt64, UInt] {
+  println(
+    "GML: wit/interface/wasi: clock_time_get: clockid: \{clockid}, precision: \{precision}",
+  )
   let return_area = @ffi.malloc(16)
-  wasmImportClockTimeGet(
+  let result = wasmImportClockTimeGet(
     clockid.reinterpret_as_int(),
     precision.reinterpret_as_int64(),
     return_area,
   )
+  println("GML: wit/interface/wasi: clock_time_get: result: \{result}")
   let lifted = match @ffi.load8_u(return_area + 0) {
     0 => Result::Ok(@ffi.load64(return_area + 8).reinterpret_as_uint64())
     1 => Result::Err(@ffi.load32(return_area + 8).reinterpret_as_uint())

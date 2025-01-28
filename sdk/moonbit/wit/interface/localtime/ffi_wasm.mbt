@@ -3,4 +3,4 @@
 fn wasmImportGetTimeInZone(p0 : Int) -> Int = "modus_system" "getTimeInZone"
 
 ///|
-fn wasmImportGetTimeZoneData(p0 : Int, p1 : Int, p2 : Int, p3 : Int, p4 : Int) = "modus_system" "getTimeZoneData"
+fn wasmImportGetTimeZoneData(p0 : Int, p1 : Int) -> Int = "modus_system" "getTimeZoneData"

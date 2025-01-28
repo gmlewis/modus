@@ -13,14 +13,14 @@
 ///|
 // Returns the current time in UTC.
 pub fn get_utc_time() -> @time.ZonedDateTime!Error {
-  println("GML: get_utc_time")
+  println("GML: main.mbt: get_utc_time")
   @time.unix!(@wasi.now())
 }
 
 ///|
 // Returns the current local time.
 pub fn get_local_time() -> String!Error {
-  println("GML: get_local_time")
+  println("GML: main.mbt: get_local_time")
   let now = @localtime.now!()
   // now.format(@localtime.RFC3339)
   now.to_string()
@@ -29,7 +29,7 @@ pub fn get_local_time() -> String!Error {
 ///|
 // Returns the current time in a specified time zone.
 pub fn get_time_in_zone(tz : String) -> String!Error {
-  println("GML: get_time_in_zone: tz: \{tz}")
+  println("GML: main.mbt: get_time_in_zone: tz: \{tz}")
   let now = @localtime.now_in_zone!(tz)
   // now.format(@localtime.RFC3339)
   now.to_string()
@@ -38,7 +38,7 @@ pub fn get_time_in_zone(tz : String) -> String!Error {
 ///|
 // Returns the local time zone identifier.
 pub fn get_local_time_zone() -> String {
-  println("GML: get_local_time_zone")
+  println("GML: main.mbt: get_local_time_zone")
   @localtime.get_time_zone()
 }
 

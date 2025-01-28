@@ -50,6 +50,8 @@ pub fn get_time_zone() -> String {
   // println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
   // env_vars["TZ"].or("")
   println("GML: pkg/localtime: get_time_zone")
+  let result = @host.get_time_zone_data("", RFC3339)
+  println("GML: pkg/localtime: get_time_zone: result: \{result}")
   "TODO"
 }
 
