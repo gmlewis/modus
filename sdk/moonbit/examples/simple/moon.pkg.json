@@ -1,7 +1,7 @@
 {
   "import": [
     "gmlewis/modus/pkg/console",
-    "gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock",
+    "gmlewis/modus/wit/interface/wasi",
     "moonbitlang/x/sys",
     "moonbitlang/x/time"
   ],

@@ -57,6 +57,9 @@ func TestGenerateMetadata_Time(t *testing.T) {
 	if diff := cmp.Diff(wantTimeTypes, meta.Types); diff != "" {
 		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
 	}
+
+	// This call makes it easy to step through the code with a debugger:
+	// LogToConsole(meta)
 }
 
 var wantTimeFnExports = metadata.FunctionMap{

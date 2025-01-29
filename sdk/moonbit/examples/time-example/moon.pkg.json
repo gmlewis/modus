@@ -19,6 +19,7 @@
         "__modus_get_local_time:get_local_time",
         "__modus_get_local_time_zone:get_local_time_zone",
         "__modus_get_time_in_zone:get_time_in_zone",
+        "__modus_get_time_zone_info:get_time_zone_info",
         "__modus_get_utc_time:get_utc_time",
         "bytes2ptr",
         "cabi_realloc",
