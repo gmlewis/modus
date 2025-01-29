@@ -15,23 +15,25 @@ pub fn clock_res_get(clockid : UInt) -> Result[UInt64, UInt] {
 
 ///| Get the current time of a clock.
 pub fn clock_time_get(
+  /// clockid: The clock for which to return the time.
+  /// 0: Realtime
+  /// 1: Monotonic
+  /// 2: Process CPUTime
+  /// 3: Thread CPUTime
   clockid : UInt,
+  /// precision: The maximum lag (exclusive) that the returned time may have, compared to its actual value.
+  /// Note that the precision parameter is simply a hint, but does not change the resolution of the result.
   precision : UInt64
 ) -> Result[UInt64, UInt] {
-  println(
-    "GML: wit/interface/wasi: clock_time_get: clockid: \{clockid}, precision: \{precision}",
-  )
-  let return_area = @ffi.malloc(16)
+  let return_area = @ffi.malloc(8)
   let result = wasmImportClockTimeGet(
     clockid.reinterpret_as_int(),
     precision.reinterpret_as_int64(),
     return_area,
   )
-  println("GML: wit/interface/wasi: clock_time_get: result: \{result}")
-  let lifted = match @ffi.load8_u(return_area + 0) {
-    0 => Result::Ok(@ffi.load64(return_area + 8).reinterpret_as_uint64())
-    1 => Result::Err(@ffi.load32(return_area + 8).reinterpret_as_uint())
-    _ => panic()
+  let lifted = match result {
+    0 => Result::Ok(@ffi.load64(return_area).reinterpret_as_uint64())
+    _ => Result::Err(result.reinterpret_as_uint())
   }
   @ffi.free(return_area)
   return lifted

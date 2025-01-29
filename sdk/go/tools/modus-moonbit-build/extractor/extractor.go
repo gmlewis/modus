@@ -47,6 +47,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		if strings.Contains(returnType, "@time.") {
 			meta.FnImports["modus_system.getTimeInZone"] = moonBitFnImports["modus_system.getTimeInZone"]
 			meta.FnImports["modus_system.getTimeZoneData"] = moonBitFnImports["modus_system.getTimeZoneData"]
+			requiredTypes["Array[Byte]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Byte]", nil), nil, nil)
 		}
 		if strings.Contains(returnType, "!") {
 			meta.FnImports["modus_system.logMessage"] = moonBitFnImports["modus_system.logMessage"]

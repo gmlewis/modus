@@ -5,7 +5,7 @@
 // NOTES:
 //
 // - To get the local time, you should use the `localtime` package provided by Modus - as shown in the examples below.
-//   If you actually want UTC, you should prefer `@time.unix!(@wasi.now())`.
+//   If you actually want UTC, you should prefer `@time.unix!(@wasi.now()/1_000_000_000)`.
 //
 // - If you return a `@time.ZonedDateTime` object to Modus, it will be converted to UTC - regardless of the time zone.
 //   Thus, if you need to return a time object to Modus, you should return a formatted string instead - Preferably in RFC3339 (ISO 8601) format.
@@ -13,8 +13,14 @@
 ///|
 /// Returns the current time in UTC.
 pub fn get_utc_time() -> @time.ZonedDateTime!Error {
-  println("GML: main.mbt: get_utc_time")
-  @time.unix!(@wasi.now())
+  let now_nanos = @wasi.now()
+  let seconds = now_nanos / 1_000_000_000
+  let nanosecond = (now_nanos % 1_000_000_000).to_int()
+  let result = @time.unix!(seconds, nanosecond~)
+  println(
+    "GML: main.mbt: get_utc_time: now_nanos=\{now_nanos}, result=\{result}",
+  )
+  result
 }
 
 ///|
