@@ -13,11 +13,13 @@ type! LocaltimeError String derive(Show, Eq)
 /// - If the TZ environment variable is set on the host, the time zone is set to the value of the variable.
 /// - Otherwise, the time zone is set to the host's local time zone.
 pub fn now() -> @time.ZonedDateTime!Error {
+  println("GML: pkg/localtime: now")
 
   // Try to return a time with the proper full time zone.
   let timezone = get_time_zone()
+  println("GML: pkg/localtime: now: timezone: \{timezone}")
   let result = @host.get_time_in_zone(timezone)
-  println("GML: pkg/localtime: now: timezone: \{timezone}, result: \{result}")
+  println("GML: pkg/localtime: now: result: \{result}")
   // return time.Now().In(loc), nil
 
   // Otherwise, let the host get the local time with the current offset applied.

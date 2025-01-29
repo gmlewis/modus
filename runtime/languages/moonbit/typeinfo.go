@@ -428,8 +428,8 @@ func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string
 		log.Printf("GML: typeinfo.go: A: GetEncodingLengthOfType('%v') = 1", typ)
 		return 1, nil
 	} else if lti.IsStringType(typ) {
-		log.Printf("GML: typeinfo.go: B: GetEncodingLengthOfType('%v') = 2", typ)
-		return 2, nil
+		log.Printf("GML: typeinfo.go: B: GetEncodingLengthOfType('%v') = 1", typ)
+		return 1, nil
 	} else if lti.IsSliceType(typ) || lti.IsTimestampType(typ) {
 		log.Printf("GML: typeinfo.go: C: GetEncodingLengthOfType('%v') = 3", typ)
 		return 3, nil

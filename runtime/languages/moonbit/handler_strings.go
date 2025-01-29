@@ -80,6 +80,10 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
 	}
 
+	if vals[0] == 0 {
+		return nil, nil
+	}
+
 	data, err := stringDataAtOffset(wa, uint32(vals[0]))
 	if err != nil {
 		return "", err

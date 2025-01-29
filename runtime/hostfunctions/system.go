@@ -58,19 +58,20 @@ func GetTimeInZone(ctx context.Context, tz *string) *string {
 	log.SetFlags(0)
 	if tz != nil {
 		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: tz: '%v'", *tz)
-	} else {
-		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: tz: nil")
 	}
 	now := time.Now()
+	log.Printf("GML: hostfunctions/system.go: GetTimeInZone: now: '%v'", now)
 
 	var loc *time.Location
 	if tz != nil && *tz != "" {
 		loc = timezones.GetLocation(*tz)
 	} else if tz, ok := ctx.Value(utils.TimeZoneContextKey).(string); ok {
+		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: tz=nil: local tz: '%v'", tz)
 		loc = timezones.GetLocation(tz)
 	}
 
 	if loc == nil {
+		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: loc: nil - returning nil")
 		return nil
 	}
 

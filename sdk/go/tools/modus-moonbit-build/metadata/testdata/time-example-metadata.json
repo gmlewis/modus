@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cucoiivracka90kap3j0",
-  "buildTs": "2025-01-29T01:50:03.418Z",
+  "buildId": "cud7chfrack6mtakhdcg",
+  "buildTs": "2025-01-29T18:41:09.377Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "2a62035a8b2ab307f8be8dd8824a1a26486c438b",
+  "gitCommit": "f78eb7dcb02f346740588e1dde68be48c7db225a",
   "fnExports": {
     "get_local_time": {
       "results": [
@@ -149,8 +149,11 @@
     "@time.ZonedDateTime": {
       "id": 5
     },
-    "String": {
+    "Array[Byte]": {
       "id": 6
+    },
+    "String": {
+      "id": 7
     }
   }
 }

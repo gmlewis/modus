@@ -216,8 +216,9 @@ var wantSimpleTypes = metadata.TypeMap{
 	"@time.ZonedDateTime":           {Id: 6, Name: "@time.ZonedDateTime"},
 	"@wallClock.Datetime":           {Id: 7, Name: "@wallClock.Datetime"},
 	"Array[@simple-example.Person]": {Id: 8, Name: "Array[@simple-example.Person]"},
-	"Array[Int]":                    {Id: 9, Name: "Array[Int]"},
-	"Int":                           {Id: 10, Name: "Int"},
-	"String":                        {Id: 11, Name: "String"},
-	"String?":                       {Id: 12, Name: "String?"},
+	"Array[Byte]":                   {Id: 9, Name: "Array[Byte]"},
+	"Array[Int]":                    {Id: 10, Name: "Array[Int]"},
+	"Int":                           {Id: 11, Name: "Int"},
+	"String":                        {Id: 12, Name: "String"},
+	"String?":                       {Id: 13, Name: "String?"},
 }

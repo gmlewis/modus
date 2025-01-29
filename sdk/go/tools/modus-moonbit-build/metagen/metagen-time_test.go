@@ -139,5 +139,6 @@ var wantTimeTypes = metadata.TypeMap{
 		},
 	},
 	"@time.ZonedDateTime": {Id: 5, Name: "@time.ZonedDateTime"},
-	"String":              {Id: 6, Name: "String"},
+	"Array[Byte]":         {Id: 6, Name: "Array[Byte]"},
+	"String":              {Id: 7, Name: "String"},
 }

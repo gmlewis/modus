@@ -273,6 +273,7 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 			}
 		}
 
+		log.Printf("GML: hostfns.go: newHostFunction: inputs=%+v", inputs)
 		// Prepare to call the host function
 		results := make([]any, 0, numResults)
 		wrappedFn := func() error {
@@ -312,9 +313,11 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 		}
 
 		// Call the host function
+		log.Printf("GML: hostfns.go: wrappedFn: calling host function: %v", fullName)
 		if ok := callHostFunction(ctx, wrappedFn, msgs); !ok {
 			return
 		}
+		log.Printf("GML: hostfns.go: wrappedFn: host function %v returned results: %+v", fullName, results)
 
 		// Encode the results (if there are any)
 		if len(results) > 0 {
@@ -353,7 +356,7 @@ func (host *wasmHost) instantiateHostFunctions(ctx context.Context) error {
 }
 
 func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupport.ExecutionPlan, stack []uint64, params []any) error {
-
+	log.Printf("GML: hostfns.go: decodeParams: stack: %+v, params: %+v", stack, params)
 	// regardless of the outcome, ensure parameter values are cleared from the stack before returning
 	indirect := false
 	defer func() {
@@ -379,13 +382,16 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 
 	for i, handler := range plan.ParamHandlers() {
 		encLength := int(handler.TypeInfo().EncodingLength())
+		log.Printf("GML: hostfns.go: decodeParams: params[%v]: encLength: %v, stackPos: %v, stack: %+v", i, encLength, stackPos, stack)
 		vals := stack[stackPos : stackPos+encLength]
 		stackPos += encLength
 
+		log.Printf("GML: hostfns.go: decodeParams: calling handler.Decode for params[%v]: vals: %+v", i, vals)
 		data, err := handler.Decode(ctx, wa, vals)
 		if err != nil {
 			return err
 		}
+		log.Printf("GML: hostfns.go: decodeParams: handler.Decode for params[%v] returned: data: %+v", i, data)
 		if data == nil {
 			continue
 		}
@@ -393,6 +399,7 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 		// special case for structs represented as maps
 		switch m := data.(type) {
 		case map[string]any:
+			log.Printf("GML: hostfns.go: decodeParams: params[%v]: map[string]any: m: %+v", i, m)
 			if _, ok := (params[i]).(map[string]any); !ok {
 				if err := utils.MapToStruct(m, &params[i]); err != nil {
 					return err
@@ -400,6 +407,7 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 				continue
 			}
 		case *map[string]any:
+			log.Printf("GML: hostfns.go: decodeParams: params[%v]: *map[string]any: m: %+v", i, m)
 			if _, ok := (params[i]).(*map[string]any); !ok {
 				if err := utils.MapToStruct(*m, &params[i]); err != nil {
 					return err
@@ -410,16 +418,19 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 
 		// special case for pointers that need to be dereferenced
 		if handler.TypeInfo().ReflectedType().Kind() == reflect.Ptr && reflect.TypeOf(params[i]).Kind() != reflect.Ptr {
+			log.Printf("GML: hostfns.go: decodeParams: params[%v]: calling utils.DereferencePointer: data: %+v", i, data)
 			params[i] = utils.DereferencePointer(data)
 			continue
 		}
 
 		// special case for non-pointers that need to be converted to pointers
 		if handler.TypeInfo().ReflectedType().Kind() != reflect.Ptr && reflect.TypeOf(params[i]).Kind() == reflect.Ptr {
+			log.Printf("GML: hostfns.go: decodeParams: params[%v]: calling utils.MakePointer: data: %+v", i, data)
 			params[i] = utils.MakePointer(data)
 			continue
 		}
 
+		log.Printf("GML: hostfns.go: decodeParams: params[%v] = data: %+v", i, data)
 		params[i] = data
 	}
 
