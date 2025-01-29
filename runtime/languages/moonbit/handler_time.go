@@ -91,7 +91,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	//   offset : ZoneOffset
 	// }
 	// So although a lot more information is returned, we only need the wall and ext values to create a time.Time.
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
 	if err != nil {
 		return nil, err
 	}
@@ -103,18 +103,18 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	// zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
 	// offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
 
-	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr, true)
+	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr)
 	if err != nil {
 		return nil, err
 	}
 
 	plainDatePtr := binary.LittleEndian.Uint32(datetime[8:])
 	plainTimePtr := binary.LittleEndian.Uint32(datetime[12:])
-	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr, true)
+	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr)
 	if err != nil {
 		return nil, err
 	}
-	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr, true)
+	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr)
 	if err != nil {
 		return nil, err
 	}
@@ -125,28 +125,28 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	minute := binary.LittleEndian.Uint32(plainTime[12:])
 	second := binary.LittleEndian.Uint32(plainTime[16:])
 	nanosecond := binary.LittleEndian.Uint32(plainTime[20:])
-	log.Printf("GML: plainDate=%+v, plainTime=%+v, year=%v, month=%v, day=%v, hour=%v, minute=%v, second=%v, nanosecond=%v", plainDate, plainTime, year, month, day, hour, minute, second, nanosecond)
+	// log.Printf("GML: plainDate=%+v, plainTime=%+v, year=%v, month=%v, day=%v, hour=%v, minute=%v, second=%v, nanosecond=%v", plainDate, plainTime, year, month, day, hour, minute, second, nanosecond)
 
 	return time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), int(nanosecond), time.UTC), nil
 
-	// zone, _, err := memoryBlockAtOffset(wa, zonePtr, true)
+	// zone, _, err := memoryBlockAtOffset(wa, zonePtr)
 	// if err != nil {
 	// return nil, err
 	// }
 
 	// zoneIDPtr := binary.LittleEndian.Uint32(zone[8:])
 	// zoneOffsetsPtr := binary.LittleEndian.Uint32(zone[12:])
-	// zoneID, _, err := memoryBlockAtOffset(wa, zoneIDPtr, true)
+	// zoneID, _, err := memoryBlockAtOffset(wa, zoneIDPtr)
 	// if err != nil {
 	// return nil, err
 	// }
-	// zoneOffsets, _, err := memoryBlockAtOffset(wa, zoneOffsetsPtr, true)
+	// zoneOffsets, _, err := memoryBlockAtOffset(wa, zoneOffsetsPtr)
 	// if err != nil {
 	// return nil, err
 	// }
 	// log.Printf("GML: zoneID=%+v, zoneOffsets=%+v", zoneID, zoneOffsets)
 
-	// offset, _, err := memoryBlockAtOffset(wa, offsetPtr, true)
+	// offset, _, err := memoryBlockAtOffset(wa, offsetPtr)
 	// if err != nil {
 	// return nil, err
 	// }
@@ -154,15 +154,15 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	// zoneOffsetIDPtr := binary.LittleEndian.Uint32(offset[8:])
 	// zoneOffsetSecondsPtr := binary.LittleEndian.Uint32(offset[12:])
 	// zoneOffsetDSTPtr := binary.LittleEndian.Uint32(offset[16:])
-	// zoneOffsetID, _, err := memoryBlockAtOffset(wa, zoneOffsetIDPtr, true)
+	// zoneOffsetID, _, err := memoryBlockAtOffset(wa, zoneOffsetIDPtr)
 	// if err != nil {
 	// return nil, err
 	// }
-	// zoneOffsetSeconds, _, err := memoryBlockAtOffset(wa, zoneOffsetSecondsPtr, true)
+	// zoneOffsetSeconds, _, err := memoryBlockAtOffset(wa, zoneOffsetSecondsPtr)
 	// if err != nil {
 	// return nil, err
 	// }
-	// zoneOffsetDST, _, err := memoryBlockAtOffset(wa, zoneOffsetDSTPtr, true)
+	// zoneOffsetDST, _, err := memoryBlockAtOffset(wa, zoneOffsetDSTPtr)
 	// if err != nil {
 	// return nil, err
 	// }
