@@ -40,13 +40,19 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
-	if len(typ) < 8 {
+	switch {
+	case strings.HasPrefix(typ, "Array["): // Array[T]
+		result := strings.TrimSuffix(strings.TrimPrefix(typ, "Array["), "]")
+		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		return result
+	case strings.HasPrefix(typ, "FixedArray["): // FixedArray[T]
+		result := strings.TrimSuffix(strings.TrimPrefix(typ, "FixedArray["), "]")
+		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		return result
+	default:
 		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
 		return ""
 	}
-	result := typ[6 : len(typ)-1] // Array[...]
-	log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
-	return result
 }
 
 func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {

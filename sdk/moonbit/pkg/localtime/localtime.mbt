@@ -52,7 +52,7 @@ pub fn get_time_zone() -> String {
   // println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
   // env_vars["TZ"].or("")
   println("GML: pkg/localtime: get_time_zone")
-  let result = @host.get_time_zone_data("", RFC3339)
+  let result = @host.get_time_zone_data("", "tzif")
   println("GML: pkg/localtime: get_time_zone: result: \{result}")
   "TODO"
 }
@@ -65,7 +65,7 @@ pub fn get_location(timezone : String) -> @time.Zone!Error {
   }
   // @host.get_time_location(timezone)
   // @time.zone!(timezone)
-  let result = @host.get_time_zone_data(timezone, RFC3339)
+  let result = @host.get_time_zone_data(timezone, "tzif")
   println(
     "GML: pkg/localtime: get_location: timezone: \{timezone}, result: \{result}",
   )

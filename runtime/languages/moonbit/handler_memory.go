@@ -20,7 +20,9 @@ import (
 
 var moonBitBlockType = map[byte]string{
 	0:   "Tuple",
+	241: "FixedArray[Int]", // Also FixedArray[UInt]
 	243: "String",
+	246: "FixedArray[Byte]",
 }
 
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {

@@ -189,9 +189,9 @@ func convertGoUTF8ToUTF16(str string) []byte {
 }
 
 func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAdapter, bytes []byte) (uint32, utils.Cleaner, error) {
-	const id = 2 // ID for string is always 2
+	const classID = 2 // classID for string is always 2
 	size := uint32(len(bytes))
-	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
+	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, classID)
 	if err != nil {
 		return 0, cln, err
 	}

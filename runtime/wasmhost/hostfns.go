@@ -438,6 +438,7 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 }
 
 func encodeResults(ctx context.Context, wa langsupport.WasmAdapter, plan langsupport.ExecutionPlan, stack []uint64, results []any) error {
+	log.Printf("GML: hostfns.go: encodeResults: stack: %+v, len(results): %v", stack, len(results))
 
 	expected := len(plan.ResultHandlers())
 	if len(results) != expected {
@@ -452,18 +453,21 @@ func encodeResults(ctx context.Context, wa langsupport.WasmAdapter, plan langsup
 	stackPos := 0
 
 	for i, handler := range plan.ResultHandlers() {
+		log.Printf("GML: hostfns.go: encodeResults: calling handler.Encode for results[%v]: %+v", i, results[i])
 		vals, cln, err := handler.Encode(ctx, wa, results[i])
 		cleaner.AddCleaner(cln)
 		if err != nil {
 			return err
 		}
 
+		log.Printf("GML: hostfns.go: encodeResults: handler.Encode RETURNED results[%v]: vals: %+v", i, vals)
 		for _, v := range vals {
 			stack[stackPos] = v
 			stackPos++
 		}
 	}
 
+	log.Printf("GML: hostfns.go: encodeResults: CALLING cleaner.Clean")
 	return cleaner.Clean()
 }
 

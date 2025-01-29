@@ -139,9 +139,10 @@ func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID u
 	}
 
 	cln := utils.NewCleanerN(1)
-	cln.AddCleanup(func() error {
-		return wa.freeWasmMemory(ctx, ptr)
-	})
+	// TODO: Figure out _WHEN_ to clean up the memory so that results can be passed to other wasm functions.
+	// cln.AddCleanup(func() error {
+	// 	return wa.freeWasmMemory(ctx, ptr)
+	// })
 
 	return ptr, cln, nil
 }

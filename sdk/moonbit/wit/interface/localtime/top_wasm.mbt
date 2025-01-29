@@ -40,7 +40,29 @@ pub fn get_time_zone_data(
   // ignore(format)
   // @ffi.free(return_area)
   // return result
+
+  // This crashes because the host is expecting Go-style pointers to strings:
+  // let ptr = wasmImportGetTimeZoneData(
+  //   @ffi.str2ptr(timezone),
+  //   @ffi.str2ptr(format),
+  // )
+
   let ptr = wasmImportGetTimeZoneData(0, 0) // TODO
   println("GML: wit/interface/localtime: get_time_zone_data: ptr: \{ptr}")
-  []
+  let h0 = @ffi.load8(ptr)
+  let h1 = @ffi.load8(ptr + 1)
+  let h2 = @ffi.load8(ptr + 2)
+  let h3 = @ffi.load8(ptr + 3)
+  let h4 = @ffi.load8(ptr + 4)
+  let h5 = @ffi.load8(ptr + 5)
+  let h6 = @ffi.load8(ptr + 6)
+  let h7 = @ffi.load8(ptr + 7)
+  let h8 = @ffi.load8(ptr + 8)
+  let h9 = @ffi.load8(ptr + 9)
+  let h10 = @ffi.load8(ptr + 10)
+  let h11 = @ffi.load8(ptr + 11)
+  let h12 = @ffi.load8(ptr + 12)
+  let header = [h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12]
+  println("GML: wit/interface/localtime: get_time_zone_data: header: \{header}")
+  @ffi.ptr2bytes(ptr, 0)
 }

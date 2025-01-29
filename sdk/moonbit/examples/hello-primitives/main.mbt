@@ -1,4 +1,33 @@
 ///|
+// pub fn hello_fixed_array_byte(n~ : Int = 3) -> FixedArray[Byte] {
+//   let result = FixedArray::makei(n, fn(x) { (x + 1).to_byte() })
+//   println("hello_fixed_array_byte: returning \{result}")
+//   result
+// }
+
+///|
+// pub fn hello_array_byte(n~ : Int = 3) -> Array[Byte] {
+//   let result = Array::makei(n, fn(x) { (x + 1).to_byte() })
+//   println("hello_array_byte: returning \{result}")
+//   result
+// }
+
+///|
+// pub fn yo3_bytes() -> FixedArray[Byte] {
+//   [1, 2, 3]
+// }
+
+///|
+// pub fn yo3_ints() -> FixedArray[Int] {
+//   [1, 2, 3]
+// }
+
+///|
+// pub fn yo3_uints() -> FixedArray[UInt] {
+//   [1, 2, 3]
+// }
+
+///|
 pub fn hello_primitive_bool_min() -> Bool {
   let result = false
   println("hello_primitive_bool_min: returning \{result}")
