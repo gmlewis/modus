@@ -42,8 +42,15 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 	if len(dbgHackToRemove) > 0 {
 		moonBitType := memBlockHeader[4]
 		moonBitTypeName := moonBitBlockType[moonBitType]
-		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
-			offset, size, moonBitType, moonBitTypeName, words, memBlock)
+		if moonBitTypeName == "String" {
+			data, _ := stringDataFromMemBlock(memBlock, words) // ignore errors during debugging
+			s, _ := doReadString(data)
+			log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
+				offset, size, moonBitType, moonBitTypeName, words, memBlock, s)
+		} else {
+			log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
+				offset, size, moonBitType, moonBitTypeName, words, memBlock)
+		}
 	}
 	return memBlock, words, nil
 }

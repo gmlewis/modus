@@ -11,7 +11,9 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
+	"fmt"
 	"log"
 	"time"
 	"unsafe"
@@ -77,14 +79,101 @@ func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, off
 func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	log.Printf("GML: handler_time.go: timeHandler.Decode(vals: %+v)", vals)
 
-	if len(vals) != 3 {
-		return nil, errors.New("decodeTime: expected 3 values")
+	if len(vals) != 1 {
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding time but got %v: %+v", len(vals), vals)
 	}
 
-	wall, ext := vals[0], int64(vals[1])
-	// skip loc - we only support UTC
+	// MoonBit is configured to return a @time.ZonedDateTime from the moonbitlang/x/time package:
+	// A datetime with a time zone and offset in the ISO 8601 calendar system.
+	// struct ZonedDateTime {
+	//   datetime : PlainDateTime
+	//   zone : Zone
+	//   offset : ZoneOffset
+	// }
+	// So although a lot more information is returned, we only need the wall and ext values to create a time.Time.
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	if err != nil {
+		return nil, err
+	}
+	if len(memBlock) != 20 {
+		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding time but got %v: %+v", len(memBlock), memBlock)
+	}
 
-	return timeFromVals(wall, ext), nil
+	datetimePtr := binary.LittleEndian.Uint32(memBlock[8:])
+	// zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
+	// offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
+
+	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr, true)
+	if err != nil {
+		return nil, err
+	}
+
+	plainDatePtr := binary.LittleEndian.Uint32(datetime[8:])
+	plainTimePtr := binary.LittleEndian.Uint32(datetime[12:])
+	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr, true)
+	if err != nil {
+		return nil, err
+	}
+	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr, true)
+	if err != nil {
+		return nil, err
+	}
+	year := binary.LittleEndian.Uint32(plainDate[8:])
+	month := binary.LittleEndian.Uint32(plainDate[12:])
+	day := binary.LittleEndian.Uint32(plainDate[16:])
+	hour := binary.LittleEndian.Uint32(plainTime[8:])
+	minute := binary.LittleEndian.Uint32(plainTime[12:])
+	second := binary.LittleEndian.Uint32(plainTime[16:])
+	nanosecond := binary.LittleEndian.Uint32(plainTime[20:])
+	log.Printf("GML: plainDate=%+v, plainTime=%+v, year=%v, month=%v, day=%v, hour=%v, minute=%v, second=%v, nanosecond=%v", plainDate, plainTime, year, month, day, hour, minute, second, nanosecond)
+
+	return time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), int(nanosecond), time.UTC), nil
+
+	// zone, _, err := memoryBlockAtOffset(wa, zonePtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+
+	// zoneIDPtr := binary.LittleEndian.Uint32(zone[8:])
+	// zoneOffsetsPtr := binary.LittleEndian.Uint32(zone[12:])
+	// zoneID, _, err := memoryBlockAtOffset(wa, zoneIDPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+	// zoneOffsets, _, err := memoryBlockAtOffset(wa, zoneOffsetsPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+	// log.Printf("GML: zoneID=%+v, zoneOffsets=%+v", zoneID, zoneOffsets)
+
+	// offset, _, err := memoryBlockAtOffset(wa, offsetPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+
+	// zoneOffsetIDPtr := binary.LittleEndian.Uint32(offset[8:])
+	// zoneOffsetSecondsPtr := binary.LittleEndian.Uint32(offset[12:])
+	// zoneOffsetDSTPtr := binary.LittleEndian.Uint32(offset[16:])
+	// zoneOffsetID, _, err := memoryBlockAtOffset(wa, zoneOffsetIDPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+	// zoneOffsetSeconds, _, err := memoryBlockAtOffset(wa, zoneOffsetSecondsPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+	// zoneOffsetDST, _, err := memoryBlockAtOffset(wa, zoneOffsetDSTPtr, true)
+	// if err != nil {
+	// return nil, err
+	// }
+	// log.Printf("GML: zoneOffsetID=%+v, zoneOffsetSeconds=%+v, zoneOffsetDST=%+v", zoneOffsetID, zoneOffsetSeconds, zoneOffsetDST)
+
+	// return memBlock, nil
+
+	// wall, ext := vals[0], int64(vals[1])
+	// // skip loc - we only support UTC
+
+	// return timeFromVals(wall, ext), nil
 }
 
 func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
