@@ -106,7 +106,7 @@ func getExportedFuncName(fn *ast.FuncDecl) string {
 }
 
 func getImportedFuncName(fn *ast.FuncDecl) string {
-	// TODO
+	// TODO: Allow the MoonBit compiler to return all information needed here.
 	// Imported functions have no body, and are decorated as follows:
 
 	if fn.Body == nil && fn.Doc != nil {

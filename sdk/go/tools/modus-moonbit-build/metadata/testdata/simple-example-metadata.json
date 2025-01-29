@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cuchgdnrackd4dau4kd0",
-  "buildTs": "2025-01-28T17:47:34.733Z",
+  "buildId": "cucoiivracka90kap3ig",
+  "buildTs": "2025-01-29T01:50:03.017Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "50791a86bb223b71d5fc2bca8b2e8b2a310c5f98",
+  "gitCommit": "2a62035a8b2ab307f8be8dd8824a1a26486c438b",
   "fnExports": {
     "add": {
       "parameters": [
@@ -22,7 +22,12 @@
         {
           "type": "Int"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Adds two integers together and returns the result."
+        ]
+      }
     },
     "add3": {
       "parameters": [
@@ -43,7 +48,13 @@
         {
           "type": "Int"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Adds three integers together and returns the result.",
+          "The third integer is optional."
+        ]
+      }
     },
     "add3_WithDefaults": {
       "parameters": [
@@ -60,7 +71,13 @@
         {
           "type": "Int"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Adds three integers together and returns the result.",
+          "The third integer is optional."
+        ]
+      }
     },
     "add_n": {
       "parameters": [
@@ -73,7 +90,12 @@
         {
           "type": "Int"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Adds any number of integers together and returns the result."
+        ]
+      }
     },
     "get_current_time": {
       "parameters": [
@@ -86,14 +108,24 @@
         {
           "type": "@time.ZonedDateTime!Error"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time."
+        ]
+      }
     },
     "get_current_time_WithDefaults": {
       "results": [
         {
           "type": "@time.ZonedDateTime!Error"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time."
+        ]
+      }
     },
     "get_current_time_formatted": {
       "parameters": [
@@ -106,14 +138,24 @@
         {
           "type": "String!Error"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time formatted as a string."
+        ]
+      }
     },
     "get_current_time_formatted_WithDefaults": {
       "results": [
         {
           "type": "String!Error"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time formatted as a string."
+        ]
+      }
     },
     "get_full_name": {
       "parameters": [
@@ -130,35 +172,60 @@
         {
           "type": "String"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Combines the first and last name of a person, and returns the full name."
+        ]
+      }
     },
     "get_name_and_age": {
       "results": [
         {
           "type": "(String, Int)"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Gets the name and age of a person."
+        ]
+      }
     },
     "get_people": {
       "results": [
         {
           "type": "Array[@simple-example.Person]"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Gets a list of people."
+        ]
+      }
     },
     "get_person": {
       "results": [
         {
           "type": "@simple-example.Person"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Gets a person object."
+        ]
+      }
     },
     "get_random_person": {
       "results": [
         {
           "type": "@simple-example.Person"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Gets a random person object from a list of people."
+        ]
+      }
     },
     "log_message": {
       "parameters": [
@@ -166,7 +233,12 @@
           "name": "message",
           "type": "String"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Logs a message."
+        ]
+      }
     },
     "say_hello": {
       "parameters": [
@@ -179,16 +251,34 @@
         {
           "type": "String"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Says hello to a person by name.",
+          "If the name is not provided, it will say hello without a name."
+        ]
+      }
     },
     "say_hello_WithDefaults": {
       "results": [
         {
           "type": "String"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Says hello to a person by name.",
+          "If the name is not provided, it will say hello without a name."
+        ]
+      }
     },
-    "test_abort": {},
+    "test_abort": {
+      "docs": {
+        "lines": [
+          "Tests an abort."
+        ]
+      }
+    },
     "test_alternative_error": {
       "parameters": [
         {
@@ -200,10 +290,27 @@
         {
           "type": "String"
         }
-      ]
+      ],
+      "docs": {
+        "lines": [
+          "Tests an alternative way to handle errors in functions."
+        ]
+      }
     },
-    "test_exit": {},
-    "test_logging": {},
+    "test_exit": {
+      "docs": {
+        "lines": [
+          "Tests an exit with a non-zero exit code."
+        ]
+      }
+    },
+    "test_logging": {
+      "docs": {
+        "lines": [
+          "Tests logging at different levels."
+        ]
+      }
+    },
     "test_normal_error": {
       "parameters": [
         {
@@ -214,6 +321,55 @@
       "results": [
         {
           "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Tests returning an error."
+        ]
+      }
+    }
+  },
+  "fnImports": {
+    "modus_system.getTimeInZone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "modus_system.getTimeZoneData": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        },
+        {
+          "name": "format",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
         }
       ]
     }

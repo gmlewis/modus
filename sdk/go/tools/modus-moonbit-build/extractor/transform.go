@@ -13,6 +13,7 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
+	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
@@ -75,12 +76,14 @@ func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package
 		ret.Parameters = make([]*metadata.Parameter, params.Len())
 		for i := 0; i < params.Len(); i++ {
 			p := params.At(i)
-			ret.Parameters[i] = &metadata.Parameter{
+			param := &metadata.Parameter{
 				Name: p.Name(),
 				Type: p.Type().String(),
 				// TODO: Add default value here if it is a constant literal
 				// Default:
 			}
+			log.Printf("GML: transform.go: p.Type()=%#v\n", p.Type())
+			ret.Parameters[i] = param
 		}
 	}
 

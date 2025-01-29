@@ -90,6 +90,7 @@ var wantPackages = []*Package{
 						}}},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Logs a message."}}},
 						Name: &ast.Ident{Name: "log_message"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -100,6 +101,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Adds two integers together and returns the result."}}},
 						Name: &ast.Ident{Name: "add"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -116,13 +118,17 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc: &ast.CommentGroup{List: []*ast.Comment{
+							{Text: "// Adds three integers together and returns the result."},
+							{Text: "// The third integer is optional."},
+						}},
 						Name: &ast.Ident{Name: "add3"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
 									{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Int"}},
 									{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
-									{Names: []*ast.Ident{{Name: "c~"}}, Type: &ast.Ident{Name: "Int"}},
+									{Names: []*ast.Ident{{Name: "c~"}}, Type: &ast.Ident{Name: "Int"}, Tag: &ast.BasicLit{Kind: token.STRING, Value: "`default:0`"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -133,6 +139,10 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc: &ast.CommentGroup{List: []*ast.Comment{
+							{Text: "// Adds three integers together and returns the result."},
+							{Text: "// The third integer is optional."},
+						}},
 						Name: &ast.Ident{Name: "add3_WithDefaults"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -149,6 +159,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Adds any number of integers together and returns the result."}}},
 						Name: &ast.Ident{Name: "add_n"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -164,11 +175,16 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time."}}},
 						Name: &ast.Ident{Name: "get_current_time"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime"}},
+									{
+										Names: []*ast.Ident{{Name: "now~"}},
+										Type:  &ast.Ident{Name: "@wallClock.Datetime"},
+										Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`default:@wallClock.now()`"},
+									},
 								},
 							},
 							Results: &ast.FieldList{
@@ -179,6 +195,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time."}}},
 						Name: &ast.Ident{Name: "get_current_time_WithDefaults"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{List: []*ast.Field{}},
@@ -190,11 +207,16 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time formatted as a string."}}},
 						Name: &ast.Ident{Name: "get_current_time_formatted"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "now~"}}, Type: &ast.Ident{Name: "@wallClock.Datetime"}},
+									{
+										Names: []*ast.Ident{{Name: "now~"}},
+										Type:  &ast.Ident{Name: "@wallClock.Datetime"},
+										Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`default:@wallClock.now()`"},
+									},
 								},
 							},
 							Results: &ast.FieldList{
@@ -205,6 +227,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time formatted as a string."}}},
 						Name: &ast.Ident{Name: "get_current_time_formatted_WithDefaults"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{List: []*ast.Field{}},
@@ -216,6 +239,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Combines the first and last name of a person, and returns the full name."}}},
 						Name: &ast.Ident{Name: "get_full_name"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -232,11 +256,15 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc: &ast.CommentGroup{List: []*ast.Comment{
+							{Text: "// Says hello to a person by name."},
+							{Text: "// If the name is not provided, it will say hello without a name."},
+						}},
 						Name: &ast.Ident{Name: "say_hello"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
 								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String?"}},
+									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String?"}, Tag: &ast.BasicLit{Kind: token.STRING, Value: "`default:None`"}},
 								},
 							},
 							Results: &ast.FieldList{
@@ -247,6 +275,10 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc: &ast.CommentGroup{List: []*ast.Comment{
+							{Text: "// Says hello to a person by name."},
+							{Text: "// If the name is not provided, it will say hello without a name."},
+						}},
 						Name: &ast.Ident{Name: "say_hello_WithDefaults"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{List: []*ast.Field{}},
@@ -258,6 +290,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Gets a person object."}}},
 						Name: &ast.Ident{Name: "get_person"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
@@ -269,6 +302,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Gets a random person object from a list of people."}}},
 						Name: &ast.Ident{Name: "get_random_person"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
@@ -280,6 +314,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Gets a list of people."}}},
 						Name: &ast.Ident{Name: "get_people"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
@@ -291,6 +326,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Gets the name and age of a person."}}},
 						Name: &ast.Ident{Name: "get_name_and_age"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
@@ -302,6 +338,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Tests returning an error."}}},
 						Name: &ast.Ident{Name: "test_normal_error"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -317,6 +354,7 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Tests an alternative way to handle errors in functions."}}},
 						Name: &ast.Ident{Name: "test_alternative_error"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
@@ -332,18 +370,21 @@ var wantPackages = []*Package{
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Tests an abort."}}},
 						Name: &ast.Ident{Name: "test_abort"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Tests an exit with a non-zero exit code."}}},
 						Name: &ast.Ident{Name: "test_exit"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},
 						},
 					},
 					&ast.FuncDecl{
+						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Tests logging at different levels."}}},
 						Name: &ast.Ident{Name: "test_logging"},
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{},

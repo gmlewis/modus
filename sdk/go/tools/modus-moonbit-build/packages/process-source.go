@@ -19,13 +19,15 @@ import (
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
 var commentRE = regexp.MustCompile(`(?m)^\s*//.*$`)
-var pubStructRE = regexp.MustCompile(`(?ms)\npub\(.*?\) struct\s+(.*?)\s+{(.*?)\n}`)
+var pubStructRE = regexp.MustCompile(`(?ms)\npub.*? struct\s+(.*?)\s+{(.*?)\n}`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
+var pubFnPrefixRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\(`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
 
 func (p *Package) processSourceFile(typesPkg *types.Package, filename string, buf []byte, imports []*ast.ImportSpec) {
-	src := "\n" + string(buf)
-	src = commentRE.ReplaceAllString(src, "")
+	// add newlines to simplify regexp matching and normalize line endings
+	fullSrc := "\n\n" + strings.ReplaceAll(string(buf), "\r\n", "\n")
+	src := commentRE.ReplaceAllString(fullSrc, "")
 
 	var decls []ast.Decl
 
@@ -33,7 +35,7 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 	decls = p.processPubStructs(typesPkg, decls, m)
 
 	m = pubFnRE.FindAllStringSubmatch(src, -1)
-	decls = p.processPubFns(typesPkg, decls, m)
+	decls = p.processPubFns(typesPkg, decls, m, fullSrc)
 
 	p.Syntax = append(p.Syntax, &ast.File{
 		Name:    &ast.Ident{Name: filename},
@@ -49,6 +51,7 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		var fieldVars []*types.Var
 		allFields := strings.Split(match[2], "\n")
 		for _, field := range allFields {
+			field = commentRE.ReplaceAllString(field, "")
 			field = strings.TrimSpace(field)
 			if field == "" {
 				continue
@@ -88,8 +91,9 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 	return decls
 }
 
-func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
+func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
+		docs := getDocsForFunction(match[0], fullSrc)
 		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
 		parts := strings.Split(fnSig, " -> ")
 		if len(parts) != 2 {
@@ -111,11 +115,11 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
 		newParamsList, newParamsVars := stripDefaultValues(paramsList, paramsVars)
-		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, newParamsList, newParamsVars, resultsList, resultsTuple)
+		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, newParamsList, newParamsVars, resultsList, resultsTuple, docs)
 
 		if functionParamsHasDefaultValue(paramsList) {
 			newMethodName, newParamsList, newParamsVars := duplicateMethodWithoutDefaultParams(methodName, paramsList, paramsVars)
-			decls = p.addExportedFunctionDecls(typesPkg, decls, newMethodName, newParamsList, newParamsVars, resultsList, resultsTuple)
+			decls = p.addExportedFunctionDecls(typesPkg, decls, newMethodName, newParamsList, newParamsVars, resultsList, resultsTuple, docs)
 		}
 	}
 
@@ -141,12 +145,18 @@ func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*as
 	for _, param := range paramsList {
 		if paramType, ok := param.Type.(*ast.Ident); ok {
 			if strings.Contains(paramType.Name, "=") {
-				// newName := strings.TrimSuffix(param.Names[0].Name, "~")  // cannot remove yet, as it is needed in modus_pre_generated.mbt.
-				newType := strings.Split(paramType.Name, " = ")[0]
-				newParamsList = append(newParamsList, &ast.Field{
+				// newName := strings.TrimSuffix(param.Names[0].Name, "~")  // cannot remove "~" yet, as it is needed in modus_pre_generated.mbt.
+				paramTypeParts := strings.Split(paramType.Name, " = ")
+				newType := paramTypeParts[0]
+				field := &ast.Field{
 					Names: []*ast.Ident{{Name: param.Names[0].Name}},
 					Type:  &ast.Ident{Name: newType},
-				})
+				}
+				if len(paramTypeParts) > 1 {
+					defaultValue := paramTypeParts[1]
+					field.Tag = &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf("`default:%v`", defaultValue)}
+				}
+				newParamsList = append(newParamsList, field)
 			} else {
 				newParamsList = append(newParamsList, param)
 			}
@@ -207,7 +217,7 @@ func duplicateMethodWithoutDefaultParams(methodName string, paramsList []*ast.Fi
 	return newMethodName, newParamsList, newParamsVars
 }
 
-func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.Decl, methodName string, paramsList []*ast.Field, paramsVars []*types.Var, resultsList *ast.FieldList, resultsTuple *types.Tuple) []ast.Decl {
+func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.Decl, methodName string, paramsList []*ast.Field, paramsVars []*types.Var, resultsList *ast.FieldList, resultsTuple *types.Tuple, docs *ast.CommentGroup) []ast.Decl {
 	decl := &ast.FuncDecl{
 		Name: &ast.Ident{Name: methodName},
 		Type: &ast.FuncType{
@@ -216,6 +226,7 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 			},
 			Results: resultsList,
 		},
+		Doc: docs,
 	}
 
 	decls = append(decls, decl)
@@ -266,14 +277,27 @@ func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig stri
 	return resultsList, resultsTuple
 }
 
+func stripError(typeSignature string) string {
+	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		return typeSignature[:i]
+	}
+	return typeSignature
+}
+
 func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType *types.Named) {
-	customName := typesPkg.Path() + "." + typeSignature
+	fullCustomName := typesPkg.Path() + "." + typeSignature
+	customName := stripError(fullCustomName)
 	for ident, customType := range p.TypesInfo.Defs {
 		if ident.Name == customName {
 			if customType, ok := customType.(*types.TypeName); ok {
 				underlying := customType.Type().Underlying()
-				resultType = types.NewNamed(customType, underlying, nil)
-				log.Printf("GML: checkCustomMoonBitNamedType: found custom type for typeSignature=%q", typeSignature)
+				if customName == fullCustomName {
+					resultType = types.NewNamed(customType, underlying, nil)
+				} else {
+					fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
+					resultType = types.NewNamed(fullCustomType, underlying, nil)
+				}
+				// log.Printf("GML: checkCustomMoonBitNamedType: found custom type for typeSignature=%q", typeSignature)
 				break
 			}
 		}

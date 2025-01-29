@@ -63,25 +63,78 @@ var wantTimeFnExports = metadata.FunctionMap{
 	"get_local_time": {
 		Name:    "get_local_time",
 		Results: []*metadata.Result{{Type: "String!Error"}},
+		Docs:    &metadata.Docs{Lines: []string{"Returns the current local time."}},
 	},
 	"get_local_time_zone": {
 		Name:    "get_local_time_zone",
 		Results: []*metadata.Result{{Type: "String"}},
+		Docs:    &metadata.Docs{Lines: []string{"Returns the local time zone identifier."}},
 	},
 	"get_time_in_zone": {
 		Name:       "get_time_in_zone",
 		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
 		Results:    []*metadata.Result{{Type: "String!Error"}},
+		Docs:       &metadata.Docs{Lines: []string{"Returns the current time in a specified time zone."}},
+	},
+	"get_time_zone_info": {
+		Name:       "get_time_zone_info",
+		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "@time-example.TimeZoneInfo!Error"}},
+		Docs:       &metadata.Docs{Lines: []string{"Returns some basic information about the time zone specified."}},
 	},
 	"get_utc_time": {
 		Name:    "get_utc_time",
 		Results: []*metadata.Result{{Type: "@time.ZonedDateTime!Error"}},
+		Docs:    &metadata.Docs{Lines: []string{"Returns the current time in UTC."}},
 	},
 }
 
-var wantTimeFnImports = metadata.FunctionMap{}
+var wantTimeFnImports = metadata.FunctionMap{
+	"modus_system.getTimeInZone": {
+		Name:       "modus_system.getTimeInZone",
+		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String!Error"}},
+	},
+	"modus_system.getTimeZoneData": {
+		Name: "modus_system.getTimeZoneData",
+		Parameters: []*metadata.Parameter{
+			{Name: "tz", Type: "String"},
+			{Name: "format", Type: "String"},
+		},
+		Results: []*metadata.Result{{Type: "Array[Byte]"}},
+	},
+	"modus_system.logMessage": {
+		Name: "modus_system.logMessage",
+		Parameters: []*metadata.Parameter{
+			{Name: "level", Type: "String"},
+			{Name: "message", Type: "String"},
+		},
+	},
+}
 
 var wantTimeTypes = metadata.TypeMap{
-	"@time.ZonedDateTime": {Id: 4, Name: "@time.ZonedDateTime"},
-	"String":              {Id: 5, Name: "String"},
+	"@time-example.TimeZoneInfo": {
+		Id:   4,
+		Name: "@time-example.TimeZoneInfo",
+		Fields: []*metadata.Field{
+			{
+				Name: "standard_name",
+				Type: "String",
+			},
+			{
+				Name: "standard_offset",
+				Type: "String",
+			},
+			{
+				Name: "daylight_name",
+				Type: "String",
+			},
+			{
+				Name: "daylight_offset",
+				Type: "String",
+			},
+		},
+	},
+	"@time.ZonedDateTime": {Id: 5, Name: "@time.ZonedDateTime"},
+	"String":              {Id: 6, Name: "String"},
 }

@@ -13,6 +13,7 @@ import (
 	"go/types"
 	"log"
 	"sort"
+	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
@@ -35,6 +36,21 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	for name, f := range getExportedFunctions(pkgs) {
 		meta.FnExports[name] = transformFunc(name, f, pkgs)
 		findRequiredTypes(f, requiredTypes)
+	}
+
+	// Since MoonBit currently does not give us AST information for imported functions,
+	// we currently check all function signatures for two things:
+	// If a function returns any `@time.*`, the time-related imports will be added.
+	// If a function returns any `!Error`, the `logMessage` import will be added.
+	for _, export := range meta.FnExports {
+		returnType := moonBitReturnType(export)
+		if strings.Contains(returnType, "@time.") {
+			meta.FnImports["modus_system.getTimeInZone"] = moonBitFnImports["modus_system.getTimeInZone"]
+			meta.FnImports["modus_system.getTimeZoneData"] = moonBitFnImports["modus_system.getTimeZoneData"]
+		}
+		if strings.Contains(returnType, "!") {
+			meta.FnImports["modus_system.logMessage"] = moonBitFnImports["modus_system.logMessage"]
+		}
 	}
 
 	for name, f := range getImportedFunctions(pkgs) {

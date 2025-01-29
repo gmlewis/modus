@@ -40,6 +40,9 @@ func TestAllTestDataIsIdentical(t *testing.T) {
 	for name, fn := range metaJSON.FnExports {
 		fn.Name = name
 	}
+	for name, fn := range metaJSON.FnImports {
+		fn.Name = name
+	}
 	for name, typ := range metaJSON.Types {
 		typ.Name = name
 	}
