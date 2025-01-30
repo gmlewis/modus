@@ -51,10 +51,13 @@ pub fn get_time_zone() -> String {
   // let env_vars = @sys.get_env_vars()
   // println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
   // env_vars["TZ"].or("")
-  println("GML: pkg/localtime: get_time_zone")
-  let result = @host.get_time_zone_data("", "tzif")
-  println("GML: pkg/localtime: get_time_zone: result: \{result}")
-  "TODO"
+  let tz = @wasi.environ_get("TZ")
+  println("GML: pkg/localtime: get_time_zone: tz: \{tz}")
+  // let result = @host.get_time_zone_data("", "tzif")
+  // println(
+  //   "GML: pkg/localtime: get_time_zone: result.length(): \{result.length()}",
+  // )
+  tz
 }
 
 ///| get_location returns the @time.Zone for the given time zone.

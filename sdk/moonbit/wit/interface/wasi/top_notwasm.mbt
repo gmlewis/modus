@@ -18,3 +18,8 @@ pub fn clock_time_get(
 pub fn random_get(_buf : String, _buf_len : UInt) -> Result[Unit, UInt] {
   Ok(())
 }
+
+///| Get an environment variable.
+pub fn environ_get(_name : String) -> String {
+  ""
+}

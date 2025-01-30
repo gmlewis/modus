@@ -1,5 +1,6 @@
 {
   "import": [
+    "gmlewis/base64",
     "gmlewis/modus/wit/ffi"
   ],
   "targets": {

@@ -58,3 +58,80 @@ pub fn random_get(buf : String, buf_len : UInt) -> Result[Unit, UInt] {
   @ffi.free(return_area)
   return lifted
 }
+
+///| Read all environment variables.
+pub fn environ_get(name : String) -> String {
+  if name == "" {
+    return ""
+  }
+
+  //
+  let utf8_key = @base64.str2array("\{name}=") // e.g. "TZ="
+  let (errno, environc, environ_buf_size) = environ_sizes_get()
+  println(
+    "GML: wit/interface/wasi: environ_get: errno: \{errno}, environc: \{environc}, environ_buf_size: \{environ_buf_size}",
+  )
+  let environ = @ffi.malloc(environc * 4) // space for `Pointer<Pointer<u8>>`
+  let environ_buf = @ffi.malloc(environ_buf_size) // space for `Pointer<u8>`
+  let result = wasmImportEnvironGet(environ, environ_buf)
+  println(
+    "GML: wit/interface/wasi: environ_get: name: \{name}, environ: \{environ}, environ_buf: \{environ_buf}, result: \{result}",
+  )
+  if result != 0 {
+    return ""
+  }
+
+  //
+  let mut result = ""
+  for i in 0..<environc {
+    let offset = @ffi.load32(environ + i * 4)
+    if bytes_at_offset_match(offset, utf8_key) {
+      result = read_utf8_string_at_offset(offset + utf8_key.length())
+      break
+    }
+  }
+  @ffi.free(environ)
+  @ffi.free(environ_buf)
+  result
+}
+
+///|
+fn bytes_at_offset_match(offset : Int, bytes : Array[Byte]) -> Bool {
+  for i in 0..<bytes.length() {
+    if @ffi.load8(offset + i).to_byte() != bytes[i] {
+      return false
+    }
+  }
+  true
+}
+
+///| This reads a zero-terminated UTF-8 string from the buffer at the given offset
+/// and converts it to a MoonBit string.
+fn read_utf8_string_at_offset(offset : Int) -> String {
+  let bytes = []
+  let mut i = 0
+  while true {
+    let byte = @ffi.load8(offset + i).to_byte()
+    if byte == 0 {
+      break
+    }
+    bytes.push(byte)
+    i = i + 1
+  }
+  @base64.array2str(bytes[:])
+}
+
+///| Returns the number of environment variables and the total size of the
+/// environment (null-terminated Go-style) strings.
+///
+/// - `errno`: The error code (0 for success).
+/// - `environc`: The number of environment variables.
+/// - `environ_buf_size`: The total size of the environment strings.
+pub fn environ_sizes_get() -> (Int, Int, Int) {
+  let return_area = @ffi.malloc(8)
+  let errno = wasmImportEnvironSizesGet(return_area, return_area + 4)
+  let environc = @ffi.load32(return_area + 0)
+  let environ_buf_size = @ffi.load32(return_area + 4)
+  @ffi.free(return_area)
+  (errno, environc, environ_buf_size)
+}

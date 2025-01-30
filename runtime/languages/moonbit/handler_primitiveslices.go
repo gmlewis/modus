@@ -285,7 +285,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 
 	numElements := uint32(len(slice))
 	elementSize := h.converter.TypeSize()
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elementSize: %v, slice: %+v", len(slice), numElements, elementSize, slice)
+	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elementSize: %v, slice: %+v", len(slice), numElements, elementSize, slice)
 
 	var size uint32
 	// var headerValue uint32
@@ -296,13 +296,13 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	if elementSize == 1 {
 		// Byte arrays: round up to nearest 4 bytes + padding byte
 		paddedSize := ((numElements + 4) / 4) * 4
-		log.Printf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
+		// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
 		size = numElements
 		// headerValue = ((paddedSize / 4) << 8) | 246 // 246 is the byte array header type
 		memBlockClassID = 246
 		var zero T
 		for i := numElements; i < paddedSize; i++ {
-			log.Printf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
+			// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
 			slice = append(slice, zero) // add the padding bytes
 		}
 
@@ -343,18 +343,18 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 
 	// Allocate data buffer and write using the appropriate function
 	dataBuffer := h.converter.SliceToBytes(slice)
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: BEFORE WRITING HEADER: dataBuffer: %+v", dataBuffer)
+	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: BEFORE WRITING HEADER: dataBuffer: %+v", dataBuffer)
 	if writeHeader != nil {
 		writeHeader(dataBuffer)
 	}
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: AFTER WRITING HEADER: dataBuffer: %+v", dataBuffer)
+	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: AFTER WRITING HEADER: dataBuffer: %+v", dataBuffer)
 
 	if ok := wa.Memory().Write(offset, dataBuffer); !ok {
 		return 0, cln, errors.New("failed to write data to WASM memory")
 	}
 
 	// For debugging:
-	_, _, _ = memoryBlockAtOffset(wa, offset-8, true)
+	// _, _, _ = memoryBlockAtOffset(wa, offset-8, true)
 
 	return offset, cln, nil
 }
