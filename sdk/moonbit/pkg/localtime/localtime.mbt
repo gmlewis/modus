@@ -48,20 +48,12 @@ pub fn now_in_zone(timezone : String) -> @time.ZonedDateTime!Error {
 
 ///| get_time_zone returns the local time zone identifier, in IANA format.
 pub fn get_time_zone() -> String {
-  // let env_vars = @sys.get_env_vars()
-  // println("GML: pkg/localtime: get_time_zone: env_vars: \{env_vars}")
-  // env_vars["TZ"].or("")
-  let tz = @wasi.environ_get("TZ")
-  println("GML: pkg/localtime: get_time_zone: tz: \{tz}")
-  // let result = @host.get_time_zone_data("", "tzif")
-  // println(
-  //   "GML: pkg/localtime: get_time_zone: result.length(): \{result.length()}",
-  // )
-  tz
+  @wasi.environ_get("TZ")
 }
 
 ///| get_location returns the @time.Zone for the given time zone.
 /// `timezone` should be a valid IANA time zone identifier, such as "America/New_York".
+/// If `timezone` is empty, the local timezone is used.
 pub fn get_location(timezone : String) -> @time.Zone!Error {
   if timezone == "" {
     raise LocaltimeError("time zone is required")

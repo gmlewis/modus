@@ -59,7 +59,7 @@ pub fn random_get(buf : String, buf_len : UInt) -> Result[Unit, UInt] {
   return lifted
 }
 
-///| Read all environment variables.
+///| Get an environment variable.
 pub fn environ_get(name : String) -> String {
   if name == "" {
     return ""
@@ -68,16 +68,11 @@ pub fn environ_get(name : String) -> String {
   //
   let utf8_key = @base64.str2array("\{name}=") // e.g. "TZ="
   let (errno, environc, environ_buf_size) = environ_sizes_get()
-  println(
-    "GML: wit/interface/wasi: environ_get: errno: \{errno}, environc: \{environc}, environ_buf_size: \{environ_buf_size}",
-  )
   let environ = @ffi.malloc(environc * 4) // space for `Pointer<Pointer<u8>>`
   let environ_buf = @ffi.malloc(environ_buf_size) // space for `Pointer<u8>`
   let result = wasmImportEnvironGet(environ, environ_buf)
-  println(
-    "GML: wit/interface/wasi: environ_get: name: \{name}, environ: \{environ}, environ_buf: \{environ_buf}, result: \{result}",
-  )
   if result != 0 {
+    println("environ_get: error: \{result}")
     return ""
   }
 

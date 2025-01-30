@@ -15,7 +15,7 @@ pub fn get_time_in_zone(timezone : String) -> String {
   // return result
 
   let ptr = wasmImportGetTimeInZone(0) // TODO
-  println("GML: wit/interface/localtime: get_time_in_zone: ptr: \{ptr}")
+  println("GML: wit/interface/localtime: get_time_in_zone: ptr: \{ptr} - TODO")
   ""
 }
 
