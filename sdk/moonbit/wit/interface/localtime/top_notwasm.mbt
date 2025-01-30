@@ -12,3 +12,8 @@ pub fn get_time_zone_data(
 ) -> FixedArray[Byte] {
   []
 }
+
+///|
+pub fn get_local_time() -> @time.ZonedDateTime!Error {
+  @time.ZonedDateTime::from_plain_datetime(@time.PlainDateTime::of!(0, 0, 0))
+}

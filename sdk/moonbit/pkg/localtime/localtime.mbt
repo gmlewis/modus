@@ -18,14 +18,34 @@ pub fn now() -> @time.ZonedDateTime!Error {
   // Try to return a time with the proper full time zone.
   let timezone = get_time_zone()
   println("GML: pkg/localtime: now: timezone: \{timezone}")
-  let result = @host.get_time_in_zone(timezone)
-  println("GML: pkg/localtime: now: result: \{result}")
-  // return time.Now().In(loc), nil
+  if timezone != "" {
+    let result = @host.get_time_in_zone(timezone)
+    println("GML: pkg/localtime: now: result: \{result}")
+    let zoneIndex = result.length() - 6
+    let noZone = result.substring(end=zoneIndex)
+    let zoneOffset = result.substring(start=zoneIndex)
+    let zoneOffsetHours = @strconv.parse_int!(
+      zoneOffset.substring(end=3),
+      base=10,
+    )
+    let zoneOffsetMinutes = @strconv.parse_int!(
+      zoneOffset.substring(start=4),
+      base=10,
+    )
+    let zoneOffsetSeconds = zoneOffsetHours * 3600 + zoneOffsetMinutes * 60
+    println(
+      "GML: pkg/localtime: now: noZone: \{noZone}, zoneOffset: \{zoneOffset}, zoneOffsetHours: \{zoneOffsetHours}, zoneOffsetMinutes: \{zoneOffsetMinutes}, zoneOffsetSeconds: \{zoneOffsetSeconds}",
+    )
+    let plainDateTime = @time.PlainDateTime::from_string!(noZone)
+    println("GML: pkg/localtime: now: plainDateTime: \{plainDateTime}")
+    let zone = @time.fixed_zone!(timezone, zoneOffsetSeconds)
+    return @time.ZonedDateTime::from_plain_datetime(plainDateTime, zone~)
+  }
 
   // Otherwise, let the host get the local time with the current offset applied.
-  // @host.get_local_time()
+  @host.get_local_time!()
   // @time.unix!(@wallClock.now().seconds.reinterpret_as_int64()) // TODO
-  @time.unix!(@wasi.now())
+  // @time.unix!(@wasi.now())
 }
 
 ///| now_in_zone returns the current time in the given time zone.
@@ -53,7 +73,6 @@ pub fn get_time_zone() -> String {
 
 ///| get_location returns the @time.Zone for the given time zone.
 /// `timezone` should be a valid IANA time zone identifier, such as "America/New_York".
-/// If `timezone` is empty, the local timezone is used.
 pub fn get_location(timezone : String) -> @time.Zone!Error {
   if timezone == "" {
     raise LocaltimeError("time zone is required")

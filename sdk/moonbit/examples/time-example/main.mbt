@@ -44,7 +44,6 @@ pub fn get_time_in_zone(tz : String) -> String!Error {
 ///|
 /// Returns the local time zone identifier.
 pub fn get_local_time_zone() -> String {
-  println("GML: main.mbt: get_local_time_zone")
   @localtime.get_time_zone()
 }
 

@@ -16,7 +16,26 @@ pub fn get_time_in_zone(timezone : String) -> String {
 
   let ptr = wasmImportGetTimeInZone(0) // TODO
   println("GML: wit/interface/localtime: get_time_in_zone: ptr: \{ptr} - TODO")
-  ""
+
+  //
+  let h0 = @ffi.load8_u(ptr + 0)
+  let h1 = @ffi.load8_u(ptr + 1)
+  let h2 = @ffi.load8_u(ptr + 2)
+  let h3 = @ffi.load8_u(ptr + 3)
+  let h4 = @ffi.load8_u(ptr + 4)
+  let h5 = @ffi.load8_u(ptr + 5)
+  let h6 = @ffi.load8_u(ptr + 6)
+  let h7 = @ffi.load8_u(ptr + 7)
+  let h8 = @ffi.load8_u(ptr + 8)
+  let h9 = @ffi.load8_u(ptr + 9)
+  let h10 = @ffi.load8_u(ptr + 10)
+  let h11 = @ffi.load8_u(ptr + 11)
+  let h12 = @ffi.load8_u(ptr + 12)
+  let header = [h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12]
+  println("GML: wit/interface/localtime: get_time_in_zone: header: \{header}")
+  let result = @ffi.ptr2str(ptr + 8)
+  println("GML: wit/interface/localtime: get_time_in_zone: result: \{result}")
+  result
 }
 
 ///|
@@ -49,4 +68,11 @@ pub fn get_time_zone_data(
 
   let ptr = wasmImportGetTimeZoneData(0, 0) // TODO: pass Go-style pointers to strings.
   @ffi.ptr2bytes(ptr, 0)
+}
+
+///|
+pub fn get_local_time() -> @time.ZonedDateTime!Error {
+  let ptr = wasmImportGetTimeInZone(0) // TODO
+  println("GML: wit/interface/localtime: get_local_time: ptr: \{ptr}")
+  @time.ZonedDateTime::from_plain_datetime(@time.PlainDateTime::of!(0, 0, 0))
 }
