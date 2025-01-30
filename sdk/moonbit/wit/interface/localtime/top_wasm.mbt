@@ -38,35 +38,56 @@ pub fn get_time_in_zone(timezone : String) -> String {
   result
 }
 
+// let return_area = @ffi.malloc(8)
+// wasmImportGetTimeZoneData(
+//   @ffi.str2ptr(timezone),
+//   timezone.iter().count(),
+//   @ffi.str2ptr(format),
+//   format.iter().count(),
+//   return_area,
+// )
+// let result = @ffi.ptr2bytes(
+//   @ffi.load32(return_area + 0),
+//   @ffi.load32(return_area + 4),
+// )
+// ignore(timezone)
+// ignore(format)
+// @ffi.free(return_area)
+// return result
+
+///|
+// pub fn get_time_zone_data(
+//   timezone : String,
+//   format : String
+// ) -> FixedArray[Byte] {
+//   // This crashes because the host is expecting Go-style pointers to strings:
+//   let ptr = wasmImportGetTimeZoneData(
+//     @ffi.str2ptr(timezone),
+//     @ffi.str2ptr(format),
+//   )
+//   if ptr == 0 {
+//     return []
+//   }
+//   @ffi.ptr2bytes(ptr, 0)
+// }
+
 ///|
 pub fn get_time_zone_data(
   timezone : String,
   format : String
 ) -> FixedArray[Byte] {
-  // let return_area = @ffi.malloc(8)
-  // wasmImportGetTimeZoneData(
-  //   @ffi.str2ptr(timezone),
-  //   timezone.iter().count(),
-  //   @ffi.str2ptr(format),
-  //   format.iter().count(),
-  //   return_area,
-  // )
-  // let result = @ffi.ptr2bytes(
-  //   @ffi.load32(return_area + 0),
-  //   @ffi.load32(return_area + 4),
-  // )
-  // ignore(timezone)
-  // ignore(format)
-  // @ffi.free(return_area)
-  // return result
+  let timezone_ptr = ascii_to_go_strptr(timezone)
+  let format_ptr = ascii_to_go_strptr(format)
 
-  // This crashes because the host is expecting Go-style pointers to strings:
-  // let ptr = wasmImportGetTimeZoneData(
-  //   @ffi.str2ptr(timezone),
-  //   @ffi.str2ptr(format),
-  // )
+  // Call the host function with the pointers to the strings
+  let ptr = wasmImportGetTimeZoneData(timezone_ptr, format_ptr)
 
-  let ptr = wasmImportGetTimeZoneData(0, 0) // TODO: pass Go-style pointers to strings.
+  // Free the allocated memory
+  @ffi.free(timezone_ptr)
+  @ffi.free(format_ptr)
+  if ptr == 0 {
+    return []
+  }
   @ffi.ptr2bytes(ptr, 0)
 }
 
@@ -75,4 +96,19 @@ pub fn get_local_time() -> @time.ZonedDateTime!Error {
   let ptr = wasmImportGetTimeInZone(0) // TODO
   println("GML: wit/interface/localtime: get_local_time: ptr: \{ptr}")
   @time.ZonedDateTime::from_plain_datetime(@time.PlainDateTime::of!(0, 0, 0))
+}
+
+///| This helper function converts a MoonBit UTF-16 string to a Go-style UTF-8
+/// string pointer, laid out in memory as a null-terminated string. Note that
+/// the input strings are known to only contain ASCII characters so no encoding
+/// conversion is necessary. The encoding is a 32-bit pointer to the start of
+/// the null-terminated string.
+fn ascii_to_go_strptr(s : String) -> Int {
+  let ptr = @ffi.malloc(4 + s.length() + 1)
+  @ffi.store32(ptr, ptr + 4)
+  for i in 0..<s.length() {
+    @ffi.store8(ptr + 4 + i, s[i].to_int())
+  }
+  @ffi.store8(ptr + 4 + s.length(), 0)
+  ptr
 }

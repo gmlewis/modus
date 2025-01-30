@@ -85,10 +85,11 @@ func GetTimeZoneData(ctx context.Context, tz, format *string) []byte {
 	if tz != nil {
 		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz: '%v'", *tz)
 	} else {
-		if tz2, ok := ctx.Value(utils.TimeZoneContextKey).(string); ok {
-			log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: local tz: '%v'", tz2)
-			tz = &tz2
-		}
+		// if tz2, ok := ctx.Value(utils.TimeZoneContextKey).(string); ok {
+		// 	log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: local tz: '%v'", tz2)
+		// 	tz = &tz2
+		// }
+		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: - returning nil")
 	}
 	if format != nil {
 		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: format: '%v'", *format)
@@ -102,6 +103,6 @@ func GetTimeZoneData(ctx context.Context, tz, format *string) []byte {
 	}
 
 	result := timezones.GetTimeZoneData(*tz, *format)
-	log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: result: %+v", result)
+	log.Printf("GML: hostfunctions/system.go: GetTimeZoneData('%v','%v'): len(result): %v", *tz, *format, len(result))
 	return result
 }

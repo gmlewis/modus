@@ -81,9 +81,12 @@ pub fn get_location(timezone : String) -> @time.Zone!Error {
   // @time.zone!(timezone)
   let result = @host.get_time_zone_data(timezone, "tzif")
   println(
-    "GML: pkg/localtime: get_location: timezone: \{timezone}, result: \{result}",
+    "GML: pkg/localtime: get_location: timezone: \{timezone}, result.length(): \{result.length()}",
   )
-  @time.utc_zone // TODO
+  if result.length() == 0 {
+    raise LocaltimeError("time zone '\{timezone}' not found")
+  }
+  load_location_from_tzdata!(timezone, result)
 }
 
 ///| is_valid_time_zone returns true if the given time zone is valid.

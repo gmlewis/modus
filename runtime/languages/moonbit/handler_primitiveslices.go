@@ -143,7 +143,7 @@ func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.Was
 }
 
 func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(vals: %+v)", vals)
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(len(vals): %v)", len(vals))
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
@@ -157,14 +157,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
-	size := numElements * uint32(h.converter.TypeSize())
+	// size := numElements * uint32(h.converter.TypeSize())
 
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
+	// log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
 
 	items := h.converter.BytesToSlice(sliceMemBlock[8:])
 	return items, nil
@@ -207,67 +207,6 @@ func (h *primitiveSliceHandler[T]) doReadSlice(wa langsupport.WasmAdapter, data,
 
 	items := h.converter.BytesToSlice(buf)
 	return items, nil
-}
-*/
-
-/*
-func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: T: %T", []T{})
-
-	if utils.HasNil(obj) {
-		return 0, nil, nil
-	}
-
-	slice, ok := utils.ConvertToSliceOf[T](obj)
-	if !ok {
-		return 0, nil, fmt.Errorf("expected a %T, got %T", []T{}, obj)
-	}
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v", len(slice))
-
-	numElements := uint32(len(slice))
-	// ptr, cln, err := wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, numElements)
-	// if err != nil {
-	// 	return 0, cln, err
-	// }
-
-	// offset, ok := wa.Memory().ReadUint32Le(ptr)
-	// if !ok {
-	// 	return 0, cln, errors.New("failed to read data pointer from WASM memory")
-	// }
-
-	// offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
-	// if err != nil {
-	// 	return 0, cln, err
-	// }
-	// sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
-	// numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-
-	const id = 0 // Tuple
-	elementSize := h.converter.TypeSize()
-	size := 8 + numElements*uint32(elementSize)
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, elementSize: %v, size: %v", numElements, elementSize, size)
-	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, id)
-	if err != nil {
-		return 0, cln, err
-	}
-
-	// TODO: Should this call MoonBit wasmAdapter functions to convert arrays to pointers?
-
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.doWriteBytes(bytes(%v)), got offset: %v", size, offset)
-	memBlock := make([]byte, 8)
-	binary.LittleEndian.PutUint32(memBlock[0:4], offset+8)
-	binary.LittleEndian.PutUint32(memBlock[4:8], numElements)
-	if ok := wa.Memory().Write(offset, memBlock); !ok {
-		return 0, cln, errors.New("failed to write bytes to WASM memory")
-	}
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.doWriteBytes: wrote memBlock=%+v", memBlock)
-
-	bytes := h.converter.SliceToBytes(slice)
-	if ok := wa.Memory().Write(offset+8, bytes); !ok {
-		return 0, cln, errors.New("failed to write bytes to WASM memory")
-	}
-
-	return offset, cln, nil
 }
 */
 
