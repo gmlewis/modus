@@ -10,7 +10,7 @@ fn load_location_from_tzdata(
   data : FixedArray[Byte],
   current_time_seconds : Int
 ) -> (@time.Zone, @time.ZoneOffset)!Error {
-  let magic = to_int_be(data, 0, 4)
+  let magic = to_int_be(data, 0)
   let want = 0x545A6966
   if magic != want {
     raise LocaltimeError("invalid TZif magic: \{magic}, want \{want}")
@@ -21,13 +21,12 @@ fn load_location_from_tzdata(
     raise LocaltimeError("unsupported TZif2 version: \{version}, want 50")
   }
 
-  // Parse header fields
-  let ttisutcnt = to_int_be(data, 20, 24)
-  let ttisstdcnt = to_int_be(data, 24, 28)
-  let leapcnt = to_int_be(data, 28, 32)
-  let timecnt = to_int_be(data, 32, 36)
-  let typecnt = to_int_be(data, 36, 40)
-  // let charcnt = to_int_be(data, 40, 44)
+  // let ttisutcnt = to_int_be(data, 20)
+  // let ttisstdcnt = to_int_be(data, 24)
+  // let leapcnt = to_int_be(data, 28)
+  let timecnt = to_int_be(data, 32)
+  // let typecnt = to_int_be(data, 36)
+  // let charcnt = to_int_be(data, 40)
 
   // Skip transition times (4 bytes each)
   let transition_indices_offset = HEADER_SIZE + timecnt * 4
@@ -36,40 +35,34 @@ fn load_location_from_tzdata(
   let mut last_applicable_index = 0
   for i in 0..<timecnt {
     let offset = HEADER_SIZE + i * 4
-    dump_offset("transition_time[\{i}]", data, offset)
-    let transition_time = to_int_be(data, offset, offset + 4)
+    // dump_offset("transition_time[\{i}]", data, offset)
+    let transition_time = to_int_be(data, offset)
     if transition_time <= current_time_seconds {
       last_applicable_index = data[transition_indices_offset + i].to_int()
-      println(
-        "GML: localtime/tzif-decoder: last_applicable_index: \{last_applicable_index}",
-      )
+      // println("GML: localtime/tzif-decoder: last_applicable_index: \{last_applicable_index}")
     } else {
       break
     }
   }
   let current_time_offset_index = ttinfo_offset + last_applicable_index * 6
-  let current_time_offset = to_int_be(
-    data,
-    current_time_offset_index,
-    current_time_offset_index + 4,
-  )
-  for i in 0..<typecnt {
-    let offset = ttinfo_offset + i * 6
-    if i == last_applicable_index {
-      dump_offset(
-        "THIS IS THE CORRECT OFFSET: offset_index[\{i}]",
-        data,
-        offset,
-      )
-    } else {
-      dump_offset("offset_index[\{i}]", data, offset)
-    }
-  }
+  let current_time_offset = to_int_be(data, current_time_offset_index)
+  // for i in 0..<typecnt {
+  //   let offset = ttinfo_offset + i * 6
+  //   if i == last_applicable_index {
+  //     dump_offset(
+  //       "THIS IS THE CORRECT OFFSET: offset_index[\{i}]",
+  //       data,
+  //       offset,
+  //     )
+  //   } else {
+  //     dump_offset("offset_index[\{i}]", data, offset)
+  //   }
+  // }
+  // println(
+  //   "GML: localtime/tzif-decoder: ttisutcnt: \{ttisutcnt}, ttisstdcnt: \{ttisstdcnt}, leapcnt: \{leapcnt}, timecnt: \{timecnt}, typecnt: \{typecnt}, ttinfo_offset: \{ttinfo_offset}",
+  // )
   println(
-    "GML: localtime/tzif-decoder: ttisutcnt: \{ttisutcnt}, ttisstdcnt: \{ttisstdcnt}, leapcnt: \{leapcnt}, timecnt: \{timecnt}, typecnt: \{typecnt}, ttinfo_offset: \{ttinfo_offset}",
-  )
-  println(
-    "GML: localtime/tzif-decoder: load_location_from_tzdata(\{name}): offset: \{current_time_offset}",
+    "GML: localtime/tzif-decoder: load_location_from_tzdata('\{name}', \{current_time_seconds}): offset: \{current_time_offset}",
   )
   (
     @time.fixed_zone!(name, current_time_offset),
@@ -77,27 +70,32 @@ fn load_location_from_tzdata(
   )
 }
 
-///|
-fn dump_offset(s : String, data : FixedArray[Byte], dbg : Int) -> Unit {
-  let dbg_bytes = [
-    data[dbg].to_int(),
-    data[dbg + 1].to_int(),
-    data[dbg + 2].to_int(),
-    data[dbg + 3].to_int(),
-  ]
-  let dbg_value = to_int_be(data, dbg, dbg + 4)
-  println(
-    "GML: localtime/tzif-decoder: \{s}: dump_offset data[\{dbg}:\{dbg+4}]: \{dbg_bytes}, value: \{dbg_value}",
-  )
-}
+// fn dump_offset(s : String, data : FixedArray[Byte], dbg : Int) -> Unit {
+//   let dbg_bytes = [
+//     data[dbg].to_int(),
+//     data[dbg + 1].to_int(),
+//     data[dbg + 2].to_int(),
+//     data[dbg + 3].to_int(),
+//   ]
+//   let dbg_value = to_int_be(data, dbg, dbg )
+//   println(
+//     "GML: localtime/tzif-decoder: \{s}: dump_offset data[\{dbg}:\{dbg+4}]: \{dbg_bytes}, value: \{dbg_value}",
+//   )
+// }
 
 ///| Helper function to convert byte array to integer (big-endian)
-fn to_int_be(bytes : FixedArray[Byte], start : Int, end : Int) -> Int {
-  let mut result = 0
-  for i in start..<end {
-    result = (result << 8) | bytes[i].to_int()
-  }
-  result
+// fn to_int_be(bytes : FixedArray[Byte], start : Int, end : Int) -> Int {
+//   let mut result = 0
+//   for i in start..<end {
+//     result = (result << 8) | bytes[i].to_int()
+//   }
+//   result
+// }
+fn to_int_be(b : FixedArray[Byte], start : Int) -> Int {
+  (b[start].to_int() << 24) |
+  (b[start + 1].to_int() << 16) |
+  (b[start + 2].to_int() << 8) |
+  b[start + 3].to_int()
 }
 
 test "load_location_from_tzdata" {
@@ -120,12 +118,10 @@ test "load_location_from_tzdata" {
      0, 0, 0, 6,
     // charcnt = 20
      0, 0, 0, 20,
-    // data[44..]
+    // data[44..]- transition timestamps
      128, 0, 0, 0, 158, 166, 72, 160, 159, 187, 21, 144, 160, 134, 42, 160, 161,
-    // data[60..]
-     154, 247, 144, 203, 137, 26, 160, 210, 35, 244, 112, 210, 97, 38, 16, 214, 254,
-    // data[76..]
-     116, 92, 216, 128, 173, 144, 218, 254, 195, 144, 219, 192, 144, 16, 220, 222,
+    154, 247, 144, 203, 137, 26, 160, 210, 35, 244, 112, 210, 97, 38, 16, 214, 254,
+    116, 92, 216, 128, 173, 144, 218, 254, 195, 144, 219, 192, 144, 16, 220, 222,
     165, 144, 221, 169, 172, 144, 222, 190, 135, 144, 223, 137, 142, 144, 224, 158,
     105, 144, 225, 105, 112, 144, 226, 126, 75, 144, 227, 73, 82, 144, 228, 94, 45,
     144, 229, 41, 52, 144, 230, 71, 74, 16, 231, 18, 81, 16, 232, 39, 44, 16, 232,
@@ -165,14 +161,16 @@ test "load_location_from_tzdata" {
     11, 32, 114, 111, 194, 16, 115, 21, 237, 32, 116, 79, 164, 16, 116, 255, 9, 160,
     118, 56, 192, 144, 118, 222, 235, 160, 120, 24, 162, 144, 120, 190, 205, 160,
     121, 248, 132, 144, 122, 158, 175, 160, 123, 216, 102, 144, 124, 126, 145, 160,
-    125, 184, 72, 144, 126, 94, 115, 160, 127, 152, 42, 144, 5, 1, 2, 1, 2, 3, 4,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    125, 184, 72, 144, 126, 94, 115, 160, 127, 152, 42, 144,
+    // offset indices per transition timestamp
+     5, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+    1, 2, 1, 2,
     // data[974..]: 4 for offset, 1 for isdst, 1 for abbreviation
      255, 255, 145, 38, 0, 0,
     // data[980..]
