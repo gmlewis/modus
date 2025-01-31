@@ -76,10 +76,15 @@ pub fn get_time_zone_data(
   timezone : String,
   format : String
 ) -> FixedArray[Byte] {
-  let timezone_ptr = ascii_to_go_strptr(timezone)
-  let format_ptr = ascii_to_go_strptr(format)
+  // let timezone_ptr = ascii_to_go_strptr(timezone)
+  // let format_ptr = ascii_to_go_strptr(format)
+  let timezone_ptr = @ffi.str2ptr(timezone) - 8
+  let format_ptr = @ffi.str2ptr(format) - 8
 
   // Call the host function with the pointers to the strings
+  println(
+    "GML: wit/interface/localtime: get_time_zone_data: Calling wasmImportGetTimeZoneData(timezone_ptr: \{timezone_ptr}, format_ptr: \{format_ptr})",
+  )
   let ptr = wasmImportGetTimeZoneData(timezone_ptr, format_ptr)
 
   // Free the allocated memory

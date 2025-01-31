@@ -73,7 +73,7 @@ pub fn get_time_zone() -> String {
 
 ///| get_location returns the @time.Zone for the given time zone.
 /// `timezone` should be a valid IANA time zone identifier, such as "America/New_York".
-pub fn get_location(timezone : String) -> @time.Zone!Error {
+pub fn get_location(timezone : String) -> (@time.Zone, @time.ZoneOffset)!Error {
   if timezone == "" {
     raise LocaltimeError("time zone is required")
   }
@@ -86,7 +86,8 @@ pub fn get_location(timezone : String) -> @time.Zone!Error {
   if result.length() == 0 {
     raise LocaltimeError("time zone '\{timezone}' not found")
   }
-  load_location_from_tzdata!(timezone, result)
+  let current_time_seconds = (@wasi.now() / 1_000_000_000).to_int()
+  load_location_from_tzdata!(timezone, result, current_time_seconds)
 }
 
 ///| is_valid_time_zone returns true if the given time zone is valid.
