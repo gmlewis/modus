@@ -11,7 +11,7 @@
 
 package graphql
 
-import "github.com/hypermodeinc/modus/sdk/go/pkg/testutils"
+import "github.com/gmlewis/modus/sdk/go/pkg/testutils"
 
 var GraphqlQueryCallStack = testutils.NewCallStack()
 

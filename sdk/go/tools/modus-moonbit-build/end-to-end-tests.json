@@ -1,0 +1,325 @@
+{
+  "plugins": [
+    {
+      "name": "test-suite",
+      "path": "sdk/moonbit/examples/test-suite",
+      "endpoints": [
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_empty_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_empty_string_WithDefaults\n}","variables":{}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none_WithDefaults",
+          "query": {"query":"query {\n  hello_option_none_WithDefaults\n}","variables":{}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":true}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_option_some_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_some_string_WithDefaults\n}","variables":{}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_world",
+          "query": {"query":"query {\n  hello_world\n}","variables":{}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg_WithDefaults",
+          "query": {"query":"query {\n  hello_world_with_optional_arg_WithDefaults\n}","variables":{}},
+          "expect": "Hello, 世界 🌍 from MoonBit!"
+        },
+        {
+          "name": "hello_array_of_ints_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_ints_WithDefaults\n}","variables":{}},
+          "expect": [1,2,3]
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":6}},
+          "expect": [1,2,3,4,5,6]
+        },
+        {
+          "name": "hello_array_of_ints_option_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_ints_option_WithDefaults\n}","variables":{}},
+          "expect": [1,2,3]
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":6}},
+          "expect": [1,2,3,4,5,6]
+        },
+        {
+          "name": "hello_array_of_strings_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_strings_WithDefaults\n}","variables":{}},
+          "expect": ["1","2","3"]
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":6}},
+          "expect": ["1","2","3","4","5","6"]
+        },
+        {
+          "name": "hello_array_of_strings_option_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_strings_option_WithDefaults\n}","variables":{}},
+          "expect": ["1","2","3"]
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":6}},
+          "expect": ["1","2","3","4","5","6"]
+        },
+        {
+          "name": "hello_primitive_bool_min",
+          "query": {"query":"query {\n  hello_primitive_bool_min\n}","variables":{}},
+          "expect": false
+        },
+        {
+          "name": "hello_primitive_bool_max",
+          "query": {"query":"query {\n  hello_primitive_bool_max\n}","variables":{}},
+          "expect": true
+        },
+        {
+          "name": "hello_primitive_byte_min",
+          "query": {"query":"query {\n  hello_primitive_byte_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_byte_max",
+          "query": {"query":"query {\n  hello_primitive_byte_max\n}","variables":{}},
+          "expect": 255
+        },
+        {
+          "name": "hello_primitive_char_min",
+          "query": {"query":"query {\n  hello_primitive_char_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_char_max",
+          "query": {"query":"query {\n  hello_primitive_char_max\n}","variables":{}},
+          "expect": 65535
+        },
+        {
+          "name": "hello_primitive_double_min",
+          "query": {"query":"query {\n  hello_primitive_double_min\n}","variables":{}},
+          "expect": -1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_double_max",
+          "query": {"query":"query {\n  hello_primitive_double_max\n}","variables":{}},
+          "expect": 1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_float_min",
+          "query": {"query":"query {\n  hello_primitive_float_min\n}","variables":{}},
+          "expect": -3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_float_max",
+          "query": {"query":"query {\n  hello_primitive_float_max\n}","variables":{}},
+          "expect": 3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_int_min",
+          "query": {"query":"query {\n  hello_primitive_int_min\n}","variables":{}},
+          "expect": -2147483648
+        },
+        {
+          "name": "hello_primitive_int_max",
+          "query": {"query":"query {\n  hello_primitive_int_max\n}","variables":{}},
+          "expect": 2147483647
+        },
+        {
+          "name": "hello_primitive_int16_min",
+          "query": {"query":"query {\n  hello_primitive_int16_min\n}","variables":{}},
+          "expect": -32768
+        },
+        {
+          "name": "hello_primitive_int16_max",
+          "query": {"query":"query {\n  hello_primitive_int16_max\n}","variables":{}},
+          "expect": 32767
+        },
+        {
+          "name": "hello_primitive_int64_min",
+          "query": {"query":"query {\n  hello_primitive_int64_min\n}","variables":{}},
+          "expect": -9223372036854776000
+        },
+        {
+          "name": "hello_primitive_int64_max",
+          "query": {"query":"query {\n  hello_primitive_int64_max\n}","variables":{}},
+          "expect": 9223372036854776000
+        },
+        {
+          "name": "hello_primitive_uint_min",
+          "query": {"query":"query {\n  hello_primitive_uint_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint_max",
+          "query": {"query":"query {\n  hello_primitive_uint_max\n}","variables":{}},
+          "expect": 4294967295
+        },
+        {
+          "name": "hello_primitive_uint16_min",
+          "query": {"query":"query {\n  hello_primitive_uint16_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint16_max",
+          "query": {"query":"query {\n  hello_primitive_uint16_max\n}","variables":{}},
+          "expect": 65535
+        },
+        {
+          "name": "hello_primitive_uint64_min",
+          "query": {"query":"query {\n  hello_primitive_uint64_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint64_max",
+          "query": {"query":"query {\n  hello_primitive_uint64_max\n}","variables":{}},
+          "expect": 18446744073709552000
+        },
+        {
+          "name": "hello_maps_n_items_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
+        },
+        {
+          "name": "hello_maps_n_items_option_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_option_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
+        }
+      ]
+    }
+  ]
+}

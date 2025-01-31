@@ -16,8 +16,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/httpserver"
-	"github.com/hypermodeinc/modus/runtime/metrics"
+	"github.com/gmlewis/modus/runtime/httpserver"
+	"github.com/gmlewis/modus/runtime/metrics"
 
 	"github.com/prometheus/common/expfmt"
 )

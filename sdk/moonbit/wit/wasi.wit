@@ -1,0 +1,12 @@
+interface wasi-snapshot-preview1 {
+  // Timekeeping
+  // Get the resolution of a clock.
+  clock-res-get: func(clockid: u32) -> result<u64, u32>;
+
+  // Get the current time of a clock.
+  clock-time-get: func(clockid: u32, precision: u64) -> result<u64, u32>;
+
+  // Random Number Generation
+  // Fill a buffer with random data.
+  random-get: func(buf: string, buf-len: u32) -> result<_, u32>;
+}

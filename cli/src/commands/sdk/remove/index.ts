@@ -22,7 +22,7 @@ export default class SDKRemoveCommand extends BaseCommand {
   static args = {
     name: Args.string({
       description: "SDK name to remove",
-      options: ["all", "go", "golang", "assemblyscript", "as"],
+      options: ["all", "go", "golang", "mbt", "moonbit", "assemblyscript", "as"],
     }),
     version: Args.string({
       description: "SDK version to remove, if removing a specific SDK. Leave blank to remove all versions of the SDK.",
@@ -52,17 +52,27 @@ export default class SDKRemoveCommand extends BaseCommand {
 
       if (!args.name) {
         const goSdkVersions = await vi.getInstalledSdkVersions(SDK.Go);
+        const mbtSdkVersions = await vi.getInstalledSdkVersions(SDK.MoonBit);
         const asSdkVersions = await vi.getInstalledSdkVersions(SDK.AssemblyScript);
 
-        if (goSdkVersions.length === 0 && asSdkVersions.length === 0) {
+        if (goSdkVersions.length === 0 && mbtSdkVersions.length === 0 && asSdkVersions.length === 0) {
           this.log(chalk.yellow("No Modus SDKs are installed."));
           this.exit(1);
         }
 
-        const sdkVersions: { sdk: SDK; version: string }[] = [...goSdkVersions.map((version) => ({ sdk: SDK.Go, version })), ...asSdkVersions.map((version) => ({ sdk: SDK.AssemblyScript, version }))];
+        const sdkVersions: { sdk: SDK; version: string }[] = [
+	  ...goSdkVersions.map((version) => ({ sdk: SDK.Go, version })),
+	  ...mbtSdkVersions.map((version) => ({ sdk: SDK.MoonBit, version })),
+	  ...asSdkVersions.map((version) => ({ sdk: SDK.AssemblyScript, version }))];
         if (goSdkVersions.length > 0) {
           sdkVersions.push({
             sdk: SDK.Go,
+            version: "all",
+          });
+        }
+        if (mbtSdkVersions.length > 0) {
+          sdkVersions.push({
+            sdk: SDK.MoonBit,
             version: "all",
           });
         }
@@ -168,6 +178,7 @@ export default class SDKRemoveCommand extends BaseCommand {
           this.exit(1);
         } else {
           const sdkText = `Modus ${sdk} SDK ${args.version}`;
+          console.log(`GML: sdk/remove/index.ts: run: args=${JSON.stringify(args)}`); // TODO(gmlewis): remove
           const isInstalled = await vi.sdkVersionIsInstalled(sdk, args.version);
           if (!isInstalled) {
             this.log(chalk.yellow(sdkText + "is not installed."));
@@ -197,6 +208,7 @@ export default class SDKRemoveCommand extends BaseCommand {
   private async removeSDK(sdk: SDK, version: string): Promise<void> {
     const sdkText = `Modus ${sdk} SDK ${version}`;
     await withSpinner(chalk.dim("Removing " + sdkText), async (spinner) => {
+      this.log(`GML2: sdk/remove/index.ts: installSDK: sdk=${sdk}, version=${version}`); // TODO(gmlewis): remove
       const dir = vi.getSdkPath(sdk, version);
       try {
         await fs.rm(dir, { recursive: true, force: true });

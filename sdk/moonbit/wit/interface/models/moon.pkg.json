@@ -1,0 +1,17 @@
+{
+  "import": [
+    "gmlewis/modus/wit/ffi"
+  ],
+  "targets": {
+    "ffi_wasm.mbt": [
+      "wasm"
+    ],
+    "top_wasm.mbt": [
+      "wasm"
+    ],
+    "top_notwasm.mbt": [
+      "not",
+      "wasm"
+    ]
+  }
+}

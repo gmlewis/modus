@@ -14,7 +14,9 @@ import * as fs from "./fs.js";
 import * as globals from "../custom/globals.js";
 
 export function getSdkPath(sdk: globals.SDK, version: string): string {
-  return path.join(globals.ModusHomeDir, "sdk", sdk.toLowerCase(), version);
+  const sdkPath = path.join(globals.ModusHomeDir, "sdk", sdk.toLowerCase(), version);
+  console.log(`GML: util/versioninfo.ts: getSdkPath: sdkPath=${sdkPath}, version=${version}`); // TODO(gmlewis): remove
+  return sdkPath;
 }
 
 export function getRuntimePath(version: string): string {
@@ -48,6 +50,10 @@ export async function fetchModusLatest() {
     throw new Error(`Error fetching latest SDK versions: response was empty`);
   }
 
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = "v0.16.5"
+  data["runtime"] = "v0.16.5"
+
   versionData.latest = data;
   return data;
 }
@@ -64,6 +70,10 @@ export async function fetchModusPreview() {
   if (!data) {
     throw new Error(`Error fetching latest preview SDK versions: response was empty`);
   }
+
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = "v0.16.5"
+  data["runtime"] = "v0.16.5"
 
   versionData.preview = data;
   return data;
@@ -82,6 +92,10 @@ export async function fetchModusAll() {
     throw new Error(`Error fetching all SDK versions: response was empty`);
   }
 
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = ["v0.16.5"]
+  data["runtime"] = ["v0.16.5"]
+
   versionData.all = data;
   return data;
 }
@@ -98,6 +112,10 @@ export async function fetchModusPreviewAll() {
   if (!data) {
     throw new Error(`Error fetching all preview SDK versions: response was empty`);
   }
+
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = ["v0.16.5"]
+  data["runtime"] = ["v0.16.5"]
 
   versionData.allPreview = data;
   return data;
@@ -135,24 +153,31 @@ export async function fetchItemVersionsFromModusPreviewAll(item: string): Promis
 
 export async function getLatestSdkVersion(sdk: globals.SDK, includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
-  const version = data["sdk/" + sdk.toLowerCase()];
+  console.log(`GML: util/versioninfo.ts: getLatestSdkVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
+  const name = globals.parseSDK(sdk);
+  const version = data["sdk/" + name.toLowerCase()];
+  console.log(`GML: util/versioninfo.ts: getLatestSdkVersion: version=${JSON.stringify(version)}`); // TODO(gmlewis): remove
   return version ? version : undefined;
 }
 
 export async function getLatestRuntimeVersion(includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
+  console.log(`GML: util/versioninfo.ts: getLatestRuntimeVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
   const version = data["runtime"];
   return version ? version : undefined;
 }
 
 export async function getLatestCliVersion(includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
+  console.log(`GML: util/versioninfo.ts: getLatestCliVersion: data=${JSON.stringify(data)}`); // TODO(gmlewis): remove
   const version = data["cli"];
   return version ? version : undefined;
 }
 
 export async function getAllSdkVersions(sdk: globals.SDK, includePrerelease: boolean): Promise<string[]> {
-  return await getAllVersions(globals.GetSdkTagPrefix(sdk), includePrerelease);
+  const allVersions = await getAllVersions(globals.GetSdkTagPrefix(sdk), includePrerelease);
+  console.log(`GML: util/versioninfo.ts: getAllSdkVersions: allVersions=${JSON.stringify(allVersions)}`); // TODO(gmlewis): remove
+  return allVersions;
 }
 
 export async function getAllRuntimeVersions(includePrerelease: boolean): Promise<string[]> {
@@ -179,6 +204,7 @@ export async function runtimeReleaseExists(version: string): Promise<boolean> {
 }
 
 export async function sdkVersionIsInstalled(sdk: globals.SDK, version: string): Promise<boolean> {
+  console.log(`GML: util/versioninfo.ts: sdkVersionIsInstalled: sdk=${sdk}, version=${version}`); // TODO(gmlewis): remove
   return await fs.exists(getSdkPath(sdk, version));
 }
 
@@ -210,7 +236,9 @@ export async function getInstalledRuntimeVersions(): Promise<string[]> {
 
 async function getInstalledVersions(dir: string, includePrerelease: boolean): Promise<string[]> {
   if (await fs.exists(dir)) {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
+  console.log(`GML: util/versioninfo.ts: getInstalledVersions: dir=${JSON.stringify(dir)}`); // TODO(gmlewis): remove
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+    console.log(`GML: util/versioninfo.ts: getInstalledVersions: entries=${JSON.stringify(entries)}`); // TODO(gmlewis): remove
     let versions = entries.filter((e) => e.isDirectory() && e.name.startsWith("v")).map((e) => e.name.slice(1));
 
     // If at least one stable release is found, only return stable releases.
@@ -228,6 +256,7 @@ async function getInstalledVersions(dir: string, includePrerelease: boolean): Pr
 }
 
 export async function findCompatibleInstalledRuntimeVersion(sdk: globals.SDK, sdkVersion: string, includePrerelease: boolean): Promise<string | undefined> {
+  console.log(`GML: util/versioninfo.ts: findCompatibleInstalledRuntimeVersion: sdk=${sdk}, sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
   const infoFile = path.join(getSdkPath(sdk, sdkVersion), "sdk.json");
   if (!(await fs.exists(infoFile))) {
     throw new Error(`SDK info file not found: ${infoFile}`);
@@ -262,6 +291,7 @@ export async function findCompatibleInstalledRuntimeVersion(sdk: globals.SDK, sd
 }
 
 export async function findLatestCompatibleRuntimeVersion(sdk: globals.SDK, sdkVersion: string, includePrerelease: boolean): Promise<string | undefined> {
+  console.log(`GML: util/versioninfo.ts: findLatestCompatibleRuntimeVersion: sdk=${sdk}, sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
   const infoFile = path.join(getSdkPath(sdk, sdkVersion), "sdk.json");
   if (!(await fs.exists(infoFile))) {
     throw new Error(`SDK info file not found: ${infoFile}`);

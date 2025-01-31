@@ -13,9 +13,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/httpclient"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/httpclient"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/tidwall/gjson"
 )

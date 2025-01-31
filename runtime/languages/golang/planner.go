@@ -12,10 +12,11 @@ package golang
 import (
 	"context"
 	"fmt"
+	"strings"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
@@ -57,6 +58,9 @@ func (h *typeHandler) TypeInfo() langsupport.TypeInfo {
 }
 
 func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.TypeHandler, error) {
+	if i := strings.Index(typeName, "!"); i >= 0 {
+		typeName = typeName[:i]
+	}
 	if handler, ok := p.typeHandlers[typeName]; ok {
 		return handler, nil
 	}
