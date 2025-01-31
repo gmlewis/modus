@@ -11,6 +11,7 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"fmt"
 	"log"
 	"reflect"
@@ -132,20 +133,44 @@ func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	log.Printf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
 
-	switch len(h.fieldHandlers) {
-	case 0:
-		return nil, nil
-	case 1:
-		data, err := h.fieldHandlers[0].Decode(ctx, wa, vals)
+	if len(vals) != 1 {
+		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
+	}
+
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	if err != nil {
+		return nil, err
+	}
+
+	numFields := len(h.typeDef.Fields)
+	m := make(map[string]any, numFields)
+
+	for i, field := range h.typeDef.Fields {
+		handler := h.fieldHandlers[i]
+		fieldOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
+		fieldObj, err := handler.Decode(ctx, wa, []uint64{uint64(fieldOffset)})
 		if err != nil {
 			return nil, err
 		}
-		m := map[string]any{h.typeDef.Fields[0].Name: data}
-		return h.getStructOutput(m)
+		m[field.Name] = fieldObj
 	}
 
-	// this doesn't need to be supported until TinyGo implements multi-value returns
-	return nil, fmt.Errorf("decoding struct of type %s is not supported", h.typeInfo.Name())
+	return h.getStructOutput(m)
+
+	// switch len(h.fieldHandlers) {
+	// case 0:
+	// 	return nil, nil
+	// case 1:
+	// 	data, err := h.fieldHandlers[0].Decode(ctx, wa, vals)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	m := map[string]any{h.typeDef.Fields[0].Name: data}
+	// 	return h.getStructOutput(m)
+	// }
+
+	// // this doesn't need to be supported until TinyGo implements multi-value returns
+	// return nil, fmt.Errorf("decoding struct of type %s is not supported", h.typeInfo.Name())
 }
 
 func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
