@@ -21,8 +21,9 @@ import (
 )
 
 // Fprint "pretty-prints" a Go AST node to w as MoonBit source code.
-// It returns true if the function can raise an error.
-func Fprint(w io.Writer, fset *token.FileSet, node any) bool {
+// If the function can return an "!Error", it returns the full return type
+// of the function before the "!Error". (e.g. "String", "@time.ZonedDateTime", etc.)
+func Fprint(w io.Writer, fset *token.FileSet, node any) string {
 	var params []string
 	resultType := "Unit"
 	switch n := node.(type) {
@@ -38,11 +39,12 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) bool {
 		returnMayRaiseError := errorIndex >= 0
 		if returnMayRaiseError {
 			resultType = resultType[:errorIndex] // strip off error type
+			fmt.Fprintf(w, "(%v) -> Int", strings.Join(params, ", "))
+			return resultType
 		}
 		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
-		return returnMayRaiseError
 	default:
 		log.Printf("WARNING: printer.FPrint: unhandled node type %T\n", node)
 	}
-	return false
+	return ""
 }

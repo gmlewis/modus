@@ -7,6 +7,6 @@
       "alias": "host"
     },
     "moonbitlang/x/sys",
-    "moonbitlang/x/time"
+    "gmlewis/modus/pkg/time"
   ]
 }

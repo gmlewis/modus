@@ -1,6 +1,6 @@
 {
   "import": [
-    "moonbitlang/x/time"
+    "gmlewis/modus/pkg/time"
   ],
   "targets": {
     "modus_post_generated.mbt": [

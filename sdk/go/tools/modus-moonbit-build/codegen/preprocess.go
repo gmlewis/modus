@@ -17,6 +17,7 @@ import (
 	"log"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -255,6 +256,7 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 }
 
 func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[string]string, fns []*funcInfo) error {
+	needWasmStub := map[string]string{}
 	for _, info := range fns {
 		fn := info.function
 		name := fn.Name.Name
@@ -264,9 +266,17 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		b.WriteString(name)
 
 		buf := &bytes.Buffer{}
-		hasErrorReturn := printer.Fprint(buf, pkg.Fset, fn.Type)
+		errorFullReturnType := printer.Fprint(buf, pkg.Fset, fn.Type)
+		hasErrorReturn := errorFullReturnType != ""
+		var errorTypeName string
 		if hasErrorReturn {
 			imports["gmlewis/modus/pkg/console"] = "@console"
+			parts := strings.Split(errorFullReturnType, ".")
+			if len(parts) == 1 {
+				errorTypeName = parts[0]
+			} else {
+				errorTypeName = parts[1]
+			}
 		}
 
 		decl := strings.TrimPrefix(buf.String(), "fn")
@@ -299,14 +309,16 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		name = strings.TrimSuffix(name, "_WithDefaults")
 
 		if hasErrorReturn {
-			b.WriteString("  try ")
+			wasmStub := "int_from_" + errorTypeName
+			needWasmStub[wasmStub] = errorFullReturnType
+			b.WriteString("  try " + wasmStub + "(")
 			b.WriteString(name)
 			b.WriteByte('!')
 			b.Write(inputParams.Bytes())
-			b.WriteString(" {\n")
+			b.WriteString(") {\n")
 			b.WriteString("    e => {\n")
 			b.WriteString("      @console.error(e.to_string())\n")
-			b.WriteString("      abort(e.to_string())\n")
+			b.WriteString("      0\n")
 			b.WriteString("    }\n")
 			b.WriteString("  }\n")
 		} else {
@@ -316,6 +328,17 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 			b.WriteByte('\n')
 		}
 		b.WriteString("}\n\n")
+	}
+
+	stubNames := make([]string, 0, len(needWasmStub))
+	for stubName := range needWasmStub {
+		stubNames = append(stubNames, stubName)
+	}
+	slices.Sort(stubNames)
+	for _, stubName := range stubNames {
+		b.WriteString(fmt.Sprintf(`extern "wasm" fn %v(ptr : &Any) -> Int =
+  #|(func (param $ptr i32) (result i32) local.get $ptr)`, stubName))
+		b.WriteString("\n\n")
 	}
 
 	return nil

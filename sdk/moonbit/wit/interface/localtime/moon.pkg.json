@@ -1,7 +1,7 @@
 {
   "import": [
     "gmlewis/modus/wit/ffi",
-    "moonbitlang/x/time"
+    "gmlewis/modus/pkg/time"
   ],
   "targets": {
     "top_wasm.mbt": [ "wasm" ],

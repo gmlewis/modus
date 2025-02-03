@@ -3,7 +3,7 @@
     "gmlewis/modus/pkg/console",
     "gmlewis/modus/wit/interface/wasi",
     "moonbitlang/x/sys",
-    "moonbitlang/x/time"
+    "gmlewis/modus/pkg/time"
   ],
   "test-import": [
     "gmlewis/modus/pkg/testutils"

@@ -35,16 +35,15 @@ pub fn get_local_time() -> String!Error {
 ///|
 /// Returns the current time in a specified time zone.
 pub fn get_time_in_zone(tz : String) -> String!Error {
-  println("GML: main.mbt: get_time_in_zone: tz: \{tz}")
-  let now = @localtime.now_in_zone!(tz)
-  // now.format(@localtime.RFC3339)
+  let now = @localtime.now!(timezone=tz)
+  println("GML: main.mbt: get_time_in_zone: tz: \{tz}, now: \{now}")
   now.to_string()
 }
 
 ///|
 /// Returns the local time zone identifier.
-pub fn get_local_time_zone() -> String {
-  @localtime.get_time_zone()
+pub fn get_local_time_zone_id() -> String {
+  @localtime.get_local_time_zone_id()
 }
 
 ///|
@@ -57,14 +56,14 @@ pub struct TimeZoneInfo {
 
 ///| Returns some basic information about the time zone specified.
 pub fn get_time_zone_info(tz : String) -> TimeZoneInfo!Error {
-  let loc = @localtime.get_location!(tz)
-  let jan1 = @time.date_time!(2024, 1, 1, zone=loc.0)
-  let jul1 = @time.date_time!(2024, 7, 1, zone=loc.0)
-  let jan_name = jan1.zone().to_string()
-  let jul_name = jul1.zone().to_string()
+  let zone = @localtime.get_time_zone!(timezone=tz)
+  let jan1 = @time.date_time!(2024, 1, 1, zone~)
+  let jul1 = @time.date_time!(2024, 7, 1, zone~)
+  let jan_name = jan1.offset().abbreviation()
+  let jul_name = jul1.offset().abbreviation()
   let jan_offset = jan1.offset()
   let jul_offset = jul1.offset()
-  let (std_name, std_offset, dlt_name, dlt_offset) = if jan_offset <= jul_offset {
+  let (std_name, std_offset, dlt_name, dlt_offset) = if jul_offset <= jan_offset {
     (jan_name, jan_offset, jul_name, jul_offset)
   } else {
     (jul_name, jul_offset, jan_name, jan_offset)
