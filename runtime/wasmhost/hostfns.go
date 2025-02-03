@@ -446,6 +446,7 @@ func encodeResults(ctx context.Context, wa langsupport.WasmAdapter, plan langsup
 	}
 
 	if plan.UseResultIndirection() {
+		log.Printf("GML: hostfns.go: encodeResults: UseResultIndirection=true: CALLING writeIndirectResults")
 		return writeIndirectResults(ctx, wa, plan, uint32(stack[0]), results)
 	}
 

@@ -135,6 +135,7 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 }
 
 func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Function, fnDef wasm.FunctionDefinition) (uint32, error) {
+	log.Printf("GML: planner.go: getIndirectResultSize: len(fnMeta.Results)=%v, len(fnDefResultTypes)=%v", len(fnMeta.Results), len(fnDef.ResultTypes()))
 
 	// If no results are expected, then we don't need to use indirection.
 	if len(fnMeta.Results) == 0 {
@@ -142,7 +143,11 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 	}
 
 	// If the function definition has results, then we don't need to use indirection.
-	if len(fnDef.ResultTypes()) > 0 {
+	// if len(fnDef.ResultTypes()) > 0 {
+	// 	return 0, nil
+	// }
+	// If the function definition has exactly one result, then we don't need to use indirection.
+	if len(fnDef.ResultTypes()) == 1 {
 		return 0, nil
 	}
 
@@ -163,5 +168,6 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 		}
 		totalSize += size
 	}
+	log.Printf("GML: planner.go: getIndirectResultSize: len(fnMeta.Results)=%v, len(fnDefResultTypes)=%v, totalSize=%v", len(fnMeta.Results), len(fnDef.ResultTypes()), totalSize)
 	return totalSize, nil
 }

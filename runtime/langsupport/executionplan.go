@@ -124,10 +124,10 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Get the result indirection pointer (if any)
-	log.Printf("GML: executionplan.go: InvokeFunction: plan.UseResultIndirection")
 	var indirectPtr uint32
 	if plan.UseResultIndirection() {
 		indirectPtr = uint32(params[0])
+		log.Printf("GML: executionplan.go: InvokeFunction: plan.UseResultIndirection: true, indirectPtr=%v", indirectPtr)
 	}
 
 	// Interpret and return the results
@@ -177,6 +177,7 @@ func (plan *executionPlan) getWasmParameters(ctx context.Context, wa WasmAdapter
 func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdapter, vals []uint64, indirectPtr uint32) (any, error) {
 
 	handlers := plan.ResultHandlers()
+	log.Printf("GML: executionplan.go: interpretWasmResults: len(handlers)=%v, len(vals)=%v, indirectPtr=%v", len(handlers), len(vals), indirectPtr)
 	switch len(handlers) {
 	case 0:
 		// no results are expected
@@ -185,11 +186,14 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 		// a single result is expected
 		handler := handlers[0]
 		if plan.UseResultIndirection() {
+			log.Printf("GML: executionplan.go: interpretWasmResults: calling handler.Read: vals=%+v, indirectPtr=%v", vals, indirectPtr)
 			return handler.Read(ctx, wa, indirectPtr)
 		} else if len(vals) == 1 {
+			log.Printf("GML: executionplan.go: interpretWasmResults: calling handler.Decode")
 			return handler.Decode(ctx, wa, vals)
 		} else {
 			// no actual result value, but we need to return a zero value of the expected type
+			log.Printf("GML: executionplan.go: interpretWasmResults: no actual result value, but we need to return a zero value of the expected type: vals=%+v", vals)
 			return handler.TypeInfo().ZeroValue(), nil
 		}
 	}

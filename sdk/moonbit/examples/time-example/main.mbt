@@ -10,8 +10,7 @@
 // - If you return a `@time.ZonedDateTime` object to Modus, it will be converted to UTC - regardless of the time zone.
 //   Thus, if you need to return a time object to Modus, you should return a formatted string instead - Preferably in RFC3339 (ISO 8601) format.
 
-///|
-/// Returns the current time in UTC.
+///| Returns the current time in UTC.
 pub fn get_utc_time() -> @time.ZonedDateTime!Error {
   let now_nanos = @wasi.now()
   let seconds = now_nanos / 1_000_000_000
@@ -23,8 +22,7 @@ pub fn get_utc_time() -> @time.ZonedDateTime!Error {
   result
 }
 
-///|
-/// Returns the current local time.
+///| Returns the current local time.
 pub fn get_local_time() -> String!Error {
   let now = @localtime.now!()
   println("GML: main.mbt: get_local_time: now=\{now}")
@@ -32,16 +30,14 @@ pub fn get_local_time() -> String!Error {
   now.to_string()
 }
 
-///|
-/// Returns the current time in a specified time zone.
+///| Returns the current time in a specified time zone.
 pub fn get_time_in_zone(tz : String) -> String!Error {
   let now = @localtime.now!(timezone=tz)
   println("GML: main.mbt: get_time_in_zone: tz: \{tz}, now: \{now}")
   now.to_string()
 }
 
-///|
-/// Returns the local time zone identifier.
+///| Returns the local time zone identifier.
 pub fn get_local_time_zone_id() -> String {
   @localtime.get_local_time_zone_id()
 }

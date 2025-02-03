@@ -68,38 +68,38 @@ pub fn __modus_add_n(args : Array[Int]) -> Int {
   add_n(args)
 }
 
-pub fn __modus_get_current_time(now : @wallClock.Datetime) -> Int {
-  try int_from_ZonedDateTime(get_current_time!(now~)) {
+pub fn __modus_get_current_time(now : @wallClock.Datetime) -> @time.ZonedDateTime!Error {
+  try get_current_time!(now~) {
     e => {
       @console.error(e.to_string())
-      0
+      raise e
     }
   }
 }
 
-pub fn __modus_get_current_time_WithDefaults() -> Int {
-  try int_from_ZonedDateTime(get_current_time!()) {
+pub fn __modus_get_current_time_WithDefaults() -> @time.ZonedDateTime!Error {
+  try get_current_time!() {
     e => {
       @console.error(e.to_string())
-      0
+      raise e
     }
   }
 }
 
-pub fn __modus_get_current_time_formatted(now : @wallClock.Datetime) -> Int {
-  try int_from_String(get_current_time_formatted!(now~)) {
+pub fn __modus_get_current_time_formatted(now : @wallClock.Datetime) -> String!Error {
+  try get_current_time_formatted!(now~) {
     e => {
       @console.error(e.to_string())
-      0
+      raise e
     }
   }
 }
 
-pub fn __modus_get_current_time_formatted_WithDefaults() -> Int {
-  try int_from_String(get_current_time_formatted!()) {
+pub fn __modus_get_current_time_formatted_WithDefaults() -> String!Error {
+  try get_current_time_formatted!() {
     e => {
       @console.error(e.to_string())
-      0
+      raise e
     }
   }
 }
@@ -132,11 +132,11 @@ pub fn __modus_get_name_and_age() -> (String, Int) {
   get_name_and_age()
 }
 
-pub fn __modus_test_normal_error(input : String) -> Int {
-  try int_from_String(test_normal_error!(input)) {
+pub fn __modus_test_normal_error(input : String) -> String!Error {
+  try test_normal_error!(input) {
     e => {
       @console.error(e.to_string())
-      0
+      raise e
     }
   }
 }
@@ -156,12 +156,6 @@ pub fn __modus_test_exit() -> Unit {
 pub fn __modus_test_logging() -> Unit {
   test_logging()
 }
-
-extern "wasm" fn int_from_String(ptr : &Any) -> Int =
-  #|(func (param $ptr i32) (result i32) local.get $ptr)
-
-extern "wasm" fn int_from_ZonedDateTime(ptr : &Any) -> Int =
-  #|(func (param $ptr i32) (result i32) local.get $ptr)
 
 `
 

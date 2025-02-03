@@ -38,8 +38,8 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) string {
 		errorIndex := strings.Index(resultType, "!")
 		returnMayRaiseError := errorIndex >= 0
 		if returnMayRaiseError {
+			fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)
 			resultType = resultType[:errorIndex] // strip off error type
-			fmt.Fprintf(w, "(%v) -> Int", strings.Join(params, ", "))
 			return resultType
 		}
 		fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)

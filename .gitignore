@@ -16,6 +16,8 @@
 __debug_bin*
 *_generated.go
 *.generated.go
+*_generated.mbt
+*.generated.mbt
 
 # Ignore build output directories and modus databases
 build/

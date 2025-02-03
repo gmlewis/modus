@@ -20,6 +20,7 @@ pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
   } else {
     timezone
   }
+  println("pkg/localtime: now: timezone: \{timezone}")
 
   //
   if timezone == "" {
@@ -28,8 +29,9 @@ pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
     println("pkg/localtime: now: @host.get_local_time!(): result: \{result}")
     return result
   }
-  let now = @wasi.now()
+  let now = @wasi.now() / 1_000_000_000
   let zone = get_time_zone!(timezone~)
+  println("pkg/localtime: now: now: \{now}, zone: \{zone}")
   let result = @time.unix!(now, zone~)
   println(
     "pkg/localtime: now: timezone: \{timezone}, now: \{now}, zone: \{zone}, result: \{result}",

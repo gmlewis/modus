@@ -38,7 +38,7 @@ runapp:
 	MODUS_ENV=dev go run . -appPath $$ARGS
 
 .PHONY: build-testdata
-build-testdata: build-testdata-assemblyscript build-testdata-golang
+build-testdata: build-testdata-assemblyscript build-testdata-golang build-testdata-moonbit
 
 .PHONY: build-testdata-assemblyscript
 build-testdata-assemblyscript:
@@ -47,6 +47,10 @@ build-testdata-assemblyscript:
 .PHONY: build-testdata-golang
 build-testdata-golang:
 	cd languages/golang/testdata && ./build.sh
+
+.PHONY: build-testdata-moonbit
+build-testdata-moonbit:
+	cd languages/moonbit/testdata && ./build.sh
 
 .PHONY: test
 test:
