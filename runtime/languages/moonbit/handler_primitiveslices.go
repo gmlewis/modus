@@ -32,10 +32,13 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 
 	typeDef, err := p.metadata.GetTypeDefinition(ti.Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewPrimitiveSliceHandler: p.metadata.GetTypeDefinition('%v'): %w", ti.Name(), err)
 	}
 
-	switch ti.ListElementType().Name() {
+	typ, hasError, hasOption := stripErrorAndOption(ti.ListElementType().Name())
+	log.Printf("GML: handler_primitiveslices.go: NewPrimitiveSliceHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
+
+	switch typ {
 	case "Bool":
 		return newPrimitiveSliceHandler[bool](ti, typeDef), nil
 		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number

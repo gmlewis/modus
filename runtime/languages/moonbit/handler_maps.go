@@ -30,36 +30,38 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 
 	typeDef, err := p.metadata.GetTypeDefinition(ti.Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewMapHandler: p.metadata.GetTypeDefinition('%v'): %w", ti.Name(), err)
 	}
 	handler.typeDef = typeDef
 
 	keyType := ti.MapKeyType()
 	valueType := ti.MapValueType()
 
-	sliceOfKeysHandler, err := p.GetHandler(ctx, "Array["+keyType.Name()+"]")
+	sliceOfKeysType := "Array[" + keyType.Name() + "]"
+	sliceOfKeysHandler, err := p.GetHandler(ctx, sliceOfKeysType)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewMapHandler: p.GetHandler('%v'): %w", sliceOfKeysType, err)
 	}
 	handler.sliceOfKeysHandler = sliceOfKeysHandler
 	p.AddHandler(sliceOfKeysHandler)
 
 	keysHandler, err := p.GetHandler(ctx, keyType.Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewMapHandler: p.GetHandler('%v'): %w", keyType.Name(), err)
 	}
 	handler.keysHandler = keysHandler
 
-	sliceOfValuesHandler, err := p.GetHandler(ctx, "Array["+valueType.Name()+"]")
+	sliceOfValuesType := "Array[" + valueType.Name() + "]"
+	sliceOfValuesHandler, err := p.GetHandler(ctx, sliceOfValuesType)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewMapHandler: p.GetHandler('%v'): %w", sliceOfValuesType, err)
 	}
 	handler.sliceOfValuesHandler = sliceOfValuesHandler
 	p.AddHandler(sliceOfValuesHandler)
 
 	valuesHandler, err := p.GetHandler(ctx, valueType.Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewMapHandler: p.GetHandler('%v'): %w", valueType.Name(), err)
 	}
 	handler.valuesHandler = valuesHandler
 

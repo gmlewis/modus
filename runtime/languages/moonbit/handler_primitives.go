@@ -33,13 +33,16 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 		}
 	}()
 
-	switch ti.Name() {
+	typ, hasError, hasOption := stripErrorAndOption(ti.Name())
+	log.Printf("GML: handler_primitives.go: NewPrimitiveHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
+
+	switch typ {
 	case "Bool":
 		return newPrimitiveHandler[bool](ti), nil
 		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number
 	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveHandler[int16](ti), nil
-	case "Int": // 32-bit signed integer, e.g. `42`
+	case "Int", "Unit": // 32-bit signed integer, e.g. `42` (or `Unit!Error`)
 		return newPrimitiveHandler[int32](ti), nil
 	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveHandler[int64](ti), nil

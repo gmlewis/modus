@@ -110,7 +110,14 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 
 func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
-	typ, _, _ = stripErrorAndOption(typ)
+	var hasError bool
+	typ, hasError, _ = stripErrorAndOption(typ)
+
+	if typ == "Unit" && hasError {
+		return "Unit!Error"
+	} else if typ == "Unit" {
+		return "Unit"
+	}
 
 	if lti.IsOptionType(typ) { // TODO
 		result := lti.GetNameForType(lti.GetUnderlyingType(typ)) + "?"
@@ -168,7 +175,13 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 }
 
 func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
-	typ, _, _ = stripErrorAndOption(typ)
+	var hasError bool
+	typ, hasError, _ = stripErrorAndOption(typ)
+
+	if typ == "Unit" || hasError {
+		log.Printf("GML: typeinfo.go: GetUnderlyingType('Unit!Error') = 'Int'")
+		return "Int" // GML: Experiment
+	}
 
 	// TODO
 	// result := strings.TrimPrefix(typ, "*") // for Go
@@ -264,7 +277,13 @@ func (lti *langTypeInfo) IsFloatType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsIntegerType(typ string) bool {
-	typ, _, _ = stripErrorAndOption(typ)
+	var hasError bool
+	typ, hasError, _ = stripErrorAndOption(typ)
+
+	if typ == "Unit" || hasError {
+		log.Printf("GML: typeinfo.go: IsIntegerType('Unit!Error') = true")
+		return true // GML: Experiment
+	}
 
 	switch typ {
 	case "Int", "Int16", "Int64",
@@ -290,7 +309,12 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
-	_, hasError, hasOption := stripErrorAndOption(typ)
+	typ, hasError, hasOption := stripErrorAndOption(typ)
+
+	if typ == "Unit" || hasError {
+		log.Printf("GML: typeinfo.go: IsNullableType('Unit!Error') = true")
+		return true // GML: Experiment
+	}
 
 	// result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
 	result := hasError || hasOption
@@ -299,7 +323,12 @@ func (lti *langTypeInfo) IsNullableType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsOptionType(typ string) bool {
-	_, _, result := stripErrorAndOption(typ)
+	t, hasError, result := stripErrorAndOption(typ)
+
+	if t == "Unit" || hasError {
+		log.Printf("GML: typeinfo.go: IsOptionType('Unit!Error') = true")
+		return true // GML: Experiment
+	}
 
 	log.Printf("GML: typeinfo.go: IsOptionType('%v') = %v", typ, result)
 	return result
@@ -584,7 +613,13 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 }
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
-	typ, _, _ = stripErrorAndOption(typ) // TODO: Add size of error here?
+	var hasError bool
+	typ, hasError, _ = stripErrorAndOption(typ) // TODO: Add size of error here?
+
+	if typ == "Unit" || hasError {
+		log.Printf("GML: typeinfo.go: GetSizeOfType('Unit!Error') = 1")
+		return 1, nil // GML: Experiment
+	}
 
 	switch typ {
 	case "Bool", "Byte":
@@ -649,6 +684,8 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
 	typ, _, _ = stripErrorAndOption(typ)
 
+	// TODO: Does Unit!Error need to be handled here?
+
 	md, ok := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
 	if !ok {
 		return nil, fmt.Errorf("typeinfo.go: GetTypeDefinition('%v'): metadata not found in context", typ)
@@ -661,6 +698,8 @@ func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*me
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
 	typ, _, _ = stripErrorAndOption(typ)
+
+	// TODO: Does Unit!Error need to be handled here?
 
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)
@@ -686,6 +725,8 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		log.Printf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
 		return rt, nil
 	}
+
+	// TODO: Does Unit!Error need to be handled here?
 
 	if lti.IsOptionType(typ) {
 		tt := lti.GetUnderlyingType(typ)

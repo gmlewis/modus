@@ -30,13 +30,13 @@ func (p *planner) NewSliceHandler(ctx context.Context, ti langsupport.TypeInfo) 
 
 	typeDef, err := p.metadata.GetTypeDefinition(ti.Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewSliceHandler: p.metadata.GetTypeDefinition('%v'): %w", ti.Name(), err)
 	}
 	handler.typeDef = typeDef
 
 	elementHandler, err := p.GetHandler(ctx, ti.ListElementType().Name())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("planner.NewSliceHandler: p.GetHandler('%v'): %w", ti.ListElementType().Name(), err)
 	}
 	handler.elementHandler = elementHandler
 

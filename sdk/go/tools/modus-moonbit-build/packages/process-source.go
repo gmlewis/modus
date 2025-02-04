@@ -48,6 +48,7 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 
 func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
 	for _, match := range m {
+		log.Printf("GML: processPubStructs: processing: %+v", match)
 		name := match[1]
 		var fields []*ast.Field
 		var fieldVars []*types.Var

@@ -12,6 +12,7 @@ package moonbit
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -23,6 +24,8 @@ import (
 )
 
 func NewPlanner(metadata *metadata.Metadata) langsupport.Planner {
+	buf, _ := json.MarshalIndent(metadata, "", "  ")
+	log.Printf("GML: planner.go: NewPlanner:\n%s", buf)
 	return &planner{
 		typeCache:    make(map[string]langsupport.TypeInfo),
 		typeHandlers: make(map[string]langsupport.TypeHandler),

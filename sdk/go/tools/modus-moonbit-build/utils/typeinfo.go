@@ -44,7 +44,7 @@ func GetNameForType(t string, imports map[string]string) string {
 		switch {
 		case strings.HasPrefix(t, "Array["):
 			result := "Array[" + GetNameForType(GetListSubtype(t), imports) + "]"
-			log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", t, result)
+			log.Printf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", t, result)
 			return result
 		case strings.HasPrefix(t, "FixedArray["):
 			result := "FixedArray[" + GetNameForType(GetListSubtype(t), imports) + "]"
@@ -57,17 +57,23 @@ func GetNameForType(t string, imports map[string]string) string {
 
 	if IsMapType(t) {
 		kt, vt := GetMapSubtypes(t)
-		return "Map[" + GetNameForType(kt, imports) + "," + GetNameForType(vt, imports) + "]"
+		keyTypeName := GetNameForType(kt, imports)
+		valueTypeName := GetNameForType(vt, imports)
+		result := "Map[" + keyTypeName + "," + valueTypeName + "]"
+		log.Printf("GML: typeinfo.go: C: GetNameForType('%v') = '%v'", t, result)
+		return result
 	}
 
 	pkgPath := t[:sep]
 	pkgName := imports[pkgPath]
 	typeName := t[sep+1:]
 	if pkgName == "" {
+		log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", t, typeName)
 		return typeName
-	} else {
-		return pkgName + "." + typeName
 	}
+	result := pkgName + "." + typeName
+	log.Printf("GML: typeinfo.go: E: GetNameForType('%v') = '%v'", t, result)
+	return result
 }
 
 func GetPackageNamesForType(t string) []string {
@@ -241,7 +247,9 @@ func IsStringType(typ string) bool {
 
 func IsStructType(t string) bool {
 	// return !IsPointerType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
-	return !IsOptionType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
+	result := !IsOptionType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
+	log.Printf("GML: typeinfo.go: IsStructType('%v') = %v", t, result)
+	return result
 }
 
 func IsPrimitiveType(typ string) bool {

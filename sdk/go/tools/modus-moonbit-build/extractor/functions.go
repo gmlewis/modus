@@ -180,7 +180,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 	case *types.Named:
 		// required types are required to be exported, so that we can use them in generated code
 		// if !t.Obj().Exported() {
-		// 	fmt.Fprintf(os.Stderr, "ERROR: Required type %s is not exported. Rename it to start with a capital letter and try again.\n", name)
+		// 	fmt.Fprintf(os.Stderr, "ERROR: Required type '%v' is not exported. Please export it by adding the `pub` keyword and try again.\n", name)
 		// 	os.Exit(1)
 		// }
 
@@ -192,24 +192,49 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		u := t.Underlying()
 		m[name] = u
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+		var hasOption bool
+		name, _, hasOption = stripErrorAndOption(name)
+		if hasOption {
+			m[name+"?"] = u
+		}
+		// if hasError {
+		// 	m[name] = u
+		// }
 
 		// Because the MoonBit SDK is currently using *types.Named for _ALL_ types, more processing needs to happen here.
 		if strings.HasPrefix(name, "Map[") {
-			t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
-			parts := strings.Split(t, ",")
-			if len(parts) != 2 {
-				log.Printf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
-				return false
-			}
+			keyType, valueType := GetMapSubtypes(name)
+			// t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
+			// parts := strings.Split(t, ",")
+			// if len(parts) != 2 {
+			// 	log.Printf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+			// 	return false
+			// }
 			// Force the planner to make a plan for slices of the keys and values of the map.
-			keyType := strings.TrimSpace(parts[0])
+			// keyType := strings.TrimSpace(parts[0])
 			keyName := fmt.Sprintf("Array[%v]", keyType)
 			m[keyName] = nil
 			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", keyName)
-			valueType := strings.TrimSpace(parts[1])
+			// valueType := strings.TrimSpace(parts[1])
 			valueName := fmt.Sprintf("Array[%v]", valueType)
 			m[valueName] = nil
 			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+			_, _, hasOption = stripErrorAndOption(valueType)
+			if hasOption {
+				m[valueName] = nil
+				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+			}
+			// TODO: This is not correct.  May have to rethink how the MoonBit source code is parsed.
+			// if utils.IsStructType(valueType) {
+			// 	if _, ok := m[valueType]; !ok {
+			// 		for k := range m {
+			// 			if strings.Contains(k, valueType) {
+			// 				log.Printf("GML: known type: %q", k)
+			// 			}
+			// 		}
+			// 		log.Fatalf("ERROR: Required type '%v' is not exported. Please export it by adding the `pub` keyword and try again.\n", valueType)
+			// 	}
+			// }
 		}
 
 		// skip fields for some well-known types
@@ -261,4 +286,52 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 	}
 
 	return false
+}
+
+// TODO: remove duplication
+
+func stripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
+	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		hasError = true
+		typeSignature = typeSignature[:i]
+	}
+	hasOption = strings.HasSuffix(typeSignature, "?")
+	return strings.TrimSuffix(typeSignature, "?"), hasError, hasOption
+}
+
+func GetMapSubtypes(typ string) (string, string) {
+	typ, _, _ = stripErrorAndOption(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		log.Printf("ERROR: functions.go: GetMapSubtypes('%v'): Bad map type!", typ)
+		return "", ""
+	}
+
+	const prefix = "Map[" // e.g. Map[String, Int]
+	if !strings.HasPrefix(typ, prefix) {
+		log.Printf("GML: functions.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		return "", ""
+	}
+	typ = strings.TrimSuffix(typ, "?")
+	typ = strings.TrimSuffix(typ, "]")
+	typ = strings.TrimPrefix(typ, prefix)
+
+	n := 1
+	for i := 0; i < len(typ); i++ {
+		switch typ[i] {
+		case '[':
+			n++
+		case ']':
+			n--
+		case ',':
+			if n == 1 {
+				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
+				log.Printf("GML: functions.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				return r1, r2
+			}
+		}
+	}
+
+	log.Printf("GML: functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	return "", ""
 }
