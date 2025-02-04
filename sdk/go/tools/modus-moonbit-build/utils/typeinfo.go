@@ -10,11 +10,23 @@
 package utils
 
 import (
+	"log"
 	"sort"
 	"strings"
 )
 
+// TODO: How to keep this in sync with runtime/languages/moonbit/typeinfo.go???
+
+func stripError(typeSignature string) (string, bool) {
+	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		return typeSignature[:i], true
+	}
+	return typeSignature, false
+}
+
 func GetNameForType(t string, imports map[string]string) string {
+	t, _ = stripError(t)
+
 	sep := strings.LastIndex(t, ".")
 	if sep == -1 {
 		return t
@@ -29,7 +41,18 @@ func GetNameForType(t string, imports map[string]string) string {
 	// }
 
 	if IsListType(t) {
-		return "Array[" + GetNameForType(GetArraySubtype(t), imports) + "]"
+		switch {
+		case strings.HasPrefix(t, "Array["):
+			result := "Array[" + GetNameForType(GetListSubtype(t), imports) + "]"
+			log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", t, result)
+			return result
+		case strings.HasPrefix(t, "FixedArray["):
+			result := "FixedArray[" + GetNameForType(GetListSubtype(t), imports) + "]"
+			log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", t, result)
+			return result
+		default:
+			log.Printf("PROGRAMMING ERROR: typeinfo.go: GetNameForType('%v'): Bad list type!", t)
+		}
 	}
 
 	if IsMapType(t) {
@@ -48,6 +71,8 @@ func GetNameForType(t string, imports map[string]string) string {
 }
 
 func GetPackageNamesForType(t string) []string {
+	t, _ = stripError(t)
+
 	if IsOptionType(t) {
 		return GetPackageNamesForType(GetUnderlyingType(t))
 	}
@@ -57,7 +82,7 @@ func GetPackageNamesForType(t string) []string {
 	// }
 
 	if IsListType(t) {
-		return GetPackageNamesForType(GetArraySubtype(t))
+		return GetPackageNamesForType(GetListSubtype(t))
 	}
 
 	if IsMapType(t) {
@@ -82,69 +107,136 @@ func GetPackageNamesForType(t string) []string {
 	return nil
 }
 
-func GetArraySubtype(t string) string {
-	// TODO: FixedArray[] are fixed length, Array[] are dynamic
-	// Go: return t[strings.Index(t, "]")+1:]
-	return strings.TrimSuffix(strings.TrimPrefix(t, "Array["), "]")
+// func GetArraySubtype(t string) string {
+// 	// TODO: FixedArray[] are fixed length, Array[] are dynamic
+// 	// Go: return t[strings.Index(t, "]")+1:]
+// 	return strings.TrimSuffix(strings.TrimPrefix(t, "Array["), "]")
+// }
+
+func GetListSubtype(typ string) string {
+	typ, _ = stripError(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
+		return ""
+	}
+	typ = strings.TrimSuffix(typ, "?")
+	typ = strings.TrimSuffix(typ, "]")
+
+	switch {
+	case strings.HasPrefix(typ, "Array["):
+		result := strings.TrimPrefix(typ, "Array[")
+		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		return result
+	case strings.HasPrefix(typ, "FixedArray["):
+		result := strings.TrimPrefix(typ, "FixedArray[")
+		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		return result
+	default:
+		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
+		return ""
+	}
 }
 
-func GetMapSubtypes(t string) (string, string) {
-	const prefix = "Map["
-	if !strings.HasPrefix(t, prefix) {
+func GetMapSubtypes(typ string) (string, string) {
+	typ, _ = stripError(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		log.Printf("ERROR: typeinfo.go: GetMapSubtypes('%v'): Bad map type!", typ)
 		return "", ""
 	}
-	t = strings.TrimSuffix(t, "?")
+
+	const prefix = "Map[" // e.g. Map[String, Int]
+	if !strings.HasPrefix(typ, prefix) {
+		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		return "", ""
+	}
+	typ = strings.TrimSuffix(typ, "?")
+	typ = strings.TrimSuffix(typ, "]")
+	typ = strings.TrimPrefix(typ, prefix)
 
 	n := 1
-	for i := len(prefix); i < len(t); i++ {
-		switch t[i] {
+	for i := 0; i < len(typ); i++ {
+		switch typ[i] {
 		case '[':
 			n++
-		case ',':
-			if n == 1 {
-				return strings.TrimSpace(t[len(prefix):i]), strings.TrimSpace(t[i+1 : len(t)-1])
-			}
 		case ']':
 			n--
+		case ',':
+			if n == 1 {
+				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
+				log.Printf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				return r1, r2
+			}
 		}
 	}
 
+	log.Printf("GML: typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
 }
 
 func GetUnderlyingType(t string) string {
+	t, _ = stripError(t)
+
 	return strings.TrimSuffix(t, "?")
 }
 
-func IsListType(t string) bool {
-	// Go: covers both slices and arrays
-	// Go: return strings.HasPrefix(t, "[")
-	return strings.HasPrefix(t, "Array[") && strings.HasSuffix(t, "]") // TODO
+func IsListType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
+	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
+	log.Printf("GML: typeinfo.go: IsListType('%v') = %v", typ, result)
+	return result
 }
 
-func IsSliceType(t string) bool {
-	return strings.HasPrefix(t, "Array[") && strings.HasSuffix(t, "]")
+func IsSliceType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
+	// MoonBit Arrays and FixedArrays are similar to Go slices.
+	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
+	log.Printf("GML: typeinfo.go: IsSliceType('%v') = %v", typ, result)
+	return result
 }
 
 func IsArrayType(t string) bool {
-	// return IsListType(t) && !IsSliceType(t)
-	return strings.HasPrefix(t, "FixedArray[") && strings.HasSuffix(t, "]")
+	return false // no fixed-length array types in MoonBit
 }
 
-func IsMapType(t string) bool {
-	return strings.HasPrefix(t, "Map[") && strings.HasSuffix(t, "]")
+func IsMapType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
+	result := strings.HasPrefix(typ, "Map[")
+	log.Printf("GML: typeinfo.go: IsMapType('%v') = %v", typ, result)
+	return result
 }
 
-func IsOptionType(t string) bool {
-	return strings.HasSuffix(t, "?")
+func IsOptionType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	result := strings.HasSuffix(typ, "?")
+	log.Printf("GML: typeinfo.go: IsOptionType('%v') = %v", typ, result)
+	return result
 }
 
 // func IsPointerType(t string) bool { // TODO
 // 	return strings.HasPrefix(t, "*")
 // }
 
-func IsStringType(t string) bool {
-	return t == "String"
+func IsStringType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	result := strings.HasPrefix(typ, "String")
+	log.Printf("GML: typeinfo.go: IsStringType('%v') = %v", typ, result)
+	return result
 }
 
 func IsStructType(t string) bool {
@@ -152,8 +244,10 @@ func IsStructType(t string) bool {
 	return !IsOptionType(t) && !IsPrimitiveType(t) && !IsListType(t) && !IsMapType(t) && !IsStringType(t)
 }
 
-func IsPrimitiveType(t string) bool {
-	switch t {
+func IsPrimitiveType(typ string) bool {
+	typ, _ = stripError(typ)
+
+	switch typ {
 	case "Bool",
 		"Int", "Int16", "Int64",
 		"UInt", "UInt16", "UInt64",

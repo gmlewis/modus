@@ -37,23 +37,24 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 	return result, err
 }
 
-func stripError(typeSignature string) (string, bool) {
+func stripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
-		return typeSignature[:i], true
+		hasError = true
+		typeSignature = typeSignature[:i]
 	}
-	return typeSignature, false
+	hasOption = strings.HasSuffix(typeSignature, "?")
+	return strings.TrimSuffix(typeSignature, "?"), hasError, hasOption
 }
 
 type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	if !strings.HasSuffix(typ, "]") {
 		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
 		return ""
 	}
-	typ = strings.TrimSuffix(typ, "?")
 	typ = strings.TrimSuffix(typ, "]")
 
 	switch {
@@ -72,9 +73,9 @@ func (lti *langTypeInfo) GetListSubtype(typ string) string {
 }
 
 func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	if !strings.HasSuffix(typ, "]") {
 		log.Printf("ERROR: typeinfo.go: GetMapSubtypes('%v'): Bad map type!", typ)
 		return "", ""
 	}
@@ -84,7 +85,6 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
-	typ = strings.TrimSuffix(typ, "?")
 	typ = strings.TrimSuffix(typ, "]")
 	typ = strings.TrimPrefix(typ, prefix)
 
@@ -110,7 +110,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 
 func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	if lti.IsOptionType(typ) { // TODO
 		result := lti.GetNameForType(lti.GetUnderlyingType(typ)) + "?"
@@ -146,13 +146,15 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 		return result
 	}
 
-	result := typ[strings.LastIndex(typ, ".")+1:]
-	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
-	return result
+	// result := typ[strings.LastIndex(typ, ".")+1:]
+	// log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
+	// return result
+	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%[1]v'", typ)
+	return typ
 }
 
 func (lti *langTypeInfo) IsObjectType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	result := !lti.IsPrimitiveType(typ) &&
 		!lti.IsListType(typ) &&
@@ -166,13 +168,12 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 }
 
 func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	// TODO
 	// result := strings.TrimPrefix(typ, "*") // for Go
-	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
-	case "Bool", "Byte", "Char", "Int", "Int16", "Int64", "Uint", "UInt16", "Uint64", "Float", "Double", "String":
+	case "Bool", "Byte", "Char", "Int", "Int16", "Int64", "UInt", "UInt16", "UInt64", "Float", "Double", "String":
 		result = typ
 	default:
 		result = typ
@@ -183,9 +184,9 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 }
 
 func (lti *langTypeInfo) IsListType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	if !strings.HasSuffix(typ, "]") {
 		return false
 	}
 	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
@@ -194,9 +195,9 @@ func (lti *langTypeInfo) IsListType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsSliceType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	if !strings.HasSuffix(typ, "]") {
 		return false
 	}
 	// MoonBit Arrays and FixedArrays are similar to Go slices.
@@ -208,7 +209,7 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 // MoonBit does not have an equivalent fixed-length array type where the
 // length is declared in the type.  Instead, a MoonBit Array is a slice type.
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
-	// if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	// if !strings.HasSuffix(typ, "]")  {
 	// 	return false
 	// }
 	// // MoonBit Arrays do not have a fixed length, unlike Go, so Array[T] is _NOT_ an "array" type.
@@ -220,7 +221,7 @@ func (lti *langTypeInfo) IsArrayType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsBooleanType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "Bool")
 	log.Printf("GML: typeinfo.go: IsBooleanType('%v') = %v", typ, result)
@@ -228,7 +229,7 @@ func (lti *langTypeInfo) IsBooleanType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	switch {
 	case
@@ -255,7 +256,7 @@ func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsFloatType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "Float") || strings.HasPrefix(typ, "Double")
 	log.Printf("GML: typeinfo.go: IsFloatType('%v') = %v", typ, result)
@@ -263,9 +264,8 @@ func (lti *langTypeInfo) IsFloatType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsIntegerType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
 	case "Int", "Int16", "Int64",
 		"UInt", "UInt16", "UInt64",
@@ -279,9 +279,9 @@ func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsMapType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	if !strings.HasSuffix(typ, "]") {
 		return false
 	}
 	result := strings.HasPrefix(typ, "Map[")
@@ -289,21 +289,18 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 	return result
 }
 
-// In MoonBit, the only nullable type is Option[T].
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
-	var hasError bool
-	typ, hasError = stripError(typ)
+	_, hasError, hasOption := stripErrorAndOption(typ)
 
 	// result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
-	result := lti.IsOptionType(typ) || hasError
+	result := hasError || hasOption
 	log.Printf("GML: typeinfo.go: IsNullableType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsOptionType(typ string) bool {
-	typ, _ = stripError(typ)
+	_, _, result := stripErrorAndOption(typ)
 
-	result := strings.HasSuffix(typ, "?")
 	log.Printf("GML: typeinfo.go: IsOptionType('%v') = %v", typ, result)
 	return result
 }
@@ -325,7 +322,7 @@ func (lti *langTypeInfo) IsPointerType(typ string) bool {
 // }
 
 func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	result := lti.IsBooleanType(typ) || lti.IsIntegerType(typ) || lti.IsFloatType(typ) // TODO(gmlewis)
 	log.Printf("GML: typeinfo.go: IsPrimitiveType('%v') = %v", typ, result)
@@ -333,9 +330,8 @@ func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
-	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
 	case "Int", "Int16", "Int64":
 		log.Printf("GML: typeinfo.go: IsSignedIntegerType('%v') = true", typ)
@@ -347,7 +343,7 @@ func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsStringType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "String")
 	log.Printf("GML: typeinfo.go: IsStringType('%v') = %v", typ, result)
@@ -355,7 +351,7 @@ func (lti *langTypeInfo) IsStringType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsTimestampType(typ string) bool {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	// Special case for MoonBit moonbitlang/x or wasi "timestamp"-like struct.
 	result := strings.HasPrefix(typ, "@time.ZonedDateTime") || strings.HasPrefix(typ, "@wallClock.Datetime")
@@ -448,7 +444,7 @@ func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint3
 }
 
 func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (uint32, error) {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 	// reference: https://github.com/tinygo-org/tinygo/blob/release/compiler/sizes.go
 
 	// primitives align to their natural size
@@ -516,7 +512,7 @@ func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uin
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
 	var hasError bool
-	typ, hasError = stripError(typ)
+	typ, hasError, _ = stripErrorAndOption(typ)
 	var errorSize uint32
 	if hasError {
 		errorSize = 1
@@ -588,7 +584,7 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 }
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
-	typ, _ = stripError(typ) // TODO: Add size of error here?
+	typ, _, _ = stripErrorAndOption(typ) // TODO: Add size of error here?
 
 	switch typ {
 	case "Bool", "Byte":
@@ -651,7 +647,7 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 }
 
 func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	md, ok := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
 	if !ok {
@@ -664,7 +660,7 @@ func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*me
 }
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
-	typ, _ = stripError(typ)
+	typ, _, _ = stripErrorAndOption(typ)
 
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)

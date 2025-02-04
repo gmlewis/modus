@@ -103,7 +103,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 			if utils.IsOptionType(t.Name) {
 				keep(utils.GetUnderlyingType(t.Name))
 			} else if utils.IsListType(t.Name) {
-				keep(utils.GetArraySubtype(t.Name))
+				keep(utils.GetListSubtype(t.Name))
 			} else if utils.IsMapType(t.Name) {
 				kt, vt := utils.GetMapSubtypes(t.Name)
 				keep(kt)
