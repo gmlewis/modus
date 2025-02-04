@@ -32,10 +32,9 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 }
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
-	if i := strings.Index(typeName, "!"); i >= 0 {
-		typeName = typeName[:i]
-	}
-	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
+	result, err := langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
+	log.Printf("GML: typeinfo.go: GetTypeInfo('%v') = %v, err=%v", typeName, result, err)
+	return result, err
 }
 
 type langTypeInfo struct{}
