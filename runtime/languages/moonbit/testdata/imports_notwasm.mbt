@@ -6,36 +6,36 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn host_add(a : Int, b : Int) -> Int {
+fn host_add(_a : Int, _b : Int) -> Int {
   abort("should not be called")
 }
 
 ///|
-pub fn host_echo1(message : String?) -> String? {
+fn host_echo1(_message : String?) -> String? {
   abort("should not be called")
 }
 
 ///|
-pub fn host_echo2(message : String?) -> String? {
+fn host_echo2(_message : String?) -> String? {
   abort("should not be called")
 }
 
 ///|
-pub fn host_echo3(message : String?) -> String? {
+fn host_echo3(_message : String?) -> String? {
   abort("should not be called")
 }
 
 ///|
-pub fn host_echo4(message : String?) -> String? {
+fn host_echo4(_message : String?) -> String? {
   abort("should not be called")
 }
 
 ///|
-pub fn host_encode_strings1(items : Array[String]?) -> String? {
+fn host_encode_strings1(_items : Array[String]?) -> String? {
   abort("should not be called")
 }
 
 ///|
-pub fn host_encode_strings2(items : Array[String?]?) -> String? {
+fn host_encode_strings2(_items : Array[String?]?) -> String? {
   abort("should not be called")
 }

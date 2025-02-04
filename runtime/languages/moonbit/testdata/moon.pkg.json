@@ -1,7 +1,7 @@
 {
   "import": [
     "gmlewis/modus/pkg/console",
-    "gmlewis/modus/wit/interface/wasi",
+    "gmlewis/modus/wit/ffi",
     "moonbitlang/x/sys",
     "gmlewis/modus/pkg/time"
   ],
@@ -40,13 +40,6 @@
         "__modus_get_option_string_fixedarray2:get_option_string_fixedarray2",
         "__modus_get_string_option_array2:get_string_option_array2",
         "__modus_get_string_option_fixedarray1:get_string_option_fixedarray1",
-        "__modus_host_add:host_add",
-        "__modus_host_echo1:host_echo1",
-        "__modus_host_echo2:host_echo2",
-        "__modus_host_echo3:host_echo3",
-        "__modus_host_echo4:host_echo4",
-        "__modus_host_encode_strings1:host_encode_strings1",
-        "__modus_host_encode_strings2:host_encode_strings2",
         "__modus_test2d_array_input_string:test2d_array_input_string",
         "__modus_test2d_array_input_string_empty:test2d_array_input_string_empty",
         "__modus_test2d_array_input_string_inner_none:test2d_array_input_string_inner_none",
