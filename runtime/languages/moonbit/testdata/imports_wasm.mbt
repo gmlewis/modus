@@ -1,14 +1,12 @@
-/*
- * Copyright 2024 Hypermode Inc.
- * Licensed under the terms of the Apache License, Version 2.0
- * See the LICENSE file that accompanied this code for further details.
- *
- * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
- * SPDX-License-Identifier: Apache-2.0
- */
+// Copyright 2024 Hypermode Inc.
+// Licensed under the terms of the Apache License, Version 2.0
+// See the LICENSE file that accompanied this code for further details.
+//
+// SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
+// SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn host_add(a : Int, b : Int2) -> Int32 = "modus_test" "add"
+pub fn host_add(a : Int, b : Int) -> Int = "modus_test" "add"
 
 ///|
 pub fn host_echo1(message : String?) -> String? = "modus_test" "echo1"

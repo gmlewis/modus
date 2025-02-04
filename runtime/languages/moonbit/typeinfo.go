@@ -13,9 +13,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"math"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 
@@ -32,7 +30,7 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
 	if i := strings.Index(typeName, "!"); i >= 0 {
-		typeName = typeName[:i]
+		typeName = typeName[:i] // strip "!Error"
 	}
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
@@ -40,13 +38,20 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		log.Printf("ERROR: typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
+		return ""
+	}
+	typ = strings.TrimSuffix(typ, "?")
+	typ = strings.TrimSuffix(typ, "]")
+
 	switch {
-	case strings.HasPrefix(typ, "Array["): // Array[T]
-		result := strings.TrimSuffix(strings.TrimPrefix(typ, "Array["), "]")
+	case strings.HasPrefix(typ, "Array["):
+		result := strings.TrimPrefix(typ, "Array[")
 		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 		return result
-	case strings.HasPrefix(typ, "FixedArray["): // FixedArray[T]
-		result := strings.TrimSuffix(strings.TrimPrefix(typ, "FixedArray["), "]")
+	case strings.HasPrefix(typ, "FixedArray["):
+		result := strings.TrimPrefix(typ, "FixedArray[")
 		log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 		return result
 	default:
@@ -56,15 +61,22 @@ func (lti *langTypeInfo) GetListSubtype(typ string) string {
 }
 
 func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
-	const prefix = "Map[" // e.g. Map[String,Int]
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		log.Printf("ERROR: typeinfo.go: GetMapSubtypes('%v'): Bad map type!", typ)
+		return "", ""
+	}
+
+	const prefix = "Map[" // e.g. Map[String, Int]
 	if !strings.HasPrefix(typ, prefix) {
 		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
 	typ = strings.TrimSuffix(typ, "?")
+	typ = strings.TrimSuffix(typ, "]")
+	typ = strings.TrimPrefix(typ, prefix)
 
 	n := 1
-	for i := len(prefix); i < len(typ); i++ {
+	for i := 0; i < len(typ); i++ {
 		switch typ[i] {
 		case '[':
 			n++
@@ -72,7 +84,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 			n--
 		case ',':
 			if n == 1 {
-				r1, r2 := strings.TrimSpace(typ[len(prefix):i]), strings.TrimSpace(typ[i+1:len(typ)-1])
+				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
 				log.Printf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}
@@ -99,9 +111,18 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// }
 
 	if lti.IsListType(typ) {
-		result := "Array[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
-		log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
-		return result
+		switch {
+		case strings.HasPrefix(typ, "Array["):
+			result := "Array[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
+			log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+			return result
+		case strings.HasPrefix(typ, "FixedArray["):
+			result := "FixedArray[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
+			log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+			return result
+		default:
+			log.Printf("PROGRAMMING ERROR: typeinfo.go: GetNameForType('%v'): Bad list type!", typ)
+		}
 	}
 
 	if lti.IsMapType(typ) {
@@ -133,7 +154,7 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 	// result := strings.TrimPrefix(typ, "*") // for Go
 	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
-	case "Bool", "Byte", "Char", "Int", "Int64", "Uint", "Uint64", "Float", "Double", "String":
+	case "Bool", "Byte", "Char", "Int", "Int16", "Int64", "Uint", "UInt16", "Uint64", "Float", "Double", "String":
 		result = typ
 	default:
 		result = typ
@@ -144,45 +165,60 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 }
 
 func (lti *langTypeInfo) IsListType(typ string) bool {
-	// result := len(typ) > 2 && typ[0] == '[' // for Go
-	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
+	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
 	log.Printf("GML: typeinfo.go: IsListType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsSliceType(typ string) bool {
-	// MoonBit Arrays are similar to Go slices.
-	result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
-	// result := len(typ) > 2 && typ[0] == '[' && typ[1] == ']' // for Go
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
+	// MoonBit Arrays and FixedArrays are similar to Go slices.
+	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
 	log.Printf("GML: typeinfo.go: IsSliceType('%v') = %v", typ, result)
 	return result
 }
 
+// MoonBit does not have an equivalent fixed-length array type where the
+// length is declared in the type.  Instead, a MoonBit Array is a slice type.
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
-	// MoonBit Arrays do not have a fixed length, unlike Go, so Array[T] is _NOT_ an "array" type.
-	// Instead, a MoonBit Array is a slice type.
-	result := strings.HasPrefix(typ, "FixedArray[") && strings.HasSuffix(typ, "]")
-	// result := strings.HasPrefix(typ, "Array[") && strings.HasSuffix(typ, "]")
-	log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
-	return result
+	// if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+	// 	return false
+	// }
+	// // MoonBit Arrays do not have a fixed length, unlike Go, so Array[T] is _NOT_ an "array" type.
+	// // Instead, a MoonBit Array is a slice type.
+	// result := strings.HasPrefix(typ, "FixedArray[")
+	// log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
+	// return result
+	return false
 }
 
 func (lti *langTypeInfo) IsBooleanType(typ string) bool {
-	result := typ == "Bool" || strings.HasPrefix(typ, "Bool = ")
+	result := strings.HasPrefix(typ, "Bool")
 	log.Printf("GML: typeinfo.go: IsBooleanType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
-	switch typ {
-	case "Array[Byte]", "Bytes", "ArrayView[Byte]", "BytesView":
+	switch {
+	case
+		strings.HasPrefix(typ, "Array[Byte]"),
+		strings.HasPrefix(typ, "ArrayView[Byte]"),
+		strings.HasPrefix(typ, "FixedArray[Byte]"),
+		strings.HasPrefix(typ, "Bytes"):
+		// strings.HasPrefix(typ, "BytesView"),  // covered by last case
 		log.Printf("GML: typeinfo.go: IsByteSequenceType('%v') = true", typ)
 		return true
 	}
 
 	if lti.IsArrayType(typ) {
-		switch lti.GetListSubtype(typ) {
-		case "Byte":
+		subtype := lti.GetListSubtype(typ)
+		switch {
+		case strings.HasPrefix(subtype, "Byte"):
 			log.Printf("GML: B: typeinfo.go: IsByteSequenceType('%v') = true", typ)
 			return true
 		}
@@ -193,21 +229,17 @@ func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsFloatType(typ string) bool {
-	switch typ {
-	case "Float", "Double":
-		log.Printf("GML: typeinfo.go: IsFloatType('%v') = true", typ)
-		return true
-	default:
-		log.Printf("GML: typeinfo.go: IsFloatType('%v') = false", typ)
-		return false
-	}
+	result := strings.HasPrefix(typ, "Float") || strings.HasPrefix(typ, "Double")
+	log.Printf("GML: typeinfo.go: IsFloatType('%v') = %v", typ, result)
+	return result
 }
 
 func (lti *langTypeInfo) IsIntegerType(typ string) bool {
+	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
 	case "Int", "Int16", "Int64",
 		"UInt", "UInt16", "UInt64",
-		"Byte", "Char": // TODO(gmlewis)
+		"Byte", "Char":
 		log.Printf("GML: typeinfo.go: IsIntegerType('%v') = true", typ)
 		return true
 	default:
@@ -217,6 +249,9 @@ func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsMapType(typ string) bool {
+	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
+		return false
+	}
 	result := strings.HasPrefix(typ, "Map[")
 	log.Printf("GML: typeinfo.go: IsMapType('%v') = %v", typ, result)
 	return result
@@ -236,7 +271,7 @@ func (lti *langTypeInfo) IsOptionType(typ string) bool {
 	return result
 }
 
-// NOTE! This is _NOT_ a pointer type in MoonBit!
+// NOTE! This is _NOT_ a pointer type in MoonBit! (but is the closest thing to a pointer type)
 // To satisfy the languages.TypeInfo interface, we must implement this method!
 func (lti *langTypeInfo) IsPointerType(typ string) bool {
 	return lti.IsOptionType(typ)
@@ -259,8 +294,9 @@ func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
+	typ = strings.TrimSuffix(typ, "?")
 	switch typ {
-	case "Int", "Int64": // TODO(gmlewis)
+	case "Int", "Int16", "Int64":
 		log.Printf("GML: typeinfo.go: IsSignedIntegerType('%v') = true", typ)
 		return true
 	default:
@@ -270,7 +306,7 @@ func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsStringType(typ string) bool {
-	result := typ == "String"
+	result := strings.HasPrefix(typ, "String")
 	log.Printf("GML: typeinfo.go: IsStringType('%v') = %v", typ, result)
 	return result
 }
@@ -282,52 +318,57 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 	return result
 }
 
+// FixedArrays in MoonBit do not declare their size.
 func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
-	log.Printf("GML: typeinfo.go: ENTER ArrayLength('%v')", typ)
-	i := strings.Index(typ, "]")
-	if i == -1 {
-		return -1, fmt.Errorf("invalid array type: %s", typ)
-	}
+	log.Printf("PROGRAMMING ERROR: GML: typeinfo.go: ArrayLength('%v'): Bad array type!", typ)
+	return 0, nil
+	// log.Printf("GML: typeinfo.go: ENTER ArrayLength('%v')", typ)
+	// i := strings.Index(typ, "]")
+	// if i == -1 {
+	// 	return -1, fmt.Errorf("invalid array type: %s", typ)
+	// }
 
-	size := typ[1:i]
-	if size == "" {
-		return -1, fmt.Errorf("invalid array type: %s", typ)
-	}
+	// size := typ[1:i]
+	// if size == "" {
+	// 	return -1, fmt.Errorf("invalid array type: %s", typ)
+	// }
 
-	parsedSize, err := strconv.Atoi(size)
-	if err != nil {
-		return -1, err
-	}
-	if parsedSize < 0 || parsedSize > math.MaxUint32 {
-		return -1, fmt.Errorf("array size out of bounds: %s", size)
-	}
+	// parsedSize, err := strconv.Atoi(size)
+	// if err != nil {
+	// 	return -1, err
+	// }
+	// if parsedSize < 0 || parsedSize > math.MaxUint32 {
+	// 	return -1, fmt.Errorf("array size out of bounds: %s", size)
+	// }
 
-	log.Printf("GML: typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
-	return parsedSize, nil
+	// log.Printf("GML: typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
+	// return parsedSize, nil
 }
 
 func (lti *langTypeInfo) getSizeOfArray(ctx context.Context, typ string) (uint32, error) {
-	// array size is the element size times the number of elements, aligned to the element size
-	arrSize, err := lti.ArrayLength(typ)
-	if err != nil {
-		return 0, err
-	}
-	if arrSize == 0 {
-		return 0, nil
-	}
+	log.Printf("PROGRAMMING ERROR: GML: typeinfo.go: getSizeOfArray('%v'): Bad array type!", typ)
+	return 0, nil
+	// // array size is the element size times the number of elements, aligned to the element size
+	// arrSize, err := lti.ArrayLength(typ)
+	// if err != nil {
+	// 	return 0, err
+	// }
+	// if arrSize == 0 {
+	// 	return 0, nil
+	// }
 
-	t := lti.GetListSubtype(typ)
-	elementAlignment, err := lti.GetAlignmentOfType(ctx, t)
-	if err != nil {
-		return 0, err
-	}
-	elementSize, err := lti.GetSizeOfType(ctx, t)
-	if err != nil {
-		return 0, err
-	}
+	// t := lti.GetListSubtype(typ)
+	// elementAlignment, err := lti.GetAlignmentOfType(ctx, t)
+	// if err != nil {
+	// 	return 0, err
+	// }
+	// elementSize, err := lti.GetSizeOfType(ctx, t)
+	// if err != nil {
+	// 	return 0, err
+	// }
 
-	size := langsupport.AlignOffset(elementSize, elementAlignment)*uint32(arrSize-1) + elementSize
-	return size, nil
+	// size := langsupport.AlignOffset(elementSize, elementAlignment)*uint32(arrSize-1) + elementSize
+	// return size, nil
 }
 
 func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint32, error) {
@@ -453,24 +494,26 @@ func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string
 }
 
 func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ string) (uint32, error) {
-	arrSize, err := lti.ArrayLength(typ)
-	if err != nil {
-		return 0, err
-	}
-	if arrSize == 0 {
-		log.Printf("GML: typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
-		return 0, nil
-	}
+	log.Printf("PROGRAMMING ERROR: GML: typeinfo.go: getEncodingLengthOfArray('%v'): Bad array type!", typ)
+	return 0, nil
+	// arrSize, err := lti.ArrayLength(typ)
+	// if err != nil {
+	// 	return 0, err
+	// }
+	// if arrSize == 0 {
+	// 	log.Printf("GML: typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
+	// 	return 0, nil
+	// }
 
-	t := lti.GetListSubtype(typ)
-	elementLen, err := lti.GetEncodingLengthOfType(ctx, t)
-	if err != nil {
-		return 0, err
-	}
+	// t := lti.GetListSubtype(typ)
+	// elementLen, err := lti.GetEncodingLengthOfType(ctx, t)
+	// if err != nil {
+	// 	return 0, err
+	// }
 
-	result := uint32(arrSize) * elementLen
-	log.Printf("GML: typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
-	return result, nil
+	// result := uint32(arrSize) * elementLen
+	// log.Printf("GML: typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
+	// return result, nil
 }
 
 func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ string) (uint32, error) {
@@ -687,6 +730,6 @@ var reflectedTypeMap = map[string]reflect.Type{
 	"UInt16":              reflect.TypeFor[uint16](),
 	"UInt64":              reflect.TypeFor[uint64](),
 	"@time.Duration":      reflect.TypeFor[time.Duration](),
-	"@time.PlainTime":     reflect.TypeFor[time.Time](),
+	"@time.ZonedDateTime": reflect.TypeFor[time.Time](),
 	"@wallClock.Datetime": reflect.TypeFor[time.Time](),
 }

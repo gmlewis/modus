@@ -1,11 +1,13 @@
-// This file is based on: https://cs.opensource.google/go/x/tools/+/refs/tags/v0.28.0:go/packages/packages.go
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+/*
+ * Copyright 2024 Hypermode Inc.
+ * Licensed under the terms of the Apache License, Version 2.0
+ * See the LICENSE file that accompanied this code for further details.
+ *
+ * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 package packages
-
-// See doc.go for package documentation and implementation notes.
 
 import (
 	"fmt"
@@ -241,7 +243,7 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 }
 
 func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (paramsList []*ast.Field, paramsVars []*types.Var) {
-	allArgParts := strings.Split(allArgs, ",")
+	allArgParts := splitFunctionParameters(allArgs)
 	for _, arg := range allArgParts {
 		arg = strings.TrimSpace(arg)
 		if arg == "" {

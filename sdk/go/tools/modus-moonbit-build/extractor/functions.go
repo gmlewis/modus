@@ -197,6 +197,10 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		if strings.HasPrefix(name, "Map[") {
 			t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
 			parts := strings.Split(t, ",")
+			if len(parts) != 2 {
+				log.Printf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+				return false
+			}
 			// Force the planner to make a plan for slices of the keys and values of the map.
 			keyType := strings.TrimSpace(parts[0])
 			keyName := fmt.Sprintf("Array[%v]", keyType)
