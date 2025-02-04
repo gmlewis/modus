@@ -182,7 +182,7 @@ pub fn test_fixedarray_output2_struct() -> FixedArray[TestStruct2] {
 }
 
 ///|
-pub fn test_fixedarray_input2_struct_ptr(
+pub fn test_fixedarray_input2_struct_option(
   val : FixedArray[TestStruct2?]
 ) -> Unit!Error {
   let expected = get_struct_option_fixedarray2()
@@ -190,7 +190,7 @@ pub fn test_fixedarray_input2_struct_ptr(
 }
 
 ///|
-pub fn test_fixedarray_output2_struct_ptr() -> FixedArray[TestStruct2?] {
+pub fn test_fixedarray_output2_struct_option() -> FixedArray[TestStruct2?] {
   get_struct_option_fixedarray2()
 }
 
@@ -218,7 +218,7 @@ pub fn test_fixedarray_output2_map() -> FixedArray[Map[String, String]] {
 }
 
 ///|
-pub fn test_fixedarray_input2_map_ptr(
+pub fn test_fixedarray_input2_map_option(
   val : FixedArray[Map[String, String]?]
 ) -> Unit!Error {
   let expected = getMapPtrArray2()
@@ -226,7 +226,7 @@ pub fn test_fixedarray_input2_map_ptr(
 }
 
 ///|
-pub fn test_fixedarray_output2_map_ptr() -> FixedArray[Map[String, String]?] {
+pub fn test_fixedarray_output2_map_option() -> FixedArray[Map[String, String]?] {
   getMapPtrArray2()
 }
 
@@ -241,13 +241,13 @@ pub fn getMapPtrArray2() -> FixedArray[Map[String, String]?] {
 }
 
 ///|
-pub fn test_ptr_fixedarray_input1_int(val : FixedArray[Int]?) -> Unit!Error {
+pub fn test_option_fixedarray_input1_int(val : FixedArray[Int]?) -> Unit!Error {
   let expected = get_option_int_fixedarray1()
   assert_eq!(expected, val)
 }
 
 ///|
-pub fn test_ptr_fixedarray_output1_int() -> FixedArray[Int]? {
+pub fn test_option_fixedarray_output1_int() -> FixedArray[Int]? {
   get_option_int_fixedarray1()
 }
 
@@ -257,13 +257,13 @@ pub fn get_option_int_fixedarray1() -> FixedArray[Int]? {
 }
 
 ///|
-pub fn test_ptr_fixedarray_input2_int(val : FixedArray[Int]?) -> Unit!Error {
+pub fn test_option_fixedarray_input2_int(val : FixedArray[Int]?) -> Unit!Error {
   let expected = get_option_int_fixedarray2()
   assert_eq!(expected, val)
 }
 
 ///|
-pub fn test_ptr_fixedarray_output2_int() -> FixedArray[Int]? {
+pub fn test_option_fixedarray_output2_int() -> FixedArray[Int]? {
   get_option_int_fixedarray2()
 }
 
@@ -273,7 +273,7 @@ pub fn get_option_int_fixedarray2() -> FixedArray[Int]? {
 }
 
 ///|
-pub fn test_ptr_fixedarray_input1_string(
+pub fn test_option_fixedarray_input1_string(
   val : FixedArray[String]?
 ) -> Unit!Error {
   let expected = get_option_string_fixedarray1()
@@ -281,7 +281,7 @@ pub fn test_ptr_fixedarray_input1_string(
 }
 
 ///|
-pub fn test_ptr_fixedarray_output1_string() -> FixedArray[String]? {
+pub fn test_option_fixedarray_output1_string() -> FixedArray[String]? {
   get_option_string_fixedarray1()
 }
 
@@ -296,7 +296,7 @@ pub fn get_option_string_fixedarray2() -> FixedArray[String]? {
 }
 
 ///|
-pub fn test_ptr_fixedarray_input2_string(
+pub fn test_option_fixedarray_input2_string(
   val : FixedArray[String]?
 ) -> Unit!Error {
   let expected = get_option_string_fixedarray2()
@@ -304,6 +304,6 @@ pub fn test_ptr_fixedarray_input2_string(
 }
 
 ///|
-pub fn test_ptr_fixedarray_output2_string() -> FixedArray[String]? {
+pub fn test_option_fixedarray_output2_string() -> FixedArray[String]? {
   get_option_string_fixedarray2()
 }

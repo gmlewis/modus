@@ -26,32 +26,32 @@ pub fn test_bool_output_true() -> Bool {
 }
 
 ///|
-pub fn test_bool_ptr_input_false(b : Bool?) -> Unit!Error {
+pub fn test_bool_option_input_false(b : Bool?) -> Unit!Error {
   assert_eq!(Some(false), b)
 }
 
 ///|
-pub fn test_bool_ptr_input_true(b : Bool?) -> Unit!Error {
+pub fn test_bool_option_input_true(b : Bool?) -> Unit!Error {
   assert_eq!(Some(true), b)
 }
 
 ///|
-pub fn test_bool_ptr_input_nil(b : Bool?) -> Unit!Error {
+pub fn test_bool_option_input_nil(b : Bool?) -> Unit!Error {
   assert_eq!(None, b)
 }
 
 ///|
-pub fn test_bool_ptr_output_false() -> Bool? {
+pub fn test_bool_option_output_false() -> Bool? {
   Some(false)
 }
 
 ///|
-pub fn test_bool_ptr_output_true() -> Bool? {
+pub fn test_bool_option_output_true() -> Bool? {
   Some(true)
 }
 
 ///|
-pub fn test_bool_ptr_output_nil() -> Bool? {
+pub fn test_bool_option_output_nil() -> Bool? {
   None
 }
 
@@ -76,32 +76,32 @@ pub fn test_byte_output_max() -> Byte {
 }
 
 ///|
-pub fn test_byte_ptr_input_min(b : Byte?) -> Unit!Error {
+pub fn test_byte_option_input_min(b : Byte?) -> Unit!Error {
   assert_eq!(b, Some(0))
 }
 
 ///|
-pub fn test_byte_ptr_input_max(b : Byte?) -> Unit!Error {
+pub fn test_byte_option_input_max(b : Byte?) -> Unit!Error {
   assert_eq!(b, Some(@byte.max_value))
 }
 
 ///|
-pub fn test_byte_ptr_input_nil(b : Byte?) -> Unit!Error {
+pub fn test_byte_option_input_nil(b : Byte?) -> Unit!Error {
   assert_eq!(None, b)
 }
 
 ///|
-pub fn test_byte_ptr_output_min() -> Byte? {
+pub fn test_byte_option_output_min() -> Byte? {
   Some(0)
 }
 
 ///|
-pub fn test_byte_ptr_output_max() -> Byte? {
+pub fn test_byte_option_output_max() -> Byte? {
   Some(@byte.max_value)
 }
 
 ///|
-pub fn test_byte_ptr_output_nil() -> Byte? {
+pub fn test_byte_option_output_nil() -> Byte? {
   None
 }
 
@@ -126,32 +126,32 @@ pub fn test_char_output_max() -> Char {
 }
 
 ///|
-pub fn test_char_ptr_input_min(c : Char?) -> Unit!Error {
+pub fn test_char_option_input_min(c : Char?) -> Unit!Error {
   assert_eq!(c, Some(Char::from_int(-32768))) // TODO: @int16.min_value)))
 }
 
 ///|
-pub fn test_char_ptr_input_max(c : Char?) -> Unit!Error {
+pub fn test_char_option_input_max(c : Char?) -> Unit!Error {
   assert_eq!(c, Some(Char::from_int(32767))) // TODO: @int16.max_value)))
 }
 
 ///|
-pub fn test_char_ptr_input_nil(c : Char?) -> Unit!Error {
+pub fn test_char_option_input_nil(c : Char?) -> Unit!Error {
   assert_eq!(c, None)
 }
 
 ///|
-pub fn test_char_ptr_output_min() -> Char? {
+pub fn test_char_option_output_min() -> Char? {
   Some(Char::from_int(-32768)) // TODO: @int16.min_value))
 }
 
 ///|
-pub fn test_char_ptr_output_max() -> Char? {
+pub fn test_char_option_output_max() -> Char? {
   Some(Char::from_int(32767)) // TODO: @int16.max_value))
 }
 
 ///|
-pub fn test_char_ptr_output_nil() -> Char? {
+pub fn test_char_option_output_nil() -> Char? {
   None
 }
 
@@ -176,32 +176,32 @@ pub fn test_int_output_max() -> Int {
 }
 
 ///|
-pub fn test_int_ptr_input_min(n : Int?) -> Unit!Error {
+pub fn test_int_option_input_min(n : Int?) -> Unit!Error {
   assert_eq!(n, Some(@int.min_value))
 }
 
 ///|
-pub fn test_int_ptr_input_max(n : Int?) -> Unit!Error {
+pub fn test_int_option_input_max(n : Int?) -> Unit!Error {
   assert_eq!(n, Some(@int.max_value))
 }
 
 ///|
-pub fn test_int_ptr_input_nil(n : Int?) -> Unit!Error {
+pub fn test_int_option_input_nil(n : Int?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_int_ptr_output_min() -> Int? {
+pub fn test_int_option_output_min() -> Int? {
   Some(@int.min_value)
 }
 
 ///|
-pub fn test_int_ptr_output_max() -> Int? {
+pub fn test_int_option_output_max() -> Int? {
   Some(@int.max_value)
 }
 
 ///|
-pub fn test_int_ptr_output_nil() -> Int? {
+pub fn test_int_option_output_nil() -> Int? {
   None
 }
 
@@ -226,32 +226,32 @@ pub fn test_int16_output_max() -> Int16 {
 }
 
 ///|
-pub fn test_int16_ptr_input_min(n : Int16?) -> Unit!Error {
+pub fn test_int16_option_input_min(n : Int16?) -> Unit!Error {
   assert_eq!(n, Some(-32768)) // TODO: @int16.min_value)
 }
 
 ///|
-pub fn test_int16_ptr_input_max(n : Int16?) -> Unit!Error {
+pub fn test_int16_option_input_max(n : Int16?) -> Unit!Error {
   assert_eq!(n, Some(32767)) // TODO: @int16.max_value)
 }
 
 ///|
-pub fn test_int16_ptr_input_nil(n : Int16?) -> Unit!Error {
+pub fn test_int16_option_input_nil(n : Int16?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_int16_ptr_output_min() -> Int16? {
+pub fn test_int16_option_output_min() -> Int16? {
   Some(-32768) // TODO: @int16.min_value
 }
 
 ///|
-pub fn test_int16_ptr_output_max() -> Int16? {
+pub fn test_int16_option_output_max() -> Int16? {
   Some(32767) // TODO: @int16.max_value
 }
 
 ///|
-pub fn test_int16_ptr_output_nil() -> Int16? {
+pub fn test_int16_option_output_nil() -> Int16? {
   None
 }
 
@@ -276,32 +276,32 @@ pub fn test_int64_output_max() -> Int64 {
 }
 
 ///|
-pub fn test_int64_ptr_input_min(n : Int64?) -> Unit!Error {
+pub fn test_int64_option_input_min(n : Int64?) -> Unit!Error {
   assert_eq!(n, Some(@int64.min_value))
 }
 
 ///|
-pub fn test_int64_ptr_input_max(n : Int64?) -> Unit!Error {
+pub fn test_int64_option_input_max(n : Int64?) -> Unit!Error {
   assert_eq!(n, Some(@int64.max_value))
 }
 
 ///|
-pub fn test_int64_ptr_input_nil(n : Int64?) -> Unit!Error {
+pub fn test_int64_option_input_nil(n : Int64?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_int64_ptr_output_min() -> Int64? {
+pub fn test_int64_option_output_min() -> Int64? {
   Some(@int64.min_value)
 }
 
 ///|
-pub fn test_int64_ptr_output_max() -> Int64? {
+pub fn test_int64_option_output_max() -> Int64? {
   Some(@int64.max_value)
 }
 
 ///|
-pub fn test_int64_ptr_output_nil() -> Int64? {
+pub fn test_int64_option_output_nil() -> Int64? {
   None
 }
 
@@ -326,32 +326,32 @@ pub fn test_uint_output_max() -> UInt {
 }
 
 ///|
-pub fn test_uint_ptr_input_min(n : UInt?) -> Unit!Error {
+pub fn test_uint_option_input_min(n : UInt?) -> Unit!Error {
   assert_eq!(n, Some(0))
 }
 
 ///|
-pub fn test_uint_ptr_input_max(n : UInt?) -> Unit!Error {
+pub fn test_uint_option_input_max(n : UInt?) -> Unit!Error {
   assert_eq!(n, Some(@uint.max_value))
 }
 
 ///|
-pub fn test_uint_ptr_input_nil(n : UInt?) -> Unit!Error {
+pub fn test_uint_option_input_nil(n : UInt?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_uint_ptr_output_min() -> UInt? {
+pub fn test_uint_option_output_min() -> UInt? {
   Some(0)
 }
 
 ///|
-pub fn test_uint_ptr_output_max() -> UInt? {
+pub fn test_uint_option_output_max() -> UInt? {
   Some(@uint.max_value)
 }
 
 ///|
-pub fn test_uint_ptr_output_nil() -> UInt? {
+pub fn test_uint_option_output_nil() -> UInt? {
   None
 }
 
@@ -376,32 +376,32 @@ pub fn test_uint16_output_max() -> UInt16 {
 }
 
 ///|
-pub fn test_uint16_ptr_input_min(n : UInt16?) -> Unit!Error {
+pub fn test_uint16_option_input_min(n : UInt16?) -> Unit!Error {
   assert_eq!(n, Some(0))
 }
 
 ///|
-pub fn test_uint16_ptr_input_max(n : UInt16?) -> Unit!Error {
+pub fn test_uint16_option_input_max(n : UInt16?) -> Unit!Error {
   assert_eq!(n, Some(65535)) // TODO: @uint16.max_value)
 }
 
 ///|
-pub fn test_uint16_ptr_input_nil(n : UInt16?) -> Unit!Error {
+pub fn test_uint16_option_input_nil(n : UInt16?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_uint16_ptr_output_min() -> UInt16? {
+pub fn test_uint16_option_output_min() -> UInt16? {
   Some(0)
 }
 
 ///|
-pub fn test_uint16_ptr_output_max() -> UInt16? {
+pub fn test_uint16_option_output_max() -> UInt16? {
   Some(65535) // TODO: @uint16.max_value
 }
 
 ///|
-pub fn test_uint16_ptr_output_nil() -> UInt16? {
+pub fn test_uint16_option_output_nil() -> UInt16? {
   None
 }
 
@@ -426,32 +426,32 @@ pub fn test_uint64_output_max() -> UInt64 {
 }
 
 ///|
-pub fn test_uint64_ptr_input_min(n : UInt64?) -> Unit!Error {
+pub fn test_uint64_option_input_min(n : UInt64?) -> Unit!Error {
   assert_eq!(n, Some(0))
 }
 
 ///|
-pub fn test_uint64_ptr_input_max(n : UInt64?) -> Unit!Error {
+pub fn test_uint64_option_input_max(n : UInt64?) -> Unit!Error {
   assert_eq!(n, Some(@uint64.max_value))
 }
 
 ///|
-pub fn test_uint64_ptr_input_nil(n : UInt64?) -> Unit!Error {
+pub fn test_uint64_option_input_nil(n : UInt64?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_uint64_ptr_output_min() -> UInt64? {
+pub fn test_uint64_option_output_min() -> UInt64? {
   Some(0)
 }
 
 ///|
-pub fn test_uint64_ptr_output_max() -> UInt64? {
+pub fn test_uint64_option_output_max() -> UInt64? {
   Some(@uint64.max_value)
 }
 
 ///|
-pub fn test_uint64_ptr_output_nil() -> UInt64? {
+pub fn test_uint64_option_output_nil() -> UInt64? {
   None
 }
 
@@ -476,32 +476,32 @@ pub fn test_float32_output_max() -> Float {
 }
 
 ///|
-pub fn test_float32_ptr_input_min(n : Float?) -> Unit!Error {
+pub fn test_float32_option_input_min(n : Float?) -> Unit!Error {
   assert_eq!(n, Some(@float.min_value))
 }
 
 ///|
-pub fn test_float32_ptr_input_max(n : Float?) -> Unit!Error {
+pub fn test_float32_option_input_max(n : Float?) -> Unit!Error {
   assert_eq!(n, Some(@float.max_value))
 }
 
 ///|
-pub fn test_float32_ptr_input_nil(n : Float?) -> Unit!Error {
+pub fn test_float32_option_input_nil(n : Float?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_float32_ptr_output_min() -> Float? {
+pub fn test_float32_option_output_min() -> Float? {
   Some(@float.min_value)
 }
 
 ///|
-pub fn test_float32_ptr_output_max() -> Float? {
+pub fn test_float32_option_output_max() -> Float? {
   Some(@float.max_value)
 }
 
 ///|
-pub fn test_float32_ptr_output_nil() -> Float? {
+pub fn test_float32_option_output_nil() -> Float? {
   None
 }
 
@@ -526,31 +526,31 @@ pub fn test_double_output_max() -> Double {
 }
 
 ///|
-pub fn test_double_ptr_input_min(n : Double?) -> Unit!Error {
+pub fn test_double_option_input_min(n : Double?) -> Unit!Error {
   assert_eq!(n, Some(@double.min_value))
 }
 
 ///|
-pub fn test_double_ptr_input_max(n : Double?) -> Unit!Error {
+pub fn test_double_option_input_max(n : Double?) -> Unit!Error {
   assert_eq!(n, Some(@double.max_value))
 }
 
 ///|
-pub fn test_double_ptr_input_nil(n : Double?) -> Unit!Error {
+pub fn test_double_option_input_nil(n : Double?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_double_ptr_output_min() -> Double? {
+pub fn test_double_option_output_min() -> Double? {
   Some(@double.min_value)
 }
 
 ///|
-pub fn test_double_ptr_output_max() -> Double? {
+pub fn test_double_option_output_max() -> Double? {
   Some(@double.max_value)
 }
 
 ///|
-pub fn test_double_ptr_output_nil() -> Double? {
+pub fn test_double_option_output_nil() -> Double? {
   None
 }

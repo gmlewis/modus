@@ -79,13 +79,13 @@ fn get_string_option_array() -> Array[String?] {
 }
 
 ///|
-pub fn test_array_input_int_ptr(val : Array[Int?]) -> Unit!Error {
+pub fn test_array_input_int_option(val : Array[Int?]) -> Unit!Error {
   let expected = get_int_option_array()
   assert_eq!(expected, val)
 }
 
 ///|
-pub fn test_array_output_int_ptr() -> Array[Int?] {
+pub fn test_array_output_int_option() -> Array[Int?] {
   get_int_option_array()
 }
 

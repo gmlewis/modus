@@ -14,12 +14,12 @@ pub fn test_string_input(s : String) -> Unit!Error {
 }
 
 ///|
-pub fn test_string_ptr_input(s : String?) -> Unit!Error {
+pub fn test_string_option_input(s : String?) -> Unit!Error {
   assert_eq!(s, Some(TEST_STRING))
 }
 
 ///|
-pub fn test_string_ptr_input_none(s : String?) -> Unit!Error {
+pub fn test_string_option_input_none(s : String?) -> Unit!Error {
   assert_eq!(s, None)
 }
 
@@ -29,11 +29,11 @@ pub fn test_string_output() -> String {
 }
 
 ///|
-pub fn test_string_ptr_output() -> String? {
+pub fn test_string_option_output() -> String? {
   Some(TEST_STRING)
 }
 
 ///|
-pub fn test_string_ptr_output_none() -> String? {
+pub fn test_string_option_output_none() -> String? {
   None
 }
