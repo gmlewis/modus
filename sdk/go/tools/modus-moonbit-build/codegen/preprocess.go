@@ -260,6 +260,9 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		fn := info.function
 		name := fn.Name.Name
 		params := fn.Type.Params
+		if strings.HasPrefix(name, "modus_") {
+			continue
+		}
 
 		b.WriteString(`pub fn __modus_`)
 		b.WriteString(name)
