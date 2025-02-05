@@ -26,7 +26,6 @@ pub fn get_utc_time() -> @time.ZonedDateTime!Error {
 pub fn get_local_time() -> String!Error {
   let now = @localtime.now!()
   println("GML: main.mbt: get_local_time: now=\{now}")
-  // now.format(@localtime.RFC3339)
   now.to_string()
 }
 

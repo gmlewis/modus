@@ -14,7 +14,7 @@ popd >/dev/null || exit
 
 if command -v wasm2wat >/dev/null 2>&1; then
   # If wasm2wat is available, run the command
-  wasm2wat build/hello-maps.wasm > build/hello-maps.wat
+  wasm2wat build/hello-primitives.wasm > build/hello-primitives.wat
 fi
 
 exit "${exit_code}"

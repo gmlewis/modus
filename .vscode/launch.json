@@ -167,6 +167,10 @@
         {
           "label": "Go",
           "value": "go"
+        },
+        {
+          "label": "MoonBit",
+          "value": "moonbit"
         }
       ]
     },
@@ -204,8 +208,8 @@
           "value": "graphql"
         },
         {
-          "label": "Hello Maps Example",
-          "value": "hello-maps"
+          "label": "Hello Primitives Example",
+          "value": "hello-primitives"
         },
         {
           "label": "HTTP Client Example",

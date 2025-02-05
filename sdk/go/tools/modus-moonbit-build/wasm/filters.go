@@ -65,21 +65,21 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	var keptTypes = make(metadata.TypeMap, len(meta.Types))
 	for _, fn := range append(utils.MapValues(meta.FnImports), utils.MapValues(meta.FnExports)...) {
 		for _, param := range fn.Parameters {
-			paramType := stripError(param.Type)
-			if _, ok := meta.Types[paramType]; ok {
-				keptTypes[paramType] = meta.Types[paramType]
+			// paramType := stripError(param.Type)
+			if _, ok := meta.Types[param.Type]; ok {
+				keptTypes[param.Type] = meta.Types[param.Type]
 				//TODO: delete(meta.Types, paramType)
 			} else {
-				log.Printf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", paramType)
+				log.Printf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
 			}
 		}
 		for _, result := range fn.Results {
-			resultType := stripError(result.Type)
-			if _, ok := meta.Types[resultType]; ok {
-				keptTypes[resultType] = meta.Types[resultType]
+			// resultType := stripError(result.Type)
+			if _, ok := meta.Types[result.Type]; ok {
+				keptTypes[result.Type] = meta.Types[result.Type]
 				//TODO: delete(meta.Types, resultType)
 			} else {
-				log.Printf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", resultType)
+				log.Printf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
 			}
 		}
 	}
@@ -122,9 +122,9 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	return nil
 }
 
-func stripError(typeSignature string) string {
-	if i := strings.Index(typeSignature, "!"); i >= 0 {
-		return typeSignature[:i]
-	}
-	return typeSignature
-}
+// func stripError(typeSignature string) string {
+// 	if i := strings.Index(typeSignature, "!"); i >= 0 {
+// 		return typeSignature[:i]
+// 	}
+// 	return typeSignature
+// }

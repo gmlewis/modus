@@ -1,4 +1,4 @@
-module hello-maps
+module hello-primitives
 
 go 1.23.1
 

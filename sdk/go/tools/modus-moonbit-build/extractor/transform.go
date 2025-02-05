@@ -106,9 +106,14 @@ func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package
 }
 
 func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package) (*ast.GenDecl, *ast.StructType) {
+	name, _, _ = stripErrorAndOption(name)
 	objName := name[strings.LastIndex(name, ".")+1:]
 	pkgName := utils.GetPackageNamesForType(name)[0]
 	pkg := pkgs[pkgName]
+	if pkg == nil {
+		log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg is nil", name)
+		return nil, nil
+	}
 
 	for _, file := range pkg.Syntax {
 		for _, decl := range file.Decls {

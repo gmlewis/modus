@@ -96,7 +96,7 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Get parameters to pass as input to the function
-	log.Printf("GML: executionplan.go: InvokeFunction: plan.getWasmParameters")
+	log.Printf("GML: executionplan.go: InvokeFunction: plan.getWasmParameters for fnName='%v'", fnName)
 	params, cln, err := plan.getWasmParameters(ctx, wa, parameters)
 	defer func() {
 		// Clean up any resources allocated for the parameters (when done)
@@ -111,7 +111,7 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Pre-invoke hook
-	log.Printf("GML: executionplan.go: InvokeFunction: wa.PreInvoke")
+	log.Printf("GML: executionplan.go: InvokeFunction: wa.PreInvoke for fnName='%v'", fnName)
 	if err := wa.PreInvoke(ctx, plan); err != nil {
 		return nil, err
 	}

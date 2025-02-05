@@ -108,15 +108,27 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 	return "", ""
 }
 
+// Note that GetNameForType is used for GraphQL Schema generation and must
+// strip all package, error, and option information.
 func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
 	var hasError bool
 	typ, hasError, _ = stripErrorAndOption(typ)
 
 	if typ == "Unit" && hasError {
-		return "Unit!Error"
+		return "Unit!Error" // Special case - used internally and not by GraphQL.
 	} else if typ == "Unit" {
 		return "Unit"
+	}
+
+	// Handle special cases that the GraphQL engine expects to see:
+	switch typ {
+	// case "@time.ZonedDateTime":
+	// 	return "time.Time"
+	// case "@wallClock.Datetime":
+	// 	return "time.Time"
+	case "@time.Duration":
+		return "time.Duration"
 	}
 
 	if lti.IsOptionType(typ) { // TODO
@@ -153,11 +165,9 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 		return result
 	}
 
-	// result := typ[strings.LastIndex(typ, ".")+1:]
-	// log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
-	// return result
-	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%[1]v'", typ)
-	return typ
+	result := typ[strings.LastIndex(typ, ".")+1:] // strip package information
+	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
+	return result
 }
 
 func (lti *langTypeInfo) IsObjectType(typ string) bool {

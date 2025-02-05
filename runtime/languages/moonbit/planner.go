@@ -146,13 +146,13 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 	}
 
 	// If the function definition has results, then we don't need to use indirection.
-	// if len(fnDef.ResultTypes()) > 0 {
-	// 	return 0, nil
-	// }
-	// If the function definition has exactly one result, then we don't need to use indirection.
-	if len(fnDef.ResultTypes()) == 1 {
+	if len(fnDef.ResultTypes()) > 0 {
 		return 0, nil
 	}
+	// If the function definition has exactly one result, then we don't need to use indirection.
+	// if len(fnDef.ResultTypes()) == 1 {
+	// 	return 0, nil
+	// }
 
 	// We expect results but the function signature doesn't have any.
 	// Thus, TinyGo expects to be passed a pointer in the first parameter,

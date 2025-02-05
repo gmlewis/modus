@@ -16,7 +16,7 @@ use (
 	./sdk/go/examples/dgraph
 	./sdk/go/examples/embedding
 	./sdk/go/examples/graphql
-	./sdk/go/examples/hello-maps
+	./sdk/go/examples/hello-primitives
 	./sdk/go/examples/http
 	./sdk/go/examples/mysql
 	./sdk/go/examples/neo4j

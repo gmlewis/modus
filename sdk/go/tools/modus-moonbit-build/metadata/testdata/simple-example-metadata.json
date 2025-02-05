@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cud7chfrack6mtakhdc0",
-  "buildTs": "2025-01-29T18:41:09.343Z",
+  "buildId": "cuhtmp7racke7ncer5q0",
+  "buildTs": "2025-02-05T21:43:00.250Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "f78eb7dcb02f346740588e1dde68be48c7db225a",
+  "gitCommit": "ce2dcf9e9afade9a70bdf72d05d3311de32bd0f9",
   "fnExports": {
     "add": {
       "parameters": [
@@ -398,26 +398,32 @@
     "@time.ZonedDateTime": {
       "id": 6
     },
-    "@wallClock.Datetime": {
+    "@time.ZonedDateTime!Error": {
       "id": 7
     },
-    "Array[@simple-example.Person]": {
+    "@wallClock.Datetime": {
       "id": 8
     },
-    "Array[Byte]": {
+    "Array[@simple-example.Person]": {
       "id": 9
     },
-    "Array[Int]": {
+    "Array[Byte]": {
       "id": 10
     },
-    "Int": {
+    "Array[Int]": {
       "id": 11
     },
-    "String": {
+    "Int": {
       "id": 12
     },
-    "String?": {
+    "String": {
       "id": 13
+    },
+    "String!Error": {
+      "id": 14
+    },
+    "String?": {
+      "id": 15
     }
   }
 }

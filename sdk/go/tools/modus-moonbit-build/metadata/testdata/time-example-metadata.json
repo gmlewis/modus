@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cud7chfrack6mtakhdcg",
-  "buildTs": "2025-01-29T18:41:09.377Z",
+  "buildId": "cuhtmp7racke7ncer5qg",
+  "buildTs": "2025-02-05T21:43:00.285Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "f78eb7dcb02f346740588e1dde68be48c7db225a",
+  "gitCommit": "ce2dcf9e9afade9a70bdf72d05d3311de32bd0f9",
   "fnExports": {
     "get_local_time": {
       "results": [
@@ -146,14 +146,41 @@
         }
       ]
     },
-    "@time.ZonedDateTime": {
-      "id": 5
+    "@time-example.TimeZoneInfo!Error": {
+      "id": 5,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
     },
-    "Array[Byte]": {
+    "@time.ZonedDateTime": {
       "id": 6
     },
-    "String": {
+    "@time.ZonedDateTime!Error": {
       "id": 7
+    },
+    "Array[Byte]": {
+      "id": 8
+    },
+    "String": {
+      "id": 9
+    },
+    "String!Error": {
+      "id": 10
     }
   }
 }

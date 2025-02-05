@@ -14,7 +14,17 @@ let test_duration : Ref[@time.Duration] = { val: @time.Duration::zero() }
 ///|
 fn init {
   test_time.val = try {
-    Some(@time.date_time!(2024, 12, 31, hour=23, minute=59, second=59))
+    Some(
+      @time.date_time!(
+        2024,
+        12,
+        31,
+        hour=23,
+        minute=59,
+        second=59,
+        nanosecond=999_999_999,
+      ),
+    )
   } catch {
     _ => abort("Failed to create test time")
   }

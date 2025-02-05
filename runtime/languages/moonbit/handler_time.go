@@ -182,6 +182,8 @@ func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, ob
 		return []uint64{0}, nil, err
 	}
 
+	// TODO: Convert a Go time.Time to a MoonBit @time.ZonedDateTime.
+
 	wall, ext := getTimeVals(tm)
 
 	// skip loc - we only support UTC

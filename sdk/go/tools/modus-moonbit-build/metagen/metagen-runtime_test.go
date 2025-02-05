@@ -1444,4 +1444,5 @@ var wantRuntimeTypes = metadata.TypeMap{
 	"UInt64?":                          {Id: 98, Name: "UInt64?"},
 	"UInt?":                            {Id: 99, Name: "UInt?"},
 	"Unit":                             {Id: 100, Name: "Unit"},
+	"Unit!Error":                       {Id: 101, Name: "Unit!Error"},
 }

@@ -187,7 +187,21 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		// 	os.Exit(1)
 		// }
 
-		typ, _, hasOption := stripErrorAndOption(name)
+		typ, hasError, hasOption := stripErrorAndOption(name)
+		if hasError {
+			fullName := fmt.Sprintf("%v!Error", typ)
+			tmpName := fullName
+			if i := strings.Index(tmpName, "."); i >= 0 { // Remove package information so it is not repeated.
+				tmpName = tmpName[i+1:]
+			}
+			// tmpPkg := t.Obj().Pkg()
+			// if u := t.Underlying(); u != nil {
+			// 	tmpPkg = u.Pkg()
+			// }
+			tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), tmpName, nil), t.Underlying(), nil)
+			// Do not recurse here as it would cause an infinite loop.
+			m[fullName] = tmpType
+		}
 		if hasOption {
 			tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), typ, nil), t.Underlying(), nil)
 			addRequiredTypes(tmpType, m)

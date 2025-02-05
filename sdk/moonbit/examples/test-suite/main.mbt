@@ -200,14 +200,14 @@ pub fn hello_primitive_int_max() -> Int {
 
 ///|
 pub fn hello_primitive_int16_min() -> Int16 {
-  let result : Int16 = -32768 // @int16.min_value
+  let result : Int16 = -32768 // TODO: @int16.min_value
   println("hello_primitive_int16_min: returning \{result}")
   result
 }
 
 ///|
 pub fn hello_primitive_int16_max() -> Int16 {
-  let result : Int16 = 32767 // @int16.max_value
+  let result : Int16 = 32767 // TODO: @int16.max_value
   println("hello_primitive_int16_max: returning \{result}")
   result
 }
@@ -242,14 +242,14 @@ pub fn hello_primitive_uint_max() -> UInt {
 
 ///|
 pub fn hello_primitive_uint16_min() -> UInt16 {
-  let result : UInt16 = 0 // @uint16.min_value
+  let result : UInt16 = 0 // TODO: @uint16.min_value
   println("hello_primitive_uint16_min: returning \{result}")
   result
 }
 
 ///|
 pub fn hello_primitive_uint16_max() -> UInt16 {
-  let result : UInt16 = 65535 // @uint16.max_value
+  let result : UInt16 = 65535 // TODO: @uint16.max_value
   println("hello_primitive_uint16_max: returning \{result}")
   result
 }
