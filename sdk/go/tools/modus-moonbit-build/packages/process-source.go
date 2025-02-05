@@ -21,6 +21,7 @@ import (
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
 var commentRE = regexp.MustCompile(`(?m)^\s*//.*$`)
+var importedHostFnRE = regexp.MustCompile(`(?m)^fn .*?\((.*?)\) (.*?)= "(modus_.*?)" "(.*?)"$`)
 var pubStructRE = regexp.MustCompile(`(?ms)\npub.*? struct\s+(.*?)\s+{(.*?)\n}`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var pubFnPrefixRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\(`)
@@ -38,6 +39,9 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 
 	m = pubFnRE.FindAllStringSubmatch(src, -1)
 	decls = p.processPubFns(typesPkg, decls, m, fullSrc)
+
+	m = importedHostFnRE.FindAllStringSubmatch(src, -1)
+	decls = p.processImportedHostFns(typesPkg, decls, m)
 
 	p.Syntax = append(p.Syntax, &ast.File{
 		Name:    &ast.Ident{Name: filename},

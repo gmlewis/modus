@@ -139,12 +139,12 @@ pub fn test2d_array_output_string_empty() -> Array[Array[String]] {
 
 ///|
 pub fn test2d_array_input_string_inner_none(
-  val : Array[Array[String]]?
+  val : Array[Array[String]?]
 ) -> Unit!Error {
-  assert_eq!(val, None)
+  assert_eq!(val, [None])
 }
 
 ///|
-pub fn test2d_array_output_string_inner_none() -> Array[Array[String]] {
-  []
+pub fn test2d_array_output_string_inner_none() -> Array[Array[String]?] {
+  [None]
 }

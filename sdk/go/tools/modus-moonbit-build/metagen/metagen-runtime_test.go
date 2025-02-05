@@ -17,8 +17,8 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
-	"github.com/google/go-cmp/cmp"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
 )
 
@@ -1236,6 +1236,41 @@ var wantRuntimeFnImports = metadata.FunctionMap{
 			{Name: "level", Type: "String"},
 			{Name: "message", Type: "String"},
 		},
+	},
+	"modus_test.add": {
+		Name:       "modus_test.add",
+		Parameters: []*metadata.Parameter{{Name: "a", Type: "Int"}, {Name: "b", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.echo1": {
+		Name:       "modus_test.echo1",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.echo2": {
+		Name:       "modus_test.echo2",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.echo3": {
+		Name:       "modus_test.echo3",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.echo4": {
+		Name:       "modus_test.echo4",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.encodeStrings1": {
+		Name:       "modus_test.encodeStrings1",
+		Parameters: []*metadata.Parameter{{Name: "items", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
+	},
+	"modus_test.encodeStrings2": {
+		Name:       "modus_test.encodeStrings2",
+		Parameters: []*metadata.Parameter{{Name: "items", Type: "Int"}},
+		Results:    []*metadata.Result{{Type: "Int"}},
 	},
 }
 

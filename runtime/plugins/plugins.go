@@ -11,6 +11,7 @@ package plugins
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -34,6 +35,8 @@ type Plugin struct {
 }
 
 func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, md *metadata.Metadata) (*Plugin, error) {
+	buf, _ := json.MarshalIndent(md, "", "  ")
+	log.Printf("GML: plugins.go: NewPlugin: filename='%v', metadata:\n%s", filename, buf)
 	span, ctx := utils.NewSentrySpanForCurrentFunc(ctx)
 	defer span.Finish()
 
@@ -48,28 +51,6 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 	plans := make(map[string]langsupport.ExecutionPlan, len(imports)+len(exports))
 
 	ctx = context.WithValue(ctx, utils.MetadataContextKey, md)
-
-	// // Add an execution plan for the host function "spectest.print_char"
-	// printCharFnName := "spectest.print_char"
-	// printCharFnMeta := &metadata.Function{
-	// 	Name:       printCharFnName,
-	// 	Parameters: []*metadata.Parameter{{Name: "r", Type: "i32"}},
-	// }
-	// printCharFnDef := &customFnDef{
-	// 	moduleName: "spectest",
-	// 	debugName:  "spectest.print_char",
-	// 	name:       "print_char",
-	// 	paramNames: []string{"r"},
-	// 	paramTypes: []wasm.ValueType{wasm.ValueTypeI32},
-	// 	fn: func(r rune) {
-	// 		log.Printf("GML: plugins.go: customFnDef.GoFunction: %v = %[1]c", r)
-	// 	},
-	// }
-	// plan, err := planner.GetPlan(ctx, printCharFnMeta, printCharFnDef)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("failed to get execution plan for %v: %w", printCharFnName, err)
-	// }
-	// plans[printCharFnName] = plan
 
 	for fnName, fnMeta := range md.FnExports {
 		fnDef, ok := exports[fnName]

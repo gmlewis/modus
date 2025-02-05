@@ -15,8 +15,8 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
-	"github.com/google/go-cmp/cmp"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
 )
 

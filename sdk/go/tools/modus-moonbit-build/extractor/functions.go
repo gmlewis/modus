@@ -50,6 +50,9 @@ func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*types.F
 		for _, file := range pkg.Syntax {
 			for _, decl := range file.Decls {
 				if fd, ok := decl.(*ast.FuncDecl); ok {
+					if name := getImportedFuncName(fd); name != "" {
+						continue
+					}
 					if name := getExportedFuncName(fd); name != "" {
 						if f, ok := pkg.TypesInfo.Defs[fd.Name].(*types.Func); ok {
 							results[name] = f
