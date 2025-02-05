@@ -45,6 +45,21 @@ func instantiateEnvHostFunctions(ctx context.Context, r wazero.Runtime) error {
 		return err
 	}
 
+	// MoonBit has a package "moonbitlang/x/sys" that has "@sys.exit" but relies on
+	// a host function "__moonbit_sys_unstable" "exit" to implement it.
+	sysExit := func(ctx context.Context, stack []uint64) {
+		code := stack[0]
+		// Cause wazero to stop executing the plugin immediately.
+		panic(fmt.Sprintf("sysExit called with code: %v", code))
+	}
+	_, err = r.NewHostModuleBuilder("__moonbit_sys_unstable").
+		NewFunctionBuilder().WithGoFunction(
+		api.GoFunc(sysExit), []api.ValueType{api.ValueTypeI32}, nil).Export("exit").
+		Instantiate(ctx)
+	if err != nil {
+		return err
+	}
+
 	// MoonBit has a function `println` that is used to print to the console.
 	// It is implemented in the host environment with a function called `spectest.print_char`
 	// that prints a single character at a time to stderr. However, we buffer it until

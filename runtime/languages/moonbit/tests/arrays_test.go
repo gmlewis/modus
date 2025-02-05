@@ -17,7 +17,7 @@ import (
 )
 
 func TestArrayInput0_string(t *testing.T) {
-	fnName := "testArrayInput0_string"
+	fnName := "test_array_input0_string"
 	arr := [0]string{}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -31,7 +31,7 @@ func TestArrayInput0_string(t *testing.T) {
 }
 
 func TestArrayInput0_stringPtr(t *testing.T) {
-	fnName := "testArrayInput0_stringPtr"
+	fnName := "test_array_input0_string_option"
 	arr := [0]*string{}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -45,7 +45,7 @@ func TestArrayInput0_stringPtr(t *testing.T) {
 }
 
 func TestArrayOutput0_string(t *testing.T) {
-	fnName := "testArrayOutput0_string"
+	fnName := "test_array_output0_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -62,7 +62,7 @@ func TestArrayOutput0_string(t *testing.T) {
 }
 
 func TestArrayOutput0_stringPtr(t *testing.T) {
-	fnName := "testArrayOutput0_stringPtr"
+	fnName := "test_array_output0_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -79,7 +79,7 @@ func TestArrayOutput0_stringPtr(t *testing.T) {
 }
 
 func TestArrayInput0_intPtr(t *testing.T) {
-	fnName := "testArrayInput0_intPtr"
+	fnName := "test_array_input0_int_option"
 	arr := [0]*int{}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -93,7 +93,7 @@ func TestArrayInput0_intPtr(t *testing.T) {
 }
 
 func TestArrayOutput0_intPtr(t *testing.T) {
-	fnName := "testArrayOutput0_intPtr"
+	fnName := "test_array_output0_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -110,7 +110,7 @@ func TestArrayOutput0_intPtr(t *testing.T) {
 }
 
 func TestArrayInput1_string(t *testing.T) {
-	fnName := "testArrayInput1_string"
+	fnName := "test_array_input1_string"
 	arr := [1]string{"abc"}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -124,7 +124,7 @@ func TestArrayInput1_string(t *testing.T) {
 }
 
 func TestArrayInput1_stringPtr(t *testing.T) {
-	fnName := "testArrayInput1_stringPtr"
+	fnName := "test_array_input1_string_option"
 	arr := getStringPtrArray1()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -138,7 +138,7 @@ func TestArrayInput1_stringPtr(t *testing.T) {
 }
 
 func TestArrayOutput1_string(t *testing.T) {
-	fnName := "testArrayOutput1_string"
+	fnName := "test_array_output1_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -155,7 +155,7 @@ func TestArrayOutput1_string(t *testing.T) {
 }
 
 func TestArrayOutput1_stringPtr(t *testing.T) {
-	fnName := "testArrayOutput1_stringPtr"
+	fnName := "test_array_output1_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -172,7 +172,7 @@ func TestArrayOutput1_stringPtr(t *testing.T) {
 }
 
 func TestArrayInput1_intPtr(t *testing.T) {
-	fnName := "testArrayInput1_intPtr"
+	fnName := "test_array_input1_int_option"
 	arr := getIntPtrArray1()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -186,7 +186,7 @@ func TestArrayInput1_intPtr(t *testing.T) {
 }
 
 func TestArrayOutput1_intPtr(t *testing.T) {
-	fnName := "testArrayOutput1_intPtr"
+	fnName := "test_array_output1_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -203,7 +203,7 @@ func TestArrayOutput1_intPtr(t *testing.T) {
 }
 
 func TestArrayInput2_string(t *testing.T) {
-	fnName := "testArrayInput2_string"
+	fnName := "test_array_input2_string"
 	arr := [2]string{"abc", "def"}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -217,7 +217,7 @@ func TestArrayInput2_string(t *testing.T) {
 }
 
 func TestArrayInput2_stringPtr(t *testing.T) {
-	fnName := "testArrayInput2_stringPtr"
+	fnName := "test_array_input2_string_option"
 	arr := getStringPtrArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -231,7 +231,7 @@ func TestArrayInput2_stringPtr(t *testing.T) {
 }
 
 func TestArrayInput2_struct(t *testing.T) {
-	fnName := "testArrayInput2_struct"
+	fnName := "test_array_input2_struct"
 	arr := getStructArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -245,7 +245,7 @@ func TestArrayInput2_struct(t *testing.T) {
 }
 
 func TestArrayInput2_structPtr(t *testing.T) {
-	fnName := "testArrayInput2_structPtr"
+	fnName := "test_array_input2_struct_option"
 	arr := getStructPtrArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -259,7 +259,7 @@ func TestArrayInput2_structPtr(t *testing.T) {
 }
 
 func TestArrayInput2_map(t *testing.T) {
-	fnName := "testArrayInput2_map"
+	fnName := "test_array_input2_map"
 	arr := getMapArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -273,7 +273,7 @@ func TestArrayInput2_map(t *testing.T) {
 }
 
 func TestArrayInput2_mapPtr(t *testing.T) {
-	fnName := "testArrayInput2_mapPtr"
+	fnName := "test_array_input2_map_option"
 	arr := getMapPtrArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -287,7 +287,7 @@ func TestArrayInput2_mapPtr(t *testing.T) {
 }
 
 func TestArrayInput2_intPtr(t *testing.T) {
-	fnName := "testArrayInput2_intPtr"
+	fnName := "test_array_input2_int_option"
 	arr := getIntPtrArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -301,7 +301,7 @@ func TestArrayInput2_intPtr(t *testing.T) {
 }
 
 func TestArrayOutput2_intPtr(t *testing.T) {
-	fnName := "testArrayOutput2_intPtr"
+	fnName := "test_array_output2_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -318,7 +318,7 @@ func TestArrayOutput2_intPtr(t *testing.T) {
 }
 
 func TestArrayOutput2_string(t *testing.T) {
-	fnName := "testArrayOutput2_string"
+	fnName := "test_array_output2_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -335,7 +335,7 @@ func TestArrayOutput2_string(t *testing.T) {
 }
 
 func TestArrayOutput2_stringPtr(t *testing.T) {
-	fnName := "testArrayOutput2_stringPtr"
+	fnName := "test_array_output2_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -352,7 +352,7 @@ func TestArrayOutput2_stringPtr(t *testing.T) {
 }
 
 func TestArrayOutput2_struct(t *testing.T) {
-	fnName := "testArrayOutput2_struct"
+	fnName := "test_array_output2_struct"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -369,7 +369,7 @@ func TestArrayOutput2_struct(t *testing.T) {
 }
 
 func TestArrayOutput2_structPtr(t *testing.T) {
-	fnName := "testArrayOutput2_structPtr"
+	fnName := "test_array_output2_struct_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -386,7 +386,7 @@ func TestArrayOutput2_structPtr(t *testing.T) {
 }
 
 func TestArrayOutput2_map(t *testing.T) {
-	fnName := "testArrayOutput2_map"
+	fnName := "test_array_output2_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -403,7 +403,7 @@ func TestArrayOutput2_map(t *testing.T) {
 }
 
 func TestArrayOutput2_mapPtr(t *testing.T) {
-	fnName := "testArrayOutput2_mapPtr"
+	fnName := "test_array_output2_map_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -420,7 +420,7 @@ func TestArrayOutput2_mapPtr(t *testing.T) {
 }
 
 func TestPtrArrayInput1_int(t *testing.T) {
-	fnName := "testPtrArrayInput1_int"
+	fnName := "test_option_array_input1_int"
 	arr := getPtrIntArray1()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -434,7 +434,7 @@ func TestPtrArrayInput1_int(t *testing.T) {
 }
 
 func TestPtrArrayInput2_int(t *testing.T) {
-	fnName := "testPtrArrayInput2_int"
+	fnName := "test_option_array_input2_int"
 	arr := getPtrIntArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -448,7 +448,7 @@ func TestPtrArrayInput2_int(t *testing.T) {
 }
 
 func TestPtrArrayInput1_string(t *testing.T) {
-	fnName := "testPtrArrayInput1_string"
+	fnName := "test_option_array_input1_string"
 	arr := getPtrStringArray1()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -462,7 +462,7 @@ func TestPtrArrayInput1_string(t *testing.T) {
 }
 
 func TestPtrArrayInput2_string(t *testing.T) {
-	fnName := "testPtrArrayInput2_string"
+	fnName := "test_option_array_input2_string"
 	arr := getPtrStringArray2()
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -476,7 +476,7 @@ func TestPtrArrayInput2_string(t *testing.T) {
 }
 
 func TestPtrArrayOutput1_int(t *testing.T) {
-	fnName := "testPtrArrayOutput1_int"
+	fnName := "test_option_array_output1_int"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -493,7 +493,7 @@ func TestPtrArrayOutput1_int(t *testing.T) {
 }
 
 func TestPtrArrayOutput2_int(t *testing.T) {
-	fnName := "testPtrArrayOutput2_int"
+	fnName := "test_option_array_output2_int"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -510,7 +510,7 @@ func TestPtrArrayOutput2_int(t *testing.T) {
 }
 
 func TestPtrArrayOutput1_string(t *testing.T) {
-	fnName := "testPtrArrayOutput1_string"
+	fnName := "test_option_array_output1_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -527,7 +527,7 @@ func TestPtrArrayOutput1_string(t *testing.T) {
 }
 
 func TestPtrArrayOutput2_string(t *testing.T) {
-	fnName := "testPtrArrayOutput2_string"
+	fnName := "test_option_array_output2_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -544,7 +544,7 @@ func TestPtrArrayOutput2_string(t *testing.T) {
 }
 
 func TestArrayInput0_byte(t *testing.T) {
-	fnName := "testArrayInput0_byte"
+	fnName := "test_array_input0_byte"
 	arr := [0]byte{}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -558,7 +558,7 @@ func TestArrayInput0_byte(t *testing.T) {
 }
 
 func TestArrayInput1_byte(t *testing.T) {
-	fnName := "testArrayInput1_byte"
+	fnName := "test_array_input1_byte"
 	arr := [1]byte{1}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -572,7 +572,7 @@ func TestArrayInput1_byte(t *testing.T) {
 }
 
 func TestArrayInput2_byte(t *testing.T) {
-	fnName := "testArrayInput2_byte"
+	fnName := "test_array_input2_byte"
 	arr := [2]byte{1, 2}
 
 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
@@ -586,7 +586,7 @@ func TestArrayInput2_byte(t *testing.T) {
 }
 
 func TestArrayOutput0_byte(t *testing.T) {
-	fnName := "testArrayOutput0_byte"
+	fnName := "test_array_output0_byte"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -603,7 +603,7 @@ func TestArrayOutput0_byte(t *testing.T) {
 }
 
 func TestArrayOutput1_byte(t *testing.T) {
-	fnName := "testArrayOutput1_byte"
+	fnName := "test_array_output1_byte"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -620,7 +620,7 @@ func TestArrayOutput1_byte(t *testing.T) {
 }
 
 func TestArrayOutput2_byte(t *testing.T) {
-	fnName := "testArrayOutput2_byte"
+	fnName := "test_array_output2_byte"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
