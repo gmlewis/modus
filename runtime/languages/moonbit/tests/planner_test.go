@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package golang_test
+package moonbit_test
 
 import (
 	"reflect"
@@ -371,7 +371,7 @@ func TestGetHandler_map(t *testing.T) {
 }
 
 func TestGetHandler_struct(t *testing.T) {
-	typ := "testdata.TestStruct3"
+	typ := "@testdata.TestStruct3"
 	rt := reflect.TypeFor[TestStruct3]()
 
 	planner := fixture.NewPlanner()
@@ -445,7 +445,7 @@ func TestGetHandler_struct(t *testing.T) {
 }
 
 func TestGetHandler_recursiveStruct(t *testing.T) {
-	typ := "testdata.TestRecursiveStruct"
+	typ := "@testdata.TestRecursiveStruct"
 	rt := reflect.TypeFor[TestRecursiveStruct]()
 
 	planner := fixture.NewPlanner()

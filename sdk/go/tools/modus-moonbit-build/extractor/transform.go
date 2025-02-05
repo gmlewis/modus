@@ -23,11 +23,13 @@ import (
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {
 	if s == nil {
+		log.Printf("GML: transform.go: transformStruct(name=%q, s=nil)", name)
 		return nil
 	}
 
 	structDecl, structType := getStructDeclarationAndType(name, pkgs)
 	if structDecl == nil || structType == nil {
+		log.Printf("GML: transform.go: transformStruct(name=%q): structDecl=%v, structType=%v", name, structDecl, structType)
 		return nil
 	}
 
@@ -55,6 +57,7 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 
 func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package) *metadata.Function {
 	if f == nil {
+		log.Printf("GML: transform.go: transformFunc(name=%q, f=nil)", name)
 		return nil
 	}
 
@@ -64,6 +67,7 @@ func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package
 
 	funcDecl := getFuncDeclaration(f, pkgs)
 	if funcDecl == nil {
+		log.Printf("GML: transform.go: transformFunc(name=%q, f=%#v): funcDecl=nil", name, f)
 		return nil
 	}
 
@@ -111,9 +115,24 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 			if genDecl, ok := decl.(*ast.GenDecl); ok && genDecl.Tok == token.TYPE {
 				for _, spec := range genDecl.Specs {
 					if typeSpec, ok := spec.(*ast.TypeSpec); ok {
-						if typeSpec.Name.Name == name || typeSpec.Name.Name == objName {
+						if typeSpec.Name.Name == objName || typeSpec.Name.Name == name {
 							if structType, ok := typeSpec.Type.(*ast.StructType); ok {
+								log.Printf("GML: transform.go: getStructDeclarationAndType(name=%q): A", name)
 								return genDecl, structType
+							} else if ident, ok := typeSpec.Type.(*ast.Ident); ok {
+								typePath := pkgName + "." + ident.Name
+								log.Printf("GML: transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
+								return getStructDeclarationAndType(typePath, pkgs)
+							} else if selExp, ok := typeSpec.Type.(*ast.SelectorExpr); ok {
+								if pkgIdent, ok := selExp.X.(*ast.Ident); !ok {
+									log.Printf("GML: transform.go: getStructDeclarationAndType(name=%q): C", name)
+									return nil, nil
+								} else {
+									pkgPath := getFullImportPath(file, pkgIdent.Name)
+									typePath := pkgPath + "." + selExp.Sel.Name
+									log.Printf("GML: transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
+									return getStructDeclarationAndType(typePath, pkgs)
+								}
 							}
 						}
 					}
@@ -123,6 +142,28 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 	}
 
 	return nil, nil
+}
+
+func getFullImportPath(file *ast.File, pkgName string) string {
+	for _, imp := range file.Imports {
+		path := strings.Trim(imp.Path.Value, `"`)
+		if imp.Name == nil {
+			parts := strings.Split(path, "/")
+			if len(parts) == 0 { // huh?!? is this possible?!?
+				log.Printf("GML: transform.go: getFullImportPath(pkgName=%q): A: path=%q", pkgName, path)
+				return ""
+			}
+			if parts[len(parts)-1] == pkgName {
+				log.Printf("GML: transform.go: getFullImportPath(pkgName=%q): B: path=%q", pkgName, path)
+				return path
+			}
+		} else if imp.Name.Name == pkgName {
+			log.Printf("GML: transform.go: getFullImportPath(pkgName=%q): C: path=%q", pkgName, path)
+			return path
+		}
+	}
+	log.Printf("GML: transform.go: getFullImportPath(pkgName=%q): D: ''", pkgName)
+	return ""
 }
 
 func getDocs(comments *ast.CommentGroup) *metadata.Docs {

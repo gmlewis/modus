@@ -10,6 +10,7 @@
 package extractor
 
 import (
+	"log"
 	"os"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
@@ -45,6 +46,7 @@ func loadPackages(dir string) (map[string]*packages.Package, error) {
 func expandPackages(pkg *packages.Package, pkgMap map[string]*packages.Package) {
 	for _, imp := range pkg.Imports {
 		if _, ok := pkgMap[imp.PkgPath]; ok {
+			log.Printf("GML: extractor/package.go: skipping import %q as already processed.", imp.PkgPath)
 			continue
 		}
 		expandPackages(imp, pkgMap)

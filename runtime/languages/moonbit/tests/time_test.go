@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package golang_test
+package moonbit_test
 
 import (
 	"testing"
@@ -21,21 +21,21 @@ var testTime, _ = time.Parse(time.RFC3339, testTimeStr)
 var testDuration = time.Duration(5 * time.Second)
 
 func TestTimeInput(t *testing.T) {
-	fnName := "testTimeInput"
+	fnName := "test_time_input"
 	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestTimeStrInput(t *testing.T) {
-	fnName := "testTimeInput"
+	fnName := "test_time_input"
 	if _, err := fixture.CallFunction(t, fnName, testTimeStr); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestTimePtrInput(t *testing.T) {
-	fnName := "testTimePtrInput"
+func TestTimeOptionInput(t *testing.T) {
+	fnName := "test_time_option_input"
 	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
 		t.Error(err)
 	}
@@ -44,8 +44,8 @@ func TestTimePtrInput(t *testing.T) {
 	}
 }
 
-func TestTimeStrPtrInput(t *testing.T) {
-	fnName := "testTimePtrInput"
+func TestTimeStrOptionInput(t *testing.T) {
+	fnName := "test_time_option_input"
 	if _, err := fixture.CallFunction(t, fnName, testTimeStr); err != nil {
 		t.Error(err)
 	}
@@ -54,15 +54,15 @@ func TestTimeStrPtrInput(t *testing.T) {
 	}
 }
 
-func TestTimePtrInput_nil(t *testing.T) {
-	fnName := "testTimePtrInput_nil"
+func TestTimeOptionInput_none(t *testing.T) {
+	fnName := "test_time_option_input_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestTimeOutput(t *testing.T) {
-	fnName := "testTimeOutput"
+	fnName := "test_time_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -77,8 +77,8 @@ func TestTimeOutput(t *testing.T) {
 	}
 }
 
-func TestTimePtrOutput(t *testing.T) {
-	fnName := "testTimePtrOutput"
+func TestTimeOptionOutput(t *testing.T) {
+	fnName := "test_time_option_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -93,8 +93,8 @@ func TestTimePtrOutput(t *testing.T) {
 	}
 }
 
-func TestTimePtrOutput_nil(t *testing.T) {
-	fnName := "testTimePtrOutput_nil"
+func TestTimeOptionOutput_none(t *testing.T) {
+	fnName := "test_time_option_output_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -106,14 +106,14 @@ func TestTimePtrOutput_nil(t *testing.T) {
 }
 
 func TestDurationInput(t *testing.T) {
-	fnName := "testDurationInput"
+	fnName := "test_duration_input"
 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestDurationPtrInput(t *testing.T) {
-	fnName := "testDurationPtrInput"
+func TestDurationOptionInput(t *testing.T) {
+	fnName := "test_duration_option_input"
 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
 		t.Error(err)
 	}
@@ -122,15 +122,15 @@ func TestDurationPtrInput(t *testing.T) {
 	}
 }
 
-func TestDurationPtrInput_nil(t *testing.T) {
-	fnName := "testDurationPtrInput_nil"
+func TestDurationOptionInput_none(t *testing.T) {
+	fnName := "test_duration_option_input_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestDurationOutput(t *testing.T) {
-	fnName := "testDurationOutput"
+	fnName := "test_duration_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -145,8 +145,8 @@ func TestDurationOutput(t *testing.T) {
 	}
 }
 
-func TestDurationPtrOutput(t *testing.T) {
-	fnName := "testDurationPtrOutput"
+func TestDurationOptionOutput(t *testing.T) {
+	fnName := "test_duration_option_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -161,8 +161,8 @@ func TestDurationPtrOutput(t *testing.T) {
 	}
 }
 
-func TestDurationPtrOutput_nil(t *testing.T) {
-	fnName := "testDurationPtrOutput_nil"
+func TestDurationOptionOutput_none(t *testing.T) {
+	fnName := "test_duration_option_output_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

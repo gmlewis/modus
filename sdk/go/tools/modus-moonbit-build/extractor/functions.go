@@ -184,6 +184,12 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		// 	os.Exit(1)
 		// }
 
+		typ, _, hasOption := stripErrorAndOption(name)
+		if hasOption {
+			tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), typ, nil), t.Underlying(), nil)
+			addRequiredTypes(tmpType, m)
+		}
+
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
 		if i := strings.Index(name, "!"); i >= 0 {
 			name = name[:i]
@@ -192,11 +198,11 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		u := t.Underlying()
 		m[name] = u
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
-		var hasOption bool
-		name, _, hasOption = stripErrorAndOption(name)
-		if hasOption {
-			m[name+"?"] = u
-		}
+		// var hasOption bool
+		// name, _, hasOption = stripErrorAndOption(name)
+		// if hasOption {
+		// 	m[name+"?"] = u
+		// }
 		// if hasError {
 		// 	m[name] = u
 		// }
@@ -224,7 +230,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 				m[valueName] = nil
 				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
 			}
-			// TODO: This is not correct.  May have to rethink how the MoonBit source code is parsed.
+			// TODO: This is not correct. May have to rethink how the MoonBit source code is parsed.
 			// if utils.IsStructType(valueType) {
 			// 	if _, ok := m[valueType]; !ok {
 			// 		for k := range m {

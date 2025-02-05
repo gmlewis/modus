@@ -10,6 +10,7 @@
 package extractor
 
 import (
+	"fmt"
 	"go/types"
 	"log"
 	"sort"
@@ -72,16 +73,27 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	sort.Strings(keys)
 	for _, name := range keys {
 		t := requiredTypes[name]
+
+		resolvedName := name
+		if n, ok := t.(*types.Named); ok {
+			resolvedName = n.String()
+			t = n.Underlying()
+		}
+
 		if s, ok := t.(*types.Struct); ok && !wellKnownTypes[name] {
-			t := transformStruct(name, s, pkgs)
+			t := transformStruct(resolvedName, s, pkgs)
+			if t == nil {
+				return fmt.Errorf("failed to transform struct %v", resolvedName)
+			}
 			t.Id = id
 			meta.Types[name] = t
+			log.Printf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %#v\n", name, meta.Types[name])
 		} else {
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,
 				Name: name,
 			}
-			log.Printf("GML: extractor.go: CollectProgramInfo: meta.Types[%q] = %#v\n", name, meta.Types[name])
+			log.Printf("GML: extractor.go: CollectProgramInfo: B: meta.Types[%q] = %#v\n", name, meta.Types[name])
 		}
 		id++
 	}

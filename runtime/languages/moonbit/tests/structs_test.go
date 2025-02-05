@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package golang_test
+package moonbit_test
 
 import (
 	"reflect"
@@ -127,7 +127,7 @@ var testStruct5AsMap = map[string]any{
 }
 
 func TestStructInput1(t *testing.T) {
-	fnName := "testStructInput1"
+	fnName := "test_struct_input1"
 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
 		t.Error(err)
 	}
@@ -137,7 +137,7 @@ func TestStructInput1(t *testing.T) {
 }
 
 func TestStructInput2(t *testing.T) {
-	fnName := "testStructInput2"
+	fnName := "test_struct_input2"
 	if _, err := fixture.CallFunction(t, fnName, testStruct2); err != nil {
 		t.Error(err)
 	}
@@ -147,7 +147,7 @@ func TestStructInput2(t *testing.T) {
 }
 
 func TestStructInput3(t *testing.T) {
-	fnName := "testStructInput3"
+	fnName := "test_struct_input3"
 	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
 		t.Error(err)
 	}
@@ -157,7 +157,7 @@ func TestStructInput3(t *testing.T) {
 }
 
 func TestStructInput4(t *testing.T) {
-	fnName := "testStructInput4"
+	fnName := "test_struct_input4"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
 		t.Error(err)
 	}
@@ -167,7 +167,7 @@ func TestStructInput4(t *testing.T) {
 }
 
 func TestStructInput5(t *testing.T) {
-	fnName := "testStructInput5"
+	fnName := "test_struct_input5"
 	if _, err := fixture.CallFunction(t, fnName, testStruct5); err != nil {
 		t.Error(err)
 	}
@@ -177,7 +177,7 @@ func TestStructInput5(t *testing.T) {
 }
 
 func TestStructInput4_withNil(t *testing.T) {
-	fnName := "testStructInput4_withNil"
+	fnName := "test_struct_input4_with_none"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
 		t.Error(err)
 	}
@@ -186,8 +186,8 @@ func TestStructInput4_withNil(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput1(t *testing.T) {
-	fnName := "testStructPtrInput1"
+func TestStructOptionInput1(t *testing.T) {
+	fnName := "test_struct_option_input1"
 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
 		t.Error(err)
 	}
@@ -202,8 +202,8 @@ func TestStructPtrInput1(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput2(t *testing.T) {
-	fnName := "testStructPtrInput2"
+func TestStructOptionInput2(t *testing.T) {
+	fnName := "test_struct_option_input2"
 	if _, err := fixture.CallFunction(t, fnName, testStruct2); err != nil {
 		t.Error(err)
 	}
@@ -218,8 +218,8 @@ func TestStructPtrInput2(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput3(t *testing.T) {
-	fnName := "testStructPtrInput3"
+func TestStructOptionInput3(t *testing.T) {
+	fnName := "test_struct_option_input3"
 	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
 		t.Error(err)
 	}
@@ -234,8 +234,8 @@ func TestStructPtrInput3(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput4(t *testing.T) {
-	fnName := "testStructPtrInput4"
+func TestStructOptionInput4(t *testing.T) {
+	fnName := "test_struct_option_input4"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
 		t.Error(err)
 	}
@@ -250,8 +250,8 @@ func TestStructPtrInput4(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput5(t *testing.T) {
-	fnName := "testStructPtrInput5"
+func TestStructOptionInput5(t *testing.T) {
+	fnName := "test_struct_option_input5"
 	if _, err := fixture.CallFunction(t, fnName, testStruct5); err != nil {
 		t.Error(err)
 	}
@@ -266,8 +266,8 @@ func TestStructPtrInput5(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput4_withNil(t *testing.T) {
-	fnName := "testStructPtrInput4_withNil"
+func TestStructOptionInput4_withNil(t *testing.T) {
+	fnName := "test_struct_option_input4_with_none"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
 		t.Error(err)
 	}
@@ -282,43 +282,43 @@ func TestStructPtrInput4_withNil(t *testing.T) {
 	}
 }
 
-func TestStructPtrInput1_nil(t *testing.T) {
-	fnName := "testStructPtrInput1_nil"
+func TestStructOptionInput1_none(t *testing.T) {
+	fnName := "test_struct_option_input1_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestStructPtrInput2_nil(t *testing.T) {
-	fnName := "testStructPtrInput2_nil"
+func TestStructOptionInput2_none(t *testing.T) {
+	fnName := "test_struct_option_input2_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestStructPtrInput3_nil(t *testing.T) {
-	fnName := "testStructPtrInput3_nil"
+func TestStructOptionInput3_none(t *testing.T) {
+	fnName := "test_struct_option_input3_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestStructPtrInput4_nil(t *testing.T) {
-	fnName := "testStructPtrInput4_nil"
+func TestStructOptionInput4_none(t *testing.T) {
+	fnName := "test_struct_option_input4_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestStructPtrInput5_nil(t *testing.T) {
-	fnName := "testStructPtrInput5_nil"
+func TestStructOptionInput5_none(t *testing.T) {
+	fnName := "test_struct_option_input5_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestStructOutput1(t *testing.T) {
-	fnName := "testStructOutput1"
+	fnName := "test_struct_output1"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -336,7 +336,7 @@ func TestStructOutput1(t *testing.T) {
 }
 
 func TestStructOutput2(t *testing.T) {
-	fnName := "testStructOutput2"
+	fnName := "test_struct_output2"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -354,7 +354,7 @@ func TestStructOutput2(t *testing.T) {
 }
 
 func TestStructOutput3(t *testing.T) {
-	fnName := "testStructOutput3"
+	fnName := "test_struct_output3"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -372,7 +372,7 @@ func TestStructOutput3(t *testing.T) {
 }
 
 func TestStructOutput4(t *testing.T) {
-	fnName := "testStructOutput4"
+	fnName := "test_struct_output4"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -390,7 +390,7 @@ func TestStructOutput4(t *testing.T) {
 }
 
 func TestStructOutput5(t *testing.T) {
-	fnName := "testStructOutput5"
+	fnName := "test_struct_output5"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -408,7 +408,7 @@ func TestStructOutput5(t *testing.T) {
 }
 
 func TestStructOutput4_withNil(t *testing.T) {
-	fnName := "testStructOutput4_withNil"
+	fnName := "test_struct_output4_with_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -425,8 +425,8 @@ func TestStructOutput4_withNil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput1(t *testing.T) {
-	fnName := "testStructPtrOutput1"
+func TestStructOptionOutput1(t *testing.T) {
+	fnName := "test_struct_option_output1"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -443,8 +443,8 @@ func TestStructPtrOutput1(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput2(t *testing.T) {
-	fnName := "testStructPtrOutput2"
+func TestStructOptionOutput2(t *testing.T) {
+	fnName := "test_struct_option_output2"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -461,8 +461,8 @@ func TestStructPtrOutput2(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput3(t *testing.T) {
-	fnName := "testStructPtrOutput3"
+func TestStructOptionOutput3(t *testing.T) {
+	fnName := "test_struct_option_output3"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -479,8 +479,8 @@ func TestStructPtrOutput3(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput4(t *testing.T) {
-	fnName := "testStructPtrOutput4"
+func TestStructOptionOutput4(t *testing.T) {
+	fnName := "test_struct_option_output4"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -497,8 +497,8 @@ func TestStructPtrOutput4(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput5(t *testing.T) {
-	fnName := "testStructPtrOutput5"
+func TestStructOptionOutput5(t *testing.T) {
+	fnName := "test_struct_option_output5"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -515,8 +515,8 @@ func TestStructPtrOutput5(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput4_withNil(t *testing.T) {
-	fnName := "testStructPtrOutput4_withNil"
+func TestStructOptionOutput4_withNil(t *testing.T) {
+	fnName := "test_struct_option_output4_with_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -534,7 +534,7 @@ func TestStructPtrOutput4_withNil(t *testing.T) {
 }
 
 func TestStructOutput1_map(t *testing.T) {
-	fnName := "testStructOutput1_map"
+	fnName := "test_struct_output1_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -552,7 +552,7 @@ func TestStructOutput1_map(t *testing.T) {
 }
 
 func TestStructOutput2_map(t *testing.T) {
-	fnName := "testStructOutput2_map"
+	fnName := "test_struct_output2_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -570,7 +570,7 @@ func TestStructOutput2_map(t *testing.T) {
 }
 
 func TestStructOutput3_map(t *testing.T) {
-	fnName := "testStructOutput3_map"
+	fnName := "test_struct_output3_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -588,7 +588,7 @@ func TestStructOutput3_map(t *testing.T) {
 }
 
 func TestStructOutput4_map(t *testing.T) {
-	fnName := "testStructOutput4_map"
+	fnName := "test_struct_output4_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -606,7 +606,7 @@ func TestStructOutput4_map(t *testing.T) {
 }
 
 func TestStructOutput5_map(t *testing.T) {
-	fnName := "testStructOutput5_map"
+	fnName := "test_struct_output5_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -624,7 +624,7 @@ func TestStructOutput5_map(t *testing.T) {
 }
 
 func TestStructOutput4_map_withNil(t *testing.T) {
-	fnName := "testStructOutput4_map_withNil"
+	fnName := "test_struct_output4_map_with_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -641,8 +641,8 @@ func TestStructOutput4_map_withNil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput1_map(t *testing.T) {
-	fnName := "testStructPtrOutput1_map"
+func TestStructOptionOutput1_map(t *testing.T) {
+	fnName := "test_struct_option_output1_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -659,8 +659,8 @@ func TestStructPtrOutput1_map(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput2_map(t *testing.T) {
-	fnName := "testStructPtrOutput2_map"
+func TestStructOptionOutput2_map(t *testing.T) {
+	fnName := "test_struct_option_output2_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -677,8 +677,8 @@ func TestStructPtrOutput2_map(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput3_map(t *testing.T) {
-	fnName := "testStructPtrOutput3_map"
+func TestStructOptionOutput3_map(t *testing.T) {
+	fnName := "test_struct_option_output3_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -695,8 +695,8 @@ func TestStructPtrOutput3_map(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput4_map(t *testing.T) {
-	fnName := "testStructPtrOutput4_map"
+func TestStructOptionOutput4_map(t *testing.T) {
+	fnName := "test_struct_option_output4_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -713,8 +713,8 @@ func TestStructPtrOutput4_map(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput5_map(t *testing.T) {
-	fnName := "testStructPtrOutput5_map"
+func TestStructOptionOutput5_map(t *testing.T) {
+	fnName := "test_struct_option_output5_map"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -731,8 +731,8 @@ func TestStructPtrOutput5_map(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput4_map_withNil(t *testing.T) {
-	fnName := "testStructPtrOutput4_map_withNil"
+func TestStructOptionOutput4_map_withNil(t *testing.T) {
+	fnName := "test_struct_option_output4_map_with_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -749,8 +749,8 @@ func TestStructPtrOutput4_map_withNil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput1_nil(t *testing.T) {
-	fnName := "testStructPtrOutput1_nil"
+func TestStructOptionOutput1_none(t *testing.T) {
+	fnName := "test_struct_option_output1_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -761,8 +761,8 @@ func TestStructPtrOutput1_nil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput2_nil(t *testing.T) {
-	fnName := "testStructPtrOutput2_nil"
+func TestStructOptionOutput2_none(t *testing.T) {
+	fnName := "test_struct_option_output2_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -773,8 +773,8 @@ func TestStructPtrOutput2_nil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput3_nil(t *testing.T) {
-	fnName := "testStructPtrOutput3_nil"
+func TestStructOptionOutput3_none(t *testing.T) {
+	fnName := "test_struct_option_output3_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -785,8 +785,8 @@ func TestStructPtrOutput3_nil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput4_nil(t *testing.T) {
-	fnName := "testStructPtrOutput4_nil"
+func TestStructOptionOutput4_none(t *testing.T) {
+	fnName := "test_struct_option_output4_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -797,8 +797,8 @@ func TestStructPtrOutput4_nil(t *testing.T) {
 	}
 }
 
-func TestStructPtrOutput5_nil(t *testing.T) {
-	fnName := "testStructPtrOutput5_nil"
+func TestStructOptionOutput5_none(t *testing.T) {
+	fnName := "test_struct_option_output5_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

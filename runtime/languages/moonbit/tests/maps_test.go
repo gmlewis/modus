@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package golang_test
+package moonbit_test
 
 import (
 	"fmt"
