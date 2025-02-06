@@ -581,24 +581,25 @@ func TestStructOutput2_map(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestStructOutput3_map(t *testing.T) {
-// 	fnName := "test_struct_output3_map"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := testStruct3AsMap
-//
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(map[string]any); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+// TODO: FAILS
+func TestStructOutput3_map(t *testing.T) {
+	fnName := "test_struct_output3_map"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := testStruct3AsMap
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(map[string]any); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
 //
 // // TODO: FAILS
 // func TestStructOutput4_map(t *testing.T) {
