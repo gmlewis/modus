@@ -67,7 +67,7 @@ var testStruct4 = TestStruct4{
 	C: func() *string { s := "abc"; return &s }(),
 }
 
-var testStruct4_withNil = TestStruct4{
+var testStruct4_with_none = TestStruct4{
 	A: true,
 	B: 123,
 	C: nil,
@@ -107,7 +107,7 @@ var testStruct4AsMap = map[string]any{
 	"c": func() *string { s := "abc"; return &s }(),
 }
 
-var testStruct4AsMap_withNil = map[string]any{
+var testStruct4AsMap_with_none = map[string]any{
 	"a": true,
 	"b": 123,
 	"c": nil,
@@ -184,10 +184,10 @@ var testStruct5AsMap = map[string]any{
 // // TODO: FAILS
 // func TestStructInput4_with_none(t *testing.T) {
 // 	fnName := "test_struct_input4_with_none"
-// 	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct4_with_none); err != nil {
 // 		t.Error(err)
 // 	}
-// 	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap_withNil); err != nil {
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap_with_none); err != nil {
 // 		t.Error(err)
 // 	}
 // }
@@ -272,18 +272,18 @@ func TestStructOptionInput5(t *testing.T) {
 	}
 }
 
-func TestStructOptionInput4_withNil(t *testing.T) {
+func TestStructOptionInput4_with_none(t *testing.T) {
 	fnName := "test_struct_option_input4_with_none"
-	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
+	if _, err := fixture.CallFunction(t, fnName, testStruct4_with_none); err != nil {
 		t.Error(err)
 	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct4_withNil); err != nil {
+	if _, err := fixture.CallFunction(t, fnName, &testStruct4_with_none); err != nil {
 		t.Error(err)
 	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap_withNil); err != nil {
+	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap_with_none); err != nil {
 		t.Error(err)
 	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct4AsMap_withNil); err != nil {
+	if _, err := fixture.CallFunction(t, fnName, &testStruct4AsMap_with_none); err != nil {
 		t.Error(err)
 	}
 }
@@ -413,14 +413,14 @@ func TestStructOutput5(t *testing.T) {
 	}
 }
 
-func TestStructOutput4_withNil(t *testing.T) {
+func TestStructOutput4_with_none(t *testing.T) {
 	fnName := "test_struct_output4_with_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := testStruct4_withNil
+	expected := testStruct4_with_none
 
 	if result == nil {
 		t.Error("expected a result")
@@ -527,14 +527,14 @@ func TestStructOutput4_withNil(t *testing.T) {
 // }
 //
 // // TODO: FAILS
-// func TestStructOptionOutput4_withNil(t *testing.T) {
+// func TestStructOptionOutput4_with_none(t *testing.T) {
 // 	fnName := "test_struct_option_output4_with_none"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 //
-// 	expected := &testStruct4_withNil
+// 	expected := &testStruct4_with_none
 //
 // 	if result == nil {
 // 		t.Error("expected a result")
@@ -635,25 +635,24 @@ func TestStructOutput5_map(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestStructOutput4_map_withNil(t *testing.T) {
-// 	fnName := "test_struct_output4_map_with_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := testStruct4AsMap_withNil
-//
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(map[string]any); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-//
+func TestStructOutput4_map_with_none(t *testing.T) {
+	fnName := "test_struct_output4_map_with_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := testStruct4AsMap_with_none
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(map[string]any); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
 // // TODO: FAILS
 // func TestStructOptionOutput1_map(t *testing.T) {
 // 	fnName := "test_struct_option_output1_map"
@@ -750,14 +749,14 @@ func TestStructOutput5_map(t *testing.T) {
 // }
 //
 // // TODO: FAILS
-// func TestStructOptionOutput4_map_withNil(t *testing.T) {
+// func TestStructOptionOutput4_map_with_none(t *testing.T) {
 // 	fnName := "test_struct_option_output4_map_with_none"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 //
-// 	expected := &testStruct4AsMap_withNil
+// 	expected := &testStruct4AsMap_with_none
 //
 // 	if result == nil {
 // 		t.Error("expected a result")
