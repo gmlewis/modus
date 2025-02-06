@@ -162,8 +162,18 @@ func findRequiredTypes(f *types.Func, m map[string]types.Type) {
 	}
 }
 
+// During runtime, we sometimes get types that start with "@..".
+// Remove them so that the types can be properly resolved.
+func hackStripEmptyPackage(typ string) string {
+	// if strings.HasPrefix(typ, "@..") { // TODO: Why is this seen during runtime?
+	// 	log.Printf("GML: extractor/functions.go: STRIPPING '@..' from type=%q", typ)
+	// 	return typ[3:]
+	// }
+	return typ
+}
+
 func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
-	name := t.String()
+	name := hackStripEmptyPackage(t.String())
 
 	// prevent infinite recursion
 	if _, ok := m[name]; ok {
@@ -190,14 +200,8 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		typ, hasError, hasOption := stripErrorAndOption(name)
 		if hasError {
 			fullName := fmt.Sprintf("%v!Error", typ)
-			tmpName := fullName
-			if i := strings.Index(tmpName, "."); i >= 0 { // Remove package information so it is not repeated.
-				tmpName = tmpName[i+1:]
-			}
-			// tmpPkg := t.Obj().Pkg()
-			// if u := t.Underlying(); u != nil {
-			// 	tmpPkg = u.Pkg()
-			// }
+			// Remove package information so it is not repeated.
+			tmpName := fullName[strings.LastIndex(fullName, ".")+1:]
 			tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), tmpName, nil), t.Underlying(), nil)
 			// Do not recurse here as it would cause an infinite loop.
 			m[fullName] = tmpType
@@ -332,7 +336,7 @@ func GetMapSubtypes(typ string) (string, string) {
 
 	const prefix = "Map[" // e.g. Map[String, Int]
 	if !strings.HasPrefix(typ, prefix) {
-		log.Printf("GML: functions.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		log.Printf("GML: extractor/functions.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
 	typ = strings.TrimSuffix(typ, "?")
@@ -349,12 +353,12 @@ func GetMapSubtypes(typ string) (string, string) {
 		case ',':
 			if n == 1 {
 				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
-				log.Printf("GML: functions.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				log.Printf("GML: extractor/functions.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}
 		}
 	}
 
-	log.Printf("GML: functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	log.Printf("GML: extractor/functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
 }

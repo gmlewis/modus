@@ -1,3 +1,5 @@
+// -*- compile-command: "go test -v ./... -run ^Test_GetGraphQLSchema_MoonBit$"; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -14,9 +16,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/hypermodeinc/modus/lib/manifest"
 
 	"github.com/stretchr/testify/require"
 )
@@ -223,6 +225,30 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 		WithField("name", "String").
 		WithField("values", "Array[String]")
 
+	// Now add functions and types from the time-example plugin:
+	md.FnExports.AddFunction("get_utc_time").
+		WithResult("@time.ZonedDateTime!Error")
+
+	md.FnExports.AddFunction("get_local_time").
+		WithResult("String!Error")
+
+	md.FnExports.AddFunction("get_time_in_zone").
+		WithParameter("tz", "String").
+		WithResult("String!Error")
+
+	md.FnExports.AddFunction("get_local_time_zone_id").
+		WithResult("String")
+
+	md.Types.AddType("@testdata.TimeZoneInfo").
+		WithField("standard_name", "String").
+		WithField("standard_offset", "String").
+		WithField("daylight_name", "String").
+		WithField("daylight_offset", "String")
+
+	md.FnExports.AddFunction("get_time_zone_info").
+		WithParameter("tz", "String").
+		WithResult("@testdata.TimeZoneInfo!Error")
+
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
 		t.Fatal(err)
@@ -236,6 +262,8 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 type Query {
   current_time: Timestamp!
   do_nothing: Void
+  local_time: String!
+  local_time_zone_id: String!
   people: [Person!]!
   person: Person!
   product_map: [StringProductPair!]!
@@ -253,7 +281,10 @@ type Query {
   This function tests that options are working correctly
   """
   test_options(a: Int, b: [Int]!, c: [Int!], d: [PersonInput]!, e: [PersonInput!]): Person
+  time_in_zone(tz: String!): String!
+  time_zone_info(tz: String!): TimeZoneInfo!
   transform(items: [StringStringPairInput!]!): [StringStringPair!]!
+  utc_time: Timestamp!
 }
 
 type Mutation {
@@ -386,6 +417,13 @@ type StringProductPair {
 type StringStringPair {
   key: String!
   value: String!
+}
+
+type TimeZoneInfo {
+  standard_name: String!
+  standard_offset: String!
+  daylight_name: String!
+  daylight_offset: String!
 }
 `[1:]
 

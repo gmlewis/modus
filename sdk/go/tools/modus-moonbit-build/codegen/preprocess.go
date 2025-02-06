@@ -255,7 +255,6 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 }
 
 func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[string]string, fns []*funcInfo) error {
-	// needWasmStub := map[string]string{}
 	for _, info := range fns {
 		fn := info.function
 		name := fn.Name.Name
@@ -270,15 +269,8 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		buf := &bytes.Buffer{}
 		errorFullReturnType := printer.Fprint(buf, pkg.Fset, fn.Type)
 		hasErrorReturn := errorFullReturnType != ""
-		// var errorTypeName string
 		if hasErrorReturn {
 			imports["gmlewis/modus/pkg/console"] = "@console"
-			// parts := strings.Split(errorFullReturnType, ".")
-			// if len(parts) == 1 {
-			// 	errorTypeName = parts[0]
-			// } else {
-			// 	errorTypeName = parts[1]
-			// }
 		}
 
 		decl := strings.TrimPrefix(buf.String(), "fn")
@@ -311,8 +303,6 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		name = strings.TrimSuffix(name, "_WithDefaults")
 
 		if hasErrorReturn {
-			// wasmStub := "int_from_" + errorTypeName
-			// needWasmStub[wasmStub] = errorFullReturnType
 			b.WriteString("  try ")
 			b.WriteString(name)
 			b.WriteByte('!')
@@ -331,17 +321,6 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 		b.WriteString("}\n\n")
 	}
-
-	// stubNames := make([]string, 0, len(needWasmStub))
-	// for stubName := range needWasmStub {
-	// 	stubNames = append(stubNames, stubName)
-	// }
-	// slices.Sort(stubNames)
-	// for _, stubName := range stubNames {
-	// 	b.WriteString(fmt.Sprintf(`extern "wasm" fn %v(ptr : &Any) -> Int =
-	// #|(func (param $ptr i32) (result i32) local.get $ptr)`, stubName))
-	// 	b.WriteString("\n\n")
-	// }
 
 	return nil
 }

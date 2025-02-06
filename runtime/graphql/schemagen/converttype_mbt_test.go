@@ -21,7 +21,7 @@ import (
 )
 
 func Test_ConvertType_MoonBit(t *testing.T) {
-
+	t.Parallel()
 	lti := languages.MoonBit().TypeInfo()
 
 	testCases := []struct {
@@ -357,6 +357,7 @@ func Test_ConvertType_MoonBit(t *testing.T) {
 			testName += "_input"
 		}
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 
 			types := make(metadata.TypeMap, len(tc.sourceTypeDefs))
 			for _, td := range tc.sourceTypeDefs {

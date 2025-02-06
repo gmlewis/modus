@@ -131,7 +131,7 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Interpret and return the results
-	log.Printf("GML: executionplan.go: InvokeFunction: plan.interpretWasmResults")
+	log.Printf("GML: executionplan.go: InvokeFunction: calling plan.interpretWasmResults")
 	return plan.interpretWasmResults(ctx, wa, res, indirectPtr)
 }
 
@@ -191,6 +191,17 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 		} else if len(vals) == 1 {
 			log.Printf("GML: executionplan.go: interpretWasmResults: calling handler.Decode")
 			return handler.Decode(ctx, wa, vals)
+		} else if len(vals) == 2 {
+			// This is the case in MoonBit when a function returns a single value and an error code.
+			// The error code is the first value and the actual result is the second value.
+			if vals[0] == 0 {
+				// An error occurred. Return the zero value.
+				log.Printf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
+				return handler.TypeInfo().ZeroValue(), nil
+			}
+			// Now strip off the error code and decode the actual result.
+			log.Printf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
+			return handler.Decode(ctx, wa, vals[1:])
 		} else {
 			// no actual result value, but we need to return a zero value of the expected type
 			log.Printf("GML: executionplan.go: interpretWasmResults: no actual result value, but we need to return a zero value of the expected type: vals=%+v", vals)

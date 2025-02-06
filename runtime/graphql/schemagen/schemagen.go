@@ -567,6 +567,11 @@ func convertFields(fields []*metadata.Field, lti langsupport.LanguageTypeInfo, t
 }
 
 func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[string]*TypeDefinition, firstPass, forInput bool) (string, error) {
+	// Strip MoonBit error type suffix:
+	if i := strings.Index(typ, "!"); i >= 0 {
+		typ = typ[:i]
+	}
+
 	log.Printf("GML: schemagen.go: ENTER convertType: typ='%v'", typ)
 	// Unwrap parentheses if present
 	if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {

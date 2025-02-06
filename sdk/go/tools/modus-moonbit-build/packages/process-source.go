@@ -22,7 +22,7 @@ import (
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
 var commentRE = regexp.MustCompile(`(?m)^\s*//.*$`)
 var importedHostFnRE = regexp.MustCompile(`(?m)^fn .*?\((.*?)\) (.*?)= "(modus_.*?)" "(.*?)"$`)
-var pubStructRE = regexp.MustCompile(`(?ms)\npub.*? struct\s+(.*?)\s+{(.*?)\n}`)
+var pubStructRE = regexp.MustCompile(`(?ms)\npub(?:\([a-z]+\))? struct\s+(.*?)\s+{(.*?)\n}`)
 var pubFnRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\s+{`)
 var pubFnPrefixRE = regexp.MustCompile(`(?ms)\npub fn\s+(.*?)\(`)
 var whiteSpaceRE = regexp.MustCompile(`(?ms)\s+`)
