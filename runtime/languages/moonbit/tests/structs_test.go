@@ -126,6 +126,7 @@ var testStruct5AsMap = map[string]any{
 	"f": 99.99999,
 }
 
+// TODO: FAILS
 func TestStructInput1(t *testing.T) {
 	fnName := "test_struct_input1"
 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
@@ -136,6 +137,7 @@ func TestStructInput1(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructInput2(t *testing.T) {
 	fnName := "test_struct_input2"
 	if _, err := fixture.CallFunction(t, fnName, testStruct2); err != nil {
@@ -146,6 +148,7 @@ func TestStructInput2(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructInput3(t *testing.T) {
 	fnName := "test_struct_input3"
 	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
@@ -156,6 +159,7 @@ func TestStructInput3(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructInput4(t *testing.T) {
 	fnName := "test_struct_input4"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
@@ -166,6 +170,7 @@ func TestStructInput4(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructInput5(t *testing.T) {
 	fnName := "test_struct_input5"
 	if _, err := fixture.CallFunction(t, fnName, testStruct5); err != nil {
@@ -176,6 +181,7 @@ func TestStructInput5(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructInput4_withNil(t *testing.T) {
 	fnName := "test_struct_input4_with_none"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
@@ -389,6 +395,7 @@ func TestStructOutput4(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput5(t *testing.T) {
 	fnName := "test_struct_output5"
 	result, err := fixture.CallFunction(t, fnName)
@@ -425,6 +432,7 @@ func TestStructOutput4_withNil(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput1(t *testing.T) {
 	fnName := "test_struct_option_output1"
 	result, err := fixture.CallFunction(t, fnName)
@@ -443,6 +451,7 @@ func TestStructOptionOutput1(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput2(t *testing.T) {
 	fnName := "test_struct_option_output2"
 	result, err := fixture.CallFunction(t, fnName)
@@ -461,6 +470,7 @@ func TestStructOptionOutput2(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput3(t *testing.T) {
 	fnName := "test_struct_option_output3"
 	result, err := fixture.CallFunction(t, fnName)
@@ -479,6 +489,7 @@ func TestStructOptionOutput3(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput4(t *testing.T) {
 	fnName := "test_struct_option_output4"
 	result, err := fixture.CallFunction(t, fnName)
@@ -497,6 +508,7 @@ func TestStructOptionOutput4(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput5(t *testing.T) {
 	fnName := "test_struct_option_output5"
 	result, err := fixture.CallFunction(t, fnName)
@@ -515,6 +527,7 @@ func TestStructOptionOutput5(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput4_withNil(t *testing.T) {
 	fnName := "test_struct_option_output4_with_none"
 	result, err := fixture.CallFunction(t, fnName)
@@ -551,6 +564,7 @@ func TestStructOutput1_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput2_map(t *testing.T) {
 	fnName := "test_struct_output2_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -569,6 +583,7 @@ func TestStructOutput2_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput3_map(t *testing.T) {
 	fnName := "test_struct_output3_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -587,6 +602,7 @@ func TestStructOutput3_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput4_map(t *testing.T) {
 	fnName := "test_struct_output4_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -605,6 +621,7 @@ func TestStructOutput4_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput5_map(t *testing.T) {
 	fnName := "test_struct_output5_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -623,6 +640,7 @@ func TestStructOutput5_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOutput4_map_withNil(t *testing.T) {
 	fnName := "test_struct_output4_map_with_none"
 	result, err := fixture.CallFunction(t, fnName)
@@ -641,6 +659,7 @@ func TestStructOutput4_map_withNil(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput1_map(t *testing.T) {
 	fnName := "test_struct_option_output1_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -659,6 +678,7 @@ func TestStructOptionOutput1_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput2_map(t *testing.T) {
 	fnName := "test_struct_option_output2_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -677,6 +697,7 @@ func TestStructOptionOutput2_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput3_map(t *testing.T) {
 	fnName := "test_struct_option_output3_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -695,6 +716,7 @@ func TestStructOptionOutput3_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput4_map(t *testing.T) {
 	fnName := "test_struct_option_output4_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -713,6 +735,7 @@ func TestStructOptionOutput4_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput5_map(t *testing.T) {
 	fnName := "test_struct_option_output5_map"
 	result, err := fixture.CallFunction(t, fnName)
@@ -731,6 +754,7 @@ func TestStructOptionOutput5_map(t *testing.T) {
 	}
 }
 
+// TODO: FAILS
 func TestStructOptionOutput4_map_withNil(t *testing.T) {
 	fnName := "test_struct_option_output4_map_with_none"
 	result, err := fixture.CallFunction(t, fnName)

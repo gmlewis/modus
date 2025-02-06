@@ -12,7 +12,6 @@ package golang
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -58,9 +57,6 @@ func (h *typeHandler) TypeInfo() langsupport.TypeInfo {
 }
 
 func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.TypeHandler, error) {
-	if i := strings.Index(typeName, "!"); i >= 0 {
-		typeName = typeName[:i]
-	}
 	if handler, ok := p.typeHandlers[typeName]; ok {
 		return handler, nil
 	}

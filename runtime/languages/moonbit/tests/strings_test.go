@@ -19,14 +19,14 @@ import (
 const testString = "こんにちは、世界"
 
 func TestStringInput(t *testing.T) {
-	fnName := "testStringInput"
+	fnName := "test_string_input"
 	if _, err := fixture.CallFunction(t, fnName, testString); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestStringPtrInput(t *testing.T) {
-	fnName := "testStringPtrInput"
+func TestStringOptionInput(t *testing.T) {
+	fnName := "test_string_option_input"
 	s := testString
 
 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
@@ -37,15 +37,15 @@ func TestStringPtrInput(t *testing.T) {
 	}
 }
 
-func TestStringPtrInput_nil(t *testing.T) {
-	fnName := "testStringPtrInput_nil"
+func TestStringOptionInput_none(t *testing.T) {
+	fnName := "test_string_option_input_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestStringOutput(t *testing.T) {
-	fnName := "testStringOutput"
+	fnName := "test_string_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -60,8 +60,8 @@ func TestStringOutput(t *testing.T) {
 	}
 }
 
-func TestStringPtrOutput(t *testing.T) {
-	fnName := "testStringPtrOutput"
+func TestStringOptionOutput(t *testing.T) {
+	fnName := "test_string_option_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -76,8 +76,8 @@ func TestStringPtrOutput(t *testing.T) {
 	}
 }
 
-func TestStringPtrOutput_nil(t *testing.T) {
-	fnName := "testStringPtrOutput_nil"
+func TestStringOptionOutput_none(t *testing.T) {
+	fnName := "test_string_option_output_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

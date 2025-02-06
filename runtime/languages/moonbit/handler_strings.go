@@ -89,7 +89,16 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return "", err
 	}
 
-	return doReadString(data)
+	s, err := doReadString(data)
+	if err != nil {
+		return nil, err
+	}
+
+	if h.typeInfo.IsPointer() {
+		return &s, nil
+	}
+
+	return s, nil
 }
 
 func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {

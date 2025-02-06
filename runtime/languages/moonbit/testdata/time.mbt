@@ -6,6 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
+type! TestError String derive(Show, Eq)
+
+///|
 let test_time : Ref[@time.ZonedDateTime?] = { val: None }
 
 ///|
@@ -49,10 +52,22 @@ pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
 }
 
 ///|
-type! TestError String derive(Show, Eq)
+pub fn test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!Error {
+  guard let Some(test_time) = test_time.val
+  guard let Some(t) = t
+  assert_eq!(t.to_unix_second(), test_time.to_unix_second())
+}
 
 ///|
-pub fn test_time_option_input_nil(t : @time.ZonedDateTime?) -> Unit!Error {
+pub fn test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Error {
+  guard let None = t else { _ => raise TestError("expected None") }
+
+}
+
+///|
+pub fn test_time_option_input_none_style2(
+  t? : @time.ZonedDateTime
+) -> Unit!Error {
   guard let None = t else { _ => raise TestError("expected None") }
 
 }
@@ -69,7 +84,7 @@ pub fn test_time_option_output() -> @time.ZonedDateTime? {
 }
 
 ///|
-pub fn test_time_option_output_nil() -> @time.ZonedDateTime? {
+pub fn test_time_option_output_none() -> @time.ZonedDateTime? {
   None
 }
 
@@ -84,7 +99,19 @@ pub fn test_duration_option_input(d : @time.Duration?) -> Unit!Error {
 }
 
 ///|
-pub fn test_duration_option_input_nil(d : @time.Duration?) -> Unit!Error {
+pub fn test_duration_option_input_style2(d? : @time.Duration) -> Unit!Error {
+  assert_eq!(d, Some(test_duration.val))
+}
+
+///|
+pub fn test_duration_option_input_none(d : @time.Duration?) -> Unit!Error {
+  assert_eq!(d, None)
+}
+
+///|
+pub fn test_duration_option_input_none_style2(
+  d? : @time.Duration
+) -> Unit!Error {
   assert_eq!(d, None)
 }
 
@@ -99,6 +126,6 @@ pub fn test_duration_option_output() -> @time.Duration? {
 }
 
 ///|
-pub fn test_duration_option_output_nil() -> @time.Duration? {
+pub fn test_duration_option_output_none() -> @time.Duration? {
   None
 }

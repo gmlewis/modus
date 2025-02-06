@@ -29,9 +29,9 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 }
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
-	// if i := strings.Index(typeName, "!"); i >= 0 {
-	// 	typeName = typeName[:i] // strip "!Error"
-	// }
+	// DO NOT STRIP THE ERROR TYPE HERE! Strip it later.
+	// When an "...!Error" is the return type, two values are returned.
+	// The first value is 0 on failure, and the second value is the actual return type.
 	result, err := langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 	log.Printf("GML: moonbit/typeinfo.go: GetTypeInfo('%v') = %v, err=%v", typeName, result, err)
 	return result, err
@@ -321,7 +321,7 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
 	typ, hasError, hasOption := stripErrorAndOption(typ)
 
-	if typ == "Unit" || hasError {
+	if typ == "Unit" && hasError {
 		log.Printf("GML: moonbit/typeinfo.go: IsNullableType('Unit!Error') = true")
 		return true // GML: Experiment
 	}
@@ -333,19 +333,21 @@ func (lti *langTypeInfo) IsNullableType(typ string) bool {
 }
 
 func (lti *langTypeInfo) IsOptionType(typ string) bool {
-	t, hasError, result := stripErrorAndOption(typ)
+	t, hasError, hasOption := stripErrorAndOption(typ)
 
-	if t == "Unit" || hasError {
+	if t == "Unit" && hasError {
 		log.Printf("GML: moonbit/typeinfo.go: IsOptionType('Unit!Error') = true")
 		return true // GML: Experiment
 	}
 
-	log.Printf("GML: moonbit/typeinfo.go: IsOptionType('%v') = %v", typ, result)
-	return result
+	log.Printf("GML: moonbit/typeinfo.go: IsOptionType('%v') = %v", typ, hasOption)
+	return hasOption
 }
 
 // NOTE! This is _NOT_ a pointer type in MoonBit! (but is the closest thing to a pointer type)
 // To satisfy the languages.TypeInfo interface, we must implement this method!
+// This is used within the handlers to determine, for example, if a Go-like `string`
+// or a Go-like `*string` should be returned.
 func (lti *langTypeInfo) IsPointerType(typ string) bool {
 	return lti.IsOptionType(typ)
 }
