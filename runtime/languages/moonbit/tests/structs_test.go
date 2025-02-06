@@ -180,9 +180,9 @@ var testStruct5AsMap = map[string]any{
 // 		t.Error(err)
 // 	}
 // }
-//
+
 // // TODO: FAILS
-// func TestStructInput4_withNil(t *testing.T) {
+// func TestStructInput4_with_none(t *testing.T) {
 // 	fnName := "test_struct_input4_with_none"
 // 	if _, err := fixture.CallFunction(t, fnName, testStruct4_withNil); err != nil {
 // 		t.Error(err)
@@ -395,24 +395,23 @@ func TestStructOutput4(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestStructOutput5(t *testing.T) {
-// 	fnName := "test_struct_output5"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := testStruct5
-//
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(TestStruct5); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+func TestStructOutput5(t *testing.T) {
+	fnName := "test_struct_output5"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := testStruct5
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(TestStruct5); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestStructOutput4_withNil(t *testing.T) {
 	fnName := "test_struct_output4_with_none"

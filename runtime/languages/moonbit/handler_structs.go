@@ -137,7 +137,8 @@ func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
 	}
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	memBlockPtr := uint32(vals[0])
+	memBlock, _, err := memoryBlockAtOffset(wa, memBlockPtr, true)
 	if err != nil {
 		return nil, err
 	}
@@ -145,14 +146,28 @@ func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 	numFields := len(h.typeDef.Fields)
 	m := make(map[string]any, numFields)
 
+	memBlockOffset := uint32(8)
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
-		fieldOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
-		fieldObj, err := handler.Decode(ctx, wa, []uint64{uint64(fieldOffset)})
-		if err != nil {
-			return nil, err
+		// Is this a hack? It seems that MoonBit encodes primitives _directly_ into the struct without
+		// pointing to them. So we need to read the data directly from the memBlock.
+		if handler.TypeInfo().IsPrimitive() {
+			val, err := handler.Read(ctx, wa, memBlockPtr+memBlockOffset)
+			if err != nil {
+				return nil, err
+			}
+			m[field.Name] = val
+		} else {
+			// fieldOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
+			fieldOffset := binary.LittleEndian.Uint32(memBlock[memBlockOffset:])
+			fieldObj, err := handler.Decode(ctx, wa, []uint64{uint64(fieldOffset)})
+			if err != nil {
+				return nil, err
+			}
+			m[field.Name] = fieldObj
 		}
-		m[field.Name] = fieldObj
+		memBlockOffset += handler.TypeInfo().Alignment() // TODO: Is this correct, or should it be Size() or DataSize() or EncodingLength()?
+		log.Printf("GML: handler_structs.go: structHandler.Decode: field.Name: '%v', Alignment: %v, DataSize: %v, EncodingLength: %v, Size: %v", field.Name, handler.TypeInfo().Alignment(), handler.TypeInfo().DataSize(), handler.TypeInfo().EncodingLength(), handler.TypeInfo().Size())
 	}
 
 	return h.getStructOutput(m)
