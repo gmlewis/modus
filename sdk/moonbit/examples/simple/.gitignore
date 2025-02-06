@@ -15,3 +15,5 @@ build/
 # Ignore MoonBit dirs
 target/
 .mooncakes/
+
+.modusdb/

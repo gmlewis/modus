@@ -343,6 +343,87 @@
           "name": "utc_time",
           "query": {"query":"query {\n  utc_time\n}","variables":{}},
           "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z\"$"
+        },
+        {
+          "name": "log_message",
+          "query": {"query":"query($message: String!) {\n  log_message(message: $message)\n}","variables":{"message":"test message"}},
+          "expect": null
+        },
+        {
+          "name": "add",
+          "query": {"query":"mutation($x: Int!, $y: Int!) {\n  add(x: $x, y: $y)\n}","variables":{"x":1,"y":2}},
+          "expect": 3
+        },
+        {
+          "name": "add3",
+          "query": {"query":"mutation($a: Int!, $b: Int!, $c: Int!) {\n  add3(a: $a, b: $b, c: $c)\n}","variables":{"a":1,"b":2,"c":3}},
+          "expect": 6
+        },
+        {
+          "name": "current_time",
+          "query": {"query":"query {\n  current_time\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z\"$"
+        },
+        {
+          "name": "current_time_formatted",
+          "query": {"query":"query {\n  current_time_formatted\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z\"$"
+        },
+        {
+          "name": "full_name",
+          "query": {"query":"query($first_name: String!, $last_name: String!) {\n  full_name(first_name: $first_name, last_name: $last_name)\n}","variables":{"first_name":"Joe","last_name":"Rocket"}},
+          "expect": "Joe Rocket"
+        },
+        {
+          "name": "person",
+          "query": {"query":"query {\n  person\n}","variables":{}},
+          "expect": {"age":42,"firstName":"John","lastName":"Doe"}
+        },
+        {
+          "name": "random_person",
+          "query": {"query":"query {\n  random_person\n}","variables":{}},
+          "expect": {"age":8,"firstName":"Charlie","lastName":"Brown"}
+        },
+        {
+          "name": "test_normal_error",
+          "query": {"query":"query($input: String!) {\n  test_normal_error(input: $input)\n}","variables":{"input":"error message"}},
+          "expect": "You said: error message"
+        },
+        {
+          "name": "test_alternative_error",
+          "query": {"query":"query($input: String!) {\n  test_alternative_error(input: $input)\n}","variables":{"input":"error message"}},
+          "expect": "You said: error message"
+        },
+        {
+          "name": "test_abort",
+          "query": {"query":"query {\n  test_abort\n}","variables":{}},
+          "expect": null,
+          "errors": [{"message":"error calling function","path":["test_abort"]}]
+        },
+        {
+          "name": "test_exit",
+          "query": {"query":"query {\n  test_exit\n}","variables":{}},
+          "expect": null,
+          "errors": [{"message":"error calling function","path":["test_exit"]}]
+        },
+        {
+          "name": "test_logging",
+          "query": {"query":"query {\n  test_logging\n}","variables":{}},
+          "expect": null,
+          "errors": [
+            {
+              "message": "This is an error message.",
+              "path": [
+                "test_logging"
+              ]
+            },
+            {
+              "message": "This is line 1 of a multi-line error message.\nThis is line 2 of a multi-line error message.\nThis is line 3 of a multi-line error message.",
+              "path": [
+                "test_logging"
+              ]
+            }
+          ]
         }
       ]
     }

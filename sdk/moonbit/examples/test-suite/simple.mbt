@@ -18,10 +18,11 @@ pub fn add3(a : Int, b : Int, c~ : Int = 0) -> Int {
   a + b + c
 }
 
-///| Adds any number of integers together and returns the result.
-pub fn add_n(args : Array[Int]) -> Int {
-  args.iter().fold(init=0, fn(acc, x) { acc + x })
-}
+// TODO:
+// ///| Adds any number of integers together and returns the result.
+// pub fn add_n(args : Array[Int]) -> Int {
+//   args.iter().fold(init=0, fn(acc, x) { acc + x })
+// }
 
 ///| Returns the current time.
 pub fn get_current_time(
@@ -84,6 +85,7 @@ pub fn get_random_person() -> Person {
   people[i]
 }
 
+// TODO:
 ///| Gets a list of people.
 pub fn get_people() -> Array[Person] {
   [

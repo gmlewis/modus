@@ -17,6 +17,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type Config struct {
@@ -26,6 +27,7 @@ type Config struct {
 	WasmFileName    string
 	OutputDir       string
 	EndToEndTests   []*Plugin
+	Timeout         time.Duration
 }
 
 func GetConfig() (*Config, error) {
@@ -40,6 +42,8 @@ func GetConfig() (*Config, error) {
 	flag.StringVar(&c.OutputDir, "output", "build", "Output directory for the generated files. Relative paths are resolved relative to the source directory.")
 	var endToEndTestsFilename string
 	flag.StringVar(&endToEndTestsFilename, "test", "", "Path to the end-to-end tests JSON file (e.g. '-test end-to-end-tests.json').")
+	var noTimeout bool
+	flag.BoolVar(&noTimeout, "notimeout", false, "Disable the timeout for the end-to-end tests (useful for debugging).")
 	var pluginsFlag string
 	flag.StringVar(&pluginsFlag, "plugins", "", "Comma-separated list of plugin names to test. Must use with -test flag.")
 
@@ -51,6 +55,10 @@ func GetConfig() (*Config, error) {
 	}
 
 	flag.Parse()
+
+	if !noTimeout {
+		c.Timeout = 30 * time.Second
+	}
 
 	if endToEndTestsFilename != "" {
 		if err := c.loadEndToEndTests(endToEndTestsFilename, pluginsFlag); err != nil {

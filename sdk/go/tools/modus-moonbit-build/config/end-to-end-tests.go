@@ -28,6 +28,12 @@ type Endpoint struct {
 	Query  json.RawMessage `json:"query"`
 	Expect json.RawMessage `json:"expect"`
 	Regexp json.RawMessage `json:"regexp"`
+	Errors []*Error        `json:"errors"`
+}
+
+type Error struct {
+	Message string   `json:"message"`
+	Path    []string `json:"path"`
 }
 
 func (e *Endpoint) QueryBody() (string, error) {

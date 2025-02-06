@@ -147,6 +147,22 @@
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
       }
+    },
+    {
+      "name": "Debug MoonBit End-to-End Tests",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "-notimeout",
+        "-test",
+        "${workspaceFolder}/sdk/go/tools/modus-moonbit-build/end-to-end-tests.json"
+      ],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
     }
   ],
   "inputs": [

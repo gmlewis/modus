@@ -59,7 +59,11 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 
 	log.Printf("Running Modus CLI for %q", plugin.Name)
 	cliCmd := filepath.Join(repoAbsPath, "cli/bin/modus.js")
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx := context.Background()
+	cancel := func() {} // No-op cancel function
+	if config.Timeout > 0 {
+		ctx, cancel = context.WithTimeout(ctx, config.Timeout)
+	}
 	defer cancel()
 
 	cmd := exec.CommandContext(ctx, cliCmd, "dev")

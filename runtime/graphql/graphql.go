@@ -12,6 +12,7 @@ package graphql
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -83,6 +84,8 @@ func handleGraphQLRequest(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	varsBuf, _ := utils.JsonSerialize(gqlRequest.Variables)
+	log.Printf("GML: runtime/graphql.go: handleGraphQLRequest: gqlRequest: OperationName='%v', Query='%v', Variables='%s'", gqlRequest.OperationName, gqlRequest.Query, varsBuf)
 
 	// Get the active GraphQL engine, if there is one.
 	engine := engine.GetEngine()

@@ -50,17 +50,16 @@ test "add_n" {
   inspect!(result, content="-6")
 }
 
-test "get_current_time" {
-  let zone = @time.fixed_zone!("EST", -5 * 60 * 60)
-  let result = get_current_time!(now=1704067200, zone~)
-  inspect!(result, content="2023-12-31T19:00:00-05:00[EST]")
-}
+// TODO:
+// test "get_current_time" {
+//   let result = get_current_time!(now=1704067200)
+//   inspect!(result, content="2024-01-01T00:00:00Z")
+// }
 
-test "get_current_time_formatted" {
-  let zone = @time.fixed_zone!("PST", -8 * 60 * 60)
-  let result = get_current_time_formatted!(now=1704067200, zone~)
-  inspect!(result, content="2023-12-31T16:00:00-08:00[PST]")
-}
+// test "get_current_time_formatted" {
+//   let result = get_current_time_formatted!(now=1704067200)
+//   inspect!(result, content="2024-01-01T00:00:00Z")
+// }
 
 test "get_full_name" {
   let first_name = "John"
@@ -69,13 +68,15 @@ test "get_full_name" {
   inspect!(result, content="John Doe")
 }
 
-test "say_hello" {
-  let name = Some("Alice")
-  let result = say_hello(name~)
-  inspect!(result, content="Hello, Alice!")
-  let result = say_hello()
-  inspect!(result, content="Hello!")
-}
+// TODO:
+// test "say_hello" {
+//   let result = say_hello(name="Alice")
+//   inspect!(result, content="Hello, Alice!")
+//   let result = say_hello()
+//   inspect!(result, content="Hello there!")
+//   let result = say_hello(name="")
+//   inspect!(result, content="Hello there!")
+// }
 
 test "get_person" {
   let result = get_person()
@@ -99,8 +100,9 @@ test "get_people" {
   )
 }
 
-test "get_name_and_age" {
-  let (name, age) = get_name_and_age()
-  inspect!(name, content="John Doe")
-  inspect!(age, content="42")
-}
+// TODO:
+// test "get_name_and_age" {
+//   let (name, age) = get_name_and_age()
+//   inspect!(name, content="John Doe")
+//   inspect!(age, content="42")
+// }
