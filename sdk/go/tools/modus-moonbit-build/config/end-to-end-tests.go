@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -26,16 +27,35 @@ type Endpoint struct {
 	Name   string          `json:"name"`
 	Query  json.RawMessage `json:"query"`
 	Expect json.RawMessage `json:"expect"`
+	Regexp json.RawMessage `json:"regexp"`
 }
 
-func (e *Endpoint) QueryBody() string {
-	s, _ := json.Marshal(e.Query)
-	return string(s)
+func (e *Endpoint) QueryBody() (string, error) {
+	s, err := json.Marshal(e.Query)
+	return string(s), err
 }
 
-func (e *Endpoint) ExpectBody() string {
-	s, _ := json.Marshal(e.Expect)
-	return string(s)
+func (e *Endpoint) ExpectBody() (any, error) {
+	s, err := json.Marshal(e.Expect)
+	return s, err
+}
+
+func (e *Endpoint) RegexpBody() (*regexp.Regexp, string, error) {
+	if len(e.Regexp) == 0 {
+		return nil, "", nil
+	}
+	buf, err := json.Marshal(e.Regexp)
+	if err != nil {
+		return nil, "", err
+	}
+	rs := strings.Trim(string(buf), `"`)
+	rs = strings.ReplaceAll(rs, `\\`, `\`)
+	rs = strings.ReplaceAll(rs, `\"`, `"`)
+	r, err := regexp.Compile(rs)
+	if err != nil {
+		return nil, "", err
+	}
+	return r, rs, nil
 }
 
 type Plugin struct {

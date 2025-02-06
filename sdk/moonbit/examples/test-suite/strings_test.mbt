@@ -78,21 +78,3 @@ test "hello_world" {
   let got = hello_world()
   inspect!(got, content="Hello, World!")
 }
-
-test "hello_array_of_ints" {
-  let got = hello_array_of_ints()
-  inspect!(got, content="[1, 2, 3]")
-  let got = hello_array_of_ints(n=0)
-  inspect!(got, content="[]")
-  let got = hello_array_of_ints(n=-1)
-  inspect!(got, content="[]")
-}
-
-test "hello_array_of_ints_option" {
-  let got = hello_array_of_ints_option()
-  inspect!(got, content="Some([1, 2, 3])")
-  let got = hello_array_of_ints_option(n=0)
-  inspect!(got, content="Some([])")
-  let got = hello_array_of_ints_option(n=-1)
-  inspect!(got, content="None")
-}

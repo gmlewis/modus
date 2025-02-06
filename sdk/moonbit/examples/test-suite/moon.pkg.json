@@ -1,4 +1,10 @@
 {
+  "import": [
+    "gmlewis/modus/pkg/console",
+    "gmlewis/modus/pkg/localtime",
+    "gmlewis/modus/wit/interface/wasi",
+    "gmlewis/modus/pkg/time"
+  ],
   "targets": {
     "modus_post_generated.mbt": [
       "wasm"
@@ -10,6 +16,11 @@
   "link": {
     "wasm": {
       "exports": [
+        "__modus_get_local_time:get_local_time",
+        "__modus_get_local_time_zone_id:get_local_time_zone_id",
+        "__modus_get_time_in_zone:get_time_in_zone",
+        "__modus_get_time_zone_info:get_time_zone_info",
+        "__modus_get_utc_time:get_utc_time",
         "__modus_hello_array_of_ints:hello_array_of_ints",
         "__modus_hello_array_of_ints_WithDefaults:hello_array_of_ints_WithDefaults",
         "__modus_hello_array_of_ints_option:hello_array_of_ints_option",

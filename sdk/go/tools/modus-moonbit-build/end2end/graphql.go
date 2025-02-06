@@ -32,9 +32,16 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 		return fmt.Errorf("testEndpoint: invalid endpoint specification: %s", buf)
 	}
 
-	query := endpoint.QueryBody()
+	query, err := endpoint.QueryBody()
+	if err != nil {
+		return err
+	}
 	log.Printf("\n\n*** Testing endpoint with query body: '%v'", query)
-	expect, err := json.Marshal(endpoint.Expect)
+	expect, err := endpoint.ExpectBody()
+	if err != nil {
+		return err
+	}
+	regexpMatch, regexpStr, err := endpoint.RegexpBody()
 	if err != nil {
 		return err
 	}
@@ -72,8 +79,12 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 		return err
 	}
 
-	if diff := cmp.Diff(expect, got); diff != "" {
-		return fmt.Errorf("test: FAIL: Response from '%v' endpoint =\n%s\nwant:\n%s", endpoint.Name, got, expect)
+	if regexpStr != "" {
+		if !regexpMatch.MatchString(string(got)) {
+			return fmt.Errorf("test: FAIL: Response from '%v' endpoint =\n%s\nfailed regexp:\n%s", endpoint.Name, got, regexpStr)
+		}
+	} else if diff := cmp.Diff(expect, got); diff != "" {
+		return fmt.Errorf("test: FAIL: Response from '%v' endpoint %T=\n%s\nwant: %T\n%s", endpoint.Name, got, got, expect, expect)
 	}
 	log.Printf("Test: OK passed for endpoint '%v'", endpoint.Name)
 
