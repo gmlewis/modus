@@ -1,0 +1,7 @@
+{
+  "is-main": true,
+  "import": [
+    "gmlewis/modus/pkg/models",
+    "gmlewis/modus/pkg/models/openai"
+  ]
+}

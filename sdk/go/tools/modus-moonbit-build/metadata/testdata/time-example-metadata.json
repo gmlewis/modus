@@ -1,0 +1,186 @@
+{
+  "plugin": "time-example",
+  "module": "@time-example",
+  "sdk": "modus-sdk-mbt@40.11.0",
+  "buildId": "cuhtmp7racke7ncer5qg",
+  "buildTs": "2025-02-05T21:43:00.285Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "ce2dcf9e9afade9a70bdf72d05d3311de32bd0f9",
+  "fnExports": {
+    "get_local_time": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current local time."
+        ]
+      }
+    },
+    "get_local_time_zone": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the local time zone identifier."
+        ]
+      }
+    },
+    "get_time_in_zone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in a specified time zone."
+        ]
+      }
+    },
+    "get_time_zone_info": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time-example.TimeZoneInfo!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns some basic information about the time zone specified."
+        ]
+      }
+    },
+    "get_utc_time": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in UTC."
+        ]
+      }
+    }
+  },
+  "fnImports": {
+    "modus_system.getTimeInZone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "modus_system.getTimeZoneData": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        },
+        {
+          "name": "format",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "@time-example.TimeZoneInfo": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
+    "@time-example.TimeZoneInfo!Error": {
+      "id": 5,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
+    "@time.ZonedDateTime": {
+      "id": 6
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 7
+    },
+    "Array[Byte]": {
+      "id": 8
+    },
+    "String": {
+      "id": 9
+    },
+    "String!Error": {
+      "id": 10
+    }
+  }
+}

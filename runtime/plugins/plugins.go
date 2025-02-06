@@ -11,13 +11,15 @@ package plugins
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"log"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/languages"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/languages"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/tetratelabs/wazero"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -33,6 +35,8 @@ type Plugin struct {
 }
 
 func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, md *metadata.Metadata) (*Plugin, error) {
+	buf, _ := json.MarshalIndent(md, "", "  ")
+	log.Printf("GML: plugins.go: NewPlugin: filename='%v', metadata:\n%s", filename, buf)
 	span, ctx := utils.NewSentrySpanForCurrentFunc(ctx)
 	defer span.Finish()
 
@@ -54,9 +58,10 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			return nil, fmt.Errorf("no wasm function definition found for %s", fnName)
 		}
 
+		log.Printf("GML: plugins.go: NewPlugin: FnExports: fnName='%v': calling planner.GetPlan ...", fnName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get execution plan for %s: %w", fnName, err)
+			return nil, fmt.Errorf("failed to get execution plan for %v: %w", fnName, err)
 		}
 		plans[fnName] = plan
 	}
@@ -76,6 +81,7 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			continue
 		}
 
+		log.Printf("GML: plugins.go: NewPlugin: FnImports: importName='%v': calling planner.GetPlan ...", importName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get execution plan for %s: %w", importName, err)
@@ -115,3 +121,27 @@ func GetPluginFromContext(ctx context.Context) (*Plugin, bool) {
 	p, ok := ctx.Value(utils.PluginContextKey).(*Plugin)
 	return p, ok
 }
+
+// type customFnDef struct {
+// 	moduleName  string
+// 	debugName   string
+// 	name        string
+// 	exportNames []string
+// 	paramNames  []string
+// 	paramTypes  []wasm.ValueType
+// 	resultNames []string
+// 	resultTypes []wasm.ValueType
+// 	fn          any
+// }
+
+// func (c *customFnDef) ModuleName() string             { return c.moduleName }
+// func (c *customFnDef) Name() string                   { return c.name }
+// func (c *customFnDef) DebugName() string              { return c.debugName }
+// func (c *customFnDef) ExportNames() []string          { return c.exportNames }
+// func (c *customFnDef) ParamNames() []string           { return c.paramNames }
+// func (c *customFnDef) ParamTypes() []wasm.ValueType   { return c.paramTypes }
+// func (c *customFnDef) ResultNames() []string          { return c.resultNames }
+// func (c *customFnDef) ResultTypes() []wasm.ValueType  { return c.resultTypes }
+// func (c *customFnDef) GoFunction() any                { return c.fn }
+// func (c *customFnDef) Import() (string, string, bool) { return c.moduleName, c.name, true }
+// func (c *customFnDef) Index() uint32                  { return 0 }

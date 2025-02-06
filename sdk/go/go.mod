@@ -1,21 +1,24 @@
-module github.com/hypermodeinc/modus/sdk/go
+module github.com/gmlewis/modus/sdk/go
+
+// Temporarily changed "hypermodinc" to "gmlewis" for development purposes.
 
 go 1.23.1
 
 toolchain go1.23.5
 
 require (
-	github.com/hypermodeinc/modus/lib/manifest v0.17.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
+	github.com/hypermodeinc/modus/lib/manifest v0.16.1
 )
 
 require (
 	github.com/fatih/color v1.18.0
+	github.com/google/go-cmp v0.6.0
 	github.com/hashicorp/go-version v1.7.0
 	github.com/rs/xid v1.6.0
 	github.com/tidwall/gjson v1.18.0
 	github.com/tidwall/sjson v1.2.5
-	golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8
+	golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c
 	golang.org/x/mod v0.22.0
 	golang.org/x/tools v0.29.0
 )
@@ -29,5 +32,5 @@ require (
 	github.com/tidwall/pretty v1.2.1 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 )

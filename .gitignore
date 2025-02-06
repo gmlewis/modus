@@ -16,6 +16,8 @@
 __debug_bin*
 *_generated.go
 *.generated.go
+*_generated.mbt
+*.generated.mbt
 
 # Ignore build output directories and modus databases
 build/
@@ -23,6 +25,10 @@ build/
 
 # Ignore node_modules folders
 node_modules/
+
+# Ignore MoonBit directories
+target/
+.mooncakes/
 
 # For now, our JS/TS/AS projects use NPM with package-lock.json files only.
 # Ignore lockfiles for other package managers.

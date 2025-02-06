@@ -45,6 +45,11 @@ async function getInfoFromApp(appPath: string): Promise<ModusAppInfo> {
     return await getGoAppInfo(appPath);
   }
 
+  if (await fs.exists(path.join(appPath, "moon.mod.json")) ||
+      await fs.exists(path.join(appPath, "moon.pkg.json"))) {
+    return await getMoonBitAppInfo(appPath);
+  }
+
   throw new Error("Could not determine which Modus SDK to use.");
 }
 
@@ -108,7 +113,7 @@ async function getGoAppInfo(appPath: string): Promise<ModusAppInfo> {
   }
   const name = moduleLine.split(" ")[1];
 
-  const modName = "github.com/hypermodeinc/modus/sdk/go";
+  const modName = "github.com/gmlewis/modus/sdk/go";
   const versionLine = lines.find((line) => line.includes(modName))?.trim();
   let sdkVersion: string | undefined;
   try {
@@ -127,5 +132,44 @@ async function getGoAppInfo(appPath: string): Promise<ModusAppInfo> {
     sdkVersion = "latest";
   }
 
+  return { name, sdk, sdkVersion };
+}
+
+async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
+  const sdk = SDK.MoonBit;
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: appPath: ${appPath}`);
+
+  const data = await fs.readFile(path.join(appPath, "moon.mod.json"), "utf8");
+  const fields = JSON.parse(data);
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: fields: ${JSON.stringify(fields)}`);
+
+  const moduleName = fields.name;
+  if (!moduleName) {
+    throw new Error("Could not determine the module 'name' from moon.mod.json");
+  }
+  const name = moduleName.split("/").pop();  // Return module name after last '/'.
+
+  const versionField = fields.deps?.["gmlewis/modus"];
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: versionField: ${JSON.stringify(versionField)}`);
+  let sdkVersion: string | undefined;
+  try {
+    if (versionField?.path) {
+      // retrieve the `version` field from the `moon.mod.json` file in the SDK itself:
+      const data = await fs.readFile(path.join(appPath, versionField.path, "moon.mod.json"), "utf8");
+      const fields = JSON.parse(data);
+      if (fields?.version) {
+        sdkVersion = "v"+fields.version;
+      }
+    } else if (versionField && typeof versionField === "string") {
+      sdkVersion = "v"+versionField;
+    }
+  } catch {
+    /* empty */
+  }
+  if (!sdkVersion || sdkVersion == "v0.0.0" || !sdkVersion.startsWith("v")) {
+    sdkVersion = "latest";
+  }
+
+  console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: returning: ${JSON.stringify({ name, sdk, sdkVersion })}`);
   return { name, sdk, sdkVersion };
 }

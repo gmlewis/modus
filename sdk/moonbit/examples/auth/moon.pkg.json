@@ -1,0 +1,6 @@
+{
+  "is-main": true,
+  "import": [
+    "gmlewis/modus/pkg/vectors"
+  ]
+}

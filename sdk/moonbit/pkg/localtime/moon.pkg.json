@@ -1,0 +1,12 @@
+{
+  "import": [
+    "gmlewis/base64",
+    "gmlewis/modus/wit/interface/wasi",
+    {
+      "path": "gmlewis/modus/wit/interface/localtime",
+      "alias": "host"
+    },
+    "moonbitlang/x/sys",
+    "gmlewis/modus/pkg/time"
+  ]
+}

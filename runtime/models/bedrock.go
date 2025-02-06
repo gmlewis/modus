@@ -14,9 +14,9 @@ package models
 // 	"fmt"
 
 // 	"github.com/hypermodeinc/modus/lib/manifest"
-// 	hyp_aws "github.com/hypermodeinc/modus/runtime/aws"
-// 	"github.com/hypermodeinc/modus/runtime/db"
-// 	"github.com/hypermodeinc/modus/runtime/utils"
+// 	hyp_aws "github.com/gmlewis/modus/runtime/aws"
+// 	"github.com/gmlewis/modus/runtime/db"
+// 	"github.com/gmlewis/modus/runtime/utils"
 
 // 	"github.com/aws/aws-sdk-go-v2/aws"
 // 	"github.com/aws/aws-sdk-go-v2/service/bedrockruntime"
