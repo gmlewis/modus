@@ -634,13 +634,13 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 	}
 
 	switch typ {
-	case "Bool", "Byte":
+	case "Byte":
 		log.Printf("GML: moonbit/typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
 		return 1, nil
 	case "Char", "Int16", "UInt16":
 		log.Printf("GML: moonbit/typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
 		return 2, nil
-	case "Int", "UInt", "Float": // we only support 32-bit wasm
+	case "Bool", "Int", "UInt", "Float": // we only support 32-bit wasm
 		log.Printf("GML: moonbit/typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	case "Int64", "UInt64", "Double", "@time.Duration":

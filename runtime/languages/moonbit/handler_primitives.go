@@ -43,13 +43,13 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveHandler[int16](ti), nil
 	case "Int", "Unit": // 32-bit signed integer, e.g. `42` (or `Unit!Error`)
-		return newPrimitiveHandler[int32](ti), nil
+		return newPrimitiveHandler[int](ti), nil
 	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveHandler[int64](ti), nil
 	case "UInt16": // 16-bit unsigned integer, e.g. `(14 : UInt16)`
 		return newPrimitiveHandler[uint16](ti), nil
 	case "UInt": // 32-bit unsigned integer, e.g. `14U`
-		return newPrimitiveHandler[uint32](ti), nil
+		return newPrimitiveHandler[uint](ti), nil
 	case "UInt64": // 64-bit unsigned integer, e.g. `14UL`
 		return newPrimitiveHandler[uint64](ti), nil
 	case "Double": // 64-bit floating point, defined by IEEE754, e.g. `3.14`
