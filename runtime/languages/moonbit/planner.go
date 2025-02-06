@@ -15,6 +15,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -64,7 +65,13 @@ func (h *typeHandler) TypeInfo() langsupport.TypeInfo {
 }
 
 func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.TypeHandler, error) {
+	// Strip MoonBit error type suffix.
+	if i := strings.Index(typeName, "!"); i >= 0 {
+		typeName = typeName[:i]
+	}
+
 	if handler, ok := p.typeHandlers[typeName]; ok {
+		// log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning cached handler", typeName)
 		return handler, nil
 	}
 
@@ -75,31 +82,40 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	log.Printf("GML: planner.go: GetTypeInfo: %#v", ti)
 
 	if ti.IsPrimitive() {
-		log.Printf("GML: planner.go: ti.IsPrimitive(): %v", typeName)
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewPrimitiveHandler", typeName)
 		return p.NewPrimitiveHandler(ti)
 	} else if ti.IsString() {
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewStringHandler", typeName)
 		return p.NewStringHandler(ti)
 	} else if ti.IsPointer() {
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
 		if _langTypeInfo.IsSliceType(typeName) {
 			if ti.ListElementType().IsPrimitive() {
+				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewPrimitiveSliceHandler", typeName)
 				return p.NewPrimitiveSliceHandler(ti)
 			} else {
+				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewSliceHandler", typeName)
 				return p.NewSliceHandler(ctx, ti)
 			}
 		} else if _langTypeInfo.IsArrayType(typeName) {
 			if ti.ListElementType().IsPrimitive() {
+				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewPrimitiveArrayHandler", typeName)
 				return p.NewPrimitiveArrayHandler(ti)
 			} else {
+				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewArrayHandler", typeName)
 				return p.NewArrayHandler(ctx, ti)
 			}
 		}
 	} else if ti.IsMap() {
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewMapHandler", typeName)
 		return p.NewMapHandler(ctx, ti)
 	} else if ti.IsTimestamp() {
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewTimeHandler", typeName)
 		return p.NewTimeHandler(ti)
 	} else if ti.IsObject() {
+		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning NewStructHandler", typeName)
 		return p.NewStructHandler(ctx, ti)
 	}
 
