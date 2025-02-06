@@ -248,7 +248,7 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 }
 
 func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (paramsList []*ast.Field, paramsVars []*types.Var) {
-	allArgParts := splitFunctionParameters(allArgs)
+	allArgParts := splitParamsWithBrackets(allArgs)
 	for _, arg := range allArgParts {
 		arg = strings.TrimSpace(arg)
 		if arg == "" {
@@ -273,13 +273,41 @@ func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (pa
 }
 
 func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig string) (resultsList *ast.FieldList, resultsTuple *types.Tuple) {
-	if returnSig != "Unit" {
-		resultsList = &ast.FieldList{
-			List: []*ast.Field{{Type: &ast.Ident{Name: returnSig}}},
-		}
-		resultType := p.getMoonBitNamedType(typesPkg, returnSig)
-		resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
+	if returnSig == "Unit" {
+		return nil, nil
 	}
+
+	resultsList = &ast.FieldList{
+		List: []*ast.Field{{Type: &ast.Ident{Name: returnSig}}},
+	}
+
+	// // Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
+	// if strings.HasPrefix(returnSig, "(") && strings.HasSuffix(returnSig, ")") {
+	// 	allArgs := returnSig[1 : len(returnSig)-1]
+	// 	allTupleParts := splitParamsWithBrackets(allArgs)
+	// 	// var fields []*ast.Field
+	// 	var fieldVars []*types.Var
+	// 	for i, field := range allTupleParts {
+	// 		fieldType := commentRE.ReplaceAllString(field, "")
+	// 		field = strings.TrimSpace(field)
+	// 		if field == "" {
+	// 			continue
+	// 		}
+	// 		fieldName := fmt.Sprintf("%v", i)
+	// 		// fields = append(fields, &ast.Field{
+	// 		// 	Names: []*ast.Ident{{Name: fieldName}},
+	// 		// 	Type:  &ast.Ident{Name: fieldType},
+	// 		// })
+	// 		fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, &moonType{typeName: fieldType})) // TODO: lookup each field type?
+	// 	}
+
+	// 	resultType := types.NewStruct(fieldVars, nil)
+	// 	resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
+	// 	return resultsList, resultsTuple
+	// }
+
+	resultType := p.getMoonBitNamedType(typesPkg, returnSig)
+	resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
 
 	return resultsList, resultsTuple
 }
@@ -291,7 +319,7 @@ func stripError(typeSignature string) string {
 	return typeSignature
 }
 
-func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType *types.Named) {
+func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
 	fullCustomName := typesPkg.Path() + "." + typeSignature
 	customName := stripError(fullCustomName)
 	for ident, customType := range p.TypesInfo.Defs {
@@ -312,7 +340,7 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 	return resultType
 }
 
-func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType *types.Named) {
+func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
 	log.Printf("GML: getMoonBitNamedType(typeSignature=%q)", typeSignature)
 	// TODO: write a parser that can handle any MoonBit type.
 	if strings.HasPrefix(typeSignature, "Array[") && strings.HasSuffix(typeSignature, "]") {
@@ -322,6 +350,31 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 			tmpSignature = fmt.Sprintf("Array[%v.%v]", typesPkg.Path(), tmpSignature)
 			return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
 		}
+	}
+
+	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
+	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
+		allArgs := typeSignature[1 : len(typeSignature)-1]
+		allTupleParts := splitParamsWithBrackets(allArgs)
+		// var fields []*ast.Field
+		var fieldVars []*types.Var
+		for i, field := range allTupleParts {
+			fieldType := commentRE.ReplaceAllString(field, "")
+			field = strings.TrimSpace(field)
+			if field == "" {
+				continue
+			}
+			fieldName := fmt.Sprintf("%v", i)
+			// fields = append(fields, &ast.Field{
+			// 	Names: []*ast.Ident{{Name: fieldName}},
+			// 	Type:  &ast.Ident{Name: fieldType},
+			// })
+			underlying := p.getMoonBitNamedType(typesPkg, fieldType)
+			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, underlying)) // &moonType{typeName: fieldType}))
+		}
+
+		tupleStruct := types.NewStruct(fieldVars, nil)
+		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, tupleStruct), nil, nil) // &moonType{typeName: typeSignature}
 	}
 
 	resultType = p.checkCustomMoonBitType(typesPkg, typeSignature)

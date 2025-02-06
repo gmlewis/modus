@@ -28,18 +28,20 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 	}
 
 	structDecl, structType := getStructDeclarationAndType(name, pkgs)
-	if structDecl == nil || structType == nil {
-		log.Printf("GML: extractor/transform.go: transformStruct(name=%q): structDecl=%v, structType=%v", name, structDecl, structType)
-		return nil
-	}
 
-	structDocs := getDocs(structDecl.Doc)
+	var structDocs *metadata.Docs
+	if structDecl != nil && structDecl.Doc != nil {
+		structDocs = getDocs(structDecl.Doc)
+	}
 
 	fields := make([]*metadata.Field, s.NumFields())
 	for i := 0; i < s.NumFields(); i++ {
 		f := s.Field(i)
 
-		fieldDocs := getDocs(structType.Fields.List[i].Doc)
+		var fieldDocs *metadata.Docs
+		if structType != nil && structType.Fields != nil && structType.Fields.List[i] != nil {
+			fieldDocs = getDocs(structType.Fields.List[i].Doc)
+		}
 
 		fields[i] = &metadata.Field{
 			Name: utils.CamelCase(f.Name()),

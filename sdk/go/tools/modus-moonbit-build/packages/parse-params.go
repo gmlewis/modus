@@ -11,7 +11,7 @@ package packages
 
 import "strings"
 
-func splitFunctionParameters(allArgs string) []string {
+func splitParamsWithBrackets(allArgs string) []string {
 	var result []string
 	var n int     // count bracket pairs
 	var start int // start of current arg

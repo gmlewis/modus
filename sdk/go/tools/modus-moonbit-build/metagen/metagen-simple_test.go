@@ -204,13 +204,16 @@ var wantSimpleFnImports = metadata.FunctionMap{
 }
 
 var wantSimpleTypes = metadata.TypeMap{
-	"(String, Int)": {Id: 4, Name: "(String, Int)"},
+	"(String, Int)": {
+		Id:     4,
+		Name:   "(String, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Int"}},
+	},
 	"@simple-example.Person": {
 		Id:   5,
 		Name: "@simple-example.Person",
 		Fields: []*metadata.Field{
-			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"},
-			{Name: "age", Type: "Int"},
+			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"}, {Name: "age", Type: "Int"},
 		},
 	},
 	"@time.ZonedDateTime":           {Id: 6, Name: "@time.ZonedDateTime"},

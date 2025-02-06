@@ -496,6 +496,7 @@ func writeIndirectResults(ctx context.Context, wa langsupport.WasmAdapter, plan 
 
 		fieldOffset = langsupport.AlignOffset(fieldOffset, alignment)
 
+		log.Printf("GML: wasmhost/hostfns.go: writeIndirectResults: size: %v, fieldType: %v, alignment: %v, fieldOffset: %v, CALLING handler.Write for results[%v]: %+v", size, fieldType, alignment, fieldOffset, i, results[i])
 		cln, err := handler.Write(ctx, wa, offset+fieldOffset, results[i])
 		cleaner.AddCleaner(cln)
 		if err != nil {

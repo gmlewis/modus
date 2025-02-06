@@ -42,7 +42,7 @@ func TestSplitFunctionParameters(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got := splitFunctionParameters(tt.input)
+			got := splitParamsWithBrackets(tt.input)
 			if diff := cmp.Diff(tt.want, got); diff != "" {
 				t.Errorf("splitFunctionParameters() mismatch (-want +got):\n%v", diff)
 			}

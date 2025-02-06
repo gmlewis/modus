@@ -217,6 +217,13 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		}
 
 		u := t.Underlying()
+		// Hack to make a tuple appear to have an underlying struct type for the metadata:
+		if u == nil {
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%#v", t.Obj().Type(), t.Obj().Type())
+			if s, ok := t.Obj().Type().(*types.Struct); ok {
+				u = s
+			}
+		}
 		m[name] = u
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
 		// var hasOption bool

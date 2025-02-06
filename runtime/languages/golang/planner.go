@@ -12,6 +12,7 @@ package golang
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -129,7 +130,7 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 }
 
 func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Function, fnDef wasm.FunctionDefinition) (uint32, error) {
-
+	log.Printf("GML: planner.go: getIndirectResultSize: fnMeta.Name: '%v', len(fnMeta.Results): %v, len(fnDef.ResultTypes): %v", fnMeta.Name, len(fnMeta.Results), len(fnDef.ResultTypes()))
 	// If no results are expected, then we don't need to use indirection.
 	if len(fnMeta.Results) == 0 {
 		return 0, nil
