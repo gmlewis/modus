@@ -14,8 +14,8 @@ import (
 	"testing"
 )
 
-func TestMultiOutput(t *testing.T) {
-	fnName := "testMultiOutput"
+func TestTupleOutput(t *testing.T) {
+	fnName := "test_tuple_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
