@@ -653,25 +653,25 @@ func TestStructOutput4_map_with_none(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestStructOptionOutput1_map(t *testing.T) {
-// 	fnName := "test_struct_option_output1_map"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := &testStruct1AsMap
-//
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*map[string]any); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-//
+// TODO: FAILS
+func TestStructOptionOutput1_map(t *testing.T) {
+	fnName := "test_struct_option_output1_map"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := &testStruct1AsMap
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*map[string]any); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
 // // TODO: FAILS
 // func TestStructOptionOutput2_map(t *testing.T) {
 // 	fnName := "test_struct_option_output2_map"

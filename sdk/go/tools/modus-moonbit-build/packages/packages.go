@@ -242,6 +242,13 @@ type Package struct {
 	// unsafe/unsafe.go or builtin/builtin.go, or are subject to cgo preprocessing.
 	MoonBitFiles []string
 
+	// Since this package is a hack to parse MoonBit files without the assistance
+	// of the MoonBit compiler, and since we are shoe-horning the MoonBit AST
+	// into an AST designed for the Go programming language, this map provides
+	// assistance in resolving publicly-exported structs so that they can be
+	// uniquely-identified by package.
+	StructLookup map[string]*ast.TypeSpec
+
 	// // CompiledMoonBitFiles lists the absolute file paths of the package's source
 	// // files that are suitable for type checking.
 	// // This may differ from MoonBitFiles if files are processed before compilation.
@@ -458,7 +465,7 @@ func (p *Package) UnmarshalJSON(b []byte) error {
 	if len(flat.Imports) > 0 {
 		p.Imports = make(map[string]*Package, len(flat.Imports))
 		for path, id := range flat.Imports {
-			p.Imports[path] = &Package{ID: id}
+			p.Imports[path] = &Package{ID: id, StructLookup: map[string]*ast.TypeSpec{}}
 		}
 	}
 	return nil

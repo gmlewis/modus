@@ -82,6 +82,17 @@ var wantPackages = []*Package{
 		ID:           "moonbit-main",
 		Name:         "main",
 		PkgPath:      "@testdata",
+		StructLookup: map[string]*ast.TypeSpec{
+			"@testdata.Person": {Name: &ast.Ident{Name: "@testdata.Person"}, Type: &ast.StructType{
+				Fields: &ast.FieldList{
+					List: []*ast.Field{
+						{Names: []*ast.Ident{{Name: "firstName"}}, Type: &ast.Ident{Name: "String"}},
+						{Names: []*ast.Ident{{Name: "lastName"}}, Type: &ast.Ident{Name: "String"}},
+						{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int"}},
+					},
+				},
+			}},
+		},
 		Syntax: []*ast.File{
 			{
 				Name: &ast.Ident{Name: "testdata/simple-example.mbt"},
@@ -305,7 +316,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Person"}},
+									{Type: &ast.Ident{Name: "@testdata.Person"}},
 								},
 							},
 						},
@@ -317,7 +328,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Person"}},
+									{Type: &ast.Ident{Name: "@testdata.Person"}},
 								},
 							},
 						},
@@ -329,7 +340,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Array[Person]"}},
+									{Type: &ast.Ident{Name: "Array[@testdata.Person]"}},
 								},
 							},
 						},
@@ -410,7 +421,8 @@ var wantPackages = []*Package{
 		},
 		TypesInfo: &types.Info{
 			Defs: map[*ast.Ident]types.Object{
-				{Name: "@testdata.Person"}: types.NewTypeName(0, testdataPkg, "Person", &moonType{typeName: "struct{firstName String; lastName String; age Int}"}), // hack
+				// hack to fake a struct for testing purposes only:
+				{Name: "@testdata.Person"}: types.NewTypeName(0, testdataPkg, "Person", &moonType{typeName: "struct{firstName String; lastName String; age Int}"}),
 				{Name: "add"}: types.NewFunc(0, testdataPkg, "add", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "x", &moonType{typeName: "Int"}),
 					types.NewVar(0, nil, "y", &moonType{typeName: "Int"}),

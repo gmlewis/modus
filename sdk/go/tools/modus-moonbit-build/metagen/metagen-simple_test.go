@@ -1,3 +1,5 @@
+// -*- compile-command: "go test -run ^TestGenerateMetadata_Simple$ ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0

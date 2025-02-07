@@ -17,10 +17,11 @@ import (
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 var wellKnownTypes = map[string]bool{
-	"Bytes":       true, // 1
+	"Bytes":       true, // 1 - TODO: How should these wellKnownTypes be handled?
 	"Array[Byte]": true, // 2
 	"String":      true, // 3
 	// "time.Time":     true,
@@ -197,7 +198,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		// 	os.Exit(1)
 		// }
 
-		typ, hasError, hasOption := stripErrorAndOption(name)
+		typ, hasError, hasOption := utils.StripErrorAndOption(name)
 		if hasError {
 			fullName := fmt.Sprintf("%v!Error", typ)
 			// Remove package information so it is not repeated.
@@ -207,8 +208,10 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 			m[fullName] = tmpType
 		}
 		if hasOption {
-			tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), typ, nil), t.Underlying(), nil)
-			addRequiredTypes(tmpType, m)
+			underlying := t.Underlying()
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: underlying: %T=%#v", underlying, underlying)
+			// tmpType := types.NewNamed(types.NewTypeName(0, t.Obj().Pkg(), typ, nil), t.Underlying(), nil)
+			// addRequiredTypes(tmpType, m)
 		}
 
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
@@ -253,7 +256,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 			valueName := fmt.Sprintf("Array[%v]", valueType)
 			m[valueName] = nil
 			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
-			_, _, hasOption = stripErrorAndOption(valueType)
+			_, _, hasOption = utils.StripErrorAndOption(valueType)
 			if hasOption {
 				m[valueName] = nil
 				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
@@ -322,19 +325,8 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 	return false
 }
 
-// TODO: remove duplication
-
-func stripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
-	if i := strings.Index(typeSignature, "!"); i >= 0 {
-		hasError = true
-		typeSignature = typeSignature[:i]
-	}
-	hasOption = strings.HasSuffix(typeSignature, "?")
-	return strings.TrimSuffix(typeSignature, "?"), hasError, hasOption
-}
-
 func GetMapSubtypes(typ string) (string, string) {
-	typ, _, _ = stripErrorAndOption(typ)
+	typ, _, _ = utils.StripErrorAndOption(typ)
 
 	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
 		log.Printf("ERROR: functions.go: GetMapSubtypes('%v'): Bad map type!", typ)

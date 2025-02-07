@@ -255,6 +255,11 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 }
 
 func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[string]string, fns []*funcInfo) error {
+	pkgNameToStrip := pkg.PkgPath
+	if pkgNameToStrip != "" {
+		pkgNameToStrip += "."
+	}
+
 	for _, info := range fns {
 		fn := info.function
 		name := fn.Name.Name
@@ -274,6 +279,9 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		decl := strings.TrimPrefix(buf.String(), "fn")
+		if pkgNameToStrip != "" {
+			decl = strings.ReplaceAll(decl, pkgNameToStrip, "")
+		}
 		for a, n := range info.aliases {
 			re := regexp.MustCompile(`\b` + a + `\.`)
 			decl = re.ReplaceAllString(decl, n+".")

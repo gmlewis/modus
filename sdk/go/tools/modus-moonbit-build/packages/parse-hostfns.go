@@ -42,7 +42,7 @@ func (p *Package) processImportedHostFns(typesPkg *types.Package, decls []ast.De
 		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
-		newParamsList, newParamsVars := stripDefaultValues(paramsList, paramsVars)
+		newParamsList, newParamsVars := p.stripDefaultValues(typesPkg, paramsList, paramsVars)
 		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, newParamsList, newParamsVars, resultsList, resultsTuple, docs)
 
 		// if functionParamsHasDefaultValue(paramsList) {

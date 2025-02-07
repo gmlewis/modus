@@ -98,5 +98,48 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		id++
 	}
 
+	resolveForwardTypeRefs(meta)
+
 	return nil
+}
+
+func resolveForwardTypeRefs(meta *metadata.Metadata) {
+	processed := map[string]bool{}
+	for key, origTyp := range meta.Types {
+		if !strings.Contains(key, ".") || processed[key] {
+			continue
+		}
+		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)
+		if hasOption {
+			log.Printf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
+			if baseTyp, ok := meta.Types[baseTypeName]; ok {
+				if len(baseTyp.Fields) == 0 {
+					baseTyp.Fields = origTyp.Fields
+					processed[baseTypeName] = true
+					processed[key] = true
+					continue
+				}
+				if len(origTyp.Fields) == 0 {
+					origTyp.Fields = baseTyp.Fields
+					processed[baseTypeName] = true
+					processed[key] = true
+				}
+			}
+			continue
+		}
+		optionTypeName := key + "?"
+		if optionTyp, ok := meta.Types[optionTypeName]; ok {
+			if len(optionTyp.Fields) == 0 {
+				optionTyp.Fields = origTyp.Fields
+				processed[optionTypeName] = true
+				processed[key] = true
+				continue
+			}
+			if len(origTyp.Fields) == 0 {
+				origTyp.Fields = optionTyp.Fields
+				processed[optionTypeName] = true
+				processed[key] = true
+			}
+		}
+	}
 }

@@ -17,6 +17,8 @@ import (
 	"log"
 	"regexp"
 	"strings"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 var argsRE = regexp.MustCompile(`^(.*?)\((.*)\)$`)
@@ -69,12 +71,14 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 				continue
 			}
 			fieldName := strings.TrimSpace(fieldParts[0])
-			fieldType := strings.TrimSpace(fieldParts[1])
+			fieldTypeName := strings.TrimSpace(fieldParts[1])
+			fieldType := p.getMoonBitNamedType(typesPkg, fieldTypeName) // TODO: How to handle forward references? Resolve in 2nd pass?!?
+			fullyQualifiedFieldSig := fieldType.String()
 			fields = append(fields, &ast.Field{
 				Names: []*ast.Ident{{Name: fieldName}},
-				Type:  &ast.Ident{Name: fieldType},
+				Type:  &ast.Ident{Name: fullyQualifiedFieldSig},
 			})
-			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, &moonType{typeName: fieldType}))
+			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, fieldType))
 		}
 
 		typeSpec := &ast.TypeSpec{
@@ -92,7 +96,9 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 
 		decls = append(decls, decl)
 		underlying := types.NewStruct(fieldVars, nil)
-		p.TypesInfo.Defs[typeSpec.Name] = types.NewTypeName(0, typesPkg, name, underlying) // TODO
+		namedType := types.NewTypeName(0, typesPkg, name, underlying)
+		p.TypesInfo.Defs[typeSpec.Name] = namedType
+		p.StructLookup[typeSpec.Name.Name] = typeSpec
 	}
 
 	return decls
@@ -121,7 +127,7 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
 
-		newParamsList, newParamsVars := stripDefaultValues(paramsList, paramsVars)
+		newParamsList, newParamsVars := p.stripDefaultValues(typesPkg, paramsList, paramsVars)
 		decls = p.addExportedFunctionDecls(typesPkg, decls, methodName, newParamsList, newParamsVars, resultsList, resultsTuple, docs)
 
 		if functionParamsHasDefaultValue(paramsList) {
@@ -143,7 +149,7 @@ func functionParamsHasDefaultValue(paramsList []*ast.Field) bool {
 	return false
 }
 
-func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*ast.Field, []*types.Var) {
+func (p *Package) stripDefaultValues(typesPkg *types.Package, paramsList []*ast.Field, paramsVars []*types.Var) ([]*ast.Field, []*types.Var) {
 	if len(paramsList) == 0 {
 		return nil, nil
 	}
@@ -154,10 +160,12 @@ func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*as
 			if strings.Contains(paramType.Name, "=") {
 				// newName := strings.TrimSuffix(param.Names[0].Name, "~")  // cannot remove "~" yet, as it is needed in modus_pre_generated.mbt.
 				paramTypeParts := strings.Split(paramType.Name, " = ")
-				newType := paramTypeParts[0]
+				newTypeName := strings.TrimSpace(paramTypeParts[0])
+				newType := p.getMoonBitNamedType(typesPkg, newTypeName)
+				fullyQualifiedNewSig := newType.String()
 				field := &ast.Field{
 					Names: []*ast.Ident{{Name: param.Names[0].Name}},
-					Type:  &ast.Ident{Name: newType},
+					Type:  &ast.Ident{Name: fullyQualifiedNewSig},
 				}
 				if len(paramTypeParts) > 1 {
 					defaultValue := paramTypeParts[1]
@@ -172,16 +180,22 @@ func stripDefaultValues(paramsList []*ast.Field, paramsVars []*types.Var) ([]*as
 
 	newParamsVars := make([]*types.Var, 0, len(paramsVars))
 	for _, param := range paramsVars {
-		var paramTypeName string
-		switch paramType := param.Type().(type) {
-		case *types.Named:
-			paramTypeName = strings.Split(paramType.Obj().Name(), " = ")[0]
-		default:
-			log.Fatalf("programming error: expected *moonType, got %T", paramType)
+		paramTypeName := param.Type().String()
+		if strings.Contains(paramTypeName, "=") {
+			switch paramType := param.Type().(type) {
+			case *types.Named:
+				paramTypeName = strings.Split(paramType.Obj().Name(), " = ")[0]
+			default:
+				log.Fatalf("PROGRAMMING ERROR: expected *types.Named, got %T", paramType)
+			}
+			// newName := strings.TrimSuffix(param.Name(), "~")  // still needed
+			newParam := types.NewVar(0, nil, param.Name(), types.NewNamed(types.NewTypeName(0, nil, paramTypeName, nil), nil, nil))
+			newParamsVars = append(newParamsVars, newParam)
+		} else {
+			// Make a copy:
+			newParam := types.NewVar(0, param.Pkg(), param.Name(), param.Type())
+			newParamsVars = append(newParamsVars, newParam)
 		}
-		// newName := strings.TrimSuffix(param.Name(), "~")  // still needed
-		newParam := types.NewVar(0, nil, param.Name(), types.NewNamed(types.NewTypeName(0, nil, paramTypeName, nil), nil, nil))
-		newParamsVars = append(newParamsVars, newParam)
 	}
 
 	return newParamsList, newParamsVars
@@ -260,13 +274,14 @@ func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (pa
 			continue
 		}
 		argName := strings.TrimSpace(argParts[0])
-		argType := strings.TrimSpace(argParts[1])
+		argTypeName := strings.TrimSpace(argParts[1])
+		paramType := p.getMoonBitNamedType(typesPkg, argTypeName)
+		fullyQualifiedParamSig := paramType.String()
 		paramsList = append(paramsList, &ast.Field{
 			Names: []*ast.Ident{{Name: argName}},
-			Type:  &ast.Ident{Name: argType},
+			Type:  &ast.Ident{Name: fullyQualifiedParamSig},
 		})
-		paramType := p.getMoonBitNamedType(typesPkg, argType)
-		paramsVars = append(paramsVars, types.NewVar(0, nil, argName, paramType)) // &moonType{typeName: argType}))
+		paramsVars = append(paramsVars, types.NewVar(0, nil, argName, paramType))
 	}
 
 	return paramsList, paramsVars
@@ -277,78 +292,90 @@ func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig stri
 		return nil, nil
 	}
 
-	resultsList = &ast.FieldList{
-		List: []*ast.Field{{Type: &ast.Ident{Name: returnSig}}},
-	}
-
-	// // Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
-	// if strings.HasPrefix(returnSig, "(") && strings.HasSuffix(returnSig, ")") {
-	// 	allArgs := returnSig[1 : len(returnSig)-1]
-	// 	allTupleParts := splitParamsWithBrackets(allArgs)
-	// 	// var fields []*ast.Field
-	// 	var fieldVars []*types.Var
-	// 	for i, field := range allTupleParts {
-	// 		fieldType := commentRE.ReplaceAllString(field, "")
-	// 		field = strings.TrimSpace(field)
-	// 		if field == "" {
-	// 			continue
+	// fullyQualifiedReturnSig := returnSig
+	// if !strings.Contains(returnSig, ".") {
+	// 	typ, _, _ := utils.utils.StripErrorAndOption(returnSig)
+	// 	if utils.IsStructType(typ) {
+	// 		pkgName := typesPkg.Path()
+	// 		baseTypeName := pkgName + "." + typ
+	// 		if _, ok := p.StructLookup[baseTypeName]; ok {
+	// 			fullyQualifiedReturnSig = pkgName + "." + returnSig
 	// 		}
-	// 		fieldName := fmt.Sprintf("%v", i)
-	// 		// fields = append(fields, &ast.Field{
-	// 		// 	Names: []*ast.Ident{{Name: fieldName}},
-	// 		// 	Type:  &ast.Ident{Name: fieldType},
-	// 		// })
-	// 		fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, &moonType{typeName: fieldType})) // TODO: lookup each field type?
 	// 	}
-
-	// 	resultType := types.NewStruct(fieldVars, nil)
-	// 	resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
-	// 	return resultsList, resultsTuple
 	// }
 
 	resultType := p.getMoonBitNamedType(typesPkg, returnSig)
+	fullyQualifiedReturnSig := resultType.String()
+
+	resultsList = &ast.FieldList{
+		List: []*ast.Field{{Type: &ast.Ident{Name: fullyQualifiedReturnSig}}},
+	}
+
 	resultsTuple = types.NewTuple(types.NewVar(0, nil, "", resultType))
 
 	return resultsList, resultsTuple
 }
 
-func stripError(typeSignature string) string {
-	if i := strings.Index(typeSignature, "!"); i >= 0 {
-		return typeSignature[:i]
-	}
-	return typeSignature
-}
+func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType types.Type) {
+	typeSignature = utils.StripDefaultValue(typeSignature)
 
-func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
 	fullCustomName := typesPkg.Path() + "." + typeSignature
-	customName := stripError(fullCustomName)
-	for ident, customType := range p.TypesInfo.Defs {
-		if ident.Name == customName {
-			if customType, ok := customType.(*types.TypeName); ok {
-				underlying := customType.Type().Underlying()
-				if customName == fullCustomName {
-					resultType = types.NewNamed(customType, underlying, nil)
-				} else {
-					fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
-					resultType = types.NewNamed(fullCustomType, underlying, nil)
-				}
-				// log.Printf("GML: checkCustomMoonBitNamedType: found custom type for typeSignature=%q", typeSignature)
-				break
-			}
-		}
+	typ, _, _ := utils.StripErrorAndOption(typeSignature)
+	customName := typesPkg.Path() + "." + typ
+	var alreadyFullyQualified bool
+	if strings.Contains(typeSignature, ".") { // already fully qualified
+		fullCustomName = typeSignature
+		customName, _, _ = utils.StripErrorAndOption(typeSignature)
+		alreadyFullyQualified = true
 	}
+
+	if typeSpec, ok := p.StructLookup[customName]; ok {
+		if customType, ok := p.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+			underlying := customType.Type().Underlying()
+			if customName == fullCustomName {
+				return types.NewNamed(customType, underlying, nil)
+			}
+			fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
+			return types.NewNamed(fullCustomType, underlying, nil)
+		}
+		log.Printf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): customName '%v' missing from p.TypesInfo.Defs", typeSignature, customName)
+	}
+
+	if alreadyFullyQualified {
+		// Don't create a new struct type.
+		return nil
+	}
+
+	if utils.IsStructType(typ) {
+		// This could possibly be a forward reference or a recursive reference within a struct.
+		fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
+		return types.NewNamed(fullCustomType, nil, nil)
+	}
+
 	return resultType
 }
 
 func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
 	log.Printf("GML: getMoonBitNamedType(typeSignature=%q)", typeSignature)
 	// TODO: write a parser that can handle any MoonBit type.
-	if strings.HasPrefix(typeSignature, "Array[") && strings.HasSuffix(typeSignature, "]") {
-		tmpSignature := typeSignature[6 : len(typeSignature)-1]
-		resultType = p.checkCustomMoonBitType(typesPkg, tmpSignature)
+	if utils.IsListType(typeSignature) {
+		innerTypeSignature := utils.GetListSubtype(typeSignature)
+		resultType = p.checkCustomMoonBitType(typesPkg, innerTypeSignature)
 		if resultType != nil {
-			tmpSignature = fmt.Sprintf("Array[%v.%v]", typesPkg.Path(), tmpSignature)
+			arrayTypeName := typeSignature[:strings.Index(typeSignature, "[")]
+			tmpSignature := fmt.Sprintf("%v[%v.%v]", arrayTypeName, typesPkg.Path(), innerTypeSignature)
 			return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
+		}
+	}
+
+	if utils.IsMapType(typeSignature) {
+		ktSig, vtSig := utils.GetMapSubtypes(typeSignature)
+		// TODO: For now, assume that the Map key is a primitive type.
+		// kt := p.getMoonBitNamedType(typesPkg, ktSig)
+		vt := p.checkCustomMoonBitType(typesPkg, vtSig)
+		if vt != nil {
+			mapSignature := fmt.Sprintf("Map[%v, %v.%v]", ktSig, typesPkg.Path(), vtSig)
+			return types.NewNamed(types.NewTypeName(0, nil, mapSignature, nil), nil, nil)
 		}
 	}
 
@@ -359,9 +386,8 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 		// var fields []*ast.Field
 		var fieldVars []*types.Var
 		for i, field := range allTupleParts {
-			fieldType := commentRE.ReplaceAllString(field, "")
-			field = strings.TrimSpace(field)
-			if field == "" {
+			fieldType := strings.TrimSpace(commentRE.ReplaceAllString(field, ""))
+			if fieldType == "" {
 				continue
 			}
 			fieldName := fmt.Sprintf("%v", i)

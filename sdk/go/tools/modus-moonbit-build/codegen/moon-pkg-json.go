@@ -16,6 +16,7 @@ import (
 	"io"
 	"log"
 	"slices"
+	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 )
@@ -37,6 +38,10 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		}
 	}
 	for k := range imports {
+		k = strings.TrimSpace(k)
+		if k == "" {
+			continue
+		}
 		if _, ok := currentImports[k]; !ok {
 			log.Printf("adding import %q to moon.pkg.json", k)
 			pkg.MoonPkgJSON.Imports = append(pkg.MoonPkgJSON.Imports, json.RawMessage(`"`+k+`"`))
