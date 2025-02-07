@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cuip7avrackaqofigem0",
-  "buildTs": "2025-02-07T05:01:31.910Z",
+  "buildId": "cuiv97frack3od61jcpg",
+  "buildTs": "2025-02-07T11:55:09.172Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "a557c64017874a5568b3434366ab18bcbaad869d",
+  "gitCommit": "f8550f9fe8450cfeb5a18e591ec01c3cd8fdae77",
   "fnExports": {
     "get_local_time": {
       "results": [
@@ -58,7 +58,7 @@
       ],
       "results": [
         {
-          "type": "@time-example.TimeZoneInfo!Error"
+          "type": "TimeZoneInfo!Error"
         }
       ],
       "docs": {
@@ -125,62 +125,62 @@
     }
   },
   "types": {
-    "@time-example.TimeZoneInfo": {
-      "id": 4,
-      "fields": [
-        {
-          "name": "standard_name",
-          "type": "String"
-        },
-        {
-          "name": "standard_offset",
-          "type": "String"
-        },
-        {
-          "name": "daylight_name",
-          "type": "String"
-        },
-        {
-          "name": "daylight_offset",
-          "type": "String"
-        }
-      ]
-    },
-    "@time-example.TimeZoneInfo!Error": {
-      "id": 5,
-      "fields": [
-        {
-          "name": "standard_name",
-          "type": "String"
-        },
-        {
-          "name": "standard_offset",
-          "type": "String"
-        },
-        {
-          "name": "daylight_name",
-          "type": "String"
-        },
-        {
-          "name": "daylight_offset",
-          "type": "String"
-        }
-      ]
-    },
     "@time.ZonedDateTime": {
-      "id": 6
+      "id": 4
     },
     "@time.ZonedDateTime!Error": {
-      "id": 7
+      "id": 5
     },
     "Array[Byte]": {
-      "id": 8
+      "id": 6
     },
     "String": {
-      "id": 9
+      "id": 7
     },
     "String!Error": {
-      "id": 10
+      "id": 8
+    },
+    "TimeZoneInfo": {
+      "id": 9,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
+    "TimeZoneInfo!Error": {
+      "id": 10,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
     }
   }
 }

@@ -84,7 +84,7 @@ var wantTimeFnExports = metadata.FunctionMap{
 	"get_time_zone_info": {
 		Name:       "get_time_zone_info",
 		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
-		Results:    []*metadata.Result{{Type: "@time-example.TimeZoneInfo!Error"}},
+		Results:    []*metadata.Result{{Type: "TimeZoneInfo!Error"}},
 		Docs:       &metadata.Docs{Lines: []string{"Returns some basic information about the time zone specified."}},
 	},
 	"get_utc_time": {
@@ -118,9 +118,14 @@ var wantTimeFnImports = metadata.FunctionMap{
 }
 
 var wantTimeTypes = metadata.TypeMap{
-	"@time-example.TimeZoneInfo": {
-		Id:   4,
-		Name: "@time-example.TimeZoneInfo",
+	"@time.ZonedDateTime":       {Id: 4, Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Id: 5, Name: "@time.ZonedDateTime!Error"},
+	"Array[Byte]":               {Id: 6, Name: "Array[Byte]"},
+	"String":                    {Id: 7, Name: "String"},
+	"String!Error":              {Id: 8, Name: "String!Error"},
+	"TimeZoneInfo": {
+		Id:   9,
+		Name: "TimeZoneInfo",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
 			{Name: "standard_offset", Type: "String"},
@@ -128,9 +133,9 @@ var wantTimeTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"@time-example.TimeZoneInfo!Error": {
-		Id:   5,
-		Name: "@time-example.TimeZoneInfo!Error",
+	"TimeZoneInfo!Error": {
+		Id:   10,
+		Name: "TimeZoneInfo!Error",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
 			{Name: "standard_offset", Type: "String"},
@@ -138,9 +143,4 @@ var wantTimeTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"@time.ZonedDateTime":       {Id: 6, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 7, Name: "@time.ZonedDateTime!Error"},
-	"Array[Byte]":               {Id: 8, Name: "Array[Byte]"},
-	"String":                    {Id: 9, Name: "String"},
-	"String!Error":              {Id: 10, Name: "String!Error"},
 }

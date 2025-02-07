@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cuip7avrackaqofigelg",
-  "buildTs": "2025-02-07T05:01:31.875Z",
+  "buildId": "cuiv97frack3od61jcp0",
+  "buildTs": "2025-02-07T11:55:09.138Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "a557c64017874a5568b3434366ab18bcbaad869d",
+  "gitCommit": "f8550f9fe8450cfeb5a18e591ec01c3cd8fdae77",
   "fnExports": {
     "add": {
       "parameters": [
@@ -194,7 +194,7 @@
     "get_people": {
       "results": [
         {
-          "type": "Array[@simple-example.Person]"
+          "type": "Array[Person]"
         }
       ],
       "docs": {
@@ -206,7 +206,7 @@
     "get_person": {
       "results": [
         {
-          "type": "@simple-example.Person"
+          "type": "Person"
         }
       ],
       "docs": {
@@ -218,7 +218,7 @@
     "get_random_person": {
       "results": [
         {
-          "type": "@simple-example.Person"
+          "type": "Person"
         }
       ],
       "docs": {
@@ -388,8 +388,29 @@
         }
       ]
     },
-    "@simple-example.Person": {
-      "id": 5,
+    "@time.ZonedDateTime": {
+      "id": 5
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 6
+    },
+    "@wallClock.Datetime": {
+      "id": 7
+    },
+    "Array[Byte]": {
+      "id": 8
+    },
+    "Array[Int]": {
+      "id": 9
+    },
+    "Array[Person]": {
+      "id": 10
+    },
+    "Int": {
+      "id": 11
+    },
+    "Person": {
+      "id": 12,
       "fields": [
         {
           "name": "firstName",
@@ -404,27 +425,6 @@
           "type": "Int"
         }
       ]
-    },
-    "@time.ZonedDateTime": {
-      "id": 6
-    },
-    "@time.ZonedDateTime!Error": {
-      "id": 7
-    },
-    "@wallClock.Datetime": {
-      "id": 8
-    },
-    "Array[@simple-example.Person]": {
-      "id": 9
-    },
-    "Array[Byte]": {
-      "id": 10
-    },
-    "Array[Int]": {
-      "id": 11
-    },
-    "Int": {
-      "id": 12
     },
     "String": {
       "id": 13

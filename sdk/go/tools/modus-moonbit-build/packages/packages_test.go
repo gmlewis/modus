@@ -83,7 +83,7 @@ var wantPackages = []*Package{
 		Name:         "main",
 		PkgPath:      "@testdata",
 		StructLookup: map[string]*ast.TypeSpec{
-			"@testdata.Person": {Name: &ast.Ident{Name: "@testdata.Person"}, Type: &ast.StructType{
+			"Person": {Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
 				Fields: &ast.FieldList{
 					List: []*ast.Field{
 						{Names: []*ast.Ident{{Name: "firstName"}}, Type: &ast.Ident{Name: "String"}},
@@ -99,7 +99,7 @@ var wantPackages = []*Package{
 				Decls: []ast.Decl{
 					&ast.GenDecl{
 						Tok: token.TYPE,
-						Specs: []ast.Spec{&ast.TypeSpec{Name: &ast.Ident{Name: "@testdata.Person"}, Type: &ast.StructType{
+						Specs: []ast.Spec{&ast.TypeSpec{Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
 							Fields: &ast.FieldList{
 								List: []*ast.Field{
 									{Names: []*ast.Ident{{Name: "firstName"}}, Type: &ast.Ident{Name: "String"}},
@@ -316,7 +316,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@testdata.Person"}},
+									{Type: &ast.Ident{Name: "Person"}},
 								},
 							},
 						},
@@ -328,7 +328,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@testdata.Person"}},
+									{Type: &ast.Ident{Name: "Person"}},
 								},
 							},
 						},
@@ -340,7 +340,7 @@ var wantPackages = []*Package{
 							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "Array[@testdata.Person]"}},
+									{Type: &ast.Ident{Name: "Array[Person]"}},
 								},
 							},
 						},
@@ -421,8 +421,8 @@ var wantPackages = []*Package{
 		},
 		TypesInfo: &types.Info{
 			Defs: map[*ast.Ident]types.Object{
-				// hack to fake a struct for testing purposes only:
-				{Name: "@testdata.Person"}: types.NewTypeName(0, testdataPkg, "Person", &moonType{typeName: "struct{firstName String; lastName String; age Int}"}),
+				// Using &moonType{} is a hack to fake a struct for testing purposes only:
+				{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{firstName String; lastName String; age Int}"}),
 				{Name: "add"}: types.NewFunc(0, testdataPkg, "add", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "x", &moonType{typeName: "Int"}),
 					types.NewVar(0, nil, "y", &moonType{typeName: "Int"}),
@@ -454,11 +454,11 @@ var wantPackages = []*Package{
 				{Name: "get_name_and_age"}: types.NewFunc(0, testdataPkg, "get_name_and_age", types.NewSignatureType(nil, nil, nil, nil,
 					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "(String, Int)"})), false)),
 				{Name: "get_people"}: types.NewFunc(0, testdataPkg, "get_people", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Array[@testdata.Person]"})), false)),
+					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Array[Person]"})), false)),
 				{Name: "get_person"}: types.NewFunc(0, testdataPkg, "get_person", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@testdata.Person"})), false)),
+					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Person"})), false)),
 				{Name: "get_random_person"}: types.NewFunc(0, testdataPkg, "get_random_person", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, testdataPkg, "", &moonType{typeName: "@testdata.Person"})), false)),
+					types.NewTuple(types.NewVar(0, testdataPkg, "", &moonType{typeName: "Person"})), false)),
 				{Name: "log_message"}: types.NewFunc(0, testdataPkg, "log_message", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "message", &moonType{typeName: "String"}),
 				), nil, false)),

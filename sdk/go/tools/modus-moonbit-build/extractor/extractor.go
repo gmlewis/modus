@@ -106,7 +106,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 func resolveForwardTypeRefs(meta *metadata.Metadata) {
 	processed := map[string]bool{}
 	for key, origTyp := range meta.Types {
-		if !strings.Contains(key, ".") || processed[key] {
+		if processed[key] {
 			continue
 		}
 		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)

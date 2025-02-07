@@ -82,7 +82,8 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		}
 
 		typeSpec := &ast.TypeSpec{
-			Name: &ast.Ident{Name: typesPkg.Path() + "." + name},
+			// Name: &ast.Ident{Name: typesPkg.Path() + "." + name},  // Do NOT add typesPkg.
+			Name: &ast.Ident{Name: name},
 			Type: &ast.StructType{
 				Fields: &ast.FieldList{
 					List: fields,
@@ -96,7 +97,7 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 
 		decls = append(decls, decl)
 		underlying := types.NewStruct(fieldVars, nil)
-		namedType := types.NewTypeName(0, typesPkg, name, underlying)
+		namedType := types.NewTypeName(0, nil, name, underlying) // Do NOT add typesPkg.
 		p.TypesInfo.Defs[typeSpec.Name] = namedType
 		p.StructLookup[typeSpec.Name.Name] = typeSpec
 	}
@@ -318,37 +319,26 @@ func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig stri
 
 func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature string) (resultType types.Type) {
 	typeSignature = utils.StripDefaultValue(typeSignature)
-
-	fullCustomName := typesPkg.Path() + "." + typeSignature
-	typ, _, _ := utils.StripErrorAndOption(typeSignature)
-	customName := typesPkg.Path() + "." + typ
-	var alreadyFullyQualified bool
-	if strings.Contains(typeSignature, ".") { // already fully qualified
-		fullCustomName = typeSignature
-		customName, _, _ = utils.StripErrorAndOption(typeSignature)
-		alreadyFullyQualified = true
+	if strings.Contains(typeSignature, ".") { // already has package name - must be external, so ignore.
+		return nil
 	}
+	typ, _, _ := utils.StripErrorAndOption(typeSignature)
 
-	if typeSpec, ok := p.StructLookup[customName]; ok {
+	if typeSpec, ok := p.StructLookup[typ]; ok {
 		if customType, ok := p.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
 			underlying := customType.Type().Underlying()
-			if customName == fullCustomName {
+			if typ == typeSignature {
 				return types.NewNamed(customType, underlying, nil)
 			}
-			fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
+			fullCustomType := types.NewTypeName(0, nil, typeSignature, nil) // do NOT add typesPkg to custom types!
 			return types.NewNamed(fullCustomType, underlying, nil)
 		}
-		log.Printf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): customName '%v' missing from p.TypesInfo.Defs", typeSignature, customName)
-	}
-
-	if alreadyFullyQualified {
-		// Don't create a new struct type.
-		return nil
+		log.Printf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): typ '%v' missing from p.TypesInfo.Defs", typeSignature, typ)
 	}
 
 	if utils.IsStructType(typ) {
 		// This could possibly be a forward reference or a recursive reference within a struct.
-		fullCustomType := types.NewTypeName(0, typesPkg, typeSignature, nil)
+		fullCustomType := types.NewTypeName(0, nil, typeSignature, nil)
 		return types.NewNamed(fullCustomType, nil, nil)
 	}
 
@@ -358,26 +348,26 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
 	log.Printf("GML: getMoonBitNamedType(typeSignature=%q)", typeSignature)
 	// TODO: write a parser that can handle any MoonBit type.
-	if utils.IsListType(typeSignature) {
-		innerTypeSignature := utils.GetListSubtype(typeSignature)
-		resultType = p.checkCustomMoonBitType(typesPkg, innerTypeSignature)
-		if resultType != nil {
-			arrayTypeName := typeSignature[:strings.Index(typeSignature, "[")]
-			tmpSignature := fmt.Sprintf("%v[%v.%v]", arrayTypeName, typesPkg.Path(), innerTypeSignature)
-			return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
-		}
-	}
+	// if utils.IsListType(typeSignature) {
+	// 	innerTypeSignature := utils.GetListSubtype(typeSignature)
+	// 	resultType = p.checkCustomMoonBitType(typesPkg, innerTypeSignature)
+	// 	if resultType != nil {
+	// 		arrayTypeName := typeSignature[:strings.Index(typeSignature, "[")]
+	// 		tmpSignature := fmt.Sprintf("%v[%v.%v]", arrayTypeName, typesPkg.Path(), innerTypeSignature)
+	// 		return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
+	// 	}
+	// }
 
-	if utils.IsMapType(typeSignature) {
-		ktSig, vtSig := utils.GetMapSubtypes(typeSignature)
-		// TODO: For now, assume that the Map key is a primitive type.
-		// kt := p.getMoonBitNamedType(typesPkg, ktSig)
-		vt := p.checkCustomMoonBitType(typesPkg, vtSig)
-		if vt != nil {
-			mapSignature := fmt.Sprintf("Map[%v, %v.%v]", ktSig, typesPkg.Path(), vtSig)
-			return types.NewNamed(types.NewTypeName(0, nil, mapSignature, nil), nil, nil)
-		}
-	}
+	// if utils.IsMapType(typeSignature) {
+	// 	ktSig, vtSig := utils.GetMapSubtypes(typeSignature)
+	// 	// TODO: For now, assume that the Map key is a primitive type.
+	// 	// kt := p.getMoonBitNamedType(typesPkg, ktSig)
+	// 	vt := p.checkCustomMoonBitType(typesPkg, vtSig)
+	// 	if vt != nil {
+	// 		mapSignature := fmt.Sprintf("Map[%v, %v.%v]", ktSig, typesPkg.Path(), vtSig)
+	// 		return types.NewNamed(types.NewTypeName(0, nil, mapSignature, nil), nil, nil)
+	// 	}
+	// }
 
 	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
 	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
