@@ -336,7 +336,7 @@
         },
         {
           "name": "time_zone_info",
-          "query": {"query":"query($tz: String!) {\n  time_zone_info(tz: $tz)\n}","variables":{"tz":"America/Los_Angeles"}},
+          "query": {"query":"query($tz: String!) {\n  time_zone_info(tz: $tz) {\n    standard_name\n    standard_offset\n    daylight_name\n    daylight_offset\n  }\n}","variables":{"tz":"America/Los_Angeles"}},
           "expect": {"daylight_name":"PDT","daylight_offset":"-07:00","standard_name":"PST","standard_offset":"-08:00"}
         },
         {
@@ -376,12 +376,12 @@
         },
         {
           "name": "person",
-          "query": {"query":"query {\n  person\n}","variables":{}},
+          "query": {"query":"query {\n  person {\n    firstName\n    lastName\n    age\n  }\n}","variables":{}},
           "expect": {"age":42,"firstName":"John","lastName":"Doe"}
         },
         {
           "name": "random_person",
-          "query": {"query":"query {\n  random_person\n}","variables":{}},
+          "query": {"query":"query {\n  random_person {\n    firstName\n    lastName\n    age\n  }\n}","variables":{}},
           "expect": {"age":8,"firstName":"Charlie","lastName":"Brown"}
         },
         {
