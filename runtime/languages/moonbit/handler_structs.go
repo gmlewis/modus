@@ -58,7 +58,7 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_structs.go: structHandler.Read(offset: %v)", offset)
+	log.Printf("GML: handler_structs.go: structHandler.Read(offset: %v)", debugShowOffset(offset))
 
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
@@ -76,12 +76,18 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		}
 	}()
 
+	// For debugging purposes only:
+	_, _, err := memoryBlockAtOffset(wa, offset, true)
+	if err != nil {
+		return nil, fmt.Errorf("structHandler failed to read memory block at offset %v: %w", debugShowOffset(offset), err)
+	}
+
 	fieldOffsets := h.typeInfo.ObjectFieldOffsets()
 
 	m := make(map[string]any, len(h.fieldHandlers))
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
-		fieldOffset := offset + fieldOffsets[i]
+		fieldOffset := offset + 8 + fieldOffsets[i]
 		val, err := handler.Read(ctx, wa, fieldOffset)
 		if err != nil {
 			return nil, err

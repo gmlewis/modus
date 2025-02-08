@@ -117,7 +117,7 @@ type primitiveSliceHandler[T primitive] struct {
 }
 
 func (h *primitiveSliceHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler[%T].Read(offset: %v)", []T{}, offset)
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler[%T].Read(offset: %v)", []T{}, debugShowOffset(offset))
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
 	// if offset == 0 {
@@ -159,7 +159,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
 	// size := numElements * uint32(h.converter.TypeSize())
 
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)

@@ -35,6 +35,19 @@ func TestConvertMoonBitUTF16ToUTF8(t *testing.T) {
 			expected: "こんにはに乙甖",
 			wantErr:  false,
 		},
+		{
+			name: "empty array",
+			data: []byte{},
+		},
+		{
+			name: "bad array",
+			data: []byte{0},
+		},
+		{
+			name:     "null",
+			data:     []byte{0, 0},
+			expected: "\x00",
+		},
 	}
 
 	for _, tt := range tests {

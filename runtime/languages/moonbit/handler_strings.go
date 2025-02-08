@@ -33,20 +33,24 @@ type stringHandler struct {
 }
 
 func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-
+	log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v)", debugShowOffset(offset))
 	if offset == 0 {
-		log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v): ''", offset)
+		if h.typeInfo.IsPointer() { // Is this necessary?
+			return Ptr(""), nil
+		}
 		return "", nil
 	}
 
-	data, err := stringDataAtOffset(wa, offset)
-	if err != nil {
-		return "", err
+	// Read pointer to MoonBit String
+	ptr, ok := wa.Memory().ReadUint32Le(offset)
+	if !ok {
+		log.Printf("GML: handler_strings.go: stringHandler.Read: failed to read pointer to String")
+	} else {
+		log.Printf("GML: handler_strings.go: stringHandler.Read: ptr: %v", debugShowOffset(ptr))
 	}
 
-	s, err := doReadString(data)
-	log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v): '%v'", offset, s)
-	return s, err
+	vals := []uint64{uint64(ptr)}
+	return h.Decode(ctx, wa, vals)
 }
 
 func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -174,7 +178,7 @@ func (h *stringHandler) doWriteString(ctx context.Context, wa langsupport.WasmAd
 // convertMoonBitUTF16ToUTF8 converts a wasm-encoded MoonBit UTF-16 String to a Go UTF-8 string.
 func convertMoonBitUTF16ToUTF8(data []byte) (string, error) {
 	codeUnits := make([]uint16, 0, len(data)/2)
-	for i := 0; i < len(data); i += 2 {
+	for i := 0; i+1 < len(data); i += 2 {
 		codeUnit := binary.LittleEndian.Uint16(data[i:])
 		codeUnits = append(codeUnits, codeUnit)
 	}
@@ -214,7 +218,7 @@ func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAda
 }
 
 func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, err error) {
-	memBlock, words, err := memoryBlockAtOffset(wa, offset)
+	memBlock, words, err := memoryBlockAtOffset(wa, offset, true)
 	if err != nil {
 		return nil, err
 	}

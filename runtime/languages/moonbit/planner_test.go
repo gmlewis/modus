@@ -14,10 +14,10 @@ import (
 	"log"
 	"testing"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/manifestdata"
 	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/hypermodeinc/modus/lib/manifest"
 
 	"github.com/stretchr/testify/assert"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -90,16 +90,16 @@ func TestGetPlan(t *testing.T) {
 		WithParameter("g~", "Array[Int]?", []int32{1, 2, 3})
 
 	md.FnExports.AddFunction("get_person").
-		WithResult("@testdata.Person")
+		WithResult("Person")
 
 	md.FnExports.AddFunction("list_people").
-		WithResult("Array[@testdata.Person]")
+		WithResult("Array[Person]")
 
 	md.FnExports.AddFunction("add_person").
-		WithParameter("person", "@testdata.Person")
+		WithParameter("person", "Person")
 
 	md.FnExports.AddFunction("get_product_map").
-		WithResult("Map[String,@testdata.Product]")
+		WithResult("Map[String,Product]")
 
 	md.FnExports.AddFunction("do_nothing")
 
@@ -107,9 +107,9 @@ func TestGetPlan(t *testing.T) {
 		WithParameter("a", "Int?").
 		WithParameter("b", "Array[Int?]").
 		WithParameter("c", "Array[Int]?").
-		WithParameter("d", "Array[@testdata.Person?]").
-		WithParameter("e", "Array[@testdata.Person]?").
-		WithResult("@testdata.Person?").
+		WithParameter("d", "Array[Person?]").
+		WithParameter("e", "Array[Person]?").
+		WithResult("Person?").
 		WithDocs(metadata.Docs{
 			Lines: []string{
 				"This function tests that options are working correctly",
@@ -119,13 +119,13 @@ func TestGetPlan(t *testing.T) {
 	md.Types.AddType("Int?")
 	md.Types.AddType("Array[Int?]")
 	md.Types.AddType("Array[Int]?")
-	md.Types.AddType("Array[@testdata.Person?]")
-	md.Types.AddType("Array[@testdata.Person]?")
-	md.Types.AddType("@testdata.Person?")
+	md.Types.AddType("Array[Person?]")
+	md.Types.AddType("Array[Person]?")
+	md.Types.AddType("Person?")
 	md.Types.AddType("String?")
-	md.Types.AddType("Array[@testdata.Address]")
+	md.Types.AddType("Array[Address]")
 	md.Types.AddType("Array[String]")
-	md.Types.AddType("Array[@testdata.Product]")
+	md.Types.AddType("Array[Product]")
 
 	// This should be excluded from the final schema
 	md.FnExports.AddFunction("my_embedder").
@@ -134,71 +134,71 @@ func TestGetPlan(t *testing.T) {
 
 	// Generated input object from the output object
 	md.FnExports.AddFunction("test_obj1").
-		WithParameter("obj", "@testdata.Obj1").
-		WithResult("@testdata.Obj1")
+		WithParameter("obj", "Obj1").
+		WithResult("Obj1")
 
-	md.Types.AddType("@testdata.Obj1").
+	md.Types.AddType("Obj1").
 		WithField("id", "Int").
 		WithField("name", "String")
 
 	// Separate input and output objects defined
 	md.FnExports.AddFunction("test_obj2").
-		WithParameter("obj", "@testdata.Obj2Input").
-		WithResult("@testdata.Obj2")
-	md.Types.AddType("@testdata.Obj2").
+		WithParameter("obj", "Obj2Input").
+		WithResult("Obj2")
+	md.Types.AddType("Obj2").
 		WithField("id", "Int").
 		WithField("name", "String")
-	md.Types.AddType("@testdata.Obj2Input").
+	md.Types.AddType("Obj2Input").
 		WithField("name", "String")
 
 	// Generated input object without output object
 	md.FnExports.AddFunction("test_obj3").
-		WithParameter("obj", "@testdata.Obj3")
-	md.Types.AddType("@testdata.Obj3").
+		WithParameter("obj", "Obj3")
+	md.Types.AddType("Obj3").
 		WithField("name", "String")
 
 	// Single input object defined without output object
 	md.FnExports.AddFunction("test_obj4").
-		WithParameter("obj", "@testdata.Obj4Input")
-	md.Types.AddType("@testdata.Obj4Input").
+		WithParameter("obj", "Obj4Input")
+	md.Types.AddType("Obj4Input").
 		WithField("name", "String")
 
 	// Test slice of pointers to structs
 	md.FnExports.AddFunction("test_obj5").
-		WithResult("Array[@testdata.Obj5?]")
-	md.Types.AddType("Array[@testdata.Obj5?]")
-	md.Types.AddType("@testdata.Obj5?")
-	md.Types.AddType("@testdata.Obj5").
+		WithResult("Array[Obj5?]")
+	md.Types.AddType("Array[Obj5?]")
+	md.Types.AddType("Obj5?")
+	md.Types.AddType("Obj5").
 		WithField("name", "String")
 
 	// Test slice of structs
 	md.FnExports.AddFunction("test_obj6").
-		WithResult("Array[@testdata.Obj6]")
-	md.Types.AddType("Array[@testdata.Obj6]")
-	md.Types.AddType("@testdata.Obj6").
+		WithResult("Array[Obj6]")
+	md.Types.AddType("Array[Obj6]")
+	md.Types.AddType("Obj6").
 		WithField("name", "String")
 
 	md.Types.AddType("Array[Int]")
 	md.Types.AddType("Array[Double]")
-	md.Types.AddType("Array[@testdata.Person]")
+	md.Types.AddType("Array[Person]")
 	md.Types.AddType("Map[String,String]")
-	md.Types.AddType("Map[String,@testdata.Product]")
+	md.Types.AddType("Map[String,Product]")
 
-	md.Types.AddType("@testdata.Company").
+	md.Types.AddType("Company").
 		WithField("name", "String")
 
-	md.Types.AddType("@testdata.Product").
+	md.Types.AddType("Product").
 		WithField("name", "String").
 		WithField("price", "Double").
-		WithField("manufacturer", "@testdata.Company").
-		WithField("components", "Array[@testdata.Product]")
+		WithField("manufacturer", "Company").
+		WithField("components", "Array[Product]")
 
-	md.Types.AddType("@testdata.Person").
+	md.Types.AddType("Person").
 		WithField("name", "String").
 		WithField("age", "Int").
-		WithField("addresses", "Array[@testdata.Address]")
+		WithField("addresses", "Array[Address]")
 
-	md.Types.AddType("@testdata.Address").
+	md.Types.AddType("Address").
 		WithField("street", "String", &metadata.Docs{
 			Lines: []string{
 				"Street that the user lives on",
@@ -212,7 +212,7 @@ func TestGetPlan(t *testing.T) {
 			},
 		}).
 		WithField("postalCode", "String").
-		WithField("location", "@testdata.Coordinates").
+		WithField("location", "Coordinates").
 		WithDocs(metadata.Docs{
 			Lines: []string{
 				"Address represents a physical address.",
@@ -221,12 +221,12 @@ func TestGetPlan(t *testing.T) {
 			},
 		})
 
-	md.Types.AddType("@testdata.Coordinates").
+	md.Types.AddType("Coordinates").
 		WithField("lat", "Double").
 		WithField("lon", "Double")
 
 	// This should be excluded from the final schema
-	md.Types.AddType("@testdata.Header").
+	md.Types.AddType("Header").
 		WithField("name", "String").
 		WithField("values", "Array[String]")
 

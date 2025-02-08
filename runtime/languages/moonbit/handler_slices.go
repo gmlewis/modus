@@ -54,7 +54,7 @@ type sliceHandler struct {
 }
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", offset, h.emptyValue)
+	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", debugShowOffset(offset), h.emptyValue)
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
 	// log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
@@ -94,7 +94,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	// note: capacity is not used here
 	// data, size := uint32(vals[0]), uint32(vals[1])
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
 	if err != nil {
 		return nil, err
 	}
@@ -107,9 +107,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	if numElements == 0 {
 		return h.emptyValue, nil // empty slice
 	}
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+	log.Printf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
 
-	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset)
+	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, true)
 	if err != nil {
 		return nil, err
 	}
@@ -233,6 +233,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 }
 
 func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint32, err error) {
+	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader(offset: %v)", debugShowOffset(offset))
 	if offset == 0 {
 		return 0, 0, 0, nil
 	}
@@ -244,11 +245,13 @@ func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint
 
 	data = uint32(val)
 	size = uint32(val >> 32)
+	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader: data=%v, size=%v", debugShowOffset(data), debugShowOffset(size))
 
-	capacity, ok = wa.Memory().ReadUint32Le(offset + 8)
+	capacity, ok = wa.Memory().ReadUint32Le(offset + 8) // TODO: THIS MAY NOT BE CORRECT FOR MOONBIT!
 	if !ok {
 		return 0, 0, 0, errors.New("failed to read slice capacity from WASM memory")
 	}
+	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader: capacity=%v - TODO!!!", debugShowOffset(capacity))
 
 	return data, size, capacity, nil
 }

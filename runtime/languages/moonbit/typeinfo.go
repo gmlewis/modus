@@ -649,9 +649,8 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 	}
 
 	if lti.IsStringType(typ) {
-		// string header is a 4 byte pointer and 4 byte length
-		log.Printf("GML: moonbit/typeinfo.go: E: GetSizeOfType('%v') = 8", typ)
-		return 8, nil
+		log.Printf("GML: moonbit/typeinfo.go: E: GetSizeOfType('%v') = 4", typ)
+		return 4, nil
 	}
 
 	if lti.IsOptionType(typ) {

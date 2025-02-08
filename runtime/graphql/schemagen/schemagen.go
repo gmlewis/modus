@@ -174,6 +174,10 @@ func transformFunctions(functions metadata.FunctionMap, inputTypeDefs, resultTyp
 	for _, name := range fnNames {
 		fn := functions[name]
 
+		if name == "person" || name == "people" {
+			log.Printf("GML: DEBUG BREAKPOINT")
+		}
+
 		args, err := convertParameters(fn.Parameters, lti, inputTypeDefs)
 		if err != nil {
 			errors = append(errors, &TransformError{fn, err})
