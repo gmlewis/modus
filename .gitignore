@@ -29,6 +29,7 @@ node_modules/
 # Ignore MoonBit directories
 target/
 .mooncakes/
+pull-and-push.sh
 
 # For now, our JS/TS/AS projects use NPM with package-lock.json files only.
 # Ignore lockfiles for other package managers.
