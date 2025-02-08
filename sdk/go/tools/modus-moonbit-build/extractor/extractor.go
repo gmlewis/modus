@@ -77,7 +77,10 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		resolvedName := name
 		if n, ok := t.(*types.Named); ok {
 			resolvedName = n.String()
-			t = n.Underlying()
+			underlying := n.Underlying()
+			if underlying != nil {
+				t = underlying
+			}
 		}
 
 		if s, ok := t.(*types.Struct); ok && !wellKnownTypes[name] {
@@ -87,59 +90,61 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			}
 			t.Id = id
 			meta.Types[name] = t
-			log.Printf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %#v\n", name, meta.Types[name])
+			log.Printf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
 		} else {
+			if name == "Person" || strings.HasPrefix(name, "TimeZoneInfo") {
+				log.Printf("GML: extractor.go: CollectProgramInfo: B: t: %T, meta.Types[%q] = {ID:%q,Name:%q}\n", t, name, id, name)
+			}
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,
 				Name: name,
 			}
-			log.Printf("GML: extractor.go: CollectProgramInfo: B: meta.Types[%q] = %#v\n", name, meta.Types[name])
 		}
 		id++
 	}
 
-	resolveForwardTypeRefs(meta)
+	// resolveForwardTypeRefs(meta)
 
 	return nil
 }
 
-func resolveForwardTypeRefs(meta *metadata.Metadata) {
-	processed := map[string]bool{}
-	for key, origTyp := range meta.Types {
-		if processed[key] {
-			continue
-		}
-		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)
-		if hasOption {
-			log.Printf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
-			if baseTyp, ok := meta.Types[baseTypeName]; ok {
-				if len(baseTyp.Fields) == 0 {
-					baseTyp.Fields = origTyp.Fields
-					processed[baseTypeName] = true
-					processed[key] = true
-					continue
-				}
-				if len(origTyp.Fields) == 0 {
-					origTyp.Fields = baseTyp.Fields
-					processed[baseTypeName] = true
-					processed[key] = true
-				}
-			}
-			continue
-		}
-		optionTypeName := key + "?"
-		if optionTyp, ok := meta.Types[optionTypeName]; ok {
-			if len(optionTyp.Fields) == 0 {
-				optionTyp.Fields = origTyp.Fields
-				processed[optionTypeName] = true
-				processed[key] = true
-				continue
-			}
-			if len(origTyp.Fields) == 0 {
-				origTyp.Fields = optionTyp.Fields
-				processed[optionTypeName] = true
-				processed[key] = true
-			}
-		}
-	}
-}
+// func resolveForwardTypeRefs(meta *metadata.Metadata) {
+// 	processed := map[string]bool{}
+// 	for key, origTyp := range meta.Types {
+// 		if processed[key] {
+// 			continue
+// 		}
+// 		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)
+// 		if hasOption {
+// 			log.Printf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
+// 			if baseTyp, ok := meta.Types[baseTypeName]; ok {
+// 				if len(baseTyp.Fields) == 0 {
+// 					baseTyp.Fields = origTyp.Fields
+// 					processed[baseTypeName] = true
+// 					processed[key] = true
+// 					continue
+// 				}
+// 				if len(origTyp.Fields) == 0 {
+// 					origTyp.Fields = baseTyp.Fields
+// 					processed[baseTypeName] = true
+// 					processed[key] = true
+// 				}
+// 			}
+// 			continue
+// 		}
+// 		optionTypeName := key + "?"
+// 		if optionTyp, ok := meta.Types[optionTypeName]; ok {
+// 			if len(optionTyp.Fields) == 0 {
+// 				optionTyp.Fields = origTyp.Fields
+// 				processed[optionTypeName] = true
+// 				processed[key] = true
+// 				continue
+// 			}
+// 			if len(origTyp.Fields) == 0 {
+// 				origTyp.Fields = optionTyp.Fields
+// 				processed[optionTypeName] = true
+// 				processed[key] = true
+// 			}
+// 		}
+// 	}
+// }

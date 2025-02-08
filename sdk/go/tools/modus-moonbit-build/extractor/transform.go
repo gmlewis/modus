@@ -22,12 +22,15 @@ import (
 )
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {
-	if s == nil {
-		log.Printf("GML: extractor/transform.go: transformStruct(name=%q, s=nil)", name)
-		return nil
-	}
+	// if s == nil {
+	// 	log.Printf("GML: extractor/transform.go: transformStruct(name=%q, s=nil)", name)
+	// 	return nil
+	// }
 
-	structDecl, structType := getStructDeclarationAndType(name, pkgs)
+	structDecl, structType, typesStruct := getStructDeclarationAndType(name, pkgs)
+	if typesStruct != nil {
+		s = typesStruct // yeah, confusing. This is the *types.Struct to get the fields.
+	}
 
 	var structDocs *metadata.Docs
 	if structDecl != nil && structDecl.Doc != nil {
@@ -57,7 +60,8 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 	}
 }
 
-func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package) *metadata.Function {
+func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Package) *metadata.Function {
+	f := fpkg.fn
 	if f == nil {
 		log.Printf("GML: extractor/transform.go: transformFunc(name=%q, f=nil)", name)
 		return nil
@@ -111,17 +115,37 @@ func transformFunc(name string, f *types.Func, pkgs map[string]*packages.Package
 	return &ret
 }
 
-func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package) (*ast.GenDecl, *ast.StructType) {
+func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package) (*ast.GenDecl, *ast.StructType, *types.Struct) {
 	name, _, _ = utils.StripErrorAndOption(name)
 	objName := name[strings.LastIndex(name, ".")+1:]
 	pkgNames := utils.GetPackageNamesForType(name)
 	if len(pkgNames) == 0 {
-		log.Printf("PROGRAMMING ERROR: extractor/transform.go: getStructDeclarationAndType(name=%q): pkgNames is empty", name)
-		for pkgName := range pkgs {
-			log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
+		// This struct does not have a package name, therefore it should be in the main package. Find it.
+		typ, _, _ := utils.StripErrorAndOption(objName)
+		for pkgName, pkg := range pkgs {
+			log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): looking at pkgs[%q]", name, pkgName)
+			if typeSpec, ok := pkg.StructLookup[typ]; ok {
+				if structType, ok := typeSpec.Type.(*ast.StructType); ok {
+					log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): FOUND: p.StructLookup[%q]=%p", name, typ, typeSpec)
+					customType, ok := pkg.TypesInfo.Defs[typeSpec.Name]
+					if !ok {
+						log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
+					}
+					underlying := customType.Type().Underlying()
+					typesStruct, ok := underlying.(*types.Struct)
+					if !ok {
+						log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
+					}
+					genDecl := findGenDeclForTypeSpecName(pkg.Syntax, typeSpec.Name.Name)
+					return genDecl, structType, typesStruct
+				}
+			}
 		}
-		return nil, nil
+		// The struct is not found.
+		log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg not found!", name)
+		return nil, nil, nil
 	}
+
 	pkgName := pkgNames[0]
 	pkg := pkgs[pkgName]
 	if pkg == nil {
@@ -129,8 +153,10 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 		for pkgName := range pkgs {
 			log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
 		}
-		return nil, nil
+		return nil, nil, nil
 	}
+
+	// TODO: Is the following still necessary with the StructLookup table?
 
 	for _, file := range pkg.Syntax {
 		for _, decl := range file.Decls {
@@ -139,20 +165,27 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 					if typeSpec, ok := spec.(*ast.TypeSpec); ok {
 						if typeSpec.Name.Name == objName || typeSpec.Name.Name == name {
 							if structType, ok := typeSpec.Type.(*ast.StructType); ok {
-								log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): A", name)
-								return genDecl, structType
+								// // Make sure we use the complete struct definition with all its fields and not an empty forward reference.
+								// if fullTypeSpec, ok := pkg.StructLookup[typeSpec.Name.Name]; ok {
+								// 	if fullStructType, ok := fullTypeSpec.Type.(*ast.StructType); ok {
+								// 		log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): Z: fullStructType=%#v", name, fullStructType)
+								// 		return genDecl, fullStructType
+								// 	}
+								// }
+								log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): A", name)
+								return genDecl, structType, nil
 							} else if ident, ok := typeSpec.Type.(*ast.Ident); ok {
 								typePath := pkgName + "." + ident.Name
-								log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
+								log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
 								return getStructDeclarationAndType(typePath, pkgs)
 							} else if selExp, ok := typeSpec.Type.(*ast.SelectorExpr); ok {
 								if pkgIdent, ok := selExp.X.(*ast.Ident); !ok {
-									log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): C", name)
-									return nil, nil
+									log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): C", name)
+									return nil, nil, nil
 								} else {
 									pkgPath := getFullImportPath(file, pkgIdent.Name)
 									typePath := pkgPath + "." + selExp.Sel.Name
-									log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
+									log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
 									return getStructDeclarationAndType(typePath, pkgs)
 								}
 							}
@@ -163,7 +196,24 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 		}
 	}
 
-	return nil, nil
+	return nil, nil, nil
+}
+
+func findGenDeclForTypeSpecName(files []*ast.File, typeSpecName string) *ast.GenDecl {
+	for _, file := range files {
+		for _, decl := range file.Decls {
+			if genDecl, ok := decl.(*ast.GenDecl); ok && genDecl.Tok == token.TYPE {
+				for _, spec := range genDecl.Specs {
+					if ts, ok := spec.(*ast.TypeSpec); ok {
+						if ts.Name.Name == typeSpecName {
+							return genDecl
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil
 }
 
 func getFullImportPath(file *ast.File, pkgName string) string {

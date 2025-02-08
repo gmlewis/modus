@@ -94,9 +94,10 @@ func GetNameForType(t string, imports map[string]string) string {
 }
 
 func GetPackageNamesForType(t string) []string {
-	t, _ = StripError(t)
+	var hasOption bool
+	t, _, hasOption = StripErrorAndOption(t)
 
-	if IsOptionType(t) {
+	if hasOption {
 		return GetPackageNamesForType(GetUnderlyingType(t))
 	}
 
@@ -123,6 +124,7 @@ func GetPackageNamesForType(t string) []string {
 		return pkgs
 	}
 
+	// This is needed to find the package names of all fully-qualified struct types.
 	if i := strings.LastIndex(t, "."); i != -1 { // "@..Type" => "@."
 		return []string{t[:i]}
 	}

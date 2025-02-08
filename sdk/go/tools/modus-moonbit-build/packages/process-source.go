@@ -95,15 +95,49 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 			Specs: []ast.Spec{typeSpec},
 		}
 
+		// This is the new `types.Struct` with the new fields added.
 		decls = append(decls, decl)
 		underlying := types.NewStruct(fieldVars, nil)
 		namedType := types.NewTypeName(0, nil, name, underlying) // Do NOT add typesPkg.
+
+		// // In Go, the `types.Struct` type is immutable, meaning that all old references
+		// // to an underlying `*types.Struct` need to be replaced with a pointer to a
+		// // new `*types.Struct` that has the new fields added.
+		// if emptyTypeSpec, ok := p.StructLookup[typeSpec.Name.Name]; ok {
+		// 	if emptyNamedType, ok := p.TypesInfo.Defs[emptyTypeSpec.Name].(*types.TypeName); ok {
+		// 		emptyStruct, ok := emptyNamedType.Type().Underlying().(*types.Struct)
+		// 		if ok {
+		// 			log.Printf("GML: processPubStructs: updating existing struct: emptyNamedType: %p, emptyStruct: %p, emptyTypeSpec: %p, namedType: %p, typeSpec: %p", emptyNamedType, emptyStruct, emptyTypeSpec, namedType, typeSpec)
+		// 			// Now we have found the old, empty struct. Find all references to it and replace them.
+		// 			p.replaceEmptyStructReferences(emptyNamedType, emptyTypeSpec, emptyStruct, namedType, typeSpec)
+		// 		} else {
+		// 			log.Printf("PROGRAMMING ERROR: expected *types.Struct, got %T", emptyNamedType.Type().Underlying())
+		// 		}
+		// 	} else {
+		// 		log.Printf("PROGRAMMING ERROR: expected *types.TypeName, got %T", p.TypesInfo.Defs[emptyTypeSpec.Name])
+		// 	}
+		// }
+
+		log.Printf("GML: packages/process-source.go: processPubStructs: CREATING OFFICIAL Struct type: p.StructLookup[%q]=%p, underlying: %+v", typeSpec.Name.Name, typeSpec, underlying)
 		p.TypesInfo.Defs[typeSpec.Name] = namedType
 		p.StructLookup[typeSpec.Name.Name] = typeSpec
 	}
 
 	return decls
 }
+
+// func (p *Package) replaceEmptyStructReferences(emptyNamedType *types.TypeName, emptyTypeSpec *ast.TypeSpec, emptyStruct *types.Struct, namedType *types.TypeName, typeSpec *ast.TypeSpec) {
+// 	for typeSpecName, nt := range p.TypesInfo.Defs {
+// 		if oldStruct, ok := nt.Type().Underlying().(*types.Struct); ok {
+// 			if oldStruct != emptyStruct {
+// 				continue
+// 			}
+// 			log.Printf("GML: packages/process-source.go: replaceEmptyStructReferences: typeSpecName: %v, typeSpecName: %p, nt: %p, oldStruct: %p", typeSpecName.Name, typeSpecName, nt, oldStruct)
+// 			p.TypesInfo.Defs[typeSpecName] = namedType
+// 			p.StructLookup[typeSpecName.Name] = typeSpec
+// 		}
+// 	}
+// }
 
 func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
@@ -331,6 +365,7 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 				return types.NewNamed(customType, underlying, nil)
 			}
 			fullCustomType := types.NewTypeName(0, nil, typeSignature, nil) // do NOT add typesPkg to custom types!
+			log.Printf("GML: packages/process-source.go: checkCustomMoonBitType: FOUND FULLY-SPECIFIED Struct DEFINITION for p.StructLookup[%q]=%p: underlying: %+v", typ, typeSpec, underlying)
 			return types.NewNamed(fullCustomType, underlying, nil)
 		}
 		log.Printf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): typ '%v' missing from p.TypesInfo.Defs", typeSignature, typ)
@@ -338,8 +373,22 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 
 	if utils.IsStructType(typ) {
 		// This could possibly be a forward reference or a recursive reference within a struct.
-		fullCustomType := types.NewTypeName(0, nil, typeSignature, nil)
-		return types.NewNamed(fullCustomType, nil, nil)
+		// Create an entry for it and point to it as the underlying type.
+		// Its fields will be filled in later.
+		underlying := types.NewStruct(nil, nil)
+		customType := types.NewTypeName(0, nil, typ, underlying) // do NOT add typesPkg to custom types!
+		typeSpec := &ast.TypeSpec{Name: &ast.Ident{Name: typ}}
+		log.Printf("GML: packages/process-source.go: checkCustomMoonBitType: CREATING FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", typ, typeSpec)
+		p.StructLookup[typ] = typeSpec
+		p.TypesInfo.Defs[typeSpec.Name] = customType
+		if typ == typeSignature {
+			return types.NewNamed(customType, underlying, nil)
+		}
+		log.Printf("GML: packages/process-source.go: checkCustomMoonBitType: CREATING FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", typeSignature, typeSpec)
+		p.StructLookup[typeSignature] = typeSpec
+		p.TypesInfo.Defs[typeSpec.Name] = customType
+		fullCustomType := types.NewTypeName(0, nil, typeSignature, underlying)
+		return types.NewNamed(fullCustomType, underlying, nil)
 	}
 
 	return resultType

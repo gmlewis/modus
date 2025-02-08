@@ -45,8 +45,13 @@ func getFuncDeclaration(fn *types.Func, pkgs map[string]*packages.Package) *ast.
 	return nil
 }
 
-func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*types.Func {
-	results := make(map[string]*types.Func)
+type funcWithPkg struct {
+	fn  *types.Func
+	pkg *packages.Package
+}
+
+func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*funcWithPkg {
+	results := make(map[string]*funcWithPkg)
 	for _, pkg := range pkgs {
 		for _, file := range pkg.Syntax {
 			for _, decl := range file.Decls {
@@ -56,7 +61,7 @@ func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*types.F
 					}
 					if name := getExportedFuncName(fd); name != "" {
 						if f, ok := pkg.TypesInfo.Defs[fd.Name].(*types.Func); ok {
-							results[name] = f
+							results[name] = &funcWithPkg{fn: f, pkg: pkg}
 						}
 					}
 				}
@@ -66,15 +71,15 @@ func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*types.F
 	return results
 }
 
-func getProxyImportFunctions(pkgs map[string]*packages.Package) map[string]*types.Func {
-	results := make(map[string]*types.Func)
+func getProxyImportFunctions(pkgs map[string]*packages.Package) map[string]*funcWithPkg {
+	results := make(map[string]*funcWithPkg)
 	for _, pkg := range pkgs {
 		for _, file := range pkg.Syntax {
 			for _, decl := range file.Decls {
 				if fd, ok := decl.(*ast.FuncDecl); ok {
 					if name := getProxyImportFuncName(fd); name != "" {
 						if f, ok := pkg.TypesInfo.Defs[fd.Name].(*types.Func); ok {
-							results[name] = f
+							results[name] = &funcWithPkg{fn: f, pkg: pkg}
 						}
 					}
 				}
@@ -84,8 +89,8 @@ func getProxyImportFunctions(pkgs map[string]*packages.Package) map[string]*type
 	return results
 }
 
-func getImportedFunctions(pkgs map[string]*packages.Package) map[string]*types.Func {
-	results := make(map[string]*types.Func)
+func getImportedFunctions(pkgs map[string]*packages.Package) map[string]*funcWithPkg {
+	results := make(map[string]*funcWithPkg)
 	for _, pkg := range pkgs {
 		for _, file := range pkg.Syntax {
 			for _, decl := range file.Decls {
@@ -94,7 +99,7 @@ func getImportedFunctions(pkgs map[string]*packages.Package) map[string]*types.F
 						if f, ok := pkg.TypesInfo.Defs[fd.Name].(*types.Func); ok {
 							// we only care about imported modus host functions
 							if strings.HasPrefix(name, "modus_") {
-								results[name] = f
+								results[name] = &funcWithPkg{fn: f, pkg: pkg}
 							}
 						}
 					}
@@ -145,20 +150,22 @@ func getProxyImportFuncName(fn *ast.FuncDecl) string {
 	return ""
 }
 
-func findRequiredTypes(f *types.Func, m map[string]types.Type) {
+func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
+	f := fpkg.fn
+	pkg := fpkg.pkg
 	sig := f.Type().(*types.Signature)
 
 	if params := sig.Params(); params != nil {
 		for i := 0; i < params.Len(); i++ {
 			t := params.At(i).Type()
-			addRequiredTypes(t, m)
+			addRequiredTypes(t, m, pkg)
 		}
 	}
 
 	if results := sig.Results(); results != nil {
 		for i := 0; i < results.Len(); i++ {
 			t := results.At(i).Type()
-			addRequiredTypes(t, m)
+			addRequiredTypes(t, m, pkg)
 		}
 	}
 }
@@ -173,7 +180,7 @@ func hackStripEmptyPackage(typ string) string {
 	return typ
 }
 
-func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
+func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Package) bool {
 	name := hackStripEmptyPackage(t.String())
 
 	// prevent infinite recursion
@@ -220,9 +227,19 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 		u := t.Underlying()
 		// Hack to make a tuple appear to have an underlying struct type for the metadata:
 		if u == nil {
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%#v", t.Obj().Type(), t.Obj().Type())
+			log.Printf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
 			if s, ok := t.Obj().Type().(*types.Struct); ok {
 				u = s
+			} else {
+				log.Printf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
+				if typeSpec, ok := pkg.StructLookup[name]; ok {
+					if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+						u = customType.Type().Underlying()
+						log.Printf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
+					} else {
+						log.Printf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
+					}
+				}
 			}
 		}
 		m[name] = u
@@ -279,38 +296,38 @@ func addRequiredTypes(t types.Type, m map[string]types.Type) bool {
 
 		if s, ok := u.(*types.Struct); ok {
 			for i := 0; i < s.NumFields(); i++ {
-				addRequiredTypes(s.Field(i).Type(), m)
+				addRequiredTypes(s.Field(i).Type(), m, pkg)
 			}
 		}
 
 		return true
 
 	case *types.Pointer:
-		if addRequiredTypes(t.Elem(), m) {
+		if addRequiredTypes(t.Elem(), m, pkg) {
 			m[name] = t
 			return true
 		}
 	case *types.Struct:
 		// TODO: handle unnamed structs
 	case *types.Slice:
-		if addRequiredTypes(t.Elem(), m) {
+		if addRequiredTypes(t.Elem(), m, pkg) {
 			m[name] = t
 			return true
 		}
 	case *types.Array:
-		if addRequiredTypes(t.Elem(), m) {
+		if addRequiredTypes(t.Elem(), m, pkg) {
 			m[name] = t
 			return true
 		}
 	case *types.Map:
 		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: A")
-		if addRequiredTypes(t.Key(), m) {
+		if addRequiredTypes(t.Key(), m, pkg) {
 			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: B")
-			if addRequiredTypes(t.Elem(), m) {
+			if addRequiredTypes(t.Elem(), m, pkg) {
 				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: C")
-				if addRequiredTypes(types.NewSlice(t.Key()), m) {
+				if addRequiredTypes(types.NewSlice(t.Key()), m, pkg) {
 					log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: D")
-					if addRequiredTypes(types.NewSlice(t.Elem()), m) {
+					if addRequiredTypes(types.NewSlice(t.Elem()), m, pkg) {
 						log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: m[%q]=%T", name, t)
 						m[name] = t
 						return true
