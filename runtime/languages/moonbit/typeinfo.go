@@ -33,7 +33,7 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 	// When an "...!Error" is the return type, two values are returned.
 	// The first value is 0 on failure, and the second value is the actual return type.
 	result, err := langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
-	log.Printf("GML: moonbit/typeinfo.go: GetTypeInfo('%v') = %v, err=%v", typeName, result, err)
+	log.Printf("GML: moonbit/typeinfo.go: GetTypeInfo('%v') = %+v, err=%v", typeName, result, err)
 	return result, err
 }
 
@@ -485,8 +485,14 @@ func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint3
 }
 
 func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (uint32, error) {
-	typ, _, _ = stripErrorAndOption(typ)
+	var hasOption bool
+	typ, _, hasOption = stripErrorAndOption(typ)
 	// reference: https://github.com/tinygo-org/tinygo/blob/release/compiler/sizes.go
+
+	if hasOption {
+		log.Printf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v?') = 4", typ)
+		return 4, nil
+	}
 
 	// primitives align to their natural size
 	if lti.IsPrimitiveType(typ) {
@@ -505,7 +511,7 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 
 	// reference types align to the pointer size (4 bytes on 32-bit wasm)
 	// if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
-	if lti.IsOptionType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
+	if lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
 		log.Printf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
 		return 4, nil
 	}
@@ -552,15 +558,20 @@ func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uin
 }
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
-	var hasError bool
-	typ, hasError, _ = stripErrorAndOption(typ)
+	var hasError, hasOption bool
+	typ, hasError, hasOption = stripErrorAndOption(typ)
 	var errorSize uint32
 	if hasError {
 		errorSize = 1
 	}
 
+	if hasOption {
+		log.Printf("GML: moonbit/typeinfo.go: GetEncodingLengthOfType('%v?') = 4 + errorSize=%v", typ, errorSize)
+		return 4 + errorSize, nil
+	}
+
 	// if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
-	if lti.IsPrimitiveType(typ) || lti.IsOptionType(typ) || lti.IsMapType(typ) {
+	if lti.IsPrimitiveType(typ) || lti.IsMapType(typ) {
 		log.Printf("GML: moonbit/typeinfo.go: A: GetEncodingLengthOfType('%v') = 1 + errorSize=%v", typ, errorSize)
 		return 1 + errorSize, nil
 	} else if lti.IsStringType(typ) {
@@ -625,8 +636,13 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 }
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
-	var hasError bool
-	typ, hasError, _ = stripErrorAndOption(typ) // TODO: Add size of error here?
+	var hasError, hasOption bool
+	typ, hasError, hasOption = stripErrorAndOption(typ) // TODO: Add size of error here?
+
+	if hasOption {
+		log.Printf("GML: moonbit/typeinfo.go: F: GetSizeOfType('%v?') = 4", typ)
+		return 4, nil
+	}
 
 	if typ == "Unit" || hasError {
 		log.Printf("GML: moonbit/typeinfo.go: GetSizeOfType('Unit!Error') = 1")
@@ -652,16 +668,6 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 		log.Printf("GML: moonbit/typeinfo.go: E: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
-
-	if lti.IsOptionType(typ) {
-		log.Printf("GML: moonbit/typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
-		return 4, nil
-	}
-
-	// if lti.IsPointerType(typ) {
-	// 	log.Printf("GML: moonbit/typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
-	// 	return 4, nil
-	// }
 
 	if lti.IsMapType(typ) {
 		// maps are passed by reference using a 4 byte pointer
@@ -705,7 +711,7 @@ func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*me
 		typ, _, _ = stripErrorAndOption(typ) // try locating the type without the error or option suffix
 		result, err = md.GetTypeDefinition(typ)
 	}
-	log.Printf("GML: moonbit/typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)
+	log.Printf("GML: moonbit/typeinfo.go: GetTypeDefinition('%v') = %+v, err=%v", typ, result, err)
 	return result, err
 }
 

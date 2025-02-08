@@ -233,6 +233,15 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
+	if strings.HasPrefix(h.typeInfo.Name(), "(") {
+		// Handle tuple output
+		result := make([]any, 0, len(data))
+		for i := 0; i < len(data); i++ {
+			result = append(result, data[fmt.Sprintf("%v", i)])
+		}
+		return result, nil
+	}
+
 	rt := h.typeInfo.ReflectedType()
 	if rt.Kind() == reflect.Map {
 		return data, nil
