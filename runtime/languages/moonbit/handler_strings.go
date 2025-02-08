@@ -41,6 +41,13 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return "", nil
 	}
 
+	// TODO: How do we know if Read should directly intpret the offset as pointing to the String itself
+	// (as in a sliceHandler) or if it should interpret the offset the address of the String (as in a structHandler)?
+	// For now, first attempt to decode the offset as a string, and if that doesn't work, interpret it as a pointer to a string.
+	if s, err := h.Decode(ctx, wa, []uint64{uint64(offset)}); err == nil {
+		return s, nil
+	}
+
 	// Read pointer to MoonBit String
 	ptr, ok := wa.Memory().ReadUint32Le(offset)
 	if !ok {
@@ -229,6 +236,9 @@ func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte,
 }
 
 func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err error) {
+	if memBlock[4] != StringBlockType {
+		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, memBlock[4])
+	}
 	remainderOffset := words*4 + 7
 	remainder := uint32(3 - memBlock[remainderOffset]%4)
 	size := (words-1)*4 + remainder

@@ -31,6 +31,10 @@ var moonBitBlockType = map[byte]string{
 	246: "FixedArray[Byte]",
 }
 
+const (
+	StringBlockType = 243
+)
+
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
 		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
