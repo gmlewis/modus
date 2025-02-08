@@ -413,17 +413,23 @@
           "errors": [
             {
               "message": "This is an error message.",
-              "path": [
-                "test_logging"
-              ]
+              "path": ["test_logging"]
             },
             {
               "message": "This is line 1 of a multi-line error message.\nThis is line 2 of a multi-line error message.\nThis is line 3 of a multi-line error message.",
-              "path": [
-                "test_logging"
-              ]
+              "path": ["test_logging"]
             }
           ]
+        },
+        {
+          "name": "test_tuple_output",
+          "query": {"query":"query {\n  test_tuple_output {\n    t0\n    t1\n    t2\n  }\n}","variables":{}},
+          "expect": {"t0":123,"t1":true,"t2":"hello"}
+        },
+        {
+          "name": "test_tuple_simulator",
+          "query": {"query":"query {\n  test_tuple_simulator {\n    t0\n    t1\n    t2\n  }\n}","variables":{}},
+          "expect": {"t0":123,"t1":true,"t2":"hello"}
         }
       ]
     }
