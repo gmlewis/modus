@@ -192,6 +192,10 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 	}
 }
 
+func (lti *langTypeInfo) IsErrorType(typ string) (string, bool) { return typ, false }
+func (lti *langTypeInfo) IsTupleType(typ string) bool           { return false }
+func (lti *langTypeInfo) GetTupleSubtypes(typ string) []string  { return nil }
+
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
 	switch typ {
 	case "u64", "i64", "f64":

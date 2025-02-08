@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -v ./... -run ^Test_GetGraphQLSchema_MoonBit$"; -*-
+// -*- compile-command: "go test ./... -run ^Test_GetGraphQLSchema_MoonBit$"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -249,6 +249,9 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 		WithParameter("tz", "String").
 		WithResult("@testdata.TimeZoneInfo!Error")
 
+	md.FnExports.AddFunction("get_tuple_output").
+		WithResult("(Int, Bool, String)")
+
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
 		t.Fatal(err)
@@ -284,6 +287,7 @@ type Query {
   time_in_zone(tz: String!): String!
   time_zone_info(tz: String!): TimeZoneInfo!
   transform(items: [StringStringPairInput!]!): [StringStringPair!]!
+  tuple_output: [IntBooleanStringTuple!]!
   utc_time: Timestamp!
 }
 
@@ -376,6 +380,12 @@ type Company {
 type Coordinates {
   lat: Float!
   lon: Float!
+}
+
+type IntBooleanStringTuple {
+  t0: Int!
+  t1: Boolean!
+  t2: String!
 }
 
 type Obj1 {

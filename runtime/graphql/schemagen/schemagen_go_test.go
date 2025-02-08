@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -v ./... -run ^Test_GetGraphQLSchema_Go"; -*-
+// -*- compile-command: "go test ./... -run ^Test_GetGraphQLSchema_Go"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

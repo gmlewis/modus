@@ -28,8 +28,8 @@ var simpleExampleMetadataJSON []byte
 func TestAllTestDataIsIdentical(t *testing.T) {
 	t.Parallel()
 
-	compareTwo(t, codegenTestData, metagenTestData)
-	compareTwo(t, codegenTestData, packagesTestData)
+	compareTwoTestSetups(t, codegenTestData, metagenTestData)
+	compareTwoTestSetups(t, codegenTestData, packagesTestData)
 
 	// Also test that the generated JSON in the metadata/testdata dir is up-to-date:
 	var metaJSON *metadata.Metadata
@@ -72,7 +72,7 @@ func TestAllTestDataIsIdentical(t *testing.T) {
 	}
 }
 
-func compareTwo(t *testing.T, a, b *testData) {
+func compareTwoTestSetups(t *testing.T, a, b *testData) {
 	t.Helper()
 
 	if diff := cmp.Diff(a.simpleExample, b.simpleExample); diff != "" {

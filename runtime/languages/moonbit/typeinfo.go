@@ -400,6 +400,53 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 	return result
 }
 
+func (lti *langTypeInfo) IsErrorType(typ string) (string, bool) {
+	if i := strings.Index(typ, "!"); i >= 0 {
+		return typ[:i], true
+	}
+	return typ, false
+}
+
+func (lti *langTypeInfo) IsTupleType(typ string) bool {
+	return strings.HasPrefix(typ, "(")
+}
+
+func (lti *langTypeInfo) GetTupleSubtypes(typ string) []string {
+	typ = typ[1 : len(typ)-1]
+	return splitParamsWithBrackets(typ)
+}
+
+// TODO: DRY - copied from sdk/go/tools/modus-moonbit-build/packages/parse-params.go
+func splitParamsWithBrackets(allArgs string) []string {
+	var result []string
+	var n int     // count bracket pairs
+	var start int // start of current arg
+	for i := 0; i < len(allArgs); i++ {
+		switch allArgs[i] {
+		case '[':
+			n++
+		case ']':
+			n--
+		case ',':
+			if n == 0 {
+				arg := strings.TrimSpace(allArgs[start:i])
+				if arg != "" {
+					result = append(result, arg)
+				}
+				start = i + 1
+			}
+		}
+	}
+	if start < len(allArgs) {
+		arg := strings.TrimSpace(allArgs[start:])
+		if arg != "" {
+			result = append(result, arg)
+		}
+	}
+
+	return result
+}
+
 // FixedArrays in MoonBit do not declare their size.
 func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
 	log.Printf("PROGRAMMING ERROR: GML: moonbit/typeinfo.go: ArrayLength('%v'): Bad array type!", typ)

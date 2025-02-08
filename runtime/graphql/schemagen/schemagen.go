@@ -29,6 +29,7 @@ type GraphQLSchema struct {
 	Schema            string
 	FieldsToFunctions map[string]string
 	MapTypes          []string
+	TupleTypes        []string
 }
 
 func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchema, error) {
@@ -60,9 +61,13 @@ func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchem
 	writeSchema(&buf, root, scalarTypes, inputTypes, resultTypes)
 
 	mapTypes := make([]string, 0, len(resultTypeDefs))
+	tupleTypes := make([]string, 0, len(resultTypeDefs))
 	for _, t := range resultTypeDefs {
 		if t.IsMapType {
 			mapTypes = append(mapTypes, t.Name)
+		}
+		if t.IsTupleType {
+			tupleTypes = append(tupleTypes, t.Name)
 		}
 	}
 
@@ -75,6 +80,7 @@ func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchem
 		Schema:            buf.String(),
 		FieldsToFunctions: fieldsToFunctions,
 		MapTypes:          mapTypes,
+		TupleTypes:        tupleTypes,
 	}, nil
 }
 
@@ -142,10 +148,11 @@ type FieldDefinition struct {
 }
 
 type TypeDefinition struct {
-	Name      string
-	Fields    []*FieldDefinition
-	IsMapType bool
-	DocLines  []string
+	Name        string
+	Fields      []*FieldDefinition
+	IsMapType   bool
+	IsTupleType bool
+	DocLines    []string
 }
 
 type ArgumentDefinition struct {
@@ -173,10 +180,6 @@ func transformFunctions(functions metadata.FunctionMap, inputTypeDefs, resultTyp
 	sort.Strings(fnNames)
 	for _, name := range fnNames {
 		fn := functions[name]
-
-		if name == "person" || name == "people" {
-			log.Printf("GML: DEBUG BREAKPOINT")
-		}
 
 		args, err := convertParameters(fn.Parameters, lti, inputTypeDefs)
 		if err != nil {
@@ -571,15 +574,16 @@ func convertFields(fields []*metadata.Field, lti langsupport.LanguageTypeInfo, t
 }
 
 func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[string]*TypeDefinition, firstPass, forInput bool) (string, error) {
-	// Strip MoonBit error type suffix:
-	if i := strings.Index(typ, "!"); i >= 0 {
-		typ = typ[:i]
+	log.Printf("GML: schemagen.go: ENTER convertType: typ='%v'", typ)
+	if underlyingType, ok := lti.IsErrorType(typ); ok {
+		typ = underlyingType
 	}
 
-	log.Printf("GML: schemagen.go: ENTER convertType: typ='%v'", typ)
-	// Unwrap parentheses if present
-	if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
-		return convertType(typ[1:len(typ)-1], lti, typeDefs, firstPass, forInput)
+	if !lti.IsTupleType(typ) {
+		// Unwrap parentheses if present
+		if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
+			return convertType(typ[1:len(typ)-1], lti, typeDefs, firstPass, forInput)
+		}
 	}
 
 	// Set the nullable flag.
@@ -667,6 +671,52 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		}
 		log.Printf("GML: schemagen.go: convertType: J: typ='%v'", typ)
 		return "[" + t + "]" + n, nil
+	}
+
+	if lti.IsTupleType(typ) {
+		subTypes := lti.GetTupleSubtypes(typ)
+		tts := make([]string, 0, len(subTypes))
+		ttns := make([]string, 0, len(subTypes))
+		fields := make([]*FieldDefinition, 0, len(subTypes))
+		for i, subType := range subTypes {
+			tt, err := convertType(subType, lti, typeDefs, firstPass, forInput)
+			if err != nil {
+				return "", err
+			}
+			tts = append(tts, tt)
+
+			var ttn string
+			if strings.HasSuffix(tt, "!") {
+				ttn = tt[:len(tt)-1]
+			} else if tt[0] == '[' {
+				ttn = "[Nullable" + tt[1:]
+			} else {
+				ttn = "Nullable" + tt
+			}
+			if ttn[0] == '[' {
+				t := ttn[1 : len(ttn)-2]
+				if forInput {
+					t = strings.TrimSuffix(t, "Input")
+				}
+				ttn = t + "List"
+			} else if forInput {
+				ttn = strings.TrimSuffix(ttn, "Input")
+			}
+			ttns = append(ttns, ttn)
+			fields = append(fields, &FieldDefinition{Name: fmt.Sprintf("t%v", i), Type: tt})
+		}
+
+		typeName := strings.Join(ttns, "") + "Tuple"
+		if forInput {
+			typeName += "Input"
+		}
+
+		newTupleType(typeName, fields, typeDefs)
+
+		// The tuple is represented as a map.
+		// e.g. IntBoolStringTuple! or IntBoolStringTupleInput!
+		log.Printf("GML: schemagen.go: convertType: K: typ='%v'", typ)
+		return typeName + n, nil
 	}
 
 	// check for map types
@@ -787,6 +837,17 @@ func newMapType(name string, fields []*FieldDefinition, typeDefs map[string]*Typ
 			Name:      name,
 			Fields:    fields,
 			IsMapType: true,
+		}
+	}
+	return name
+}
+
+func newTupleType(name string, fields []*FieldDefinition, typeDefs map[string]*TypeDefinition) string {
+	if _, ok := typeDefs[name]; !ok {
+		typeDefs[name] = &TypeDefinition{
+			Name:        name,
+			Fields:      fields,
+			IsTupleType: true,
 		}
 	}
 	return name

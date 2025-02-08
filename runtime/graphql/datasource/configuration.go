@@ -17,4 +17,5 @@ type HypDSConfig struct {
 	WasmHost          wasmhost.WasmHost
 	FieldsToFunctions map[string]string
 	MapTypes          []string
+	TupleTypes        []string
 }

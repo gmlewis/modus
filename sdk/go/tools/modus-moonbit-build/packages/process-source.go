@@ -299,10 +299,6 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (paramsList []*ast.Field, paramsVars []*types.Var) {
 	allArgParts := splitParamsWithBrackets(allArgs)
 	for _, arg := range allArgParts {
-		arg = strings.TrimSpace(arg)
-		if arg == "" {
-			continue
-		}
 		argParts := strings.Split(arg, ":")
 		if len(argParts) != 2 {
 			log.Printf("Warning: invalid argument: '%v'; skipping", arg)

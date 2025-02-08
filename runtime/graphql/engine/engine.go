@@ -97,6 +97,7 @@ func generateSchema(ctx context.Context, md *metadata.Metadata) (*gql.Schema, *d
 		WasmHost:          wasmhost.GetWasmHost(ctx),
 		FieldsToFunctions: generated.FieldsToFunctions,
 		MapTypes:          generated.MapTypes,
+		TupleTypes:        generated.TupleTypes,
 	}
 
 	return schema, cfg, nil
