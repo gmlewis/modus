@@ -138,6 +138,19 @@ pub fn test2d_array_output_string_empty() -> Array[Array[String]] {
 }
 
 ///|
+pub fn test2d_array_input_string_inner_empty(
+  val : Array[Array[String]]
+) -> Unit!Error {
+  let expected = [[]]
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test2d_array_output_string_inner_empty() -> Array[Array[String]] {
+  [[]]
+}
+
+///|
 pub fn test2d_array_input_string_inner_none(
   val : Array[Array[String]?]
 ) -> Unit!Error {
