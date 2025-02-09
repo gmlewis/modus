@@ -9,91 +9,86 @@
 
 package moonbit_test
 
+import (
+	"testing"
+
+	"github.com/gmlewis/modus/runtime/utils"
+)
+
 type TestRecursiveStruct struct {
 	A bool
 	B *TestRecursiveStruct
 }
 
-// testRecursiveStruct := func() TestRecursiveStruct {
-// 	r := TestRecursiveStruct{
-// 		A: true,
-// 	}
-// 	r.B = &r
-// 	return r
-// }()
+var testRecursiveStruct = func() TestRecursiveStruct {
+	r := TestRecursiveStruct{
+		A: true,
+	}
+	r.B = &r
+	return r
+}()
 
-// testRecursiveStructAsMap := func() map[string]any {
-// 	r1 := map[string]any{
-// 		"a": true,
-// 	}
-// 	r2 := map[string]any{
-// 		"a": false,
-// 	}
-// 	r1["b"] = r2
-// 	r2["b"] = r1
-// 	return r1
-// }()
+var testRecursiveStructAsMap = func() map[string]any {
+	r1 := map[string]any{
+		"a": true,
+	}
+	r2 := map[string]any{
+		"a": false,
+	}
+	r1["b"] = r2
+	r2["b"] = r1
+	return r1
+}()
 
+// TODO:
 // func TestRecursiveStructInput(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	if _, err := f.InvokeFunction("testRecursiveStructInput", testRecursiveStruct); err != nil {
-// 		t.Fatal(err)
+// 	fnName := "test_recursive_struct_input"
+// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
+// 		t.Error(err)
 // 	}
 // }
 
 // func TestRecursiveStructPtrInput(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	if _, err := f.InvokeFunction("testRecursiveStructPtrInput", testRecursiveStruct); err != nil {
-// 		t.Fatal(err)
+// 	fnName := "test_recursive_struct_option_input"
+// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
+// 		t.Error(err)
 // 	}
-// 	if _, err := f.InvokeFunction("testRecursiveStructPtrInput", &testRecursiveStruct); err != nil {
-// 		t.Fatal(err)
+// 	fnName = "test_recursive_struct_option_input"
+// 	if _, err := fixture.CallFunction(t, fnName, &testRecursiveStruct); err != nil {
+// 		t.Error(err)
 // 	}
 // }
 
 // func TestRecursiveStructInput_map(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	if _, err := f.InvokeFunction("testRecursiveStructInput", testRecursiveStructAsMap); err != nil {
-// 		t.Fatal(err)
+// 	fnName := "test_recursive_struct_input"
+// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
+// 		t.Error(err)
 // 	}
 // }
 
 // func TestRecursiveStructPtrInput_map(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	if _, err := f.InvokeFunction("testRecursiveStructInput", testRecursiveStructAsMap); err != nil {
-// 		t.Fatal(err)
+// 	fnName := "test_recursive_struct_input"
+// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
+// 		t.Error(err)
 // 	}
-// 	if _, err := f.InvokeFunction("testRecursiveStructInput", &testRecursiveStructAsMap); err != nil {
-// 		t.Fatal(err)
-// 	}
-// }
-
-// func TestRecursiveStructPtrInput_nil(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	if _, err := f.InvokeFunction("testRecursiveStructPtrInput_nil", nil); err != nil {
-// 		t.Fatal(err)
+// 	fnName = "test_recursive_struct_input"
+// 	if _, err := fixture.CallFunction(t, fnName, &testRecursiveStructAsMap); err != nil {
+// 		t.Error(err)
 // 	}
 // }
+
+func TestRecursiveStructPtrInput_none(t *testing.T) {
+	fnName := "test_recursive_struct_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 // func TestRecursiveStructOutput(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	fixture.AddCustomType("testdata.TestRecursiveStruct", reflect.TypeFor[TestRecursiveStruct]())
-
-// 	result, err := f.InvokeFunction("testRecursiveStructOutput")
+// 	fnName := "test_recursive_struct_output"
+// 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
-// 		t.Fatal(err)
+// 		t.Error(err)
 // 	}
 
 // 	if result == nil {
@@ -106,14 +101,10 @@ type TestRecursiveStruct struct {
 // }
 
 // func TestRecursiveStructPtrOutput(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	fixture.AddCustomType("testdata.TestRecursiveStruct", reflect.TypeFor[TestRecursiveStruct]())
-
-// 	result, err := f.InvokeFunction("testRecursiveStructPtrOutput")
+// 	fnName := "test_recursive_struct_option_output"
+// 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
-// 		t.Fatal(err)
+// 		t.Error(err)
 // 	}
 
 // 	if result == nil {
@@ -126,12 +117,10 @@ type TestRecursiveStruct struct {
 // }
 
 // func TestRecursiveStructOutput_map(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	result, err := f.InvokeFunction("testRecursiveStructOutput")
+// 	fnName := "test_recursive_struct_output"
+// 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
-// 		t.Fatal(err)
+// 		t.Error(err)
 // 	}
 
 // 	if result == nil {
@@ -144,12 +133,10 @@ type TestRecursiveStruct struct {
 // }
 
 // func TestRecursiveStructPtrOutput_map(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
-
-// 	result, err := f.InvokeFunction("testRecursiveStructPtrOutput")
+// 	fnName := "test_recursive_struct_option_output"
+// 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
-// 		t.Fatal(err)
+// 		t.Error(err)
 // 	}
 
 // 	if result == nil {
@@ -161,16 +148,14 @@ type TestRecursiveStruct struct {
 // 	}
 // }
 
-// func TestRecursiveStructPtrOutput_nil(t *testing.T) {
-// // 	f := NewGoWasmTestFixture(t)
-// 	defer f.Close()
+func TestRecursiveStructPtrOutput_none(t *testing.T) {
+	fnName := "test_recursive_struct_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	result, err := f.InvokeFunction("testRecursiveStructPtrOutput_nil")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
