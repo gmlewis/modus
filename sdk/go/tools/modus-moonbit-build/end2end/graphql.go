@@ -15,6 +15,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -36,7 +37,7 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 	if err != nil {
 		return fmt.Errorf("endpoint.QueryBody: %w", err)
 	}
-	gmlPrintf("\n\n*** Testing endpoint with query body: '%v'", query)
+	log.Printf("\n\n*** TESTING ENDPOINT '%v' with query body: '%v'", endpoint.Name, query)
 	expect, err := endpoint.ExpectBody()
 	if err != nil {
 		return fmt.Errorf("endpoint.ExpectBody: %w", err)
@@ -70,7 +71,7 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 		return fmt.Errorf("io.ReadAll: %w", err)
 	}
 
-	fmt.Printf("\n\n***Response: %s\n", respBody)
+	log.Printf("\n\n*** Response: %s\n", respBody)
 	var res GraphQLResponse
 	if err := json.Unmarshal(respBody, &res); err != nil {
 		return fmt.Errorf("json.Unmarshal: %w\n%s", err, respBody)
@@ -94,7 +95,7 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 		return fmt.Errorf("test: FAIL: Errors from '%v' endpoint mismatch (-want +got):\n%v", endpoint.Name, diff)
 	}
 
-	gmlPrintf("Test: OK passed for endpoint '%v'", endpoint.Name)
+	log.Printf("\n\n*** TEST: OK PASSED FOR ENDPOINT '%v'", endpoint.Name)
 
 	return nil
 }

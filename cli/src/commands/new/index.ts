@@ -378,7 +378,7 @@ export default class NewCommand extends BaseCommand {
     }
 
     const sdkVersion = installedSdkVersion;
-    this.log(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
+    // this.log(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
     const sdkPath = vi.getSdkPath(sdk, sdkVersion);
     const templatesArchive = path.join(sdkPath, "templates.tar.gz");
     if (!(await fs.exists(templatesArchive))) {

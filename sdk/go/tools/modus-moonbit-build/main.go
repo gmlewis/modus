@@ -15,7 +15,6 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"sync"
 	"time"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/codegen"
@@ -29,22 +28,8 @@ import (
 	"github.com/hypermodeinc/modus/lib/manifest"
 )
 
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
-
 func main() {
+	log.SetFlags(0)
 
 	start := time.Now()
 	trace := utils.IsTraceModeEnabled()
@@ -72,7 +57,7 @@ func main() {
 				exitWithError("Error running end-to-end test", err)
 			}
 		}
-		gmlPrintf("\n\n*** ALL END-TO-END TESTS PASSED ***\n\n")
+		log.Printf("\n\n*** ALL END-TO-END TESTS PASSED ***\n\n")
 	} else {
 		buildPlugin(config, start, trace)
 	}
@@ -154,7 +139,7 @@ func buildPlugin(config *config.Config, start time.Time, trace bool) {
 	}
 
 	if trace {
-		gmlPrintf("Build completed in %.2f seconds.\n\n", time.Since(start).Seconds())
+		log.Printf("Build completed in %.2f seconds.\n\n", time.Since(start).Seconds())
 	}
 
 	metagen.LogToConsole(meta)

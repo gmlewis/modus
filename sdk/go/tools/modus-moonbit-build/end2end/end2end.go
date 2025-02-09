@@ -73,7 +73,7 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 		gmlPrintf("Start of main loop: port %v is now free", graphqlPort)
 	}
 
-	gmlPrintf("Running Modus CLI for %q", plugin.Name)
+	log.Printf("Running Modus CLI for %q", plugin.Name)
 	cliCmd := filepath.Join(repoAbsPath, "cli/bin/modus.js")
 	ctx := context.Background()
 	cancel := func() {} // No-op cancel function

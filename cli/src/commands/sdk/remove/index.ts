@@ -178,7 +178,7 @@ export default class SDKRemoveCommand extends BaseCommand {
           this.exit(1);
         } else {
           const sdkText = `Modus ${sdk} SDK ${args.version}`;
-          console.log(`GML: sdk/remove/index.ts: run: args=${JSON.stringify(args)}`); // TODO(gmlewis): remove
+          // console.log(`GML: sdk/remove/index.ts: run: args=${JSON.stringify(args)}`); // TODO(gmlewis): remove
           const isInstalled = await vi.sdkVersionIsInstalled(sdk, args.version);
           if (!isInstalled) {
             this.log(chalk.yellow(sdkText + "is not installed."));
