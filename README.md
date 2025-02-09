@@ -155,6 +155,7 @@ to the authors and teams of our core dependencies:
 - The [Go language](https://go.dev/) team, and also the maintainers of
   [TinyGo](https://tinygo.org/). The Modus Runtime is written in Go, and the Modus Go SDK uses
   TinyGo.
+- The [MoonBit language](https://moonbitlang.com/) team. The Modus MoonBit SDK uses Go and MoonBit.
 
 ## License
 
