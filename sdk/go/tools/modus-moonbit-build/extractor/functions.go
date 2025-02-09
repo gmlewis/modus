@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/types"
+	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
@@ -211,12 +212,6 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			// Do not recurse here as it would cause an infinite loop.
 			m[fullName] = tmpType
 		}
-		if hasOption {
-			underlying := t.Underlying()
-			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: underlying: %T=%#v", underlying, underlying)
-			// tmpType := types.NewNamed(types.NewTypeName(0, nil, typ, nil), t.Underlying(), nil)
-			// addRequiredTypes(tmpType, m)
-		}
 
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
 		if i := strings.Index(name, "!"); i >= 0 {
@@ -243,11 +238,13 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 		}
 		m[name] = u
 		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
-		// var hasOption bool
-		// name, _, hasOption = stripErrorAndOption(name)
-		// if hasOption {
-		// 	m[name+"?"] = u
-		// }
+		if strings.Contains(name, "FixedArray[Int]") {
+			log.Printf("GML: BREAKPOINT")
+		}
+		// Make sure that the underlying type is also added to the required types.
+		if hasOption {
+			m[typ] = u
+		}
 		// if hasError {
 		// 	m[name] = u
 		// }

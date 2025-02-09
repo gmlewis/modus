@@ -30,7 +30,7 @@ func TestFixedArrayInput0_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput0_stringPtr(t *testing.T) {
+func TestFixedArrayInput0_string_option(t *testing.T) {
 	fnName := "test_fixedarray_input0_string_option"
 	arr := [0]*string{}
 
@@ -61,7 +61,7 @@ func TestFixedArrayOutput0_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput0_stringPtr(t *testing.T) {
+func TestFixedArrayOutput0_string_option(t *testing.T) {
 	fnName := "test_fixedarray_output0_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -78,7 +78,7 @@ func TestFixedArrayOutput0_stringPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput0_intPtr(t *testing.T) {
+func TestFixedArrayInput0_int_option(t *testing.T) {
 	fnName := "test_fixedarray_input0_int_option"
 	arr := [0]*int{}
 
@@ -92,7 +92,7 @@ func TestFixedArrayInput0_intPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput0_intPtr(t *testing.T) {
+func TestFixedArrayOutput0_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output0_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -123,7 +123,7 @@ func TestFixedArrayInput1_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput1_stringPtr(t *testing.T) {
+func TestFixedArrayInput1_string_option(t *testing.T) {
 	fnName := "test_fixedarray_input1_string_option"
 	arr := getStringPtrFixedArray1()
 
@@ -154,7 +154,7 @@ func TestFixedArrayOutput1_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput1_stringPtr(t *testing.T) {
+func TestFixedArrayOutput1_string_option(t *testing.T) {
 	fnName := "test_fixedarray_output1_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -171,7 +171,7 @@ func TestFixedArrayOutput1_stringPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput1_intPtr(t *testing.T) {
+func TestFixedArrayInput1_int_option(t *testing.T) {
 	fnName := "test_fixedarray_input1_int_option"
 	arr := getIntPtrFixedArray1()
 
@@ -185,7 +185,7 @@ func TestFixedArrayInput1_intPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput1_intPtr(t *testing.T) {
+func TestFixedArrayOutput1_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output1_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -216,7 +216,7 @@ func TestFixedArrayInput2_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput2_stringPtr(t *testing.T) {
+func TestFixedArrayInput2_string_option(t *testing.T) {
 	fnName := "test_fixedarray_input2_string_option"
 	arr := getStringPtrFixedArray2()
 
@@ -244,7 +244,7 @@ func TestFixedArrayInput2_struct(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput2_structPtr(t *testing.T) {
+func TestFixedArrayInput2_struct_option(t *testing.T) {
 	fnName := "test_fixedarray_input2_struct_option"
 	arr := getStructPtrFixedArray2()
 
@@ -272,7 +272,7 @@ func TestFixedArrayInput2_map(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput2_mapPtr(t *testing.T) {
+func TestFixedArrayInput2_map_option(t *testing.T) {
 	fnName := "test_fixedarray_input2_map_option"
 	arr := getMapPtrFixedArray2()
 
@@ -286,7 +286,7 @@ func TestFixedArrayInput2_mapPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput2_intPtr(t *testing.T) {
+func TestFixedArrayInput2_int_option(t *testing.T) {
 	fnName := "test_fixedarray_input2_int_option"
 	arr := getIntPtrFixedArray2()
 
@@ -300,7 +300,7 @@ func TestFixedArrayInput2_intPtr(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput2_intPtr(t *testing.T) {
+func TestFixedArrayOutput2_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output2_int_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -334,7 +334,7 @@ func TestFixedArrayOutput2_string(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput2_stringPtr(t *testing.T) {
+func TestFixedArrayOutput2_string_option(t *testing.T) {
 	fnName := "test_fixedarray_output2_string_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -368,7 +368,7 @@ func TestFixedArrayOutput2_struct(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput2_structPtr(t *testing.T) {
+func TestFixedArrayOutput2_struct_option(t *testing.T) {
 	fnName := "test_fixedarray_output2_struct_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -402,7 +402,7 @@ func TestFixedArrayOutput2_map(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput2_mapPtr(t *testing.T) {
+func TestFixedArrayOutput2_map_option(t *testing.T) {
 	fnName := "test_fixedarray_output2_map_option"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
