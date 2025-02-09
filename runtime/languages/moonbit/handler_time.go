@@ -39,20 +39,22 @@ func (h *timeHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offs
 		return nil, nil
 	}
 
-	wall, ok := wa.Memory().ReadUint64Le(offset)
-	if !ok {
-		return nil, errors.New("failed to read time.Time.wall from WASM memory")
-	}
+	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
-	x, ok := wa.Memory().ReadUint64Le(offset + 8)
-	if !ok {
-		return nil, errors.New("failed to read time.Time.ext from WASM memory")
-	}
-	ext := int64(x)
+	// wall, ok := wa.Memory().ReadUint64Le(offset)
+	// if !ok {
+	// 	return nil, errors.New("failed to read time.Time.wall from WASM memory")
+	// }
 
-	// skip loc - we only support UTC
+	// x, ok := wa.Memory().ReadUint64Le(offset + 8)
+	// if !ok {
+	// 	return nil, errors.New("failed to read time.Time.ext from WASM memory")
+	// }
+	// ext := int64(x)
 
-	return timeFromVals(wall, ext), nil
+	// // skip loc - we only support UTC
+
+	// return timeFromVals(wall, ext), nil
 }
 
 func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -175,6 +177,10 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 
 // This converts a Go `time.Time` to a MoonBit `@time.ZonedDateTime`.
 func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	if obj == nil || utils.HasNil(obj) {
+		return []uint64{0}, nil, nil
+	}
+
 	tm, err := utils.ConvertToTimestamp(obj)
 	if err != nil {
 		return nil, nil, err
