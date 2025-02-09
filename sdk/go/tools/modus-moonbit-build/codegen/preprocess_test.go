@@ -242,7 +242,8 @@ var wantMoonPkgJSON = `{
         "storef64",
         "str2ptr",
         "uint64_array2ptr",
-        "uint_array2ptr"
+        "uint_array2ptr",
+        "zoned_date_time_from_unix_seconds_and_nanos"
       ],
       "export-memory-name": "memory"
     }

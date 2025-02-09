@@ -27,14 +27,13 @@ func TestTimeInput(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestTimeStrInput(t *testing.T) {
-// 	fnName := "test_time_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testTimeStr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-//
+func TestTimeStrInput(t *testing.T) {
+	fnName := "test_time_input"
+	if _, err := fixture.CallFunction(t, fnName, testTimeStr); err != nil {
+		t.Error(err)
+	}
+}
+
 // // TODO: FAILS
 // func TestTimeOptionInput(t *testing.T) {
 // 	fnName := "test_time_option_input"
@@ -45,6 +44,7 @@ func TestTimeInput(t *testing.T) {
 // 		t.Error(err)
 // 	}
 // }
+
 //
 // // TODO: FAILS
 // func TestTimeStrOptionInput(t *testing.T) {

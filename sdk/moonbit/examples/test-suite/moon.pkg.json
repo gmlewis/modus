@@ -81,6 +81,8 @@
         "__modus_test_exit:test_exit",
         "__modus_test_logging:test_logging",
         "__modus_test_normal_error:test_normal_error",
+        "__modus_test_time_input:test_time_input",
+        "__modus_test_time_option_input:test_time_option_input",
         "__modus_test_tuple_output:test_tuple_output",
         "__modus_test_tuple_simulator:test_tuple_simulator",
         "bytes2ptr",
