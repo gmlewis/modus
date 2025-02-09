@@ -64,6 +64,17 @@ pub fn test_struct_containing_map_output_string_string() -> TestStructWithMap {
 }
 
 ///|
+pub fn test_map_input_int_float(m : Map[Int, Float]) -> Unit!Error {
+  let expected : Map[Int, Float] = { 1: 1.1, 2: 2.2, 3: 3.3 }
+  assert_eq!(expected, m)
+}
+
+///|
+pub fn test_map_output_int_float() -> Map[Int, Float] {
+  { 1: 1.1, 2: 2.2, 3: 3.3 }
+}
+
+///|
 pub fn test_map_input_int_double(m : Map[Int, Double]) -> Unit!Error {
   let expected = { 1: 1.1, 2: 2.2, 3: 3.3 }
   assert_eq!(expected, m)

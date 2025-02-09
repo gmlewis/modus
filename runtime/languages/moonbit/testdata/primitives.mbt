@@ -36,7 +36,7 @@ pub fn test_bool_option_input_true(b : Bool?) -> Unit!Error {
 }
 
 ///|
-pub fn test_bool_option_input_nil(b : Bool?) -> Unit!Error {
+pub fn test_bool_option_input_none(b : Bool?) -> Unit!Error {
   assert_eq!(None, b)
 }
 
@@ -51,7 +51,7 @@ pub fn test_bool_option_output_true() -> Bool? {
 }
 
 ///|
-pub fn test_bool_option_output_nil() -> Bool? {
+pub fn test_bool_option_output_none() -> Bool? {
   None
 }
 
@@ -86,7 +86,7 @@ pub fn test_byte_option_input_max(b : Byte?) -> Unit!Error {
 }
 
 ///|
-pub fn test_byte_option_input_nil(b : Byte?) -> Unit!Error {
+pub fn test_byte_option_input_none(b : Byte?) -> Unit!Error {
   assert_eq!(None, b)
 }
 
@@ -101,7 +101,7 @@ pub fn test_byte_option_output_max() -> Byte? {
 }
 
 ///|
-pub fn test_byte_option_output_nil() -> Byte? {
+pub fn test_byte_option_output_none() -> Byte? {
   None
 }
 
@@ -136,7 +136,7 @@ pub fn test_char_option_input_max(c : Char?) -> Unit!Error {
 }
 
 ///|
-pub fn test_char_option_input_nil(c : Char?) -> Unit!Error {
+pub fn test_char_option_input_none(c : Char?) -> Unit!Error {
   assert_eq!(c, None)
 }
 
@@ -151,7 +151,7 @@ pub fn test_char_option_output_max() -> Char? {
 }
 
 ///|
-pub fn test_char_option_output_nil() -> Char? {
+pub fn test_char_option_output_none() -> Char? {
   None
 }
 
@@ -186,7 +186,7 @@ pub fn test_int_option_input_max(n : Int?) -> Unit!Error {
 }
 
 ///|
-pub fn test_int_option_input_nil(n : Int?) -> Unit!Error {
+pub fn test_int_option_input_none(n : Int?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -201,7 +201,7 @@ pub fn test_int_option_output_max() -> Int? {
 }
 
 ///|
-pub fn test_int_option_output_nil() -> Int? {
+pub fn test_int_option_output_none() -> Int? {
   None
 }
 
@@ -236,7 +236,7 @@ pub fn test_int16_option_input_max(n : Int16?) -> Unit!Error {
 }
 
 ///|
-pub fn test_int16_option_input_nil(n : Int16?) -> Unit!Error {
+pub fn test_int16_option_input_none(n : Int16?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -251,7 +251,7 @@ pub fn test_int16_option_output_max() -> Int16? {
 }
 
 ///|
-pub fn test_int16_option_output_nil() -> Int16? {
+pub fn test_int16_option_output_none() -> Int16? {
   None
 }
 
@@ -286,7 +286,7 @@ pub fn test_int64_option_input_max(n : Int64?) -> Unit!Error {
 }
 
 ///|
-pub fn test_int64_option_input_nil(n : Int64?) -> Unit!Error {
+pub fn test_int64_option_input_none(n : Int64?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -301,7 +301,7 @@ pub fn test_int64_option_output_max() -> Int64? {
 }
 
 ///|
-pub fn test_int64_option_output_nil() -> Int64? {
+pub fn test_int64_option_output_none() -> Int64? {
   None
 }
 
@@ -336,7 +336,7 @@ pub fn test_uint_option_input_max(n : UInt?) -> Unit!Error {
 }
 
 ///|
-pub fn test_uint_option_input_nil(n : UInt?) -> Unit!Error {
+pub fn test_uint_option_input_none(n : UInt?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -351,7 +351,7 @@ pub fn test_uint_option_output_max() -> UInt? {
 }
 
 ///|
-pub fn test_uint_option_output_nil() -> UInt? {
+pub fn test_uint_option_output_none() -> UInt? {
   None
 }
 
@@ -386,7 +386,7 @@ pub fn test_uint16_option_input_max(n : UInt16?) -> Unit!Error {
 }
 
 ///|
-pub fn test_uint16_option_input_nil(n : UInt16?) -> Unit!Error {
+pub fn test_uint16_option_input_none(n : UInt16?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -401,7 +401,7 @@ pub fn test_uint16_option_output_max() -> UInt16? {
 }
 
 ///|
-pub fn test_uint16_option_output_nil() -> UInt16? {
+pub fn test_uint16_option_output_none() -> UInt16? {
   None
 }
 
@@ -436,7 +436,7 @@ pub fn test_uint64_option_input_max(n : UInt64?) -> Unit!Error {
 }
 
 ///|
-pub fn test_uint64_option_input_nil(n : UInt64?) -> Unit!Error {
+pub fn test_uint64_option_input_none(n : UInt64?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -451,57 +451,57 @@ pub fn test_uint64_option_output_max() -> UInt64? {
 }
 
 ///|
-pub fn test_uint64_option_output_nil() -> UInt64? {
+pub fn test_uint64_option_output_none() -> UInt64? {
   None
 }
 
 ///|
-pub fn test_float32_input_min(n : Float) -> Unit!Error {
+pub fn test_float_input_min(n : Float) -> Unit!Error {
   assert_eq!(n, @float.min_value)
 }
 
 ///|
-pub fn test_float32_input_max(n : Float) -> Unit!Error {
+pub fn test_float_input_max(n : Float) -> Unit!Error {
   assert_eq!(n, @float.max_value)
 }
 
 ///|
-pub fn test_float32_output_min() -> Float {
+pub fn test_float_output_min() -> Float {
   @float.min_value
 }
 
 ///|
-pub fn test_float32_output_max() -> Float {
+pub fn test_float_output_max() -> Float {
   @float.max_value
 }
 
 ///|
-pub fn test_float32_option_input_min(n : Float?) -> Unit!Error {
+pub fn test_float_option_input_min(n : Float?) -> Unit!Error {
   assert_eq!(n, Some(@float.min_value))
 }
 
 ///|
-pub fn test_float32_option_input_max(n : Float?) -> Unit!Error {
+pub fn test_float_option_input_max(n : Float?) -> Unit!Error {
   assert_eq!(n, Some(@float.max_value))
 }
 
 ///|
-pub fn test_float32_option_input_nil(n : Float?) -> Unit!Error {
+pub fn test_float_option_input_none(n : Float?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
 ///|
-pub fn test_float32_option_output_min() -> Float? {
+pub fn test_float_option_output_min() -> Float? {
   Some(@float.min_value)
 }
 
 ///|
-pub fn test_float32_option_output_max() -> Float? {
+pub fn test_float_option_output_max() -> Float? {
   Some(@float.max_value)
 }
 
 ///|
-pub fn test_float32_option_output_nil() -> Float? {
+pub fn test_float_option_output_none() -> Float? {
   None
 }
 
@@ -536,7 +536,7 @@ pub fn test_double_option_input_max(n : Double?) -> Unit!Error {
 }
 
 ///|
-pub fn test_double_option_input_nil(n : Double?) -> Unit!Error {
+pub fn test_double_option_input_none(n : Double?) -> Unit!Error {
   assert_eq!(n, None)
 }
 
@@ -551,6 +551,6 @@ pub fn test_double_option_output_max() -> Double? {
 }
 
 ///|
-pub fn test_double_option_output_nil() -> Double? {
+pub fn test_double_option_output_none() -> Double? {
   None
 }

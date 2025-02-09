@@ -36,7 +36,7 @@ func (p *planner) NewPrimitiveArrayHandler(ti langsupport.TypeInfo) (h langsuppo
 	case "uint16":
 		return newPrimitiveArrayHandler[uint16](ti)
 	case "uint32":
-		return newPrimitiveArrayHandler[uint32](ti)
+		return newPrimitiveArrayHandler[uint](ti) // was: uint32
 	case "uint64":
 		return newPrimitiveArrayHandler[uint64](ti)
 	case "int8":
@@ -44,7 +44,7 @@ func (p *planner) NewPrimitiveArrayHandler(ti langsupport.TypeInfo) (h langsuppo
 	case "int16":
 		return newPrimitiveArrayHandler[int16](ti)
 	case "int32", "rune":
-		return newPrimitiveArrayHandler[int32](ti)
+		return newPrimitiveArrayHandler[int](ti) // was: int32
 	case "int64":
 		return newPrimitiveArrayHandler[int64](ti)
 	case "float32":

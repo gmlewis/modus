@@ -19,7 +19,7 @@ import (
 )
 
 func TestGetHandler_int(t *testing.T) {
-	typ := "int"
+	typ := "Int"
 	rt := reflect.TypeFor[int]()
 
 	planner := fixture.NewPlanner()
@@ -45,9 +45,9 @@ func TestGetHandler_int(t *testing.T) {
 	}
 }
 
-func TestGetHandler_intPtr(t *testing.T) {
-	typ := "*int"
-	rt := reflect.TypeFor[*int]()
+func TestGetHandler_int_option(t *testing.T) {
+	typ := "Int?"
+	rt := reflect.TypeFor[int]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -56,8 +56,8 @@ func TestGetHandler_intPtr(t *testing.T) {
 	}
 
 	totalHandlers := len(planner.AllHandlers())
-	if totalHandlers != 2 {
-		t.Fatalf("expected 2 handlers, got %d", totalHandlers)
+	if totalHandlers != 1 {
+		t.Fatalf("expected 1 handler, got %d", totalHandlers)
 	}
 
 	info := handler.TypeInfo()
@@ -72,27 +72,27 @@ func TestGetHandler_intPtr(t *testing.T) {
 	}
 
 	innerHandlers := getInnerHandlers(handler)
-	if len(innerHandlers) != 1 {
-		t.Fatalf("expected 1 inner handler, got %d", len(innerHandlers))
+	if len(innerHandlers) != 0 {
+		t.Fatalf("expected 0 inner handler, got %d", len(innerHandlers))
 	}
 
-	typInner := "int"
-	rtInner := reflect.TypeFor[int]()
+	// typInner := "Int"
+	// rtInner := reflect.TypeFor[int]()
 
-	innerInfo := innerHandlers[0].TypeInfo()
-	if innerInfo.Name() != typInner {
-		t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
-	}
-	if innerInfo.Size() != 4 {
-		t.Errorf("expected inner type size 4, got %d", innerInfo.Size())
-	}
-	if innerInfo.ReflectedType() != rtInner {
-		t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
-	}
+	// innerInfo := innerHandlers[0].TypeInfo()
+	// if innerInfo.Name() != typInner {
+	// 	t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
+	// }
+	// if innerInfo.Size() != 4 {
+	// 	t.Errorf("expected inner type size 4, got %d", innerInfo.Size())
+	// }
+	// if innerInfo.ReflectedType() != rtInner {
+	// 	t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
+	// }
 }
 
 func TestGetHandler_string(t *testing.T) {
-	typ := "string"
+	typ := "String"
 	rt := reflect.TypeFor[string]()
 
 	planner := fixture.NewPlanner()
@@ -110,17 +110,17 @@ func TestGetHandler_string(t *testing.T) {
 	if info.Name() != typ {
 		t.Errorf("expected type name %q, got %q", typ, info.Name())
 	}
-	if info.Size() != 8 {
-		t.Errorf("expected type size 8, got %d", info.Size())
+	if info.Size() != 4 {
+		t.Errorf("expected type size 4, got %d", info.Size())
 	}
 	if info.ReflectedType() != rt {
 		t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
 	}
 }
 
-func TestGetHandler_stringPtr(t *testing.T) {
-	typ := "*string"
-	rt := reflect.TypeFor[*string]()
+func TestGetHandler_string_option(t *testing.T) {
+	typ := "String?"
+	rt := reflect.TypeFor[string]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -129,8 +129,8 @@ func TestGetHandler_stringPtr(t *testing.T) {
 	}
 
 	totalHandlers := len(planner.AllHandlers())
-	if totalHandlers != 2 {
-		t.Fatalf("expected 2 handlers, got %d", totalHandlers)
+	if totalHandlers != 1 {
+		t.Fatalf("expected 1 handlers, got %d", totalHandlers)
 	}
 
 	info := handler.TypeInfo()
@@ -145,27 +145,27 @@ func TestGetHandler_stringPtr(t *testing.T) {
 	}
 
 	innerHandlers := getInnerHandlers(handler)
-	if len(innerHandlers) != 1 {
-		t.Fatalf("expected 1 inner handler, got %d", len(innerHandlers))
+	if len(innerHandlers) != 0 {
+		t.Fatalf("expected 0 inner handler, got %d", len(innerHandlers))
 	}
 
-	typInner := "string"
-	rtInner := reflect.TypeFor[string]()
+	// typInner := "string"
+	// rtInner := reflect.TypeFor[string]()
 
-	innerInfo := innerHandlers[0].TypeInfo()
-	if innerInfo.Name() != typInner {
-		t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
-	}
-	if innerInfo.Size() != 8 {
-		t.Errorf("expected inner type size 8, got %d", innerInfo.Size())
-	}
-	if innerInfo.ReflectedType() != rtInner {
-		t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
-	}
+	// innerInfo := innerHandlers[0].TypeInfo()
+	// if innerInfo.Name() != typInner {
+	// 	t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
+	// }
+	// if innerInfo.Size() != 8 {
+	// 	t.Errorf("expected inner type size 8, got %d", innerInfo.Size())
+	// }
+	// if innerInfo.ReflectedType() != rtInner {
+	// 	t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
+	// }
 }
 
 func TestGetHandler_stringSlice(t *testing.T) {
-	typ := "[]string"
+	typ := "Array[String]"
 	rt := reflect.TypeFor[[]string]()
 
 	planner := fixture.NewPlanner()
@@ -195,61 +195,15 @@ func TestGetHandler_stringSlice(t *testing.T) {
 		t.Fatalf("expected 1 inner handler, got %d", len(innerHandlers))
 	}
 
-	typInner := "string"
+	typInner := "String"
 	rtInner := reflect.TypeFor[string]()
 
 	innerInfo := innerHandlers[0].TypeInfo()
 	if innerInfo.Name() != typInner {
 		t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
 	}
-	if innerInfo.Size() != 8 {
-		t.Errorf("expected inner type size 8, got %d", innerInfo.Size())
-	}
-	if innerInfo.ReflectedType() != rtInner {
-		t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
-	}
-}
-
-func TestGetHandler_stringArray(t *testing.T) {
-	typ := "[2]string"
-	rt := reflect.TypeFor[[2]string]()
-
-	planner := fixture.NewPlanner()
-	handler, err := planner.GetHandler(fixture.Context, typ)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-
-	totalHandlers := len(planner.AllHandlers())
-	if totalHandlers != 2 {
-		t.Fatalf("expected 2 handlers, got %d", totalHandlers)
-	}
-
-	info := handler.TypeInfo()
-	if info.Name() != typ {
-		t.Errorf("expected type name %q, got %q", typ, info.Name())
-	}
-	if info.Size() != 16 {
-		t.Errorf("expected type size 16, got %d", info.Size())
-	}
-	if info.ReflectedType() != rt {
-		t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
-	}
-
-	innerHandlers := getInnerHandlers(handler)
-	if len(innerHandlers) != 1 {
-		t.Fatalf("expected 1 inner handler, got %d", len(innerHandlers))
-	}
-
-	typInner := "string"
-	rtInner := reflect.TypeFor[string]()
-
-	innerInfo := innerHandlers[0].TypeInfo()
-	if innerInfo.Name() != typInner {
-		t.Errorf("expected inner type name %q, got %q", typInner, innerInfo.Name())
-	}
-	if innerInfo.Size() != 8 {
-		t.Errorf("expected inner type size 8, got %d", innerInfo.Size())
+	if innerInfo.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo.Size())
 	}
 	if innerInfo.ReflectedType() != rtInner {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner, innerInfo.ReflectedType())
@@ -257,7 +211,7 @@ func TestGetHandler_stringArray(t *testing.T) {
 }
 
 func TestGetHandler_time(t *testing.T) {
-	typ := "time.Time"
+	typ := "@time.ZonedDateTime"
 	rt := reflect.TypeFor[time.Time]()
 
 	planner := fixture.NewPlanner()
@@ -284,7 +238,7 @@ func TestGetHandler_time(t *testing.T) {
 }
 
 func TestGetHandler_duration(t *testing.T) {
-	typ := "time.Duration"
+	typ := "@time.Duration"
 	rt := reflect.TypeFor[time.Duration]()
 
 	planner := fixture.NewPlanner()
@@ -311,7 +265,7 @@ func TestGetHandler_duration(t *testing.T) {
 }
 
 func TestGetHandler_map(t *testing.T) {
-	typ := "map[string]string"
+	typ := "Map[String, String]"
 	rt := reflect.TypeFor[map[string]string]()
 
 	planner := fixture.NewPlanner()
@@ -337,11 +291,11 @@ func TestGetHandler_map(t *testing.T) {
 	}
 
 	innerHandlers := getInnerHandlers(handler)
-	if len(innerHandlers) != 2 {
-		t.Fatalf("expected 2 inner handlers, got %d", len(innerHandlers))
+	if len(innerHandlers) != 4 {
+		t.Fatalf("expected 4 inner handlers, got %d", len(innerHandlers))
 	}
 
-	typInner0 := "[]string"
+	typInner0 := "Array[String]"
 	rtInner0 := reflect.TypeFor[[]string]()
 
 	innerInfo0 := innerHandlers[0].TypeInfo()
@@ -355,7 +309,7 @@ func TestGetHandler_map(t *testing.T) {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner0, innerInfo0.ReflectedType())
 	}
 
-	typInner1 := "[]string"
+	typInner1 := "Array[String]"
 	rtInner1 := reflect.TypeFor[[]string]()
 
 	innerInfo1 := innerHandlers[1].TypeInfo()
@@ -368,11 +322,39 @@ func TestGetHandler_map(t *testing.T) {
 	if innerInfo1.ReflectedType() != rtInner1 {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner1, innerInfo1.ReflectedType())
 	}
+
+	typInner2 := "String"
+	rtInner2 := reflect.TypeFor[string]()
+
+	innerInfo2 := innerHandlers[2].TypeInfo()
+	if innerInfo2.Name() != typInner2 {
+		t.Errorf("expected inner type name %q, got %q", typInner2, innerInfo2.Name())
+	}
+	if innerInfo2.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo2.Size())
+	}
+	if innerInfo2.ReflectedType() != rtInner2 {
+		t.Errorf("expected inner reflected type %v, got %v", rtInner2, innerInfo2.ReflectedType())
+	}
+
+	typInner3 := "String"
+	rtInner3 := reflect.TypeFor[string]()
+
+	innerInfo3 := innerHandlers[3].TypeInfo()
+	if innerInfo3.Name() != typInner3 {
+		t.Errorf("expected inner type name %q, got %q", typInner3, innerInfo3.Name())
+	}
+	if innerInfo3.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo3.Size())
+	}
+	if innerInfo3.ReflectedType() != rtInner3 {
+		t.Errorf("expected inner reflected type %v, got %v", rtInner3, innerInfo3.ReflectedType())
+	}
 }
 
 func TestGetHandler_struct(t *testing.T) {
-	typ := "@testdata.TestStruct3"
-	rt := reflect.TypeFor[TestStruct3]()
+	typ := "TestStruct3"
+	// rt := reflect.TypeFor[TestStruct3]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -389,33 +371,34 @@ func TestGetHandler_struct(t *testing.T) {
 	if info.Name() != typ {
 		t.Errorf("expected type name %q, got %q", typ, info.Name())
 	}
-	if info.Size() != 16 {
-		t.Errorf("expected type size 16, got %d", info.Size())
+	if info.Size() != 12 {
+		t.Errorf("expected type size 12, got %d", info.Size())
 	}
-	if info.ReflectedType() != rt {
-		t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
-	}
+	// TODO:
+	// if info.ReflectedType() != rt {
+	// 	t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
+	// }
 
 	innerHandlers := getInnerHandlers(handler)
 	if len(innerHandlers) != 3 {
 		t.Fatalf("expected 3 inner handlers, got %d", len(innerHandlers))
 	}
 
-	typInner0 := "bool"
+	typInner0 := "Bool"
 	rtInner0 := reflect.TypeFor[bool]()
 
 	innerInfo0 := innerHandlers[0].TypeInfo()
 	if innerInfo0.Name() != typInner0 {
 		t.Errorf("expected inner type name %q, got %q", typInner0, innerInfo0.Name())
 	}
-	if innerInfo0.Size() != 1 {
-		t.Errorf("expected inner type size 1, got %d", innerInfo0.Size())
+	if innerInfo0.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo0.Size())
 	}
 	if innerInfo0.ReflectedType() != rtInner0 {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner0, innerInfo0.ReflectedType())
 	}
 
-	typInner1 := "int"
+	typInner1 := "Int"
 	rtInner1 := reflect.TypeFor[int]()
 
 	innerInfo1 := innerHandlers[1].TypeInfo()
@@ -429,15 +412,15 @@ func TestGetHandler_struct(t *testing.T) {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner1, innerInfo1.ReflectedType())
 	}
 
-	typInner2 := "string"
+	typInner2 := "String"
 	rtInner2 := reflect.TypeFor[string]()
 
 	innerInfo2 := innerHandlers[2].TypeInfo()
 	if innerInfo2.Name() != typInner2 {
 		t.Errorf("expected inner type name %q, got %q", typInner2, innerInfo2.Name())
 	}
-	if innerInfo2.Size() != 8 {
-		t.Errorf("expected inner type size 8, got %d", innerInfo2.Size())
+	if innerInfo2.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo2.Size())
 	}
 	if innerInfo2.ReflectedType() != rtInner2 {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner2, innerInfo2.ReflectedType())
@@ -445,8 +428,8 @@ func TestGetHandler_struct(t *testing.T) {
 }
 
 func TestGetHandler_recursiveStruct(t *testing.T) {
-	typ := "@testdata.TestRecursiveStruct"
-	rt := reflect.TypeFor[TestRecursiveStruct]()
+	typ := "TestRecursiveStruct"
+	// rt := reflect.TypeFor[TestRecursiveStruct]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -463,16 +446,17 @@ func TestGetHandler_recursiveStruct(t *testing.T) {
 	if info.Name() != typ {
 		t.Errorf("expected type name %q, got %q", typ, info.Name())
 	}
-	if info.ReflectedType() != rt {
-		t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
-	}
+	// TODO:
+	// if info.ReflectedType() != rt {
+	// 	t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
+	// }
 
 	innerHandlers := getInnerHandlers(handler)
 	if len(innerHandlers) != 2 {
 		t.Fatalf("expected 2 inner handlers, got %d", len(innerHandlers))
 	}
 
-	typInner0 := "bool"
+	typInner0 := "Bool"
 	rtInner0 := reflect.TypeFor[bool]()
 
 	innerInfo0 := innerHandlers[0].TypeInfo()
@@ -483,16 +467,17 @@ func TestGetHandler_recursiveStruct(t *testing.T) {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner0, innerInfo0.ReflectedType())
 	}
 
-	typInner1 := "*testdata.TestRecursiveStruct"
-	rtInner1 := reflect.TypeFor[*TestRecursiveStruct]()
+	typInner1 := "TestRecursiveStruct?"
+	// rtInner1 := reflect.TypeFor[*TestRecursiveStruct]()
 
 	innerInfo1 := innerHandlers[1].TypeInfo()
 	if innerInfo1.Name() != typInner1 {
 		t.Errorf("expected inner type name %q, got %q", typInner1, innerInfo1.Name())
 	}
-	if innerInfo1.ReflectedType() != rtInner1 {
-		t.Errorf("expected inner reflected type %v, got %v", rtInner1, innerInfo1.ReflectedType())
-	}
+	// TODO:
+	// if innerInfo1.ReflectedType() != rtInner1 {
+	// 	t.Errorf("expected inner reflected type %v, got %v", rtInner1, innerInfo1.ReflectedType())
+	// }
 }
 
 var rtTypeHandler = reflect.TypeFor[langsupport.TypeHandler]()

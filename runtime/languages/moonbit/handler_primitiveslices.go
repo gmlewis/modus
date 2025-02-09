@@ -44,13 +44,13 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveSliceHandler[int16](ti, typeDef), nil
 	case "Int": // 32-bit signed integer, e.g. `42`
-		return newPrimitiveSliceHandler[int32](ti, typeDef), nil
+		return newPrimitiveSliceHandler[int](ti, typeDef), nil // was: int32
 	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveSliceHandler[int64](ti, typeDef), nil
 	case "UInt16": // 16-bit unsigned integer, e.g. `(14 : UInt16)`
 		return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
 	case "UInt": // 32-bit unsigned integer, e.g. `14U`
-		return newPrimitiveSliceHandler[uint32](ti, typeDef), nil
+		return newPrimitiveSliceHandler[uint](ti, typeDef), nil // was: uint32
 	case "UInt64": // 64-bit unsigned integer, e.g. `14UL`
 		return newPrimitiveSliceHandler[uint64](ti, typeDef), nil
 	case "Double": // 64-bit floating point, defined by IEEE754, e.g. `3.14`

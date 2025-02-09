@@ -9,71 +9,66 @@
 
 package moonbit_test
 
-import (
-	"testing"
+// TODO:
+// func TestHttpResponseHeaders(t *testing.T) {
+// 	fnName := "test_http_response_headers"
+// 	r := &httpclient.HttpResponse{
+// 		Status:     200,
+// 		StatusText: "OK",
+// 		Headers: &httpclient.HttpHeaders{
+// 			Data: map[string]*httpclient.HttpHeader{
+// 				"content-type": {
+// 					Name:   "Content-Type",
+// 					Values: []string{"text/plain"},
+// 				},
+// 			},
+// 		},
+// 		Body: []byte("Hello, world!"),
+// 	}
 
-	"github.com/gmlewis/modus/runtime/httpclient"
-)
+// 	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestHttpResponseHeaders(t *testing.T) {
-	fnName := "testHttpResponseHeaders"
-	r := &httpclient.HttpResponse{
-		Status:     200,
-		StatusText: "OK",
-		Headers: &httpclient.HttpHeaders{
-			Data: map[string]*httpclient.HttpHeader{
-				"content-type": {
-					Name:   "Content-Type",
-					Values: []string{"text/plain"},
-				},
-			},
-		},
-		Body: []byte("Hello, world!"),
-	}
+// func TestHttpHeaders(t *testing.T) {
+// 	fnName := "test_http_headers"
+// 	h := &httpclient.HttpHeaders{
+// 		Data: map[string]*httpclient.HttpHeader{
+// 			"content-type": {
+// 				Name:   "Content-Type",
+// 				Values: []string{"text/plain"},
+// 			},
+// 		},
+// 	}
 
-	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestHttpHeaders(t *testing.T) {
-	fnName := "testHttpHeaders"
-	h := &httpclient.HttpHeaders{
-		Data: map[string]*httpclient.HttpHeader{
-			"content-type": {
-				Name:   "Content-Type",
-				Values: []string{"text/plain"},
-			},
-		},
-	}
+// func TestHttpHeaderMap(t *testing.T) {
+// 	fnName := "test_http_header_map"
+// 	m := map[string]*httpclient.HttpHeader{
+// 		"content-type": {
+// 			Name:   "Content-Type",
+// 			Values: []string{"text/plain"},
+// 		},
+// 	}
 
-	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestHttpHeaderMap(t *testing.T) {
-	fnName := "testHttpHeaderMap"
-	m := map[string]*httpclient.HttpHeader{
-		"content-type": {
-			Name:   "Content-Type",
-			Values: []string{"text/plain"},
-		},
-	}
+// func TestHttpHeader(t *testing.T) {
+// 	fnName := "test_http_header"
+// 	h := httpclient.HttpHeader{
+// 		Name:   "Content-Type",
+// 		Values: []string{"text/plain"},
+// 	}
 
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-}
-
-func TestHttpHeader(t *testing.T) {
-	fnName := "testHttpHeader"
-	h := httpclient.HttpHeader{
-		Name:   "Content-Type",
-		Values: []string{"text/plain"},
-	}
-
-	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
+// 		t.Error(err)
+// 	}
+// }

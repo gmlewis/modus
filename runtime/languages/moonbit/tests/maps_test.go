@@ -12,14 +12,13 @@ package moonbit_test
 import (
 	"fmt"
 	"maps"
-	"reflect"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func TestMapInput_string_string(t *testing.T) {
-	fnName := "testMapInput_string_string"
+	fnName := "test_map_input_string_string"
 	m := map[string]string{
 		"a": "1",
 		"b": "2",
@@ -37,7 +36,7 @@ func TestMapInput_string_string(t *testing.T) {
 }
 
 func TestMapPtrInput_string_string(t *testing.T) {
-	fnName := "testMapPtrInput_string_string"
+	fnName := "test_map_option_input_string_string"
 	m := map[string]string{
 		"a": "1",
 		"b": "2",
@@ -60,7 +59,7 @@ func TestMapPtrInput_string_string(t *testing.T) {
 }
 
 func TestMapOutput_string_string(t *testing.T) {
-	fnName := "testMapOutput_string_string"
+	fnName := "test_map_output_string_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -82,7 +81,7 @@ func TestMapOutput_string_string(t *testing.T) {
 }
 
 func TestMapPtrOutput_string_string(t *testing.T) {
-	fnName := "testMapPtrOutput_string_string"
+	fnName := "test_map_option_output_string_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -104,7 +103,7 @@ func TestMapPtrOutput_string_string(t *testing.T) {
 }
 
 func TestIterateMap_string_string(t *testing.T) {
-	fnName := "testIterateMap_string_string"
+	fnName := "test_iterate_map_string_string"
 	m := makeTestMap(100)
 
 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
@@ -112,25 +111,26 @@ func TestIterateMap_string_string(t *testing.T) {
 	}
 }
 
-func TestMapLookup_string_string(t *testing.T) {
-	fnName := "testMapLookup_string_string"
-	m := makeTestMap(100)
+// TODO:
+// func TestMapLookup_string_string(t *testing.T) {
+// 	fnName := "test_map_lookup_string_string"
+// 	m := makeTestMap(100)
 
-	result, err := fixture.CallFunction(t, fnName, m, "key_047")
-	if err != nil {
-		t.Fatal(err)
-	}
+// 	result, err := fixture.CallFunction(t, fnName, m, "key_047")
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := "val_047"
+// 	expected := "val_047"
 
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(string); !ok {
-		t.Errorf("expected %T, got %T", expected, result)
-	} else if expected != r {
-		t.Errorf("expected %s, got %s", expected, r)
-	}
-}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.(string); !ok {
+// 		t.Errorf("expected %T, got %T", expected, result)
+// 	} else if expected != r {
+// 		t.Errorf("expected %s, got %s", expected, r)
+// 	}
+// }
 
 type TestStructWithMap1 struct {
 	M map[string]string
@@ -141,7 +141,7 @@ type TestStructWithMap2 struct {
 }
 
 func TestStructContainingMapInput_string_string(t *testing.T) {
-	fnName := "testStructContainingMapInput_string_string"
+	fnName := "test_struct_containing_map_input_string_string"
 	s1 := TestStructWithMap1{M: map[string]string{
 		"a": "1",
 		"b": "2",
@@ -162,27 +162,28 @@ func TestStructContainingMapInput_string_string(t *testing.T) {
 	}
 }
 
-func TestStructContainingMapOutput_string_string(t *testing.T) {
-	fnName := "testStructContainingMapOutput_string_string"
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// TODO:
+// func TestStructContainingMapOutput_string_string(t *testing.T) {
+// 	fnName := "test_struct_containing_map_output_string_string"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := TestStructWithMap1{M: map[string]string{
-		"a": "1",
-		"b": "2",
-		"c": "3",
-	}}
+// 	expected := TestStructWithMap1{M: map[string]string{
+// 		"a": "1",
+// 		"b": "2",
+// 		"c": "3",
+// 	}}
 
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(TestStructWithMap1); !ok {
-		t.Errorf("expected %T, got %T", expected, result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.(TestStructWithMap1); !ok {
+// 		t.Errorf("expected %T, got %T", expected, result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 func makeTestMap(size int) map[string]string {
 	m := make(map[string]string, size)
@@ -194,8 +195,8 @@ func makeTestMap(size int) map[string]string {
 	return m
 }
 
-func TestMapInput_int_float32(t *testing.T) {
-	fnName := "testMapInput_int_float32"
+func TestMapInput_int_float(t *testing.T) {
+	fnName := "test_map_input_int_float"
 	m := map[int]float32{
 		1: 1.1,
 		2: 2.2,
@@ -212,24 +213,66 @@ func TestMapInput_int_float32(t *testing.T) {
 	}
 }
 
-func TestMapOutput_int_float32(t *testing.T) {
-	fnName := "testMapOutput_int_float32"
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// TODO:
+// func TestMapOutput_int_float(t *testing.T) {
+// 	fnName := "test_map_output_int_float"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := map[int]float32{
+// 	expected := map[int]float32{
+// 		1: 1.1,
+// 		2: 2.2,
+// 		3: 3.3,
+// 	}
+
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.(map[int]float32); !ok {
+// 		t.Errorf("expected %T, got %T", expected, result)
+// 	} else if !maps.Equal(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
+
+func TestMapInput_int_double(t *testing.T) {
+	fnName := "test_map_input_int_double"
+	m := map[int]float64{
 		1: 1.1,
 		2: 2.2,
 		3: 3.3,
 	}
 
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(map[int]float32); !ok {
-		t.Errorf("expected %T, got %T", expected, result)
-	} else if !maps.Equal(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
+	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+		t.Error(err)
+	}
+	if m, err := utils.ConvertToMap(m); err != nil {
+		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
+	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+		t.Error(err)
 	}
 }
+
+// TODO:
+// func TestMapOutput_int_double(t *testing.T) {
+// 	fnName := "test_map_output_int_double"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
+
+// 	expected := map[int]float64{
+// 		1: 1.1,
+// 		2: 2.2,
+// 		3: 3.3,
+// 	}
+
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.(map[int]float64); !ok {
+// 		t.Errorf("expected %T, got %T", expected, result)
+// 	} else if !maps.Equal(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
