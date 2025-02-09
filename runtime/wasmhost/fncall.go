@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -61,7 +60,7 @@ func CallFunction(ctx context.Context, fnName string, paramValues ...any) (Execu
 }
 
 func (host *wasmHost) CallFunctionByName(ctx context.Context, fnName string, paramValues ...any) (ExecutionInfo, error) {
-	log.Printf("GML: wasmhost/fncall.go: CallFunctionByName: fnName: '%v', paramValues: %+v", fnName, paramValues)
+	gmlPrintf("GML: wasmhost/fncall.go: CallFunctionByName: fnName: '%v', paramValues: %+v", fnName, paramValues)
 	info, err := host.GetFunctionInfo(fnName)
 	if err != nil {
 		return nil, err

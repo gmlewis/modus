@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -48,13 +47,13 @@ type pointerHandler struct {
 }
 
 func (h *pointerHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_pointers.go: pointerHandler.Read(offset: %v)", offset)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.Read(offset: %v)", offset)
 
 	ptr, ok := wa.Memory().ReadUint32Le(offset)
 	if !ok {
 		return nil, errors.New("failed to read pointer from memory")
 	}
-	log.Printf("GML: handler_pointers.go: pointerHandler.Read(offset: %v): ptr=%v", offset, ptr)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.Read(offset: %v): ptr=%v", offset, ptr)
 
 	return h.readData(ctx, wa, ptr)
 }
@@ -73,7 +72,7 @@ func (h *pointerHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func (h *pointerHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_pointers.go: pointerHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %v: %+v", len(vals), vals)
@@ -83,23 +82,23 @@ func (h *pointerHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter,
 	// if err != nil {
 	// 	return nil, err
 	// }
-	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: memBlock=%+v", memBlock)
+	// gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode: memBlock=%+v", memBlock)
 	// if len(memBlock) == 0 {
 	// 	return nil, nil
 	// }
 
 	// sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	// // numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	// // log.Printf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
-	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v", sliceOffset)
+	// // gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v, numElements=%v", sliceOffset, numElements)
+	// gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode: sliceOffset=%v", sliceOffset)
 
 	// sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
 	// if err != nil {
 	// 	return nil, err
 	// }
 
-	// // log.Printf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock=%+v", sliceOffset, numElements, sliceMemBlock)
-	// log.Printf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v), sliceMemBlock(%v bytes)=%+v", sliceOffset, len(sliceMemBlock), sliceMemBlock)
+	// // gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock=%+v", sliceOffset, numElements, sliceMemBlock)
+	// gmlPrintf("GML: handler_pointers.go: pointerHandler.Decode: (sliceOffset: %v), sliceMemBlock(%v bytes)=%+v", sliceOffset, len(sliceMemBlock), sliceMemBlock)
 
 	return h.readData(ctx, wa, uint32(vals[0]))
 }
@@ -126,14 +125,14 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("GML: handler_pointers.go: pointerHandler.readData: data=%#v", data)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.readData: data=%#v", data)
 
 	ptr := utils.MakePointer(data)
 	return ptr, nil
 }
 
 func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: obj=%T=%+v", obj, obj)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: obj=%T=%+v", obj, obj)
 
 	if utils.HasNil(obj) {
 		// nil pointer
@@ -141,13 +140,13 @@ func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapt
 	}
 
 	data := utils.DereferencePointer(obj)
-	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+v", data, data)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+v", data, data)
 
 	res, cln, err := h.elementHandler.Encode(ctx, wa, data)
 	if err != nil {
 		return 0, cln, err
 	}
-	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: res=%+v", res)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: res=%+v", res)
 
 	return uint32(res[0]), cln, nil
 

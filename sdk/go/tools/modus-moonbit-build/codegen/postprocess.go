@@ -11,7 +11,6 @@ package codegen
 
 import (
 	"bytes"
-	"log"
 	"path/filepath"
 	"sort"
 
@@ -277,7 +276,7 @@ pub(all) struct Cleanup {
 `)
 
 	for pkg, name := range imports {
-		log.Printf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
+		gmlPrintf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
 	}
 
 	if _, ok := imports["@time"]; ok {

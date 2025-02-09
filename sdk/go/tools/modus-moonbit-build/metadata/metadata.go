@@ -15,12 +15,29 @@ import (
 	"fmt"
 	"go/token"
 	"log"
+	"os"
 	"sort"
 	"strings"
+	"sync"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 	"github.com/rs/xid"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 const MetadataVersion = 2
 
@@ -117,7 +134,7 @@ func (f *Function) String(m *Metadata) string {
 		}
 	}
 
-	log.Printf("programming error - this should not happen for MoonBit.")
+	gmlPrintf("programming error - this should not happen for MoonBit.")
 
 	b.WriteString(" -> (")
 	for i, r := range f.Results {

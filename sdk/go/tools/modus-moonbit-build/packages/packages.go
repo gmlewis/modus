@@ -12,8 +12,26 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
+	"log"
+	"os"
+	"sync"
 	"time"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 // A LoadMode controls the amount of detail to return when loading.
 // The bits below can be combined to specify which fields should be
@@ -132,7 +150,7 @@ type Config struct {
 	// // Logf is the logger for the config.
 	// // If the user provides a logger, debug logging is enabled.
 	// // If the GOPACKAGESDEBUG environment variable is set to true,
-	// // but the logger is nil, default to log.Printf.
+	// // but the logger is nil, default to gmlPrintf.
 	// Logf func(format string, args ...interface{})
 
 	// Dir is the directory in which to run the build system's query tool

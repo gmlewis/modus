@@ -13,7 +13,6 @@ import (
 	"fmt"
 	"go/ast"
 	"go/types"
-	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
@@ -174,7 +173,7 @@ func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
 // Remove them so that the types can be properly resolved.
 func hackStripEmptyPackage(typ string) string {
 	// if strings.HasPrefix(typ, "@..") { // TODO: Why is this seen during runtime?
-	// 	log.Printf("GML: extractor/functions.go: STRIPPING '@..' from type=%q", typ)
+	// 	gmlPrintf("GML: extractor/functions.go: STRIPPING '@..' from type=%q", typ)
 	// 	return typ[3:]
 	// }
 	return typ
@@ -214,7 +213,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 		}
 		if hasOption {
 			underlying := t.Underlying()
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: underlying: %T=%#v", underlying, underlying)
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: underlying: %T=%#v", underlying, underlying)
 			// tmpType := types.NewNamed(types.NewTypeName(0, nil, typ, nil), t.Underlying(), nil)
 			// addRequiredTypes(tmpType, m)
 		}
@@ -227,23 +226,23 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 		u := t.Underlying()
 		// Hack to make a tuple appear to have an underlying struct type for the metadata:
 		if u == nil {
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
 			if s, ok := t.Obj().Type().(*types.Struct); ok {
 				u = s
 			} else {
-				log.Printf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
+				gmlPrintf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
 				if typeSpec, ok := pkg.StructLookup[name]; ok {
 					if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
 						u = customType.Type().Underlying()
-						log.Printf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
+						gmlPrintf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
 					} else {
-						log.Printf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
+						gmlPrintf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
 					}
 				}
 			}
 		}
 		m[name] = u
-		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
 		// var hasOption bool
 		// name, _, hasOption = stripErrorAndOption(name)
 		// if hasOption {
@@ -259,29 +258,29 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			// t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
 			// parts := strings.Split(t, ",")
 			// if len(parts) != 2 {
-			// 	log.Printf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+			// 	gmlPrintf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
 			// 	return false
 			// }
 			// Force the planner to make a plan for slices of the keys and values of the map.
 			// keyType := strings.TrimSpace(parts[0])
 			keyName := fmt.Sprintf("Array[%v]", keyType)
 			m[keyName] = nil
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", keyName)
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", keyName)
 			// valueType := strings.TrimSpace(parts[1])
 			valueName := fmt.Sprintf("Array[%v]", valueType)
 			m[valueName] = nil
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
 			_, _, hasOption = utils.StripErrorAndOption(valueType)
 			if hasOption {
 				m[valueName] = nil
-				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
 			}
 			// TODO: This is not correct. May have to rethink how the MoonBit source code is parsed.
 			// if utils.IsStructType(valueType) {
 			// 	if _, ok := m[valueType]; !ok {
 			// 		for k := range m {
 			// 			if strings.Contains(k, valueType) {
-			// 				log.Printf("GML: known type: %q", k)
+			// 				gmlPrintf("GML: known type: %q", k)
 			// 			}
 			// 		}
 			// 		log.Fatalf("ERROR: Required type '%v' is not exported. Please export it by adding the `pub` keyword and try again.\n", valueType)
@@ -320,15 +319,15 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			return true
 		}
 	case *types.Map:
-		log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: A")
+		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: A")
 		if addRequiredTypes(t.Key(), m, pkg) {
-			log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: B")
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: B")
 			if addRequiredTypes(t.Elem(), m, pkg) {
-				log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: C")
+				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: C")
 				if addRequiredTypes(types.NewSlice(t.Key()), m, pkg) {
-					log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: D")
+					gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: D")
 					if addRequiredTypes(types.NewSlice(t.Elem()), m, pkg) {
-						log.Printf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: m[%q]=%T", name, t)
+						gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: m[%q]=%T", name, t)
 						m[name] = t
 						return true
 					}
@@ -344,13 +343,13 @@ func GetMapSubtypes(typ string) (string, string) {
 	typ, _, _ = utils.StripErrorAndOption(typ)
 
 	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
-		log.Printf("ERROR: functions.go: GetMapSubtypes('%v'): Bad map type!", typ)
+		gmlPrintf("ERROR: functions.go: GetMapSubtypes('%v'): Bad map type!", typ)
 		return "", ""
 	}
 
 	const prefix = "Map[" // e.g. Map[String, Int]
 	if !strings.HasPrefix(typ, prefix) {
-		log.Printf("GML: extractor/functions.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		gmlPrintf("GML: extractor/functions.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
 	typ = strings.TrimSuffix(typ, "?")
@@ -367,12 +366,12 @@ func GetMapSubtypes(typ string) (string, string) {
 		case ',':
 			if n == 1 {
 				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
-				log.Printf("GML: extractor/functions.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				gmlPrintf("GML: extractor/functions.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}
 		}
 	}
 
-	log.Printf("GML: extractor/functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	gmlPrintf("GML: extractor/functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
 }

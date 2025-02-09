@@ -12,7 +12,6 @@ package wasmhost
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"time"
 	"unicode/utf16"
@@ -86,7 +85,7 @@ func instantiateEnvHostFunctions(ctx context.Context, r wazero.Runtime) error {
 				printBuffer += decodedString
 				highSurrogate = 0 // Reset the high surrogate
 			} else {
-				log.Printf("WARNING: Invalid UTF-16 low surrogate without a high surrogate: %v", utf16CodeUnit)
+				gmlPrintf("WARNING: Invalid UTF-16 low surrogate without a high surrogate: %v", utf16CodeUnit)
 				printBuffer += string(rune(utf16CodeUnit))
 			}
 			return

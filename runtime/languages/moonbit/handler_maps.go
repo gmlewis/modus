@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -107,7 +106,7 @@ type mapHandler struct {
 }
 
 func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_maps.go: mapHandler.Read(offset: %v)", offset)
+	gmlPrintf("GML: handler_maps.go: mapHandler.Read(offset: %v)", offset)
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
 	/*
@@ -185,7 +184,7 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 }
 
 func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_maps.go: DEBUG mapHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_maps.go: DEBUG mapHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a map but got %v: %+v", len(vals), vals)
@@ -201,15 +200,15 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	}
 
 	if len(memBlock) != 40 {
-		log.Printf("GML: handler_maps.go: mapHandler.Decode: expected memBlock length of 40, got %v", len(memBlock))
+		gmlPrintf("GML: handler_maps.go: mapHandler.Decode: expected memBlock length of 40, got %v", len(memBlock))
 	}
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: sliceOffset=%+v=%v", memBlock[8:12], sliceOffset)
+	gmlPrintf("GML: handler_maps.go: mapHandler.Decode: sliceOffset=%+v=%v", memBlock[8:12], sliceOffset)
 	// ptr1 := binary.LittleEndian.Uint32(memBlock[12:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: ptr1=%+v=%v", memBlock[12:16], ptr1)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: ptr1=%+v=%v", memBlock[12:16], ptr1)
 	numElements := binary.LittleEndian.Uint32(memBlock[16:])
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: numElements=%+v=%v", memBlock[16:20], numElements)
+	gmlPrintf("GML: handler_maps.go: mapHandler.Decode: numElements=%+v=%v", memBlock[16:20], numElements)
 
 	if numElements == 0 {
 		// return an empty map
@@ -218,15 +217,15 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	}
 
 	// const2 := binary.LittleEndian.Uint32(memBlock[20:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const2=%+v=%v", memBlock[20:24], const2)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: const2=%+v=%v", memBlock[20:24], const2)
 	// const3 := binary.LittleEndian.Uint32(memBlock[24:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const3=%+v=%v", memBlock[24:28], const3)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: const3=%+v=%v", memBlock[24:28], const3)
 	// const4 := binary.LittleEndian.Uint32(memBlock[28:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: const4=%+v=%v", memBlock[28:32], const4)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: const4=%+v=%v", memBlock[28:32], const4)
 	// firstKVPair := binary.LittleEndian.Uint32(memBlock[32:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: firstKVPair=%+v=%v", memBlock[32:36], firstKVPair)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: firstKVPair=%+v=%v", memBlock[32:36], firstKVPair)
 	// lastKVPair := binary.LittleEndian.Uint32(memBlock[36:])
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
 
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
 	if err != nil {
@@ -244,14 +243,14 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// if err != nil {
 	// 	return nil, err
 	// }
-	log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[8:12], sliceOffset, len(sliceMemBlock), sliceMemBlock)
+	gmlPrintf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), sliceMemBlock(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[8:12], sliceOffset, len(sliceMemBlock), sliceMemBlock)
 	// dumpMemBlock(wa, "sliceMemBlock", sliceMemBlock)
 
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), ptr1(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[12:16], ptr1, len(ptr1MemBlock), ptr1MemBlock)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), ptr1(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[12:16], ptr1, len(ptr1MemBlock), ptr1MemBlock)
 	// dumpMemBlock(wa, "ptr1", ptr1MemBlock)
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), firstKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[32:36], firstKVPair, len(firstKVPairMemBlock), firstKVPairMemBlock)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), firstKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[32:36], firstKVPair, len(firstKVPairMemBlock), firstKVPairMemBlock)
 	// dumpMemBlock(wa, "firstKVPair", firstKVPairMemBlock)
-	// log.Printf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), lastKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[36:40], lastKVPair, len(lastKVPairMemBlock), lastKVPairMemBlock)
+	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: (sliceOffset: %v, numElements: %v), lastKVPair(%+v=@%v)=(%v bytes)=%+v", sliceOffset, numElements, memBlock[36:40], lastKVPair, len(lastKVPairMemBlock), lastKVPairMemBlock)
 	// dumpMemBlock(wa, "lastKVPair", lastKVPairMemBlock)
 
 	// Make a slice of keys and a slice of values, and turn it into a map.
@@ -268,7 +267,7 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	}
 	return m.Interface(), nil
 
-	// log.Printf("GML: handler_maps.go: ORIGINAL mapHandler.Decode(vals: %+v)", vals)
+	// gmlPrintf("GML: handler_maps.go: ORIGINAL mapHandler.Decode(vals: %+v)", vals)
 
 	// mapPtr := uint32(vals[0])
 	// if mapPtr == 0 {
@@ -303,20 +302,20 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 	var sliceIndex int
 	for i := 8; i < len(sliceMemBlock); i += 4 {
 		tupleOffset := binary.LittleEndian.Uint32(sliceMemBlock[i : i+4])
-		log.Printf("GML: handler_maps.go: readMapKeysAndValues: tupleOffset=sliceMemBlock[%v:%v]=%+v=%v", i, i+4, sliceMemBlock[i:i+4], tupleOffset)
+		gmlPrintf("GML: handler_maps.go: readMapKeysAndValues: tupleOffset=sliceMemBlock[%v:%v]=%+v=%v", i, i+4, sliceMemBlock[i:i+4], tupleOffset)
 		if tupleOffset == 0 {
 			continue
 		}
 		newMemBlock, _, err := memoryBlockAtOffset(wa, tupleOffset, true)
 		if err != nil {
-			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: memoryBlockAtOffset failed: %v", err)
+			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: memoryBlockAtOffset failed: %v", err)
 			continue
 		}
 		// refCount := binary.LittleEndian.Uint32(newMemBlock[0:4])
 		moonBitType := newMemBlock[4]
 		moonBitTypeName := moonBitBlockType[moonBitType]
 		if moonBitTypeName != "Tuple" {
-			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: expected moonBitTypeName 'Tuple', got %v", moonBitTypeName)
+			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: expected moonBitTypeName 'Tuple', got %v", moonBitTypeName)
 			continue
 		}
 		nmbLen := len(newMemBlock)
@@ -325,7 +324,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 
 		key, err := h.keysHandler.Read(ctx, wa, keyOffset)
 		if err != nil {
-			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: keysHandler.Read failed: %v", err)
+			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: keysHandler.Read failed: %v", err)
 			continue
 		}
 		if !utils.HasNil(key) {
@@ -334,7 +333,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 
 		value, err := h.valuesHandler.Read(ctx, wa, valueOffset)
 		if err != nil {
-			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: valuesHandler.Read failed: %v", err)
+			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: valuesHandler.Read failed: %v", err)
 			continue
 		}
 		if !utils.HasNil(value) {
@@ -368,7 +367,7 @@ func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte
 			if err == nil {
 				s, err := doReadString(stringData)
 				if err == nil {
-					log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => '%v'",
+					gmlPrintf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => '%v'",
 						namePrefix, len(memBlock), refCount, i, i+4, memBlock[i:i+4], ptr, newMemBlock, s)
 					continue
 				}
@@ -381,13 +380,13 @@ func dumpMemBlock(wa langsupport.WasmAdapter, namePrefix string, memBlock []byte
 				s2ptr := binary.LittleEndian.Uint32(newMemBlock[nmbLen-4:])
 				s2, err2 := stringDataAtOffset(wa, s2ptr)
 				if err1 == nil && err2 == nil {
-					log.Printf(`GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => ("%s","%s")`,
+					gmlPrintf(`GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, memBlock[%v:%v]=%+v=@%v=%+v => ("%s","%s")`,
 						namePrefix, len(memBlock), refCount, i, i+4, memBlock[i:i+4], ptr, newMemBlock, s1, s2)
 					continue
 				}
 			}
 		}
-		log.Printf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, moonBitType=%v(%v), memBlock[%v:%v]=%+v=@%v=%+v",
+		gmlPrintf("GML: handler_maps.go: dumpMemBlock: %v(%v bytes): refCount=%v, moonBitType=%v(%v), memBlock[%v:%v]=%+v=@%v=%+v",
 			namePrefix, len(memBlock), refCount, moonBitType, moonBitTypeName, i, i+4, memBlock[i:i+4], ptr, newMemBlock)
 	}
 }
@@ -408,7 +407,7 @@ func (h *mapHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj
 }
 
 func (h *mapHandler) doWriteMap(ctx context.Context, wa langsupport.WasmAdapter, obj any) (pMap uint32, cln utils.Cleaner, err error) {
-	log.Printf("GML: handler_maps.go: mapHandler.doWriteMap is not yet implemented for MoonBit")
+	gmlPrintf("GML: handler_maps.go: mapHandler.doWriteMap is not yet implemented for MoonBit")
 	return 0, nil, nil
 	/*
 	   	if utils.HasNil(obj) {

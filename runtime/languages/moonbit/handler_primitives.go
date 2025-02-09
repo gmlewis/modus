@@ -12,7 +12,6 @@ package moonbit
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -34,7 +33,7 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	}()
 
 	typ, hasError, hasOption := stripErrorAndOption(ti.Name())
-	log.Printf("GML: handler_primitives.go: NewPrimitiveHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
+	gmlPrintf("GML: handler_primitives.go: NewPrimitiveHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
 
 	switch typ {
 	case "Bool":
@@ -82,7 +81,7 @@ type primitiveHandler[T primitive] struct {
 }
 
 func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, offset)
+	gmlPrintf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, offset)
 
 	val, ok := h.converter.Read(wa.Memory(), offset)
 	if !ok {
@@ -106,7 +105,7 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdap
 }
 
 func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))

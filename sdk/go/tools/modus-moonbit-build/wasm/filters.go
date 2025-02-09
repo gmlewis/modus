@@ -11,7 +11,6 @@ package wasm
 
 import (
 	"encoding/json"
-	"log"
 	"path/filepath"
 	"strings"
 
@@ -34,7 +33,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	}
 
 	buf, _ := json.MarshalIndent(info, "", "  ")
-	log.Printf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
+	gmlPrintf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
 
 	filterExportsImportsAndTypes(info, meta)
 
@@ -49,7 +48,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
-			log.Printf("GML: wasm/filters.go: FilterMetadata: removing unused FnImport: %v", name)
+			gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing unused FnImport: %v", name)
 			delete(meta.FnImports, name)
 		}
 	}
@@ -63,7 +62,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 		if _, ok := exports[name]; !ok {
 			//TODO: delete(meta.FnExports, name)
 			if strings.HasPrefix(name, "__modus_") {
-				log.Printf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
+				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
 				delete(meta.FnExports, name)
 			}
 		}
@@ -81,7 +80,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 					keptTypes[param.Type] = meta.Types[param.Type]
 					//TODO: delete(meta.Types, paramType)
 				} else {
-					log.Printf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
+					gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
 				}
 			}
 			for _, result := range fn.Results {
@@ -90,7 +89,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 					keptTypes[result.Type] = meta.Types[result.Type]
 					//TODO: delete(meta.Types, resultType)
 				} else {
-					log.Printf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
+					gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
 				}
 			}
 		}

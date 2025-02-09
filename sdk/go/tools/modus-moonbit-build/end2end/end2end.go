@@ -18,10 +18,26 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 const graphqlPort = 8686
 
@@ -32,32 +48,32 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	}
 	defer func() {
 		if err := os.Chdir(cwd); err != nil {
-			log.Printf("os.Chdir(%q): %v", cwd, err)
+			gmlPrintf("os.Chdir(%q): %v", cwd, err)
 		}
 	}()
 
-	log.Printf("Changing directory to %q", config.SourceDir)
+	gmlPrintf("Changing directory to %q", config.SourceDir)
 	if err := os.Chdir(config.SourceDir); err != nil {
 		return err
 	}
 
 	if pid, err := getPIDUsingPort(graphqlPort); err != nil {
-		log.Printf("Error getting PID using port %v: %v", graphqlPort, err)
+		gmlPrintf("Error getting PID using port %v: %v", graphqlPort, err)
 	} else {
-		log.Printf("Killing process with PID %v to free up port %v", pid, graphqlPort)
+		gmlPrintf("Killing process with PID %v to free up port %v", pid, graphqlPort)
 		if err := killProcess(pid); err != nil {
-			log.Printf("Failed to kill process with pid %v: %v", pid, err)
+			gmlPrintf("Failed to kill process with pid %v: %v", pid, err)
 		}
 	}
 
-	log.Printf("Waiting for Modus CLI to terminate and release its port")
+	gmlPrintf("Waiting for Modus CLI to terminate and release its port")
 	if !waitForPortToBeFree(graphqlPort, 20*time.Second) {
-		log.Printf("Start of main loop: port %v is still in use after waiting", graphqlPort)
+		gmlPrintf("Start of main loop: port %v is still in use after waiting", graphqlPort)
 	} else {
-		log.Printf("Start of main loop: port %v is now free", graphqlPort)
+		gmlPrintf("Start of main loop: port %v is now free", graphqlPort)
 	}
 
-	log.Printf("Running Modus CLI for %q", plugin.Name)
+	gmlPrintf("Running Modus CLI for %q", plugin.Name)
 	cliCmd := filepath.Join(repoAbsPath, "cli/bin/modus.js")
 	ctx := context.Background()
 	cancel := func() {} // No-op cancel function
@@ -76,9 +92,9 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	pid := cmd.Process.Pid
 	// Wait for port 8686 to be in use:
 	if !waitForPortToBeInUse(graphqlPort, 20*time.Second) {
-		log.Printf("WARNING: Modus CLI runner: port %v is not in use after waiting - did the Modus CLI start?", graphqlPort)
+		gmlPrintf("WARNING: Modus CLI runner: port %v is not in use after waiting - did the Modus CLI start?", graphqlPort)
 	} else {
-		log.Printf("\n\nModus CLI runner: port %v is now ready for use.", graphqlPort)
+		gmlPrintf("\n\nModus CLI runner: port %v is now ready for use.", graphqlPort)
 	}
 
 	// Get child PIDs
@@ -90,9 +106,9 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	defer killAllPIDs(allPIDs)
 
 	go func() {
-		log.Printf("Waiting for Modus CLI to finish... (pid: %v, child pids: %+v)", pid, childPIDs)
+		gmlPrintf("Waiting for Modus CLI to finish... (pid: %v, child pids: %+v)", pid, childPIDs)
 		if err := cmd.Wait(); err != nil {
-			log.Printf("cmd.Wait: %v", err)
+			gmlPrintf("cmd.Wait: %v", err)
 		}
 	}()
 
@@ -104,18 +120,18 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	}
 
 	// Kill the Modus CLI
-	log.Printf("Terminating Modus CLI")
+	gmlPrintf("Terminating Modus CLI")
 	if err := cmd.Cancel(); err != nil {
-		log.Printf("Failed to cancel Modus CLI: %v", err)
+		gmlPrintf("Failed to cancel Modus CLI: %v", err)
 	}
 	cancel() // Cancel the context
 	killAllPIDs(allPIDs)
 
-	log.Printf("Waiting for Modus CLI to terminate and release its port")
+	gmlPrintf("Waiting for Modus CLI to terminate and release its port")
 	if !waitForPortToBeFree(graphqlPort, 20*time.Second) {
-		log.Printf("End of main loop: port %v is still in use after waiting", graphqlPort)
+		gmlPrintf("End of main loop: port %v is still in use after waiting", graphqlPort)
 	} else {
-		log.Printf("End of main loop: port %v is now free", graphqlPort)
+		gmlPrintf("End of main loop: port %v is now free", graphqlPort)
 	}
 
 	return nil

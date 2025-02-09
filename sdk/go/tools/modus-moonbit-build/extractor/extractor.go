@@ -13,14 +13,31 @@ import (
 	"fmt"
 	"go/types"
 	"log"
+	"os"
 	"sort"
 	"strings"
+	"sync"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 func CollectProgramInfo(config *config.Config, meta *metadata.Metadata) error {
 	pkgs, err := loadPackages(config.SourceDir)
@@ -90,10 +107,10 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			}
 			t.Id = id
 			meta.Types[name] = t
-			log.Printf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
+			gmlPrintf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
 		} else {
 			if name == "Person" || strings.HasPrefix(name, "TimeZoneInfo") {
-				log.Printf("GML: extractor.go: CollectProgramInfo: B: t: %T, meta.Types[%q] = {ID:%q,Name:%q}\n", t, name, id, name)
+				gmlPrintf("GML: extractor.go: CollectProgramInfo: B: t: %T, meta.Types[%q] = {ID:%q,Name:%q}\n", t, name, id, name)
 			}
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,
@@ -116,7 +133,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 // 		}
 // 		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)
 // 		if hasOption {
-// 			log.Printf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
+// 			gmlPrintf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
 // 			if baseTyp, ok := meta.Types[baseTypeName]; ok {
 // 				if len(baseTyp.Fields) == 0 {
 // 					baseTyp.Fields = origTyp.Fields

@@ -12,15 +12,14 @@ package packages
 import (
 	"go/ast"
 	"go/types"
-	"log"
 	"strings"
 )
 
 func (p *Package) processImportedHostFns(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
 	for _, match := range m {
-		log.Printf("GML: processImportedHostFns: processing: %+v", match)
+		gmlPrintf("GML: processImportedHostFns: processing: %+v", match)
 		if len(match) != 5 {
-			log.Printf("PROGRAMMING ERROR: len(match) != 5: %+v", match)
+			gmlPrintf("PROGRAMMING ERROR: len(match) != 5: %+v", match)
 			continue
 		}
 		returnSig := strings.TrimSpace(strings.TrimPrefix(match[2], "->"))
@@ -31,7 +30,7 @@ func (p *Package) processImportedHostFns(typesPkg *types.Package, decls []ast.De
 		hostFn := match[4]
 		methodName := hostEnv + "." + hostFn
 		allArgs := strings.TrimSpace(match[1])
-		log.Printf("GML: imported host function: %v(%v) -> %v", methodName, allArgs, returnSig)
+		gmlPrintf("GML: imported host function: %v(%v) -> %v", methodName, allArgs, returnSig)
 
 		docs := &ast.CommentGroup{ // trigger this to be a host import function
 			List: []*ast.Comment{

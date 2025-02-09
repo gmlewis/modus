@@ -13,7 +13,6 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
-	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
@@ -23,7 +22,7 @@ import (
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {
 	// if s == nil {
-	// 	log.Printf("GML: extractor/transform.go: transformStruct(name=%q, s=nil)", name)
+	// 	gmlPrintf("GML: extractor/transform.go: transformStruct(name=%q, s=nil)", name)
 	// 	return nil
 	// }
 
@@ -63,7 +62,7 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Package) *metadata.Function {
 	f := fpkg.fn
 	if f == nil {
-		log.Printf("GML: extractor/transform.go: transformFunc(name=%q, f=nil)", name)
+		gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q, f=nil)", name)
 		return nil
 	}
 
@@ -73,7 +72,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 
 	funcDecl := getFuncDeclaration(f, pkgs)
 	if funcDecl == nil {
-		log.Printf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', funcDecl=nil", sig.String(), name)
+		gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', funcDecl=nil", sig.String(), name)
 		return nil
 	}
 
@@ -93,7 +92,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 				// TODO: Add default value here if it is a constant literal
 				// Default:
 			}
-			log.Printf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', param[%v]: {Name: %q, Type: %q}", name, sig.String(), i, param.Name, param.Type)
+			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', param[%v]: {Name: %q, Type: %q}", name, sig.String(), i, param.Name, param.Type)
 			ret.Parameters[i] = param
 		}
 	}
@@ -107,7 +106,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 				Name: r.Name(),
 				Type: resultType,
 			}
-			log.Printf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', result[%v]: {Name: %q, Type: %q}", name, sig.String(), i, result.Name, result.Type)
+			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', result[%v]: {Name: %q, Type: %q}", name, sig.String(), i, result.Name, result.Type)
 			ret.Results[i] = result
 		}
 	}
@@ -127,18 +126,18 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 		// This struct does not have a package name, therefore it should be in the main package. Find it.
 		typ, _, _ := utils.StripErrorAndOption(objName)
 		for pkgName, pkg := range pkgs {
-			log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): looking at pkgs[%q]", name, pkgName)
+			gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): looking at pkgs[%q]", name, pkgName)
 			if typeSpec, ok := pkg.StructLookup[typ]; ok {
 				if structType, ok := typeSpec.Type.(*ast.StructType); ok {
-					log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): FOUND: p.StructLookup[%q]=%p", name, typ, typeSpec)
+					gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): FOUND: p.StructLookup[%q]=%p", name, typ, typeSpec)
 					customType, ok := pkg.TypesInfo.Defs[typeSpec.Name]
 					if !ok {
-						log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
+						gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
 					}
 					underlying := customType.Type().Underlying()
 					typesStruct, ok := underlying.(*types.Struct)
 					if !ok {
-						log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
+						gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
 					}
 					genDecl := findGenDeclForTypeSpecName(pkg.Syntax, typeSpec.Name.Name)
 					return genDecl, structType, typesStruct
@@ -146,16 +145,16 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 			}
 		}
 		// The struct is not found.
-		log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg not found!", name)
+		gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg not found!", name)
 		return nil, nil, nil
 	}
 
 	pkgName := pkgNames[0]
 	pkg := pkgs[pkgName]
 	if pkg == nil {
-		log.Printf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg[%q] is nil", name, pkgName)
+		gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg[%q] is nil", name, pkgName)
 		for pkgName := range pkgs {
-			log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
+			gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
 		}
 		return nil, nil, nil
 	}
@@ -172,24 +171,24 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 								// // Make sure we use the complete struct definition with all its fields and not an empty forward reference.
 								// if fullTypeSpec, ok := pkg.StructLookup[typeSpec.Name.Name]; ok {
 								// 	if fullStructType, ok := fullTypeSpec.Type.(*ast.StructType); ok {
-								// 		log.Printf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): Z: fullStructType=%#v", name, fullStructType)
+								// 		gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): Z: fullStructType=%#v", name, fullStructType)
 								// 		return genDecl, fullStructType
 								// 	}
 								// }
-								log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): A", name)
+								gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): A", name)
 								return genDecl, structType, nil
 							} else if ident, ok := typeSpec.Type.(*ast.Ident); ok {
 								typePath := pkgName + "." + ident.Name
-								log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
+								gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
 								return getStructDeclarationAndType(typePath, pkgs)
 							} else if selExp, ok := typeSpec.Type.(*ast.SelectorExpr); ok {
 								if pkgIdent, ok := selExp.X.(*ast.Ident); !ok {
-									log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): C", name)
+									gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): C", name)
 									return nil, nil, nil
 								} else {
 									pkgPath := getFullImportPath(file, pkgIdent.Name)
 									typePath := pkgPath + "." + selExp.Sel.Name
-									log.Printf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
+									gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
 									return getStructDeclarationAndType(typePath, pkgs)
 								}
 							}
@@ -226,19 +225,19 @@ func getFullImportPath(file *ast.File, pkgName string) string {
 		if imp.Name == nil {
 			parts := strings.Split(path, "/")
 			if len(parts) == 0 { // huh?!? is this possible?!?
-				log.Printf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): A: path=%q", pkgName, path)
+				gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): A: path=%q", pkgName, path)
 				return ""
 			}
 			if parts[len(parts)-1] == pkgName {
-				log.Printf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): B: path=%q", pkgName, path)
+				gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): B: path=%q", pkgName, path)
 				return path
 			}
 		} else if imp.Name.Name == pkgName {
-			log.Printf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): C: path=%q", pkgName, path)
+			gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): C: path=%q", pkgName, path)
 			return path
 		}
 	}
-	log.Printf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): D: ''", pkgName)
+	gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): D: ''", pkgName)
 	return ""
 }
 

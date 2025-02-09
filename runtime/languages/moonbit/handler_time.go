@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 	"unsafe"
 
@@ -33,7 +32,7 @@ type timeHandler struct {
 }
 
 func (h *timeHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_time.go: timeHandler.Read(offset: %v)", offset)
+	gmlPrintf("GML: handler_time.go: timeHandler.Read(offset: %v)", offset)
 
 	if offset == 0 {
 		return nil, nil
@@ -58,7 +57,7 @@ func (h *timeHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offs
 }
 
 func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	log.Printf("GML: handler_time.go: timeHandler.Write(offset: %v, obj: %v)", offset, obj)
+	gmlPrintf("GML: handler_time.go: timeHandler.Write(offset: %v, obj: %v)", offset, obj)
 	res, _, err := h.Encode(ctx, wa, obj)
 	if err != nil || len(res) != 1 {
 		return nil, err
@@ -72,7 +71,7 @@ func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, off
 }
 
 func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_time.go: timeHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_time.go: timeHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding time but got %v: %+v", len(vals), vals)
@@ -124,7 +123,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	minute := binary.LittleEndian.Uint32(plainTime[12:])
 	second := binary.LittleEndian.Uint32(plainTime[16:])
 	nanosecond := binary.LittleEndian.Uint32(plainTime[20:])
-	// log.Printf("GML: plainDate=%+v, plainTime=%+v, year=%v, month=%v, day=%v, hour=%v, minute=%v, second=%v, nanosecond=%v", plainDate, plainTime, year, month, day, hour, minute, second, nanosecond)
+	// gmlPrintf("GML: plainDate=%+v, plainTime=%+v, year=%v, month=%v, day=%v, hour=%v, minute=%v, second=%v, nanosecond=%v", plainDate, plainTime, year, month, day, hour, minute, second, nanosecond)
 
 	return time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), int(nanosecond), time.UTC), nil
 
@@ -143,7 +142,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	// if err != nil {
 	// return nil, err
 	// }
-	// log.Printf("GML: zoneID=%+v, zoneOffsets=%+v", zoneID, zoneOffsets)
+	// gmlPrintf("GML: zoneID=%+v, zoneOffsets=%+v", zoneID, zoneOffsets)
 
 	// offset, _, err := memoryBlockAtOffset(wa, offsetPtr)
 	// if err != nil {
@@ -165,7 +164,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	// if err != nil {
 	// return nil, err
 	// }
-	// log.Printf("GML: zoneOffsetID=%+v, zoneOffsetSeconds=%+v, zoneOffsetDST=%+v", zoneOffsetID, zoneOffsetSeconds, zoneOffsetDST)
+	// gmlPrintf("GML: zoneOffsetID=%+v, zoneOffsetSeconds=%+v, zoneOffsetDST=%+v", zoneOffsetID, zoneOffsetSeconds, zoneOffsetDST)
 
 	// return memBlock, nil
 
@@ -188,12 +187,12 @@ func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, ob
 
 	seconds := tm.Unix()
 	nanos := tm.UnixNano() % 1_000_000_000
-	log.Printf("GML: handler_time.go: timeHandler.Encode(obj: %v): seconds=%v, nanos=%v", tm, seconds, nanos)
+	gmlPrintf("GML: handler_time.go: timeHandler.Encode(obj: %v): seconds=%v, nanos=%v", tm, seconds, nanos)
 	res, err := wa.(*wasmAdapter).zonedDateTimeFromUnixSecondsAndNanos.Call(ctx, uint64(seconds), uint64(nanos))
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to convert time.Time to ZonedDateTime: %w", err)
 	}
-	log.Printf("GML: handler_time.go: timeHandler.Encode: res=%+v", res)
+	gmlPrintf("GML: handler_time.go: timeHandler.Encode: res=%+v", res)
 	if len(res) != 2 || res[0] == 0 {
 		return nil, nil, fmt.Errorf("failed to convert time.Time to ZonedDateTime: %+v", res)
 	}

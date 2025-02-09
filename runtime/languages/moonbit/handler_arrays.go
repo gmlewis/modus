@@ -12,7 +12,6 @@ package moonbit
 import (
 	"context"
 	"errors"
-	"log"
 	"reflect"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -47,7 +46,7 @@ type arrayHandler struct {
 }
 
 func (h *arrayHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_arrays.go: arrayHandler.Read(offset: %v)", offset)
+	gmlPrintf("GML: handler_arrays.go: arrayHandler.Read(offset: %v)", offset)
 
 	elementSize := h.elementHandler.TypeInfo().Size()
 	items := reflect.New(h.typeInfo.ReflectedType()).Elem()
@@ -99,7 +98,7 @@ func (h *arrayHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 }
 
 func (h *arrayHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_arrays.go: arrayHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_arrays.go: arrayHandler.Decode(vals: %+v)", vals)
 
 	array := reflect.New(h.typeInfo.ReflectedType()).Elem()
 	itemLen := int(h.elementHandler.TypeInfo().EncodingLength())

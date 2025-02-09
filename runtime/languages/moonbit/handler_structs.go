@@ -13,7 +13,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 
@@ -58,7 +57,7 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_structs.go: structHandler.Read(offset: %v)", debugShowOffset(offset))
+	gmlPrintf("GML: handler_structs.go: structHandler.Read(offset: %v)", debugShowOffset(offset))
 
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
@@ -137,7 +136,7 @@ func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 }
 
 func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
@@ -173,7 +172,7 @@ func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 			m[field.Name] = fieldObj
 		}
 		memBlockOffset += handler.TypeInfo().Alignment() // TODO: Is this correct, or should it be Size() or DataSize() or EncodingLength()?
-		log.Printf("GML: handler_structs.go: structHandler.Decode: field.Name: '%v', Alignment: %v, DataSize: %v, EncodingLength: %v, Size: %v", field.Name, handler.TypeInfo().Alignment(), handler.TypeInfo().DataSize(), handler.TypeInfo().EncodingLength(), handler.TypeInfo().Size())
+		gmlPrintf("GML: handler_structs.go: structHandler.Decode: field.Name: '%v', Alignment: %v, DataSize: %v, EncodingLength: %v, Size: %v", field.Name, handler.TypeInfo().Alignment(), handler.TypeInfo().DataSize(), handler.TypeInfo().EncodingLength(), handler.TypeInfo().Size())
 	}
 
 	return h.getStructOutput(m)

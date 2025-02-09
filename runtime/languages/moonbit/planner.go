@@ -15,7 +15,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"strings"
+	"sync"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -24,9 +26,24 @@ import (
 	wasm "github.com/tetratelabs/wazero/api"
 )
 
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
+
 func NewPlanner(metadata *metadata.Metadata) langsupport.Planner {
 	buf, _ := json.MarshalIndent(metadata, "", "  ")
-	log.Printf("GML: planner.go: NewPlanner:\n%s", buf)
+	gmlPrintf("GML: planner.go: NewPlanner:\n%s", buf)
 	return &planner{
 		typeCache:    make(map[string]langsupport.TypeInfo),
 		typeHandlers: make(map[string]langsupport.TypeHandler),
@@ -42,7 +59,7 @@ type planner struct {
 
 func (p *planner) AddHandler(h langsupport.TypeHandler) {
 	name := h.TypeInfo().Name()
-	log.Printf("GML: planner.go: AddHandler: '%v'", name)
+	gmlPrintf("GML: planner.go: AddHandler: '%v'", name)
 	p.typeHandlers[name] = h
 }
 
@@ -71,7 +88,7 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	}
 
 	if handler, ok := p.typeHandlers[typeName]; ok {
-		// log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning cached handler", typeName)
+		// gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning cached handler", typeName)
 		return handler, nil
 	}
 
@@ -79,47 +96,47 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	if err != nil {
 		return nil, fmt.Errorf("failed to get type info for %v: %w", typeName, err)
 	}
-	log.Printf("GML: planner.go: GetTypeInfo: %#v", ti)
+	gmlPrintf("GML: planner.go: GetTypeInfo: %#v", ti)
 
 	if ti.IsPrimitive() {
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveHandler", typeName)
 		return p.NewPrimitiveHandler(ti)
 	} else if ti.IsString() {
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStringHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStringHandler", typeName)
 		return p.NewStringHandler(ti)
 	} else if ti.IsPointer() {
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
 		if _langTypeInfo.IsSliceType(typeName) {
 			if ti.ListElementType().IsPrimitive() {
-				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
+				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
 				return p.NewPrimitiveSliceHandler(ti)
 			} else {
-				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewSliceHandler", typeName)
+				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewSliceHandler", typeName)
 				return p.NewSliceHandler(ctx, ti)
 			}
 		} else if _langTypeInfo.IsArrayType(typeName) {
 			if ti.ListElementType().IsPrimitive() {
-				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
+				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
 				return p.NewPrimitiveArrayHandler(ti)
 			} else {
-				log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
+				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
 				return p.NewArrayHandler(ctx, ti)
 			}
 		}
 	} else if ti.IsMap() {
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
 		return p.NewMapHandler(ctx, ti)
 	} else if ti.IsTimestamp() {
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewTimeHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewTimeHandler", typeName)
 		return p.NewTimeHandler(ti)
 	} else if ti.IsObject() {
 		if strings.HasPrefix(typeName, "@time.Duration") {
-			log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewDurationHandler", typeName)
+			gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewDurationHandler", typeName)
 			return p.NewDurationHandler(ti)
 		}
-		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStructHandler", typeName)
+		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStructHandler", typeName)
 		return p.NewStructHandler(ctx, ti)
 	}
 
@@ -158,7 +175,7 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 }
 
 func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Function, fnDef wasm.FunctionDefinition) (uint32, error) {
-	log.Printf("GML: planner.go: getIndirectResultSize: fnMeta.Name: '%v', len(fnMeta.Results): %v, len(fnDef.ResultTypes): %v", fnMeta.Name, len(fnMeta.Results), len(fnDef.ResultTypes()))
+	gmlPrintf("GML: planner.go: getIndirectResultSize: fnMeta.Name: '%v', len(fnMeta.Results): %v, len(fnDef.ResultTypes): %v", fnMeta.Name, len(fnMeta.Results), len(fnDef.ResultTypes()))
 	// If no results are expected, then we don't need to use indirection.
 	if len(fnMeta.Results) == 0 {
 		return 0, nil
@@ -190,6 +207,6 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 		}
 		totalSize += size
 	}
-	log.Printf("GML: planner.go: getIndirectResultSize: len(fnMeta.Results)=%v, len(fnDefResultTypes)=%v, totalSize=%v", len(fnMeta.Results), len(fnDef.ResultTypes()), totalSize)
+	gmlPrintf("GML: planner.go: getIndirectResultSize: len(fnMeta.Results)=%v, len(fnDefResultTypes)=%v, totalSize=%v", len(fnMeta.Results), len(fnDef.ResultTypes()), totalSize)
 	return totalSize, nil
 }

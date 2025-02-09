@@ -42,12 +42,12 @@ func main() {
 		genJSON(name, baseDir)
 	}
 
-	log.Printf("Done.")
+	gmlPrintf("Done.")
 }
 
 func genJSON(name, baseDir string) {
 	filename := fmt.Sprintf("testdata/%v-metadata.json", name)
-	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
+	gmlPrintf("gen-metadata-testdata.go: Generating %v ...", filename)
 	sourceDir := filepath.Join(baseDir, "../metagen/testdata", name)
 
 	config := &config.Config{

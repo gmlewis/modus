@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"slices"
 	"strings"
 
@@ -34,7 +33,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		case string:
 			currentImports[v] = true
 		default:
-			log.Printf("WARNING: updateMoonPkgJSON: unexpected import type: %T, ignored.", value)
+			gmlPrintf("WARNING: updateMoonPkgJSON: unexpected import type: %T, ignored.", value)
 		}
 	}
 	for k := range imports {
@@ -43,7 +42,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 			continue
 		}
 		if _, ok := currentImports[k]; !ok {
-			log.Printf("adding import %q to moon.pkg.json", k)
+			gmlPrintf("adding import %q to moon.pkg.json", k)
 			pkg.MoonPkgJSON.Imports = append(pkg.MoonPkgJSON.Imports, json.RawMessage(`"`+k+`"`))
 		}
 	}
@@ -112,7 +111,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		"ptr2int64_array",
 		"ptr2double_array",
 	}
-	log.Printf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
+	gmlPrintf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
 	for _, v := range imports {
 		if v == "@time" {
 			overrides = append(overrides,
@@ -127,7 +126,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	for _, fn := range functions {
 		modusName := fmt.Sprintf("__modus_%v:%[1]v", fn.function.Name.Name)
 		// if _, ok := currentExports[modusName]; !ok {
-		log.Printf("adding link.wasm.export %q to moon.pkg.json", modusName)
+		gmlPrintf("adding link.wasm.export %q to moon.pkg.json", modusName)
 		pkg.MoonPkgJSON.LinkTargets["wasm"].Exports = append(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports, modusName)
 		// }
 	}

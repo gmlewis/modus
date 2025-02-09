@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"go/ast"
 	"go/types"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -65,7 +64,7 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		case string:
 			imports = append(imports, &ast.ImportSpec{Path: &ast.BasicLit{Value: fmt.Sprintf("%q", v)}})
 		default:
-			log.Printf("Warning: unexpected import type: %T; skipping", jsonMsg)
+			gmlPrintf("Warning: unexpected import type: %T; skipping", jsonMsg)
 		}
 	}
 

@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -54,10 +53,10 @@ type sliceHandler struct {
 }
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", debugShowOffset(offset), h.emptyValue)
+	gmlPrintf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", debugShowOffset(offset), h.emptyValue)
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
-	// log.Printf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
+	// gmlPrintf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
 
 	// if offset == 0 {
 	// 	return nil, nil
@@ -85,7 +84,7 @@ func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 }
 
 func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_slices.go: sliceHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
@@ -107,7 +106,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	if numElements == 0 {
 		return h.emptyValue, nil // empty slice
 	}
-	log.Printf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
+	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
 
 	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, true)
 	if err != nil {
@@ -181,7 +180,7 @@ func (h *sliceHandler) doReadSlice(ctx context.Context, wa langsupport.WasmAdapt
 // }
 
 func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error) {
-	log.Printf("GML: handler_slices.go: sliceHandler.doWriteSlice is not yet implemented for MoonBit")
+	gmlPrintf("GML: handler_slices.go: sliceHandler.doWriteSlice is not yet implemented for MoonBit")
 	return 0, nil, nil
 	/*
 	   	if utils.HasNil(obj) {
@@ -233,7 +232,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 }
 
 func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint32, err error) {
-	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader(offset: %v)", debugShowOffset(offset))
+	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader(offset: %v)", debugShowOffset(offset))
 	if offset == 0 {
 		return 0, 0, 0, nil
 	}
@@ -245,13 +244,13 @@ func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint
 
 	data = uint32(val)
 	size = uint32(val >> 32)
-	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader: data=%v, size=%v", debugShowOffset(data), debugShowOffset(size))
+	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader: data=%v, size=%v", debugShowOffset(data), debugShowOffset(size))
 
 	capacity, ok = wa.Memory().ReadUint32Le(offset + 8) // TODO: THIS MAY NOT BE CORRECT FOR MOONBIT!
 	if !ok {
 		return 0, 0, 0, errors.New("failed to read slice capacity from WASM memory")
 	}
-	log.Printf("GML: handler_slices.go: wasmAdapter.readSliceHeader: capacity=%v - TODO!!!", debugShowOffset(capacity))
+	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader: capacity=%v - TODO!!!", debugShowOffset(capacity))
 
 	return data, size, capacity, nil
 }

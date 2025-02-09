@@ -9,7 +9,28 @@
 
 package hostfunctions
 
-import "github.com/gmlewis/modus/runtime/wasmhost"
+import (
+	"log"
+	"os"
+	"sync"
+
+	"github.com/gmlewis/modus/runtime/wasmhost"
+)
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 var registrations []func(wasmhost.WasmHost) error
 

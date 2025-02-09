@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -36,7 +35,7 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 	}
 
 	typ, hasError, hasOption := stripErrorAndOption(ti.ListElementType().Name())
-	log.Printf("GML: handler_primitiveslices.go: NewPrimitiveSliceHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
+	gmlPrintf("GML: handler_primitiveslices.go: NewPrimitiveSliceHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
 
 	switch typ {
 	case "Bool":
@@ -117,7 +116,7 @@ type primitiveSliceHandler[T primitive] struct {
 }
 
 func (h *primitiveSliceHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler[%T].Read(offset: %v)", []T{}, debugShowOffset(offset))
+	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler[%T].Read(offset: %v)", []T{}, debugShowOffset(offset))
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
 
 	// if offset == 0 {
@@ -146,7 +145,7 @@ func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.Was
 }
 
 func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(len(vals): %v)", len(vals))
+	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(len(vals): %v)", len(vals))
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
@@ -159,7 +158,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
+	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
 	// size := numElements * uint32(h.converter.TypeSize())
 
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
@@ -167,14 +166,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 		return nil, err
 	}
 
-	// log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
+	// gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
 
 	items := h.converter.BytesToSlice(sliceMemBlock[8:])
 	return items, nil
 }
 
 func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
-	log.Printf("GML: handler_primitiveslices.go: primitiveSliceHandler.Encode: obj=%T", obj)
+	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Encode: obj=%T", obj)
 	ptr, cln, err := h.doWriteSlice(ctx, wa, obj)
 	if err != nil {
 		return nil, cln, err
@@ -214,7 +213,7 @@ func (h *primitiveSliceHandler[T]) doReadSlice(wa langsupport.WasmAdapter, data,
 */
 
 func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_primitiveslices.go: doWriteSlice: T: %T", []T{})
+	gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: T: %T", []T{})
 
 	if utils.HasNil(obj) {
 		return 0, nil, nil
@@ -227,7 +226,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 
 	numElements := uint32(len(slice))
 	elementSize := h.converter.TypeSize()
-	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elementSize: %v, slice: %+v", len(slice), numElements, elementSize, slice)
+	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elementSize: %v, slice: %+v", len(slice), numElements, elementSize, slice)
 
 	var size uint32
 	// var headerValue uint32
@@ -238,13 +237,13 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	if elementSize == 1 {
 		// Byte arrays: round up to nearest 4 bytes + padding byte
 		paddedSize := ((numElements + 4) / 4) * 4
-		// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
+		// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
 		size = numElements
 		// headerValue = ((paddedSize / 4) << 8) | 246 // 246 is the byte array header type
 		memBlockClassID = 246
 		var zero T
 		for i := numElements; i < paddedSize; i++ {
-			// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
+			// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
 			slice = append(slice, zero) // add the padding bytes
 		}
 
@@ -285,11 +284,11 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 
 	// Allocate data buffer and write using the appropriate function
 	dataBuffer := h.converter.SliceToBytes(slice)
-	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: BEFORE WRITING HEADER: dataBuffer: %+v", dataBuffer)
+	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: BEFORE WRITING HEADER: dataBuffer: %+v", dataBuffer)
 	if writeHeader != nil {
 		writeHeader(dataBuffer)
 	}
-	// log.Printf("GML: handler_primitiveslices.go: doWriteSlice: AFTER WRITING HEADER: dataBuffer: %+v", dataBuffer)
+	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: AFTER WRITING HEADER: dataBuffer: %+v", dataBuffer)
 
 	if ok := wa.Memory().Write(offset, dataBuffer); !ok {
 		return 0, cln, errors.New("failed to write data to WASM memory")

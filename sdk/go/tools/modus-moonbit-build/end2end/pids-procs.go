@@ -11,7 +11,6 @@ package end2end
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"os/exec"
@@ -109,14 +108,14 @@ func getPIDUsingPort(port int) (int, error) {
 // macOS and Linux
 func getPIDUsingPortUnix(port int) (int, error) {
 	args := []string{"-i", fmt.Sprintf(":%v", port)}
-	log.Printf("getPIDUsingPortUnix: running command: lsof %v", strings.Join(args, " "))
+	gmlPrintf("getPIDUsingPortUnix: running command: lsof %v", strings.Join(args, " "))
 	cmd := exec.Command("lsof", args...)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return 0, fmt.Errorf("error executing lsof: %w, Output: %s", err, string(output))
 	}
-	log.Printf("getPIDUsingPortUnix: lsof output:\n%s", output)
+	gmlPrintf("getPIDUsingPortUnix: lsof output:\n%s", output)
 
 	// output might contain multiple lines starting with 'p'. We only want the first one
 	lines := strings.Split(string(output), "\n")
@@ -162,7 +161,7 @@ func getPIDUsingPortWindows(port int) (int, error) {
 func killAllPIDs(pids []int) {
 	for _, pid := range pids {
 		if err := killProcess(pid); err != nil {
-			log.Printf("WARNING: failed to kill process with pid %v: %v", pid, err)
+			gmlPrintf("WARNING: failed to kill process with pid %v: %v", pid, err)
 		}
 	}
 }

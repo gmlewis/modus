@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -130,7 +129,7 @@ func (wa *wasmAdapter) GetFunction(name string) wasm.Function {
 }
 
 func (wa *wasmAdapter) PreInvoke(ctx context.Context, plan langsupport.ExecutionPlan) error {
-	log.Printf("GML: adapter.go: wasmAdapter.PreInvoke")
+	gmlPrintf("GML: adapter.go: wasmAdapter.PreInvoke")
 	return nil
 }
 
@@ -167,14 +166,14 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 		return 0, errors.New("failed to allocate WASM memory")
 	}
 
-	log.Printf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v): offset: %v", size, classID, offset)
+	gmlPrintf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v): offset: %v", size, classID, offset)
 	return offset, nil
 }
 
 // Free memory within the MoonBit module.
 // TODO: Figure out _WHEN_ to clean up the memory so that results can be passed to other wasm functions.
 // func (wa *wasmAdapter) freeWasmMemory(ctx context.Context, offset uint32) error {
-// 	log.Printf("GML: wasmAdapter.freeWasmMemory(offset: %v)", offset)
+// 	gmlPrintf("GML: wasmAdapter.freeWasmMemory(offset: %v)", offset)
 // 	res, err := wa.fnRealloc.Call(ctx, uint64(offset), 0, 0, 0)
 // 	if err != nil {
 // 		return fmt.Errorf("failed to free WASM memory (offset: %v): %w", offset, err)

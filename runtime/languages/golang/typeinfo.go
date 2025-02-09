@@ -12,7 +12,6 @@ package golang
 import (
 	"context"
 	"fmt"
-	"log"
 	"math"
 	"reflect"
 	"strconv"
@@ -33,7 +32,7 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
 	result, err := langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
-	log.Printf("GML: typeinfo.go: GetTypeInfo('%v') = %v, err=%v", typeName, result, err)
+	gmlPrintf("GML: typeinfo.go: GetTypeInfo('%v') = %v, err=%v", typeName, result, err)
 	return result, err
 }
 
@@ -41,14 +40,14 @@ type langTypeInfo struct{}
 
 func (lti *langTypeInfo) GetListSubtype(typ string) string {
 	result := typ[strings.Index(typ, "]")+1:]
-	log.Printf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+	gmlPrintf("GML: typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 	const prefix = "map["
 	if !strings.HasPrefix(typ, prefix) {
-		log.Printf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		gmlPrintf("GML: typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
 
@@ -61,13 +60,13 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 			n--
 			if n == 0 {
 				r1, r2 := typ[len(prefix):i], typ[i+1:]
-				log.Printf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				gmlPrintf("GML: typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}
 		}
 	}
 
-	log.Printf("GML: typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	gmlPrintf("GML: typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
 }
 
@@ -76,25 +75,25 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 
 	if lti.IsPointerType(typ) {
 		result := "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))
-		log.Printf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
+		gmlPrintf("GML: typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
 
 	if lti.IsListType(typ) {
 		result := "[]" + lti.GetNameForType(lti.GetListSubtype(typ))
-		log.Printf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+		gmlPrintf("GML: typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
 
 	if lti.IsMapType(typ) {
 		kt, vt := lti.GetMapSubtypes(typ)
 		result := "map[" + lti.GetNameForType(kt) + "]" + lti.GetNameForType(vt)
-		log.Printf("GML: typeinfo.go: C: GetNameForType('%v') = '%v'", typ, result)
+		gmlPrintf("GML: typeinfo.go: C: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
 
 	result := typ[strings.LastIndex(typ, ".")+1:]
-	log.Printf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
+	gmlPrintf("GML: typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
 	return result
 }
 
@@ -105,32 +104,32 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 		!lti.IsStringType(typ) &&
 		!lti.IsTimestampType(typ) &&
 		!lti.IsPointerType(typ)
-	log.Printf("GML: typeinfo.go: IsObjectType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsObjectType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) GetUnderlyingType(typ string) string {
 	result := strings.TrimPrefix(typ, "*")
-	log.Printf("GML: typeinfo.go: GetUnderlyingType('%v') = '%v'", typ, result)
+	gmlPrintf("GML: typeinfo.go: GetUnderlyingType('%v') = '%v'", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsListType(typ string) bool {
 	// covers both slices and arrays
 	result := len(typ) > 2 && typ[0] == '['
-	log.Printf("GML: typeinfo.go: IsListType('%v') = %v (covers slices and arrays)", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsListType('%v') = %v (covers slices and arrays)", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsSliceType(typ string) bool {
 	result := len(typ) > 2 && typ[0] == '[' && typ[1] == ']'
-	log.Printf("GML: typeinfo.go: IsSliceType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsSliceType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
 	result := len(typ) > 2 && typ[0] == '[' && typ[1] != ']'
-	log.Printf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsArrayType('%v') = %v", typ, result)
 	return result
 }
 
@@ -153,42 +152,42 @@ func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
 		return -1, fmt.Errorf("array size out of bounds: %s", size)
 	}
 
-	log.Printf("GML: typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
+	gmlPrintf("GML: typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
 	return parsedSize, nil
 }
 
 func (lti *langTypeInfo) IsBooleanType(typ string) bool {
 	result := typ == "bool"
-	log.Printf("GML: typeinfo.go: IsBooleanType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsBooleanType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
 	switch typ {
 	case "[]byte", "[]uint8":
-		log.Printf("GML: typeinfo.go: A: IsByteSequenceType('%v') = true", typ)
+		gmlPrintf("GML: typeinfo.go: A: IsByteSequenceType('%v') = true", typ)
 		return true
 	}
 
 	if lti.IsArrayType(typ) {
 		switch lti.GetListSubtype(typ) {
 		case "byte", "uint8":
-			log.Printf("GML: typeinfo.go: B: IsByteSequenceType('%v') = true", typ)
+			gmlPrintf("GML: typeinfo.go: B: IsByteSequenceType('%v') = true", typ)
 			return true
 		}
 	}
 
-	log.Printf("GML: typeinfo.go: C: IsByteSequenceType('%v') = false", typ)
+	gmlPrintf("GML: typeinfo.go: C: IsByteSequenceType('%v') = false", typ)
 	return false
 }
 
 func (lti *langTypeInfo) IsFloatType(typ string) bool {
 	switch typ {
 	case "float32", "float64":
-		log.Printf("GML: typeinfo.go: C: IsFloatType('%v') = true", typ)
+		gmlPrintf("GML: typeinfo.go: C: IsFloatType('%v') = true", typ)
 		return true
 	default:
-		log.Printf("GML: typeinfo.go: C: IsFloatType('%v') = false", typ)
+		gmlPrintf("GML: typeinfo.go: C: IsFloatType('%v') = false", typ)
 		return false
 	}
 }
@@ -198,58 +197,58 @@ func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 	case "int", "int8", "int16", "int32", "int64",
 		"uint", "uint8", "uint16", "uint32", "uint64",
 		"uintptr", "byte", "rune", "time.Duration":
-		log.Printf("GML: typeinfo.go: C: IsIntegerType('%v') = true", typ)
+		gmlPrintf("GML: typeinfo.go: C: IsIntegerType('%v') = true", typ)
 		return true
 	default:
-		log.Printf("GML: typeinfo.go: C: IsIntegerType('%v') = false", typ)
+		gmlPrintf("GML: typeinfo.go: C: IsIntegerType('%v') = false", typ)
 		return false
 	}
 }
 
 func (lti *langTypeInfo) IsMapType(typ string) bool {
 	result := strings.HasPrefix(typ, "map[")
-	log.Printf("GML: typeinfo.go: IsMapType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsMapType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsNullableType(typ string) bool {
 	result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
-	log.Printf("GML: typeinfo.go: IsNullableType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsNullableType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsPointerType(typ string) bool {
 	result := strings.HasPrefix(typ, "*")
-	log.Printf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsPointerType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
 	result := lti.IsBooleanType(typ) || lti.IsIntegerType(typ) || lti.IsFloatType(typ)
-	log.Printf("GML: typeinfo.go: IsPrimitiveType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsPrimitiveType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
 	switch typ {
 	case "int", "int8", "int16", "int32", "int64", "rune", "time.Duration":
-		log.Printf("GML: typeinfo.go: IsSignedIntegerType('%v') = true", typ)
+		gmlPrintf("GML: typeinfo.go: IsSignedIntegerType('%v') = true", typ)
 		return true
 	default:
-		log.Printf("GML: typeinfo.go: IsSignedIntegerType('%v') = false", typ)
+		gmlPrintf("GML: typeinfo.go: IsSignedIntegerType('%v') = false", typ)
 		return false
 	}
 }
 
 func (lti *langTypeInfo) IsStringType(typ string) bool {
 	result := typ == "string"
-	log.Printf("GML: typeinfo.go: IsStringType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsStringType('%v') = %v", typ, result)
 	return result
 }
 
 func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 	result := typ == "time.Time"
-	log.Printf("GML: typeinfo.go: IsTimestampType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: IsTimestampType('%v') = %v", typ, result)
 	return result
 }
 
@@ -260,57 +259,57 @@ func (lti *langTypeInfo) GetTupleSubtypes(typ string) []string  { return nil }
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
 	switch typ {
 	case "int8", "uint8", "bool", "byte":
-		log.Printf("GML: typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
+		gmlPrintf("GML: typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
 		return 1, nil
 	case "int16", "uint16":
-		log.Printf("GML: typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
+		gmlPrintf("GML: typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
 		return 2, nil
 	case "int32", "uint32", "float32", "rune",
 		"int", "uint", "uintptr", "unsafe.Pointer": // we only support 32-bit wasm
-		log.Printf("GML: typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
+		gmlPrintf("GML: typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	case "int64", "uint64", "float64", "time.Duration":
-		log.Printf("GML: typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
+		gmlPrintf("GML: typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
 		return 8, nil
 	}
 
 	if lti.IsStringType(typ) {
 		// string header is a 4 byte pointer and 4 byte length
-		log.Printf("GML: typeinfo.go: E: GetSizeOfType('%v') = 8", typ)
+		gmlPrintf("GML: typeinfo.go: E: GetSizeOfType('%v') = 8", typ)
 		return 8, nil
 	}
 
 	if lti.IsPointerType(typ) {
-		log.Printf("GML: typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
+		gmlPrintf("GML: typeinfo.go: F: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	if lti.IsMapType(typ) {
 		// maps are passed by reference using a 4 byte pointer
-		log.Printf("GML: typeinfo.go: G: GetSizeOfType('%v') = 4", typ)
+		gmlPrintf("GML: typeinfo.go: G: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	if lti.IsSliceType(typ) {
 		// slice header is a 4 byte pointer, 4 byte length, 4 byte capacity
-		log.Printf("GML: typeinfo.go: H: GetSizeOfType('%v') = 12", typ)
+		gmlPrintf("GML: typeinfo.go: H: GetSizeOfType('%v') = 12", typ)
 		return 12, nil
 	}
 
 	if lti.IsTimestampType(typ) {
 		// time.Time has 3 fields: 8 byte uint64, 8 byte int64, 4 byte pointer
-		log.Printf("GML: typeinfo.go: I: GetSizeOfType('%v') = 20", typ)
+		gmlPrintf("GML: typeinfo.go: I: GetSizeOfType('%v') = 20", typ)
 		return 20, nil
 	}
 
 	if lti.IsArrayType(typ) {
 		result, err := lti.getSizeOfArray(ctx, typ)
-		log.Printf("GML: typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
+		gmlPrintf("GML: typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
 		return result, err
 	}
 
 	result, err := lti.getSizeOfStruct(ctx, typ)
-	log.Printf("GML: typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)
 	return result, err
 }
 
@@ -376,7 +375,7 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 	// primitives align to their natural size
 	if lti.IsPrimitiveType(typ) {
 		result, err := lti.GetSizeOfType(ctx, typ)
-		log.Printf("GML: typeinfo.go: A: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: A: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 
@@ -384,25 +383,25 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 	if lti.IsArrayType(typ) {
 		t := lti.GetListSubtype(typ)
 		result, err := lti.GetAlignmentOfType(ctx, t)
-		log.Printf("GML: typeinfo.go: B: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: B: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 
 	// reference types align to the pointer size (4 bytes on 32-bit wasm)
 	if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
-		log.Printf("GML: typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
+		gmlPrintf("GML: typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	// time.Time has 3 fields, the maximum alignment is 8 bytes
 	if lti.IsTimestampType(typ) {
-		log.Printf("GML: typeinfo.go: D: GetAlignmentOfType('%v') = 8", typ)
+		gmlPrintf("GML: typeinfo.go: D: GetAlignmentOfType('%v') = 8", typ)
 		return 8, nil
 	}
 
 	// structs align to the maximum alignment of their fields
 	result, err := lti.getAlignmentOfStruct(ctx, typ)
-	log.Printf("GML: typeinfo.go: E: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+	gmlPrintf("GML: typeinfo.go: E: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 	return result, err
 }
 
@@ -428,33 +427,33 @@ func (lti *langTypeInfo) getAlignmentOfStruct(ctx context.Context, typ string) (
 		}
 	}
 
-	log.Printf("GML: typeinfo.go: getAlignmentOfStruct('%v') = %v", typ, max)
+	gmlPrintf("GML: typeinfo.go: getAlignmentOfStruct('%v') = %v", typ, max)
 	return max, nil
 }
 
 func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uint32, error) {
 	result, err := lti.GetSizeOfType(ctx, typ)
-	log.Printf("GML: typeinfo.go: GetDataSizeOfType('%v') = %v, err=%v", typ, result, err)
+	gmlPrintf("GML: typeinfo.go: GetDataSizeOfType('%v') = %v, err=%v", typ, result, err)
 	return result, err
 }
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
 	if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
-		log.Printf("GML: typeinfo.go: A: GetEncodingLengthOfType('%v') = 1", typ)
+		gmlPrintf("GML: typeinfo.go: A: GetEncodingLengthOfType('%v') = 1", typ)
 		return 1, nil
 	} else if lti.IsStringType(typ) {
-		log.Printf("GML: typeinfo.go: B: GetEncodingLengthOfType('%v') = 2", typ)
+		gmlPrintf("GML: typeinfo.go: B: GetEncodingLengthOfType('%v') = 2", typ)
 		return 2, nil
 	} else if lti.IsSliceType(typ) || lti.IsTimestampType(typ) {
-		log.Printf("GML: typeinfo.go: C: GetEncodingLengthOfType('%v') = 3", typ)
+		gmlPrintf("GML: typeinfo.go: C: GetEncodingLengthOfType('%v') = 3", typ)
 		return 3, nil
 	} else if lti.IsArrayType(typ) {
 		result, err := lti.getEncodingLengthOfArray(ctx, typ)
-		log.Printf("GML: typeinfo.go: D: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: D: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	} else if lti.IsObjectType(typ) {
 		result, err := lti.getEncodingLengthOfStruct(ctx, typ)
-		log.Printf("GML: typeinfo.go: E: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: E: GetEncodingLengthOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 
@@ -467,7 +466,7 @@ func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ strin
 		return 0, err
 	}
 	if arrSize == 0 {
-		log.Printf("GML: typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
+		gmlPrintf("GML: typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
 		return 0, nil
 	}
 
@@ -478,7 +477,7 @@ func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ strin
 	}
 
 	result := uint32(arrSize) * elementLen
-	log.Printf("GML: typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
+	gmlPrintf("GML: typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
 	return result, nil
 }
 
@@ -497,25 +496,25 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 		total += len
 	}
 
-	log.Printf("GML: typeinfo.go: getEncodingLengthOfStruct('%v') = %v", typ, total)
+	gmlPrintf("GML: typeinfo.go: getEncodingLengthOfStruct('%v') = %v", typ, total)
 	return total, nil
 }
 
 func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*metadata.TypeDefinition, error) {
 	md := ctx.Value(utils.MetadataContextKey).(*metadata.Metadata)
 	result, err := md.GetTypeDefinition(typ)
-	log.Printf("GML: typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)
+	gmlPrintf("GML: typeinfo.go: GetTypeDefinition('%v') = %v, err=%v", typ, result, err)
 	return result, err
 }
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)
-		log.Printf("GML: typeinfo.go: A: GetReflectedType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: A: GetReflectedType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	} else {
 		result, err := lti.getReflectedType(typ, nil)
-		log.Printf("GML: typeinfo.go: B: GetReflectedType('%v') = %v, err=%v", typ, result, err)
+		gmlPrintf("GML: typeinfo.go: B: GetReflectedType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 }
@@ -523,13 +522,13 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
 	if customTypes != nil {
 		if rt, ok := customTypes[typ]; ok {
-			log.Printf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
+			gmlPrintf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
 			return rt, nil
 		}
 	}
 
 	if rt, ok := reflectedTypeMap[typ]; ok {
-		log.Printf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
+		gmlPrintf("GML: typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
 		return rt, nil
 	}
 
@@ -540,7 +539,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.PointerTo(targetType)
-		log.Printf("GML: typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
 		return result, nil
 	}
 
@@ -555,7 +554,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.SliceOf(elementType)
-		log.Printf("GML: typeinfo.go: D: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: typeinfo.go: D: getReflectedType('%v') = %v", typ, result)
 		return result, nil
 	}
 
@@ -575,7 +574,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.ArrayOf(size, elementType)
-		log.Printf("GML: typeinfo.go: E: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: typeinfo.go: E: getReflectedType('%v') = %v", typ, result)
 		return result, nil
 	}
 
@@ -595,12 +594,12 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		}
 
 		result := reflect.MapOf(keyType, valType)
-		log.Printf("GML: typeinfo.go: F: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: typeinfo.go: F: getReflectedType('%v') = %v", typ, result)
 		return result, nil
 	}
 
 	// All other types are custom classes, which are represented as a map[string]any
-	log.Printf("GML: typeinfo.go: G: getReflectedType('%v') = %v", typ, rtMapStringAny)
+	gmlPrintf("GML: typeinfo.go: G: getReflectedType('%v') = %v", typ, rtMapStringAny)
 	return rtMapStringAny, nil
 }
 

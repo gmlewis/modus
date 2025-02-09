@@ -16,11 +16,27 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 
 	"github.com/hashicorp/go-version"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 const (
 	minMoonBitVersion = "0.1.20250107"
@@ -31,7 +47,7 @@ func moonFmt(config *config.Config) error {
 	args := []string{"fmt"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	gmlPrintf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -50,7 +66,7 @@ func moonTestWasmGC(config *config.Config) error {
 	args := []string{"test", "--target", "wasm-gc"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	gmlPrintf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin
@@ -79,7 +95,7 @@ func Compile(config *config.Config) error {
 	args := []string{"build", "--target", "wasm"}
 	args = append(args, config.CompilerOptions...)
 
-	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
+	gmlPrintf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
 	cmd.Dir = config.SourceDir
 	cmd.Stdin = os.Stdin

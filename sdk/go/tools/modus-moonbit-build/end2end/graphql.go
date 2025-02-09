@@ -15,7 +15,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -37,7 +36,7 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 	if err != nil {
 		return fmt.Errorf("endpoint.QueryBody: %w", err)
 	}
-	log.Printf("\n\n*** Testing endpoint with query body: '%v'", query)
+	gmlPrintf("\n\n*** Testing endpoint with query body: '%v'", query)
 	expect, err := endpoint.ExpectBody()
 	if err != nil {
 		return fmt.Errorf("endpoint.ExpectBody: %w", err)
@@ -95,7 +94,7 @@ func testEndpoint(ctx context.Context, endpoint *config.Endpoint) error {
 		return fmt.Errorf("test: FAIL: Errors from '%v' endpoint mismatch (-want +got):\n%v", endpoint.Name, diff)
 	}
 
-	log.Printf("Test: OK passed for endpoint '%v'", endpoint.Name)
+	gmlPrintf("Test: OK passed for endpoint '%v'", endpoint.Name)
 
 	return nil
 }

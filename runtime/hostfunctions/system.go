@@ -31,7 +31,7 @@ func init() {
 
 func LogMessage(ctx context.Context, level, message string) {
 	log.SetFlags(0)
-	log.Printf("GML: hostfunctions/system.go: LogMessage: level: '%v', message: '%v'", level, message)
+	gmlPrintf("GML: hostfunctions/system.go: LogMessage: level: '%v', message: '%v'", level, message)
 
 	// store messages in the context, so we can return them to the caller
 	messages := ctx.Value(utils.FunctionMessagesContextKey).(*[]utils.LogMessage)
@@ -57,44 +57,44 @@ func LogMessage(ctx context.Context, level, message string) {
 func GetTimeInZone(ctx context.Context, tz *string) *string {
 	log.SetFlags(0)
 	if tz != nil {
-		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: tz: '%v'", *tz)
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeInZone: tz: '%v'", *tz)
 	}
 	now := time.Now()
-	log.Printf("GML: hostfunctions/system.go: GetTimeInZone: now: '%v'", now)
+	gmlPrintf("GML: hostfunctions/system.go: GetTimeInZone: now: '%v'", now)
 
 	var loc *time.Location
 	if tz != nil && *tz != "" {
 		loc = timezones.GetLocation(*tz)
 	} else if tz, ok := ctx.Value(utils.TimeZoneContextKey).(string); ok {
-		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: tz=nil: local tz: '%v'", tz)
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeInZone: tz=nil: local tz: '%v'", tz)
 		loc = timezones.GetLocation(tz)
 	}
 
 	if loc == nil {
-		log.Printf("GML: hostfunctions/system.go: GetTimeInZone: loc: nil - returning nil")
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeInZone: loc: nil - returning nil")
 		return nil
 	}
 
 	s := now.In(loc).Format(time.RFC3339Nano)
-	log.Printf("GML: hostfunctions/system.go: GetTimeInZone: s: '%v'", s)
+	gmlPrintf("GML: hostfunctions/system.go: GetTimeInZone: s: '%v'", s)
 	return &s
 }
 
 func GetTimeZoneData(ctx context.Context, tz, format *string) []byte {
 	log.SetFlags(0)
 	if tz != nil {
-		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz: '%v'", *tz)
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData: tz: '%v'", *tz)
 	} else {
 		// if tz2, ok := ctx.Value(utils.TimeZoneContextKey).(string); ok {
-		// 	log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: local tz: '%v'", tz2)
+		// 	gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: local tz: '%v'", tz2)
 		// 	tz = &tz2
 		// }
-		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: - returning nil")
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData: tz=nil: - returning nil")
 	}
 	if format != nil {
-		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: format: '%v'", *format)
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData: format: '%v'", *format)
 	} else {
-		log.Printf("GML: hostfunctions/system.go: GetTimeZoneData: format: nil - setting to 'tzif'")
+		gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData: format: nil - setting to 'tzif'")
 		fmt := "tzif"
 		format = &fmt
 	}
@@ -103,6 +103,6 @@ func GetTimeZoneData(ctx context.Context, tz, format *string) []byte {
 	}
 
 	result := timezones.GetTimeZoneData(*tz, *format)
-	log.Printf("GML: hostfunctions/system.go: GetTimeZoneData('%v','%v'): len(result): %v", *tz, *format, len(result))
+	gmlPrintf("GML: hostfunctions/system.go: GetTimeZoneData('%v','%v'): len(result): %v", *tz, *format, len(result))
 	return result
 }

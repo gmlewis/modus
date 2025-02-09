@@ -13,7 +13,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"log"
 	"unicode/utf16"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -33,7 +32,7 @@ type stringHandler struct {
 }
 
 func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.Read(offset: %v)", debugShowOffset(offset))
+	gmlPrintf("GML: handler_strings.go: stringHandler.Read(offset: %v)", debugShowOffset(offset))
 	if offset == 0 {
 		if h.typeInfo.IsPointer() { // Is this necessary?
 			return Ptr(""), nil
@@ -51,9 +50,9 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	// Read pointer to MoonBit String
 	ptr, ok := wa.Memory().ReadUint32Le(offset)
 	if !ok {
-		log.Printf("GML: handler_strings.go: stringHandler.Read: failed to read pointer to String")
+		gmlPrintf("GML: handler_strings.go: stringHandler.Read: failed to read pointer to String")
 	} else {
-		log.Printf("GML: handler_strings.go: stringHandler.Read: ptr: %v", debugShowOffset(ptr))
+		gmlPrintf("GML: handler_strings.go: stringHandler.Read: ptr: %v", debugShowOffset(ptr))
 	}
 
 	vals := []uint64{uint64(ptr)}
@@ -61,14 +60,14 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 }
 
 func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.Write(offset: %v, obj: '%v')", offset, obj)
+	gmlPrintf("GML: handler_strings.go: stringHandler.Write(offset: %v, obj: '%v')", offset, obj)
 
 	str, err := cast.ToStringE(obj)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Printf("stringHandler.Write: Calling doWriteString: str='%v'", str)
+	gmlPrintf("stringHandler.Write: Calling doWriteString: str='%v'", str)
 
 	ptr, cln, err := h.doWriteString(ctx, wa, str)
 	if err != nil {
@@ -85,7 +84,7 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 }
 
 func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.Decode(vals: %+v)", vals)
+	gmlPrintf("GML: handler_strings.go: stringHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
@@ -113,7 +112,7 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.Encode(obj: '%v')", obj)
+	gmlPrintf("GML: handler_strings.go: stringHandler.Encode(obj: '%v')", obj)
 
 	str, err := cast.ToStringE(obj)
 	if err != nil {
@@ -128,7 +127,7 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	// Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
-	log.Printf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
+	gmlPrintf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
 	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
 	if err != nil {
 		return nil, cln, err
@@ -137,9 +136,9 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	// For debugging purposes:
 	memBytes, ok := wa.Memory().Read(offset-8, uint32(len(bytes)+16))
 	if !ok {
-		log.Printf("GML: handler_strings.go: stringHandler.Encode: failed to read memory bytes")
+		gmlPrintf("GML: handler_strings.go: stringHandler.Encode: failed to read memory bytes")
 	} else {
-		log.Printf("GML: handler_strings.go: stringHandler.Encode: memBytes: %+v", memBytes)
+		gmlPrintf("GML: handler_strings.go: stringHandler.Encode: memBytes: %+v", memBytes)
 	}
 
 	return res, cln, nil
@@ -148,17 +147,17 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 func doReadString(bytes []byte) (string, error) {
 
 	if len(bytes) == 0 {
-		log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: [] = ''")
+		gmlPrintf("GML: handler_strings.go: stringHandler.doReadString: bytes: [] = ''")
 		return "", nil
 	}
 
 	s, err := convertMoonBitUTF16ToUTF8(bytes)
-	// log.Printf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v = '%v'", bytes, s)
+	// gmlPrintf("GML: handler_strings.go: stringHandler.doReadString: bytes: %+v = '%v'", bytes, s)
 	return s, err
 }
 
 func (h *stringHandler) doWriteString(ctx context.Context, wa langsupport.WasmAdapter, str string) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_strings.go: stringHandler.doWriteString(str: '%v') is not yet implemented for MoonBit", str)
+	gmlPrintf("GML: handler_strings.go: stringHandler.doWriteString(str: '%v') is not yet implemented for MoonBit", str)
 	return 0, nil, nil
 	/*
 	   const id = 2 // ID for string is always 2
@@ -216,7 +215,7 @@ func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAda
 		return 0, cln, err
 	}
 
-	log.Printf("GML: handler_strings.go: stringHandler.doWriteBytes(bytes(%v): %+v), got offset: %v", size, bytes, offset)
+	gmlPrintf("GML: handler_strings.go: stringHandler.doWriteBytes(bytes(%v): %+v), got offset: %v", size, bytes, offset)
 	if ok := wa.Memory().Write(offset, bytes); !ok {
 		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (offset: %v, size: %v)", offset, size)
 	}
@@ -231,7 +230,7 @@ func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte,
 	}
 
 	result, err := stringDataFromMemBlock(memBlock, words)
-	// log.Printf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, len(result))
+	// gmlPrintf("GML: handler_memory.go: stringDataAtOffset(offset: %v) = (data=%v, size=%v)", offset, offset+8, len(result))
 	return result, err
 }
 
@@ -242,7 +241,7 @@ func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err err
 	remainderOffset := words*4 + 7
 	remainder := uint32(3 - memBlock[remainderOffset]%4)
 	size := (words-1)*4 + remainder
-	// log.Printf("GML: handler_memory.go: stringDataFromMemBlock: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
+	// gmlPrintf("GML: handler_memory.go: stringDataFromMemBlock: memBlockHeader: %+v, memBlock: %+v, words: %v, remainderOffset: %v, remainder: %v, size: %v",
 	// 	memBlock[0:8], memBlock, words, remainderOffset, remainder, size)
 	if size <= 0 {
 		return nil, nil

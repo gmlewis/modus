@@ -12,7 +12,6 @@ package metagen
 import (
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 
@@ -63,7 +62,7 @@ func LogToConsole(meta *metadata.Metadata) {
 		// if i := strings.Index(k, "!"); i >= 0 {
 		// 	k = k[:i]
 		// }
-		// log.Printf("GML: metagen/output.go: LogToConsole: type k: %v", k)
+		// gmlPrintf("GML: metagen/output.go: LogToConsole: type k: %v", k)
 		// Local custom types no longer have the module prefix.
 		if len(t.Fields) > 0 { // && strings.HasPrefix(k, meta.Module) {
 			types = append(types, k)
@@ -74,7 +73,7 @@ func LogToConsole(meta *metadata.Metadata) {
 		writeHeader(w, "Custom Types:")
 		for _, t := range types {
 			s := meta.Types[t].String(meta)
-			log.Printf("GML: metagen/output.go: LogToConsole: custom type s: %v", s)
+			gmlPrintf("GML: metagen/output.go: LogToConsole: custom type s: %v", s)
 			writeItem(w, s)
 		}
 		fmt.Fprintln(w)

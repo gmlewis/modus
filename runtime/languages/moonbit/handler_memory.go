@@ -13,7 +13,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 )
@@ -44,7 +43,7 @@ const (
 
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
-		log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
+		gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
 		return nil, 0, nil
 	}
 
@@ -64,10 +63,10 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 		if moonBitTypeName == "String" {
 			data, _ := stringDataFromMemBlock(memBlock, words) // ignore errors during debugging
 			s, _ := doReadString(data)
-			log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
+			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, s)
 		} else {
-			log.Printf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
+			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock)
 		}
 	}
@@ -75,7 +74,7 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 }
 
 func writeMemoryBlockHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {
-	log.Printf("GML: handler_memory.go: writeMemoryBlockHeader(data: %v, size: %v, offset: %v)", data, size, debugShowOffset(offset))
+	gmlPrintf("GML: handler_memory.go: writeMemoryBlockHeader(data: %v, size: %v, offset: %v)", data, size, debugShowOffset(offset))
 
 	val := uint64(size)<<32 | uint64(data)
 	if ok := wa.Memory().WriteUint64Le(offset, val); !ok {

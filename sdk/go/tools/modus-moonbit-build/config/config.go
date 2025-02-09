@@ -17,8 +17,24 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 type Config struct {
 	SourceDir       string
@@ -62,7 +78,7 @@ func GetConfig() (*Config, error) {
 
 	if endToEndTestsFilename != "" {
 		if err := c.loadEndToEndTests(endToEndTestsFilename, pluginsFlag); err != nil {
-			log.Printf("Error loading end-to-end tests JSON file: %v", err)
+			gmlPrintf("Error loading end-to-end tests JSON file: %v", err)
 			flag.Usage()
 			os.Exit(1)
 		}
