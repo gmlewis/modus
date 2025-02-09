@@ -20,25 +20,25 @@ type TestRecursiveStruct struct {
 	B *TestRecursiveStruct
 }
 
-var testRecursiveStruct = func() TestRecursiveStruct {
-	r := TestRecursiveStruct{
-		A: true,
-	}
-	r.B = &r
-	return r
-}()
-
-var testRecursiveStructAsMap = func() map[string]any {
-	r1 := map[string]any{
-		"a": true,
-	}
-	r2 := map[string]any{
-		"a": false,
-	}
-	r1["b"] = r2
-	r2["b"] = r1
-	return r1
-}()
+// var testRecursiveStruct = func() TestRecursiveStruct {
+// 	r := TestRecursiveStruct{
+// 		A: true,
+// 	}
+// 	r.B = &r
+// 	return r
+// }()
+//
+// var testRecursiveStructAsMap = func() map[string]any {
+// 	r1 := map[string]any{
+// 		"a": true,
+// 	}
+// 	r2 := map[string]any{
+// 		"a": false,
+// 	}
+// 	r1["b"] = r2
+// 	r2["b"] = r1
+// 	return r1
+// }()
 
 // TODO:
 // func TestRecursiveStructInput(t *testing.T) {

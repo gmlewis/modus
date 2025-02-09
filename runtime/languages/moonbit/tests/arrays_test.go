@@ -125,12 +125,12 @@ func TestArrayOutput_string_option(t *testing.T) {
 	}
 }
 
-func getIntPtrArray() []*int {
-	a := 11
-	b := 22
-	c := 33
-	return []*int{&a, &b, &c}
-}
+// func getIntPtrArray() []*int {
+// 	a := 11
+// 	b := 22
+// 	c := 33
+// 	return []*int{&a, &b, &c}
+// }
 
 func getStringPtrArray() []*string {
 	a := "abc"
@@ -184,27 +184,27 @@ func TestArrayOutput_string_empty(t *testing.T) {
 	}
 }
 
-func TestArrayInput_int32_empty(t *testing.T) {
-	fnName := "test_array_input_int32_empty"
-	s := []int32{}
+func TestArrayInput_int_empty(t *testing.T) {
+	fnName := "test_array_input_int_empty"
+	s := []int{}
 
 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestArrayOutput_int32_empty(t *testing.T) {
-	fnName := "test_array_output_int32_empty"
+func TestArrayOutput_int_empty(t *testing.T) {
+	fnName := "test_array_output_int_empty"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := []int32{}
+	expected := []int{}
 	if result == nil {
 		t.Error("expected a result")
-	} else if r, ok := result.([]int32); !ok {
-		t.Errorf("expected a []int32, got %T", result)
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}

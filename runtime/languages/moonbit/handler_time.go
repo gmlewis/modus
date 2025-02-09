@@ -15,7 +15,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-	"unsafe"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -200,24 +199,24 @@ func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, ob
 	return res[1:], nil, nil
 }
 
-func timeFromVals(wall uint64, ext int64) time.Time {
-	type tm struct {
-		wall uint64
-		ext  int64
-		loc  *time.Location
-	}
-
-	t := tm{wall, ext, nil}
-	return *(*time.Time)(unsafe.Pointer(&t))
-}
-
-func getTimeVals(t time.Time) (uint64, int64) {
-	type tm struct {
-		wall uint64
-		ext  int64
-		loc  *time.Location
-	}
-
-	s := *(*tm)(unsafe.Pointer(&t))
-	return s.wall, s.ext
-}
+// func timeFromVals(wall uint64, ext int64) time.Time {
+// 	type tm struct {
+// 		wall uint64
+// 		ext  int64
+// 		loc  *time.Location
+// 	}
+//
+// 	t := tm{wall, ext, nil}
+// 	return *(*time.Time)(unsafe.Pointer(&t))
+// }
+//
+// func getTimeVals(t time.Time) (uint64, int64) {
+// 	type tm struct {
+// 		wall uint64
+// 		ext  int64
+// 		loc  *time.Location
+// 	}
+//
+// 	s := *(*tm)(unsafe.Pointer(&t))
+// 	return s.wall, s.ext
+// }

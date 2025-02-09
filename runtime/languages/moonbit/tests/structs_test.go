@@ -67,24 +67,24 @@ var testStruct4 = TestStruct4{
 	C: func() *string { s := "abc"; return &s }(),
 }
 
-var testStruct4_with_none = TestStruct4{
-	A: true,
-	B: 123,
-	C: nil,
-}
-
-var testStruct5 = TestStruct5{
-	A: "abc",
-	B: "def",
-	C: "ghi",
-	D: []string{
-		"jkl",
-		"mno",
-		"pqr",
-	},
-	E: 0.12345,
-	F: 99.99999,
-}
+// var testStruct4_with_none = TestStruct4{
+// 	A: true,
+// 	B: 123,
+// 	C: nil,
+// }
+//
+// var testStruct5 = TestStruct5{
+// 	A: "abc",
+// 	B: "def",
+// 	C: "ghi",
+// 	D: []string{
+// 		"jkl",
+// 		"mno",
+// 		"pqr",
+// 	},
+// 	E: 0.12345,
+// 	F: 99.99999,
+// }
 
 var testStruct1AsMap = map[string]any{
 	"a": true,

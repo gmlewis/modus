@@ -49,13 +49,13 @@ pub fn test_array_output_string_empty() -> Array[String] {
 }
 
 ///|
-pub fn test_array_input_int32_empty(val : Array[Int]) -> Unit!Error {
+pub fn test_array_input_int_empty(val : Array[Int]) -> Unit!Error {
   let expected = []
   assert_eq!(expected, val)
 }
 
 ///|
-pub fn test_array_output_int32_empty() -> Array[Int] {
+pub fn test_array_output_int_empty() -> Array[Int] {
   []
 }
 

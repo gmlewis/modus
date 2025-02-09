@@ -17,25 +17,8 @@ import (
 	"go/token"
 	"io"
 	"log"
-	"os"
 	"strings"
-	"sync"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 // Fprint "pretty-prints" a Go AST node to w as MoonBit source code.
 // If the function can return an "!Error", it returns the full return type
