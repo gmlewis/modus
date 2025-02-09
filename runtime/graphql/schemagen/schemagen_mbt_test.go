@@ -252,6 +252,9 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md.FnExports.AddFunction("get_tuple_output").
 		WithResult("(Int, Bool, String)")
 
+	md.FnExports.AddFunction("test_time_input").
+		WithParameter("t", "@time.ZonedDateTime")
+
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
 		t.Fatal(err)
@@ -284,10 +287,11 @@ type Query {
   This function tests that options are working correctly
   """
   test_options(a: Int, b: [Int]!, c: [Int!], d: [PersonInput]!, e: [PersonInput!]): Person
+  test_time_input(t: Timestamp!): Void
   time_in_zone(tz: String!): String!
   time_zone_info(tz: String!): TimeZoneInfo!
   transform(items: [StringStringPairInput!]!): [StringStringPair!]!
-  tuple_output: [IntBooleanStringTuple!]!
+  tuple_output: IntBooleanStringTuple!
   utc_time: Timestamp!
 }
 
