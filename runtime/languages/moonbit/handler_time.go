@@ -56,22 +56,15 @@ func (h *timeHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offs
 }
 
 func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	tm, err := utils.ConvertToTimestamp(obj)
-	if err != nil {
+	log.Printf("GML: handler_time.go: timeHandler.Write(offset: %v, obj: %v)", offset, obj)
+	res, _, err := h.Encode(ctx, wa, obj)
+	if err != nil || len(res) != 1 {
 		return nil, err
 	}
 
-	wall, ext := getTimeVals(tm)
-
-	if !wa.Memory().WriteUint64Le(offset, wall) {
-		return nil, errors.New("failed to write time.Time.wall to WASM memory")
+	if !wa.Memory().WriteUint64Le(offset, res[0]) {
+		return nil, errors.New("failed to write @time.ZonedDateTime to WASM memory")
 	}
-
-	if !wa.Memory().WriteUint64Le(offset+8, uint64(ext)) {
-		return nil, errors.New("failed to write time.Time.ext to WASM memory")
-	}
-
-	// skip loc - we only support UTC
 
 	return nil, nil
 }

@@ -24,6 +24,8 @@
     "wasm": {
       "exports": [
         "__modus_add:add",
+        "__modus_call_test_time_option_input_none:call_test_time_option_input_none",
+        "__modus_call_test_time_option_input_some:call_test_time_option_input_some",
         "__modus_echo1:echo1",
         "__modus_echo2:echo2",
         "__modus_echo3:echo3",

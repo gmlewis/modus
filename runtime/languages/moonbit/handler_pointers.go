@@ -119,6 +119,9 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 		return nil, nil
 	}
 
+	// only for reverse-engineering purposes:
+	_, _, _ = memoryBlockAtOffset(wa, offset, true)
+
 	data, err := h.elementHandler.Read(ctx, wa, offset)
 	if err != nil {
 		return nil, err
@@ -130,29 +133,39 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 }
 
 func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	log.Printf("GML: handler_pointers.go: pointerHandler.writeData is not yet implemented for MoonBit")
-	return 0, nil, nil
-	/*
-	   	if utils.HasNil(obj) {
-	   		// nil pointer
-	   		return 0, nil, nil
-	   	}
+	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: obj=%T=%+v", obj, obj)
 
-	   data := utils.DereferencePointer(obj)
+	if utils.HasNil(obj) {
+		// nil pointer
+		return 0, nil, nil
+	}
 
-	   ptr, cln, err := wa.(*wasmAdapter).newWasmObject(ctx, h.typeDef.Id)
+	data := utils.DereferencePointer(obj)
+	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+v", data, data)
 
-	   	if err != nil {
-	   		return 0, cln, nil
-	   	}
+	res, cln, err := h.elementHandler.Encode(ctx, wa, data)
+	if err != nil {
+		return 0, cln, err
+	}
+	log.Printf("GML: handler_pointers.go: pointerHandler.writeData: res=%+v", res)
 
-	   c, err := h.elementHandler.Write(ctx, wa, ptr, data)
-	   cln.AddCleaner(c)
+	return uint32(res[0]), cln, nil
 
-	   	if err != nil {
-	   		return 0, cln, err
-	   	}
+	// ptr, cln, err := wa.(*wasmAdapter).newWasmObject(ctx, h.typeDef.Id)
+	// if err != nil {
+	// 	return 0, cln, nil
+	// }
 
-	   return ptr, cln, nil
-	*/
+	// ptr, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, OptionBlockType)
+	// if err != nil {
+	// 	return 0, cln, err
+	// }
+
+	// c, err := h.elementHandler.Write(ctx, wa, ptr+12, data)
+	// cln.AddCleaner(c)
+	// if err != nil {
+	// 	return 0, cln, err
+	// }
+
+	// return ptr, cln, nil
 }

@@ -53,6 +53,16 @@ pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
   assert_eq!(t.nanosecond(), test_time.nanosecond())
 }
 
+///|
+pub fn call_test_time_option_input_some() -> Unit!Error {
+  test_time_option_input!(test_time.val)
+}
+
+///|
+pub fn call_test_time_option_input_none() -> Unit!Error {
+  test_time_option_input!(None)
+}
+
 // ///|
 // pub fn test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!Error {
 //   guard let Some(test_time) = test_time.val

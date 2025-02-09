@@ -35,15 +35,29 @@ func TestTimeStrInput(t *testing.T) {
 }
 
 // // TODO: FAILS
-// func TestTimeOptionInput(t *testing.T) {
-// 	fnName := "test_time_option_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &testTime); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestTimeOptionInput(t *testing.T) {
+	fnName := "test_time_option_input"
+	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &testTime); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestCallTimeOptionInputSome(t *testing.T) {
+	fnName := "call_test_time_option_input_some"
+	if _, err := fixture.CallFunction(t, fnName); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestCallTimeOptionInputNone(t *testing.T) {
+	fnName := "call_test_time_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName); err != nil {
+		t.Error(err)
+	}
+}
 
 //
 // // TODO: FAILS

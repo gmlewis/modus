@@ -39,6 +39,7 @@ const (
 	PlainDateTimeBlockType = 2
 	PlainDateBlockType     = 3
 	PlainTimeBlockType     = 4
+	OptionBlockType        = 1 // TODO
 )
 
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {

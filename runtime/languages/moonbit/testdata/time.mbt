@@ -49,8 +49,39 @@ pub fn test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
 pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
   guard let Some(test_time) = test_time.val
   guard let Some(t) = t
+  let got_seconds = t.to_unix_second()
+  let got_nanoseconds = t.nanosecond()
+  println(
+    "test_time_option_input: got_seconds=\{got_seconds}, got_nanoseconds=\{got_nanoseconds}",
+  )
   assert_eq!(t.to_unix_second(), test_time.to_unix_second())
   assert_eq!(t.nanosecond(), test_time.nanosecond())
+}
+
+///|
+pub fn call_test_time_option_input_some() -> @time.ZonedDateTime? {
+  println(
+    "call_test_time_option_input_some: calling test_time_option_input(\{test_time.val})",
+  )
+  try {
+    test_time_option_input!(test_time.val)
+  } catch {
+    _ => ()
+  }
+  test_time.val
+}
+
+///|
+pub fn call_test_time_option_input_none() -> @time.ZonedDateTime? {
+  println(
+    "call_test_time_option_input_some: calling test_time_option_input(None)",
+  )
+  try {
+    test_time_option_input!(test_time.val)
+  } catch {
+    _ => ()
+  }
+  None
 }
 
 ///|

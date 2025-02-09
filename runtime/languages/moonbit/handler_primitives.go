@@ -112,7 +112,11 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAda
 		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
 	}
 
-	return h.converter.Decode(vals[0]), nil
+	result := h.converter.Decode(vals[0])
+	if h.typeInfo.IsPointer() {
+		return &result, nil
+	}
+	return result, nil
 }
 
 func (h *primitiveHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
