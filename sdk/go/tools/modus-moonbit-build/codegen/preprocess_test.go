@@ -209,6 +209,7 @@ var wantMoonPkgJSON = `{
         "cabi_realloc",
         "copy",
         "double_array2ptr",
+        "duration_from_nanos",
         "extend16",
         "extend8",
         "f32_to_i32",

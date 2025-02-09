@@ -115,7 +115,10 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	log.Printf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
 	for _, v := range imports {
 		if v == "@time" {
-			overrides = append(overrides, "zoned_date_time_from_unix_seconds_and_nanos")
+			overrides = append(overrides,
+				"zoned_date_time_from_unix_seconds_and_nanos",
+				"duration_from_nanos",
+			)
 			break
 		}
 	}

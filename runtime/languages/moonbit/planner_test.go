@@ -126,6 +126,7 @@ func TestGetPlan(t *testing.T) {
 	md.Types.AddType("Array[Address]")
 	md.Types.AddType("Array[String]")
 	md.Types.AddType("Array[Product]")
+	md.Types.AddType("@time.Duration")
 
 	// This should be excluded from the final schema
 	md.FnExports.AddFunction("my_embedder").
@@ -225,6 +226,9 @@ func TestGetPlan(t *testing.T) {
 		WithField("lat", "Double").
 		WithField("lon", "Double")
 
+	md.FnExports.AddFunction("return_duration").
+		WithResult("@time.Duration")
+
 	// This should be excluded from the final schema
 	md.Types.AddType("Header").
 		WithField("name", "String").
@@ -249,6 +253,7 @@ func TestGetPlan(t *testing.T) {
 		"get_product_map":            &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 		"list_people":                &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 		"my_embedder":                &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
+		"return_duration":            &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 		"say_hello":                  &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 		"test_default_array_params":  &fakeWasmFunc{},
 		"test_default_int_params":    &fakeWasmFunc{},

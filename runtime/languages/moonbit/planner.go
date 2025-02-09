@@ -115,6 +115,10 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewTimeHandler", typeName)
 		return p.NewTimeHandler(ti)
 	} else if ti.IsObject() {
+		if strings.HasPrefix(typeName, "@time.Duration") {
+			log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewDurationHandler", typeName)
+			return p.NewDurationHandler(ti)
+		}
 		log.Printf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStructHandler", typeName)
 		return p.NewStructHandler(ctx, ti)
 	}

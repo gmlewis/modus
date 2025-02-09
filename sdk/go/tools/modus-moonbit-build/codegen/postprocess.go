@@ -287,6 +287,11 @@ pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64
   let nanosecond = (nanos % 1_000_000_000).to_int()
   @time.unix!(second, nanosecond~)
 }
+
+///|
+pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error {
+  @time.Duration::of!(nanoseconds~)
+}
 `)
 	}
 

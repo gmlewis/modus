@@ -121,6 +121,7 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md.Types.AddType("Array[@testdata.Person?]")
 	md.Types.AddType("Array[@testdata.Person]?")
 	md.Types.AddType("@testdata.Person?")
+	md.Types.AddType("@time.Duration")
 
 	// This should be excluded from the final schema
 	md.FnExports.AddFunction("my_embedder").
@@ -255,6 +256,9 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md.FnExports.AddFunction("test_time_input").
 		WithParameter("t", "@time.ZonedDateTime")
 
+	md.FnExports.AddFunction("return_duration").
+		WithResult("@time.Duration")
+
 	result, err := GetGraphQLSchema(context.Background(), md)
 	if err != nil {
 		t.Fatal(err)
@@ -273,6 +277,7 @@ type Query {
   people: [Person!]!
   person: Person!
   product_map: [StringProductPair!]!
+  return_duration: time.Duration!
   say_hello(name~: String! = "World"): String!
   test_default_array_params(a: [Int!]!, b~: [Int!]! = [], c~: [Int!]! = [1,2,3], d~: [Int!], e~: [Int!] = null, f~: [Int!] = [], g~: [Int!] = [1,2,3]): Void
   test_default_int_params(a: Int!, b~: Int! = 0, c~: Int! = 1): Void
@@ -301,6 +306,7 @@ type Mutation {
   add_person(person: PersonInput!): Void
 }
 
+scalar time.Duration
 scalar Timestamp
 scalar Void
 

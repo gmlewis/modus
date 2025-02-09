@@ -65,6 +65,8 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnPtr2double_array: mod.ExportedFunction("ptr2double_array"), // pub fn ptr2double_array(ptr : Int) -> FixedArray[Double]
 		// pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64) -> @time.ZonedDateTime!Error
 		zonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
+		// pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error
+		durationFromNanos: mod.ExportedFunction("duration_from_nanos"),
 	}
 }
 
@@ -109,8 +111,10 @@ type wasmAdapter struct {
 	fnPtr2uint64_array wasm.Function
 	fnPtr2int64_array  wasm.Function
 	fnPtr2double_array wasm.Function
-	// used to convert Unix time to ZonedDateTime
+	// used to convert Go time.Time to MoonBit @time.ZonedDateTime
 	zonedDateTimeFromUnixSecondsAndNanos wasm.Function
+	// used to convert Go time.Duration to MoonBit @time.Duration
+	durationFromNanos wasm.Function
 }
 
 func (*wasmAdapter) TypeInfo() langsupport.LanguageTypeInfo {
