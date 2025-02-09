@@ -20,14 +20,13 @@ var testTimeStr = "2024-12-31T23:59:59.999999999Z"
 var testTime, _ = time.Parse(time.RFC3339, testTimeStr)
 var testDuration = time.Duration(5 * time.Second)
 
-// // TODO: FAILS
-// func TestTimeInput(t *testing.T) {
-// 	fnName := "test_time_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-//
+func TestTimeInput(t *testing.T) {
+	fnName := "test_time_input"
+	if _, err := fixture.CallFunction(t, fnName, testTime); err != nil {
+		t.Error(err)
+	}
+}
+
 // // TODO: FAILS
 // func TestTimeStrInput(t *testing.T) {
 // 	fnName := "test_time_input"

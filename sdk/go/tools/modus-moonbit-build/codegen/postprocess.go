@@ -11,6 +11,7 @@ package codegen
 
 import (
 	"bytes"
+	"log"
 	"path/filepath"
 	"sort"
 
@@ -274,6 +275,21 @@ pub(all) struct Cleanup {
   align : Int
 }
 `)
+
+	for pkg, name := range imports {
+		log.Printf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
+	}
+
+	if _, ok := imports["@time"]; ok {
+		b.WriteString(`
+///|
+pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64) -> @time.ZonedDateTime!Error {
+  let nanosecond = (nanos % 1_000_000_000).to_int()
+  @time.unix!(second, nanosecond~)
+}
+`)
+	}
+
 	// b.WriteString("package main\n\n")
 	// b.WriteString("import (\n")
 	// b.WriteString("\t\"unsafe\"\n")

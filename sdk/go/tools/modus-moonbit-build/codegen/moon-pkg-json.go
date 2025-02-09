@@ -72,7 +72,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	// }
 
 	// TODO: Only include the exports that are actually needed.
-	wasmLinkTarget.Exports = []string{ // clear out existing exports
+	overrides := []string{ // clear out existing exports
 		"cabi_realloc",
 		"extend16",
 		"extend8",
@@ -112,6 +112,14 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		"ptr2int64_array",
 		"ptr2double_array",
 	}
+	log.Printf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
+	for _, v := range imports {
+		if v == "@time" {
+			overrides = append(overrides, "zoned_date_time_from_unix_seconds_and_nanos")
+			break
+		}
+	}
+	wasmLinkTarget.Exports = overrides
 
 	for _, fn := range functions {
 		modusName := fmt.Sprintf("__modus_%v:%[1]v", fn.function.Name.Name)

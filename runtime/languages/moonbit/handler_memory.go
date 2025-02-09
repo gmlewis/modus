@@ -32,7 +32,13 @@ var moonBitBlockType = map[byte]string{
 }
 
 const (
-	StringBlockType = 243
+	StringBlockType        = 243
+	ZonedDateTimeBlockType = 3
+	ZoneBlockType          = 3
+	ZoneOffsetBlockType    = 4
+	PlainDateTimeBlockType = 2
+	PlainDateBlockType     = 3
+	PlainTimeBlockType     = 4
 )
 
 func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {

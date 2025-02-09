@@ -290,3 +290,8 @@ func IsPrimitiveType(typ string) bool {
 func IsVoidType(typ string) bool {
 	return strings.HasPrefix(typ, "Unit")
 }
+
+func IsTupleType(typ string) bool {
+	typ, _, _ = StripErrorAndOption(typ)
+	return strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")")
+}

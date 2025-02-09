@@ -116,6 +116,10 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 }
 
 func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package) (*ast.GenDecl, *ast.StructType, *types.Struct) {
+	if utils.IsTupleType(name) {
+		return nil, nil, nil
+	}
+
 	name, _, _ = utils.StripErrorAndOption(name)
 	objName := name[strings.LastIndex(name, ".")+1:]
 	pkgNames := utils.GetPackageNamesForType(name)

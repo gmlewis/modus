@@ -63,6 +63,8 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnPtr2uint64_array: mod.ExportedFunction("ptr2uint64_array"), // pub fn ptr2uint64_array(ptr : Int) -> FixedArray[UInt64]
 		fnPtr2int64_array:  mod.ExportedFunction("ptr2int64_array"),  // pub fn ptr2int64_array(ptr : Int) -> FixedArray[Int64]
 		fnPtr2double_array: mod.ExportedFunction("ptr2double_array"), // pub fn ptr2double_array(ptr : Int) -> FixedArray[Double]
+		// pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64) -> @time.ZonedDateTime!Error
+		zonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
 	}
 }
 
@@ -107,6 +109,8 @@ type wasmAdapter struct {
 	fnPtr2uint64_array wasm.Function
 	fnPtr2int64_array  wasm.Function
 	fnPtr2double_array wasm.Function
+	// used to convert Unix time to ZonedDateTime
+	zonedDateTimeFromUnixSecondsAndNanos wasm.Function
 }
 
 func (*wasmAdapter) TypeInfo() langsupport.LanguageTypeInfo {

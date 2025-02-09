@@ -91,7 +91,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	//   offset : ZoneOffset
 	// }
 	// So although a lot more information is returned, we only need the wall and ext values to create a time.Time.
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
 	if err != nil {
 		return nil, err
 	}
@@ -100,21 +100,25 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	}
 
 	datetimePtr := binary.LittleEndian.Uint32(memBlock[8:])
-	// zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
-	// offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
+	// For reverse-engineering purposes only:
+	zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
+	_, _, _ = memoryBlockAtOffset(wa, zonePtr, true)
+	offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
+	_, _, _ = memoryBlockAtOffset(wa, offsetPtr, true)
+	// end of reverse-engineering section.
 
-	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr)
+	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr, true)
 	if err != nil {
 		return nil, err
 	}
 
 	plainDatePtr := binary.LittleEndian.Uint32(datetime[8:])
 	plainTimePtr := binary.LittleEndian.Uint32(datetime[12:])
-	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr)
+	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr, true)
 	if err != nil {
 		return nil, err
 	}
-	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr)
+	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr, true)
 	if err != nil {
 		return nil, err
 	}
@@ -176,19 +180,26 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	// return timeFromVals(wall, ext), nil
 }
 
+// This converts a Go `time.Time` to a MoonBit `@time.ZonedDateTime`.
 func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
 	tm, err := utils.ConvertToTimestamp(obj)
 	if err != nil {
-		return []uint64{0}, nil, err
+		return nil, nil, err
 	}
 
-	// TODO: Convert a Go time.Time to a MoonBit @time.ZonedDateTime.
+	seconds := tm.Unix()
+	nanos := tm.UnixNano() % 1_000_000_000
+	log.Printf("GML: handler_time.go: timeHandler.Encode(obj: %v): seconds=%v, nanos=%v", tm, seconds, nanos)
+	res, err := wa.(*wasmAdapter).zonedDateTimeFromUnixSecondsAndNanos.Call(ctx, uint64(seconds), uint64(nanos))
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to convert time.Time to ZonedDateTime: %w", err)
+	}
+	log.Printf("GML: handler_time.go: timeHandler.Encode: res=%+v", res)
+	if len(res) != 2 || res[0] == 0 {
+		return nil, nil, fmt.Errorf("failed to convert time.Time to ZonedDateTime: %+v", res)
+	}
 
-	wall, ext := getTimeVals(tm)
-
-	// skip loc - we only support UTC
-
-	return []uint64{wall, uint64(ext), 0}, nil, nil
+	return res[1:], nil, nil
 }
 
 func timeFromVals(wall uint64, ext int64) time.Time {
