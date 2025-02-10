@@ -84,3 +84,20 @@ pub fn test_map_input_int_double(m : Map[Int, Double]) -> Unit!Error {
 pub fn test_map_output_int_double() -> Map[Int, Double] {
   { 1: 1.1, 2: 2.2, 3: 3.3 }
 }
+
+///| This generated map mimics the test map created on the Go side.
+fn make_test_map(size : Int) -> Map[String, String] {
+  let m = {}
+  for i in 0..<size {
+    let s = "\{1000+i}".substring(start=1)
+    let key = "key_\{s}"
+    let val = "val_\{s}"
+    m[key] = val
+  }
+  m
+}
+
+///|
+pub fn test_generate_map_string_string_output() -> Map[String, String] {
+  make_test_map(100)
+}

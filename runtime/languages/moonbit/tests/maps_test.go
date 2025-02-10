@@ -12,9 +12,11 @@ package moonbit_test
 import (
 	"fmt"
 	"maps"
+	"reflect"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestMapInput_string_string(t *testing.T) {
@@ -35,7 +37,7 @@ func TestMapInput_string_string(t *testing.T) {
 	}
 }
 
-func TestMapPtrInput_string_string(t *testing.T) {
+func TestMapOptionInput_string_string(t *testing.T) {
 	fnName := "test_map_option_input_string_string"
 	m := map[string]string{
 		"a": "1",
@@ -80,7 +82,7 @@ func TestMapOutput_string_string(t *testing.T) {
 	}
 }
 
-func TestMapPtrOutput_string_string(t *testing.T) {
+func TestMapOptionOutput_string_string(t *testing.T) {
 	fnName := "test_map_option_output_string_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -111,7 +113,23 @@ func TestIterateMap_string_string(t *testing.T) {
 	}
 }
 
-// TODO:
+func TestGenerateMap_string_string_output(t *testing.T) {
+	fnName := "test_generate_map_string_string_output"
+	want := makeTestMap(100)
+	got, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if reflect.TypeOf(got) != reflect.TypeOf(want) {
+		t.Errorf("expected %T, got %T", want, got)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("%v: mismatch (-want +got):\n%v", fnName, diff)
+	}
+}
+
 // func TestMapLookup_string_string(t *testing.T) {
 // 	fnName := "test_map_lookup_string_string"
 // 	m := makeTestMap(100)

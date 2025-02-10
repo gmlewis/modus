@@ -48,7 +48,7 @@ type TestRecursiveStruct struct {
 // 	}
 // }
 
-// func TestRecursiveStructPtrInput(t *testing.T) {
+// func TestRecursiveStructOptionInput(t *testing.T) {
 // 	fnName := "test_recursive_struct_option_input"
 // 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
 // 		t.Error(err)
@@ -66,7 +66,7 @@ type TestRecursiveStruct struct {
 // 	}
 // }
 
-// func TestRecursiveStructPtrInput_map(t *testing.T) {
+// func TestRecursiveStructOptionInput_map(t *testing.T) {
 // 	fnName := "test_recursive_struct_input"
 // 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
 // 		t.Error(err)
@@ -77,7 +77,7 @@ type TestRecursiveStruct struct {
 // 	}
 // }
 
-func TestRecursiveStructPtrInput_none(t *testing.T) {
+func TestRecursiveStructOptionInput_none(t *testing.T) {
 	fnName := "test_recursive_struct_option_input_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
@@ -100,7 +100,7 @@ func TestRecursiveStructPtrInput_none(t *testing.T) {
 // 	}
 // }
 
-// func TestRecursiveStructPtrOutput(t *testing.T) {
+// func TestRecursiveStructOptionOutput(t *testing.T) {
 // 	fnName := "test_recursive_struct_option_output"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -132,7 +132,7 @@ func TestRecursiveStructPtrInput_none(t *testing.T) {
 // 	}
 // }
 
-// func TestRecursiveStructPtrOutput_map(t *testing.T) {
+// func TestRecursiveStructOptionOutput_map(t *testing.T) {
 // 	fnName := "test_recursive_struct_option_output"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -148,7 +148,7 @@ func TestRecursiveStructPtrInput_none(t *testing.T) {
 // 	}
 // }
 
-func TestRecursiveStructPtrOutput_none(t *testing.T) {
+func TestRecursiveStructOptionOutput_none(t *testing.T) {
 	fnName := "test_recursive_struct_option_output_none"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {

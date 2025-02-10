@@ -163,6 +163,7 @@
         "__modus_test_float_option_output_none:test_float_option_output_none",
         "__modus_test_float_output_max:test_float_output_max",
         "__modus_test_float_output_min:test_float_output_min",
+        "__modus_test_generate_map_string_string_output:test_generate_map_string_string_output",
         "__modus_test_http_header:test_http_header",
         "__modus_test_http_header_map:test_http_header_map",
         "__modus_test_http_headers:test_http_headers",

@@ -119,7 +119,7 @@ package moonbit_test
 
 // func TestFixedArrayInput1_string_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input1_string_option"
-// 	arr := getStringPtrFixedArray1()
+// 	arr := getStringOptionFixedArray1()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -155,7 +155,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getStringPtrFixedArray1()
+// 	expected := getStringOptionFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([1]*string); !ok {
@@ -167,7 +167,7 @@ package moonbit_test
 
 // func TestFixedArrayInput1_int_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input1_int_option"
-// 	arr := getIntPtrFixedArray1()
+// 	arr := getIntOptionFixedArray1()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -186,7 +186,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getIntPtrFixedArray1()
+// 	expected := getIntOptionFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([1]*int); !ok {
@@ -212,7 +212,7 @@ package moonbit_test
 
 // func TestFixedArrayInput2_string_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_string_option"
-// 	arr := getStringPtrFixedArray2()
+// 	arr := getStringOptionFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -240,7 +240,7 @@ package moonbit_test
 
 // func TestFixedArrayInput2_struct_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_struct_option"
-// 	arr := getStructPtrFixedArray2()
+// 	arr := getStructOptionFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -268,7 +268,7 @@ package moonbit_test
 
 // func TestFixedArrayInput2_map_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_map_option"
-// 	arr := getMapPtrFixedArray2()
+// 	arr := getMapOptionFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -282,7 +282,7 @@ package moonbit_test
 
 // func TestFixedArrayInput2_int_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_int_option"
-// 	arr := getIntPtrFixedArray2()
+// 	arr := getIntOptionFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -301,7 +301,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getIntPtrFixedArray2()
+// 	expected := getIntOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([2]*int); !ok {
@@ -335,7 +335,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getStringPtrFixedArray2()
+// 	expected := getStringOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([2]*string); !ok {
@@ -369,7 +369,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getStructPtrFixedArray2()
+// 	expected := getStructOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([2]*TestStruct2); !ok {
@@ -403,7 +403,7 @@ package moonbit_test
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getMapPtrFixedArray2()
+// 	expected := getMapOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([2]*map[string]string); !ok {
@@ -413,9 +413,9 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayInput1_int(t *testing.T) {
+// func TestOptionFixedArrayInput1_int(t *testing.T) {
 // 	fnName := "test_option_fixedarray_input1_int"
-// 	arr := getPtrIntFixedArray1()
+// 	arr := getOptionIntFixedArray1()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -427,9 +427,9 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayInput2_int(t *testing.T) {
+// func TestOptionFixedArrayInput2_int(t *testing.T) {
 // 	fnName := "test_option_fixedarray_input2_int"
-// 	arr := getPtrIntFixedArray2()
+// 	arr := getOptionIntFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -441,9 +441,9 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayInput1_string(t *testing.T) {
+// func TestOptionFixedArrayInput1_string(t *testing.T) {
 // 	fnName := "test_option_fixedarray_input1_string"
-// 	arr := getPtrStringFixedArray1()
+// 	arr := getOptionStringFixedArray1()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -455,9 +455,9 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayInput2_string(t *testing.T) {
+// func TestOptionFixedArrayInput2_string(t *testing.T) {
 // 	fnName := "test_option_fixedarray_input2_string"
-// 	arr := getPtrStringFixedArray2()
+// 	arr := getOptionStringFixedArray2()
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -469,14 +469,14 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayOutput1_int(t *testing.T) {
+// func TestOptionFixedArrayOutput1_int(t *testing.T) {
 // 	fnName := "test_option_fixedarray_output1_int"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getPtrIntFixedArray1()
+// 	expected := getOptionIntFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(*[1]int); !ok {
@@ -486,14 +486,14 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayOutput2_int(t *testing.T) {
+// func TestOptionFixedArrayOutput2_int(t *testing.T) {
 // 	fnName := "test_option_fixedarray_output2_int"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getPtrIntFixedArray2()
+// 	expected := getOptionIntFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(*[2]int); !ok {
@@ -503,14 +503,14 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayOutput1_string(t *testing.T) {
+// func TestOptionFixedArrayOutput1_string(t *testing.T) {
 // 	fnName := "test_option_fixedarray_output1_string"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getPtrStringFixedArray1()
+// 	expected := getOptionStringFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(*[1]string); !ok {
@@ -520,14 +520,14 @@ package moonbit_test
 // 	}
 // }
 
-// func TestPtrFixedArrayOutput2_string(t *testing.T) {
+// func TestOptionFixedArrayOutput2_string(t *testing.T) {
 // 	fnName := "test_option_fixedarray_output2_string"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getPtrStringFixedArray2()
+// 	expected := getOptionStringFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(*[2]string); !ok {
@@ -630,23 +630,23 @@ package moonbit_test
 // 	}
 // }
 
-// func getIntPtrFixedArray1() [1]*int {
+// func getIntOptionFixedArray1() [1]*int {
 // 	a := 11
 // 	return [1]*int{&a}
 // }
 
-// func getIntPtrFixedArray2() [2]*int {
+// func getIntOptionFixedArray2() [2]*int {
 // 	a := 11
 // 	b := 22
 // 	return [2]*int{&a, &b}
 // }
 
-// func getStringPtrFixedArray1() [1]*string {
+// func getStringOptionFixedArray1() [1]*string {
 // 	a := "abc"
 // 	return [1]*string{&a}
 // }
 
-// func getStringPtrFixedArray2() [2]*string {
+// func getStringOptionFixedArray2() [2]*string {
 // 	a := "abc"
 // 	b := "def"
 // 	return [2]*string{&a, &b}
@@ -659,7 +659,7 @@ package moonbit_test
 // 	}
 // }
 
-// func getStructPtrFixedArray2() [2]*TestStruct2 {
+// func getStructOptionFixedArray2() [2]*TestStruct2 {
 // 	return [2]*TestStruct2{
 // 		{A: true, B: 123},
 // 		{A: false, B: 456},
@@ -673,30 +673,30 @@ package moonbit_test
 // 	}
 // }
 
-// func getMapPtrFixedArray2() [2]*map[string]string {
+// func getMapOptionFixedArray2() [2]*map[string]string {
 // 	return [2]*map[string]string{
 // 		{"A": "true", "B": "123"},
 // 		{"C": "false", "D": "456"},
 // 	}
 // }
 
-// func getPtrIntFixedArray1() *[1]int {
+// func getOptionIntFixedArray1() *[1]int {
 // 	a := 11
 // 	return &[1]int{a}
 // }
 
-// func getPtrIntFixedArray2() *[2]int {
+// func getOptionIntFixedArray2() *[2]int {
 // 	a := 11
 // 	b := 22
 // 	return &[2]int{a, b}
 // }
 
-// func getPtrStringFixedArray1() *[1]string {
+// func getOptionStringFixedArray1() *[1]string {
 // 	a := "abc"
 // 	return &[1]string{a}
 // }
 
-// func getPtrStringFixedArray2() *[2]string {
+// func getOptionStringFixedArray2() *[2]string {
 // 	a := "abc"
 // 	b := "def"
 // 	return &[2]string{a, b}

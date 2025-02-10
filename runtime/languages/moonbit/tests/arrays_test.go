@@ -27,7 +27,7 @@ func TestArrayInput_byte(t *testing.T) {
 // TODO:
 // func TestArrayInput_int_option(t *testing.T) {
 // 	fnName := "test_array_input_int_option"
-// 	s := getIntPtrArray()
+// 	s := getIntOptionArray()
 
 // 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 // 		t.Error(err)
@@ -47,7 +47,7 @@ func TestArrayInput_byte(t *testing.T) {
 // TODO:
 // func TestArrayInput_string_option(t *testing.T) {
 // 	fnName := "test_array_input_string_option"
-// 	s := getStringPtrArray()
+// 	s := getStringOptionArray()
 
 // 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 // 		t.Error(err)
@@ -81,7 +81,7 @@ func TestArrayInput_byte(t *testing.T) {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := getIntPtrArray()
+// 	expected := getIntOptionArray()
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.([]*int); !ok {
@@ -115,7 +115,7 @@ func TestArrayOutput_string_option(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := getStringPtrArray()
+	expected := getStringOptionArray()
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*string); !ok {
@@ -125,14 +125,14 @@ func TestArrayOutput_string_option(t *testing.T) {
 	}
 }
 
-// func getIntPtrArray() []*int {
+// func getIntOptionArray() []*int {
 // 	a := 11
 // 	b := 22
 // 	c := 33
 // 	return []*int{&a, &b, &c}
 // }
 
-func getStringPtrArray() []*string {
+func getStringOptionArray() []*string {
 	a := "abc"
 	b := "def"
 	c := "ghi"
