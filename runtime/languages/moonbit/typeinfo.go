@@ -473,31 +473,10 @@ func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
 	// return parsedSize, nil
 }
 
-func (lti *langTypeInfo) getSizeOfArray(ctx context.Context, typ string) (uint32, error) {
-	gmlPrintf("PROGRAMMING ERROR: GML: moonbit/typeinfo.go: getSizeOfArray('%v'): Bad array type!", typ)
-	return 0, nil
-	// // array size is the element size times the number of elements, aligned to the element size
-	// arrSize, err := lti.ArrayLength(typ)
-	// if err != nil {
-	// 	return 0, err
-	// }
-	// if arrSize == 0 {
-	// 	return 0, nil
-	// }
-
-	// t := lti.GetListSubtype(typ)
-	// elementAlignment, err := lti.GetAlignmentOfType(ctx, t)
-	// if err != nil {
-	// 	return 0, err
-	// }
-	// elementSize, err := lti.GetSizeOfType(ctx, t)
-	// if err != nil {
-	// 	return 0, err
-	// }
-
-	// size := langsupport.AlignOffset(elementSize, elementAlignment)*uint32(arrSize-1) + elementSize
-	// return size, nil
-}
+// func (lti *langTypeInfo) getSizeOfArray(ctx context.Context, typ string) (uint32, error) {
+// 	gmlPrintf("PROGRAMMING ERROR: GML: moonbit/typeinfo.go: getSizeOfArray('%v'): Bad array type!", typ)
+// 	return 0, nil
+// }
 
 func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint32, error) {
 	def, err := lti.GetTypeDefinition(ctx, typ)

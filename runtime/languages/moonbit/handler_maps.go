@@ -457,13 +457,13 @@ func (h *mapHandler) doWriteMap(ctx context.Context, wa langsupport.WasmAdapter,
 		return 0, cln, err
 	}
 
-	pKeys, c, err := h.keysHandler.(*sliceHandler).Encode(ctx, wa, keys)
+	pKeys, c, err := h.sliceOfKeysHandler.(*sliceHandler).Encode(ctx, wa, keys)
 	innerCln.AddCleaner(c)
 	if err != nil {
 		return 0, cln, err
 	}
 
-	pVals, c, err := h.valuesHandler.(*sliceHandler).Encode(ctx, wa, vals)
+	pVals, c, err := h.sliceOfValuesHandler.(*sliceHandler).Encode(ctx, wa, vals)
 	innerCln.AddCleaner(c)
 	if err != nil {
 		return 0, cln, err

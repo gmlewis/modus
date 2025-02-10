@@ -291,7 +291,7 @@ func TestGetHandler_map(t *testing.T) {
 	}
 
 	innerHandlers := getInnerHandlers(handler)
-	if len(innerHandlers) != 4 {
+	if len(innerHandlers) != 5 {
 		t.Fatalf("expected 4 inner handlers, got %d", len(innerHandlers))
 	}
 

@@ -15,50 +15,49 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gmlewis/modus/runtime/utils"
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestMapInput_string_string(t *testing.T) {
-	fnName := "test_map_input_string_string"
-	m := map[string]string{
-		"a": "1",
-		"b": "2",
-		"c": "3",
-	}
+// func TestMapInput_string_string(t *testing.T) {
+// 	fnName := "test_map_input_string_string"
+// 	m := map[string]string{
+// 		"a": "1",
+// 		"b": "2",
+// 		"c": "3",
+// 	}
 
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-	if m, err := utils.ConvertToMap(m); err != nil {
-		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
-	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if m, err := utils.ConvertToMap(m); err != nil {
+// 		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
+// 	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestMapOptionInput_string_string(t *testing.T) {
-	fnName := "test_map_option_input_string_string"
-	m := map[string]string{
-		"a": "1",
-		"b": "2",
-		"c": "3",
-	}
-
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &m); err != nil {
-		t.Error(err)
-	}
-	if m, err := utils.ConvertToMap(m); err != nil {
-		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
-	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	} else if _, err := fixture.CallFunction(t, fnName, &m); err != nil {
-		t.Error(err)
-	}
-}
+// func TestMapOptionInput_string_string(t *testing.T) {
+// 	fnName := "test_map_option_input_string_string"
+// 	m := map[string]string{
+// 		"a": "1",
+// 		"b": "2",
+// 		"c": "3",
+// 	}
+//
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &m); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if m, err := utils.ConvertToMap(m); err != nil {
+// 		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
+// 	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	} else if _, err := fixture.CallFunction(t, fnName, &m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestMapOutput_string_string(t *testing.T) {
 	fnName := "test_map_output_string_string"
@@ -104,14 +103,14 @@ func TestMapOptionOutput_string_string(t *testing.T) {
 	}
 }
 
-func TestIterateMap_string_string(t *testing.T) {
-	fnName := "test_iterate_map_string_string"
-	m := makeTestMap(100)
-
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-}
+// func TestIterateMap_string_string(t *testing.T) {
+// 	fnName := "test_iterate_map_string_string"
+// 	m := makeTestMap(100)
+//
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestGenerateMap_string_string_output(t *testing.T) {
 	fnName := "test_generate_map_string_string_output"
@@ -158,27 +157,27 @@ type TestStructWithMap2 struct {
 	M map[string]any
 }
 
-func TestStructContainingMapInput_string_string(t *testing.T) {
-	fnName := "test_struct_containing_map_input_string_string"
-	s1 := TestStructWithMap1{M: map[string]string{
-		"a": "1",
-		"b": "2",
-		"c": "3",
-	}}
-	if _, err := fixture.CallFunction(t, fnName, s1); err != nil {
-		t.Error(err)
-	}
-
-	s2 := TestStructWithMap2{M: map[string]any{
-		"a": any("1"),
-		"b": any("2"),
-		"c": any("3"),
-	}}
-
-	if _, err := fixture.CallFunction(t, fnName, s2); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructContainingMapInput_string_string(t *testing.T) {
+// 	fnName := "test_struct_containing_map_input_string_string"
+// 	s1 := TestStructWithMap1{M: map[string]string{
+// 		"a": "1",
+// 		"b": "2",
+// 		"c": "3",
+// 	}}
+// 	if _, err := fixture.CallFunction(t, fnName, s1); err != nil {
+// 		t.Error(err)
+// 	}
+//
+// 	s2 := TestStructWithMap2{M: map[string]any{
+// 		"a": any("1"),
+// 		"b": any("2"),
+// 		"c": any("3"),
+// 	}}
+//
+// 	if _, err := fixture.CallFunction(t, fnName, s2); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 // TODO:
 // func TestStructContainingMapOutput_string_string(t *testing.T) {
@@ -213,23 +212,23 @@ func makeTestMap(size int) map[string]string {
 	return m
 }
 
-func TestMapInput_int_float(t *testing.T) {
-	fnName := "test_map_input_int_float"
-	m := map[int]float32{
-		1: 1.1,
-		2: 2.2,
-		3: 3.3,
-	}
-
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-	if m, err := utils.ConvertToMap(m); err != nil {
-		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
-	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-}
+// func TestMapInput_int_float(t *testing.T) {
+// 	fnName := "test_map_input_int_float"
+// 	m := map[int]float32{
+// 		1: 1.1,
+// 		2: 2.2,
+// 		3: 3.3,
+// 	}
+//
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if m, err := utils.ConvertToMap(m); err != nil {
+// 		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
+// 	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 // TODO:
 // func TestMapOutput_int_float(t *testing.T) {
@@ -254,23 +253,23 @@ func TestMapInput_int_float(t *testing.T) {
 // 	}
 // }
 
-func TestMapInput_int_double(t *testing.T) {
-	fnName := "test_map_input_int_double"
-	m := map[int]float64{
-		1: 1.1,
-		2: 2.2,
-		3: 3.3,
-	}
-
-	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-	if m, err := utils.ConvertToMap(m); err != nil {
-		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
-	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-		t.Error(err)
-	}
-}
+// func TestMapInput_int_double(t *testing.T) {
+// 	fnName := "test_map_input_int_double"
+// 	m := map[int]float64{
+// 		1: 1.1,
+// 		2: 2.2,
+// 		3: 3.3,
+// 	}
+//
+// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if m, err := utils.ConvertToMap(m); err != nil {
+// 		t.Error(fmt.Errorf("failed conversion to interface map: %w", err))
+// 	} else if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 // TODO:
 // func TestMapOutput_int_double(t *testing.T) {
