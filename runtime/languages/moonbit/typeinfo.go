@@ -733,11 +733,12 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 		return 20, nil
 	}
 
-	if lti.IsArrayType(typ) {
-		result, err := lti.getSizeOfArray(ctx, typ)
-		gmlPrintf("GML: moonbit/typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
-		return result, err
-	}
+	// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
+	// if lti.IsArrayType(typ) {
+	// 	result, err := lti.getSizeOfArray(ctx, typ)
+	// 	gmlPrintf("GML: moonbit/typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
+	// 	return result, err
+	// }
 
 	result, err := lti.getSizeOfStruct(ctx, typ)
 	gmlPrintf("GML: moonbit/typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)

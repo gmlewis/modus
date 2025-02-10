@@ -9,15 +9,9 @@
 
 package moonbit
 
-import (
-	"context"
-	"errors"
-	"reflect"
+// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
 
-	"github.com/gmlewis/modus/runtime/langsupport"
-	"github.com/gmlewis/modus/runtime/utils"
-)
-
+/*
 func (p *planner) NewArrayHandler(ctx context.Context, ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &arrayHandler{
 		typeHandler: *NewTypeHandler(ti),
@@ -139,3 +133,4 @@ func (h *arrayHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, o
 
 	return res, cln, nil
 }
+*/

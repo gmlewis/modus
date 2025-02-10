@@ -92,7 +92,7 @@ func (h *durationHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter
 	}
 
 	gmlPrintf("GML: handler_duration.go: durationHandler.Encode(obj: %v): nanos=%v", obj, nanos)
-	res, err := wa.(*wasmAdapter).durationFromNanos.Call(ctx, uint64(nanos))
+	res, err := wa.(*wasmAdapter).fnDurationFromNanos.Call(ctx, uint64(nanos))
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to convert time.Duration to Duration: %w", err)
 	}

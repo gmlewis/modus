@@ -187,7 +187,7 @@ func (h *timeHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, ob
 	seconds := tm.Unix()
 	nanos := tm.UnixNano() % 1_000_000_000
 	gmlPrintf("GML: handler_time.go: timeHandler.Encode(obj: %v): seconds=%v, nanos=%v", tm, seconds, nanos)
-	res, err := wa.(*wasmAdapter).zonedDateTimeFromUnixSecondsAndNanos.Call(ctx, uint64(seconds), uint64(nanos))
+	res, err := wa.(*wasmAdapter).fnZonedDateTimeFromUnixSecondsAndNanos.Call(ctx, uint64(seconds), uint64(nanos))
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to convert time.Time to ZonedDateTime: %w", err)
 	}

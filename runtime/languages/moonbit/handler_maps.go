@@ -36,6 +36,14 @@ func (p *planner) NewMapHandler(ctx context.Context, ti langsupport.TypeInfo) (l
 	keyType := ti.MapKeyType()
 	valueType := ti.MapValueType()
 
+	// A mapHandler always needs a stringsHandler so that it can call the "write_map" function to generate
+	// a map based on the key and value type names (as Strings).
+	stringsHandler, err := p.GetHandler(ctx, "String")
+	if err != nil {
+		return nil, fmt.Errorf("planner.NewMapHandler: p.GetHandler('String'): %w", err)
+	}
+	handler.stringsHandler = stringsHandler
+
 	sliceOfKeysType := "Array[" + keyType.Name() + "]"
 	sliceOfKeysHandler, err := p.GetHandler(ctx, sliceOfKeysType)
 	if err != nil {
@@ -100,6 +108,7 @@ type mapHandler struct {
 	sliceOfValuesHandler langsupport.TypeHandler
 	keysHandler          langsupport.TypeHandler
 	valuesHandler        langsupport.TypeHandler
+	stringsHandler       langsupport.TypeHandler
 	usePseudoMap         bool
 	rtPseudoMap          reflect.Type
 	rtPseudoMapSlice     reflect.Type
@@ -171,12 +180,12 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 		return cln, err
 	}
 
-	mapPtr, ok := wa.Memory().ReadUint32Le(ptr)
-	if !ok {
-		return cln, errors.New("failed to read map internal pointer from memory")
-	}
+	// mapPtr, ok := wa.Memory().ReadUint32Le(ptr)
+	// if !ok {
+	// 	return cln, errors.New("failed to read map internal pointer from memory")
+	// }
 
-	if ok := wa.Memory().WriteUint32Le(offset, mapPtr); !ok {
+	if ok := wa.Memory().WriteUint32Le(offset, ptr); !ok {
 		return cln, errors.New("failed to write map pointer to memory")
 	}
 
@@ -398,63 +407,73 @@ func (h *mapHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj
 		return nil, cln, err
 	}
 
-	mapPtr, ok := wa.Memory().ReadUint32Le(ptr)
-	if !ok {
-		return nil, cln, errors.New("failed to read map internal pointer from memory")
-	}
+	// mapPtr, ok := wa.Memory().ReadUint32Le(ptr)
+	// if !ok {
+	// 	return nil, cln, errors.New("failed to read map internal pointer from memory")
+	// }
 
-	return []uint64{uint64(mapPtr)}, cln, nil
+	return []uint64{uint64(ptr)}, cln, nil
 }
 
 func (h *mapHandler) doWriteMap(ctx context.Context, wa langsupport.WasmAdapter, obj any) (pMap uint32, cln utils.Cleaner, err error) {
 	gmlPrintf("GML: handler_maps.go: mapHandler.doWriteMap is not yet implemented for MoonBit")
-	return 0, nil, nil
-	/*
-	   	if utils.HasNil(obj) {
-	   		return 0, nil, nil
-	   	}
+	if utils.HasNil(obj) {
+		return 0, nil, nil
+	}
 
-	   m, err := utils.ConvertToMap(obj)
+	m, err := utils.ConvertToMap(obj)
 
-	   	if err != nil {
-	   		return 0, nil, err
-	   	}
+	if err != nil {
+		return 0, nil, err
+	}
 
-	   keys, vals := utils.MapKeysAndValues(m)
+	keys, vals := utils.MapKeysAndValues(m)
 
-	   pMap, cln, err = wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, uint32(len(m)))
+	// pMap, cln, err = wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, uint32(len(m)))
+	// if err != nil {
+	// 	return 0, nil, err
+	// }
 
-	   	if err != nil {
-	   		return 0, nil, err
-	   	}
+	innerCln := utils.NewCleanerN(4)
 
-	   innerCln := utils.NewCleanerN(2)
+	defer func() {
+		// clean up the slices after the map is written to memory
+		if e := innerCln.Clean(); e != nil && err == nil {
+			err = e
+		}
+	}()
 
-	   	defer func() {
-	   		// clean up the slices after the map is written to memory
-	   		if e := innerCln.Clean(); e != nil && err == nil {
-	   			err = e
-	   		}
-	   	}()
+	keyTypeName := h.keysHandler.TypeInfo().Name()
+	valueTypeName := h.valuesHandler.TypeInfo().Name()
 
-	   pKeys, c, err := h.keysHandler.(sliceWriter).doWriteSlice(ctx, wa, keys)
-	   innerCln.AddCleaner(c)
+	keyTypeNamePtr, c, err := h.stringsHandler.Encode(ctx, wa, keyTypeName)
+	innerCln.AddCleaner(c)
+	if err != nil {
+		return 0, cln, err
+	}
+	valueTypeNamePtr, c, err := h.stringsHandler.Encode(ctx, wa, valueTypeName)
+	innerCln.AddCleaner(c)
+	if err != nil {
+		return 0, cln, err
+	}
 
-	   	if err != nil {
-	   		return 0, cln, err
-	   	}
+	pKeys, c, err := h.keysHandler.(*sliceHandler).Encode(ctx, wa, keys)
+	innerCln.AddCleaner(c)
+	if err != nil {
+		return 0, cln, err
+	}
 
-	   pVals, c, err := h.valuesHandler.(sliceWriter).doWriteSlice(ctx, wa, vals)
-	   innerCln.AddCleaner(c)
+	pVals, c, err := h.valuesHandler.(*sliceHandler).Encode(ctx, wa, vals)
+	innerCln.AddCleaner(c)
+	if err != nil {
+		return 0, cln, err
+	}
 
-	   	if err != nil {
-	   		return 0, cln, err
-	   	}
+	params := []uint64{keyTypeNamePtr[0], valueTypeNamePtr[0], pKeys[0], pVals[0]}
+	res, err := wa.(*wasmAdapter).fnWriteMap.Call(ctx, params...)
+	if err != nil {
+		return 0, cln, fmt.Errorf("failed to write %s to WASM memory: %w", h.typeInfo.Name(), err)
+	}
 
-	   	if _, err := wa.(*wasmAdapter).fnWriteMap.Call(ctx, uint64(h.typeDef.Id), uint64(pMap), uint64(pKeys), uint64(pVals)); err != nil {
-	   		return 0, cln, fmt.Errorf("failed to write %s to WASM memory: %w", h.typeInfo.Name(), err)
-	   	}
-
-	   return pMap, cln, nil
-	*/
+	return uint32(res[0]), cln, nil
 }

@@ -108,7 +108,7 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
-		if _langTypeInfo.IsSliceType(typeName) {
+		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]`` is a Go slice type.
 			if ti.ListElementType().IsPrimitive() {
 				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
 				return p.NewPrimitiveSliceHandler(ti)
@@ -116,14 +116,15 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewSliceHandler", typeName)
 				return p.NewSliceHandler(ctx, ti)
 			}
-		} else if _langTypeInfo.IsArrayType(typeName) {
-			if ti.ListElementType().IsPrimitive() {
-				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
-				return p.NewPrimitiveArrayHandler(ti)
-			} else {
-				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
-				return p.NewArrayHandler(ctx, ti)
-			}
+			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
+			// } else if _langTypeInfo.IsArrayType(typeName) {
+			// 	if ti.ListElementType().IsPrimitive() {
+			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
+			// 		return p.NewPrimitiveArrayHandler(ti)
+			// 	} else {
+			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
+			// 		return p.NewArrayHandler(ctx, ti)
+			// 	}
 		}
 	} else if ti.IsMap() {
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
