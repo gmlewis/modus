@@ -238,33 +238,31 @@ pub fn write_map(
   let key_type_name = ptr2str(key_type_name_ptr)
   let value_type_name = ptr2str(value_type_name_ptr)
   match (key_type_name, value_type_name) {
-    ("String", "HttpHeader?") => write_map_helper_0(keys_ptr, values_ptr)
-    ("String", "String") => write_map_helper_1(keys_ptr, values_ptr)
-    ("Int", "Double") => write_map_helper_2(keys_ptr, values_ptr)
-    ("Int", "Float") => write_map_helper_3(keys_ptr, values_ptr)
+    ("Int", "Double") => write_map_helper_0(keys_ptr, values_ptr)
+    ("Int", "Float") => write_map_helper_1(keys_ptr, values_ptr)
+    ("String", "HttpHeader?") => write_map_helper_2(keys_ptr, values_ptr)
+    ("String", "String") => write_map_helper_3(keys_ptr, values_ptr)
     _ => 0
   }
 }
 
 ///|
-extern "wasm" fn ptr2write_map_helper_keys_0(ptr : Int) -> Array[String] =
+extern "wasm" fn ptr2write_map_helper_keys_0(ptr : Int) -> Array[Int] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn ptr2write_map_helper_values_0(ptr : Int) -> Array[HttpHeader?] =
+extern "wasm" fn ptr2write_map_helper_values_0(ptr : Int) -> Array[Double] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn write_map_helper_map_0_to_ptr(
-  m : Map[String, HttpHeader?]
-) -> Int =
+extern "wasm" fn write_map_helper_map_0_to_ptr(m : Map[Int, Double]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
 ///|
 fn write_map_helper_0(keys_ptr : Int, values_ptr : Int) -> Int {
   let keys = ptr2write_map_helper_keys_0(keys_ptr)
   let values = ptr2write_map_helper_values_0(values_ptr)
-  let m : Map[String, HttpHeader?] = {}
+  let m : Map[Int, Double] = Map::new(capacity=keys.length())
   for i in 0..<keys.length() {
     m[keys[i]] = values[i]
   }
@@ -272,22 +270,22 @@ fn write_map_helper_0(keys_ptr : Int, values_ptr : Int) -> Int {
 }
 
 ///|
-extern "wasm" fn ptr2write_map_helper_keys_1(ptr : Int) -> Array[String] =
+extern "wasm" fn ptr2write_map_helper_keys_1(ptr : Int) -> Array[Int] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn ptr2write_map_helper_values_1(ptr : Int) -> Array[String] =
+extern "wasm" fn ptr2write_map_helper_values_1(ptr : Int) -> Array[Float] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn write_map_helper_map_1_to_ptr(m : Map[String, String]) -> Int =
+extern "wasm" fn write_map_helper_map_1_to_ptr(m : Map[Int, Float]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
 ///|
 fn write_map_helper_1(keys_ptr : Int, values_ptr : Int) -> Int {
   let keys = ptr2write_map_helper_keys_1(keys_ptr)
   let values = ptr2write_map_helper_values_1(values_ptr)
-  let m : Map[String, String] = {}
+  let m : Map[Int, Float] = Map::new(capacity=keys.length())
   for i in 0..<keys.length() {
     m[keys[i]] = values[i]
   }
@@ -295,22 +293,24 @@ fn write_map_helper_1(keys_ptr : Int, values_ptr : Int) -> Int {
 }
 
 ///|
-extern "wasm" fn ptr2write_map_helper_keys_2(ptr : Int) -> Array[Int] =
+extern "wasm" fn ptr2write_map_helper_keys_2(ptr : Int) -> Array[String] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn ptr2write_map_helper_values_2(ptr : Int) -> Array[Double] =
+extern "wasm" fn ptr2write_map_helper_values_2(ptr : Int) -> Array[HttpHeader?] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn write_map_helper_map_2_to_ptr(m : Map[Int, Double]) -> Int =
+extern "wasm" fn write_map_helper_map_2_to_ptr(
+  m : Map[String, HttpHeader?]
+) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
 ///|
 fn write_map_helper_2(keys_ptr : Int, values_ptr : Int) -> Int {
   let keys = ptr2write_map_helper_keys_2(keys_ptr)
   let values = ptr2write_map_helper_values_2(values_ptr)
-  let m : Map[Int, Double] = {}
+  let m : Map[String, HttpHeader?] = Map::new(capacity=keys.length())
   for i in 0..<keys.length() {
     m[keys[i]] = values[i]
   }
@@ -318,22 +318,22 @@ fn write_map_helper_2(keys_ptr : Int, values_ptr : Int) -> Int {
 }
 
 ///|
-extern "wasm" fn ptr2write_map_helper_keys_3(ptr : Int) -> Array[Int] =
+extern "wasm" fn ptr2write_map_helper_keys_3(ptr : Int) -> Array[String] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn ptr2write_map_helper_values_3(ptr : Int) -> Array[Float] =
+extern "wasm" fn ptr2write_map_helper_values_3(ptr : Int) -> Array[String] =
   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
 
 ///|
-extern "wasm" fn write_map_helper_map_3_to_ptr(m : Map[Int, Float]) -> Int =
+extern "wasm" fn write_map_helper_map_3_to_ptr(m : Map[String, String]) -> Int =
   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
 
 ///|
 fn write_map_helper_3(keys_ptr : Int, values_ptr : Int) -> Int {
   let keys = ptr2write_map_helper_keys_3(keys_ptr)
   let values = ptr2write_map_helper_values_3(values_ptr)
-  let m : Map[Int, Float] = {}
+  let m : Map[String, String] = Map::new(capacity=keys.length())
   for i in 0..<keys.length() {
     m[keys[i]] = values[i]
   }

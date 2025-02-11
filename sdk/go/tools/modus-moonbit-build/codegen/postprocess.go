@@ -12,7 +12,9 @@ package codegen
 import (
 	"bytes"
 	"fmt"
+	"maps"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 
@@ -326,19 +328,30 @@ pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error {
 func genWriteMapPatternsAndHelpers(meta *metadata.Metadata) (string, string) {
 	var patterns []string
 	var helpers []string
-	processed := map[string]bool{}
+	type keyValuePair struct {
+		key   string
+		value string
+	}
+	processed := map[string]*keyValuePair{}
 
 	for typ := range meta.Types {
 		if utils.IsMapType(typ) {
 			keyTypeName, valueTypeName := utils.GetMapSubtypes(typ)
 			mapTypeName := fmt.Sprintf("Map[%v, %v]", keyTypeName, valueTypeName)
-			if processed[mapTypeName] {
+			if _, ok := processed[mapTypeName]; ok {
 				continue
 			}
-			processed[mapTypeName] = true
-			patterns = append(patterns, fmt.Sprintf("    (%q, %q) => write_map_helper_%v(keys_ptr, values_ptr)", keyTypeName, valueTypeName, len(helpers)))
-			helpers = append(helpers, genWriteMapHelperFuncs(len(helpers), keyTypeName, valueTypeName))
+			processed[mapTypeName] = &keyValuePair{key: keyTypeName, value: valueTypeName}
 		}
+	}
+
+	// Output the patterns and helpers in sorted order.
+	keys := slices.Sorted(maps.Keys(processed))
+	for _, kvPair := range keys {
+		keyTypeName := processed[kvPair].key
+		valueTypeName := processed[kvPair].value
+		patterns = append(patterns, fmt.Sprintf("    (%q, %q) => write_map_helper_%v(keys_ptr, values_ptr)", keyTypeName, valueTypeName, len(helpers)))
+		helpers = append(helpers, genWriteMapHelperFuncs(len(helpers), keyTypeName, valueTypeName))
 	}
 
 	patterns = append(patterns, "    _ => 0")
@@ -362,7 +375,7 @@ func genWriteMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string
 	helperFn := fmt.Sprintf(`fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
 	  let keys = ptr2write_map_helper_keys_%[1]v(keys_ptr)
 	  let values = ptr2write_map_helper_values_%[1]v(values_ptr)
-    let m : Map[%[2]v, %[3]v] = {}
+    let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
     for i in 0..<keys.length() {
       m[keys[i]] = values[i]
     }
