@@ -5,6 +5,7 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
+///|
 test "add" {
   // Int
   let a = [1, 2, 3]
@@ -61,6 +62,7 @@ test "add" {
   inspect!(got, content="[5, 7, 9]")
 }
 
+///|
 test "add_in_place" {
   let a = [1, 2, 3]
   let b = [4, 5, 6]
@@ -69,6 +71,7 @@ test "add_in_place" {
   inspect!(b, content="[4, 5, 6]")
 }
 
+///|
 test "subtract" {
   // Int
   let a = [4, 5, 6]
@@ -79,6 +82,7 @@ test "subtract" {
   inspect!(got, content="[3, 3, 3]")
 }
 
+///|
 test "subtract_in_place" {
   let a = [4, 5, 6]
   let b = [1, 2, 3]
@@ -87,6 +91,7 @@ test "subtract_in_place" {
   inspect!(b, content="[1, 2, 3]")
 }
 
+///|
 test "add_number" {
   let a = [1, 2, 3]
   let b = 4
@@ -95,6 +100,7 @@ test "add_number" {
   inspect!(got, content="[5, 6, 7]")
 }
 
+///|
 test "add_number_in_place" {
   let a = [1, 2, 3]
   let b = 4
@@ -102,6 +108,7 @@ test "add_number_in_place" {
   inspect!(a, content="[5, 6, 7]")
 }
 
+///|
 test "subtract_number" {
   let a = [4, 5, 6]
   let b = 1
@@ -110,6 +117,7 @@ test "subtract_number" {
   inspect!(got, content="[3, 4, 5]")
 }
 
+///|
 test "subtract_number_in_place" {
   let a = [4, 5, 6]
   let b = 1
@@ -117,6 +125,7 @@ test "subtract_number_in_place" {
   inspect!(a, content="[3, 4, 5]")
 }
 
+///|
 test "multiply_number" {
   let a = [1, 2, 3]
   let b = 4
@@ -125,6 +134,7 @@ test "multiply_number" {
   inspect!(got, content="[4, 8, 12]")
 }
 
+///|
 test "multiply_number_in_place" {
   let a = [1, 2, 3]
   let b = 4
@@ -132,6 +142,7 @@ test "multiply_number_in_place" {
   inspect!(a, content="[4, 8, 12]")
 }
 
+///|
 test "divide_number" {
   let a = [4, 8, 12]
   let b = 4
@@ -140,6 +151,7 @@ test "divide_number" {
   inspect!(got, content="[1, 2, 3]")
 }
 
+///|
 test "divide_number_in_place" {
   let a = [4, 8, 12]
   let b = 4
@@ -147,6 +159,7 @@ test "divide_number_in_place" {
   inspect!(a, content="[1, 2, 3]")
 }
 
+///|
 test "dot" {
   let a = [1.0, 2, 3]
   let b = [4.0, 5, 6]
@@ -156,6 +169,7 @@ test "dot" {
   inspect!(got, content="32")
 }
 
+///|
 test "magnitude" {
   let a = [3.0, 4]
   let got = magnitude(a)
@@ -165,6 +179,7 @@ test "magnitude" {
   inspect!(got, content="0")
 }
 
+///|
 test "normalize" {
   let a = [3.0, 4]
   let got = normalize(a)
@@ -172,6 +187,7 @@ test "normalize" {
   inspect!(got, content="[0.6, 0.8]")
 }
 
+///|
 test "sum" {
   let a = [1, 2, 3]
   let got = sum(a)
@@ -181,6 +197,7 @@ test "sum" {
   inspect!(got, content="0")
 }
 
+///|
 test "product" {
   let a = [1, 2, 3]
   let got = product(a)
@@ -190,6 +207,7 @@ test "product" {
   inspect!(got, content="1")
 }
 
+///|
 test "mean" {
   let a = [1, 2, 3]
   let got = mean(a)
@@ -199,18 +217,21 @@ test "mean" {
   inspect!(got, content="NaN")
 }
 
+///|
 test "min" {
   let a = [1, 2, 3]
   let got = min(a)
   inspect!(got, content="1")
 }
 
+///|
 test "max" {
   let a = [1, 2, 3]
   let got = max(a)
   inspect!(got, content="3")
 }
 
+///|
 test "abs" {
   let a = [-1, 2, -3]
   let got = abs(a)
@@ -219,12 +240,14 @@ test "abs" {
   inspect!(got, content="[]")
 }
 
+///|
 test "abs_in_place" {
   let a = [-1, 2, -3]
   abs_in_place(a)
   inspect!(a, content="[1, 2, 3]")
 }
 
+///|
 test "euclidian_distance" {
   let a = [1.0, 2, 3]
   let b = [4.0, 5, 6]

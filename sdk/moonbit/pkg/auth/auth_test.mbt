@@ -5,6 +5,7 @@ struct TestClaims {
   admin : Bool
 } derive(Show, FromJson)
 
+///|
 test "get_jwt_claims_from_string" {
   let claims_str =
     #|{"sub":"1234567890","name":"John Doe","admin":true}

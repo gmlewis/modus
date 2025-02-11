@@ -26,6 +26,7 @@ struct TestModelOutput {
   response : String
 } derive(Show, Eq, FromJson, ToJson)
 
+///|
 test "get_model" {
   let model = get_model!("test")
   inspect!(

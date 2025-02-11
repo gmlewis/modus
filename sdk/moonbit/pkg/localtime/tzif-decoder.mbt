@@ -98,6 +98,7 @@ fn to_int_be(b : FixedArray[Byte], start : Int) -> Int {
   b[start + 3].to_int()
 }
 
+///|
 test "load_location_from_tzdata" {
   let data : FixedArray[Byte] = [
     // magic number
