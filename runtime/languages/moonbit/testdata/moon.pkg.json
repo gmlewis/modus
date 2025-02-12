@@ -3,7 +3,7 @@
     "gmlewis/modus/pkg/console",
     "gmlewis/modus/wit/ffi",
     "moonbitlang/x/sys",
-    "gmlewis/modus/pkg/time"
+    "moonbitlang/x/time"
   ],
   "targets": {
     "imports_notwasm.mbt": [
