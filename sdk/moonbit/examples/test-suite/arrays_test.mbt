@@ -5,6 +5,7 @@
 // These tests are fairly straightforward.
 // They are here to demonstrate how to write tests for your functions.
 
+///|
 test "hello_array_of_ints" {
   let got = hello_array_of_ints()
   inspect!(got, content="[1, 2, 3]")
@@ -14,6 +15,7 @@ test "hello_array_of_ints" {
   inspect!(got, content="[]")
 }
 
+///|
 test "hello_array_of_ints_option" {
   let got = hello_array_of_ints_option()
   inspect!(got, content="Some([1, 2, 3])")

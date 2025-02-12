@@ -277,23 +277,27 @@ pub extern "wasm" fn ptr2str(ptr : Int) -> String =
 //   size : Int
 //   align : Int
 // }
-
-pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
-  let key_type_name = ptr2str(key_type_name_ptr)
-  let value_type_name = ptr2str(value_type_name_ptr)
-  match (key_type_name, value_type_name) {
 `)
-	patterns, helpers := genWriteMapPatternsAndHelpers(meta)
-	b.WriteString(patterns)
-	b.WriteString(`
-  }
-}
-`)
-	b.WriteString(helpers)
 
-	for pkg, name := range imports {
-		gmlPrintf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
-	}
+	/*
+	     b.WriteString(`
+	   pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
+	     let key_type_name = ptr2str(key_type_name_ptr)
+	     let value_type_name = ptr2str(value_type_name_ptr)
+	     match (key_type_name, value_type_name) {
+	   `)
+	   	patterns, helpers := genWriteMapPatternsAndHelpers(meta)
+	   	b.WriteString(patterns)
+	   	b.WriteString(`
+	     }
+	   }
+	   `)
+	   	b.WriteString(helpers)
+	*/
+
+	// for pkg, name := range imports {
+	// 	gmlPrintf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
+	// }
 
 	if _, ok := imports["@time"]; ok {
 		b.WriteString(`
