@@ -430,6 +430,26 @@
           "name": "test_tuple_simulator",
           "query": {"query":"query {\n  test_tuple_simulator {\n    t0\n    t1\n    t2\n  }\n}","variables":{}},
           "expect": {"t0":123,"t1":true,"t2":"hello"}
+        },
+        {
+          "name": "make_test_map",
+          "query": {"query":"query($size: Int!) {\n  make_test_map(size: $size) {\n    key\n    value\n  }\n}","variables":{"size":3}},
+          "expect": [{"key":"key_000","value":"val_000"},{"key":"key_001","value":"val_001"},{"key":"key_002","value":"val_002"}]
+        },
+        {
+          "name": "test_map_option_output_string_string",
+          "query": {"query":"query {\n  test_map_option_output_string_string {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"a","value":"1"},{"key":"b","value":"2"},{"key":"c","value":"3"}]
+        },
+        {
+          "name": "test_map_output_string_string",
+          "query": {"query":"query {\n  test_map_output_string_string {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"a","value":"1"},{"key":"b","value":"2"},{"key":"c","value":"3"}]
+        },
+        {
+          "name": "test_struct_containing_map_output_string_string",
+          "query": {"query":"query {\n  test_struct_containing_map_output_string_string {\n    m {\n      key\n      value\n    }\n  }\n}","variables":{}},
+          "expect": {"m": [{"key": "a","value": "1"},{"key": "b","value": "2"},{"key": "c","value": "3"}]}
         }
       ]
     }
