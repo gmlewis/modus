@@ -55,19 +55,6 @@ type sliceHandler struct {
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
 	gmlPrintf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", debugShowOffset(offset), h.emptyValue)
 	return h.Decode(ctx, wa, []uint64{uint64(offset)})
-
-	// gmlPrintf("GML: handler_slices.go: sliceHandler.Read(offset: %v)", offset)
-
-	// if offset == 0 {
-	// 	return nil, nil
-	// }
-
-	// data, size, _, err := wa.(*wasmAdapter).readSliceHeader(offset)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// return h.doReadSlice(ctx, wa, data, size)
 }
 
 func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -137,13 +124,6 @@ func (h *sliceHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, o
 	if err != nil {
 		return nil, cln, err
 	}
-
-	// data, size, capacity, err := wa.(*wasmAdapter).readSliceHeader(ptr)
-	// if err != nil {
-	// 	return nil, cln, err
-	// }
-
-	// return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
 
 	return []uint64{uint64(ptr)}, cln, nil
 }
@@ -225,28 +205,4 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	}
 
 	return ptr, cln, nil
-}
-
-func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint32, err error) {
-	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader(offset: %v)", debugShowOffset(offset))
-	if offset == 0 {
-		return 0, 0, 0, nil
-	}
-
-	val, ok := wa.Memory().ReadUint64Le(offset)
-	if !ok {
-		return 0, 0, 0, errors.New("failed to read slice header from WASM memory")
-	}
-
-	data = uint32(val)
-	size = uint32(val >> 32)
-	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader: data=%v, size=%v", debugShowOffset(data), debugShowOffset(size))
-
-	capacity, ok = wa.Memory().ReadUint32Le(offset + 8) // TODO: THIS MAY NOT BE CORRECT FOR MOONBIT!
-	if !ok {
-		return 0, 0, 0, errors.New("failed to read slice capacity from WASM memory")
-	}
-	gmlPrintf("GML: handler_slices.go: wasmAdapter.readSliceHeader: capacity=%v - TODO!!!", debugShowOffset(capacity))
-
-	return data, size, capacity, nil
 }
