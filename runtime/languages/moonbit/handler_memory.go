@@ -11,7 +11,6 @@ package moonbit
 
 import (
 	"encoding/binary"
-	"errors"
 	"fmt"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -31,6 +30,7 @@ var moonBitBlockType = map[byte]string{
 }
 
 const (
+	ArrayBlockType         = 241
 	StringBlockType        = 243
 	ZonedDateTimeBlockType = 3
 	ZoneBlockType          = 3
@@ -73,16 +73,16 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 	return memBlock, words, nil
 }
 
-func writeMemoryBlockHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {
-	gmlPrintf("GML: handler_memory.go: writeMemoryBlockHeader(data: %v, size: %v, offset: %v)", data, size, debugShowOffset(offset))
+// func writeMemoryBlockHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {
+// 	gmlPrintf("GML: handler_memory.go: writeMemoryBlockHeader(data: %v, size: %v, offset: %v)", data, size, debugShowOffset(offset))
 
-	val := uint64(size)<<32 | uint64(data)
-	if ok := wa.Memory().WriteUint64Le(offset, val); !ok {
-		return errors.New("failed to write string header to WASM memory")
-	}
+// 	val := uint64(size)<<32 | uint64(data)
+// 	if ok := wa.Memory().WriteUint64Le(offset, val); !ok {
+// 		return errors.New("failed to write string header to WASM memory")
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 func debugShowOffset(offset uint32) string {
 	return fmt.Sprintf("%v=0x%08X=[%v %v %v %v]", offset, offset, byte(offset), byte(offset>>8), byte(offset>>16), byte(offset>>24))

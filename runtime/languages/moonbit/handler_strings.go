@@ -74,13 +74,19 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 		return cln, err
 	}
 
-	memBlock, err := stringDataAtOffset(wa, ptr)
-	if err != nil {
-		return cln, err
-	}
-	data, size := offset+8, uint32(len(memBlock))
+	// memBlock, err := stringDataAtOffset(wa, ptr)
+	// if err != nil {
+	// 	return cln, err
+	// }
+	// data, size := offset+8, uint32(len(memBlock))
 
-	return cln, writeMemoryBlockHeader(wa, data, size, offset)
+	// return cln, writeMemoryBlockHeader(wa, data, size, offset)
+
+	if ok := wa.Memory().WriteUint32Le(offset, ptr); !ok {
+		return cln, fmt.Errorf("failed to write pointer to string data to WASM memory (offset: %v, ptr: %v)", offset, ptr)
+	}
+
+	return cln, nil
 }
 
 func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {

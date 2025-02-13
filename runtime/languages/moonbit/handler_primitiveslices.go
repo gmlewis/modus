@@ -260,7 +260,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 		// Int arrays: 4 bytes per element + header
 		size = numElements * 4
 		// headerValue = (numElements << 8) | 241 // 241 is the int array header type
-		memBlockClassID = 241
+		memBlockClassID = ArrayBlockType
 
 		// writeHeader = func(mem []byte) {
 		// 	for i, val := range slice {

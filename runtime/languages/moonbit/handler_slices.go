@@ -138,12 +138,14 @@ func (h *sliceHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, o
 		return nil, cln, err
 	}
 
-	data, size, capacity, err := wa.(*wasmAdapter).readSliceHeader(ptr)
-	if err != nil {
-		return nil, cln, err
-	}
+	// data, size, capacity, err := wa.(*wasmAdapter).readSliceHeader(ptr)
+	// if err != nil {
+	// 	return nil, cln, err
+	// }
 
-	return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
+	// return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
+
+	return []uint64{uint64(ptr)}, cln, nil
 }
 
 /*
@@ -180,55 +182,49 @@ func (h *sliceHandler) doReadSlice(ctx context.Context, wa langsupport.WasmAdapt
 // }
 
 func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error) {
-	gmlPrintf("GML: handler_slices.go: sliceHandler.doWriteSlice is not yet implemented for MoonBit")
-	return 0, nil, nil
-	/*
-	   	if utils.HasNil(obj) {
-	   		return 0, nil, nil
-	   	}
+	gmlPrintf("GML: handler_slices.go: sliceHandler.doWriteSlice(obj: %+v)", obj)
+	if utils.HasNil(obj) {
+		return 0, nil, nil
+	}
 
-	   slice, err := utils.ConvertToSlice(obj)
+	slice, err := utils.ConvertToSlice(obj)
+	if err != nil {
+		return 0, nil, err
+	}
 
-	   	if err != nil {
-	   		return 0, nil, err
-	   	}
+	numElements := uint32(len(slice))
+	size := numElements * 4
+	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
+	memBlockClassID := uint32(ArrayBlockType)
 
-	   ptr, cln, err = wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, uint32(len(slice)))
+	//  ptr, cln, err = wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, uint32(len(slice)))
+	ptr, cln, err = wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, memBlockClassID)
+	if err != nil {
+		return 0, cln, err
+	}
 
-	   	if err != nil {
-	   		return 0, nil, err
-	   	}
+	innerCln := utils.NewCleanerN(len(slice))
 
-	   offset, ok := wa.Memory().ReadUint32Le(ptr)
+	defer func() {
+		// unpin slice elements after the slice is written to memory
+		if e := innerCln.Clean(); e != nil && err == nil {
+			err = e
+		}
+	}()
 
-	   	if !ok {
-	   		return 0, cln, errors.New("failed to read data pointer from WASM memory")
-	   	}
+	elementSize := h.elementHandler.TypeInfo().Size()
 
-	   innerCln := utils.NewCleanerN(len(slice))
+	for i, val := range slice {
+		if !utils.HasNil(val) {
+			c, err := h.elementHandler.Write(ctx, wa, ptr+uint32(i)*elementSize, val)
+			innerCln.AddCleaner(c)
+			if err != nil {
+				return 0, cln, err
+			}
+		}
+	}
 
-	   	defer func() {
-	   		// unpin slice elements after the slice is written to memory
-	   		if e := innerCln.Clean(); e != nil && err == nil {
-	   			err = e
-	   		}
-	   	}()
-
-	   elementSize := h.elementHandler.TypeInfo().Size()
-
-	   	for _, val := range slice {
-	   		if !utils.HasNil(val) {
-	   			c, err := h.elementHandler.Write(ctx, wa, offset, val)
-	   			innerCln.AddCleaner(c)
-	   			if err != nil {
-	   				return 0, cln, err
-	   			}
-	   		}
-	   		offset += elementSize
-	   	}
-
-	   return ptr, cln, nil
-	*/
+	return ptr, cln, nil
 }
 
 func (wa *wasmAdapter) readSliceHeader(offset uint32) (data, size, capacity uint32, err error) {

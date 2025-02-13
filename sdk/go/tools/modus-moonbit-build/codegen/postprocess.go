@@ -277,23 +277,22 @@ pub extern "wasm" fn ptr2str(ptr : Int) -> String =
 //   size : Int
 //   align : Int
 // }
+
+fn cast[A, B](a : A) -> B = "%identity"
+
+pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
+  let key_type_name = ptr2str(key_type_name_ptr)
+  let value_type_name = ptr2str(value_type_name_ptr)
+  match (key_type_name, value_type_name) {
 `)
 
-	/*
-	     b.WriteString(`
-	   pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
-	     let key_type_name = ptr2str(key_type_name_ptr)
-	     let value_type_name = ptr2str(value_type_name_ptr)
-	     match (key_type_name, value_type_name) {
-	   `)
-	   	patterns, helpers := genWriteMapPatternsAndHelpers(meta)
-	   	b.WriteString(patterns)
-	   	b.WriteString(`
-	     }
-	   }
-	   `)
-	   	b.WriteString(helpers)
-	*/
+	patterns, helpers := genWriteMapPatternsAndHelpers(meta)
+	b.WriteString(patterns)
+	b.WriteString(`
+  }
+}
+`)
+	b.WriteString(helpers)
 
 	// for pkg, name := range imports {
 	// 	gmlPrintf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
@@ -363,31 +362,16 @@ func genWriteMapPatternsAndHelpers(meta *metadata.Metadata) (string, string) {
 }
 
 func genWriteMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string {
-	var helpers []string
-	keyFn := fmt.Sprintf(`extern "wasm" fn ptr2write_map_helper_keys_%v(ptr : Int) -> Array[%v] =
-   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
-`, fnNum, keyTypeName)
-
-	valueFn := fmt.Sprintf(`extern "wasm" fn ptr2write_map_helper_values_%v(ptr : Int) -> Array[%v] =
-   #|(func (param i32) (result i32) local.get 0 i32.const 4 i32.sub i32.const 241 i32.store8 local.get 0 i32.const 8 i32.sub)
-`, fnNum, valueTypeName)
-
-	mapFn := fmt.Sprintf(`extern "wasm" fn write_map_helper_map_%v_to_ptr(m : Map[%v, %v]) -> Int =
-   #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.add)
-`, fnNum, keyTypeName, valueTypeName)
-
-	helperFn := fmt.Sprintf(`fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
-	  let keys = ptr2write_map_helper_keys_%[1]v(keys_ptr)
-	  let values = ptr2write_map_helper_values_%[1]v(values_ptr)
+	return fmt.Sprintf(`fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
+    let keys : Array[%[2]v] = cast(keys_ptr)
+    let values : Array[%[3]v] = cast(values_ptr)
     let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
     for i in 0..<keys.length() {
       m[keys[i]] = values[i]
     }
-    write_map_helper_map_%[1]v_to_ptr(m)
+    cast(m)
 }
 `, fnNum, keyTypeName, valueTypeName)
-	helpers = append(helpers, keyFn, valueFn, mapFn, helperFn)
-	return strings.Join(helpers, "\n\n")
 }
 
 func writeFuncUnpin(b *bytes.Buffer) {
