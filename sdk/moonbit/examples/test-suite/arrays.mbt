@@ -59,3 +59,16 @@ pub fn hello_array_of_strings_option(n~ : Int = 3) -> Array[String]? {
   )
   Some(arr)
 }
+
+///|
+pub fn test_array_output_int_option() -> Array[Int?] {
+  get_int_option_array()
+}
+
+///|
+fn get_int_option_array() -> Array[Int?] {
+  let a = Some(11)
+  let b = None
+  let c = Some(33)
+  [a, b, c]
+}

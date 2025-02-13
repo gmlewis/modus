@@ -230,7 +230,7 @@ func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAda
 }
 
 func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, err error) {
-	memBlock, words, err := memoryBlockAtOffset(wa, offset, true)
+	memBlock, words, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
 		return nil, err
 	}

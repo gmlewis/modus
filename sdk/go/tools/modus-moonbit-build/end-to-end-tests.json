@@ -450,6 +450,11 @@
           "name": "test_struct_containing_map_output_string_string",
           "query": {"query":"query {\n  test_struct_containing_map_output_string_string {\n    m {\n      key\n      value\n    }\n  }\n}","variables":{}},
           "expect": {"m": [{"key": "a","value": "1"},{"key": "b","value": "2"},{"key": "c","value": "3"}]}
+        },
+        {
+          "name": "test_array_output_int_option",
+          "query": {"query":"query {\n  test_array_output_int_option\n}","variables":{}},
+          "expect": [11,null,33]
         }
       ]
     }

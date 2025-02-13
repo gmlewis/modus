@@ -80,7 +80,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	// note: capacity is not used here
 	// data, size := uint32(vals[0]), uint32(vals[1])
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
@@ -93,9 +93,16 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	if numElements == 0 {
 		return h.emptyValue, nil // empty slice
 	}
-	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
+	elemType := h.typeInfo.ListElementType()
+	elemTypeSize := elemType.Size()
+	isNullable := elemType.IsNullable()
+	if isNullable {
+		elemTypeSize = 8
+	}
+	size := numElements * uint32(elemTypeSize)
+	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
 
-	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, true)
+	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
 	if err != nil {
 		return nil, err
 	}
@@ -105,8 +112,25 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	// elementSize := h.elementHandler.TypeInfo().Size()
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 	for i := uint32(0); i < numElements; i++ {
-		// itemOffset := data + i*elementSize
-		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
+		if isNullable {
+			isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
+			if isNone {
+				// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
+				continue
+			}
+			if elemType.IsPrimitive() {
+				value := binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
+				item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
+				if err != nil {
+					return nil, err
+				}
+				if !utils.HasNil(item) {
+					items.Index(int(i)).Set(reflect.ValueOf(item))
+				}
+				continue
+			}
+		}
+		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
 		item, err := h.elementHandler.Read(ctx, wa, itemOffset)
 		if err != nil {
 			return nil, err

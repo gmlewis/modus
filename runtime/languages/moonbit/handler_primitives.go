@@ -88,6 +88,10 @@ func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapt
 		return 0, fmt.Errorf("failed to read %s from memory", h.typeInfo.Name())
 	}
 
+	if h.typeInfo.IsPointer() {
+		return &val, nil
+	}
+
 	return val, nil
 }
 

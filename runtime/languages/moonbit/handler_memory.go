@@ -41,7 +41,7 @@ const (
 	OptionBlockType        = 1 // TODO
 )
 
-func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
+func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
 		gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
 		return nil, 0, nil
@@ -53,6 +53,9 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset uint32, dbgHackToRem
 	}
 	words = binary.LittleEndian.Uint32(memBlockHeader[4:8]) >> 8
 	size := uint32(8 + words*4)
+	if sizeOverride > 0 {
+		size = 8 + sizeOverride
+	}
 	memBlock, ok := wa.Memory().Read(offset, size)
 	if !ok {
 		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)

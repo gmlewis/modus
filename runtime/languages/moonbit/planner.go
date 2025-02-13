@@ -109,7 +109,8 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
 		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]`` is a Go slice type.
-			if ti.ListElementType().IsPrimitive() {
+			elemType := ti.ListElementType()
+			if !elemType.IsNullable() && elemType.IsPrimitive() {
 				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
 				return p.NewPrimitiveSliceHandler(ti)
 			} else {

@@ -65,37 +65,7 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 	// case "String": // holds a sequence of UTF-16 code units, e.g. `"Hello, World!"`
 	case "@time.Duration":
 		return newPrimitiveSliceHandler[time.Duration](ti, typeDef), nil
-		// For Go:
-	// case "bool":
-	// return newPrimitiveSliceHandler[bool](ti, typeDef), nil
-	// case "uint8", "byte":
-	// return newPrimitiveSliceHandler[uint8](ti, typeDef), nil
-	// case "uint16":
-	// return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
-	// case "uint32":
-	// return newPrimitiveSliceHandler[uint32](ti, typeDef), nil
-	// case "uint64":
-	// return newPrimitiveSliceHandler[uint64](ti, typeDef), nil
-	// case "int8":
-	// return newPrimitiveSliceHandler[int8](ti, typeDef), nil
-	// case "int16":
-	// return newPrimitiveSliceHandler[int16](ti, typeDef), nil
-	// case "int32", "rune":
-	// return newPrimitiveSliceHandler[int32](ti, typeDef), nil
-	// case "int64":
-	// return newPrimitiveSliceHandler[int64](ti, typeDef), nil
-	// case "float32":
-	// return newPrimitiveSliceHandler[float32](ti, typeDef), nil
-	// case "float64":
-	// return newPrimitiveSliceHandler[float64](ti, typeDef), nil
-	// case "int":
-	// return newPrimitiveSliceHandler[int](ti, typeDef), nil
-	// case "uint":
-	// return newPrimitiveSliceHandler[uint](ti, typeDef), nil
-	// case "uintptr":
-	// return newPrimitiveSliceHandler[uintptr](ti, typeDef), nil
-	// case "time.Duration":
-	// return newPrimitiveSliceHandler[time.Duration](ti, typeDef), nil
+
 	default:
 		return nil, fmt.Errorf("unsupported primitive MoonBit slice type: %s", ti.Name())
 	}
@@ -151,17 +121,22 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
 	}
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]))
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v", debugShowOffset(sliceOffset), numElements)
-	// size := numElements * uint32(h.converter.TypeSize())
+	elemTypeSize := h.converter.TypeSize()
+	isNullable := h.typeInfo.ListElementType().IsNullable()
+	if isNullable {
+		elemTypeSize = 8
+	}
+	size := numElements * uint32(elemTypeSize)
+	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
 
-	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset)
+	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, size, true)
 	if err != nil {
 		return nil, err
 	}

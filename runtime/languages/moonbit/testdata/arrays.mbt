@@ -81,6 +81,8 @@ fn get_string_option_array() -> Array[String?] {
 ///|
 pub fn test_array_input_int_option(val : Array[Int?]) -> Unit!Error {
   let expected = get_int_option_array()
+  println("expected: \{expected}")
+  println("val: \{val}")
   assert_eq!(expected, val)
 }
 
@@ -92,7 +94,7 @@ pub fn test_array_output_int_option() -> Array[Int?] {
 ///|
 fn get_int_option_array() -> Array[Int?] {
   let a = Some(11)
-  let b = Some(22)
+  let b = None
   let c = Some(33)
   [a, b, c]
 }

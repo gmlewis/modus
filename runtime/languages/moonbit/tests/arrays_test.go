@@ -73,23 +73,28 @@ func TestArrayInput_byte(t *testing.T) {
 // 	}
 // }
 
-// TODO:
-// func TestArrayOutput_int_option(t *testing.T) {
-// 	fnName := "test_array_output_int_option"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_int_option(t *testing.T) {
+	fnName := "test_array_output_int_option"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getIntOptionArray()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]*int); !ok {
-// 		t.Errorf("expected a []*int, got %T", result)
-// 	} else if !slices.EqualFunc(expected, r, func(a, b *int) bool { return *a == *b }) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getIntOptionArray()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*int); !ok {
+		t.Errorf("expected a []*int, got %T", result)
+	} else if !slices.EqualFunc(expected, r, func(a, b *int) bool { return (a == nil && b == nil) || *a == *b }) {
+		for i, v := range expected {
+			t.Logf("expected[%v]: %v", i, *v)
+		}
+		for i, v := range r {
+			t.Logf("r[%v]: %v", i, *v)
+		}
+		t.Errorf("expected %#v, got %#v", expected, r)
+	}
+}
 
 func TestArrayOutput_string(t *testing.T) {
 	fnName := "test_array_output_string"
@@ -125,12 +130,12 @@ func TestArrayOutput_string_option(t *testing.T) {
 	}
 }
 
-// func getIntOptionArray() []*int {
-// 	a := 11
-// 	b := 22
-// 	c := 33
-// 	return []*int{&a, &b, &c}
-// }
+func getIntOptionArray() []*int {
+	a := 11
+	// b := 22
+	c := 33
+	return []*int{&a, nil, &c}
+}
 
 func getStringOptionArray() []*string {
 	a := "abc"

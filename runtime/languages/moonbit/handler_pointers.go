@@ -119,7 +119,7 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	}
 
 	// only for reverse-engineering purposes:
-	_, _, _ = memoryBlockAtOffset(wa, offset, true)
+	_, _, _ = memoryBlockAtOffset(wa, offset, 0, true)
 
 	data, err := h.elementHandler.Read(ctx, wa, offset)
 	if err != nil {

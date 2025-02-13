@@ -84,7 +84,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	//   offset : ZoneOffset
 	// }
 	// So although a lot more information is returned, we only need the wall and ext values to create a time.Time.
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), true)
+	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
@@ -95,23 +95,23 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	datetimePtr := binary.LittleEndian.Uint32(memBlock[8:])
 	// For reverse-engineering purposes only:
 	zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
-	_, _, _ = memoryBlockAtOffset(wa, zonePtr, true)
+	_, _, _ = memoryBlockAtOffset(wa, zonePtr, 0, true)
 	offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
-	_, _, _ = memoryBlockAtOffset(wa, offsetPtr, true)
+	_, _, _ = memoryBlockAtOffset(wa, offsetPtr, 0, true)
 	// end of reverse-engineering section.
 
-	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr, true)
+	datetime, _, err := memoryBlockAtOffset(wa, datetimePtr, 0, true)
 	if err != nil {
 		return nil, err
 	}
 
 	plainDatePtr := binary.LittleEndian.Uint32(datetime[8:])
 	plainTimePtr := binary.LittleEndian.Uint32(datetime[12:])
-	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr, true)
+	plainDate, _, err := memoryBlockAtOffset(wa, plainDatePtr, 0, true)
 	if err != nil {
 		return nil, err
 	}
-	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr, true)
+	plainTime, _, err := memoryBlockAtOffset(wa, plainTimePtr, 0, true)
 	if err != nil {
 		return nil, err
 	}
