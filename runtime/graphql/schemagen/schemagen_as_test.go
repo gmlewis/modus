@@ -16,10 +16,10 @@ import (
 	"testing"
 
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/languages"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/languages"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/stretchr/testify/require"
 )
@@ -189,6 +189,9 @@ func Test_GetGraphQLSchema_AssemblyScript(t *testing.T) {
 		WithField("values", "~lib/array/Array<~lib/string/String>")
 
 	result, err := GetGraphQLSchema(context.Background(), md)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	t.Log(result.Schema)
 

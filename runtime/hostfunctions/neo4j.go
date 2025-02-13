@@ -12,7 +12,7 @@ package hostfunctions
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/neo4jclient"
+	"github.com/gmlewis/modus/runtime/neo4jclient"
 )
 
 func init() {

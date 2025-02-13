@@ -12,18 +12,21 @@ package graphql
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
+	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/graphql/engine"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/pluginmanager"
-	"github.com/hypermodeinc/modus/runtime/timezones"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/graphql/engine"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/pluginmanager"
+	"github.com/gmlewis/modus/runtime/timezones"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
@@ -33,6 +36,21 @@ import (
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/graphqlerrors"
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/operationreport"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 var GraphQLRequestHandler = http.HandlerFunc(handleGraphQLRequest)
 
@@ -83,6 +101,8 @@ func handleGraphQLRequest(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	varsBuf, _ := utils.JsonSerialize(gqlRequest.Variables)
+	gmlPrintf("GML: runtime/graphql.go: handleGraphQLRequest: gqlRequest: OperationName='%v', Query='%v', Variables='%s'", gqlRequest.OperationName, gqlRequest.Query, varsBuf)
 
 	// Get the active GraphQL engine, if there is one.
 	engine := engine.GetEngine()

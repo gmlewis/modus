@@ -14,8 +14,8 @@ import (
 	"fmt"
 	"runtime/debug"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
@@ -88,12 +88,14 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 
 	// Get the wasm function
 	fnName := plan.FnMetadata().Name
+	gmlPrintf("GML: executionplan.go: InvokeFunction: fnName='%v'", fnName)
 	fn := wa.GetFunction(fnName)
 	if fn == nil {
 		return nil, fmt.Errorf("function %s not found in wasm module", fnName)
 	}
 
 	// Get parameters to pass as input to the function
+	gmlPrintf("GML: executionplan.go: InvokeFunction: plan.getWasmParameters for fnName='%v'", fnName)
 	params, cln, err := plan.getWasmParameters(ctx, wa, parameters)
 	defer func() {
 		// Clean up any resources allocated for the parameters (when done)
@@ -108,11 +110,13 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	}
 
 	// Pre-invoke hook
+	gmlPrintf("GML: executionplan.go: InvokeFunction: wa.PreInvoke for fnName='%v'", fnName)
 	if err := wa.PreInvoke(ctx, plan); err != nil {
 		return nil, err
 	}
 
 	// Call the function
+	gmlPrintf("GML: executionplan.go: InvokeFunction: fn.Call(%q, %+v)", fnName, params)
 	res, err := fn.Call(ctx, params...)
 	if err != nil {
 		return nil, err
@@ -122,9 +126,11 @@ func (plan *executionPlan) InvokeFunction(ctx context.Context, wa WasmAdapter, p
 	var indirectPtr uint32
 	if plan.UseResultIndirection() {
 		indirectPtr = uint32(params[0])
+		gmlPrintf("GML: executionplan.go: InvokeFunction: plan.UseResultIndirection: true, indirectPtr=%v", indirectPtr)
 	}
 
 	// Interpret and return the results
+	gmlPrintf("GML: executionplan.go: InvokeFunction: calling plan.interpretWasmResults")
 	return plan.interpretWasmResults(ctx, wa, res, indirectPtr)
 }
 
@@ -170,6 +176,7 @@ func (plan *executionPlan) getWasmParameters(ctx context.Context, wa WasmAdapter
 func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdapter, vals []uint64, indirectPtr uint32) (any, error) {
 
 	handlers := plan.ResultHandlers()
+	gmlPrintf("GML: executionplan.go: interpretWasmResults: len(handlers)=%v, len(vals)=%v, indirectPtr=%v", len(handlers), len(vals), indirectPtr)
 	switch len(handlers) {
 	case 0:
 		// no results are expected
@@ -178,11 +185,25 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 		// a single result is expected
 		handler := handlers[0]
 		if plan.UseResultIndirection() {
+			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Read: vals=%+v, indirectPtr=%v", vals, indirectPtr)
 			return handler.Read(ctx, wa, indirectPtr)
 		} else if len(vals) == 1 {
+			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode")
 			return handler.Decode(ctx, wa, vals)
+		} else if len(vals) == 2 {
+			// This is the case in MoonBit when a function returns a single value and an error code.
+			// The error code is the first value and the actual result is the second value.
+			if vals[0] == 0 {
+				// An error occurred. Return the zero value.
+				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
+				return handler.TypeInfo().ZeroValue(), nil
+			}
+			// Now strip off the error code and decode the actual result.
+			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
+			return handler.Decode(ctx, wa, vals[1:])
 		} else {
 			// no actual result value, but we need to return a zero value of the expected type
+			gmlPrintf("GML: executionplan.go: interpretWasmResults: no actual result value, but we need to return a zero value of the expected type: vals=%+v", vals)
 			return handler.TypeInfo().ZeroValue(), nil
 		}
 	}

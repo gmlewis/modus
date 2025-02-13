@@ -1,13 +1,13 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
 go 1.23.1
 
 toolchain go1.23.6
 
 require (
+	github.com/gmlewis/modus/lib/metadata v0.15.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
 	github.com/hypermodeinc/modus/lib/manifest v0.17.0
-	github.com/hypermodeinc/modus/lib/metadata v0.15.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 // indirect
 )
 
 require (
@@ -28,6 +28,7 @@ require (
 	github.com/goccy/go-json v0.10.5
 	github.com/gofrs/flock v0.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/google/go-cmp v0.6.0
 	github.com/google/renameio/v2 v2.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hypermodeinc/modusdb v0.0.0-20250207181521-a702ca86dda6
@@ -50,8 +51,8 @@ require (
 	github.com/twpayne/go-geom v1.6.0
 	github.com/viterin/vek v0.4.2
 	github.com/wundergraph/graphql-go-tools/execution v1.2.0
-	github.com/wundergraph/graphql-go-tools/v2 v2.0.0-rc.148
-	github.com/xo/dburl v0.23.2
+	github.com/wundergraph/graphql-go-tools/v2 v2.0.0-rc.149
+	github.com/xo/dburl v0.23.3
 	golang.org/x/exp v0.0.0-20250207012021-f9890c6ad9f3
 	golang.org/x/sys v0.30.0
 	google.golang.org/grpc v1.70.0
@@ -66,6 +67,7 @@ require (
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 )
 
 require (

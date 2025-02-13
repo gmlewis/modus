@@ -26,7 +26,7 @@ for template in *; do
 		cd "${template}"
 
 		# update the go.mod file to use the new version
-		go get -u github.com/hypermodeinc/modus/sdk/go@v"${version}"
+		go get -u github.com/gmlewis/modus/sdk/go@v"${version}"
 
 		cd ..
 	fi
