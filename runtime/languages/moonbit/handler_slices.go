@@ -195,7 +195,13 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	}
 
 	numElements := uint32(len(slice))
-	size := numElements * 4
+	elemType := h.typeInfo.ListElementType()
+	elemTypeSize := uint32(4) // elemType.Size()
+	isNullable := elemType.IsNullable()
+	if elemType.IsPrimitive() && isNullable {
+		elemTypeSize = 8
+	}
+	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 	memBlockClassID := uint32(ArrayBlockType)
 
@@ -217,6 +223,17 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	elementSize := h.elementHandler.TypeInfo().Size()
 
 	for i, val := range slice {
+		if elemType.IsPrimitive() && isNullable {
+			if !utils.HasNil(val) {
+				if _, err := h.elementHandler.Write(ctx, wa, ptr+uint32(i)*elemTypeSize, val); err != nil {
+					return 0, cln, err
+				}
+				wa.(*wasmAdapter).Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
+			} else {
+				wa.(*wasmAdapter).Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
+			}
+			continue
+		}
 		if !utils.HasNil(val) {
 			c, err := h.elementHandler.Write(ctx, wa, ptr+uint32(i)*elementSize, val)
 			innerCln.AddCleaner(c)

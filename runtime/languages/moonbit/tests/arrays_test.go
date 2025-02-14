@@ -24,7 +24,6 @@ func TestArrayInput_byte(t *testing.T) {
 	}
 }
 
-// TODO:
 func TestArrayInput_int_option(t *testing.T) {
 	fnName := "test_array_input_int_option"
 	s := getIntOptionArray()
