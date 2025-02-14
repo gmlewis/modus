@@ -1,0 +1,142 @@
+package gmlewis/modus/pkg/neo4j
+
+alias @gmlewis/modus/wit/interface/neo4jClient as @neo4jClient
+alias @moonbitlang/core/json as @json
+
+// Values
+fn execute_query(String, String, Json, opts~ : Array[Neo4jOption] = ..) -> @neo4jClient.EagerResult!
+
+fn with_db_name(String) -> Neo4jOption
+
+// Types and methods
+pub(all) type! Neo4jError String
+impl Eq for Neo4jError
+impl Show for Neo4jError
+
+pub(all) type Neo4jOption (Neo4jOptions) -> Unit
+
+type Neo4jOptions
+
+pub(all) struct Node {
+  element_id : String
+  labels : Array[String]
+  props : Map[String, Json]
+}
+impl Node {
+  get_element_id(Self) -> String
+  get_properties(Self) -> Map[String, Json]
+}
+impl Eq for Node
+impl Show for Node
+impl ToJson for Node
+impl @json.FromJson for Node
+
+pub(all) struct Path {
+  nodes : Array[Node]
+  relationships : Array[Relationship]
+}
+impl Eq for Path
+impl Show for Path
+impl ToJson for Path
+impl @json.FromJson for Path
+
+pub(all) struct Point2D {
+  x : Double
+  y : Double
+  spatial_ref_id : Int
+}
+impl Point2D {
+  to_string(Self) -> String
+}
+impl Eq for Point2D
+impl Show for Point2D
+impl ToJson for Point2D
+impl @json.FromJson for Point2D
+
+pub(all) struct Point3D {
+  x : Double
+  y : Double
+  z : Double
+  spatial_ref_id : Int
+}
+impl Point3D {
+  to_string(Self) -> String
+}
+impl Eq for Point3D
+impl Show for Point3D
+impl ToJson for Point3D
+impl @json.FromJson for Point3D
+
+pub(all) enum PropertyValue {
+  Bool(Bool)
+  Int64(Int64)
+  Double(Double)
+  String(String)
+  Point2D(Point2D)
+  Point3D(Point3D)
+}
+impl Eq for PropertyValue
+impl Show for PropertyValue
+impl ToJson for PropertyValue
+impl @json.FromJson for PropertyValue
+
+pub(all) struct Record {
+  values : Array[String]
+  keys : Array[String]
+}
+impl Record {
+  as_map(Self) -> Map[String, String]
+  get(Self, String) -> (String, Bool)
+  get_record_value(Self, String) -> RecordValue!
+}
+impl Eq for Record
+impl Show for Record
+impl ToJson for Record
+impl @json.FromJson for Record
+
+pub(all) enum RecordValue {
+  Bool(Bool)
+  Int64(Int64)
+  Double(Double)
+  String(String)
+  Map(Json)
+  Node(Node)
+  Relationship(Relationship)
+  Path(Path)
+  Point2D(Point2D)
+  Point3D(Point3D)
+}
+impl Eq for RecordValue
+impl Show for RecordValue
+impl ToJson for RecordValue
+impl @json.FromJson for RecordValue
+
+pub(all) struct Relationship {
+  element_id : String
+  start_element_id : String
+  end_element_id : String
+  type_ : String
+  props : Json
+}
+impl Relationship {
+  get_element_id(Self) -> String
+  get_properties(Self) -> Json
+}
+impl Eq for Relationship
+impl Show for Relationship
+impl ToJson for Relationship
+impl @json.FromJson for Relationship
+
+impl Entity {
+  get_property(&Self, String) -> PropertyValue!
+}
+
+// Type aliases
+pub typealias EagerResult = @neo4jClient.EagerResult
+
+// Traits
+pub(open) trait Entity {
+  get_element_id(Self) -> String
+  get_properties(Self) -> Map[String, Json]
+}
+

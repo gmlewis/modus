@@ -1,0 +1,44 @@
+package gmlewis/modus/pkg/graphql
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn execute[T : @json.FromJson](String, String, Map[String, Json]) -> Response[T]!
+
+// Types and methods
+pub(all) struct CodeLocation {
+  line : Int
+  column : Int
+}
+impl Eq for CodeLocation
+impl Show for CodeLocation
+impl ToJson for CodeLocation
+impl @json.FromJson for CodeLocation
+
+pub(all) struct ErrorResult {
+  message : String
+  locations : Array[CodeLocation]
+  path : Array[String]
+}
+impl Eq for ErrorResult
+impl Show for ErrorResult
+impl ToJson for ErrorResult
+impl @json.FromJson for ErrorResult
+
+pub(all) type! GraphQLError String
+impl Eq for GraphQLError
+impl Show for GraphQLError
+
+pub(all) struct Response[T] {
+  errors : Array[ErrorResult]
+  data : T?
+}
+impl[T : Eq] Eq for Response[T]
+impl[T : Show] Show for Response[T]
+impl[T : ToJson] ToJson for Response[T]
+impl[T : @json.FromJson] @json.FromJson for Response[T]
+
+// Type aliases
+
+// Traits
+

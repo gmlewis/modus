@@ -9,11 +9,7 @@
 pub fn add[T : Addable](a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
   guard len == b.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] + b[i])
-  }
-  result
+  Array::makei(len, fn(i) { a[i] + b[i] })
 }
 
 ///| add_in_place adds two vectors together and stores the result in the first vector.
@@ -29,11 +25,7 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
 pub fn subtract[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
   guard len == b.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] - b[i])
-  }
-  result
+  Array::makei(len, fn(i) { a[i] - b[i] })
 }
 
 ///| subtract_in_place subtracts one vector from another and stores the result in the first vector.
@@ -48,11 +40,7 @@ pub fn subtract_in_place[T : Subtractable](a : Array[T], b : Array[T]) -> Unit {
 ///| add_number adds a number to each element of a vector and returns the result.
 pub fn add_number[T : Addable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] + b)
-  }
-  result
+  Array::makei(len, fn(i) { a[i] + b })
 }
 
 ///| add_number_in_place adds a number to each element of a vector and stores the result in the vector.
@@ -66,11 +54,7 @@ pub fn add_number_in_place[T : Addable](a : Array[T], b : T) -> Unit {
 ///| subtract_number subtracts a number from each element of a vector and returns the result.
 pub fn subtract_number[T : Subtractable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] - b)
-  }
-  result
+  Array::makei(len, fn(i) { a[i] - b })
 }
 
 ///| subtract_number_in_place subtracts a number from each element of a vector and stores the result in the vector.
@@ -84,11 +68,7 @@ pub fn subtract_number_in_place[T : Subtractable](a : Array[T], b : T) -> Unit {
 ///| multiply_number Multiplys a number to each element of a vector and returns the result.
 pub fn multiply_number[T : Multipliable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] * b)
-  }
-  result
+  Array::makei(len, fn(i) { a[i] * b })
 }
 
 ///| multiply_number_in_place multiplies each element of a vector by a number and stores the result in the vector.
@@ -102,11 +82,7 @@ pub fn multiply_number_in_place[T : Multipliable](a : Array[T], b : T) -> Unit {
 ///| divide_number divides each element of a vector by a number and returns the result.
 pub fn divide_number[T : Divideable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i] / b)
-  }
-  result
+  Array::makei(len, fn(i) { a[i] / b })
 }
 
 ///| divide_number_in_place divides each element of a vector by a number and stores the result in the vector.
@@ -201,11 +177,7 @@ pub fn max[T : Compare](a : Array[T]) -> T {
 ///| abs computes the absolute value of each element in a vector.
 pub fn abs[T : Absoluteable](a : Array[T]) -> Array[T] {
   let len = a.length()
-  let result = Array::new(capacity=len)
-  for i in 0..<len {
-    result.push(a[i].abs())
-  }
-  result
+  Array::makei(len, fn(i) { a[i].abs() })
 }
 
 ///| abs_in_place computes the absolute value of each element in a vector and

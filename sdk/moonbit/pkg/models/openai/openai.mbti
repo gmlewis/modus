@@ -1,0 +1,345 @@
+package gmlewis/modus/pkg/models/openai
+
+alias @gmlewis/modus/pkg/models as @models
+alias @moonbitlang/core/json as @json
+
+// Values
+const ENCODING_FORMAT_BASE64 : String = "base64"
+
+const ENCODING_FORMAT_FLOAT : String = "float"
+
+let response_format_json : ResponseFormat
+
+fn response_format_json_schema(Json) -> ResponseFormat
+
+let response_format_text : ResponseFormat
+
+let tool_choice_auto : ToolChoice
+
+fn tool_choice_function(String) -> ToolChoice
+
+let tool_choice_none : ToolChoice
+
+let tool_choice_required : ToolChoice
+
+// Types and methods
+pub(all) struct AssistantMessage {
+  role : String
+  content : String
+  name : String?
+  tool_calls : Array[ToolCall]
+}
+impl AssistantMessage {
+  new(String, tool_calls~ : Array[ToolCall] = ..) -> Self
+}
+impl Eq for AssistantMessage
+impl Show for AssistantMessage
+impl ToJson for AssistantMessage
+impl @json.FromJson for AssistantMessage
+
+pub(all) type ChatModel @models.ModelBase
+impl ChatModel {
+  create_input(Self, Array[Message]) -> ChatModelInput
+}
+impl Eq for ChatModel
+impl Show for ChatModel
+impl ToJson for ChatModel
+impl @json.FromJson for ChatModel
+
+pub(all) struct ChatModelInput {
+  model : String
+  messages : Array[Message]
+  frequency_penalty : Double?
+  logit_bias : Map[String, Double]?
+  logprobs : Bool?
+  top_logprobs : Int?
+  max_tokens : Int?
+  n : Int?
+  presence_penalty : Double?
+  response_format : ResponseFormat
+  seed : Int?
+  service_tier : ServiceTier?
+  stop : Array[String]
+  temperature : Double?
+  top_p : Double?
+  tools : Array[Tool]
+  tool_choice : ToolChoice
+  parallel_tool_calls : Bool?
+  user : String?
+}
+impl Eq for ChatModelInput
+impl Show for ChatModelInput
+impl ToJson for ChatModelInput
+impl @json.FromJson for ChatModelInput
+
+pub(all) struct ChatModelOutput {
+  id : String
+  object : String
+  choices : Array[Choice]
+  created : Int
+  model : String
+  service_tier : ServiceTier
+  system_fingerprint : String
+  usage : Usage
+}
+impl Eq for ChatModelOutput
+impl Show for ChatModelOutput
+impl ToJson for ChatModelOutput
+impl @json.FromJson for ChatModelOutput
+
+pub(all) struct Choice {
+  finish_reason : String
+  index : Int
+  message : CompletionMessage
+  logprobs : Logprobs
+}
+impl Eq for Choice
+impl Show for Choice
+impl ToJson for Choice
+impl @json.FromJson for Choice
+
+pub(all) struct CompletionMessage {
+  role : String
+  content : String
+  refusal : String?
+}
+impl Eq for CompletionMessage
+impl Show for CompletionMessage
+impl ToJson for CompletionMessage
+impl @json.FromJson for CompletionMessage
+
+pub(all) enum Content {
+  String(String)
+  ArrayString(Array[String])
+  ArrayInt(Array[Int])
+  ArrayInt64(Array[Int64])
+}
+impl Eq for Content
+impl Show for Content
+impl ToJson for Content
+impl @json.FromJson for Content
+
+pub(all) struct Embedding {
+  object : String
+  index : Int
+  embedding : Array[Double]
+}
+impl Eq for Embedding
+impl Show for Embedding
+impl ToJson for Embedding
+impl @json.FromJson for Embedding
+
+pub(all) type EmbeddingsModel @models.ModelBase
+impl EmbeddingsModel {
+  create_input(Self, Content) -> EmbeddingsModelInput
+}
+impl Eq for EmbeddingsModel
+impl Show for EmbeddingsModel
+impl ToJson for EmbeddingsModel
+impl @json.FromJson for EmbeddingsModel
+
+pub(all) struct EmbeddingsModelInput {
+  model : String
+  input : Content
+  encoding_format : EncodingFormat?
+  dimensions : Int?
+  user : String?
+}
+impl Eq for EmbeddingsModelInput
+impl Show for EmbeddingsModelInput
+impl ToJson for EmbeddingsModelInput
+impl @json.FromJson for EmbeddingsModelInput
+
+pub(all) struct EmbeddingsModelOutput {
+  object : String
+  model : String
+  usage : Usage
+  data : Array[Embedding]
+}
+impl Eq for EmbeddingsModelOutput
+impl Show for EmbeddingsModelOutput
+impl ToJson for EmbeddingsModelOutput
+impl @json.FromJson for EmbeddingsModelOutput
+
+pub(all) type EncodingFormat String
+impl Eq for EncodingFormat
+impl Show for EncodingFormat
+impl ToJson for EncodingFormat
+impl @json.FromJson for EncodingFormat
+
+pub(all) struct Function {
+  name : String
+}
+impl Eq for Function
+impl Show for Function
+impl ToJson for Function
+impl @json.FromJson for Function
+
+pub(all) struct FunctionCall {
+  name : String
+  arguments : String
+}
+impl Eq for FunctionCall
+impl Show for FunctionCall
+impl ToJson for FunctionCall
+impl @json.FromJson for FunctionCall
+
+pub(all) struct FunctionDefinition {
+  name : String
+  description : String?
+  strict : Bool?
+  parameters : Json?
+}
+impl FunctionDefinition {
+  new(String) -> Self
+}
+impl Eq for FunctionDefinition
+impl Show for FunctionDefinition
+impl ToJson for FunctionDefinition
+impl @json.FromJson for FunctionDefinition
+
+pub(all) struct Logprobs {
+  content : Array[LogprobsContent]
+}
+impl Eq for Logprobs
+impl Show for Logprobs
+impl ToJson for Logprobs
+impl @json.FromJson for Logprobs
+
+pub(all) struct LogprobsContent {
+  token : String
+  logprob : Double
+  bytes : Json
+  top_logprobs : Array[LogprobsContentObject]
+}
+impl Eq for LogprobsContent
+impl Show for LogprobsContent
+impl ToJson for LogprobsContent
+impl @json.FromJson for LogprobsContent
+
+pub(all) struct LogprobsContentObject {
+  token : String
+  logprob : Double
+  bytes : Json
+}
+impl Eq for LogprobsContentObject
+impl Show for LogprobsContentObject
+impl ToJson for LogprobsContentObject
+impl @json.FromJson for LogprobsContentObject
+
+pub(all) enum Message {
+  System(SystemMessage)
+  User(UserMessage)
+  Assistant(AssistantMessage)
+  Tool(ToolMessage)
+}
+impl Eq for Message
+impl Show for Message
+impl ToJson for Message
+impl @json.FromJson for Message
+
+pub(all) struct ResponseFormat {
+  type_ : String
+  json_schema : Json?
+}
+impl Eq for ResponseFormat
+impl Show for ResponseFormat
+impl ToJson for ResponseFormat
+impl @json.FromJson for ResponseFormat
+
+pub(all) enum ServiceTier {
+  Auto
+  Default
+}
+impl Eq for ServiceTier
+impl Show for ServiceTier
+impl ToJson for ServiceTier
+impl @json.FromJson for ServiceTier
+
+pub(all) struct SystemMessage {
+  role : String
+  content : String
+  name : String?
+}
+impl SystemMessage {
+  new(String) -> Self
+}
+impl Eq for SystemMessage
+impl Show for SystemMessage
+impl ToJson for SystemMessage
+impl @json.FromJson for SystemMessage
+
+pub(all) struct Tool {
+  type_ : String
+  function : FunctionDefinition
+}
+impl Tool {
+  new(String) -> Self
+}
+impl Eq for Tool
+impl Show for Tool
+impl ToJson for Tool
+impl @json.FromJson for Tool
+
+pub(all) struct ToolCall {
+  id : String
+  type_ : String
+  function : FunctionCall
+}
+impl ToolCall {
+  new(String, String, String) -> Self
+}
+impl Eq for ToolCall
+impl Show for ToolCall
+impl ToJson for ToolCall
+impl @json.FromJson for ToolCall
+
+pub(all) struct ToolChoice {
+  type_ : String
+  function : Function?
+}
+impl Eq for ToolChoice
+impl Show for ToolChoice
+impl ToJson for ToolChoice
+impl @json.FromJson for ToolChoice
+
+pub(all) struct ToolMessage {
+  role : String
+  content : String
+  tool_call_id : String
+}
+impl ToolMessage {
+  new(String, String) -> Self
+}
+impl Eq for ToolMessage
+impl Show for ToolMessage
+impl ToJson for ToolMessage
+impl @json.FromJson for ToolMessage
+
+pub(all) struct Usage {
+  completion_tokens : Int
+  prompt_tokens : Int
+  total_tokens : Int
+}
+impl Eq for Usage
+impl Show for Usage
+impl ToJson for Usage
+impl @json.FromJson for Usage
+
+pub(all) struct UserMessage {
+  role : String
+  content : String
+  name : String?
+}
+impl UserMessage {
+  new(String) -> Self
+}
+impl Eq for UserMessage
+impl Show for UserMessage
+impl ToJson for UserMessage
+impl @json.FromJson for UserMessage
+
+// Type aliases
+
+// Traits
+

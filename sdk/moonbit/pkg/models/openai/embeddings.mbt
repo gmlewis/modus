@@ -100,7 +100,7 @@ pub(all) struct Embedding {
 ///   - A slice of slices of integers representing multiple pre-tokenized texts to vectorize.
 ///
 /// NOTE: The input content must not exceed the maximum token limit of the model.
-pub fn create_input(
+pub fn EmbeddingsModel::create_input(
   self : EmbeddingsModel,
   content : Content
 ) -> EmbeddingsModelInput {

@@ -1,0 +1,82 @@
+package gmlewis/modus/wit/interface/neo4jClient
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn execute_query(String, String, String, String) -> EagerResult?
+
+// Types and methods
+pub(all) struct EagerResult {
+  keys : Array[String]
+  records : Array[ResultRecord]
+}
+impl Eq for EagerResult
+impl Show for EagerResult
+impl ToJson for EagerResult
+impl @json.FromJson for EagerResult
+
+pub(all) struct Node {
+  element_id : String
+  labels : Array[String]
+  props : String
+}
+impl Eq for Node
+impl Show for Node
+impl ToJson for Node
+impl @json.FromJson for Node
+
+pub(all) struct Path {
+  nodes : Array[Node]
+  relationships : Array[Relationship]
+}
+impl Eq for Path
+impl Show for Path
+impl ToJson for Path
+impl @json.FromJson for Path
+
+pub(all) struct Point2d {
+  x : Double
+  y : Double
+  spatial_ref_id : UInt
+}
+impl Eq for Point2d
+impl Show for Point2d
+impl ToJson for Point2d
+impl @json.FromJson for Point2d
+
+pub(all) struct Point3d {
+  x : Double
+  y : Double
+  z : Double
+  spatial_ref_id : UInt
+}
+impl Eq for Point3d
+impl Show for Point3d
+impl ToJson for Point3d
+impl @json.FromJson for Point3d
+
+pub(all) struct Relationship {
+  element_id : String
+  start_element_id : String
+  end_element_id : String
+  type_str : String
+  props : String
+}
+impl Eq for Relationship
+impl Show for Relationship
+impl ToJson for Relationship
+impl @json.FromJson for Relationship
+
+pub(all) struct ResultRecord {
+  values : Array[String]
+  keys : Array[String]
+}
+impl Eq for ResultRecord
+impl Show for ResultRecord
+impl ToJson for ResultRecord
+impl @json.FromJson for ResultRecord
+
+// Type aliases
+
+// Traits
+

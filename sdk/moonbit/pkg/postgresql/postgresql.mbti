@@ -1,0 +1,48 @@
+package gmlewis/modus/pkg/postgresql
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn execute(String, String, Json?) -> UInt!
+
+fn query[T : @json.FromJson](String, String, Json?) -> (Array[T], UInt)!
+
+fn query_scalar[T : @json.FromJson](String, String, Json?) -> (T, UInt)!
+
+// Types and methods
+pub(all) struct Location {
+  longitude : Double
+  latitude : Double
+}
+impl Location {
+  new(Double, Double) -> Self
+  parse(String) -> Self!
+  to_string(Self) -> String
+}
+impl Eq for Location
+impl Show for Location
+impl ToJson for Location
+impl @json.FromJson for Location
+
+pub(all) struct Point {
+  x : Double
+  y : Double
+}
+impl Point {
+  new(Double, Double) -> Self
+  parse(String) -> Self!
+  to_string(Self) -> String
+}
+impl Eq for Point
+impl Show for Point
+impl ToJson for Point
+impl @json.FromJson for Point
+
+pub(all) type! PostgreSqlError String
+impl Eq for PostgreSqlError
+impl Show for PostgreSqlError
+
+// Type aliases
+
+// Traits
+

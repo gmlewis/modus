@@ -28,7 +28,9 @@ pub(all) struct ModelBase {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub impl Model for ModelBase with info(self) { self.info.unwrap() }
+pub impl Model for ModelBase with info(self) {
+  self.info.unwrap()
+}
 
 // ///|
 // impl ModelPtr for ModelBase with set_info(self, info) { self.info = Some(info) }

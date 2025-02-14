@@ -1,0 +1,145 @@
+package gmlewis/modus/pkg/models/anthropic
+
+alias @gmlewis/modus/pkg/models as @models
+alias @moonbitlang/core/json as @json
+
+// Values
+fn text_content_block(String) -> ContentBlock
+
+fn tool_result_content_block(String, String, Bool) -> ContentBlock
+
+fn tool_use_content_block(String, String, Json) -> ContentBlock
+
+// Types and methods
+pub(all) enum Content {
+  String(StringContent)
+  Contents(Contents)
+}
+impl Eq for Content
+impl Show for Content
+impl ToJson for Content
+impl @json.FromJson for Content
+
+pub(all) struct ContentBlock {
+  type_ : String
+  text : String?
+  id : String?
+  name : String?
+  input : Json?
+  tool_use_id : String?
+  is_error : Bool?
+  content : String?
+}
+impl ContentBlock {
+  new(String) -> Self
+}
+impl Eq for ContentBlock
+impl Show for ContentBlock
+impl ToJson for ContentBlock
+impl @json.FromJson for ContentBlock
+
+pub(all) type Contents Array[ContentBlock]
+impl Eq for Contents
+impl Show for Contents
+impl ToJson for Contents
+impl @json.FromJson for Contents
+
+pub(all) struct Message {
+  role : String
+  content : Content
+}
+impl Message {
+  new_user(Content) -> Self
+}
+impl Eq for Message
+impl Show for Message
+impl ToJson for Message
+impl @json.FromJson for Message
+
+pub(all) type MessagesModel @models.ModelBase
+impl MessagesModel {
+  create_input(Self, Array[Message]) -> MessagesModelInput
+}
+impl Eq for MessagesModel
+impl Show for MessagesModel
+impl ToJson for MessagesModel
+impl @json.FromJson for MessagesModel
+
+pub(all) struct MessagesModelInput {
+  model : String
+  messages : Array[Message]
+  max_tokens : Int?
+  metadata : Metadata?
+  stop_sequences : Array[String]
+  system : String
+  temperature : Double
+  tool_choice : ToolChoice?
+  tools : Array[Tool]
+  top_k : Int?
+  top_p : Double?
+}
+impl Eq for MessagesModelInput
+impl Show for MessagesModelInput
+impl ToJson for MessagesModelInput
+impl @json.FromJson for MessagesModelInput
+
+pub(all) struct MessagesModelOutput {
+  id : String
+  type_ : String
+  role : String
+  content : Array[ContentBlock]
+  model : String
+  stop_reason : String
+  stop_sequence : String?
+  usage : Usage
+}
+impl Eq for MessagesModelOutput
+impl Show for MessagesModelOutput
+impl ToJson for MessagesModelOutput
+impl @json.FromJson for MessagesModelOutput
+
+pub(all) struct Metadata {
+  user_id : String
+}
+impl Eq for Metadata
+impl Show for Metadata
+impl ToJson for Metadata
+impl @json.FromJson for Metadata
+
+pub(all) type StringContent String
+impl Eq for StringContent
+impl Show for StringContent
+impl ToJson for StringContent
+impl @json.FromJson for StringContent
+
+pub(all) struct Tool {
+  name : String
+  input_schema : Json
+  description : String?
+}
+impl Eq for Tool
+impl Show for Tool
+impl ToJson for Tool
+impl @json.FromJson for Tool
+
+pub(all) enum ToolChoice {
+  Auto
+  Any
+  Tool(String, Bool)
+}
+impl Eq for ToolChoice
+impl Show for ToolChoice
+
+pub(all) struct Usage {
+  input_tokens : Int
+  output_tokens : Int
+}
+impl Eq for Usage
+impl Show for Usage
+impl ToJson for Usage
+impl @json.FromJson for Usage
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,13 @@
+package gmlewis/modus/wit/interface/clock
+
+// Values
+fn nanotime() -> UInt64
+
+fn walltime() -> (UInt64, UInt)
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

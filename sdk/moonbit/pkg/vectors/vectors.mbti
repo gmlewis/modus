@@ -1,0 +1,86 @@
+package gmlewis/modus/pkg/vectors
+
+// Values
+fn abs[T : Absoluteable](Array[T]) -> Array[T]
+
+fn abs_in_place[T : Absoluteable](Array[T]) -> Unit
+
+fn add[T : Addable](Array[T], Array[T]) -> Array[T]
+
+fn add_in_place[T : Addable](Array[T], Array[T]) -> Unit
+
+fn add_number[T : Addable](Array[T], T) -> Array[T]
+
+fn add_number_in_place[T : Addable](Array[T], T) -> Unit
+
+fn divide_number[T : Divideable](Array[T], T) -> Array[T]
+
+fn divide_number_in_place[T : Divideable](Array[T], T) -> Unit
+
+fn dot[T : Multipliable + Addable + FromInt](Array[T], Array[T]) -> T
+
+fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt](Array[T], Array[T]) -> T
+
+fn magnitude[T : Multipliable + Addable + SquareRootable + FromInt](Array[T]) -> T
+
+fn max[T : Compare](Array[T]) -> T
+
+fn mean[T : Addable + Divideable + FromInt](Array[T]) -> T
+
+fn min[T : Compare](Array[T]) -> T
+
+fn multiply_number[T : Multipliable](Array[T], T) -> Array[T]
+
+fn multiply_number_in_place[T : Multipliable](Array[T], T) -> Unit
+
+fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + FromInt](Array[T]) -> Array[T]
+
+fn product[T : Multipliable + FromInt](Array[T]) -> T
+
+fn subtract[T : Subtractable](Array[T], Array[T]) -> Array[T]
+
+fn subtract_in_place[T : Subtractable](Array[T], Array[T]) -> Unit
+
+fn subtract_number[T : Subtractable](Array[T], T) -> Array[T]
+
+fn subtract_number_in_place[T : Subtractable](Array[T], T) -> Unit
+
+fn sum[T : Addable + FromInt](Array[T]) -> T
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+pub(open) trait Absoluteable {
+  abs(Self) -> Self
+}
+
+pub(open) trait Addable {
+  op_add(Self, Self) -> Self
+}
+
+pub(open) trait Divideable {
+  op_div(Self, Self) -> Self
+}
+
+pub(open) trait FromInt {
+  from_int(Int) -> Self
+}
+impl FromInt for Int
+impl FromInt for Float
+
+pub(open) trait Multipliable {
+  op_mul(Self, Self) -> Self
+}
+
+pub(open) trait SquareRootable {
+  sqrt(Self) -> Self
+}
+impl SquareRootable for Int
+impl SquareRootable for Int64
+
+pub(open) trait Subtractable {
+  op_sub(Self, Self) -> Self
+}
+

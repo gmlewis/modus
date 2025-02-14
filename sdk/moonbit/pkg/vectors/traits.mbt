@@ -46,10 +46,14 @@ pub(open) trait FromInt {
 }
 
 ///|
-pub impl FromInt for Int with from_int(self) { self }
+pub impl FromInt for Int with from_int(self) {
+  self
+}
 
 ///|
-pub impl FromInt for Float with from_int(self) { self.to_float() }
+pub impl FromInt for Float with from_int(self) {
+  self.to_float()
+}
 
 ///|
 pub(open) trait Absoluteable {
