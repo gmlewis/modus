@@ -455,6 +455,11 @@
           "name": "test_array_output_int_option",
           "query": {"query":"query {\n  test_array_output_int_option\n}","variables":{}},
           "expect": [11,null,33]
+        },
+        {
+          "name": "test_array_output_string_option",
+          "query": {"query":"query {\n  test_array_output_string_option\n}","variables":{}},
+          "expect": ["abc",null,"ghi"]
         }
       ]
     }

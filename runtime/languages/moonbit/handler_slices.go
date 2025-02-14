@@ -94,9 +94,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 		return h.emptyValue, nil // empty slice
 	}
 	elemType := h.typeInfo.ListElementType()
-	elemTypeSize := elemType.Size()
+	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if isNullable {
+	if elemType.IsPrimitive() && isNullable {
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
@@ -112,23 +112,21 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	// elementSize := h.elementHandler.TypeInfo().Size()
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 	for i := uint32(0); i < numElements; i++ {
-		if isNullable {
+		if elemType.IsPrimitive() && isNullable {
 			isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
 			if isNone {
 				// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
 				continue
 			}
-			if elemType.IsPrimitive() {
-				value := binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
-				item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
-				if err != nil {
-					return nil, err
-				}
-				if !utils.HasNil(item) {
-					items.Index(int(i)).Set(reflect.ValueOf(item))
-				}
-				continue
+			value := binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
+			item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
+			if err != nil {
+				return nil, err
 			}
+			if !utils.HasNil(item) {
+				items.Index(int(i)).Set(reflect.ValueOf(item))
+			}
+			continue
 		}
 		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
 		item, err := h.elementHandler.Read(ctx, wa, itemOffset)

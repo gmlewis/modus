@@ -73,7 +73,7 @@ pub fn test_array_output_string_option() -> Array[String?] {
 ///|
 fn get_string_option_array() -> Array[String?] {
   let a = Some("abc")
-  let b = Some("def")
+  let b = None
   let c = Some("ghi")
   [a, b, c]
 }

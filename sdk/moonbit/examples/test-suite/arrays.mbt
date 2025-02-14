@@ -72,3 +72,16 @@ fn get_int_option_array() -> Array[Int?] {
   let c = Some(33)
   [a, b, c]
 }
+
+///|
+pub fn test_array_output_string_option() -> Array[String?] {
+  get_string_option_array()
+}
+
+///|
+fn get_string_option_array() -> Array[String?] {
+  let a = Some("abc")
+  let b = None
+  let c = Some("ghi")
+  [a, b, c]
+}

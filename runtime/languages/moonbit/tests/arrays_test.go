@@ -85,7 +85,7 @@ func TestArrayOutput_int_option(t *testing.T) {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*int); !ok {
 		t.Errorf("expected a []*int, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *int) bool { return (a == nil && b == nil) || *a == *b }) {
+	} else if !slices.EqualFunc(expected, r, func(a, b *int) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
 		for i, v := range expected {
 			t.Logf("expected[%v]: %v", i, *v)
 		}
@@ -125,7 +125,7 @@ func TestArrayOutput_string_option(t *testing.T) {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*string); !ok {
 		t.Errorf("expected a []*string, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return *a == *b }) {
+	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
 }
@@ -139,9 +139,9 @@ func getIntOptionArray() []*int {
 
 func getStringOptionArray() []*string {
 	a := "abc"
-	b := "def"
+	// b := "def"
 	c := "ghi"
-	return []*string{&a, &b, &c}
+	return []*string{&a, nil, &c}
 }
 
 func TestArrayInput_string_none(t *testing.T) {

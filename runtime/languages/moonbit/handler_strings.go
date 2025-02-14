@@ -34,8 +34,8 @@ type stringHandler struct {
 func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
 	gmlPrintf("GML: handler_strings.go: stringHandler.Read(offset: %v)", debugShowOffset(offset))
 	if offset == 0 {
-		if h.typeInfo.IsPointer() { // Is this necessary?
-			return Ptr(""), nil
+		if h.typeInfo.IsPointer() {
+			return nil, nil
 		}
 		return "", nil
 	}
