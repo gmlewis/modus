@@ -6,6 +6,13 @@
     "moonbitlang/x/time"
   ],
   "targets": {
+    "debug-memory_notwasm.mbt": [
+      "not",
+      "wasm"
+    ],
+    "debug-memory_wasm.mbt": [
+      "wasm"
+    ],
     "imports_notwasm.mbt": [
       "not",
       "wasm"

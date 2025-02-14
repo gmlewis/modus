@@ -85,3 +85,9 @@ fn get_string_option_array() -> Array[String?] {
   let c = Some("ghi")
   [a, b, c]
 }
+
+///|
+pub fn test_array_input_string(val : Array[String]) -> Unit!Error {
+  let expected = ["abc", "def", "ghi"]
+  assert_eq!(expected, val)
+}

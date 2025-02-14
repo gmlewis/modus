@@ -460,6 +460,11 @@
           "name": "test_array_output_string_option",
           "query": {"query":"query {\n  test_array_output_string_option\n}","variables":{}},
           "expect": ["abc",null,"ghi"]
+        },
+        {
+          "name": "test_array_input_string",
+          "query": {"query":"query($val: [String!]!) {\n  test_array_input_string(val: $val)\n}","variables":{"val":["abc","def","ghi"]}},
+          "expect": 0
         }
       ]
     }

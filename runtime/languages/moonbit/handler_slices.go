@@ -249,5 +249,17 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	// For debugging purposes:
 	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
 
-	return ptr - 8, cln, nil
+	// Finally, write the slice memory bock.
+	slicePtr, sliceCln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, 0)
+	innerCln.AddCleaner(sliceCln)
+	if err != nil {
+		return 0, cln, err
+	}
+	wa.(*wasmAdapter).Memory().WriteUint32Le(slicePtr, ptr-8)
+	wa.(*wasmAdapter).Memory().WriteUint32Le(slicePtr+4, numElements)
+
+	// For debugging purposes:
+	_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+
+	return slicePtr - 8, cln, nil
 }

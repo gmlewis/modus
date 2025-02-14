@@ -33,15 +33,14 @@ func TestArrayInput_int_option(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestArrayInput_string(t *testing.T) {
-// 	fnName := "test_array_input_string"
-// 	s := []string{"abc", "def", "ghi"}
+func TestArrayInput_string(t *testing.T) {
+	fnName := "test_array_input_string"
+	s := []string{"abc", "def", "ghi"}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 // TODO:
 // func TestArrayInput_string_option(t *testing.T) {

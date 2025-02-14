@@ -81,6 +81,7 @@
         "__modus_make_test_map:make_test_map",
         "__modus_test_abort:test_abort",
         "__modus_test_alternative_error:test_alternative_error",
+        "__modus_test_array_input_string:test_array_input_string",
         "__modus_test_array_output_int_option:test_array_output_int_option",
         "__modus_test_array_output_string_option:test_array_output_string_option",
         "__modus_test_exit:test_exit",
