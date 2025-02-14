@@ -126,17 +126,16 @@ var testStruct5AsMap = map[string]any{
 	"f": 99.99999,
 }
 
-// // TODO: FAILS
-// func TestStructInput1(t *testing.T) {
-// 	fnName := "test_struct_input1"
-// 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-//
+func TestStructInput1(t *testing.T) {
+	fnName := "test_struct_input1"
+	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
+		t.Error(err)
+	}
+}
+
 // // TODO: FAILS
 // func TestStructInput2(t *testing.T) {
 // 	fnName := "test_struct_input2"
@@ -147,8 +146,8 @@ var testStruct5AsMap = map[string]any{
 // 		t.Error(err)
 // 	}
 // }
-//
-// // TODO: FAILS
+
+// TODO: FAILS
 // func TestStructInput3(t *testing.T) {
 // 	fnName := "test_struct_input3"
 // 	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
@@ -158,8 +157,8 @@ var testStruct5AsMap = map[string]any{
 // 		t.Error(err)
 // 	}
 // }
-//
-// // TODO: FAILS
+
+// TODO: FAILS
 // func TestStructInput4(t *testing.T) {
 // 	fnName := "test_struct_input4"
 // 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
@@ -169,8 +168,8 @@ var testStruct5AsMap = map[string]any{
 // 		t.Error(err)
 // 	}
 // }
-//
-// // TODO: FAILS
+
+// TODO: FAILS
 // func TestStructInput5(t *testing.T) {
 // 	fnName := "test_struct_input5"
 // 	if _, err := fixture.CallFunction(t, fnName, testStruct5); err != nil {

@@ -146,13 +146,12 @@ func TestTimeOptionOutput_none(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestDurationInput(t *testing.T) {
-// 	fnName := "test_duration_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestDurationInput(t *testing.T) {
+	fnName := "test_duration_input"
+	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestDurationOptionInput(t *testing.T) {
 	fnName := "test_duration_option_input"
@@ -164,16 +163,15 @@ func TestDurationOptionInput(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestDurationOptionInputStyle2(t *testing.T) {
-// 	fnName := "test_duration_option_input_style2"
-// 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestDurationOptionInputStyle2(t *testing.T) {
+	fnName := "test_duration_option_input_style2"
+	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestDurationOptionInput_none(t *testing.T) {
 	fnName := "test_duration_option_input_none"
@@ -182,22 +180,21 @@ func TestDurationOptionInput_none(t *testing.T) {
 	}
 }
 
-// // TODO: FAILS
-// func TestDurationOptionInput_none_style2(t *testing.T) {
-// 	fnName := "test_duration_option_input_none_style2"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-//
-// // TODO: FAILS
+func TestDurationOptionInput_none_style2(t *testing.T) {
+	fnName := "test_duration_option_input_none_style2"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
+
+// TODO: FAILS
 // func TestDurationOutput(t *testing.T) {
 // 	fnName := "test_duration_output"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
-//
+
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(time.Duration); !ok {
@@ -206,15 +203,15 @@ func TestDurationOptionInput_none(t *testing.T) {
 // 		t.Errorf("expected %v, got %v", true, r)
 // 	}
 // }
-//
-// // TODO: FAILS
+
+// TODO: FAILS
 // func TestDurationOptionOutput(t *testing.T) {
 // 	fnName := "test_duration_option_output"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
-//
+
 // 	if result == nil {
 // 		t.Error("expected a result")
 // 	} else if r, ok := result.(*time.Duration); !ok {
