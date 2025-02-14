@@ -25,14 +25,14 @@ func TestArrayInput_byte(t *testing.T) {
 }
 
 // TODO:
-// func TestArrayInput_int_option(t *testing.T) {
-// 	fnName := "test_array_input_int_option"
-// 	s := getIntOptionArray()
+func TestArrayInput_int_option(t *testing.T) {
+	fnName := "test_array_input_int_option"
+	s := getIntOptionArray()
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 // TODO:
 // func TestArrayInput_string(t *testing.T) {
