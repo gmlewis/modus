@@ -211,6 +211,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 		return 0, cln, err
 	}
 
+	// For debugging purposes:
+	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
+
 	innerCln := utils.NewCleanerN(len(slice))
 
 	defer func() {
@@ -243,5 +246,8 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 		}
 	}
 
-	return ptr, cln, nil
+	// For debugging purposes:
+	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
+
+	return ptr - 8, cln, nil
 }

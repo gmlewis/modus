@@ -1,9 +1,11 @@
 package moonbit
 
 import (
+	"context"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
 
 	"github.com/stretchr/testify/mock"
@@ -115,6 +117,11 @@ func (m *mockWasmAdapter) Memory() wasm.Memory {
 	return args.Get(0).(wasm.Memory)
 }
 
+func (m *mockWasmAdapter) allocateAndPinMemory(ctx context.Context, size, blockType uint32) (uint32, utils.Cleaner, error) {
+	args := m.Called(ctx, size, blockType)
+	return args.Get(0).(uint32), nil, args.Error(2)
+}
+
 type mockMemory struct {
 	mock.Mock
 	wasm.Memory
@@ -168,3 +175,147 @@ func TestStringDataAtOffset(t *testing.T) {
 		})
 	}
 }
+
+func TestDoWriteStringBytes(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name          string
+		input         string
+		wantTotalSize uint32
+	}{
+		{
+			name:          "empty string",
+			input:         "",
+			wantTotalSize: 4,
+		},
+		{
+			name:  "string length 1",
+			input: "a",
+		},
+		{
+			name:  "string length 2",
+			input: "ab",
+		},
+		{
+			name:  "string length 3",
+			input: "abc",
+		},
+		{
+			name:  "string length 4",
+			input: "abcd",
+		},
+		{
+			name:  "string length 5",
+			input: "abcde",
+		},
+		{
+			name:  "Simple ASCII",
+			input: "Hello, World!",
+		},
+		{
+			name:  "UTF-8 with emojis",
+			input: "Hello, 🌍!",
+		},
+		{
+			name:  "UTF-8 with non-Latin characters",
+			input: "こんにちは世界",
+		},
+		{
+			name:  "UTF-8 with mixed characters",
+			input: "Hello, 世界! 🌍",
+		},
+	}
+
+	ctx := context.Background()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// t.Parallel()
+			mockWA := &myWasmMock{offset: 100}
+
+			h := &stringHandler{}
+			bytes := convertGoUTF8ToUTF16(tt.input)
+			expectedSize := len(bytes)
+			offset, _, err := h.doWriteStringBytes(ctx, mockWA, bytes)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			data, err := stringDataAtOffset(mockWA, offset)
+			size := len(data)
+			if size != expectedSize || err != nil {
+				t.Errorf("stringDataAtOffset() = (data: %v, size: %v, err: %v), want (size: %v)",
+					data, size, err, expectedSize)
+			}
+			encoded := convertGoUTF8ToUTF16(tt.input)
+			decoded, err := convertMoonBitUTF16ToUTF8(encoded)
+			if err != nil {
+				t.Errorf("convertMoonBitUTF16ToUTF8() error = %v", err)
+				return
+			}
+			if decoded != tt.input {
+				t.Errorf("Round trip conversion failed: got = %v, want = %v", decoded, tt.input)
+			}
+		})
+	}
+}
+
+type myWasmMock struct {
+	offset uint32
+	m      *myWasmMockMemory
+}
+type myWasmMockMemory struct {
+	offset uint32
+	bytes  []byte
+	wasm.Memory
+}
+
+func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, size, classID uint32) (uint32, utils.Cleaner, error) {
+	m.m = &myWasmMockMemory{
+		offset: m.offset,
+		bytes:  make([]byte, size+8),
+	}
+	refCount := uint32(1)
+	memType := ((size / 4) << 8) | classID
+	m.m.WriteUint32Le(m.offset, refCount)
+	m.m.WriteUint32Le(m.offset+4, memType)
+	// allocateAndPinMemory always returns a pointer _after_ the memory block header
+	return m.offset + 8, nil, nil
+}
+
+func (m *myWasmMock) Memory() wasm.Memory                     { return m.m }
+func (m *myWasmMockMemory) Definition() wasm.MemoryDefinition { return nil }
+func (m *myWasmMockMemory) Grow(uint32) (uint32, bool)        { return 0, false }
+func (m *myWasmMockMemory) Read(offset, size uint32) ([]byte, bool) {
+	offset -= m.offset
+	return m.bytes[offset : offset+size], true
+}
+func (m *myWasmMockMemory) ReadByte(offset uint32) (byte, bool) {
+	return m.bytes[offset-m.offset], true
+}
+func (m *myWasmMockMemory) ReadFloat32Le(offset uint32) (float32, bool) { return 0, false }
+func (m *myWasmMockMemory) ReadFloat64Le(offset uint32) (float64, bool) { return 0, false }
+func (m *myWasmMockMemory) ReadUint16Le(offset uint32) (uint16, bool)   { return 0, false }
+func (m *myWasmMockMemory) ReadUint32Le(offset uint32) (uint32, bool)   { return 0, false }
+func (m *myWasmMockMemory) ReadUint64Le(offset uint32) (uint64, bool)   { return 0, false }
+func (m *myWasmMockMemory) Size() uint32                                { return uint32(len(m.bytes)) }
+func (m *myWasmMockMemory) Write(offset uint32, bytes []byte) bool {
+	copy(m.bytes[offset-m.offset:], bytes)
+	return true
+}
+func (m *myWasmMockMemory) WriteByte(offset uint32, b byte) bool {
+	m.bytes[offset-m.offset] = b
+	return true
+}
+func (m *myWasmMockMemory) WriteFloat32Le(offset uint32, val float32) bool { return false }
+func (m *myWasmMockMemory) WriteFloat64Le(offset uint32, val float64) bool { return false }
+func (m *myWasmMockMemory) WriteUint16Le(offset uint32, val uint16) bool   { return false }
+func (m *myWasmMockMemory) WriteUint32Le(offset uint32, val uint32) bool {
+	offset -= m.offset
+	m.bytes[offset] = byte(val)
+	m.bytes[offset+1] = byte(val >> 8)
+	m.bytes[offset+2] = byte(val >> 16)
+	m.bytes[offset+3] = byte(val >> 24)
+	return true
+}
+func (m *myWasmMockMemory) WriteUint64Le(offset uint32, val uint64) bool { return false }
+func (m *myWasmMockMemory) WriteString(offset uint32, val string) bool   { return false }

@@ -17,6 +17,7 @@ import (
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
+	wasm "github.com/tetratelabs/wazero/api"
 
 	"github.com/spf13/cast"
 )
@@ -126,32 +127,31 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	bytes := convertGoUTF8ToUTF16(str)
-
-	offset, cln, err := h.doWriteBytes(ctx, wa, bytes)
+	wasmWriter, ok := wa.(*wasmAdapter)
+	if !ok {
+		return nil, nil, fmt.Errorf("expected *wasmAdapter, got %T", wa)
+	}
+	offset, cln, err := h.doWriteStringBytes(ctx, wasmWriter, bytes)
 	if err != nil {
 		return nil, cln, err
 	}
 
-	// Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
-	gmlPrintf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
-	res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
-	if err != nil {
-		return nil, cln, err
-	}
+	// // Call ptr2str on the raw memory to convert the data to a MoonBit String (i32) that can be passed to a function.
+	// gmlPrintf("GML: handler_strings.go: stringHandler.Encode: Calling fnPtr2str.Call(%v)", offset)
+	// res, err := wa.(*wasmAdapter).fnPtr2str.Call(ctx, uint64(offset))
+	// if err != nil {
+	// 	return nil, cln, err
+	// }
 
 	// For debugging purposes:
-	memBytes, ok := wa.Memory().Read(offset-8, uint32(len(bytes)+16))
-	if !ok {
-		gmlPrintf("GML: handler_strings.go: stringHandler.Encode: failed to read memory bytes")
-	} else {
-		gmlPrintf("GML: handler_strings.go: stringHandler.Encode: memBytes: %+v", memBytes)
-	}
+	// _, _, _ = memoryBlockAtOffset(wa, uint32(res[0]), 0, true)
+	_, _, _ = memoryBlockAtOffset(wa, offset, 0, true)
 
-	return res, cln, nil
+	// return res, cln, nil
+	return []uint64{uint64(offset)}, cln, nil
 }
 
 func doReadString(bytes []byte) (string, error) {
-
 	if len(bytes) == 0 {
 		gmlPrintf("GML: handler_strings.go: stringHandler.doReadString: bytes: [] = ''")
 		return "", nil
@@ -163,28 +163,12 @@ func doReadString(bytes []byte) (string, error) {
 }
 
 func (h *stringHandler) doWriteString(ctx context.Context, wa langsupport.WasmAdapter, str string) (uint32, utils.Cleaner, error) {
-	gmlPrintf("GML: handler_strings.go: stringHandler.doWriteString(str: '%v') is not yet implemented for MoonBit", str)
-	return 0, nil, nil
-	/*
-	   const id = 2 // ID for string is always 2
-	   ptr, cln, err := wa.(*wasmAdapter).makeWasmObject(ctx, id, uint32(len(str)))
+	res, cln, err := h.Encode(ctx, wa, str)
+	if err != nil {
+		return 0, cln, err
+	}
 
-	   	if err != nil {
-	   		return 0, cln, err
-	   	}
-
-	   offset, ok := wa.Memory().ReadUint32Le(ptr)
-
-	   	if !ok {
-	   		return 0, cln, errors.New("failed to read string data pointer from WASM memory")
-	   	}
-
-	   	if ok := wa.Memory().WriteString(offset, str); !ok {
-	   		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (size: %d)", len(str))
-	   	}
-
-	   return ptr, cln, nil
-	*/
+	return uint32(res[0]), cln, nil
 }
 
 // convertMoonBitUTF16ToUTF8 converts a wasm-encoded MoonBit UTF-16 String to a Go UTF-8 string.
@@ -213,23 +197,37 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	return data
 }
 
-func (h *stringHandler) doWriteBytes(ctx context.Context, wa langsupport.WasmAdapter, bytes []byte) (uint32, utils.Cleaner, error) {
-	const classID = 2 // classID for string is always 2
+// For testing purposes:
+type wasmMemoryWriter interface {
+	allocateAndPinMemory(ctx context.Context, size, blockType uint32) (uint32, utils.Cleaner, error)
+	Memory() wasm.Memory
+}
+
+func (h *stringHandler) doWriteStringBytes(ctx context.Context, wa wasmMemoryWriter, bytes []byte) (uint32, utils.Cleaner, error) {
 	size := uint32(len(bytes))
-	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, classID)
+	words := uint32((size + 5) / 4)
+	totalSize := words * 4
+	offset, cln, err := wa.allocateAndPinMemory(ctx, totalSize, StringBlockType)
 	if err != nil {
 		return 0, cln, err
 	}
 
-	gmlPrintf("GML: handler_strings.go: stringHandler.doWriteBytes(bytes(%v): %+v), got offset: %v", size, bytes, offset)
+	remainderOffset := words*4 + 7
+	remainder := uint8((size + 3) % 4)
+	wa.Memory().WriteByte(offset-8+remainderOffset, remainder)
+
+	gmlPrintf("GML: handler_strings.go: stringHandler.doWriteStringBytes(bytes(%v): %+v), got offset: %v, remainderOffset: %v, remainder: %v", size, bytes, offset, remainderOffset, remainder)
 	if ok := wa.Memory().Write(offset, bytes); !ok {
 		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (offset: %v, size: %v)", offset, size)
 	}
 
-	return offset, cln, nil
+	// For debugging:
+	// _, _, _ = memoryBlockAtOffset(wa, offset-8, 0, true)
+
+	return offset - 8, cln, nil
 }
 
-func stringDataAtOffset(wa langsupport.WasmAdapter, offset uint32) (data []byte, err error) {
+func stringDataAtOffset(wa wasmMemoryReader, offset uint32) (data []byte, err error) {
 	memBlock, words, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
 		return nil, err
@@ -251,6 +249,9 @@ func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err err
 	// 	memBlock[0:8], memBlock, words, remainderOffset, remainder, size)
 	if size <= 0 {
 		return nil, nil
+	}
+	if int(size)+8 > len(memBlock) {
+		return nil, fmt.Errorf("expected string data size %v, got %v", size, len(memBlock))
 	}
 
 	return memBlock[8 : size+8], nil

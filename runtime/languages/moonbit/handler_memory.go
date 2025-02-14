@@ -12,8 +12,9 @@ package moonbit
 import (
 	"encoding/binary"
 	"fmt"
+	"log"
 
-	"github.com/gmlewis/modus/runtime/langsupport"
+	wasm "github.com/tetratelabs/wazero/api"
 )
 
 // Ptr is a helper routine that allocates a new T value
@@ -41,7 +42,12 @@ const (
 	OptionBlockType        = 1 // TODO
 )
 
-func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
+// For testing purposes:
+type wasmMemoryReader interface {
+	Memory() wasm.Memory
+}
+
+func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
 		gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
 		return nil, 0, nil
@@ -64,8 +70,14 @@ func memoryBlockAtOffset(wa langsupport.WasmAdapter, offset, sizeOverride uint32
 		moonBitType := memBlockHeader[4]
 		moonBitTypeName := moonBitBlockType[moonBitType]
 		if moonBitTypeName == "String" {
-			data, _ := stringDataFromMemBlock(memBlock, words) // ignore errors during debugging
-			s, _ := doReadString(data)
+			data, err := stringDataFromMemBlock(memBlock, words)
+			if err != nil {
+				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
+			}
+			s, err := doReadString(data)
+			if err != nil {
+				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
+			}
 			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, s)
 		} else {

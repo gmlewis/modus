@@ -19,6 +19,8 @@ pub fn test_array_output_byte() -> Array[Byte] {
 ///|
 pub fn test_array_input_string(val : Array[String]) -> Unit!Error {
   let expected = ["abc", "def", "ghi"]
+  println("expected: \{expected}")
+  println("val: \{val}")
   assert_eq!(expected, val)
 }
 

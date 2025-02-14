@@ -169,6 +169,11 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 		return 0, errors.New("failed to allocate WASM memory")
 	}
 
+	refCount := uint32(1)
+	memType := ((size / 4) << 8) | classID
+	wa.Memory().WriteUint32Le(offset-8, refCount)
+	wa.Memory().WriteUint32Le(offset-4, memType)
+
 	gmlPrintf("GML: wasmAdapter.allocateWasmMemory(size: %v, classID: %v): offset: %v", size, classID, offset)
 	return offset, nil
 }
