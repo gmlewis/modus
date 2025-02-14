@@ -12,7 +12,6 @@ package moonbit
 import (
 	"context"
 	"encoding/binary"
-	"errors"
 	"fmt"
 	"reflect"
 
@@ -63,9 +62,7 @@ func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 		return cln, err
 	}
 
-	if ok := utils.CopyMemory(wa.Memory(), ptr, offset, 12); !ok {
-		return cln, errors.New("failed to copy slice header")
-	}
+	wa.Memory().WriteUint32Le(offset, ptr)
 
 	return cln, nil
 }

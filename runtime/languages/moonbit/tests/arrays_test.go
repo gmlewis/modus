@@ -10,6 +10,7 @@
 package moonbit_test
 
 import (
+	"bytes"
 	"reflect"
 	"slices"
 	"testing"
@@ -42,34 +43,32 @@ func TestArrayInput_string(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestArrayInput_string_option(t *testing.T) {
-// 	fnName := "test_array_input_string_option"
-// 	s := getStringOptionArray()
+func TestArrayInput_string_option(t *testing.T) {
+	fnName := "test_array_input_string_option"
+	s := getStringOptionArray()
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
-// TODO:
-// func TestArrayOutput_byte(t *testing.T) {
-// 	fnName := "test_array_output_byte"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_byte(t *testing.T) {
+	fnName := "test_array_output_byte"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := []byte{0x01, 0x02, 0x03, 0x04}
+	expected := []byte{0x01, 0x02, 0x03, 0x04}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]byte); !ok {
-// 		t.Errorf("expected a []byte, got %T", result)
-// 	} else if !bytes.Equal(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestArrayOutput_int_option(t *testing.T) {
 	fnName := "test_array_output_int_option"
@@ -160,15 +159,14 @@ func TestArrayOutput_string_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestArrayInput_string_empty(t *testing.T) {
-// 	fnName := "test_array_input_string_empty"
-// 	s := []string{}
+func TestArrayInput_string_empty(t *testing.T) {
+	fnName := "test_array_input_string_empty"
+	s := []string{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestArrayOutput_string_empty(t *testing.T) {
 	fnName := "test_array_output_string_empty"
@@ -213,19 +211,18 @@ func TestArrayOutput_int_empty(t *testing.T) {
 	}
 }
 
-// TODO:
-// func Test2DArrayInput_string(t *testing.T) {
-// 	fnName := "test2d_array_input_string"
-// 	s := [][]string{
-// 		{"abc", "def", "ghi"},
-// 		{"jkl", "mno", "pqr"},
-// 		{"stu", "vwx", "yz"},
-// 	}
+func Test2DArrayInput_string(t *testing.T) {
+	fnName := "test2d_array_input_string"
+	s := [][]string{
+		{"abc", "def", "ghi"},
+		{"jkl", "mno", "pqr"},
+		{"stu", "vwx", "yz"},
+	}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func Test2DArrayOutput_string(t *testing.T) {
 	fnName := "test2d_array_output_string"
@@ -267,15 +264,14 @@ func Test2DArrayOutput_string_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func Test2DArrayInput_string_empty(t *testing.T) {
-// 	fnName := "test2d_array_input_string_empty"
-// 	s := [][]string{}
+func Test2DArrayInput_string_empty(t *testing.T) {
+	fnName := "test2d_array_input_string_empty"
+	s := [][]string{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func Test2DArrayOutput_string_empty(t *testing.T) {
 	fnName := "test2d_array_output_string_empty"
@@ -295,15 +291,14 @@ func Test2DArrayOutput_string_empty(t *testing.T) {
 	}
 }
 
-// TODO:
-// func Test2DArrayInput_string_inner_empty(t *testing.T) {
-// 	fnName := "test2d_array_input_string_inner_empty"
-// 	s := [][]string{{}}
+func Test2DArrayInput_string_inner_empty(t *testing.T) {
+	fnName := "test2d_array_input_string_inner_empty"
+	s := [][]string{{}}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func Test2DArrayOutput_string_inner_empty(t *testing.T) {
 	fnName := "test2d_array_output_string_inner_empty"
@@ -323,15 +318,14 @@ func Test2DArrayOutput_string_inner_empty(t *testing.T) {
 	}
 }
 
-// TODO:
-// func Test2DArrayInput_string_inner_none(t *testing.T) {
-// 	fnName := "test2d_array_input_string_inner_none"
-// 	s := []*[]string{nil} // [][]string{nil}
+func Test2DArrayInput_string_inner_none(t *testing.T) {
+	fnName := "test2d_array_input_string_inner_none"
+	s := []*[]string{nil} // [][]string{nil}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func Test2DArrayOutput_string_inner_none(t *testing.T) {
 	fnName := "test2d_array_output_string_inner_none"
