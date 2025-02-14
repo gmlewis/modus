@@ -58,7 +58,7 @@ func (p *planner) NewPrimitiveSliceHandler(ti langsupport.TypeInfo) (h langsuppo
 	case "Float": // 32-bit floating point, defined by IEEE754, e.g. `(3.14 : Float)`
 		return newPrimitiveSliceHandler[float32](ti, typeDef), nil
 	case "Char": // represents a Unicode code point, e.g. `'a'`, `'\x41'`, `'\u{30}'`, `'\u03B1'`,
-		return newPrimitiveSliceHandler[uint16](ti, typeDef), nil
+		return newPrimitiveSliceHandler[int16](ti, typeDef), nil
 	case "Byte": // either a single ASCII character, e.g. `b'a'`, `b'\xff'`
 		return newPrimitiveSliceHandler[uint8](ti, typeDef), nil
 	// case "BigInt": // represents numeric values larger than other types, e.g. `10000000000000000000000N`

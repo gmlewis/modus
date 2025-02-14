@@ -14,6 +14,8 @@ package moonbit_test
 import (
 	"math"
 	"testing"
+
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func TestPrimitivesBoolInput_false(t *testing.T) {
@@ -129,18 +131,17 @@ func TestPrimitivesBoolOptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesBoolOptionOutput_none(t *testing.T) {
-// 	fnName := "test_bool_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesBoolOptionOutput_none(t *testing.T) {
+	fnName := "test_bool_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !utils.HasNil(result) {
+		t.Errorf("expected a nil result, got %T=%[1]v", result)
+	}
+}
 
 func TestPrimitivesByteInput_min(t *testing.T) {
 	fnName := "test_byte_input_min"
@@ -255,18 +256,17 @@ func TestPrimitivesByteOptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesByteOptionOutput_none(t *testing.T) {
-// 	fnName := "test_byte_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesByteOptionOutput_none(t *testing.T) {
+	fnName := "test_byte_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 // TODO:
 // func TestPrimitivesCharInput_min(t *testing.T) {
@@ -277,25 +277,24 @@ func TestPrimitivesByteOptionInput_none(t *testing.T) {
 // 	}
 // }
 
-// TODO:
-// func TestPrimitivesCharOutput_min(t *testing.T) {
-// 	fnName := "test_char_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	// expected := rune(math.MinInt16)
-// 	expected := uint16(0)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 		// } else if r, ok := result.(rune); !ok {
-// 	} else if r, ok := result.(uint16); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+func TestPrimitivesCharOutput_min(t *testing.T) {
+	fnName := "test_char_output_min"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// expected := rune(math.MinInt16)
+	expected := int16(-32768)
+	if result == nil {
+		t.Error("expected a result")
+		// } else if r, ok := result.(rune); !ok {
+	} else if r, ok := result.(int16); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestPrimitivesCharInput_max(t *testing.T) {
 	fnName := "test_char_input_max"
@@ -304,54 +303,53 @@ func TestPrimitivesCharInput_max(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesCharOutput_max(t *testing.T) {
-// 	fnName := "test_char_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := rune(math.MaxInt16)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(rune); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+func TestPrimitivesCharOutput_max(t *testing.T) {
+	fnName := "test_char_output_max"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// TODO:
-// func TestPrimitivesCharOptionInput_min(t *testing.T) {
-// 	fnName := "test_char_option_input_min"
-// 	b := rune(math.MinInt16)
-//
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	// expected := rune(math.MaxInt16)
+	expected := int16(math.MaxInt16)
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(int16); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// TODO:
-// func TestPrimitivesCharOptionOutput_min(t *testing.T) {
-// 	fnName := "test_char_option_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := rune(math.MinInt16)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*rune); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
+func TestPrimitivesCharOptionInput_min(t *testing.T) {
+	fnName := "test_char_option_input_min"
+	b := rune(math.MinInt16)
+
+	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestPrimitivesCharOptionOutput_min(t *testing.T) {
+	fnName := "test_char_option_output_min"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// expected := rune(math.MinInt16)
+	expected := int16(math.MinInt16)
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*int16); !ok {
+		t.Errorf("expected *%T, got %T", expected, result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
 func TestPrimitivesCharOptionInput_max(t *testing.T) {
 	fnName := "test_char_option_input_max"
@@ -365,23 +363,23 @@ func TestPrimitivesCharOptionInput_max(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesCharOptionOutput_max(t *testing.T) {
-// 	fnName := "test_char_option_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	expected := rune(math.MaxInt16)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*rune); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
+func TestPrimitivesCharOptionOutput_max(t *testing.T) {
+	fnName := "test_char_option_output_max"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// expected := rune(math.MaxInt16)
+	expected := int16(math.MaxInt16)
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*int16); !ok {
+		t.Errorf("expected *%T, got %T", expected, result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
 func TestPrimitivesCharOptionInput_none(t *testing.T) {
 	fnName := "test_char_option_input_none"
@@ -390,18 +388,17 @@ func TestPrimitivesCharOptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesCharOptionOutput_none(t *testing.T) {
-// 	fnName := "test_char_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesCharOptionOutput_none(t *testing.T) {
+	fnName := "test_char_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 func TestPrimitivesIntInput_min(t *testing.T) {
 	fnName := "test_int_input_min"
@@ -520,18 +517,17 @@ func TestPrimitivesIntOptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesIntOptionOutput_none(t *testing.T) {
-// 	fnName := "test_int_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesIntOptionOutput_none(t *testing.T) {
+	fnName := "test_int_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 func TestPrimitivesInt16Input_min(t *testing.T) {
 	fnName := "test_int16_input_min"
@@ -646,143 +642,17 @@ func TestPrimitivesInt16OptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesInt16OptionOutput_none(t *testing.T) {
-// 	fnName := "test_int16_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesInt16OptionOutput_none(t *testing.T) {
+	fnName := "test_int16_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// func TestPrimitivesIntInput_min(t *testing.T) {
-// 	fnName := "test_int_input_min"
-// 	if _, err := fixture.CallFunction(t, fnName, int(math.MinInt)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesIntOutput_min(t *testing.T) {
-// 	fnName := "test_int_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := int(math.MinInt)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(int); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-
-// func TestPrimitivesIntInput_max(t *testing.T) {
-// 	fnName := "test_int_input_max"
-// 	if _, err := fixture.CallFunction(t, fnName, int(math.MaxInt)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesIntOutput_max(t *testing.T) {
-// 	fnName := "test_int_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := int(math.MaxInt)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(int); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionInput_min(t *testing.T) {
-// 	fnName := "test_int_option_input_min"
-// 	b := int(math.MinInt)
-
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionOutput_min(t *testing.T) {
-// 	fnName := "test_int_option_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := int(math.MinInt)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*int); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionInput_max(t *testing.T) {
-// 	fnName := "test_int_option_input_max"
-// 	b := int(math.MaxInt)
-
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionOutput_max(t *testing.T) {
-// 	fnName := "test_int_option_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := int(math.MaxInt)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*int); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionInput_none(t *testing.T) {
-// 	fnName := "test_int_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesIntOptionOutput_none(t *testing.T) {
-// 	fnName := "test_int_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 func TestPrimitivesInt64Input_min(t *testing.T) {
 	fnName := "test_int64_input_min"
@@ -844,14 +714,15 @@ func TestPrimitivesInt64OptionInput_min(t *testing.T) {
 	}
 }
 
-// TODO:
+// TODO: Int64 and UInt64 are handled by reference in MoonBit unlike the
+// other primitive types.
 // func TestPrimitivesInt64OptionOutput_min(t *testing.T) {
 // 	fnName := "test_int64_option_output_min"
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
-//
+
 // 	expected := int64(math.MinInt64)
 // 	if result == nil {
 // 		t.Error("expected a result")
@@ -861,6 +732,7 @@ func TestPrimitivesInt64OptionInput_min(t *testing.T) {
 // 		t.Errorf("expected %v, got %v", expected, *r)
 // 	}
 // }
+
 //
 // func TestPrimitivesInt64OptionInput_max(t *testing.T) {
 // 	fnName := "test_int64_option_input_max"
@@ -1025,18 +897,17 @@ func TestPrimitivesUintOptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesUintOptionOutput_none(t *testing.T) {
-// 	fnName := "test_uint_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesUintOptionOutput_none(t *testing.T) {
+	fnName := "test_uint_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 func TestPrimitivesUint16Input_min(t *testing.T) {
 	fnName := "test_uint16_input_min"
@@ -1151,143 +1022,17 @@ func TestPrimitivesUint16OptionInput_none(t *testing.T) {
 	}
 }
 
-// TODO:
-// func TestPrimitivesUint16OptionOutput_none(t *testing.T) {
-// 	fnName := "test_uint16_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-//
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+func TestPrimitivesUint16OptionOutput_none(t *testing.T) {
+	fnName := "test_uint16_option_output_none"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// func TestPrimitivesUintInput_min(t *testing.T) {
-// 	fnName := "test_uint_input_min"
-// 	if _, err := fixture.CallFunction(t, fnName, uint(0)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesUintOutput_min(t *testing.T) {
-// 	fnName := "test_uint_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := uint(0)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(uint); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-
-// func TestPrimitivesUintInput_max(t *testing.T) {
-// 	fnName := "test_uint_input_max"
-// 	if _, err := fixture.CallFunction(t, fnName, uint(math.MaxUint)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesUintOutput_max(t *testing.T) {
-// 	fnName := "test_uint_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := uint(math.MaxUint)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(uint); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionInput_min(t *testing.T) {
-// 	fnName := "test_uint_option_input_min"
-// 	b := uint(0)
-
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionOutput_min(t *testing.T) {
-// 	fnName := "test_uint_option_output_min"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := uint(0)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*uint); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionInput_max(t *testing.T) {
-// 	fnName := "test_uint_option_input_max"
-// 	b := uint(math.MaxUint)
-
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionOutput_max(t *testing.T) {
-// 	fnName := "test_uint_option_output_max"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	expected := uint(math.MaxUint)
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*uint); !ok {
-// 		t.Errorf("expected *%T, got %T", expected, result)
-// 	} else if *r != expected {
-// 		t.Errorf("expected %v, got %v", expected, *r)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionInput_none(t *testing.T) {
-// 	fnName := "test_uint_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-// func TestPrimitivesUintOptionOutput_none(t *testing.T) {
-// 	fnName := "test_uint_option_output_none"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	if !utils.HasNil(result) {
-// 		t.Error("expected a nil result")
-// 	}
-// }
+	if !utils.HasNil(result) {
+		t.Error("expected a nil result")
+	}
+}
 
 func TestPrimitivesUint64Input_min(t *testing.T) {
 	fnName := "test_uint64_input_min"
@@ -1431,7 +1176,7 @@ func TestPrimitivesFloatInput_min(t *testing.T) {
 // 	if err != nil {
 // 		t.Fatal(err)
 // 	}
-//
+
 // 	expected := float32(math.SmallestNonzeroFloat32)
 // 	if result == nil {
 // 		t.Error("expected a result")

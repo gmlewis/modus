@@ -859,7 +859,7 @@ var rtMapStringAny = reflect.TypeFor[map[string]any]()
 var reflectedTypeMap = map[string]reflect.Type{
 	"Bool":                reflect.TypeFor[bool](),
 	"Byte":                reflect.TypeFor[byte](),
-	"Char":                reflect.TypeFor[uint16](),
+	"Char":                reflect.TypeFor[int16](),
 	"Double":              reflect.TypeFor[float64](),
 	"Float":               reflect.TypeFor[float32](),
 	"Int":                 reflect.TypeFor[int](), // was: int32

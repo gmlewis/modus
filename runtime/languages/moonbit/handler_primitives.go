@@ -56,7 +56,7 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	case "Float": // 32-bit floating point, defined by IEEE754, e.g. `(3.14 : Float)`
 		return newPrimitiveHandler[float32](ti), nil
 	case "Char": // represents a Unicode code point, e.g. `'a'`, `'\x41'`, `'\u{30}'`, `'\u03B1'`,
-		return newPrimitiveHandler[uint16](ti), nil
+		return newPrimitiveHandler[int16](ti), nil
 	case "Byte": // either a single ASCII character, e.g. `b'a'`, `b'\xff'`
 		return newPrimitiveHandler[uint8](ti), nil
 	// case "BigInt": // represents numeric values larger than other types, e.g. `10000000000000000000000N`
@@ -113,6 +113,25 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAda
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
+	}
+
+	if h.TypeInfo().IsNullable() && h.typeInfo.IsPointer() {
+		switch {
+		case h.typeInfo.IsBoolean() && vals[0] == 0xffffffff:
+			return nil, nil
+		case h.typeInfo.Name() == "Byte?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		case h.typeInfo.Name() == "Char?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		case h.typeInfo.Name() == "Int16?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		case h.typeInfo.Name() == "UInt?" && vals[0] == 0x100000000: // TODO: Improve this to avoid string comparison.
+			return nil, nil
+		}
 	}
 
 	result := h.converter.Decode(vals[0])
