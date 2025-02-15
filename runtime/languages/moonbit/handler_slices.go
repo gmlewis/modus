@@ -74,34 +74,48 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
 
-	// note: capacity is not used here
-	// data, size := uint32(vals[0]), uint32(vals[1])
-
 	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
 
-	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
-	if sliceOffset == 0 {
-		return nil, nil // nil slice
-	}
-	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	if numElements == 0 {
+	part2 := binary.LittleEndian.Uint32(memBlock[4:8])
+	classID := part2 & 0xff
+	words := part2 >> 8
+	if words == 0 {
 		return h.emptyValue, nil // empty slice
 	}
+
+	numElements := uint32(words)
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if elemType.IsPrimitive() && isNullable {
+	if isNullable {
 		elemTypeSize = 8
 	}
-	size := numElements * uint32(elemTypeSize)
-	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
+	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
+		memBlock, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize, true)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+		if sliceOffset == 0 {
+			return nil, nil // nil slice
+		}
 
-	memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
-	if err != nil {
-		return nil, err
+		numElements = binary.LittleEndian.Uint32(memBlock[12:16])
+		if numElements == 0 {
+			return h.emptyValue, nil // empty slice
+		}
+
+		size := numElements * uint32(elemTypeSize)
+		gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
+
+		memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// return h.doReadSlice(ctx, wa, sliceOffset, size)
@@ -110,12 +124,18 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 	for i := uint32(0); i < numElements; i++ {
 		if elemType.IsPrimitive() && isNullable {
-			isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
-			if isNone {
-				// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
-				continue
+			var value uint64
+			if words > 1 {
+				isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
+				if isNone {
+					// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
+					continue
+				}
+				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
+			} else {
+				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
+				value = uint64(value32)
 			}
-			value := binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
 			if err != nil {
 				return nil, err

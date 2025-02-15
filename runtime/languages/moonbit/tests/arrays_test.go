@@ -320,7 +320,7 @@ func Test2DArrayOutput_string_inner_empty(t *testing.T) {
 
 func Test2DArrayInput_string_inner_none(t *testing.T) {
 	fnName := "test2d_array_input_string_inner_none"
-	s := []*[]string{nil} // [][]string{nil}
+	s := []*[]string{nil}
 
 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 		t.Error(err)

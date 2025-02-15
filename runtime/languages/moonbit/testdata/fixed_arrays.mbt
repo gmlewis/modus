@@ -154,17 +154,17 @@ pub fn get_string_option_array2() -> FixedArray[String?] {
 
 ///|
 pub fn test_fixedarray_input2_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  let expected = getIntPtrArray2()
+  let expected = get_int_ptr_array2()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output2_int_option() -> FixedArray[Int?] {
-  getIntPtrArray2()
+  get_int_ptr_array2()
 }
 
 ///|
-pub fn getIntPtrArray2() -> FixedArray[Int?] {
+pub fn get_int_ptr_array2() -> FixedArray[Int?] {
   [Some(11), Some(22)]
 }
 
