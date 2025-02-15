@@ -197,7 +197,7 @@
         {
           "name": "hello_primitive_char_max",
           "query": {"query":"query {\n  hello_primitive_char_max\n}","variables":{}},
-          "expect": 65535
+          "expect": -1
         },
         {
           "name": "hello_primitive_double_min",

@@ -116,21 +116,37 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAda
 	}
 
 	if h.TypeInfo().IsNullable() && h.typeInfo.IsPointer() {
+		// TODO: Improve this to avoid string comparison.
 		switch {
 		case h.typeInfo.IsBoolean() && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Byte?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "Byte?" && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Char?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "Char?" && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Int16?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "Int16?" && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000:
 			return nil, nil
-		case h.typeInfo.Name() == "UInt?" && vals[0] == 0x100000000: // TODO: Improve this to avoid string comparison.
+		case h.typeInfo.Name() == "UInt?" && vals[0] == 0x100000000:
 			return nil, nil
+		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
+			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
+			_, _, _ = memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+			memBlock, ok := wa.Memory().ReadUint64Le(uint32(vals[0]))
+			if !ok {
+				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
+			}
+			if memBlock == 0x00000000ffffffff { // constant 'None' in MoonBit
+				return nil, nil
+			}
+			result, ok := h.converter.Read(wa.Memory(), uint32(vals[0]+8))
+			if !ok {
+				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
+			}
+			return &result, nil
 		}
 	}
 
@@ -147,5 +163,21 @@ func (h *primitiveHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAda
 		return nil, nil, err
 	}
 
-	return []uint64{h.converter.Encode(val)}, nil, nil
+	result := h.converter.Encode(val)
+
+	if h.TypeInfo().IsNullable() && h.typeInfo.IsPointer() {
+		// TODO: Improve this to avoid string comparison.
+		switch {
+		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
+			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
+			ptr, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, 1)
+			if err != nil {
+				return nil, cln, err
+			}
+			wa.Memory().WriteUint64Le(ptr, result)
+			return []uint64{uint64(ptr - 8)}, cln, nil
+		}
+	}
+
+	return []uint64{result}, nil, nil
 }
