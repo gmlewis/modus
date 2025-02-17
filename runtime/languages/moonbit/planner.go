@@ -159,13 +159,45 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 		paramHandlers[i] = handler
 	}
 
-	resultHandlers := make([]langsupport.TypeHandler, len(fnMeta.Results))
-	for i, result := range fnMeta.Results {
-		handler, err := p.GetHandler(ctx, result.Type)
+	resultHandlers := make([]langsupport.TypeHandler, 0, len(fnMeta.Results)+1)
+	var errorType string
+	for _, result := range fnMeta.Results {
+		typeName := result.Type
+		if i := strings.Index(typeName, "!"); i >= 0 {
+			errorType = typeName[i+1:]
+			typeName = typeName[:i]
+		}
+
+		handler, err := p.GetHandler(ctx, typeName)
 		if err != nil {
 			return nil, err
 		}
-		resultHandlers[i] = handler
+		resultHandlers = append(resultHandlers, handler)
+	}
+	switch errorType {
+	case "": // no-op
+	case "Error": // Treat as a struct with a single String field.
+		// stringHandler, err := p.GetHandler(ctx, "String")
+		// if err != nil {
+		// 	return nil, fmt.Errorf("failed to get handler for 'String': %w", err)
+		// }
+		// ti, err := GetTypeInfo(ctx, "(String)", p.typeCache)
+		// if err != nil {
+		// return nil, fmt.Errorf("failed to get type info for '(Error)': %w", err)
+		// }
+		// errorHandler := &structHandler{ // treat as tuple with one value
+		// 	typeHandler: *NewTypeHandler(_langTypeInfo.NewTypeInfo("Error")),
+		// 	// typeHandler:   *NewTypeHandler(&typeInfo{name: "(String)"}),
+		// 	typeDef:       &metadata.TypeDefinition{Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+		// 	fieldHandlers: []langsupport.TypeHandler{stringHandler},
+		// }
+		errorHandler, err := p.GetHandler(ctx, "(String)")
+		if err != nil {
+			return nil, fmt.Errorf("failed to get handler for '(String)': %w", err)
+		}
+		resultHandlers = append(resultHandlers, errorHandler)
+	default:
+		return nil, fmt.Errorf("unsupported error type: !%v", errorType)
 	}
 
 	indirectResultSize, err := p.getIndirectResultSize(ctx, fnMeta, fnDef)

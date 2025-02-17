@@ -8,6 +8,7 @@
 ///|
 pub fn test_array_input_bool(val : Array[Bool]) -> Unit!Error {
   let expected : Array[Bool] = [false, true, true, false]
+  println("val: \{dump_mem_block(cast_to_ptr(val))}")
   assert_eq!(expected, val)
 }
 

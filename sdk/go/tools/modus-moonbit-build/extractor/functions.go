@@ -211,6 +211,15 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			tmpType := types.NewNamed(types.NewTypeName(0, nil, fullName, nil), t.Underlying(), nil) // do NOT add typesPkg to named types.
 			// Do not recurse here as it would cause an infinite loop.
 			m[fullName] = tmpType
+			// Handle MoonBit error types as a tuple: `(String)`
+			fullName = "(String)"
+			if _, ok := m[fullName]; !ok {
+				underlying := types.NewNamed(types.NewTypeName(0, nil, "String", nil), nil, nil)
+				fieldVars := []*types.Var{types.NewVar(0, nil, "0", underlying)}
+				tupleStruct := types.NewStruct(fieldVars, nil)
+				tmpType = types.NewNamed(types.NewTypeName(0, nil, fullName, nil), tupleStruct, nil)
+				m[fullName] = tmpType
+			}
 		}
 
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
