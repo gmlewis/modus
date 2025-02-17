@@ -109,7 +109,7 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
-		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]`` is a Go slice type.
+		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]` is a Go slice type.
 			elemType := ti.ListElementType()
 			if !elemType.IsNullable() && elemType.IsPrimitive() {
 				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)

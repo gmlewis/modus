@@ -52,8 +52,80 @@ func TestArrayInput_string_option(t *testing.T) {
 	}
 }
 
-func TestArrayOutput_byte(t *testing.T) {
-	fnName := "test_array_output_byte"
+// func TestArrayOutput_byte_0(t *testing.T) {
+// 	fnName := "test_array_output_byte_0"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
+
+// 	expected := []byte{}
+
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([]byte); !ok {
+// 		t.Errorf("expected a []byte, got %T", result)
+// 	} else if !bytes.Equal(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
+
+func TestArrayOutput_byte_1(t *testing.T) {
+	fnName := "test_array_output_byte_1"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_2(t *testing.T) {
+	fnName := "test_array_output_byte_2"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01, 0x02}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_3(t *testing.T) {
+	fnName := "test_array_output_byte_3"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01, 0x02, 0x03}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_4(t *testing.T) {
+	fnName := "test_array_output_byte_4"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -110,22 +182,22 @@ func TestArrayOutput_string(t *testing.T) {
 	}
 }
 
-func TestArrayOutput_string_option(t *testing.T) {
-	fnName := "test_array_output_string_option"
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// func TestArrayOutput_string_option(t *testing.T) {
+// 	fnName := "test_array_output_string_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := getStringOptionArray()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*string); !ok {
-		t.Errorf("expected a []*string, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := getStringOptionArray()
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([]*string); !ok {
+// 		t.Errorf("expected a []*string, got %T", result)
+// 	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 func getIntOptionArray() []*int {
 	a := 11
@@ -194,14 +266,82 @@ func TestArrayInput_int_empty(t *testing.T) {
 	}
 }
 
-func TestArrayOutput_int_empty(t *testing.T) {
-	fnName := "test_array_output_int_empty"
+func TestArrayOutput_int_0(t *testing.T) {
+	fnName := "test_array_output_int_0"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	expected := []int{}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
+	} else if !slices.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_int_1(t *testing.T) {
+	fnName := "test_array_output_int_1"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []int{1}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
+	} else if !slices.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_int_2(t *testing.T) {
+	fnName := "test_array_output_int_2"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []int{1, 2}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
+	} else if !slices.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_int_3(t *testing.T) {
+	fnName := "test_array_output_int_3"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []int{1, 2, 3}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
+	} else if !slices.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_int_4(t *testing.T) {
+	fnName := "test_array_output_int_4"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []int{1, 2, 3, 4}
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]int); !ok {

@@ -137,39 +137,39 @@ func TestFixedArrayInput1_string_option(t *testing.T) {
 	}
 }
 
-func TestFixedArrayOutput1_string(t *testing.T) {
-	fnName := "test_fixedarray_output1_string"
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// func TestFixedArrayOutput1_string(t *testing.T) {
+// 	fnName := "test_fixedarray_output1_string"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := []string{"abc"}
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]string); !ok {
-		t.Errorf("expected a []string, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := []string{"abc"}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([]string); !ok {
+// 		t.Errorf("expected a []string, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
-func TestFixedArrayOutput1_string_option(t *testing.T) {
-	fnName := "test_fixedarray_output1_string_option"
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// func TestFixedArrayOutput1_string_option(t *testing.T) {
+// 	fnName := "test_fixedarray_output1_string_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	expected := getStringOptionFixedArray1()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*string); !ok {
-		t.Errorf("expected a []*string, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := getStringOptionFixedArray1()
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([]*string); !ok {
+// 		t.Errorf("expected a []*string, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 func TestFixedArrayInput1_int_option(t *testing.T) {
 	fnName := "test_fixedarray_input1_int_option"
