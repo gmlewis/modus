@@ -126,8 +126,12 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 		return nil, err
 	}
 
-	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+	if numElements == 0 {
+		return []T{}, nil
+	}
+
+	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	elemTypeSize := h.converter.TypeSize()
 	isNullable := h.typeInfo.ListElementType().IsNullable()
 	if isNullable {

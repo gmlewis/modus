@@ -52,23 +52,23 @@ func TestArrayInput_string_option(t *testing.T) {
 	}
 }
 
-// func TestArrayOutput_byte_0(t *testing.T) {
-// 	fnName := "test_array_output_byte_0"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_byte_0(t *testing.T) {
+	fnName := "test_array_output_byte_0"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := []byte{}
+	expected := []byte{}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]byte); !ok {
-// 		t.Errorf("expected a []byte, got %T", result)
-// 	} else if !bytes.Equal(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestArrayOutput_byte_1(t *testing.T) {
 	fnName := "test_array_output_byte_1"
