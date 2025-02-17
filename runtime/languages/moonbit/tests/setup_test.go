@@ -10,6 +10,7 @@
 package moonbit_test
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -27,6 +28,7 @@ var basePath = func() string {
 var fixture *testutils.WasmTestFixture
 
 func TestMain(m *testing.M) {
+	log.SetFlags(0)
 	path := filepath.Join(basePath, "..", "testdata", "build", "testdata.wasm")
 
 	customTypes := make(map[string]reflect.Type)

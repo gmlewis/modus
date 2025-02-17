@@ -128,6 +128,10 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 
 	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 	if numElements == 0 {
+		// For debugging:
+		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+		_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
+
 		return []T{}, nil
 	}
 

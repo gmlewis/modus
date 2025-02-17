@@ -104,6 +104,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 			return nil, nil // nil slice
 		}
 
+		// For debugging:
+		_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
+
 		numElements = binary.LittleEndian.Uint32(memBlock[12:16])
 		if numElements == 0 {
 			return h.emptyValue, nil // empty slice
