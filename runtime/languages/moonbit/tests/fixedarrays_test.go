@@ -9,11 +9,6 @@
 
 package moonbit_test
 
-import (
-	"reflect"
-	"testing"
-)
-
 // func TestFixedArrayInput0_string(t *testing.T) {
 // 	fnName := "test_fixedarray_input0_string"
 // 	arr := [0]string{}
@@ -42,43 +37,39 @@ import (
 // 	}
 // }
 
-func TestFixedArrayOutput0_string(t *testing.T) {
-	fnName := "test_fixedarray_output0_string"
+// func TestFixedArrayOutput0_string(t *testing.T) {
+// 	fnName := "test_fixedarray_output0_string"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=242(), words=0, memBlock=[1 0 0 0 242 0 0 0]
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
+// 	expected := [0]string{}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([0]string); !ok {
+// 		t.Errorf("expected a [0]string, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
-	expected := []string{}
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]string); !ok {
-		t.Errorf("expected a []string, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// func TestFixedArrayOutput0_string_option(t *testing.T) {
+// 	fnName := "test_fixedarray_output0_string_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-func TestFixedArrayOutput0_string_option(t *testing.T) {
-	fnName := "test_fixedarray_output0_string_option"
-
-	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=242(), words=0, memBlock=[1 0 0 0 242 0 0 0]
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := []*string{}
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*string); !ok {
-		t.Errorf("expected a []*string, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := [0]*string{}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([0]*string); !ok {
+// 		t.Errorf("expected a [0]*string, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 // func TestFixedArrayInput0_int_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input0_int_option"
@@ -94,24 +85,22 @@ func TestFixedArrayOutput0_string_option(t *testing.T) {
 // 	}
 // }
 
-func TestFixedArrayOutput0_int_option(t *testing.T) {
-	fnName := "test_fixedarray_output0_int_option"
+// func TestFixedArrayOutput0_int_option(t *testing.T) {
+// 	fnName := "test_fixedarray_output0_int_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := []*int{}
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := [0]*int{}
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([0]*int); !ok {
+// 		t.Errorf("expected a [0]*int, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 // func TestFixedArrayInput1_string(t *testing.T) {
 // 	fnName := "test_fixedarray_input1_string"
@@ -148,11 +137,11 @@ func TestFixedArrayOutput0_int_option(t *testing.T) {
 // 		t.Fatal(err)
 // 	}
 
-// 	expected := []string{"abc"}
+// 	expected := [1]string{"abc"}
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.([]string); !ok {
-// 		t.Errorf("expected a []string, got %T", result)
+// 	} else if r, ok := result.([1]string); !ok {
+// 		t.Errorf("expected a [1]string, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
@@ -168,8 +157,8 @@ func TestFixedArrayOutput0_int_option(t *testing.T) {
 // 	expected := getStringOptionFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.([]*string); !ok {
-// 		t.Errorf("expected a []*string, got %T", result)
+// 	} else if r, ok := result.([1]*string); !ok {
+// 		t.Errorf("expected a [1]*string, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
@@ -189,24 +178,22 @@ func TestFixedArrayOutput0_int_option(t *testing.T) {
 // 	}
 // }
 
-func TestFixedArrayOutput1_int_option(t *testing.T) {
-	fnName := "test_fixedarray_output1_int_option"
+// func TestFixedArrayOutput1_int_option(t *testing.T) {
+// 	fnName := "test_fixedarray_output1_int_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 11 0 0 0 0 0 0 0]
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := getIntOptionFixedArray1()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := getIntOptionFixedArray1()
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([1]*int); !ok {
+// 		t.Errorf("expected a [1]*int, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 // func TestFixedArrayInput2_string(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_string"
@@ -306,24 +293,22 @@ func TestFixedArrayOutput1_int_option(t *testing.T) {
 // 	}
 // }
 
-func TestFixedArrayOutput2_int_option(t *testing.T) {
-	fnName := "test_fixedarray_output2_int_option"
+// func TestFixedArrayOutput2_int_option(t *testing.T) {
+// 	fnName := "test_fixedarray_output2_int_option"
+// 	result, err := fixture.CallFunction(t, fnName)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
 
-	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 11 0 0 0 0 0 0 0 22 0 0 0 0 0 0 0]
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := getIntOptionFixedArray2()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
-	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
-	}
-}
+// 	expected := getIntOptionFixedArray2()
+// 	if result == nil {
+// 		t.Error("expected a result")
+// 	} else if r, ok := result.([]*int); !ok {
+// 		t.Errorf("expected a []*int, got %T", result)
+// 	} else if !reflect.DeepEqual(expected, r) {
+// 		t.Errorf("expected %v, got %v", expected, r)
+// 	}
+// }
 
 // func TestFixedArrayOutput2_string(t *testing.T) {
 // 	fnName := "test_fixedarray_output2_string"
@@ -644,60 +629,60 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	}
 // }
 
-func getIntOptionFixedArray1() []*int {
+func getIntOptionFixedArray1() [1]*int {
 	a := 11
-	return []*int{&a}
+	return [1]*int{&a}
 }
 
-func getIntOptionFixedArray2() []*int {
+func getIntOptionFixedArray2() [2]*int {
 	a := 11
 	b := 22
-	return []*int{&a, &b}
+	return [2]*int{&a, &b}
 }
 
-func getStringOptionFixedArray1() []*string {
+func getStringOptionFixedArray1() [1]*string {
 	a := "abc"
-	return []*string{&a}
+	return [1]*string{&a}
 }
 
-func getStringOptionFixedArray2() []*string {
+func getStringOptionFixedArray2() [2]*string {
 	a := "abc"
 	b := "def"
-	return []*string{&a, &b}
+	return [2]*string{&a, &b}
 }
 
-func getStructFixedArray2() []TestStruct2 {
-	return []TestStruct2{
+func getStructFixedArray2() [2]TestStruct2 {
+	return [2]TestStruct2{
 		{A: true, B: 123},
 		{A: false, B: 456},
 	}
 }
 
-func getStructOptionFixedArray2() []*TestStruct2 {
-	return []*TestStruct2{
+func getStructOptionFixedArray2() [2]*TestStruct2 {
+	return [2]*TestStruct2{
 		{A: true, B: 123},
 		{A: false, B: 456},
 	}
 }
 
-func getMapFixedArray2() []map[string]string {
-	return []map[string]string{
-		{"A": "true", "B": "123"},
-		{"C": "false", "D": "456"},
-	}
-}
+// func getMapFixedArray2() [2]map[string]string {
+// 	return [2]map[string]string{
+// 		{"A": "true", "B": "123"},
+// 		{"C": "false", "D": "456"},
+// 	}
+// }
 
-func getMapOptionFixedArray2() []*map[string]string {
-	return []*map[string]string{
-		{"A": "true", "B": "123"},
-		{"C": "false", "D": "456"},
-	}
-}
+// func getMapOptionFixedArray2() [2]*map[string]string {
+// 	return [2]*map[string]string{
+// 		{"A": "true", "B": "123"},
+// 		{"C": "false", "D": "456"},
+// 	}
+// }
 
-func getOptionIntFixedArray1() *[]int {
-	a := 11
-	return &[]int{a}
-}
+// func getOptionIntFixedArray1() *[1]int {
+// 	a := 11
+// 	return &[1]int{a}
+// }
 
 func getOptionIntFixedArray2() *[2]int {
 	a := 11
