@@ -175,6 +175,7 @@ func (plan *executionPlan) getWasmParameters(ctx context.Context, wa WasmAdapter
 }
 
 func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdapter, vals []uint64, indirectPtr uint32) (any, error) {
+	// TODO: Make this function language-specific!
 
 	handlers := plan.ResultHandlers()
 	gmlPrintf("GML: executionplan.go: interpretWasmResults: len(handlers)=%v, len(vals)=%v, indirectPtr=%v", len(handlers), len(vals), indirectPtr)
@@ -191,23 +192,23 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 		} else if len(vals) == 1 {
 			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode")
 			return handler.Decode(ctx, wa, vals)
-		} else if len(vals) == 2 {
-			// TODO: Why does get_local_time use this path instead of having two handlers
-			// and use 'case 2' below?
-			// This is the case in MoonBit when a function returns a single value and an error code.
-			// The error code is the first value and the actual result is the second value.
-			if vals[0] == 0 {
-				// An error occurred. Return the zero value and an error string.
-				// errString := "unknown error" // TODO: Get the error string
-				if vals[1] != 0 {
-					gmlPrintf("vals[1]=%v", vals[1])
-				}
-				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
-				return handler.TypeInfo().ZeroValue(), nil // errors.New(errString)
-			}
-			// Now strip off the error code and decode the actual result.
-			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
-			return handler.Decode(ctx, wa, vals[1:])
+			//		} else if len(vals) == 2 {
+			//			// TODO: Why does get_local_time use this path instead of having two handlers
+			//			// and use 'case 2' below?
+			//			// This is the case in MoonBit when a function returns a single value and an error code.
+			//			// The error code is the first value and the actual result is the second value.
+			//			if vals[0] == 0 {
+			//				// An error occurred. Return the zero value and an error string.
+			//				// errString := "unknown error" // TODO: Get the error string
+			//				if vals[1] != 0 {
+			//					gmlPrintf("vals[1]=%v", vals[1])
+			//				}
+			//				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
+			//				return handler.TypeInfo().ZeroValue(), nil // errors.New(errString)
+			//			}
+			//			// Now strip off the error code and decode the actual result.
+			//			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
+			//			return handler.Decode(ctx, wa, vals[1:])
 		} else {
 			// no actual result value, but we need to return a zero value of the expected type
 			gmlPrintf("GML: executionplan.go: interpretWasmResults: no actual result value, but we need to return a zero value of the expected type: vals=%+v", vals)
