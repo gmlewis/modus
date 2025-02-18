@@ -219,7 +219,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	// Handle different types based on elementSize
 	if elementSize == 1 {
 		// Byte arrays: round up to nearest 4 bytes + padding byte
-		paddedSize := ((numElements + 4) / 4) * 4
+		paddedSize := ((numElements + 5) / 4) * 4
 		// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
 		size = numElements
 		// headerValue = ((paddedSize / 4) << 8) | 246 // 246 is the byte array header type
@@ -278,7 +278,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	}
 
 	// For debugging:
-	// _, _, _ = memoryBlockAtOffset(wa, offset-8, true)
+	_, _, _ = memoryBlockAtOffset(wa, offset-8, 0, true)
 
 	return offset, cln, nil
 }
