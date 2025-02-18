@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"runtime/debug"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -193,14 +192,15 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode")
 			return handler.Decode(ctx, wa, vals)
 		} else if len(vals) == 2 {
+			// TODO: Why does get_local_time use this path instead of having two handlers
+			// and use 'case 2' below?
 			// This is the case in MoonBit when a function returns a single value and an error code.
 			// The error code is the first value and the actual result is the second value.
 			if vals[0] == 0 {
 				// An error occurred. Return the zero value and an error string.
-				var errString string
+				errString := "unknown error" // TODO: Get the error string
 				if vals[1] != 0 {
-					// errString = wa.Memory().ReadString(uint32(vals[1]))
-					log.Printf("vals[1]=%v", vals[1])
+					gmlPrintf("vals[1]=%v", vals[1])
 				}
 				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
 				return handler.TypeInfo().ZeroValue(), errors.New(errString)
@@ -222,26 +222,23 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 		}
 		// This is the case in MoonBit when a function returns a single value and an error code.
 		// The error code is the first value and the actual result is the second value.
-		if vals[0] == 0 {
+		if vals[0] == 0 && vals[1] != 0 {
 			// An error occurred. Return the zero value and an error string.
-			if vals[1] != 0 {
-				// errString = wa.Memory().ReadString(uint32(vals[1]))
-				log.Printf("vals[1]=%v", vals[1])
-				errVal, err := errorHandler.Decode(ctx, wa, vals[1:])
-				if err != nil {
-					return nil, fmt.Errorf("failed to decode error value: %w", err)
-				}
-				errTuple, ok := errVal.([]any)
-				if !ok || len(errTuple) != 1 {
-					return nil, fmt.Errorf("expected error tuple but got %T: %+[1]v", errVal)
-				}
-				errString, ok := errTuple[0].(string)
-				if !ok {
-					return nil, fmt.Errorf("expected error string but got %T: %+[1]v", errTuple[0])
-				}
-				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
-				return resultHandler.TypeInfo().ZeroValue(), errors.New(errString)
+			gmlPrintf("vals[1]=%v", vals[1])
+			errVal, err := errorHandler.Decode(ctx, wa, vals[1:])
+			if err != nil {
+				return nil, fmt.Errorf("failed to decode error value: %w", err)
 			}
+			errTuple, ok := errVal.([]any)
+			if !ok || len(errTuple) != 1 {
+				return nil, fmt.Errorf("expected error tuple but got %T: %+[1]v", errVal)
+			}
+			errString, ok := errTuple[0].(string)
+			if !ok {
+				return nil, fmt.Errorf("expected error string but got %T: %+[1]v", errTuple[0])
+			}
+			gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
+			return resultHandler.TypeInfo().ZeroValue(), errors.New(errString)
 		}
 		// Now strip off the error code and decode the actual result.
 		gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
