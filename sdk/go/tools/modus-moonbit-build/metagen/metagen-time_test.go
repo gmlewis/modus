@@ -118,13 +118,16 @@ var wantTimeFnImports = metadata.FunctionMap{
 }
 
 var wantTimeTypes = metadata.TypeMap{
-	"@time.ZonedDateTime":       {Id: 4, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 5, Name: "@time.ZonedDateTime!Error"},
-	"Array[Byte]":               {Id: 6, Name: "Array[Byte]"},
-	"String":                    {Id: 7, Name: "String"},
-	"String!Error":              {Id: 8, Name: "String!Error"},
-	"TimeZoneInfo": {
-		Id:   9,
+	"(String)": {Id: 4,
+		Name:   "(String)",
+		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
+	},
+	"@time.ZonedDateTime":       {Id: 5, Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Id: 6, Name: "@time.ZonedDateTime!Error"},
+	"Array[Byte]":               {Id: 7, Name: "Array[Byte]"},
+	"String":                    {Id: 8, Name: "String"},
+	"String!Error":              {Id: 9, Name: "String!Error"},
+	"TimeZoneInfo": {Id: 10,
 		Name: "TimeZoneInfo",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -133,8 +136,7 @@ var wantTimeTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"TimeZoneInfo!Error": {
-		Id:   10,
+	"TimeZoneInfo!Error": {Id: 11,
 		Name: "TimeZoneInfo!Error",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
