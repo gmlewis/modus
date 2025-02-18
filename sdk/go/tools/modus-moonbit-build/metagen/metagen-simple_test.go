@@ -206,26 +206,28 @@ var wantSimpleFnImports = metadata.FunctionMap{
 }
 
 var wantSimpleTypes = metadata.TypeMap{
-	"(String, Int)": {
-		Id:     4,
+	"(String)": {Id: 4,
+		Name:   "(String)",
+		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
+	},
+	"(String, Int)": {Id: 5,
 		Name:   "(String, Int)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Int"}},
 	},
-	"@time.ZonedDateTime":       {Id: 5, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 6, Name: "@time.ZonedDateTime!Error"},
-	"@wallClock.Datetime":       {Id: 7, Name: "@wallClock.Datetime"},
-	"Array[Byte]":               {Id: 8, Name: "Array[Byte]"},
-	"Array[Int]":                {Id: 9, Name: "Array[Int]"},
-	"Array[Person]":             {Id: 10, Name: "Array[Person]"},
-	"Int":                       {Id: 11, Name: "Int"},
-	"Person": {
-		Id:   12,
+	"@time.ZonedDateTime":       {Id: 6, Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Id: 7, Name: "@time.ZonedDateTime!Error"},
+	"@wallClock.Datetime":       {Id: 8, Name: "@wallClock.Datetime"},
+	"Array[Byte]":               {Id: 9, Name: "Array[Byte]"},
+	"Array[Int]":                {Id: 10, Name: "Array[Int]"},
+	"Array[Person]":             {Id: 11, Name: "Array[Person]"},
+	"Int":                       {Id: 12, Name: "Int"},
+	"Person": {Id: 13,
 		Name: "Person",
 		Fields: []*metadata.Field{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"}, {Name: "age", Type: "Int"},
 		},
 	},
-	"String":       {Id: 13, Name: "String"},
-	"String!Error": {Id: 14, Name: "String!Error"},
-	"String?":      {Id: 15, Name: "String?"},
+	"String":       {Id: 14, Name: "String"},
+	"String!Error": {Id: 15, Name: "String!Error"},
+	"String?":      {Id: 16, Name: "String?"},
 }
