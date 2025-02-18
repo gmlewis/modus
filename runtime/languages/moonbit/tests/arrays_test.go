@@ -10,6 +10,7 @@
 package moonbit_test
 
 import (
+	"bytes"
 	"reflect"
 	"slices"
 	"testing"
@@ -51,23 +52,23 @@ func TestArrayInput_string_option(t *testing.T) {
 	}
 }
 
-// func TestArrayOutput_byte(t *testing.T) {
-// 	fnName := "test_array_output_byte"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_byte(t *testing.T) {
+	fnName := "test_array_output_byte_4"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := []byte{0x01, 0x02, 0x03, 0x04}
+	expected := []byte{0x01, 0x02, 0x03, 0x04}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]byte); !ok {
-// 		t.Errorf("expected a []byte, got %T", result)
-// 	} else if !bytes.Equal(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestArrayOutput_int_option(t *testing.T) {
 	fnName := "test_array_output_int_option"
@@ -193,22 +194,22 @@ func TestArrayOutput_string_empty(t *testing.T) {
 // 	}
 // }
 
-// func TestArrayOutput_int_empty(t *testing.T) {
-// 	fnName := "test_array_output_int_empty"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_int_empty(t *testing.T) {
+	fnName := "test_array_output_int_0"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := []int{}
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]int); !ok {
-// 		t.Errorf("expected a []int, got %T", result)
-// 	} else if !slices.Equal(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := []int{}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]int); !ok {
+		t.Errorf("expected a []int, got %T", result)
+	} else if !slices.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 // func Test2DArrayInput_string(t *testing.T) {
 // 	fnName := "test2d_array_input_string"

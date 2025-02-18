@@ -221,13 +221,13 @@ pub fn test_fixedarray_output2_map() -> FixedArray[Map[String, String]] {
 pub fn test_fixedarray_input2_map_option(
   val : FixedArray[Map[String, String]?]
 ) -> Unit!Error {
-  let expected = getMapPtrArray2()
+  let expected = get_map_ptr_array2()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output2_map_option() -> FixedArray[Map[String, String]?] {
-  getMapPtrArray2()
+  get_map_ptr_array2()
 }
 
 ///|
@@ -236,7 +236,7 @@ pub fn get_map_array2() -> FixedArray[Map[String, String]] {
 }
 
 ///|
-pub fn getMapPtrArray2() -> FixedArray[Map[String, String]?] {
+pub fn get_map_ptr_array2() -> FixedArray[Map[String, String]?] {
   [Some({ "A": "true", "B": "123" }), Some({ "C": "false", "D": "456" })]
 }
 
