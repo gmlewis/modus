@@ -53,7 +53,7 @@ func TestArrayInput_string_option(t *testing.T) {
 }
 
 func TestArrayOutput_byte(t *testing.T) {
-	fnName := "test_array_output_byte"
+	fnName := "test_array_output_byte_4"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -195,7 +195,7 @@ func TestArrayOutput_string_empty(t *testing.T) {
 // }
 
 func TestArrayOutput_int_empty(t *testing.T) {
-	fnName := "test_array_output_int_empty"
+	fnName := "test_array_output_int_0"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
