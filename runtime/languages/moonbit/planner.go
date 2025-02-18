@@ -108,7 +108,7 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
-		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]`` is a Go slice type.
+		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]` is a Go slice type.
 			elemType := ti.ListElementType()
 			if !elemType.IsNullable() && elemType.IsPrimitive() {
 				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
@@ -118,14 +118,8 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 				return p.NewSliceHandler(ctx, ti)
 			}
 			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
-			// } else if _langTypeInfo.IsArrayType(typeName) {
-			// 	if ti.ListElementType().IsPrimitive() {
-			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
-			// 		return p.NewPrimitiveArrayHandler(ti)
-			// 	} else {
-			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
-			// 		return p.NewArrayHandler(ctx, ti)
-			// 	}
+			// Even a `FixedArray` in MoonBit is similar to a slice in Go because
+			// its length is not encoded as part of its type.
 		}
 	} else if ti.IsMap() {
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
@@ -158,13 +152,31 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 		paramHandlers[i] = handler
 	}
 
-	resultHandlers := make([]langsupport.TypeHandler, len(fnMeta.Results))
-	for i, result := range fnMeta.Results {
-		handler, err := p.GetHandler(ctx, result.Type)
+	resultHandlers := make([]langsupport.TypeHandler, 0, len(fnMeta.Results)+1)
+	var errorType string
+	for _, result := range fnMeta.Results {
+		typeName := result.Type
+		if i := strings.Index(typeName, "!"); i >= 0 {
+			errorType = typeName[i+1:]
+			typeName = typeName[:i]
+		}
+
+		handler, err := p.GetHandler(ctx, typeName)
 		if err != nil {
 			return nil, err
 		}
-		resultHandlers[i] = handler
+		resultHandlers = append(resultHandlers, handler)
+	}
+	switch errorType {
+	case "": // no-op
+	case "Error": // Treat as a struct with a single String field.
+		errorHandler, err := p.GetHandler(ctx, "(String)")
+		if err != nil {
+			return nil, fmt.Errorf("failed to get handler for '(String)': %w", err)
+		}
+		resultHandlers = append(resultHandlers, errorHandler)
+	default:
+		return nil, fmt.Errorf("unsupported error type: !%v", errorType)
 	}
 
 	indirectResultSize, err := p.getIndirectResultSize(ctx, fnMeta, fnDef)
