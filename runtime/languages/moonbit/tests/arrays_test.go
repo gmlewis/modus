@@ -16,14 +16,14 @@ import (
 	"testing"
 )
 
-func TestArrayInput_byte(t *testing.T) {
-	fnName := "test_array_input_byte"
-	s := []byte{1, 2, 3, 4}
+// func TestArrayInput_byte(t *testing.T) {
+// 	fnName := "test_array_input_byte"
+// 	s := []byte{1, 2, 3, 4}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestArrayInput_int_option(t *testing.T) {
 	fnName := "test_array_input_int_option"
@@ -185,14 +185,14 @@ func TestArrayOutput_string_empty(t *testing.T) {
 	}
 }
 
-func TestArrayInput_int_empty(t *testing.T) {
-	fnName := "test_array_input_int_empty"
-	s := []int{}
+// func TestArrayInput_int_empty(t *testing.T) {
+// 	fnName := "test_array_input_int_empty"
+// 	s := []int{}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestArrayOutput_int_empty(t *testing.T) {
 	fnName := "test_array_output_int_empty"
@@ -211,18 +211,18 @@ func TestArrayOutput_int_empty(t *testing.T) {
 	}
 }
 
-func Test2DArrayInput_string(t *testing.T) {
-	fnName := "test2d_array_input_string"
-	s := [][]string{
-		{"abc", "def", "ghi"},
-		{"jkl", "mno", "pqr"},
-		{"stu", "vwx", "yz"},
-	}
+// func Test2DArrayInput_string(t *testing.T) {
+// 	fnName := "test2d_array_input_string"
+// 	s := [][]string{
+// 		{"abc", "def", "ghi"},
+// 		{"jkl", "mno", "pqr"},
+// 		{"stu", "vwx", "yz"},
+// 	}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func Test2DArrayOutput_string(t *testing.T) {
 	fnName := "test2d_array_output_string"

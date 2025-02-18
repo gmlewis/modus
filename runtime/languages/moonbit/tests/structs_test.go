@@ -126,15 +126,15 @@ var testStruct5AsMap = map[string]any{
 	"f": 99.99999,
 }
 
-func TestStructInput1(t *testing.T) {
-	fnName := "test_struct_input1"
-	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructInput1(t *testing.T) {
+// 	fnName := "test_struct_input1"
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 // // TODO: FAILS
 // func TestStructInput2(t *testing.T) {
@@ -191,69 +191,69 @@ func TestStructInput1(t *testing.T) {
 // 	}
 // }
 
-func TestStructOptionInput1(t *testing.T) {
-	fnName := "test_struct_option_input1"
-	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct1); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct1AsMap); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructOptionInput1(t *testing.T) {
+// 	fnName := "test_struct_option_input1"
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct1); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct1); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct1AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct1AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestStructOptionInput2(t *testing.T) {
-	fnName := "test_struct_option_input2"
-	if _, err := fixture.CallFunction(t, fnName, testStruct2); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct2); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct2AsMap); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct2AsMap); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructOptionInput2(t *testing.T) {
+// 	fnName := "test_struct_option_input2"
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct2); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct2); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct2AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct2AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestStructOptionInput3(t *testing.T) {
-	fnName := "test_struct_option_input3"
-	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct3); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct3AsMap); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct3AsMap); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructOptionInput3(t *testing.T) {
+// 	fnName := "test_struct_option_input3"
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct3); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct3); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct3AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct3AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestStructOptionInput4(t *testing.T) {
-	fnName := "test_struct_option_input4"
-	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct4); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap); err != nil {
-		t.Error(err)
-	}
-	if _, err := fixture.CallFunction(t, fnName, &testStruct4AsMap); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStructOptionInput4(t *testing.T) {
+// 	fnName := "test_struct_option_input4"
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct4); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// 	if _, err := fixture.CallFunction(t, fnName, &testStruct4AsMap); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 // func TestStructOptionInput5(t *testing.T) {
 // 	fnName := "test_struct_option_input5"

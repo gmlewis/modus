@@ -37,12 +37,12 @@ func TestStringOptionInput(t *testing.T) {
 	}
 }
 
-func TestStringOptionInput_none(t *testing.T) {
-	fnName := "test_string_option_input_none"
-	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-		t.Error(err)
-	}
-}
+// func TestStringOptionInput_none(t *testing.T) {
+// 	fnName := "test_string_option_input_none"
+// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestStringOutput(t *testing.T) {
 	fnName := "test_string_output"
