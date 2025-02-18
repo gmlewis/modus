@@ -118,14 +118,8 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 				return p.NewSliceHandler(ctx, ti)
 			}
 			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
-			// } else if _langTypeInfo.IsArrayType(typeName) {
-			// 	if ti.ListElementType().IsPrimitive() {
-			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveArrayHandler", typeName)
-			// 		return p.NewPrimitiveArrayHandler(ti)
-			// 	} else {
-			// 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewArrayHandler", typeName)
-			// 		return p.NewArrayHandler(ctx, ti)
-			// 	}
+			// Even a `FixedArray` in MoonBit is similar to a slice in Go because
+			// its length is not encoded as part of its type.
 		}
 	} else if ti.IsMap() {
 		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
@@ -176,20 +170,6 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 	switch errorType {
 	case "": // no-op
 	case "Error": // Treat as a struct with a single String field.
-		// stringHandler, err := p.GetHandler(ctx, "String")
-		// if err != nil {
-		// 	return nil, fmt.Errorf("failed to get handler for 'String': %w", err)
-		// }
-		// ti, err := GetTypeInfo(ctx, "(String)", p.typeCache)
-		// if err != nil {
-		// return nil, fmt.Errorf("failed to get type info for '(Error)': %w", err)
-		// }
-		// errorHandler := &structHandler{ // treat as tuple with one value
-		// 	typeHandler: *NewTypeHandler(_langTypeInfo.NewTypeInfo("Error")),
-		// 	// typeHandler:   *NewTypeHandler(&typeInfo{name: "(String)"}),
-		// 	typeDef:       &metadata.TypeDefinition{Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
-		// 	fieldHandlers: []langsupport.TypeHandler{stringHandler},
-		// }
 		errorHandler, err := p.GetHandler(ctx, "(String)")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get handler for '(String)': %w", err)
