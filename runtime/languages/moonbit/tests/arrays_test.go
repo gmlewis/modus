@@ -217,22 +217,27 @@ func TestArrayOutput_string(t *testing.T) {
 	}
 }
 
-// func TestArrayOutput_string_option(t *testing.T) {
-// 	fnName := "test_array_output_string_option"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestArrayOutput_string_option(t *testing.T) {
+	fnName := "test_array_output_string_option"
 
-// 	expected := getStringOptionArray()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]*string); !ok {
-// 		t.Errorf("expected a []*string, got %T", result)
-// 	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 3 0 0 0]
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 20=8+words*4), moonBitType=242(), words=3, memBlock=[1 0 0 0 242 3 0 0 32 59 0 0 0 0 0 0 104 75 0 0]
+	// memoryBlockAtOffset(offset: 15136=0x00003B20=[32 59 0 0], size: 16=8+words*4), moonBitType=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 97 0 98 0 99 0 0 1] = 'abc'
+	// memoryBlockAtOffset(offset: 19304=0x00004B68=[104 75 0 0], size: 16=8+words*4), moonBitType=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 103 0 104 0 105 0 0 1] = 'ghi'
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := getStringOptionArray()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*string); !ok {
+		t.Errorf("expected a []*string, got %T", result)
+	} else if !slices.EqualFunc(expected, r, func(a, b *string) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func getIntOptionArray() []*int {
 	a := 11

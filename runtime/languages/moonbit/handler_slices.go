@@ -90,7 +90,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if isNullable {
+	if isNullable && elemType.IsPrimitive() {
 		elemTypeSize = 8
 	}
 	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
