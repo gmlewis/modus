@@ -198,12 +198,12 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 			// The error code is the first value and the actual result is the second value.
 			if vals[0] == 0 {
 				// An error occurred. Return the zero value and an error string.
-				errString := "unknown error" // TODO: Get the error string
+				// errString := "unknown error" // TODO: Get the error string
 				if vals[1] != 0 {
 					gmlPrintf("vals[1]=%v", vals[1])
 				}
 				gmlPrintf("GML: executionplan.go: interpretWasmResults: an error occurred, returning the zero value: vals=%+v", vals)
-				return handler.TypeInfo().ZeroValue(), errors.New(errString)
+				return handler.TypeInfo().ZeroValue(), nil // errors.New(errString)
 			}
 			// Now strip off the error code and decode the actual result.
 			gmlPrintf("GML: executionplan.go: interpretWasmResults: calling handler.Decode: vals=%+v[1:]", vals)
