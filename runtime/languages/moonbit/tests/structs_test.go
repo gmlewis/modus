@@ -652,7 +652,6 @@ func TestStructOutput4_map_with_none(t *testing.T) {
 	}
 }
 
-// TODO: FAILS
 func TestStructOptionOutput1_map(t *testing.T) {
 	fnName := "test_struct_option_output1_map"
 	result, err := fixture.CallFunction(t, fnName)

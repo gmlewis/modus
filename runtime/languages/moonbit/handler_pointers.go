@@ -109,6 +109,9 @@ func (h *pointerHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter,
 		return nil, cln, err
 	}
 
+	// For debugging:
+	_, _, _ = memoryBlockAtOffset(wa, ptr, 0, true)
+
 	return []uint64{uint64(ptr)}, cln, nil
 }
 
