@@ -49,7 +49,7 @@ type wasmMemoryReader interface {
 
 func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
-		gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
+		gmlPrintf("// memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
 		return nil, 0, nil
 	}
 
@@ -78,10 +78,10 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHa
 			if err != nil {
 				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
 			}
-			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
+			gmlPrintf("// memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, s)
 		} else {
-			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
+			gmlPrintf("// memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock)
 		}
 	}

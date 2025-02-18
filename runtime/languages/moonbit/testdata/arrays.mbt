@@ -105,6 +105,8 @@ pub fn test_array_output_byte_4() -> Array[Byte] {
 
 ///|
 pub fn test_array_output_byte_option_0() -> Array[Byte?] {
+  // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 0 0 0 0]
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   []
 }
 
