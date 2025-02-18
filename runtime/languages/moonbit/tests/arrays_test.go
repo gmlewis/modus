@@ -61,7 +61,91 @@ func TestArrayInput_string_option(t *testing.T) {
 	}
 }
 
-func TestArrayOutput_byte(t *testing.T) {
+func TestArrayOutput_byte_0(t *testing.T) {
+	fnName := "test_array_output_byte_0"
+
+	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 0 0 0 0]
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 0 0 0 3]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_1(t *testing.T) {
+	fnName := "test_array_output_byte_1"
+
+	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 1 0 0 0]
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 9=8+words*4), moonBitType=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_2(t *testing.T) {
+	fnName := "test_array_output_byte_2"
+
+	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 2 0 0 0]
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 10=8+words*4), moonBitType=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1 2]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01, 0x02}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_3(t *testing.T) {
+	fnName := "test_array_output_byte_3"
+
+	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 3 0 0 0]
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 11=8+words*4), moonBitType=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1 2 3]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte{0x01, 0x02, 0x03}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !bytes.Equal(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_byte_4(t *testing.T) {
 	fnName := "test_array_output_byte_4"
 
 	// memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 4 0 0 0]
