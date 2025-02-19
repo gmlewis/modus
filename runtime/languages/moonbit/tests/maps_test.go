@@ -179,28 +179,27 @@ type TestStructWithMap2 struct {
 // 	}
 // }
 
-// TODO:
-// func TestStructContainingMapOutput_string_string(t *testing.T) {
-// 	fnName := "test_struct_containing_map_output_string_string"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestStructContainingMapOutput_string_string(t *testing.T) {
+	fnName := "test_struct_containing_map_output_string_string"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := TestStructWithMap1{M: map[string]string{
-// 		"a": "1",
-// 		"b": "2",
-// 		"c": "3",
-// 	}}
+	expected := TestStructWithMap1{M: map[string]string{
+		"a": "1",
+		"b": "2",
+		"c": "3",
+	}}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(TestStructWithMap1); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(TestStructWithMap1); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func makeTestMap(size int) map[string]string {
 	m := make(map[string]string, size)
@@ -260,7 +259,7 @@ func makeTestMap(size int) map[string]string {
 // 		2: 2.2,
 // 		3: 3.3,
 // 	}
-//
+
 // 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
 // 		t.Error(err)
 // 	}
