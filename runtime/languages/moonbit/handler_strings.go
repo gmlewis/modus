@@ -121,6 +121,10 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
 	gmlPrintf("GML: handler_strings.go: stringHandler.Encode(obj: '%v')", obj)
 
+	if obj == nil {
+		return []uint64{0}, nil, nil
+	}
+
 	str, err := cast.ToStringE(obj)
 	if err != nil {
 		return nil, nil, err

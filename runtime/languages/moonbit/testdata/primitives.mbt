@@ -168,8 +168,6 @@ pub fn test_char_option_output_none() -> Char? {
 
 ///|
 pub fn test_int_input_min(n : Int) -> Unit!Error {
-  println("n: \{n}")
-  println("@int.min_value: \{@int.min_value}")
   assert_eq!(@int.min_value, n)
 }
 
