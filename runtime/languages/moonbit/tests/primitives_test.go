@@ -132,12 +132,12 @@ func TestPrimitivesBoolOptionOutput_true(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesBoolOptionInput_none(t *testing.T) {
-// 	fnName := "test_bool_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesBoolOptionInput_none(t *testing.T) {
+	fnName := "test_bool_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesBoolOptionOutput_none(t *testing.T) {
 	fnName := "test_bool_option_output_none"
@@ -267,12 +267,12 @@ func TestPrimitivesByteOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesByteOptionInput_none(t *testing.T) {
-// 	fnName := "test_byte_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesByteOptionInput_none(t *testing.T) {
+	fnName := "test_byte_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesByteOptionOutput_none(t *testing.T) {
 	fnName := "test_byte_option_output_none"
@@ -394,12 +394,12 @@ func TestPrimitivesCharOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesCharOptionInput_none(t *testing.T) {
-// 	fnName := "test_char_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesCharOptionInput_none(t *testing.T) {
+	fnName := "test_char_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesCharOptionOutput_none(t *testing.T) {
 	fnName := "test_char_option_output_none"
@@ -413,12 +413,12 @@ func TestPrimitivesCharOptionOutput_none(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesIntInput_min(t *testing.T) {
-// 	fnName := "test_int_input_min"
-// 	if _, err := fixture.CallFunction(t, fnName, int(math.MinInt)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesIntInput_min(t *testing.T) {
+	fnName := "test_int_input_min"
+	if _, err := fixture.CallFunction(t, fnName, int(math.MinInt32)); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesIntOutput_min(t *testing.T) {
 	fnName := "test_int_output_min"
@@ -437,12 +437,12 @@ func TestPrimitivesIntOutput_min(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesIntInput_max(t *testing.T) {
-// 	fnName := "test_int_input_max"
-// 	if _, err := fixture.CallFunction(t, fnName, int(math.MaxInt)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesIntInput_max(t *testing.T) {
+	fnName := "test_int_input_max"
+	if _, err := fixture.CallFunction(t, fnName, int(math.MaxInt32)); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesIntOutput_max(t *testing.T) {
 	fnName := "test_int_output_max"
@@ -461,17 +461,17 @@ func TestPrimitivesIntOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesIntOptionInput_min(t *testing.T) {
-// 	fnName := "test_int_option_input_min"
-// 	b := int(math.MinInt)
+func TestPrimitivesIntOptionInput_min(t *testing.T) {
+	fnName := "test_int_option_input_min"
+	b := int(math.MinInt32)
 
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesIntOptionOutput_min(t *testing.T) {
 	fnName := "test_int_option_output_min"
@@ -490,17 +490,17 @@ func TestPrimitivesIntOptionOutput_min(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesIntOptionInput_max(t *testing.T) {
-// 	fnName := "test_int_option_input_max"
-// 	b := int(math.MaxInt)
+func TestPrimitivesIntOptionInput_max(t *testing.T) {
+	fnName := "test_int_option_input_max"
+	b := int(math.MaxInt32)
 
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesIntOptionOutput_max(t *testing.T) {
 	fnName := "test_int_option_output_max"
@@ -519,12 +519,12 @@ func TestPrimitivesIntOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesIntOptionInput_none(t *testing.T) {
-// 	fnName := "test_int_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesIntOptionInput_none(t *testing.T) {
+	fnName := "test_int_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesIntOptionOutput_none(t *testing.T) {
 	fnName := "test_int_option_output_none"
@@ -644,12 +644,12 @@ func TestPrimitivesInt16OptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesInt16OptionInput_none(t *testing.T) {
-// 	fnName := "test_int16_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesInt16OptionInput_none(t *testing.T) {
+	fnName := "test_int16_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesInt16OptionOutput_none(t *testing.T) {
 	fnName := "test_int16_option_output_none"
@@ -904,12 +904,12 @@ func TestPrimitivesUintOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesUintOptionInput_none(t *testing.T) {
-// 	fnName := "test_uint_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesUintOptionInput_none(t *testing.T) {
+	fnName := "test_uint_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesUintOptionOutput_none(t *testing.T) {
 	fnName := "test_uint_option_output_none"
@@ -1029,12 +1029,12 @@ func TestPrimitivesUint16OptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesUint16OptionInput_none(t *testing.T) {
-// 	fnName := "test_uint16_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesUint16OptionInput_none(t *testing.T) {
+	fnName := "test_uint16_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesUint16OptionOutput_none(t *testing.T) {
 	fnName := "test_uint16_option_output_none"
@@ -1154,12 +1154,12 @@ func TestPrimitivesUint64OptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesUint64OptionInput_none(t *testing.T) {
-// 	fnName := "test_uint64_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesUint64OptionInput_none(t *testing.T) {
+	fnName := "test_uint64_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesUint64OptionOutput_none(t *testing.T) {
 	fnName := "test_uint64_option_output_none"
@@ -1173,12 +1173,13 @@ func TestPrimitivesUint64OptionOutput_none(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesFloatInput_min(t *testing.T) {
-// 	fnName := "test_float_input_min"
-// 	if _, err := fixture.CallFunction(t, fnName, float32(math.SmallestNonzeroFloat32)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesFloatInput_min(t *testing.T) {
+	fnName := "test_float_input_min"
+	minMoonBitFloat := float32(-3.4028234663852886e+38)
+	if _, err := fixture.CallFunction(t, fnName, minMoonBitFloat); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesFloatOutput_min(t *testing.T) {
 	fnName := "test_float_output_min"
@@ -1225,17 +1226,17 @@ func TestPrimitivesFloatOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesFloatOptionInput_min(t *testing.T) {
-// 	fnName := "test_float_option_input_min"
-// 	b := float32(math.SmallestNonzeroFloat32)
+func TestPrimitivesFloatOptionInput_min(t *testing.T) {
+	fnName := "test_float_option_input_min"
+	minMoonBitFloat := float32(-3.4028234663852886e+38)
 
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, minMoonBitFloat); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &minMoonBitFloat); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesFloatOptionOutput_min(t *testing.T) {
 	fnName := "test_float_option_output_min"
@@ -1287,12 +1288,12 @@ func TestPrimitivesFloatOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesFloatOptionInput_none(t *testing.T) {
-// 	fnName := "test_float_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesFloatOptionInput_none(t *testing.T) {
+	fnName := "test_float_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesFloatOptionOutput_none(t *testing.T) {
 	fnName := "test_float_option_output_none"
@@ -1308,12 +1309,13 @@ func TestPrimitivesFloatOptionOutput_none(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesDoubleInput_min(t *testing.T) {
-// 	fnName := "test_double_input_min"
-// 	if _, err := fixture.CallFunction(t, fnName, float64(math.SmallestNonzeroFloat64)); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesDoubleInput_min(t *testing.T) {
+	fnName := "test_double_input_min"
+	minMoonBitDouble := float64(-1.7976931348623157e+308)
+	if _, err := fixture.CallFunction(t, fnName, minMoonBitDouble); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesDoubleOutput_min(t *testing.T) {
 	fnName := "test_double_output_min"
@@ -1360,17 +1362,17 @@ func TestPrimitivesDoubleOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesDoubleOptionInput_min(t *testing.T) {
-// 	fnName := "test_double_option_input_min"
-// 	b := float64(math.SmallestNonzeroFloat64)
+func TestPrimitivesDoubleOptionInput_min(t *testing.T) {
+	fnName := "test_double_option_input_min"
+	minMoonBitDouble := float64(-1.7976931348623157e+308)
 
-// 	if _, err := fixture.CallFunction(t, fnName, b); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &b); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, minMoonBitDouble); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &minMoonBitDouble); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesDoubleOptionOutput_min(t *testing.T) {
 	fnName := "test_double_option_output_min"
@@ -1422,12 +1424,12 @@ func TestPrimitivesDoubleOptionOutput_max(t *testing.T) {
 	}
 }
 
-// func TestPrimitivesDoubleOptionInput_none(t *testing.T) {
-// 	fnName := "test_double_option_input_none"
-// 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestPrimitivesDoubleOptionInput_none(t *testing.T) {
+	fnName := "test_double_option_input_none"
+	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestPrimitivesDoubleOptionOutput_none(t *testing.T) {
 	fnName := "test_double_option_output_none"
