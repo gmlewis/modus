@@ -748,26 +748,25 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetReflectedType('%v') = %v", typ, result)
-		return result, err
-	} else {
-		result, err := lti.getReflectedType(typ, nil)
-		gmlPrintf("GML: moonbit/typeinfo.go: B: GetReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: moonbit/typeinfo.go: A: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, err
 	}
+	result, err := lti.getReflectedType(typ, nil)
+	gmlPrintf("GML: moonbit/typeinfo.go: B: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+	return result, err
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
 	gmlPrintf("GML: moonbit/typeinfo.go: ENTER getReflectedType('%v')", typ)
 	if customTypes != nil {
 		if rt, ok := customTypes[typ]; ok {
-			gmlPrintf("GML: moonbit/typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
+			gmlPrintf("GML: moonbit/typeinfo.go: A: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
 			return rt, nil
 		}
 	}
 
 	if rt, ok := reflectedTypeMap[typ]; ok {
-		gmlPrintf("GML: moonbit/typeinfo.go: B: getReflectedType('%v') = %v", typ, rt)
+		gmlPrintf("GML: moonbit/typeinfo.go: B: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
 		return rt, nil
 	}
 
@@ -780,7 +779,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.PointerTo(targetType)
-		gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -806,7 +805,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.SliceOf(elementType)
-		gmlPrintf("GML: moonbit/typeinfo.go: D: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: moonbit/typeinfo.go: D: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -826,7 +825,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.ArrayOf(size, elementType)
-		gmlPrintf("GML: moonbit/typeinfo.go: E: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: moonbit/typeinfo.go: E: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -846,12 +845,12 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		}
 
 		result := reflect.MapOf(keyType, valType)
-		gmlPrintf("GML: moonbit/typeinfo.go: F: getReflectedType('%v') = %v", typ, result)
+		gmlPrintf("GML: moonbit/typeinfo.go: F: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
 	// All other types are custom classes, which are represented as a map[string]any
-	gmlPrintf("GML: moonbit/typeinfo.go: G: getReflectedType('%v') = %v", typ, rtMapStringAny)
+	gmlPrintf("GML: moonbit/typeinfo.go: G: getReflectedType('%v') = %v, Kind()=%v", typ, rtMapStringAny, rtMapStringAny.Kind())
 	return rtMapStringAny, nil
 }
 
