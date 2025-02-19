@@ -17,11 +17,13 @@ pub fn test_bool_input_true(b : Bool) -> Unit!Error {
 
 ///|
 pub fn test_bool_output_false() -> Bool {
+  // primitiveHandler.Decode(vals: [0])
   false
 }
 
 ///|
 pub fn test_bool_output_true() -> Bool {
+  // primitiveHandler.Decode(vals: [1])
   true
 }
 
@@ -42,16 +44,19 @@ pub fn test_bool_option_input_none(b : Bool?) -> Unit!Error {
 
 ///|
 pub fn test_bool_option_output_false() -> Bool? {
+  // primitiveHandler.Decode(vals: [0])
   Some(false)
 }
 
 ///|
 pub fn test_bool_option_output_true() -> Bool? {
+  // primitiveHandler.Decode(vals: [1])
   Some(true)
 }
 
 ///|
 pub fn test_bool_option_output_none() -> Bool? {
+  // primitiveHandler.Decode(vals: [4294967295])
   None
 }
 
@@ -67,11 +72,13 @@ pub fn test_byte_input_max(b : Byte) -> Unit!Error {
 
 ///|
 pub fn test_byte_output_min() -> Byte {
+  // primitiveHandler.Decode(vals: [0])
   0
 }
 
 ///|
 pub fn test_byte_output_max() -> Byte {
+  // primitiveHandler.Decode(vals: [255])
   @byte.max_value
 }
 
@@ -92,16 +99,19 @@ pub fn test_byte_option_input_none(b : Byte?) -> Unit!Error {
 
 ///|
 pub fn test_byte_option_output_min() -> Byte? {
+  // primitiveHandler.Decode(vals: [0])
   Some(0)
 }
 
 ///|
 pub fn test_byte_option_output_max() -> Byte? {
+  // primitiveHandler.Decode(vals: [255])
   Some(@byte.max_value)
 }
 
 ///|
 pub fn test_byte_option_output_none() -> Byte? {
+  // primitiveHandler.Decode(vals: [4294967295])
   None
 }
 
@@ -268,11 +278,13 @@ pub fn test_int64_input_max(n : Int64) -> Unit!Error {
 
 ///|
 pub fn test_int64_output_min() -> Int64 {
+  // primitiveHandler.Decode(vals: [9223372036854775808])
   @int64.min_value
 }
 
 ///|
 pub fn test_int64_output_max() -> Int64 {
+  // primitiveHandler.Decode(vals: [9223372036854775807])
   @int64.max_value
 }
 
@@ -293,16 +305,19 @@ pub fn test_int64_option_input_none(n : Int64?) -> Unit!Error {
 
 ///|
 pub fn test_int64_option_output_min() -> Int64? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 0 0 0 0 0 0 0 128]
   Some(@int64.min_value)
 }
 
 ///|
 pub fn test_int64_option_output_max() -> Int64? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 255 127]
   Some(@int64.max_value)
 }
 
 ///|
 pub fn test_int64_option_output_none() -> Int64? {
+  // memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
   None
 }
 
@@ -468,11 +483,13 @@ pub fn test_float_input_max(n : Float) -> Unit!Error {
 
 ///|
 pub fn test_float_output_min() -> Float {
+  // primitiveHandler.Decode(vals: [4286578687])
   @float.min_value
 }
 
 ///|
 pub fn test_float_output_max() -> Float {
+  // primitiveHandler.Decode(vals: [2139095039])
   @float.max_value
 }
 
@@ -493,16 +510,19 @@ pub fn test_float_option_input_none(n : Float?) -> Unit!Error {
 
 ///|
 pub fn test_float_option_output_min() -> Float? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=1(), words=1, memBlock=[1 0 0 0 1 1 0 0 255 255 127 255]
   Some(@float.min_value)
 }
 
 ///|
 pub fn test_float_option_output_max() -> Float? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=1(), words=1, memBlock=[1 0 0 0 1 1 0 0 255 255 127 127]
   Some(@float.max_value)
 }
 
 ///|
 pub fn test_float_option_output_none() -> Float? {
+  // memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
   None
 }
 
@@ -518,11 +538,13 @@ pub fn test_double_input_max(n : Double) -> Unit!Error {
 
 ///|
 pub fn test_double_output_min() -> Double {
+  // primitiveHandler.Decode(vals: [18442240474082181119])
   @double.min_value
 }
 
 ///|
 pub fn test_double_output_max() -> Double {
+  // primitiveHandler.Decode(vals: [9218868437227405311])
   @double.max_value
 }
 
@@ -543,15 +565,18 @@ pub fn test_double_option_input_none(n : Double?) -> Unit!Error {
 
 ///|
 pub fn test_double_option_output_min() -> Double? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 239 255]
   Some(@double.min_value)
 }
 
 ///|
 pub fn test_double_option_output_max() -> Double? {
+  // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 239 127]
   Some(@double.max_value)
 }
 
 ///|
 pub fn test_double_option_output_none() -> Double? {
+  // memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
   None
 }

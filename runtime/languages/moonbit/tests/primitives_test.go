@@ -27,6 +27,8 @@ func TestPrimitivesBoolInput_false(t *testing.T) {
 
 func TestPrimitivesBoolOutput_false(t *testing.T) {
 	fnName := "test_bool_output_false"
+
+	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -51,6 +53,8 @@ func TestPrimitivesBoolInput_true(t *testing.T) {
 
 func TestPrimitivesBoolOutput_true(t *testing.T) {
 	fnName := "test_bool_output_true"
+
+	// primitiveHandler.Decode(vals: [1])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -80,6 +84,8 @@ func TestPrimitivesBoolOptionInput_false(t *testing.T) {
 
 func TestPrimitivesBoolOptionOutput_false(t *testing.T) {
 	fnName := "test_bool_option_output_false"
+
+	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -109,6 +115,8 @@ func TestPrimitivesBoolOptionInput_true(t *testing.T) {
 
 func TestPrimitivesBoolOptionOutput_true(t *testing.T) {
 	fnName := "test_bool_option_output_true"
+
+	// primitiveHandler.Decode(vals: [1])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -133,6 +141,8 @@ func TestPrimitivesBoolOptionOutput_true(t *testing.T) {
 
 func TestPrimitivesBoolOptionOutput_none(t *testing.T) {
 	fnName := "test_bool_option_output_none"
+
+	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)
@@ -152,6 +162,8 @@ func TestPrimitivesByteInput_min(t *testing.T) {
 
 func TestPrimitivesByteOutput_min(t *testing.T) {
 	fnName := "test_byte_output_min"
+
+	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -176,6 +188,8 @@ func TestPrimitivesByteInput_max(t *testing.T) {
 
 func TestPrimitivesByteOutput_max(t *testing.T) {
 	fnName := "test_byte_output_max"
+
+	// primitiveHandler.Decode(vals: [255])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -205,6 +219,8 @@ func TestPrimitivesByteOptionInput_min(t *testing.T) {
 
 func TestPrimitivesByteOptionOutput_min(t *testing.T) {
 	fnName := "test_byte_option_output_min"
+
+	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -234,6 +250,8 @@ func TestPrimitivesByteOptionInput_max(t *testing.T) {
 
 func TestPrimitivesByteOptionOutput_max(t *testing.T) {
 	fnName := "test_byte_option_output_max"
+
+	// primitiveHandler.Decode(vals: [255])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -258,6 +276,8 @@ func TestPrimitivesByteOptionOutput_max(t *testing.T) {
 
 func TestPrimitivesByteOptionOutput_none(t *testing.T) {
 	fnName := "test_byte_option_output_none"
+
+	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)
@@ -652,6 +672,8 @@ func TestPrimitivesInt64Input_min(t *testing.T) {
 
 func TestPrimitivesInt64Output_min(t *testing.T) {
 	fnName := "test_int64_output_min"
+
+	// primitiveHandler.Decode(vals: [9223372036854775808])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -676,6 +698,8 @@ func TestPrimitivesInt64Input_max(t *testing.T) {
 
 func TestPrimitivesInt64Output_max(t *testing.T) {
 	fnName := "test_int64_output_max"
+
+	// primitiveHandler.Decode(vals: [9223372036854775807])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -705,6 +729,8 @@ func TestPrimitivesInt64OptionInput_min(t *testing.T) {
 
 func TestPrimitivesInt64OptionOutput_min(t *testing.T) {
 	fnName := "test_int64_option_output_min"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 0 0 0 0 0 0 0 128]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -734,6 +760,8 @@ func TestPrimitivesInt64OptionInput_max(t *testing.T) {
 
 func TestPrimitivesInt64OptionOutput_max(t *testing.T) {
 	fnName := "test_int64_option_output_max"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 255 127]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -758,6 +786,8 @@ func TestPrimitivesInt64OptionOutput_max(t *testing.T) {
 
 func TestPrimitivesInt64OptionOutput_none(t *testing.T) {
 	fnName := "test_int64_option_output_none"
+
+	// memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1152,6 +1182,8 @@ func TestPrimitivesUint64OptionOutput_none(t *testing.T) {
 
 func TestPrimitivesFloatOutput_min(t *testing.T) {
 	fnName := "test_float_output_min"
+
+	// primitiveHandler.Decode(vals: [4286578687])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1176,6 +1208,8 @@ func TestPrimitivesFloatInput_max(t *testing.T) {
 
 func TestPrimitivesFloatOutput_max(t *testing.T) {
 	fnName := "test_float_output_max"
+
+	// primitiveHandler.Decode(vals: [2139095039])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1205,6 +1239,8 @@ func TestPrimitivesFloatOutput_max(t *testing.T) {
 
 func TestPrimitivesFloatOptionOutput_min(t *testing.T) {
 	fnName := "test_float_option_output_min"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=1(), words=1, memBlock=[1 0 0 0 1 1 0 0 255 255 127 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1234,6 +1270,8 @@ func TestPrimitivesFloatOptionInput_max(t *testing.T) {
 
 func TestPrimitivesFloatOptionOutput_max(t *testing.T) {
 	fnName := "test_float_option_output_max"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=1(), words=1, memBlock=[1 0 0 0 1 1 0 0 255 255 127 127]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1258,6 +1296,8 @@ func TestPrimitivesFloatOptionOutput_max(t *testing.T) {
 
 func TestPrimitivesFloatOptionOutput_none(t *testing.T) {
 	fnName := "test_float_option_output_none"
+
+	// memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1277,6 +1317,8 @@ func TestPrimitivesFloatOptionOutput_none(t *testing.T) {
 
 func TestPrimitivesDoubleOutput_min(t *testing.T) {
 	fnName := "test_double_output_min"
+
+	// primitiveHandler.Decode(vals: [18442240474082181119])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1301,6 +1343,8 @@ func TestPrimitivesDoubleInput_max(t *testing.T) {
 
 func TestPrimitivesDoubleOutput_max(t *testing.T) {
 	fnName := "test_double_output_max"
+
+	// primitiveHandler.Decode(vals: [9218868437227405311])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1330,6 +1374,8 @@ func TestPrimitivesDoubleOutput_max(t *testing.T) {
 
 func TestPrimitivesDoubleOptionOutput_min(t *testing.T) {
 	fnName := "test_double_option_output_min"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 239 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1359,6 +1405,8 @@ func TestPrimitivesDoubleOptionInput_max(t *testing.T) {
 
 func TestPrimitivesDoubleOptionOutput_max(t *testing.T) {
 	fnName := "test_double_option_output_max"
+
+	// memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=1(), words=2, memBlock=[1 0 0 0 1 2 0 0 255 255 255 255 255 255 239 127]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -1383,6 +1431,8 @@ func TestPrimitivesDoubleOptionOutput_max(t *testing.T) {
 
 func TestPrimitivesDoubleOptionOutput_none(t *testing.T) {
 	fnName := "test_double_option_output_none"
+
+	// memoryBlockAtOffset(offset: 10648=0x00002998=[152 41 0 0], size: 8=8+words*4), moonBitType=0(Tuple), words=0, memBlock=[255 255 255 255 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

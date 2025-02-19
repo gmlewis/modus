@@ -90,7 +90,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if isNullable && elemType.IsPrimitive() {
+	if isNullable && elemType.IsPrimitive() && elemType.Name() != "Byte?" {
 		elemTypeSize = 8
 	}
 	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
@@ -128,7 +128,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	for i := uint32(0); i < numElements; i++ {
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if words > 1 {
+			if words > 1 && elemType.Name() != "Byte?" {
 				isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
 				if isNone {
 					// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))

@@ -109,6 +109,11 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdap
 }
 
 func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	return h.decode(ctx, wa.(*wasmAdapter), vals)
+}
+
+// For testing purposes:
+func (h *primitiveHandler[T]) decode(ctx context.Context, wa wasmMemoryReader, vals []uint64) (any, error) {
 	gmlPrintf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
@@ -158,6 +163,11 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAda
 }
 
 func (h *primitiveHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	return h.encode(ctx, wa.(*wasmAdapter), obj)
+}
+
+// For testing purposes:
+func (h *primitiveHandler[T]) encode(ctx context.Context, wa wasmMemoryWriter, obj any) ([]uint64, utils.Cleaner, error) {
 	val, err := utils.Cast[T](obj)
 	if err != nil {
 		return nil, nil, err
@@ -167,10 +177,45 @@ func (h *primitiveHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAda
 
 	if h.TypeInfo().IsNullable() && h.typeInfo.IsPointer() {
 		// TODO: Improve this to avoid string comparison.
+		if obj == nil {
+			switch {
+			case h.typeInfo.IsBoolean(),
+				h.typeInfo.Name() == "Byte?",
+				h.typeInfo.Name() == "Char?",
+				h.typeInfo.Name() == "Int16?",
+				h.typeInfo.Name() == "UInt16?":
+				return []uint64{0xffffffff}, nil, nil
+			case h.typeInfo.Name() == "Int?",
+				h.typeInfo.Name() == "UInt?":
+				return []uint64{0x100000000}, nil, nil
+			case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
+				h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
+				ptr, cln, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
+				if err != nil {
+					return nil, cln, err
+				}
+				wa.Memory().WriteUint64Le(ptr-8, 0x00000000ffffffff) // None
+				return []uint64{uint64(ptr - 8)}, cln, nil
+			}
+		}
+
 		switch {
-		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
-			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
-			ptr, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, 1)
+		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?":
+			ptr, cln, err := wa.allocateAndPinMemory(ctx, 8, 1)
+			if err != nil {
+				return nil, cln, err
+			}
+			wa.Memory().WriteUint64Le(ptr, result)
+			return []uint64{uint64(ptr - 8)}, cln, nil
+		case h.typeInfo.Name() == "Float?":
+			ptr, cln, err := wa.allocateAndPinMemory(ctx, 4, 1)
+			if err != nil {
+				return nil, cln, err
+			}
+			wa.Memory().WriteUint32Le(ptr, uint32(result))
+			return []uint64{uint64(ptr - 8)}, cln, nil
+		case h.typeInfo.Name() == "Double?":
+			ptr, cln, err := wa.allocateAndPinMemory(ctx, 8, 1)
 			if err != nil {
 				return nil, cln, err
 			}
