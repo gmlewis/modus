@@ -14,6 +14,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -236,7 +237,7 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// lastKVPair := binary.LittleEndian.Uint32(memBlock[36:])
 	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
 
-	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, 0)
+	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, 0, true)
 	if err != nil {
 		return nil, err
 	}
@@ -272,7 +273,9 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// return a map
 	m := reflect.MakeMapWithSize(h.typeInfo.ReflectedType(), size)
 	for i := 0; i < size; i++ {
-		m.SetMapIndex(rvKeys.Index(i), rvVals.Index(i))
+		key := rvKeys.Index(i)
+		value := rvVals.Index(i)
+		m.SetMapIndex(key, value)
 	}
 	return m.Interface(), nil
 
@@ -333,7 +336,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 
 		key, err := h.keysHandler.Read(ctx, wa, keyOffset)
 		if err != nil {
-			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: keysHandler.Read failed: %v", err)
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: keysHandler.Read failed: %v", err)
 			continue
 		}
 		if !utils.HasNil(key) {
@@ -342,7 +345,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 
 		value, err := h.valuesHandler.Read(ctx, wa, valueOffset)
 		if err != nil {
-			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: valuesHandler.Read failed: %v", err)
+			log.Printf("ERROR: handler_maps.go: readMapKeysAndValues: valuesHandler.Read failed: %v", err)
 			continue
 		}
 		if !utils.HasNil(value) {
