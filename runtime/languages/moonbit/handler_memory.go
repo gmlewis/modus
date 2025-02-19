@@ -26,6 +26,7 @@ func Ptr[T any](v T) *T {
 var moonBitBlockType = map[byte]string{
 	0:   "Tuple",
 	241: "FixedArray[Int]", // Also FixedArray[UInt]
+	242: "FixedArray[String]",
 	243: "String",
 	246: "FixedArray[Byte]",
 }

@@ -107,6 +107,19 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 		// For debugging:
 		_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
 
+		if words == 1 {
+			// sliceOffset is the pointer to the single-slice element.
+			items := reflect.MakeSlice(h.typeInfo.ReflectedType(), 1, 1)
+			item, err := h.elementHandler.Read(ctx, wa, sliceOffset)
+			if err != nil {
+				return nil, err
+			}
+			if !utils.HasNil(item) {
+				items.Index(0).Set(reflect.ValueOf(item))
+			}
+			return items.Interface(), nil
+		}
+
 		numElements = binary.LittleEndian.Uint32(memBlock[12:16])
 		if numElements == 0 {
 			return h.emptyValue, nil // empty slice
