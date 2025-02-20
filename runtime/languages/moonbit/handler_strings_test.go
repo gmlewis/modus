@@ -239,7 +239,7 @@ func TestDoWriteStringBytes(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 
 			h := &stringHandler{}
 			bytes := convertGoUTF8ToUTF16(tt.input)

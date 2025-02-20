@@ -10,11 +10,13 @@
 package moonbit
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"math"
 	"testing"
 
+	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
 )
@@ -31,13 +33,13 @@ type myWasmMockMemory struct {
 
 func TestMyWasmMock(t *testing.T) {
 	ctx := context.Background()
-	m := &myWasmMock{offset: 46864}
-	block1, _, _ := m.allocateAndPinMemory(ctx, 16, 0)
+	m := &myWasmMock{}
+	block1, _, _ := m.allocateAndPinMemory(ctx, 16, 241)
 	m.Memory().WriteUint32Le(block1, 41)
 	m.Memory().WriteUint32Le(block1+4, 42)
 	m.Memory().WriteUint32Le(block1+8, 43)
 	m.Memory().WriteUint32Le(block1+12, 44)
-	block2, _, _ := m.allocateAndPinMemory(ctx, 160, 242)
+	block2, _, _ := m.allocateAndPinMemory(ctx, 32, 242)
 	m.Memory().WriteUint32Le(block2, 161)
 	m.Memory().WriteUint32Le(block2+4, 162)
 	m.Memory().WriteUint32Le(block2+8, 163)
@@ -46,35 +48,22 @@ func TestMyWasmMock(t *testing.T) {
 	m.Memory().WriteUint32Le(block3, 81)
 	m.Memory().WriteUint32Le(block3+4, 82)
 
-	if v, ok := m.Memory().ReadUint32Le(block1); !ok || v != 41 {
-		t.Errorf("expected 41, got %d", v)
+	memBlock1, _, _ := memoryBlockAtOffset(m, block1-8, 0, true)
+	wantBlock1 := []byte{1, 0, 0, 0, 241, 4, 0, 0, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
+	if !bytes.Equal(memBlock1, wantBlock1) {
+		t.Errorf("block1 expected %v, got %v", wantBlock1, memBlock1)
 	}
-	if v, ok := m.Memory().ReadUint32Le(block1 + 4); !ok || v != 42 {
-		t.Errorf("expected 42, got %d", v)
+
+	memBlock2, _, _ := memoryBlockAtOffset(m, block2-8, 0, true)
+	wantBlock2 := []byte{1, 0, 0, 0, 242, 8, 0, 0, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	if !bytes.Equal(memBlock2, wantBlock2) {
+		t.Errorf("block2 expected %v, got %v", wantBlock2, memBlock2)
 	}
-	if v, ok := m.Memory().ReadUint32Le(block1 + 8); !ok || v != 43 {
-		t.Errorf("expected 43, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block1 + 12); !ok || v != 44 {
-		t.Errorf("expected 44, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block2); !ok || v != 161 {
-		t.Errorf("expected 161, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block2 + 4); !ok || v != 162 {
-		t.Errorf("expected 162, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block2 + 8); !ok || v != 163 {
-		t.Errorf("expected 163, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block2 + 12); !ok || v != 164 {
-		t.Errorf("expected 164, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block3); !ok || v != 81 {
-		t.Errorf("expected 81, got %d", v)
-	}
-	if v, ok := m.Memory().ReadUint32Le(block3 + 4); !ok || v != 82 {
-		t.Errorf("expected 82, got %d", v)
+
+	memBlock3, _, _ := memoryBlockAtOffset(m, block3-8, 0, true)
+	wantBlock3 := []byte{1, 0, 0, 0, 243, 2, 0, 0, 81, 0, 0, 0, 82, 0, 0, 0}
+	if !bytes.Equal(memBlock3, wantBlock3) {
+		t.Errorf("block3 expected %v, got %v", wantBlock3, memBlock3)
 	}
 }
 
@@ -83,6 +72,9 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, size, classID uin
 		return 0, nil, errors.New("size must be greater than 0")
 	}
 	size = 4 * ((size + 3) / 4) // round up to nearest multiple of 4
+	if m.offset == 0 {
+		m.offset = 48000
+	}
 
 	offset := m.offset
 	if m.m == nil {
@@ -96,8 +88,8 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, size, classID uin
 	}
 	refCount := uint32(1)
 	memType := ((size / 4) << 8) | classID
-	m.m.WriteUint32Le(m.offset, refCount)
-	m.m.WriteUint32Le(m.offset+4, memType)
+	m.m.WriteUint32Le(offset, refCount)
+	m.m.WriteUint32Le(offset+4, memType)
 	// allocateAndPinMemory always returns a pointer _after_ the memory block header
 	return offset + 8, nil, nil
 }
@@ -186,3 +178,11 @@ func (m *myWasmMockMemory) WriteUint64Le(offset uint32, val uint64) bool {
 	return true
 }
 func (m *myWasmMockMemory) WriteString(offset uint32, val string) bool { return false }
+
+// To implement the wasm.Memory interface:
+func (m *myWasmMock) AllocateMemory(ctx context.Context, size uint32) (uint32, utils.Cleaner, error) {
+	return m.allocateAndPinMemory(ctx, size, 0)
+}
+func (m *myWasmMock) GetFunction(name string) wasm.Function                      { return nil }
+func (m *myWasmMock) PreInvoke(context.Context, langsupport.ExecutionPlan) error { return nil }
+func (m *myWasmMock) TypeInfo() langsupport.LanguageTypeInfo                     { return nil }

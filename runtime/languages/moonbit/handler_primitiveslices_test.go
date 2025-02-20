@@ -10,26 +10,23 @@
 package moonbit
 
 import (
+	"bytes"
 	"context"
+	"encoding/binary"
 	"reflect"
 	"testing"
 
-	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
 func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
-	metadata := &metadata.Metadata{
-		Types: map[string]*metadata.TypeDefinition{
-			"Array[Bool]":  {Name: "Array[Bool]", Id: 4},
-			"Array[Bool?]": {Name: "Array[Bool?]", Id: 5},
-		},
-	}
-	boolSliceHandler := newPrimitiveSliceHandler[bool](mustGetTypeInfo(t, "Array[Bool]"), mustGetTypeDef(t, metadata, "Array[Bool]"))
-	boolOptionSliceHandler := newPrimitiveSliceHandler[bool](mustGetTypeInfo(t, "Array[Bool?]"), mustGetTypeDef(t, metadata, "Array[Bool?]"))
+	boolSliceHandler := mustGetHandler(t, "Array[Bool]")
+	boolOptionSliceHandler := mustGetHandler(t, "Array[Bool?]")
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[bool]
+		handler langsupport.TypeHandler
 		value   any
+		want    []byte
 	}{
 		{
 			name:    "Array[Bool]: nil",
@@ -40,26 +37,37 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 			name:    "Array[Bool]: []",
 			handler: boolSliceHandler,
 			value:   []bool{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool]: [false]",
 			handler: boolSliceHandler,
 			value:   []bool{false},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Bool]: [true]",
+			handler: boolSliceHandler,
+			value:   []bool{true},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool]: [false, true]",
 			handler: boolSliceHandler,
 			value:   []bool{false, true},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool]: [false, true, false]",
 			handler: boolSliceHandler,
 			value:   []bool{false, true, false},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool]: [false, true, false, true]",
 			handler: boolSliceHandler,
 			value:   []bool{false, true, false, true},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool?]: nil",
@@ -70,26 +78,43 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 			name:    "Array[Bool?]: []",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[Bool?]: [nil]",
+			handler: boolOptionSliceHandler,
+			value:   []*bool{nil},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 255, 255},
 		},
 		{
 			name:    "Array[Bool?]: [false]",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{Ptr(false)},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Bool?]: [true]",
+			handler: boolOptionSliceHandler,
+			value:   []*bool{Ptr(true)},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool?]: [true, true]",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{Ptr(true), Ptr(true)},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool?]: [false, true, false]",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{Ptr(false), Ptr(true), Ptr(false)},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool?]: [false, true, false, true]",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{Ptr(false), Ptr(true), Ptr(false), Ptr(true)},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 	}
 
@@ -97,14 +122,36 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
 				t.Fatalf("h.encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			if res[0] != 0 {
+				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+				var wantNumElements uint32
+				switch slice := tt.value.(type) {
+				case []bool:
+					wantNumElements = uint32(len(slice))
+				case []*bool:
+					wantNumElements = uint32(len(slice))
+				default:
+					t.Fatalf("tt.value is not a slice: %T", tt.value)
+				}
+				if wantNumElements != numElements {
+					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
+				}
+				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				if !bytes.Equal(sliceMemBlock, tt.want) {
+					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
+				}
+			}
+
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
 				t.Fatalf("h.decode() returned an error: %v", err)
 			}
@@ -120,7 +167,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[uint8]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -154,7 +201,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -176,7 +223,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[int16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -220,7 +267,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -242,7 +289,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[int16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -286,7 +333,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -308,7 +355,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[uint16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -342,7 +389,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -364,7 +411,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[int]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -408,7 +455,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -430,7 +477,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[uint]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -464,7 +511,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -486,7 +533,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[int64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -530,7 +577,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -552,7 +599,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[uint64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -586,7 +633,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -608,7 +655,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Float(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[float32]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -652,7 +699,7 @@ func TestPrimitiveSlicesEncodeDecode_Float(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {
@@ -674,7 +721,7 @@ func TestPrimitiveSlicesEncodeDecode_Float(t *testing.T) {
 func TestPrimitiveSlicesEncodeDecode_Double(t *testing.T) {
 	tests := []struct {
 		name    string
-		handler *primitiveSliceHandler[float64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -718,7 +765,7 @@ func TestPrimitiveSlicesEncodeDecode_Double(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
 			res, _, err := h.encode(ctx, mockWA, tt.value)
 			if err != nil {

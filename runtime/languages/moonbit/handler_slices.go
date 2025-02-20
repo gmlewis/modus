@@ -67,11 +67,20 @@ func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, of
 	return cln, nil
 }
 
-func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, vals []uint64) (any, error) {
+	wa, ok := wasmAdapter.(wasmMemoryReader)
+	if !ok {
+		return nil, fmt.Errorf("expected a wasmMemoryReader, got %T", wasmAdapter)
+	}
+
 	gmlPrintf("GML: handler_slices.go: sliceHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
+	}
+
+	if vals[0] == 0 {
+		return nil, nil
 	}
 
 	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
@@ -110,7 +119,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 		if words == 1 {
 			// sliceOffset is the pointer to the single-slice element.
 			items := reflect.MakeSlice(h.typeInfo.ReflectedType(), 1, 1)
-			item, err := h.elementHandler.Read(ctx, wa, sliceOffset)
+			item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
 			if err != nil {
 				return nil, err
 			}
@@ -152,7 +161,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
 				value = uint64(value32)
 			}
-			item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
+			item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
 			if err != nil {
 				return nil, err
 			}
@@ -162,7 +171,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 			continue
 		}
 		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
-		item, err := h.elementHandler.Read(ctx, wa, itemOffset)
+		item, err := h.elementHandler.Read(ctx, wasmAdapter, itemOffset)
 		if err != nil {
 			return nil, err
 		}
@@ -174,8 +183,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	return items.Interface(), nil
 }
 
-func (h *sliceHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
-	ptr, cln, err := h.doWriteSlice(ctx, wa, obj)
+func (h *sliceHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	ptr, cln, err := h.doWriteSlice(ctx, wasmAdapter, obj)
 	if err != nil {
 		return nil, cln, err
 	}
@@ -216,7 +225,12 @@ func (h *sliceHandler) doReadSlice(ctx context.Context, wa langsupport.WasmAdapt
 // 	doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error)
 // }
 
-func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error) {
+func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error) {
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return 0, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
+
 	gmlPrintf("GML: handler_slices.go: sliceHandler.doWriteSlice(obj: %+v)", obj)
 	if utils.HasNil(obj) {
 		return 0, nil, nil
@@ -231,17 +245,25 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if elemType.IsPrimitive() && isNullable {
+	if elemType.IsPrimitive() && isNullable && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 	memBlockClassID := uint32(ArrayBlockType)
 
-	//  ptr, cln, err = wa.(*wasmAdapter).makeWasmObject(ctx, h.typeDef.Id, uint32(len(slice)))
-	ptr, cln, err = wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, memBlockClassID)
-	if err != nil {
-		return 0, cln, err
+	// Allocate memory
+	if size == 0 {
+		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID) // cannot allocate 0 bytes
+		if err != nil {
+			return 0, cln, err
+		}
+		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
+	} else {
+		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
+		if err != nil {
+			return 0, cln, err
+		}
 	}
 
 	// For debugging purposes:
@@ -261,17 +283,19 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
 			if !utils.HasNil(val) {
-				if _, err := h.elementHandler.Write(ctx, wa, ptr+uint32(i)*elemTypeSize, val); err != nil {
+				if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
 					return 0, cln, err
 				}
-				wa.(*wasmAdapter).Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
+				wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(*)
+			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" {
+				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
 			} else {
-				wa.(*wasmAdapter).Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
+				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
 			}
 			continue
 		}
 		if !utils.HasNil(val) {
-			c, err := h.elementHandler.Write(ctx, wa, ptr+uint32(i)*elementSize, val)
+			c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elementSize, val)
 			innerCln.AddCleaner(c)
 			if err != nil {
 				return 0, cln, err
@@ -283,13 +307,13 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
 
 	// Finally, write the slice memory block.
-	slicePtr, sliceCln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, 0)
+	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, 0)
 	innerCln.AddCleaner(sliceCln)
 	if err != nil {
 		return 0, cln, err
 	}
-	wa.(*wasmAdapter).Memory().WriteUint32Le(slicePtr, ptr-8)
-	wa.(*wasmAdapter).Memory().WriteUint32Le(slicePtr+4, numElements)
+	wa.Memory().WriteUint32Le(slicePtr, ptr-8)
+	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 	// For debugging purposes:
 	_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)

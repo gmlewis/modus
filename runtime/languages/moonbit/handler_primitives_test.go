@@ -14,14 +14,16 @@ import (
 	"math"
 	"reflect"
 	"testing"
+
+	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
 func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
-	boolHandler := newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool"))
-	boolOptionHandler := newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool?"))
+	boolHandler := mustGetHandler(t, "Bool")
+	boolOptionHandler := mustGetHandler(t, "Bool?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[bool]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -55,16 +57,16 @@ func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -75,11 +77,11 @@ func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
-	byteHandler := newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte"))
-	byteOptionHandler := newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte?"))
+	byteHandler := mustGetHandler(t, "Byte")
+	byteOptionHandler := mustGetHandler(t, "Byte?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[uint8]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -113,16 +115,16 @@ func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -133,11 +135,11 @@ func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Char(t *testing.T) {
-	charHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char"))
-	charOptionHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?"))
+	charHandler := mustGetHandler(t, "Char")
+	charOptionHandler := mustGetHandler(t, "Char?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[int16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -181,16 +183,16 @@ func TestPrimitivesEncodeDecode_Char(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -201,11 +203,11 @@ func TestPrimitivesEncodeDecode_Char(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
-	int16Handler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16"))
-	int16OptionHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?"))
+	int16Handler := mustGetHandler(t, "Int16")
+	int16OptionHandler := mustGetHandler(t, "Int16?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[int16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -249,16 +251,16 @@ func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -269,11 +271,11 @@ func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
-	uint16Handler := newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16"))
-	uint16OptionHandler := newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16?"))
+	uint16Handler := mustGetHandler(t, "UInt16")
+	uint16OptionHandler := mustGetHandler(t, "UInt16?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[uint16]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -307,16 +309,16 @@ func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -327,11 +329,11 @@ func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int(t *testing.T) {
-	intHandler := newPrimitiveHandler[int](mustGetTypeInfo(t, "Int"))
-	intOptionHandler := newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?"))
+	intHandler := mustGetHandler(t, "Int")
+	intOptionHandler := mustGetHandler(t, "Int?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[int]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -375,16 +377,16 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -395,11 +397,11 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
-	uintHandler := newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt"))
-	uintOptionHandler := newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt?"))
+	uintHandler := mustGetHandler(t, "UInt")
+	uintOptionHandler := mustGetHandler(t, "UInt?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[uint]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -433,16 +435,16 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -453,11 +455,11 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
-	int64Handler := newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64"))
-	int64OptionHandler := newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?"))
+	int64Handler := mustGetHandler(t, "Int64")
+	int64OptionHandler := mustGetHandler(t, "Int64?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[int64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -501,16 +503,16 @@ func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -521,11 +523,11 @@ func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
-	uint64Handler := newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64"))
-	uint64OptionHandler := newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64?"))
+	uint64Handler := mustGetHandler(t, "UInt64")
+	uint64OptionHandler := mustGetHandler(t, "UInt64?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[uint64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -559,16 +561,16 @@ func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -579,11 +581,11 @@ func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Float(t *testing.T) {
-	floatHandler := newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float"))
-	floatOptionHandler := newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?"))
+	floatHandler := mustGetHandler(t, "Float")
+	floatOptionHandler := mustGetHandler(t, "Float?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[float32]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -627,16 +629,16 @@ func TestPrimitivesEncodeDecode_Float(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {
@@ -647,11 +649,11 @@ func TestPrimitivesEncodeDecode_Float(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Double(t *testing.T) {
-	doubleHandler := newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double"))
-	doubleOptionHandler := newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?"))
+	doubleHandler := mustGetHandler(t, "Double")
+	doubleOptionHandler := mustGetHandler(t, "Double?")
 	tests := []struct {
 		name    string
-		handler *primitiveHandler[float64]
+		handler langsupport.TypeHandler
 		value   any
 	}{
 		{
@@ -695,16 +697,16 @@ func TestPrimitivesEncodeDecode_Double(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
-			mockWA := &myWasmMock{offset: 100}
+			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
+				t.Fatalf("h.Decode() returned an error: %v", err)
 			}
 
 			if !reflect.DeepEqual(got, tt.value) {

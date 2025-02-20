@@ -15,6 +15,7 @@ import (
 	"testing"
 
 	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/manifestdata"
 	"github.com/gmlewis/modus/runtime/utils"
 	"github.com/hypermodeinc/modus/lib/manifest"
@@ -22,6 +23,22 @@ import (
 	"github.com/stretchr/testify/assert"
 	wasm "github.com/tetratelabs/wazero/api"
 )
+
+func mustGetHandler(t *testing.T, name string) langsupport.TypeHandler {
+	t.Helper()
+	metadata := &metadata.Metadata{
+		Types: map[string]*metadata.TypeDefinition{
+			name: {Name: name, Id: 4},
+		},
+	}
+
+	p := NewPlanner(metadata)
+	h, err := p.GetHandler(context.Background(), name)
+	if err != nil {
+		t.Fatalf("no handler found for %q", name)
+	}
+	return h
+}
 
 func TestGetPlan(t *testing.T) {
 	// Copied from runtime/graphql/schemagen/schemagen_mbt_test.go

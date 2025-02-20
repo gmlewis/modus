@@ -108,12 +108,12 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdap
 	return nil, nil
 }
 
-func (h *primitiveHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	return h.decode(ctx, wa.(*wasmAdapter), vals)
-}
+func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, vals []uint64) (any, error) {
+	wa, ok := wasmAdapter.(wasmMemoryReader)
+	if !ok {
+		return nil, fmt.Errorf("expected a wasmMemoryReader, got %T", wasmAdapter)
+	}
 
-// For testing purposes:
-func (h *primitiveHandler[T]) decode(ctx context.Context, wa wasmMemoryReader, vals []uint64) (any, error) {
 	gmlPrintf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
@@ -162,12 +162,12 @@ func (h *primitiveHandler[T]) decode(ctx context.Context, wa wasmMemoryReader, v
 	return result, nil
 }
 
-func (h *primitiveHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
-	return h.encode(ctx, wa.(*wasmAdapter), obj)
-}
+func (h *primitiveHandler[T]) Encode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return nil, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
 
-// For testing purposes:
-func (h *primitiveHandler[T]) encode(ctx context.Context, wa wasmMemoryWriter, obj any) ([]uint64, utils.Cleaner, error) {
 	val, err := utils.Cast[T](obj)
 	if err != nil {
 		return nil, nil, err

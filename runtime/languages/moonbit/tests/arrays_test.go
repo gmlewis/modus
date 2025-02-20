@@ -142,18 +142,60 @@ func TestArrayOutput_bool_option_0(t *testing.T) {
 	}
 }
 
-func TestArrayOutput_bool_option_1(t *testing.T) {
-	fnName := "test_array_output_bool_option_1"
+func TestArrayOutput_bool_option_1_none(t *testing.T) {
+	fnName := "test_array_output_bool_option_1_none"
+
+	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 1 0 0 0]
+	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []*bool{nil}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*bool); !ok {
+		t.Errorf("expected a []*bool, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_bool_option_1_false(t *testing.T) {
+	fnName := "test_array_output_bool_option_1_false"
 
 	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 1 0 0 0]
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0]
-	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0 13 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	b0 := bool(false)
+	expected := []*bool{&b0}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*bool); !ok {
+		t.Errorf("expected a []*bool, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
+
+func TestArrayOutput_bool_option_1_true(t *testing.T) {
+	fnName := "test_array_output_bool_option_1_true"
+
+	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 1 0 0 0]
+	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	b0 := bool(true)
 	expected := []*bool{&b0}
 
 	if result == nil {
