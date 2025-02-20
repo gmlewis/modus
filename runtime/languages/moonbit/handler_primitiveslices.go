@@ -14,6 +14,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -102,7 +103,7 @@ func (h *primitiveSliceHandler[T]) Read(ctx context.Context, wa langsupport.Wasm
 }
 
 func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	ptr, cln, err := h.doWriteSlice(ctx, wa, obj)
+	ptr, cln, err := h.doWriteSlice(ctx, wa.(*wasmAdapter), obj)
 	if err != nil {
 		return cln, err
 	}
@@ -115,10 +116,19 @@ func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.Was
 }
 
 func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
+	return h.decode(ctx, wa.(*wasmAdapter), vals)
+}
+
+// For testing purposes:
+func (h *primitiveSliceHandler[T]) decode(ctx context.Context, wa wasmMemoryReader, vals []uint64) (any, error) {
 	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode(len(vals): %v)", len(vals))
 
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
+	}
+
+	if vals[0] == 0 {
+		return nil, nil
 	}
 
 	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
@@ -137,7 +147,12 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	elemTypeSize := h.converter.TypeSize()
-	isNullable := h.typeInfo.ListElementType().IsNullable()
+	elemType := h.typeInfo.ListElementType()
+	if elemType.Name() == "Bool" {
+		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
+		elemTypeSize = 4
+	}
+	isNullable := elemType.IsNullable()
 	if isNullable {
 		elemTypeSize = 8
 	}
@@ -151,11 +166,38 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wa langsupport.Wa
 
 	// gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
 
+	if elemType.Name() == "Bool" {
+		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+		for i := 0; i < int(numElements); i++ {
+			// if isNullable {
+			// 	value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
+			// 	value := uint64(value32)
+			// 	item, err := h.elementHandler.Decode(ctx, wa, []uint64{value})
+			// 	if err != nil {
+			// 		return nil, err
+			// 	}
+			// 	if !utils.HasNil(item) {
+			// 		items.Index(int(i)).Set(reflect.ValueOf(item))
+			// 	}
+			// 	continue
+			// }
+			item := binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:])
+			val := item != 0
+			items.Index(int(i)).Set(reflect.ValueOf(val))
+		}
+		return items.Interface(), nil
+	}
+
 	items := h.converter.BytesToSlice(sliceMemBlock[8:])
 	return items, nil
 }
 
 func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	return h.encode(ctx, wa.(*wasmAdapter), obj)
+}
+
+// For testing purposes:
+func (h *primitiveSliceHandler[T]) encode(ctx context.Context, wa wasmMemoryWriter, obj any) ([]uint64, utils.Cleaner, error) {
 	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Encode: obj=%T", obj)
 	ptr, cln, err := h.doWriteSlice(ctx, wa, obj)
 	if err != nil {
@@ -163,13 +205,6 @@ func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wa langsupport.Wa
 	}
 
 	return []uint64{uint64(ptr)}, cln, nil
-
-	// data, size, capacity, err := wa.(*wasmAdapter).readSliceHeader(ptr)
-	// if err != nil {
-	// 	return nil, cln, err
-	// }
-
-	// return []uint64{uint64(data), uint64(size), uint64(capacity)}, cln, nil
 }
 
 /*
@@ -195,7 +230,7 @@ func (h *primitiveSliceHandler[T]) doReadSlice(wa langsupport.WasmAdapter, data,
 }
 */
 
-func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
+func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemoryWriter, obj any) (uint32, utils.Cleaner, error) {
 	gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: T: %T", []T{})
 
 	if utils.HasNil(obj) {
@@ -253,7 +288,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	}
 
 	// Allocate memory
-	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, size, memBlockClassID)
+	offset, cln, err := wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 	if err != nil {
 		return 0, cln, err
 	}
@@ -280,5 +315,18 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa langsupp
 	// For debugging:
 	_, _, _ = memoryBlockAtOffset(wa, offset-8, 0, true)
 
-	return offset, cln, nil
+	// Finally, write the slice memory block.
+	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, 0)
+	innerCln := utils.NewCleanerN(1)
+	innerCln.AddCleaner(sliceCln)
+	if err != nil {
+		return 0, cln, err
+	}
+	wa.Memory().WriteUint32Le(slicePtr, offset-8)
+	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
+
+	// For debugging purposes:
+	_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+
+	return slicePtr - 8, cln, nil
 }

@@ -90,7 +90,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if isNullable && elemType.IsPrimitive() && elemType.Name() != "Byte?" {
+	if isNullable && elemType.IsPrimitive() && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
 		elemTypeSize = 8
 	}
 	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
@@ -141,7 +141,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, v
 	for i := uint32(0); i < numElements; i++ {
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if words > 1 && elemType.Name() != "Byte?" {
+			if words > 1 && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
 				isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
 				if isNone {
 					// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
@@ -282,7 +282,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wa langsupport.WasmAdap
 	// For debugging purposes:
 	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
 
-	// Finally, write the slice memory bock.
+	// Finally, write the slice memory block.
 	slicePtr, sliceCln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, 8, 0)
 	innerCln.AddCleaner(sliceCln)
 	if err != nil {

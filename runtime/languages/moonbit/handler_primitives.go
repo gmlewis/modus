@@ -117,7 +117,7 @@ func (h *primitiveHandler[T]) decode(ctx context.Context, wa wasmMemoryReader, v
 	gmlPrintf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
 
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("expected 1 value, got %d", len(vals))
+		return nil, fmt.Errorf("expected 1 value, got %v", len(vals))
 	}
 
 	if h.TypeInfo().IsNullable() && h.typeInfo.IsPointer() {

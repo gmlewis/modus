@@ -14,21 +14,11 @@ import (
 	"math"
 	"reflect"
 	"testing"
-
-	"github.com/gmlewis/modus/runtime/langsupport"
 )
 
-func mustGetTypeInfo(t *testing.T, name string) langsupport.TypeInfo {
-	t.Helper()
-	cache := map[string]langsupport.TypeInfo{}
-	ti, err := GetTypeInfo(context.Background(), name, cache)
-	if err != nil {
-		t.Fatalf("GetTypeInfo(%q) returned nil", name)
-	}
-	return ti
-}
-
 func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
+	boolHandler := newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool"))
+	boolOptionHandler := newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[bool]
@@ -36,27 +26,27 @@ func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
 	}{
 		{
 			name:    "Bool: false",
-			handler: newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool")),
+			handler: boolHandler,
 			value:   false,
 		},
 		{
 			name:    "Bool: true",
-			handler: newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool")),
+			handler: boolHandler,
 			value:   true,
 		},
 		{
 			name:    "Bool?: None",
-			handler: newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool?")),
+			handler: boolOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Bool?: Some(false)",
-			handler: newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool?")),
+			handler: boolOptionHandler,
 			value:   Ptr(false),
 		},
 		{
 			name:    "Bool?: Some(true)",
-			handler: newPrimitiveHandler[bool](mustGetTypeInfo(t, "Bool?")),
+			handler: boolOptionHandler,
 			value:   Ptr(true),
 		},
 	}
@@ -85,6 +75,8 @@ func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
+	byteHandler := newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte"))
+	byteOptionHandler := newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[uint8]
@@ -92,27 +84,27 @@ func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
 	}{
 		{
 			name:    "Byte: 0",
-			handler: newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte")),
+			handler: byteHandler,
 			value:   byte(0),
 		},
 		{
 			name:    "Byte: 255",
-			handler: newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte")),
+			handler: byteHandler,
 			value:   byte(255),
 		},
 		{
 			name:    "Byte?: None",
-			handler: newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte?")),
+			handler: byteOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Byte?: Some(0)",
-			handler: newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte?")),
+			handler: byteOptionHandler,
 			value:   Ptr(byte(0)),
 		},
 		{
 			name:    "Byte?: Some(255)",
-			handler: newPrimitiveHandler[uint8](mustGetTypeInfo(t, "Byte?")),
+			handler: byteOptionHandler,
 			value:   Ptr(byte(255)),
 		},
 	}
@@ -141,6 +133,8 @@ func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Char(t *testing.T) {
+	charHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char"))
+	charOptionHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[int16]
@@ -148,37 +142,37 @@ func TestPrimitivesEncodeDecode_Char(t *testing.T) {
 	}{
 		{
 			name:    "Char: -32768",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char")),
+			handler: charHandler,
 			value:   int16(-32768),
 		},
 		{
 			name:    "Char: 0",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char")),
+			handler: charHandler,
 			value:   int16(0),
 		},
 		{
 			name:    "Char: 32767",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char")),
+			handler: charHandler,
 			value:   int16(32767),
 		},
 		{
 			name:    "Char?: None",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?")),
+			handler: charOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Char?: Some(-32768)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?")),
+			handler: charOptionHandler,
 			value:   Ptr(int16(-32768)),
 		},
 		{
 			name:    "Char?: Some(0)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?")),
+			handler: charOptionHandler,
 			value:   Ptr(int16(0)),
 		},
 		{
 			name:    "Char?: Some(32767)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Char?")),
+			handler: charOptionHandler,
 			value:   Ptr(int16(32767)),
 		},
 	}
@@ -207,6 +201,8 @@ func TestPrimitivesEncodeDecode_Char(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
+	int16Handler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16"))
+	int16OptionHandler := newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[int16]
@@ -214,37 +210,37 @@ func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
 	}{
 		{
 			name:    "Int16: -32768",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16")),
+			handler: int16Handler,
 			value:   int16(-32768),
 		},
 		{
 			name:    "Int16: 0",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16")),
+			handler: int16Handler,
 			value:   int16(0),
 		},
 		{
 			name:    "Int16: 32767",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16")),
+			handler: int16Handler,
 			value:   int16(32767),
 		},
 		{
 			name:    "Int16?: None",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?")),
+			handler: int16OptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Int16?: Some(-32768)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?")),
+			handler: int16OptionHandler,
 			value:   Ptr(int16(-32768)),
 		},
 		{
 			name:    "Int16?: Some(0)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?")),
+			handler: int16OptionHandler,
 			value:   Ptr(int16(0)),
 		},
 		{
 			name:    "Int16?: Some(32767)",
-			handler: newPrimitiveHandler[int16](mustGetTypeInfo(t, "Int16?")),
+			handler: int16OptionHandler,
 			value:   Ptr(int16(32767)),
 		},
 	}
@@ -273,6 +269,8 @@ func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
+	uint16Handler := newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16"))
+	uint16OptionHandler := newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[uint16]
@@ -280,27 +278,27 @@ func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
 	}{
 		{
 			name:    "UInt16: 0",
-			handler: newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16")),
+			handler: uint16Handler,
 			value:   uint16(0),
 		},
 		{
 			name:    "UInt16: 65535",
-			handler: newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16")),
+			handler: uint16Handler,
 			value:   uint16(65535),
 		},
 		{
 			name:    "UInt16?: None",
-			handler: newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16?")),
+			handler: uint16OptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "UInt16?: Some(0)",
-			handler: newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16?")),
+			handler: uint16OptionHandler,
 			value:   Ptr(uint16(0)),
 		},
 		{
 			name:    "UInt16?: Some(65535)",
-			handler: newPrimitiveHandler[uint16](mustGetTypeInfo(t, "UInt16?")),
+			handler: uint16OptionHandler,
 			value:   Ptr(uint16(65535)),
 		},
 	}
@@ -329,6 +327,8 @@ func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int(t *testing.T) {
+	intHandler := newPrimitiveHandler[int](mustGetTypeInfo(t, "Int"))
+	intOptionHandler := newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[int]
@@ -336,37 +336,37 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 	}{
 		{
 			name:    "Int: -2147483648",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int")),
+			handler: intHandler,
 			value:   int(-2147483648),
 		},
 		{
 			name:    "Int: 0",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int")),
+			handler: intHandler,
 			value:   int(0),
 		},
 		{
 			name:    "Int: 2147483647",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int")),
+			handler: intHandler,
 			value:   int(2147483647),
 		},
 		{
 			name:    "Int?: None",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?")),
+			handler: intOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Int?: Some(-2147483648)",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?")),
+			handler: intOptionHandler,
 			value:   Ptr(int(-2147483648)),
 		},
 		{
 			name:    "Int?: Some(0)",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?")),
+			handler: intOptionHandler,
 			value:   Ptr(int(0)),
 		},
 		{
 			name:    "Int?: Some(2147483647)",
-			handler: newPrimitiveHandler[int](mustGetTypeInfo(t, "Int?")),
+			handler: intOptionHandler,
 			value:   Ptr(int(2147483647)),
 		},
 	}
@@ -395,6 +395,8 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
+	uintHandler := newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt"))
+	uintOptionHandler := newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[uint]
@@ -402,27 +404,27 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 	}{
 		{
 			name:    "UInt: 0",
-			handler: newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt")),
+			handler: uintHandler,
 			value:   uint(0),
 		},
 		{
 			name:    "UInt: 4294967295",
-			handler: newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt")),
+			handler: uintHandler,
 			value:   uint(4294967295),
 		},
 		{
 			name:    "UInt?: None",
-			handler: newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt?")),
+			handler: uintOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "UInt?: Some(0)",
-			handler: newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt?")),
+			handler: uintOptionHandler,
 			value:   Ptr(uint(0)),
 		},
 		{
 			name:    "UInt?: Some(4294967295)",
-			handler: newPrimitiveHandler[uint](mustGetTypeInfo(t, "UInt?")),
+			handler: uintOptionHandler,
 			value:   Ptr(uint(4294967295)),
 		},
 	}
@@ -451,6 +453,8 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
+	int64Handler := newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64"))
+	int64OptionHandler := newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[int64]
@@ -458,37 +462,37 @@ func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
 	}{
 		{
 			name:    "Int64: -9223372036854775808",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64")),
+			handler: int64Handler,
 			value:   int64(-9223372036854775808),
 		},
 		{
 			name:    "Int64: 0",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64")),
+			handler: int64Handler,
 			value:   int64(0),
 		},
 		{
 			name:    "Int64: 9223372036854775807",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64")),
+			handler: int64Handler,
 			value:   int64(9223372036854775807),
 		},
 		{
 			name:    "Int64?: None",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?")),
+			handler: int64OptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Int64?: Some(-9223372036854775808)",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?")),
+			handler: int64OptionHandler,
 			value:   Ptr(int64(-9223372036854775808)),
 		},
 		{
 			name:    "Int64?: Some(0)",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?")),
+			handler: int64OptionHandler,
 			value:   Ptr(int64(0)),
 		},
 		{
 			name:    "Int64?: Some(9223372036854775807)",
-			handler: newPrimitiveHandler[int64](mustGetTypeInfo(t, "Int64?")),
+			handler: int64OptionHandler,
 			value:   Ptr(int64(9223372036854775807)),
 		},
 	}
@@ -517,6 +521,8 @@ func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
+	uint64Handler := newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64"))
+	uint64OptionHandler := newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[uint64]
@@ -524,27 +530,27 @@ func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
 	}{
 		{
 			name:    "UInt64: 0",
-			handler: newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64")),
+			handler: uint64Handler,
 			value:   uint64(0),
 		},
 		{
 			name:    "UInt64: 18446744073709551615",
-			handler: newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64")),
+			handler: uint64Handler,
 			value:   uint64(18446744073709551615),
 		},
 		{
 			name:    "UInt64?: None",
-			handler: newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64?")),
+			handler: uint64OptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "UInt64?: Some(0)",
-			handler: newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64?")),
+			handler: uint64OptionHandler,
 			value:   Ptr(uint64(0)),
 		},
 		{
 			name:    "UInt64?: Some(18446744073709551615)",
-			handler: newPrimitiveHandler[uint64](mustGetTypeInfo(t, "UInt64?")),
+			handler: uint64OptionHandler,
 			value:   Ptr(uint64(18446744073709551615)),
 		},
 	}
@@ -573,6 +579,8 @@ func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Float(t *testing.T) {
+	floatHandler := newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float"))
+	floatOptionHandler := newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[float32]
@@ -580,37 +588,37 @@ func TestPrimitivesEncodeDecode_Float(t *testing.T) {
 	}{
 		{
 			name:    "Float: math.SmallestNonzeroFloat32",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float")),
+			handler: floatHandler,
 			value:   float32(math.SmallestNonzeroFloat32),
 		},
 		{
 			name:    "Float: 0",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float")),
+			handler: floatHandler,
 			value:   float32(0),
 		},
 		{
 			name:    "Float: math.MaxFloat32",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float")),
+			handler: floatHandler,
 			value:   float32(math.MaxFloat32),
 		},
 		{
 			name:    "Float?: None",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?")),
+			handler: floatOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Float?: Some(math.SmallestNonzeroFloat32)",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?")),
+			handler: floatOptionHandler,
 			value:   Ptr(float32(math.SmallestNonzeroFloat32)),
 		},
 		{
 			name:    "Float?: Some(0)",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?")),
+			handler: floatOptionHandler,
 			value:   Ptr(float32(0)),
 		},
 		{
 			name:    "Float?: Some(math.MaxFloat32)",
-			handler: newPrimitiveHandler[float32](mustGetTypeInfo(t, "Float?")),
+			handler: floatOptionHandler,
 			value:   Ptr(float32(math.MaxFloat32)),
 		},
 	}
@@ -639,6 +647,8 @@ func TestPrimitivesEncodeDecode_Float(t *testing.T) {
 }
 
 func TestPrimitivesEncodeDecode_Double(t *testing.T) {
+	doubleHandler := newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double"))
+	doubleOptionHandler := newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?"))
 	tests := []struct {
 		name    string
 		handler *primitiveHandler[float64]
@@ -646,37 +656,37 @@ func TestPrimitivesEncodeDecode_Double(t *testing.T) {
 	}{
 		{
 			name:    "Double: math.SmallestNonzeroFloat64",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double")),
+			handler: doubleHandler,
 			value:   float64(math.SmallestNonzeroFloat64),
 		},
 		{
 			name:    "Double: 0",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double")),
+			handler: doubleHandler,
 			value:   float64(0),
 		},
 		{
 			name:    "Double: math.MaxFloat64",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double")),
+			handler: doubleHandler,
 			value:   float64(math.MaxFloat64),
 		},
 		{
 			name:    "Double?: None",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?")),
+			handler: doubleOptionHandler,
 			value:   nil,
 		},
 		{
 			name:    "Double?: Some(math.SmallestNonzeroFloat64)",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?")),
+			handler: doubleOptionHandler,
 			value:   Ptr(float64(math.SmallestNonzeroFloat64)),
 		},
 		{
 			name:    "Double?: Some(0)",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?")),
+			handler: doubleOptionHandler,
 			value:   Ptr(float64(0)),
 		},
 		{
 			name:    "Double?: Some(math.MaxFloat64)",
-			handler: newPrimitiveHandler[float64](mustGetTypeInfo(t, "Double?")),
+			handler: doubleOptionHandler,
 			value:   Ptr(float64(math.MaxFloat64)),
 		},
 	}
