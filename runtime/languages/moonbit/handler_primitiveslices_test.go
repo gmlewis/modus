@@ -463,47 +463,108 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 	}
 }
 
-/*
 func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
+	byteSliceHandler := mustGetHandler(t, "Array[Int16]")
+	byteOptionSliceHandler := mustGetHandler(t, "Array[Int16?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
 		value   any
+		want    []byte
 	}{
 		{
-			name:    "Array[Int16]: -32768",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16")),
-			value:   int16(-32768),
-		},
-		{
-			name:    "Array[Int16]: 0",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16")),
-			value:   int16(0),
-		},
-		{
-			name:    "Array[Int16]: 32767",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16")),
-			value:   int16(32767),
-		},
-		{
-			name:    "Array[Int16]?: None",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16?")),
+			name:    "Array[Int16]: nil",
+			handler: byteSliceHandler,
 			value:   nil,
 		},
 		{
-			name:    "Array[Int16]?: Some(-32768)",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16?")),
-			value:   Ptr(int16(-32768)),
+			name:    "Array[Int16]: []",
+			handler: byteSliceHandler,
+			value:   []int16{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
-			name:    "Array[Int16]?: Some(0)",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16?")),
-			value:   Ptr(int16(0)),
+			name:    "Array[Int16]: [-32768]",
+			handler: byteSliceHandler,
+			value:   []int16{-32768},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 128, 0, 0},
 		},
 		{
-			name:    "Array[Int16]?: Some(32767)",
-			handler: newPrimitiveSliceHandler[int16](mustGetTypeInfo(t, "Int16?")),
-			value:   Ptr(int16(32767)),
+			name:    "Array[Int16]: [32767]",
+			handler: byteSliceHandler,
+			value:   []int16{32767},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
+		},
+		{
+			name:    "Array[Int16]: [-32768, 32767]",
+			handler: byteSliceHandler,
+			value:   []int16{-32768, 32767},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16]: [-32768, 32767, -32768]",
+			handler: byteSliceHandler,
+			value:   []int16{-32768, 32767, -32768},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 127, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16]: [-32768, 32767, -32768, 32767]",
+			handler: byteSliceHandler,
+			value:   []int16{-32768, 32767, -32768, 32767},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 127, 0, 128, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: nil",
+			handler: byteOptionSliceHandler,
+			value:   nil,
+		},
+		{
+			name:    "Array[Int16?]: []",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [nil]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{nil},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [-32768]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{Ptr(int16(-32768))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{Ptr(int16(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [32767, 32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{Ptr(int16(32767)), Ptr(int16(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [-32768, 32767, -32768]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{Ptr(int16(-32768)), Ptr(int16(32767)), Ptr(int16(-32768))},
+			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [-32768, 32767, -32768, 32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{Ptr(int16(-32768)), Ptr(int16(32767)), Ptr(int16(-32768)), Ptr(int16(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int16?]: [nil, 128, nil, 128]",
+			handler: byteOptionSliceHandler,
+			value:   []*int16{nil, Ptr(int16(128)), nil, Ptr(int16(128))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
 
@@ -513,12 +574,34 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
 				t.Fatalf("h.encode() returned an error: %v", err)
 			}
 
-			got, err := h.decode(ctx, mockWA, res)
+			if res[0] != 0 {
+				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+				var wantNumElements uint32
+				switch slice := tt.value.(type) {
+				case []int16:
+					wantNumElements = uint32(len(slice))
+				case []*int16:
+					wantNumElements = uint32(len(slice))
+				default:
+					t.Fatalf("tt.value is not a slice: %T", tt.value)
+				}
+				if wantNumElements != numElements {
+					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
+				}
+				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				if !bytes.Equal(sliceMemBlock, tt.want) {
+					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
+				}
+			}
+
+			got, err := h.Decode(ctx, mockWA, res)
 			if err != nil {
 				t.Fatalf("h.decode() returned an error: %v", err)
 			}
@@ -530,6 +613,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 	}
 }
 
+/*
 func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 	tests := []struct {
 		name    string
