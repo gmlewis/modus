@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"math"
 	"reflect"
 	"testing"
 
@@ -784,6 +785,12 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
+			name:    "Array[Int]: [-2147483648]",
+			handler: intSliceHandler,
+			value:   []int32{math.MinInt32},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 128},
+		},
+		{
 			name:    "Array[Int]: [-32768]",
 			handler: intSliceHandler,
 			value:   []int32{-32768},
@@ -794,6 +801,12 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			handler: intSliceHandler,
 			value:   []int32{32767},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
+		},
+		{
+			name:    "Array[Int]: [2147483647]",
+			handler: intSliceHandler,
+			value:   []int32{math.MaxInt32},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 255, 127},
 		},
 		{
 			name:    "Array[Int]: [-32768, 32767]",
@@ -831,6 +844,12 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
+			name:    "Array[Int?]: [-2147483648]",
+			handler: intOptionSliceHandler,
+			value:   []*int32{Ptr(int32(math.MinInt32))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0},
+		},
+		{
 			name:    "Array[Int?]: [-32768]",
 			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(-32768))},
@@ -841,6 +860,12 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [2147483647]",
+			handler: intOptionSliceHandler,
+			value:   []*int32{Ptr(int32(math.MaxInt32))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 255, 127, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [32767, 32767]",
@@ -1064,72 +1089,6 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 }
 
 /*
-func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
-	tests := []struct {
-		name    string
-		handler langsupport.TypeHandler
-		value   any
-	}{
-		{
-			name:    "Array[Int]: -2147483648",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int")),
-			value:   int(-2147483648),
-		},
-		{
-			name:    "Array[Int]: 0",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int")),
-			value:   int(0),
-		},
-		{
-			name:    "Array[Int]: 2147483647",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int")),
-			value:   int(2147483647),
-		},
-		{
-			name:    "Array[Int]?: None",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int?")),
-			value:   nil,
-		},
-		{
-			name:    "Array[Int]?: Some(-2147483648)",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int?")),
-			value:   Ptr(int(-2147483648)),
-		},
-		{
-			name:    "Array[Int]?: Some(0)",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int?")),
-			value:   Ptr(int(0)),
-		},
-		{
-			name:    "Array[Int]?: Some(2147483647)",
-			handler: newPrimitiveSliceHandler[int](mustGetTypeInfo(t, "Int?")),
-			value:   Ptr(int(2147483647)),
-		},
-	}
-
-	ctx := context.Background()
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// t.Parallel()
-			mockWA := &myWasmMock{}
-			h := tt.handler
-			res, _, err := h.Encode(ctx, mockWA, tt.value)
-			if err != nil {
-				t.Fatalf("h.Encode() returned an error: %v", err)
-			}
-
-			got, err := h.decode(ctx, mockWA, res)
-			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
-			}
-
-			if !reflect.DeepEqual(got, tt.value) {
-				t.Errorf("encode/decode round trip conversion failed: got = %v, want = %v", got, tt.value)
-			}
-		})
-	}
-}
-
 func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 	tests := []struct {
 		name    string
