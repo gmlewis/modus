@@ -99,7 +99,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if isNullable && elemType.IsPrimitive() && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
+	if isNullable && elemType.IsPrimitive() &&
+		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
 	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
@@ -151,7 +153,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" {
+			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" &&
+				elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])

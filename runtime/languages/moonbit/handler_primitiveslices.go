@@ -153,7 +153,8 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		elemTypeSize = 4
 	}
 	isNullable := elemType.IsNullable()
-	if isNullable {
+	if isNullable && elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
+		// Int64? and UInt64? both provide pointers to values.
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
