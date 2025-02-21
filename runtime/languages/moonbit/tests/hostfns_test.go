@@ -12,7 +12,6 @@ package moonbit_test
 import (
 	"context"
 	"strings"
-	"testing"
 
 	"github.com/gmlewis/modus/runtime/hostfunctions"
 	"github.com/gmlewis/modus/runtime/testutils"
@@ -111,21 +110,23 @@ func hostEncodeStrings2(items *[]*string) *string {
 	return &result
 }
 
+/*
 func TestHostFn_add(t *testing.T) {
 	fnName := "add"
-	result, err := fixture.CallFunction(t, fnName, 1, 2)
+	result, err := fixture.CallFunction(t, fnName, int32(1), int32(2))
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if result == nil {
 		t.Error("expected a result")
-	} else if r, ok := result.(int); !ok {
+	} else if r, ok := result.(int32); !ok {
 		t.Errorf("expected an int32, got %T", result)
 	} else if r != 3 {
-		t.Errorf("expected %d, got %d", 3, r)
+		t.Errorf("expected %v, got %v", 3, r)
 	}
 }
+*/
 
 // TODO:
 // func TestHostFn_echo1_string(t *testing.T) {

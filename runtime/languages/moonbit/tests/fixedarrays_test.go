@@ -82,7 +82,7 @@ func TestFixedArrayOutput0_string_option(t *testing.T) {
 
 // func TestFixedArrayInput0_int_option(t *testing.T) {
 // 	fnName := "test_fixedarray_input0_int_option"
-// 	arr := [0]*int{}
+// 	arr := [0]*int32{}
 
 // 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
 // 		t.Error(err)
@@ -103,11 +103,11 @@ func TestFixedArrayOutput0_int_option(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := []*int{}
+	expected := []*int32{}
 	if result == nil {
 		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
+	} else if r, ok := result.([]*int32); !ok {
+		t.Errorf("expected a []*int32, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
@@ -209,8 +209,8 @@ func TestFixedArrayOutput1_int_option(t *testing.T) {
 	expected := getIntOptionFixedArray1()
 	if result == nil {
 		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
+	} else if r, ok := result.([]*int32); !ok {
+		t.Errorf("expected a []*int32, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
@@ -329,8 +329,8 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 	expected := getIntOptionFixedArray2()
 	if result == nil {
 		t.Error("expected a result")
-	} else if r, ok := result.([]*int); !ok {
-		t.Errorf("expected a []*int, got %T", result)
+	} else if r, ok := result.([]*int32); !ok {
+		t.Errorf("expected a []*int32, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
@@ -504,8 +504,8 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	expected := getOptionIntFixedArray1()
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[1]int); !ok {
-// 		t.Errorf("expected a *[1]int, got %T", result)
+// 	} else if r, ok := result.(*[]int32); !ok {
+// 		t.Errorf("expected a *[]int32, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
@@ -521,8 +521,8 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	expected := getOptionIntFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[]int); !ok {
-// 		t.Errorf("expected a *[]int, got %T", result)
+// 	} else if r, ok := result.(*[]int32); !ok {
+// 		t.Errorf("expected a *[]int32, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
@@ -655,15 +655,15 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	}
 // }
 
-func getIntOptionFixedArray1() []*int {
-	a := 11
-	return []*int{&a}
+func getIntOptionFixedArray1() []*int32 {
+	a := int32(11)
+	return []*int32{&a}
 }
 
-func getIntOptionFixedArray2() []*int {
-	a := 11
-	b := 22
-	return []*int{&a, &b}
+func getIntOptionFixedArray2() []*int32 {
+	a := int32(11)
+	b := int32(22)
+	return []*int32{&a, &b}
 }
 
 func getStringOptionFixedArray1() []*string {
@@ -705,15 +705,12 @@ func getStructOptionFixedArray2() []*TestStruct2 {
 // 	}
 // }
 
-// func getOptionIntFixedArray1() *[]int {
-// 	a := 11
-// 	return &[]int{a}
+// func getOptionIntFixedArray1() *[]int32 {
+// 	return &[]int32{11}
 // }
 
-func getOptionIntFixedArray2() *[]int {
-	a := 11
-	b := 22
-	return &[]int{a, b}
+func getOptionIntFixedArray2() *[]int32 {
+	return &[]int32{11, 22}
 }
 
 func getOptionStringFixedArray1() *[]string {

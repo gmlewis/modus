@@ -98,6 +98,8 @@
         "__modus_test_array_output_byte_option_4:test_array_output_byte_option_4",
         "__modus_test_array_output_int_0:test_array_output_int_0",
         "__modus_test_array_output_int_1:test_array_output_int_1",
+        "__modus_test_array_output_int_1_max:test_array_output_int_1_max",
+        "__modus_test_array_output_int_1_min:test_array_output_int_1_min",
         "__modus_test_array_output_int_2:test_array_output_int_2",
         "__modus_test_array_output_int_3:test_array_output_int_3",
         "__modus_test_array_output_int_4:test_array_output_int_4",

@@ -22,18 +22,18 @@ type TestStruct1 struct {
 
 type TestStruct2 struct {
 	A bool
-	B int
+	B int32
 }
 
 type TestStruct3 struct {
 	A bool
-	B int
+	B int32
 	C string
 }
 
 type TestStruct4 struct {
 	A bool
-	B int
+	B int32
 	C *string
 }
 
@@ -92,24 +92,24 @@ var testStruct1AsMap = map[string]any{
 
 var testStruct2AsMap = map[string]any{
 	"a": true,
-	"b": 123,
+	"b": int32(123),
 }
 
 var testStruct3AsMap = map[string]any{
 	"a": true,
-	"b": 123,
+	"b": int32(123),
 	"c": "abc",
 }
 
 var testStruct4AsMap = map[string]any{
 	"a": true,
-	"b": 123,
+	"b": int32(123),
 	"c": func() *string { s := "abc"; return &s }(),
 }
 
 var testStruct4AsMap_with_none = map[string]any{
 	"a": true,
-	"b": 123,
+	"b": int32(123),
 	"c": nil,
 }
 

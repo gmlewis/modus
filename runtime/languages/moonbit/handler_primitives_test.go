@@ -339,17 +339,17 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 		{
 			name:    "Int: -2147483648",
 			handler: intHandler,
-			value:   int(-2147483648),
+			value:   int32(-2147483648),
 		},
 		{
 			name:    "Int: 0",
 			handler: intHandler,
-			value:   int(0),
+			value:   int32(0),
 		},
 		{
 			name:    "Int: 2147483647",
 			handler: intHandler,
-			value:   int(2147483647),
+			value:   int32(2147483647),
 		},
 		{
 			name:    "Int?: None",
@@ -359,17 +359,17 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 		{
 			name:    "Int?: Some(-2147483648)",
 			handler: intOptionHandler,
-			value:   Ptr(int(-2147483648)),
+			value:   Ptr(int32(-2147483648)),
 		},
 		{
 			name:    "Int?: Some(0)",
 			handler: intOptionHandler,
-			value:   Ptr(int(0)),
+			value:   Ptr(int32(0)),
 		},
 		{
 			name:    "Int?: Some(2147483647)",
 			handler: intOptionHandler,
-			value:   Ptr(int(2147483647)),
+			value:   Ptr(int32(2147483647)),
 		},
 	}
 
@@ -407,12 +407,12 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 		{
 			name:    "UInt: 0",
 			handler: uintHandler,
-			value:   uint(0),
+			value:   uint32(0),
 		},
 		{
 			name:    "UInt: 4294967295",
 			handler: uintHandler,
-			value:   uint(4294967295),
+			value:   uint32(4294967295),
 		},
 		{
 			name:    "UInt?: None",
@@ -422,12 +422,12 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 		{
 			name:    "UInt?: Some(0)",
 			handler: uintOptionHandler,
-			value:   Ptr(uint(0)),
+			value:   Ptr(uint32(0)),
 		},
 		{
 			name:    "UInt?: Some(4294967295)",
 			handler: uintOptionHandler,
-			value:   Ptr(uint(4294967295)),
+			value:   Ptr(uint32(4294967295)),
 		},
 	}
 

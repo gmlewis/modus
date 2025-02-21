@@ -861,11 +861,11 @@ var reflectedTypeMap = map[string]reflect.Type{
 	"Char":                reflect.TypeFor[int16](),
 	"Double":              reflect.TypeFor[float64](),
 	"Float":               reflect.TypeFor[float32](),
-	"Int":                 reflect.TypeFor[int](), // was: int32
+	"Int":                 reflect.TypeFor[int32](),
 	"Int16":               reflect.TypeFor[int16](),
 	"Int64":               reflect.TypeFor[int64](),
 	"String":              reflect.TypeFor[string](),
-	"UInt":                reflect.TypeFor[uint](), // was: uint32
+	"UInt":                reflect.TypeFor[uint32](),
 	"UInt16":              reflect.TypeFor[uint16](),
 	"UInt64":              reflect.TypeFor[uint64](),
 	"@time.Duration":      reflect.TypeFor[time.Duration](),

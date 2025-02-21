@@ -20,7 +20,7 @@ import (
 
 func TestGetHandler_int(t *testing.T) {
 	typ := "Int"
-	rt := reflect.TypeFor[int]()
+	rt := reflect.TypeFor[int32]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -47,7 +47,7 @@ func TestGetHandler_int(t *testing.T) {
 
 func TestGetHandler_int_option(t *testing.T) {
 	typ := "Int?"
-	rt := reflect.TypeFor[int]()
+	rt := reflect.TypeFor[int32]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -77,7 +77,7 @@ func TestGetHandler_int_option(t *testing.T) {
 	}
 
 	// typInner := "Int"
-	// rtInner := reflect.TypeFor[int]()
+	// rtInner := reflect.TypeFor[int32]()
 
 	// innerInfo := innerHandlers[0].TypeInfo()
 	// if innerInfo.Name() != typInner {
@@ -399,7 +399,7 @@ func TestGetHandler_struct(t *testing.T) {
 	}
 
 	typInner1 := "Int"
-	rtInner1 := reflect.TypeFor[int]()
+	rtInner1 := reflect.TypeFor[int32]()
 
 	innerInfo1 := innerHandlers[1].TypeInfo()
 	if innerInfo1.Name() != typInner1 {
