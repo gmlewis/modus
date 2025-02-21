@@ -971,6 +971,12 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 0, 0},
 		},
 		{
+			name:    "Array[UInt]: [4294967295]",
+			handler: uintSliceHandler,
+			value:   []uint32{math.MaxUint32},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 255, 255},
+		},
+		{
 			name:    "Array[UInt]: [0, 65535]",
 			handler: uintSliceHandler,
 			value:   []uint32{0, 65535},
@@ -1016,6 +1022,12 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [4294967295]",
+			handler: uintOptionSliceHandler,
+			value:   []*uint32{Ptr(uint32(math.MaxUint32))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [65535, 65535]",
@@ -1089,62 +1101,6 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 }
 
 /*
-func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
-	tests := []struct {
-		name    string
-		handler langsupport.TypeHandler
-		value   any
-	}{
-		{
-			name:    "Array[UInt]: 0",
-			handler: newPrimitiveSliceHandler[uint](mustGetTypeInfo(t, "UInt")),
-			value:   uint(0),
-		},
-		{
-			name:    "Array[UInt]: 4294967295",
-			handler: newPrimitiveSliceHandler[uint](mustGetTypeInfo(t, "UInt")),
-			value:   uint(4294967295),
-		},
-		{
-			name:    "Array[UInt]?: None",
-			handler: newPrimitiveSliceHandler[uint](mustGetTypeInfo(t, "UInt?")),
-			value:   nil,
-		},
-		{
-			name:    "Array[UInt]?: Some(0)",
-			handler: newPrimitiveSliceHandler[uint](mustGetTypeInfo(t, "UInt?")),
-			value:   Ptr(uint(0)),
-		},
-		{
-			name:    "Array[UInt]?: Some(4294967295)",
-			handler: newPrimitiveSliceHandler[uint](mustGetTypeInfo(t, "UInt?")),
-			value:   Ptr(uint(4294967295)),
-		},
-	}
-
-	ctx := context.Background()
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// t.Parallel()
-			mockWA := &myWasmMock{}
-			h := tt.handler
-			res, _, err := h.Encode(ctx, mockWA, tt.value)
-			if err != nil {
-				t.Fatalf("h.Encode() returned an error: %v", err)
-			}
-
-			got, err := h.decode(ctx, mockWA, res)
-			if err != nil {
-				t.Fatalf("h.decode() returned an error: %v", err)
-			}
-
-			if !reflect.DeepEqual(got, tt.value) {
-				t.Errorf("encode/decode round trip conversion failed: got = %v, want = %v", got, tt.value)
-			}
-		})
-	}
-}
-
 func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 	tests := []struct {
 		name    string
