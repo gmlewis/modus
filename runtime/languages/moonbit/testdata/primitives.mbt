@@ -163,6 +163,7 @@ pub fn test_char_option_output_max() -> Char? {
 
 ///|
 pub fn test_char_option_output_none() -> Char? {
+  // primitiveHandler.Decode(vals: [4294967295])
   None
 }
 

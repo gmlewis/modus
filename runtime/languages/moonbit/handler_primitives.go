@@ -127,11 +127,14 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			return nil, nil
 		case h.typeInfo.Name() == "Byte?" && vals[0] == 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Char?" && vals[0] == 0xffffffff:
+		// Char?==None==0xffffffff but Array[Char?]==[None]==0x100000000
+		case h.typeInfo.Name() == "Char?" && vals[0] >= 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Int16?" && vals[0] == 0xffffffff:
+		// Int16?==None==0xffffffff but Array[Int16?]==[None]==0x100000000
+		case h.typeInfo.Name() == "Int16?" && vals[0] >= 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff:
+		// UInt16?==None==0xffffffff but Array[UInt16?]==[None]==0x100000000
+		case h.typeInfo.Name() == "UInt16?" && vals[0] >= 0xffffffff:
 			return nil, nil
 		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000:
 			return nil, nil
@@ -180,13 +183,13 @@ func (h *primitiveHandler[T]) Encode(ctx context.Context, wasmAdapter langsuppor
 		if obj == nil {
 			switch {
 			case h.typeInfo.IsBoolean(),
-				h.typeInfo.Name() == "Byte?",
-				h.typeInfo.Name() == "Char?",
-				h.typeInfo.Name() == "Int16?",
-				h.typeInfo.Name() == "UInt16?":
+				h.typeInfo.Name() == "Byte?":
 				return []uint64{0xffffffff}, nil, nil
-			case h.typeInfo.Name() == "Int?",
-				h.typeInfo.Name() == "UInt?":
+			case h.typeInfo.Name() == "Char?",
+				h.typeInfo.Name() == "Int?",
+				h.typeInfo.Name() == "Int16?",
+				h.typeInfo.Name() == "UInt?",
+				h.typeInfo.Name() == "UInt16?":
 				return []uint64{0x100000000}, nil, nil
 			case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 				h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":

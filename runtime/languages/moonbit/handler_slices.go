@@ -148,14 +148,10 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	// elementSize := h.elementHandler.TypeInfo().Size()
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 	for i := uint32(0); i < numElements; i++ {
+		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if words > 1 && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
-				isNone := binary.LittleEndian.Uint32(memBlock[12+i*elemTypeSize:]) != 0
-				if isNone {
-					// items.Index(int(i)).Set(reflect.Zero(h.elementHandler.TypeInfo().ReflectedType()))
-					continue
-				}
+			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" {
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])

@@ -126,7 +126,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 			h := tt.handler
 			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			if res[0] != 0 {
@@ -276,7 +276,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 			h := tt.handler
 			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			if res[0] != 0 {
@@ -426,7 +426,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 			h := tt.handler
 			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			if res[0] != 0 {
@@ -576,7 +576,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 			h := tt.handler
 			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			if res[0] != 0 {
@@ -726,7 +726,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 			h := tt.handler
 			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			if res[0] != 0 {
@@ -762,6 +762,308 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 		})
 	}
 }
+
+/*
+func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
+	byteSliceHandler := mustGetHandler(t, "Array[Int]")
+	byteOptionSliceHandler := mustGetHandler(t, "Array[Int?]")
+	tests := []struct {
+		name    string
+		handler langsupport.TypeHandler
+		value   any
+		want    []byte
+	}{
+		{
+			name:    "Array[Int]: nil",
+			handler: byteSliceHandler,
+			value:   nil,
+		},
+		{
+			name:    "Array[Int]: []",
+			handler: byteSliceHandler,
+			value:   []int{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int]: [-32768]",
+			handler: byteSliceHandler,
+			value:   []int{-32768},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 128, 255, 255},
+		},
+		{
+			name:    "Array[Int]: [32767]",
+			handler: byteSliceHandler,
+			value:   []int{32767},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
+		},
+		{
+			name:    "Array[Int]: [-32768, 32767]",
+			handler: byteSliceHandler,
+			value:   []int{-32768, 32767},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int]: [-32768, 32767, -32768]",
+			handler: byteSliceHandler,
+			value:   []int{-32768, 32767, -32768},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 127, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int]: [-32768, 32767, -32768, 32767]",
+			handler: byteSliceHandler,
+			value:   []int{-32768, 32767, -32768, 32767},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 127, 0, 128, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: nil",
+			handler: byteOptionSliceHandler,
+			value:   nil,
+		},
+		{
+			name:    "Array[Int?]: []",
+			handler: byteOptionSliceHandler,
+			value:   []*int{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [nil]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{nil},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [-32768]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{Ptr(int(-32768))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{Ptr(int(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [32767, 32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{Ptr(int(32767)), Ptr(int(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [-32768, 32767, -32768]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{Ptr(int(-32768)), Ptr(int(32767)), Ptr(int(-32768))},
+			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [-32768, 32767, -32768, 32767]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{Ptr(int(-32768)), Ptr(int(32767)), Ptr(int(-32768)), Ptr(int(32767))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[Int?]: [nil, 128, nil, 128]",
+			handler: byteOptionSliceHandler,
+			value:   []*int{nil, Ptr(int(128)), nil, Ptr(int(128))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
+		},
+	}
+
+	ctx := context.Background()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// t.Parallel()
+			mockWA := &myWasmMock{}
+			h := tt.handler
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
+			if err != nil {
+				t.Fatalf("h.Encode() returned an error: %v", err)
+			}
+
+			if res[0] != 0 {
+				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+				var wantNumElements uint32
+				switch slice := tt.value.(type) {
+				case []int:
+					wantNumElements = uint32(len(slice))
+				case []*int:
+					wantNumElements = uint32(len(slice))
+				default:
+					t.Fatalf("tt.value is not a slice: %T", tt.value)
+				}
+				if wantNumElements != numElements {
+					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
+				}
+				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				if !bytes.Equal(sliceMemBlock, tt.want) {
+					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
+				}
+			}
+
+			got, err := h.Decode(ctx, mockWA, res)
+			if err != nil {
+				t.Fatalf("h.decode() returned an error: %v", err)
+			}
+
+			if !reflect.DeepEqual(got, tt.value) {
+				t.Errorf("encode/decode round trip conversion failed: got = %v, want = %v", got, tt.value)
+			}
+		})
+	}
+}
+
+func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
+	byteSliceHandler := mustGetHandler(t, "Array[UInt]")
+	byteOptionSliceHandler := mustGetHandler(t, "Array[UInt?]")
+	tests := []struct {
+		name    string
+		handler langsupport.TypeHandler
+		value   any
+		want    []byte
+	}{
+		{
+			name:    "Array[UInt]: nil",
+			handler: byteSliceHandler,
+			value:   nil,
+		},
+		{
+			name:    "Array[UInt]: []",
+			handler: byteSliceHandler,
+			value:   []uint{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt]: [0]",
+			handler: byteSliceHandler,
+			value:   []uint{0},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt]: [65535]",
+			handler: byteSliceHandler,
+			value:   []uint{65535},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 0, 0},
+		},
+		{
+			name:    "Array[UInt]: [0, 65535]",
+			handler: byteSliceHandler,
+			value:   []uint{0, 65535},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0},
+		},
+		{
+			name:    "Array[UInt]: [0, 65535, 0]",
+			handler: byteSliceHandler,
+			value:   []uint{0, 65535, 0},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt]: [0, 65535, 0, 65535]",
+			handler: byteSliceHandler,
+			value:   []uint{0, 65535, 0, 65535},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: nil",
+			handler: byteOptionSliceHandler,
+			value:   nil,
+		},
+		{
+			name:    "Array[UInt?]: []",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [nil]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{nil},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [0]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{Ptr(uint(0))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [65535]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{Ptr(uint(65535))},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [65535, 65535]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{Ptr(uint(65535)), Ptr(uint(65535))},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [0, 65535, 0]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{Ptr(uint(0)), Ptr(uint(65535)), Ptr(uint(0))},
+			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [0, 65535, 0, 65535]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{Ptr(uint(0)), Ptr(uint(65535)), Ptr(uint(0)), Ptr(uint(65535))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
+		},
+		{
+			name:    "Array[UInt?]: [nil, 128, nil, 128]",
+			handler: byteOptionSliceHandler,
+			value:   []*uint{nil, Ptr(uint(128)), nil, Ptr(uint(128))},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
+		},
+	}
+
+	ctx := context.Background()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// t.Parallel()
+			mockWA := &myWasmMock{}
+			h := tt.handler
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
+			if err != nil {
+				t.Fatalf("h.Encode() returned an error: %v", err)
+			}
+
+			if res[0] != 0 {
+				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
+				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
+				var wantNumElements uint32
+				switch slice := tt.value.(type) {
+				case []uint:
+					wantNumElements = uint32(len(slice))
+				case []*uint:
+					wantNumElements = uint32(len(slice))
+				default:
+					t.Fatalf("tt.value is not a slice: %T", tt.value)
+				}
+				if wantNumElements != numElements {
+					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
+				}
+				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				if !bytes.Equal(sliceMemBlock, tt.want) {
+					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
+				}
+			}
+
+			got, err := h.Decode(ctx, mockWA, res)
+			if err != nil {
+				t.Fatalf("h.decode() returned an error: %v", err)
+			}
+
+			if !reflect.DeepEqual(got, tt.value) {
+				t.Errorf("encode/decode round trip conversion failed: got = %v, want = %v", got, tt.value)
+			}
+		})
+	}
+}
+*/
 
 /*
 func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
@@ -813,9 +1115,9 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)
@@ -869,9 +1171,9 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)
@@ -935,9 +1237,9 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)
@@ -991,9 +1293,9 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)
@@ -1057,9 +1359,9 @@ func TestPrimitiveSlicesEncodeDecode_Float(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)
@@ -1123,9 +1425,9 @@ func TestPrimitiveSlicesEncodeDecode_Double(t *testing.T) {
 			// t.Parallel()
 			mockWA := &myWasmMock{}
 			h := tt.handler
-			res, _, err := h.encode(ctx, mockWA, tt.value)
+			res, _, err := h.Encode(ctx, mockWA, tt.value)
 			if err != nil {
-				t.Fatalf("h.encode() returned an error: %v", err)
+				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
 			got, err := h.decode(ctx, mockWA, res)

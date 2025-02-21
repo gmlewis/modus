@@ -403,6 +403,8 @@ func TestPrimitivesCharOptionInput_none(t *testing.T) {
 
 func TestPrimitivesCharOptionOutput_none(t *testing.T) {
 	fnName := "test_char_option_output_none"
+
+	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)
