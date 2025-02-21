@@ -25,14 +25,15 @@ func Ptr[T any](v T) *T {
 
 var moonBitBlockType = map[byte]string{
 	0:   "Tuple",
-	241: "FixedArray[Int]", // Also FixedArray[UInt], FixedArray[Bool]
-	242: "FixedArray[String]",
+	241: "FixedArray[Int]",    // Also FixedArray[UInt], FixedArray[Bool]
+	242: "FixedArray[String]", // Also FixedArray[Int64?], FixedArray[UInt64?]
 	243: "String",
 	246: "FixedArray[Byte]",
 }
 
 const (
 	ArrayBlockType         = 241
+	PtrArrayBlockType      = 242
 	StringBlockType        = 243
 	ZonedDateTimeBlockType = 3
 	ZoneBlockType          = 3

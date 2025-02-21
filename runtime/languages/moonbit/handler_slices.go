@@ -244,12 +244,17 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
-	if elemType.IsPrimitive() && isNullable && elemType.Name() != "Byte?" && elemType.Name() != "Bool?" {
+	if elemType.IsPrimitive() && isNullable &&
+		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 	memBlockClassID := uint32(ArrayBlockType)
+	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+		memBlockClassID = uint32(PtrArrayBlockType)
+	}
 
 	// Allocate memory
 	if size == 0 {
@@ -282,10 +287,30 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
 			if !utils.HasNil(val) {
-				if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
+				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+					valueBlock, c, err := wa.allocateAndPinMemory(ctx, 8, memBlockClassID)
+					if err != nil {
+						return 0, cln, err
+					}
+					innerCln.AddCleaner(c)
+					if _, err := h.elementHandler.Write(ctx, wasmAdapter, valueBlock, val); err != nil {
+						return 0, cln, err
+					}
+					wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, valueBlock-8)
+				} else {
+					if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
+						return 0, cln, err
+					}
+					wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(*)
+				}
+			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
+				if err != nil {
 					return 0, cln, err
 				}
-				wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(*)
+				innerCln.AddCleaner(c)
+				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
+				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, noneBlock-8)
 			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" {
 				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
 			} else {

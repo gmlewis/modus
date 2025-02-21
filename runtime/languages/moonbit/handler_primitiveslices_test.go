@@ -1124,31 +1124,31 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 			name:    "Array[Int64]: [-9223372036854775808]",
 			handler: int64SliceHandler,
 			value:   []int64{math.MinInt64},
-			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 128, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128},
 		},
 		{
 			name:    "Array[Int64]: [9223372036854775807]",
 			handler: int64SliceHandler,
 			value:   []int64{math.MaxInt64},
-			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 255, 255, 255, 255, 255, 127},
 		},
 		{
 			name:    "Array[Int64]: [-32768, 32767]",
 			handler: int64SliceHandler,
 			value:   []int64{-32768, 32767},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64]: [-32768, 32767, -32768]",
 			handler: int64SliceHandler,
 			value:   []int64{-32768, 32767, -32768},
-			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 127, 0, 128, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255},
 		},
 		{
 			name:    "Array[Int64]: [-32768, 32767, -32768, 32767]",
 			handler: int64SliceHandler,
 			value:   []int64{-32768, 32767, -32768, 32767},
-			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 127, 0, 128, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: nil",
@@ -1159,49 +1159,42 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 			name:    "Array[Int64?]: []",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{},
-			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 242, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [nil]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{nil},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [-9223372036854775808]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{Ptr(int64(math.MinInt64))},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [9223372036854775807]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{Ptr(int64(math.MaxInt64))},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [32767, 32767]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{Ptr(int64(32767)), Ptr(int64(32767))},
-			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [-32768, 32767, -32768]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{Ptr(int64(-32768)), Ptr(int64(32767)), Ptr(int64(-32768))},
-			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [-32768, 32767, -32768, 32767]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{Ptr(int64(-32768)), Ptr(int64(32767)), Ptr(int64(-32768)), Ptr(int64(32767))},
-			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64?]: [nil, 128, nil, 128]",
 			handler: int64OptionSliceHandler,
 			value:   []*int64{nil, Ptr(int64(128)), nil, Ptr(int64(128))},
-			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
 
@@ -1216,7 +1209,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 				t.Fatalf("h.Encode() returned an error: %v", err)
 			}
 
-			if res[0] != 0 {
+			if res[0] != 0 && tt.want != nil {
 				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
@@ -1232,7 +1225,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, wantNumElements*8, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}

@@ -282,7 +282,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 	} else {
 		// Int arrays: 4 bytes per element + header
-		size = numElements * 4
+		size = numElements * uint32(elementSize)
 		// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 		memBlockClassID = ArrayBlockType
 
@@ -307,6 +307,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		offset, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
+		}
+		// For both Int64 and UInt64, the `words` portion of the memory block
+		// indicates the number of elements in the slice, not the number of 16-bit words.
+		if elemType.Name() == "Int64" || elemType.Name() == "UInt64" {
+			memType := ((size / 8) << 8) | memBlockClassID
+			wa.Memory().WriteUint32Le(offset-4, memType)
 		}
 	}
 
