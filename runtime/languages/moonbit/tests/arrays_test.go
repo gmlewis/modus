@@ -775,13 +775,13 @@ func TestArrayOutput_int_2(t *testing.T) {
 	fnName := "test_array_output_int_2"
 
 	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 2 0 0 0]
-	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 1 0 0 0 2 0 0 0]
+	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 0 0 0 128 255 255 255 127]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := []int32{1, 2}
+	expected := []int32{math.MinInt32, math.MaxInt32}
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]int32); !ok {
@@ -960,14 +960,18 @@ func TestArrayOutput_int_option_4(t *testing.T) {
 	fnName := "test_array_output_int_option_4"
 
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 160 191 0 0 4 0 0 0]
-	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0]
-	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 40=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0]
+	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 1 0 0 0 0 0 0 128 255 255 255 255]
+	// memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 40=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 1 0 0 0 0 0 0 128 255 255 255 255 0 0 0 0 0 0 0 0 255 255 255 127 0 0 0 0]
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [4294967296])
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [18446744071562067968])
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [0])
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [2147483647])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := []*int32{Ptr(int32(1)), Ptr(int32(2)), Ptr(int32(3)), Ptr(int32(4))}
+	expected := []*int32{nil, Ptr(int32(math.MinInt32)), Ptr(int32(0)), Ptr(int32(math.MaxInt32))}
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*int32); !ok {

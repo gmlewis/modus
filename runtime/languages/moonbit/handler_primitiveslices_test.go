@@ -314,8 +314,8 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 }
 
 func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
-	byteSliceHandler := mustGetHandler(t, "Array[Char]")
-	byteOptionSliceHandler := mustGetHandler(t, "Array[Char?]")
+	charSliceHandler := mustGetHandler(t, "Array[Char]")
+	charOptionSliceHandler := mustGetHandler(t, "Array[Char?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
@@ -324,95 +324,95 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 	}{
 		{
 			name:    "Array[Char]: nil",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Char]: []",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [0]",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{0},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [255]",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{255},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [0, 255]",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{0, 255},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [0, 255, 0]",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{0, 255, 0},
 			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [0, 255, 0, 255]",
-			handler: byteSliceHandler,
+			handler: charSliceHandler,
 			value:   []int16{0, 255, 0, 255},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: nil",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Char?]: []",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [nil]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{nil},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [0]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{Ptr(int16(0))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [255]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{Ptr(int16(255))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [255, 255]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{Ptr(int16(255)), Ptr(int16(255))},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [0, 255, 0]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{Ptr(int16(0)), Ptr(int16(255)), Ptr(int16(0))},
 			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [0, 255, 0, 255]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{Ptr(int16(0)), Ptr(int16(255)), Ptr(int16(0)), Ptr(int16(255))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [nil, 128, nil, 128]",
-			handler: byteOptionSliceHandler,
+			handler: charOptionSliceHandler,
 			value:   []*int16{nil, Ptr(int16(128)), nil, Ptr(int16(128))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
@@ -464,8 +464,8 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 }
 
 func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
-	byteSliceHandler := mustGetHandler(t, "Array[Int16]")
-	byteOptionSliceHandler := mustGetHandler(t, "Array[Int16?]")
+	int16SliceHandler := mustGetHandler(t, "Array[Int16]")
+	int16OptionSliceHandler := mustGetHandler(t, "Array[Int16?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
@@ -474,95 +474,95 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 	}{
 		{
 			name:    "Array[Int16]: nil",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Int16]: []",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16]: [-32768]",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{-32768},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 128, 0, 0},
 		},
 		{
 			name:    "Array[Int16]: [32767]",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{32767},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
 		},
 		{
 			name:    "Array[Int16]: [-32768, 32767]",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{-32768, 32767},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16]: [-32768, 32767, -32768]",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{-32768, 32767, -32768},
 			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 127, 0, 128, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16]: [-32768, 32767, -32768, 32767]",
-			handler: byteSliceHandler,
+			handler: int16SliceHandler,
 			value:   []int16{-32768, 32767, -32768, 32767},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 127, 0, 128, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: nil",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Int16?]: []",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [nil]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{nil},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [-32768]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{Ptr(int16(-32768))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [32767]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{Ptr(int16(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [32767, 32767]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{Ptr(int16(32767)), Ptr(int16(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [-32768, 32767, -32768]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{Ptr(int16(-32768)), Ptr(int16(32767)), Ptr(int16(-32768))},
 			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [-32768, 32767, -32768, 32767]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{Ptr(int16(-32768)), Ptr(int16(32767)), Ptr(int16(-32768)), Ptr(int16(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [nil, 128, nil, 128]",
-			handler: byteOptionSliceHandler,
+			handler: int16OptionSliceHandler,
 			value:   []*int16{nil, Ptr(int16(128)), nil, Ptr(int16(128))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
@@ -614,8 +614,8 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 }
 
 func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
-	byteSliceHandler := mustGetHandler(t, "Array[UInt16]")
-	byteOptionSliceHandler := mustGetHandler(t, "Array[UInt16?]")
+	uint16SliceHandler := mustGetHandler(t, "Array[UInt16]")
+	uint16OptionSliceHandler := mustGetHandler(t, "Array[UInt16?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
@@ -624,95 +624,95 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 	}{
 		{
 			name:    "Array[UInt16]: nil",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[UInt16]: []",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16]: [0]",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{0},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16]: [65535]",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{65535},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 0, 0},
 		},
 		{
 			name:    "Array[UInt16]: [0, 65535]",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{0, 65535},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16]: [0, 65535, 0]",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{0, 65535, 0},
 			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16]: [0, 65535, 0, 65535]",
-			handler: byteSliceHandler,
+			handler: uint16SliceHandler,
 			value:   []uint16{0, 65535, 0, 65535},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: nil",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[UInt16?]: []",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [nil]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{nil},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [0]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{Ptr(uint16(0))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [65535]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{Ptr(uint16(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [65535, 65535]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{Ptr(uint16(65535)), Ptr(uint16(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [0, 65535, 0]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{Ptr(uint16(0)), Ptr(uint16(65535)), Ptr(uint16(0))},
 			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [0, 65535, 0, 65535]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{Ptr(uint16(0)), Ptr(uint16(65535)), Ptr(uint16(0)), Ptr(uint16(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [nil, 128, nil, 128]",
-			handler: byteOptionSliceHandler,
+			handler: uint16OptionSliceHandler,
 			value:   []*uint16{nil, Ptr(uint16(128)), nil, Ptr(uint16(128))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
@@ -764,8 +764,8 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 }
 
 func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
-	byteSliceHandler := mustGetHandler(t, "Array[Int]")
-	byteOptionSliceHandler := mustGetHandler(t, "Array[Int?]")
+	intSliceHandler := mustGetHandler(t, "Array[Int]")
+	intOptionSliceHandler := mustGetHandler(t, "Array[Int?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
@@ -774,95 +774,95 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 	}{
 		{
 			name:    "Array[Int]: nil",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Int]: []",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int]: [-32768]",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{-32768},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 128, 255, 255},
 		},
 		{
 			name:    "Array[Int]: [32767]",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{32767},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 127, 0, 0},
 		},
 		{
 			name:    "Array[Int]: [-32768, 32767]",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{-32768, 32767},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 255, 255, 127, 0, 0},
 		},
 		{
 			name:    "Array[Int]: [-32768, 32767, -32768]",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{-32768, 32767, -32768},
-			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 127, 0, 128, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 128, 255, 255, 255, 127, 0, 0, 0, 128, 255, 255},
 		},
 		{
 			name:    "Array[Int]: [-32768, 32767, -32768, 32767]",
-			handler: byteSliceHandler,
+			handler: intSliceHandler,
 			value:   []int32{-32768, 32767, -32768, 32767},
-			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 127, 0, 128, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 128, 255, 255, 255, 127, 0, 0, 0, 128, 255, 255, 255, 127, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: nil",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[Int?]: []",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [nil]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{nil},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [-32768]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(-32768))},
-			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 128, 255, 255, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [32767]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [32767, 32767]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(32767)), Ptr(int32(32767))},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [-32768, 32767, -32768]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(-32768)), Ptr(int32(32767)), Ptr(int32(-32768))},
-			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 128, 255, 255, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [-32768, 32767, -32768, 32767]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{Ptr(int32(-32768)), Ptr(int32(32767)), Ptr(int32(-32768)), Ptr(int32(32767))},
-			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 128, 255, 255, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [nil, 128, nil, 128]",
-			handler: byteOptionSliceHandler,
+			handler: intOptionSliceHandler,
 			value:   []*int32{nil, Ptr(int32(128)), nil, Ptr(int32(128))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
@@ -914,8 +914,8 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 }
 
 func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
-	byteSliceHandler := mustGetHandler(t, "Array[UInt]")
-	byteOptionSliceHandler := mustGetHandler(t, "Array[UInt?]")
+	uintSliceHandler := mustGetHandler(t, "Array[UInt]")
+	uintOptionSliceHandler := mustGetHandler(t, "Array[UInt?]")
 	tests := []struct {
 		name    string
 		handler langsupport.TypeHandler
@@ -924,95 +924,95 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 	}{
 		{
 			name:    "Array[UInt]: nil",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[UInt]: []",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [0]",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{0},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [65535]",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{65535},
 			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 255, 255, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [0, 65535]",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{0, 65535},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [0, 65535, 0]",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{0, 65535, 0},
 			want:    []byte{1, 0, 0, 0, 241, 3, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [0, 65535, 0, 65535]",
-			handler: byteSliceHandler,
+			handler: uintSliceHandler,
 			value:   []uint32{0, 65535, 0, 65535},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: nil",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   nil,
 		},
 		{
 			name:    "Array[UInt?]: []",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{},
 			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [nil]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{nil},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [0]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(0))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [65535]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 2, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [65535, 65535]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(65535)), Ptr(uint32(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 4, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [0, 65535, 0]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(0)), Ptr(uint32(65535)), Ptr(uint32(0))},
 			want:    []byte{1, 0, 0, 0, 241, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [0, 65535, 0, 65535]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{Ptr(uint32(0)), Ptr(uint32(65535)), Ptr(uint32(0)), Ptr(uint32(65535))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [nil, 128, nil, 128]",
-			handler: byteOptionSliceHandler,
+			handler: uintOptionSliceHandler,
 			value:   []*uint32{nil, Ptr(uint32(128)), nil, Ptr(uint32(128))},
 			want:    []byte{1, 0, 0, 0, 241, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0},
 		},
