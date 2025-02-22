@@ -148,8 +148,9 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	elemTypeSize := h.converter.TypeSize()
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
+		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = 4
 	}
 	isNullable := elemType.IsNullable()
@@ -184,6 +185,16 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			// }
 			item := binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:])
 			val := item != 0
+			items.Index(int(i)).Set(reflect.ValueOf(val))
+		}
+		return items.Interface(), nil
+	}
+
+	// TODO: Figure out how to not make special cases.
+	if elemType.Name() == "Char" {
+		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+		for i := 0; i < int(numElements); i++ {
+			val := int16(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
 		return items.Interface(), nil

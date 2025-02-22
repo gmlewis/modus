@@ -101,6 +101,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	isNullable := elemType.IsNullable()
 	if isNullable && elemType.IsPrimitive() &&
 		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		elemType.Name() != "Char?" &&
 		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
@@ -154,6 +155,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
 			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" &&
+				elemType.Name() != "Char?" &&
 				elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
@@ -246,6 +248,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	isNullable := elemType.IsNullable()
 	if elemType.IsPrimitive() && isNullable &&
 		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		elemType.Name() != "Char?" &&
 		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
@@ -311,7 +314,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 				innerCln.AddCleaner(c)
 				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
 				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, noneBlock-8)
-			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" {
+			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" || elemType.Name() == "Char?" {
 				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
 			} else {
 				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
