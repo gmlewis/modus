@@ -14,11 +14,13 @@ pub fn test_fixedarray_input_bool(val : FixedArray[Bool]) -> Unit!Error {
 
 ///|
 pub fn test_fixedarray_output_bool_0() -> FixedArray[Bool] {
+  // memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   []
 }
 
 ///|
 pub fn test_fixedarray_output_bool_1() -> FixedArray[Bool] {
+  // memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
   [true]
 }
 

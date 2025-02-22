@@ -17,6 +17,7 @@ import (
 func TestFixedArrayOutput_bool_0(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_0"
 
+	// memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -36,6 +37,7 @@ func TestFixedArrayOutput_bool_0(t *testing.T) {
 func TestFixedArrayOutput_bool_1(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_1"
 
+	// memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
