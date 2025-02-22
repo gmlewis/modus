@@ -161,6 +161,9 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	size := numElements * uint32(elemTypeSize)
 	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
 
+	// For reverse engineering:
+	_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
+
 	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, size, true)
 	if err != nil {
 		return nil, err
@@ -195,6 +198,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			val := int16(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
+			items.Index(int(i)).Set(reflect.ValueOf(val))
+		}
+		return items.Interface(), nil
+	}
+	if elemType.Name() == "Int16" {
+		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+		for i := 0; i < int(numElements); i++ {
+			val := int16(binary.LittleEndian.Uint16(sliceMemBlock[8+i*elemTypeSize:]))
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
 		return items.Interface(), nil

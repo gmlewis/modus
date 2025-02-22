@@ -8,6 +8,8 @@
 ///|
 pub fn test_array_input_int16_empty(val : Array[Int16]) -> Unit!Error {
   let expected = []
+  // memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
+  // memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 0 0 0 0]
   assert_eq!(expected, val)
 }
 
@@ -89,6 +91,8 @@ pub fn test_array_input_int16_option(val : Array[Int16?]) -> Unit!Error {
 
 ///|
 pub fn test_array_output_int16_option() -> Array[Int16?] {
+  // memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 3 0 0 0]
+  // memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 11 0 0 0 255 255 255 255 33 0 0 0]
   get_int16_option_array()
 }
 

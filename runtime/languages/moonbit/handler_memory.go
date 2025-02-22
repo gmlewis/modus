@@ -68,7 +68,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHa
 	if !ok {
 		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
 	}
-	if len(dbgHackToRemove) > 0 {
+	if len(dbgHackToRemove) > 0 && sizeOverride == 0 {
 		moonBitType := memBlockHeader[4]
 		moonBitTypeName := moonBitBlockType[moonBitType]
 		if moonBitTypeName == "String" {
