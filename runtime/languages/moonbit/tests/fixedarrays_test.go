@@ -200,7 +200,6 @@ func TestFixedArrayOutput1_int_option(t *testing.T) {
 
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 11 0 0 0]
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 11 0 0 0 0 0 0 0]
-	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [11])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -319,8 +318,6 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 11 0 0 0 0 0 0 0]
 	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 11 0 0 0 0 0 0 0 22 0 0 0 0 0 0 0]
-	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [11])
-	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [22])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

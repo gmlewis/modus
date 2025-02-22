@@ -52,11 +52,6 @@ pub fn test_fixedarray_output0_int_option() -> FixedArray[Int?] {
 }
 
 ///|
-fn get_int_option_fixedarray() -> FixedArray[Int?] {
-  []
-}
-
-///|
 pub fn test_fixedarray_input1_byte(val : FixedArray[Byte]) -> Unit!Error {
   let expected : FixedArray[Byte] = [1]
   assert_eq!(expected, val)
