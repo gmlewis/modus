@@ -373,18 +373,22 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// For debugging:
 	_, _, _ = memoryBlockAtOffset(wa, offset-8, 0, true)
 
-	// Finally, write the slice memory block.
-	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, 0)
-	innerCln := utils.NewCleanerN(1)
-	innerCln.AddCleaner(sliceCln)
-	if err != nil {
-		return 0, cln, err
-	}
-	wa.Memory().WriteUint32Le(slicePtr, offset-8)
-	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
+	/*
+		// Finally, write the slice memory block.
+		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, 0)
+		innerCln := utils.NewCleanerN(1)
+		innerCln.AddCleaner(sliceCln)
+		if err != nil {
+			return 0, cln, err
+		}
+		wa.Memory().WriteUint32Le(slicePtr, offset-8)
+		wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
-	// For debugging purposes:
-	_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+		// For debugging purposes:
+		_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)
 
-	return slicePtr - 8, cln, nil
+		return slicePtr - 8, cln, nil
+	*/
+	// return offset - 8, cln, nil
+	return offset, cln, nil
 }
