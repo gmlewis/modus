@@ -179,28 +179,27 @@ type TestStructWithMap2 struct {
 // 	}
 // }
 
-// TODO:
-// func TestStructContainingMapOutput_string_string(t *testing.T) {
-// 	fnName := "test_struct_containing_map_output_string_string"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestStructContainingMapOutput_string_string(t *testing.T) {
+	fnName := "test_struct_containing_map_output_string_string"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := TestStructWithMap1{M: map[string]string{
-// 		"a": "1",
-// 		"b": "2",
-// 		"c": "3",
-// 	}}
+	expected := TestStructWithMap1{M: map[string]string{
+		"a": "1",
+		"b": "2",
+		"c": "3",
+	}}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(TestStructWithMap1); !ok {
-// 		t.Errorf("expected %T, got %T", expected, result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(TestStructWithMap1); !ok {
+		t.Errorf("expected %T, got %T", expected, result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func makeTestMap(size int) map[string]string {
 	m := make(map[string]string, size)
@@ -260,7 +259,7 @@ func makeTestMap(size int) map[string]string {
 // 		2: 2.2,
 // 		3: 3.3,
 // 	}
-//
+
 // 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
 // 		t.Error(err)
 // 	}
@@ -274,6 +273,15 @@ func makeTestMap(size int) map[string]string {
 // TODO:
 // func TestMapOutput_int_double(t *testing.T) {
 // 	fnName := "test_map_output_int_double"
+
+// 	// memoryBlockAtOffset(offset: 49312=0x0000C0A0=[160 192 0 0], size: 40=8+words*4), moonBitType=0(Tuple), words=8, memBlock=[1 0 0 0 0 8 0 0 32 192 0 0 112 192 0 0 3 0 0 0 8 0 0 0 7 0 0 0 6 0 0 0 240 192 0 0 144 193 0 0]
+// // GML: handler_maps.go: mapHandler.Decode: sliceOffset=[32 192 0 0]=49184
+// // GML: handler_maps.go: mapHandler.Decode: numElements=[3 0 0 0]=3
+// // memoryBlockAtOffset(offset: 49184=0x0000C020=[32 192 0 0], size: 40=8+words*4), moonBitType=242(), words=8, memBlock=[1 0 0 0 242 8 0 0 0 0 0 0 64 193 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 240 192 0 0 144 193 0 0]
+// // GML: handler_maps.go: mapHandler.Decode: (sliceOffset: 49184, numElements: 3), sliceMemBlock([32 192 0 0]=@49184)=(40 bytes)=[1 0 0 0 242 8 0 0 0 0 0 0 64 193 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 240 192 0 0 144 193 0 0]
+// // GML: handler_maps.go: readMapKeysAndValues: tupleOffset=sliceMemBlock[8:12]=[0 0 0 0]=0
+// // GML: handler_maps.go: readMapKeysAndValues: tupleOffset=sliceMemBlock[12:16]=[64 193 0 0]=49472
+// // memoryBlockAtOffset(offset: 49472=0x0000C140=[64 193 0 0], size: 32=8+words*4), moonBitType=0(Tuple), words=6, memBlock=[3 0 0 0 0 6 0 0 1 0 0 0 0 0 0 0 233 232 223 241 2 0 0 0 154 153 153 153 153 153 1 64]
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
 // 		t.Fatal(err)

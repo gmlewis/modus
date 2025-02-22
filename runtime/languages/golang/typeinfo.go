@@ -12,6 +12,7 @@ package golang
 import (
 	"context"
 	"fmt"
+	"log"
 	"math"
 	"reflect"
 	"strconv"
@@ -522,7 +523,7 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
 	if customTypes != nil {
 		if rt, ok := customTypes[typ]; ok {
-			gmlPrintf("GML: typeinfo.go: A: getReflectedType('%v') = %v", typ, rt)
+			gmlPrintf("GML: typeinfo.go: A: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
 			return rt, nil
 		}
 	}
@@ -599,7 +600,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 	}
 
 	// All other types are custom classes, which are represented as a map[string]any
-	gmlPrintf("GML: typeinfo.go: G: getReflectedType('%v') = %v", typ, rtMapStringAny)
+	log.Printf("GML: typeinfo.go: G: getReflectedType('%v') = %v, Kind()=%v", typ, rtMapStringAny, rtMapStringAny.Kind())
 	return rtMapStringAny, nil
 }
 

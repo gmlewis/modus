@@ -21,7 +21,7 @@ func TestTupleOutput(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := []any{123, true, "hello"}
+	expected := []any{int32(123), true, "hello"}
 
 	if result == nil {
 		t.Error("expected a result")

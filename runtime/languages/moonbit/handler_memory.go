@@ -25,13 +25,15 @@ func Ptr[T any](v T) *T {
 
 var moonBitBlockType = map[byte]string{
 	0:   "Tuple",
-	241: "FixedArray[Int]", // Also FixedArray[UInt]
+	241: "FixedArray[Int]",    // Also FixedArray[UInt], FixedArray[Bool]
+	242: "FixedArray[String]", // Also FixedArray[Int64?], FixedArray[UInt64?]
 	243: "String",
 	246: "FixedArray[Byte]",
 }
 
 const (
 	ArrayBlockType         = 241
+	PtrArrayBlockType      = 242
 	StringBlockType        = 243
 	ZonedDateTimeBlockType = 3
 	ZoneBlockType          = 3
@@ -49,7 +51,7 @@ type wasmMemoryReader interface {
 
 func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
 	if offset == 0 {
-		gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
+		gmlPrintf("// memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
 		return nil, 0, nil
 	}
 
@@ -66,7 +68,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHa
 	if !ok {
 		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
 	}
-	if len(dbgHackToRemove) > 0 {
+	if len(dbgHackToRemove) > 0 && sizeOverride == 0 {
 		moonBitType := memBlockHeader[4]
 		moonBitTypeName := moonBitBlockType[moonBitType]
 		if moonBitTypeName == "String" {
@@ -78,10 +80,10 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHa
 			if err != nil {
 				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
 			}
-			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
+			gmlPrintf("// memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, s)
 		} else {
-			gmlPrintf("GML: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
+			gmlPrintf("// memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
 				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock)
 		}
 	}
