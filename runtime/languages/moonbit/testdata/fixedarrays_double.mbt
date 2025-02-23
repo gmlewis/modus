@@ -52,7 +52,7 @@ pub fn test_fixedarray_output_double_option_2() -> FixedArray[Double?] {
 
 ///|
 pub fn test_fixedarray_output_double_option_3() -> FixedArray[Double?] {
-  [Some(1), None, Some(3)]
+  [Some(11), None, Some(33)]
 }
 
 ///|

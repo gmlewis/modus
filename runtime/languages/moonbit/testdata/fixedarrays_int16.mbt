@@ -6,12 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_int16_empty(val : FixedArray[Int16]) -> Unit!Error {
-  let expected : FixedArray[Int16] = []
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_fixedarray_output_int16_0() -> FixedArray[Int16] {
   []
 }
@@ -73,7 +67,7 @@ pub fn test_fixedarray_output_int16_option_2() -> FixedArray[Int16?] {
 
 ///|
 pub fn test_fixedarray_output_int16_option_3() -> FixedArray[Int16?] {
-  [None, None, None]
+  [Some(11), None, Some(33)]
 }
 
 ///|
@@ -82,19 +76,99 @@ pub fn test_fixedarray_output_int16_option_4() -> FixedArray[Int16?] {
 }
 
 ///|
-pub fn test_fixedarray_input_int16_option(
+pub fn test_fixedarray_input_int16_0(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_1(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_1_min(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_1_min()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_1_max(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_1_max()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_2(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_3(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_4(val : FixedArray[Int16]) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_option_0(
   val : FixedArray[Int16?]
 ) -> Unit!Error {
-  let expected = get_int16_option_fixedarray()
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_int16_option_0()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_output_int16_option() -> FixedArray[Int16?] {
-  get_int16_option_fixedarray()
+pub fn test_fixedarray_input_int16_option_1_none(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_1_none()
+  assert_eq!(val, expected)
 }
 
 ///|
-fn get_int16_option_fixedarray() -> FixedArray[Int16?] {
-  [Some(11), None, Some(33)]
+pub fn test_fixedarray_input_int16_option_1_min(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_1_min()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_option_1_max(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_1_max()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_option_2(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_option_3(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_int16_option_4(
+  val : FixedArray[Int16?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_int16_option_4()
+  assert_eq!(val, expected)
 }

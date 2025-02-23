@@ -203,8 +203,8 @@ func TestFixedArrayOutput_float_option_3(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	a := float32(1)
-	c := float32(3)
+	a := float32(11)
+	c := float32(33)
 	expected := []*float32{&a, nil, &c}
 
 	if result == nil {

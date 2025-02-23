@@ -98,10 +98,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
 	if isNullable && elemType.IsPrimitive() &&
-		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
-		elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
-		elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+		// elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		// elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
+		// elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+		// elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") {
 		elemTypeSize = 8
 	}
 	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType { // && isNullable && elemType.IsPrimitive()
@@ -154,10 +155,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" &&
-				elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-				elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
-				elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+			// if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" &&
+			// 	elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
+			// 	elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+			// 	elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
@@ -248,11 +250,11 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	elemTypeSize := uint32(4) // elemType.Size()
 	isNullable := elemType.IsNullable()
 	if elemType.IsPrimitive() && isNullable &&
-		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
-		elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
-		elemType.Name() != "Float?" && elemType.Name() != "Double?" {
-		// Did I miss any?!?!?  What is this for?!?!?  "String?" ???
+		// elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
+		// elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
+		// elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+		// elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") {
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
@@ -274,6 +276,14 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
+		}
+
+		// For Int, UInt, Int64, UInt64, and Double, the `words` portion of the memory block
+		// indicates the number of elements in the slice, not the number of 16-bit words.
+		if elemType.Name() == "Int?" || elemType.Name() == "UInt?" ||
+			elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
+			memType := ((size / 8) << 8) | memBlockClassID
+			wa.Memory().WriteUint32Le(ptr-4, memType)
 		}
 	}
 

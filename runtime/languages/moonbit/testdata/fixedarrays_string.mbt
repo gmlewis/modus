@@ -6,130 +6,134 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_string(val : FixedArray[String]) -> Unit!Error {
-  let expected : FixedArray[String] = ["abc", "def", "ghi"]
-  // GML: handler_memory.go: memoryBlockAtOffset(offset: 49024=0x0000BF80=[128 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 3 0 0 0]
-  assert_eq!(expected, val)
-}
-
-///|
-pub fn test_fixedarray_output_string() -> FixedArray[String] {
-  ["abc", "def", "ghi"]
-}
-
-///|
-pub fn test_fixedarray_input_string_none(
-  val : FixedArray[String]?
-) -> Unit!Error {
-  assert_eq!(val, None)
-}
-
-///|
-pub fn test_fixedarray_output_string_none() -> FixedArray[String]? {
-  // pointerHandler.Decode(vals: [0])
-  None
-}
-
-///|
-pub fn test_fixedarray_input_string_empty(
-  val : FixedArray[String]
-) -> Unit!Error {
-  let expected : FixedArray[String] = []
-  assert_eq!(expected, val)
-}
-
-///|
-pub fn test_fixedarray_output_string_empty() -> FixedArray[String] {
+pub fn test_fixedarray_output_string_0() -> FixedArray[String] {
   []
 }
 
 ///|
-pub fn test_fixedarray_input_string_option(
+pub fn test_fixedarray_output_string_1() -> FixedArray[String] {
+  ["1"]
+}
+
+///|
+pub fn test_fixedarray_output_string_2() -> FixedArray[String] {
+  ["1", "2"]
+}
+
+///|
+pub fn test_fixedarray_output_string_3() -> FixedArray[String] {
+  ["1", "2", "3"]
+}
+
+///|
+pub fn test_fixedarray_output_string_4() -> FixedArray[String] {
+  ["1", "2", "3", "4"]
+}
+
+///|
+pub fn test_fixedarray_output_string_option_0() -> FixedArray[String?] {
+  []
+}
+
+///|
+pub fn test_fixedarray_output_string_option_1_none() -> FixedArray[String?] {
+  [None]
+}
+
+///|
+pub fn test_fixedarray_output_string_option_1_some() -> FixedArray[String?] {
+  [Some("1")]
+}
+
+///|
+pub fn test_fixedarray_output_string_option_2() -> FixedArray[String?] {
+  [Some("1"), Some("2")]
+}
+
+///|
+pub fn test_fixedarray_output_string_option_3() -> FixedArray[String?] {
+  [Some("11"), None, Some("33")]
+}
+
+///|
+pub fn test_fixedarray_output_string_option_4() -> FixedArray[String?] {
+  [None, Some("2"), Some("0"), Some("4")]
+}
+
+///|
+pub fn test_fixedarray_input_string_0(val : FixedArray[String]) -> Unit!Error {
+  let expected = test_fixedarray_output_string_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_string_1(val : FixedArray[String]) -> Unit!Error {
+  let expected = test_fixedarray_output_string_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_string_2(val : FixedArray[String]) -> Unit!Error {
+  let expected = test_fixedarray_output_string_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_string_3(val : FixedArray[String]) -> Unit!Error {
+  let expected = test_fixedarray_output_string_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_string_4(val : FixedArray[String]) -> Unit!Error {
+  let expected = test_fixedarray_output_string_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_string_option_0(
   val : FixedArray[String?]
 ) -> Unit!Error {
-  let expected = get_string_option_fixedarray()
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_string_option_0()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_output_string_option() -> FixedArray[String?] {
-  get_string_option_fixedarray()
-}
-
-///|
-fn get_string_option_fixedarray() -> FixedArray[String?] {
-  let a = Some("abc")
-  let b = None
-  let c = Some("ghi")
-  [a, b, c]
-}
-
-///|
-pub fn test2d_fixedarray_input_string(
-  val : FixedArray[FixedArray[String]]
+pub fn test_fixedarray_input_string_option_1_none(
+  val : FixedArray[String?]
 ) -> Unit!Error {
-  let expected : FixedArray[FixedArray[String]] = [
-    ["abc", "def", "ghi"],
-    ["jkl", "mno", "pqr"],
-    ["stu", "vwx", "yz"],
-  ]
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_string_option_1_none()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test2d_fixedarray_output_string() -> FixedArray[FixedArray[String]] {
-  [["abc", "def", "ghi"], ["jkl", "mno", "pqr"], ["stu", "vwx", "yz"]]
-}
-
-///|
-pub fn test2d_fixedarray_input_string_none(
-  val : FixedArray[FixedArray[String]]?
+pub fn test_fixedarray_input_string_option_1_some(
+  val : FixedArray[String?]
 ) -> Unit!Error {
-  assert_eq!(val, None)
+  let expected = test_fixedarray_output_string_option_1_some()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test2d_fixedarray_output_string_none() -> FixedArray[FixedArray[String]]? {
-  // pointerHandler.Decode(vals: [0])
-  None
-}
-
-///|
-pub fn test2d_fixedarray_input_string_empty(
-  val : FixedArray[FixedArray[String]]
+pub fn test_fixedarray_input_string_option_2(
+  val : FixedArray[String?]
 ) -> Unit!Error {
-  let expected : FixedArray[FixedArray[String]] = []
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_string_option_2()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test2d_fixedarray_output_string_empty() -> FixedArray[FixedArray[String]] {
-  []
-}
-
-///|
-pub fn test2d_fixedarray_input_string_inner_empty(
-  val : FixedArray[FixedArray[String]]
+pub fn test_fixedarray_input_string_option_3(
+  val : FixedArray[String?]
 ) -> Unit!Error {
-  let expected : FixedArray[FixedArray[String]] = [[]]
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_string_option_3()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test2d_fixedarray_output_string_inner_empty() ->
-     FixedArray[FixedArray[String]] {
-  [[]]
-}
-
-///|
-pub fn test2d_fixedarray_input_string_inner_none(
-  val : FixedArray[FixedArray[String]?]
+pub fn test_fixedarray_input_string_option_4(
+  val : FixedArray[String?]
 ) -> Unit!Error {
-  assert_eq!(val, [None])
-}
-
-///|
-pub fn test2d_fixedarray_output_string_inner_none() ->
-     FixedArray[FixedArray[String]?] {
-  [None]
+  let expected = test_fixedarray_output_string_option_4()
+  assert_eq!(val, expected)
 }

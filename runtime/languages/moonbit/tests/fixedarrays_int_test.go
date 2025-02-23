@@ -16,54 +16,6 @@ import (
 	"testing"
 )
 
-// func TestFixedArrayInput_int_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input_int_option"
-// 	s := getIntOptionFixedArray()
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-func TestFixedArrayOutput_int_option(t *testing.T) {
-	fnName := "test_fixedarray_output_int_option"
-
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := getIntOptionFixedArray()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*int32); !ok {
-		t.Errorf("expected a []*int32, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *int32) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
-		for i, v := range expected {
-			t.Logf("expected[%v]: %v", i, *v)
-		}
-		for i, v := range r {
-			t.Logf("r[%v]: %v", i, *v)
-		}
-		t.Errorf("expected %#v, got %#v", expected, r)
-	}
-}
-
-func getIntOptionFixedArray() []*int32 {
-	a := int32(11)
-	c := int32(33)
-	return []*int32{&a, nil, &c}
-}
-
-// func TestFixedArrayInput_int_empty(t *testing.T) {
-// 	fnName := "test_fixedarray_input_int_empty"
-// 	s := []int32{}
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
 func TestFixedArrayOutput_int_0(t *testing.T) {
 	fnName := "test_fixedarray_output_int_0"
 
@@ -80,6 +32,8 @@ func TestFixedArrayOutput_int_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_1(t *testing.T) {
@@ -98,6 +52,8 @@ func TestFixedArrayOutput_int_1(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_1_min(t *testing.T) {
@@ -116,6 +72,8 @@ func TestFixedArrayOutput_int_1_min(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_1_max(t *testing.T) {
@@ -134,6 +92,8 @@ func TestFixedArrayOutput_int_1_max(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_2(t *testing.T) {
@@ -152,6 +112,8 @@ func TestFixedArrayOutput_int_2(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_3(t *testing.T) {
@@ -170,6 +132,8 @@ func TestFixedArrayOutput_int_3(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_4(t *testing.T) {
@@ -188,6 +152,8 @@ func TestFixedArrayOutput_int_4(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_0(t *testing.T) {
@@ -206,6 +172,8 @@ func TestFixedArrayOutput_int_option_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_1_none(t *testing.T) {
@@ -224,6 +192,8 @@ func TestFixedArrayOutput_int_option_1_none(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_1_min(t *testing.T) {
@@ -242,6 +212,8 @@ func TestFixedArrayOutput_int_option_1_min(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_1_max(t *testing.T) {
@@ -260,6 +232,8 @@ func TestFixedArrayOutput_int_option_1_max(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_2(t *testing.T) {
@@ -278,6 +252,8 @@ func TestFixedArrayOutput_int_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_3(t *testing.T) {
@@ -288,7 +264,10 @@ func TestFixedArrayOutput_int_option_3(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := []*int32{nil, nil, nil}
+	a := int32(11)
+	c := int32(33)
+	expected := []*int32{&a, nil, &c}
+
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*int32); !ok {
@@ -296,6 +275,8 @@ func TestFixedArrayOutput_int_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int_option_4(t *testing.T) {
@@ -312,6 +293,8 @@ func TestFixedArrayOutput_int_option_4(t *testing.T) {
 	} else if r, ok := result.([]*int32); !ok {
 		t.Errorf("expected a []*int32, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
+		t.Errorf("expected %+v, got %+v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }

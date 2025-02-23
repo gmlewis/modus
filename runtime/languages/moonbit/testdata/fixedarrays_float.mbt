@@ -52,7 +52,7 @@ pub fn test_fixedarray_output_float_option_2() -> FixedArray[Float?] {
 
 ///|
 pub fn test_fixedarray_output_float_option_3() -> FixedArray[Float?] {
-  [Some(1), None, Some(3)]
+  [Some(11), None, Some(33)]
 }
 
 ///|
