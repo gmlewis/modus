@@ -143,11 +143,11 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
 			memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
-			memBlock, ok := wa.Memory().ReadUint64Le(uint32(vals[0]))
+			memBlockHeader, ok := wa.Memory().ReadUint64Le(uint32(vals[0]))
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
 			}
-			if memBlock == 0x00000000ffffffff { // constant 'None' in MoonBit
+			if memBlockHeader == 0x00000000ffffffff { // constant 'None' in MoonBit
 				return nil, nil
 			}
 			result, ok := h.converter.Read(wa.Memory(), uint32(vals[0]+8))

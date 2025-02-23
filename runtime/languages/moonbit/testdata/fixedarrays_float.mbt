@@ -6,12 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_float_empty(val : FixedArray[Float]) -> Unit!Error {
-  let expected : FixedArray[Float] = []
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_fixedarray_output_float_0() -> FixedArray[Float] {
   []
 }
@@ -58,7 +52,7 @@ pub fn test_fixedarray_output_float_option_2() -> FixedArray[Float?] {
 
 ///|
 pub fn test_fixedarray_output_float_option_3() -> FixedArray[Float?] {
-  [None, None, None]
+  [Some(1), None, Some(3)]
 }
 
 ///|
@@ -67,21 +61,79 @@ pub fn test_fixedarray_output_float_option_4() -> FixedArray[Float?] {
 }
 
 ///|
-pub fn test_fixedarray_input_float_option(
+pub fn test_fixedarray_input_float_0(val : FixedArray[Float]) -> Unit!Error {
+  let expected = test_fixedarray_output_float_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_1(val : FixedArray[Float]) -> Unit!Error {
+  let expected = test_fixedarray_output_float_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_2(val : FixedArray[Float]) -> Unit!Error {
+  let expected = test_fixedarray_output_float_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_3(val : FixedArray[Float]) -> Unit!Error {
+  let expected = test_fixedarray_output_float_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_4(val : FixedArray[Float]) -> Unit!Error {
+  let expected = test_fixedarray_output_float_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_option_0(
   val : FixedArray[Float?]
 ) -> Unit!Error {
-  let expected = get_float_option_fixedarray()
-  // println("expected: \{expected}")
-  // println("val: \{val}")
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_float_option_0()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_output_float_option() -> FixedArray[Float?] {
-  get_float_option_fixedarray()
+pub fn test_fixedarray_input_float_option_1_none(
+  val : FixedArray[Float?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_float_option_1_none()
+  assert_eq!(val, expected)
 }
 
 ///|
-fn get_float_option_fixedarray() -> FixedArray[Float?] {
-  [Some(1), None, Some(3)]
+pub fn test_fixedarray_input_float_option_1_some(
+  val : FixedArray[Float?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_float_option_1_some()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_option_2(
+  val : FixedArray[Float?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_float_option_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_option_3(
+  val : FixedArray[Float?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_float_option_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_float_option_4(
+  val : FixedArray[Float?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_float_option_4()
+  assert_eq!(val, expected)
 }

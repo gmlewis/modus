@@ -100,7 +100,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	if isNullable && elemType.IsPrimitive() &&
 		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
 		elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" && elemType.Name() != "Double?" {
+		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+		elemType.Name() != "Float?" && elemType.Name() != "Double?" {
 		elemTypeSize = 8
 	}
 	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType { // && isNullable && elemType.IsPrimitive()
@@ -155,7 +156,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			var value uint64
 			if elemType.Name() != "Bool?" && elemType.Name() != "Byte?" &&
 				elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-				elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" && elemType.Name() != "Double?" {
+				elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+				elemType.Name() != "Float?" && elemType.Name() != "Double?" {
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
@@ -248,13 +250,16 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	if elemType.IsPrimitive() && isNullable &&
 		elemType.Name() != "Byte?" && elemType.Name() != "Bool?" &&
 		elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
-		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" && elemType.Name() != "Double?" {
+		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
+		elemType.Name() != "Float?" && elemType.Name() != "Double?" {
+		// Did I miss any?!?!?  What is this for?!?!?  "String?" ???
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 	memBlockClassID := uint32(FixedArrayPrimitiveBlockType)
-	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
+	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" ||
+		elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 		memBlockClassID = uint32(PtrArrayBlockType)
 	}
 
@@ -289,9 +294,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
 			if !utils.HasNil(val) {
-				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
+				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 					subBlockClassID := memBlockClassID
-					if elemType.Name() == "Double?" {
+					if elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 						subBlockClassID = OptionBlockType // TODO: rename
 					}
 					valueBlock, c, err := wa.allocateAndPinMemory(ctx, 8, subBlockClassID)
@@ -311,7 +316,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 					}
 					wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(*)
 				}
-			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
+			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
 				if err != nil {
 					return 0, cln, err
