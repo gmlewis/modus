@@ -25,23 +25,25 @@ func Ptr[T any](v T) *T {
 
 var moonBitBlockType = map[byte]string{
 	0:   "Tuple",
-	241: "FixedArray[Int]",    // Also FixedArray[UInt], FixedArray[Bool]
+	241: "FixedArray[Primitive]",
 	242: "FixedArray[String]", // Also FixedArray[Int64?], FixedArray[UInt64?]
 	243: "String",
 	246: "FixedArray[Byte]",
 }
 
 const (
-	ArrayBlockType         = 241
-	PtrArrayBlockType      = 242
-	StringBlockType        = 243
-	ZonedDateTimeBlockType = 3
-	ZoneBlockType          = 3
-	ZoneOffsetBlockType    = 4
-	PlainDateTimeBlockType = 2
-	PlainDateBlockType     = 3
-	PlainTimeBlockType     = 4
-	OptionBlockType        = 1 // TODO
+	FixedArrayPrimitiveBlockType = 241
+	PtrArrayBlockType            = 242
+	StringBlockType              = 243
+	FixedArrayByteBlockType      = 246
+	TupleBlockType               = 0
+	ZonedDateTimeBlockType       = 3
+	ZoneBlockType                = 3
+	ZoneOffsetBlockType          = 4
+	PlainDateTimeBlockType       = 2
+	PlainDateBlockType           = 3
+	PlainTimeBlockType           = 4
+	OptionBlockType              = 1 // TODO
 )
 
 // For testing purposes:
@@ -49,45 +51,46 @@ type wasmMemoryReader interface {
 	Memory() wasm.Memory
 }
 
-func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, words uint32, err error) {
+func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHackToRemove ...bool) (data []byte, classID byte, words uint32, err error) {
 	if offset == 0 {
 		gmlPrintf("  // memoryBlockAtOffset(offset: 0) = (data=0, size=0)")
-		return nil, 0, nil
+		return nil, 0, 0, nil
 	}
 
 	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8))
 	if !ok {
-		return nil, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
+		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
-	words = binary.LittleEndian.Uint32(memBlockHeader[4:8]) >> 8
+	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
+	classID = byte(part2 & 0xff)
+	words = part2 >> 8
 	size := uint32(8 + words*4)
 	if sizeOverride > 0 {
 		size = 8 + sizeOverride
 	}
 	memBlock, ok := wa.Memory().Read(offset, size)
 	if !ok {
-		return nil, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
+		return nil, 0, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
 	}
 	if len(dbgHackToRemove) > 0 && sizeOverride == 0 {
-		moonBitType := memBlockHeader[4]
-		moonBitTypeName := moonBitBlockType[moonBitType]
-		if moonBitTypeName == "String" {
+		classIDName := moonBitBlockType[classID]
+		if classIDName == "String" {
 			data, err := stringDataFromMemBlock(memBlock, words)
 			if err != nil {
-				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
+				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), classID=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, classID, classIDName, words, memBlock, err)
 			}
 			s, err := doReadString(data)
 			if err != nil {
-				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, err)
+				log.Printf("DEBUGGING ERROR: handler_memory.go: memoryBlockAtOffset(offset: %v, size: %v=8+words*4), classID=%v(%v), words=%v, memBlock=%+v, err=%v", debugShowOffset(offset), size, classID, classIDName, words, memBlock, err)
 			}
-			gmlPrintf("  // memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v = '%v'",
-				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock, s)
+			gmlPrintf("  // memoryBlockAtOffset(offset: %v, size: %v=8+words*4), classID=%v(%v), words=%v, memBlock=%+v = '%v'",
+				debugShowOffset(offset), size, classID, classIDName, words, memBlock, s)
 		} else {
-			gmlPrintf("  // memoryBlockAtOffset(offset: %v, size: %v=8+words*4), moonBitType=%v(%v), words=%v, memBlock=%+v",
-				debugShowOffset(offset), size, moonBitType, moonBitTypeName, words, memBlock)
+			gmlPrintf("  // memoryBlockAtOffset(offset: %v, size: %v=8+words*4), classID=%v(%v), words=%v, memBlock=%+v",
+				debugShowOffset(offset), size, classID, classIDName, words, memBlock)
 		}
 	}
-	return memBlock, words, nil
+	return memBlock, classID, words, nil
 }
 
 // func writeMemoryBlockHeader(wa langsupport.WasmAdapter, data, size, offset uint32) error {

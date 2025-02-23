@@ -83,14 +83,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		return nil, nil
 	}
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+	memBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
 
-	part2 := binary.LittleEndian.Uint32(memBlock[4:8])
-	classID := part2 & 0xff
-	words := part2 >> 8
 	if words == 0 {
 		return h.emptyValue, nil // empty slice
 	}
@@ -105,8 +102,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
-	if classID == ArrayBlockType && elemType.IsPrimitive() && isNullable {
-		memBlock, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize, true)
+	if classID == FixedArrayPrimitiveBlockType && elemType.IsPrimitive() && isNullable {
+		memBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize, true)
 		if err != nil {
 			return nil, err
 		}
@@ -117,7 +114,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		}
 
 		// For debugging:
-		_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
+		memoryBlockAtOffset(wa, sliceOffset, 0, true)
 
 		if words == 1 {
 			// sliceOffset is the pointer to the single-slice element.
@@ -140,7 +137,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		size := numElements * uint32(elemTypeSize)
 		gmlPrintf("GML: handler_slices.go: sliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
 
-		memBlock, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
+		memBlock, _, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
 		if err != nil {
 			return nil, err
 		}
@@ -254,7 +251,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
-	memBlockClassID := uint32(ArrayBlockType)
+	memBlockClassID := uint32(FixedArrayPrimitiveBlockType)
 	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
 		memBlockClassID = uint32(PtrArrayBlockType)
 	}
@@ -274,7 +271,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
+	memoryBlockAtOffset(wa, ptr-8, 0, true)
 
 	innerCln := utils.NewCleanerN(len(slice))
 
@@ -332,10 +329,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	_, _, _ = memoryBlockAtOffset(wa, ptr-8, 0, true)
+	memoryBlockAtOffset(wa, ptr-8, 0, true)
 
 	// Finally, write the slice memory block.
-	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, 0)
+	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
 	innerCln.AddCleaner(sliceCln)
 	if err != nil {
 		return 0, cln, err
@@ -344,7 +341,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 	// For debugging purposes:
-	_, _, _ = memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+	memoryBlockAtOffset(wa, slicePtr-8, 0, true)
 
 	return slicePtr - 8, cln, nil
 }

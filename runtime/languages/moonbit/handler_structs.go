@@ -77,7 +77,7 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	}()
 
 	// For debugging purposes only:
-	_, _, err := memoryBlockAtOffset(wa, offset, 0, true)
+	_, _, _, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
 		return nil, fmt.Errorf("structHandler failed to read memory block at offset %v: %w", debugShowOffset(offset), err)
 	}
@@ -144,9 +144,13 @@ func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	memBlockPtr := uint32(vals[0])
-	memBlock, _, err := memoryBlockAtOffset(wa, memBlockPtr, 0, true)
+	memBlock, classID, _, err := memoryBlockAtOffset(wa, memBlockPtr, 0, true)
 	if err != nil {
 		return nil, err
+	}
+
+	if classID != TupleBlockType {
+		return nil, fmt.Errorf("expected a tuple block but got classID %v", classID)
 	}
 
 	numFields := len(h.typeDef.Fields)

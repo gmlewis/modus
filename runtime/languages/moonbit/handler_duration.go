@@ -66,7 +66,7 @@ func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter
 	//   secs : Int64
 	//   nanos : Int
 	// } derive(Eq, Compare)
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+	memBlock, _, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}

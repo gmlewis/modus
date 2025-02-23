@@ -204,7 +204,7 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 		return nil, nil
 	}
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+	memBlock, _, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
@@ -237,19 +237,19 @@ func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, val
 	// lastKVPair := binary.LittleEndian.Uint32(memBlock[36:])
 	// gmlPrintf("GML: handler_maps.go: mapHandler.Decode: lastKVPair=%+v=%v", memBlock[36:40], lastKVPair)
 
-	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, 0, true)
+	sliceMemBlock, _, _, err := memoryBlockAtOffset(wa, sliceOffset, 0, true)
 	if err != nil {
 		return nil, err
 	}
-	// ptr1MemBlock, _, err := memoryBlockAtOffset(wa, ptr1)
+	// ptr1MemBlock, _, _, err := memoryBlockAtOffset(wa, ptr1)
 	// if err != nil {
 	// 	return nil, err
 	// }
-	// firstKVPairMemBlock, _, err := memoryBlockAtOffset(wa, firstKVPair)
+	// firstKVPairMemBlock, _, _, err := memoryBlockAtOffset(wa, firstKVPair)
 	// if err != nil {
 	// 	return nil, err
 	// }
-	// lastKVPairMemBlock, _, err := memoryBlockAtOffset(wa, lastKVPair)
+	// lastKVPairMemBlock, _, _, err := memoryBlockAtOffset(wa, lastKVPair)
 	// if err != nil {
 	// 	return nil, err
 	// }
@@ -318,7 +318,7 @@ func (h *mapHandler) readMapKeysAndValues(ctx context.Context, wa langsupport.Wa
 		if tupleOffset == 0 {
 			continue
 		}
-		newMemBlock, _, err := memoryBlockAtOffset(wa, tupleOffset, 0, true)
+		newMemBlock, _, _, err := memoryBlockAtOffset(wa, tupleOffset, 0, true)
 		if err != nil {
 			gmlPrintf("ERROR: handler_maps.go: readMapKeysAndValues: memoryBlockAtOffset failed: %v", err)
 			continue

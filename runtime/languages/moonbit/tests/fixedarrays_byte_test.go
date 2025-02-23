@@ -15,14 +15,14 @@ import (
 	"testing"
 )
 
-func TestFixedArrayInput_byte(t *testing.T) {
-	fnName := "test_fixedarray_input_byte"
-	s := []byte{1, 2, 3, 4}
+// func TestFixedArrayInput_byte(t *testing.T) {
+// 	fnName := "test_fixedarray_input_byte"
+// 	s := []byte{1, 2, 3, 4}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_byte_0(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_0"

@@ -110,7 +110,7 @@ func (h *pointerHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter,
 	}
 
 	// For debugging:
-	_, _, _ = memoryBlockAtOffset(wa, ptr, 0, true)
+	memoryBlockAtOffset(wa, ptr, 0, true)
 
 	return []uint64{uint64(ptr)}, cln, nil
 }
@@ -122,7 +122,7 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	}
 
 	// only for reverse-engineering purposes:
-	_, _, _ = memoryBlockAtOffset(wa, offset, 0, true)
+	memoryBlockAtOffset(wa, offset, 0, true)
 
 	data, err := h.elementHandler.Read(ctx, wa, offset)
 	if err != nil {

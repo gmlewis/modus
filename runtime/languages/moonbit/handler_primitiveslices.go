@@ -131,21 +131,15 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return nil, nil
 	}
 
-	memBlock, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+	sliceMemBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
 	if err != nil {
 		return nil, err
 	}
 
-	numElements := binary.LittleEndian.Uint32(memBlock[12:16])
-	if numElements == 0 {
-		// For debugging:
-		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
-		_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
-
-		return []T{}, nil
+	if words == 0 {
+		return []T{}, nil // empty slice
 	}
 
-	sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 	elemTypeSize := h.converter.TypeSize()
 	elemType := h.typeInfo.ListElementType()
 	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
@@ -158,19 +152,52 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// Int64? and UInt64? both provide pointers to values.
 		elemTypeSize = 8
 	}
-	size := numElements * uint32(elemTypeSize)
-	gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
+	numElements := words
 
-	// For reverse engineering:
-	_, _, _ = memoryBlockAtOffset(wa, sliceOffset, 0, true)
+	if classID == TupleBlockType { // Used by Array[...] but not by FixedArray[...]
+		numElements = binary.LittleEndian.Uint32(sliceMemBlock[12:16])
+		if numElements == 0 {
+			// For debugging:
+			sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
+			memoryBlockAtOffset(wa, sliceOffset, 0, true)
 
-	sliceMemBlock, _, err := memoryBlockAtOffset(wa, sliceOffset, size, true)
-	if err != nil {
-		return nil, err
+			return []T{}, nil
+		}
+
+		sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
+		size := numElements * uint32(elemTypeSize)
+		gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
+
+		// For reverse engineering:
+		memoryBlockAtOffset(wa, sliceOffset, 0, true)
+
+		sliceMemBlock, classID, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	switch classID {
+	case FixedArrayPrimitiveBlockType: // Int
+	case FixedArrayByteBlockType: // Byte
+		remainderOffset := words*4 + 7
+		remainder := uint32(3 - sliceMemBlock[remainderOffset]%4)
+		size := (words-1)*4 + remainder
+		if size <= 0 {
+			return []T{}, nil // empty slice
+		}
+		if int(size)+8 > len(sliceMemBlock) {
+			return nil, fmt.Errorf("expected byte data size %v, got %v", size, len(sliceMemBlock))
+		}
+
+		sliceMemBlock = sliceMemBlock[:size+8] // trim to the actual size
+	case StringBlockType: // Int16, Char
+	default:
+		return nil, fmt.Errorf("primitiveSliceHandler.Decode: unexpected classID %v", classID)
 	}
 
 	// gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: (sliceOffset: %v, numElements: %v, size: %v), sliceMemBlock=%+v", sliceOffset, numElements, size, sliceMemBlock)
-
+	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
@@ -192,8 +219,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 		return items.Interface(), nil
 	}
-
-	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Char" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
@@ -306,7 +331,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// Int arrays: 4 bytes per element + header
 		size = numElements * uint32(elementSize)
 		// headerValue = (numElements << 8) | 241 // 241 is the int array header type
-		memBlockClassID = ArrayBlockType
+		memBlockClassID = FixedArrayPrimitiveBlockType
 
 		// writeHeader = func(mem []byte) {
 		// 	for i, val := range slice {
@@ -371,7 +396,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	// For debugging:
-	_, _, _ = memoryBlockAtOffset(wa, offset-8, 0, true)
+	memoryBlockAtOffset(wa, offset-8, 0, true)
 
 	/*
 		// Finally, write the slice memory block.

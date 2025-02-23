@@ -148,8 +148,7 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	// }
 
 	// For debugging purposes:
-	// _, _, _ = memoryBlockAtOffset(wa, uint32(res[0]), 0, true)
-	_, _, _ = memoryBlockAtOffset(wa, offset, 0, true)
+	memoryBlockAtOffset(wa, offset, 0, true)
 
 	// return res, cln, nil
 	return []uint64{uint64(offset)}, cln, nil
@@ -232,9 +231,13 @@ func (h *stringHandler) doWriteStringBytes(ctx context.Context, wa wasmMemoryWri
 }
 
 func stringDataAtOffset(wa wasmMemoryReader, offset uint32) (data []byte, err error) {
-	memBlock, words, err := memoryBlockAtOffset(wa, offset, 0, true)
+	memBlock, classID, words, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
 		return nil, err
+	}
+
+	if classID != StringBlockType {
+		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, classID)
 	}
 
 	result, err := stringDataFromMemBlock(memBlock, words)

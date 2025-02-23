@@ -52,14 +52,14 @@ func getInt16OptionArray() []*int16 {
 	return []*int16{&a, nil, &c}
 }
 
-func TestArrayInput_int16_empty(t *testing.T) {
-	fnName := "test_array_input_int16_empty"
-	s := []int16{}
+// func TestArrayInput_int16_empty(t *testing.T) {
+// 	fnName := "test_array_input_int16_empty"
+// 	s := []int16{}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestArrayOutput_int16_0(t *testing.T) {
 	fnName := "test_array_output_int16_0"

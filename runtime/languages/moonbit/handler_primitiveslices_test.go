@@ -131,7 +131,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -146,7 +146,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -281,7 +281,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -296,7 +296,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -431,7 +431,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -446,7 +446,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -581,7 +581,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -596,7 +596,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -731,7 +731,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -746,7 +746,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -905,7 +905,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -920,7 +920,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -1067,7 +1067,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -1082,7 +1082,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -1210,7 +1210,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 			}
 
 			if res[0] != 0 && tt.want != nil {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -1225,7 +1225,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, wantNumElements*8, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, wantNumElements*8, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}
@@ -1360,7 +1360,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 			}
 
 			if res[0] != 0 {
-				memBlock, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
+				memBlock, _, _, _ := memoryBlockAtOffset(mockWA, uint32(res[0]), 0, true)
 				sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 				numElements := binary.LittleEndian.Uint32(memBlock[12:16])
 				var wantNumElements uint32
@@ -1375,7 +1375,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 				if wantNumElements != numElements {
 					t.Errorf("numElements = %v, want = %v", numElements, wantNumElements)
 				}
-				sliceMemBlock, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
+				sliceMemBlock, _, _, _ := memoryBlockAtOffset(mockWA, sliceOffset, 0, true)
 				if !bytes.Equal(sliceMemBlock, tt.want) {
 					t.Errorf("\ngot  = %v\nwant = %v", sliceMemBlock, tt.want)
 				}

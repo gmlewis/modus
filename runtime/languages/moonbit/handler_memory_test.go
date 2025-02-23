@@ -48,19 +48,28 @@ func TestMyWasmMock(t *testing.T) {
 	m.Memory().WriteUint32Le(block3, 81)
 	m.Memory().WriteUint32Le(block3+4, 82)
 
-	memBlock1, _, _ := memoryBlockAtOffset(m, block1-8, 0, true)
+	memBlock1, classID1, _, _ := memoryBlockAtOffset(m, block1-8, 0, true)
+	if classID1 != 241 {
+		t.Errorf("classID1 expected 241, got %v", classID1)
+	}
 	wantBlock1 := []byte{1, 0, 0, 0, 241, 4, 0, 0, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
 	if !bytes.Equal(memBlock1, wantBlock1) {
 		t.Errorf("block1 expected %v, got %v", wantBlock1, memBlock1)
 	}
 
-	memBlock2, _, _ := memoryBlockAtOffset(m, block2-8, 0, true)
+	memBlock2, classID2, _, _ := memoryBlockAtOffset(m, block2-8, 0, true)
+	if classID2 != 242 {
+		t.Errorf("classID2 expected 242, got %v", classID2)
+	}
 	wantBlock2 := []byte{1, 0, 0, 0, 242, 8, 0, 0, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	if !bytes.Equal(memBlock2, wantBlock2) {
 		t.Errorf("block2 expected %v, got %v", wantBlock2, memBlock2)
 	}
 
-	memBlock3, _, _ := memoryBlockAtOffset(m, block3-8, 0, true)
+	memBlock3, classID3, _, _ := memoryBlockAtOffset(m, block3-8, 0, true)
+	if classID3 != 243 {
+		t.Errorf("classID3 expected 243, got %v", classID3)
+	}
 	wantBlock3 := []byte{1, 0, 0, 0, 243, 2, 0, 0, 81, 0, 0, 0, 82, 0, 0, 0}
 	if !bytes.Equal(memBlock3, wantBlock3) {
 		t.Errorf("block3 expected %v, got %v", wantBlock3, memBlock3)
