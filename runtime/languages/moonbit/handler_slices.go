@@ -299,14 +299,14 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 	}()
 
-	elementSize := h.elementHandler.TypeInfo().Size()
+	elementSize := h.elementHandler.TypeInfo().Size() // TODO: How is this different from elemTypeSize above?!?
 
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
 			if !utils.HasNil(val) {
 				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 					subBlockClassID := uint32(OptionBlockType) // TODO: rename
-					valueBlock, c, err := wa.allocateAndPinMemory(ctx, 8, subBlockClassID)
+					valueBlock, c, err := wa.allocateAndPinMemory(ctx, elementSize, subBlockClassID)
 					if err != nil {
 						return 0, cln, err
 					}
