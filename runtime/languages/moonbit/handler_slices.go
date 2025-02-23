@@ -281,7 +281,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		// For Int, UInt, Int64, UInt64, and Double, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if elemType.Name() == "Int?" || elemType.Name() == "UInt?" ||
-			elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
+			elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" { // NOT "Double?"
 			memType := ((size / 8) << 8) | memBlockClassID
 			wa.Memory().WriteUint32Le(ptr-4, memType)
 		}
