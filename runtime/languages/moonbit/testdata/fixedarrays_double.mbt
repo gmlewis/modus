@@ -6,14 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_double_empty(
-  val : FixedArray[Double]
-) -> Unit!Error {
-  let expected : FixedArray[Double] = []
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_fixedarray_output_double_0() -> FixedArray[Double] {
   []
 }
@@ -60,7 +52,7 @@ pub fn test_fixedarray_output_double_option_2() -> FixedArray[Double?] {
 
 ///|
 pub fn test_fixedarray_output_double_option_3() -> FixedArray[Double?] {
-  [None, None, None]
+  [Some(1), None, Some(3)]
 }
 
 ///|
@@ -69,21 +61,79 @@ pub fn test_fixedarray_output_double_option_4() -> FixedArray[Double?] {
 }
 
 ///|
-pub fn test_fixedarray_input_double_option(
+pub fn test_fixedarray_input_double_0(val : FixedArray[Double]) -> Unit!Error {
+  let expected = test_fixedarray_output_double_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_1(val : FixedArray[Double]) -> Unit!Error {
+  let expected = test_fixedarray_output_double_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_2(val : FixedArray[Double]) -> Unit!Error {
+  let expected = test_fixedarray_output_double_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_3(val : FixedArray[Double]) -> Unit!Error {
+  let expected = test_fixedarray_output_double_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_4(val : FixedArray[Double]) -> Unit!Error {
+  let expected = test_fixedarray_output_double_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_option_0(
   val : FixedArray[Double?]
 ) -> Unit!Error {
-  let expected = get_double_option_fixedarray()
-  // println("expected: \{expected}")
-  // println("val: \{val}")
-  assert_eq!(expected, val)
+  let expected = test_fixedarray_output_double_option_0()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_output_double_option() -> FixedArray[Double?] {
-  get_double_option_fixedarray()
+pub fn test_fixedarray_input_double_option_1_none(
+  val : FixedArray[Double?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_double_option_1_none()
+  assert_eq!(val, expected)
 }
 
 ///|
-fn get_double_option_fixedarray() -> FixedArray[Double?] {
-  [Some(1), None, Some(3)]
+pub fn test_fixedarray_input_double_option_1_some(
+  val : FixedArray[Double?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_double_option_1_some()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_option_2(
+  val : FixedArray[Double?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_double_option_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_option_3(
+  val : FixedArray[Double?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_double_option_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_double_option_4(
+  val : FixedArray[Double?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_double_option_4()
+  assert_eq!(val, expected)
 }
