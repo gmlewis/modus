@@ -11,17 +11,8 @@ package moonbit_test
 
 import (
 	"reflect"
-	"strings"
 	"testing"
 )
-
-func testInputSide(t *testing.T, fnName string, expected any) {
-	t.Helper()
-	fnName = strings.Replace(fnName, "_output_", "_input_", 1)
-	if _, err := fixture.CallFunction(t, fnName, expected); err != nil {
-		t.Error(err)
-	}
-}
 
 func TestArrayOutput_bool_0(t *testing.T) {
 	fnName := "test_array_output_bool_0"
