@@ -56,7 +56,6 @@ func TestArrayOutput_int_option(t *testing.T) {
 
 func getIntOptionArray() []*int32 {
 	a := int32(11)
-	// b := 22
 	c := int32(33)
 	return []*int32{&a, nil, &c}
 }

@@ -6,13 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_bool(val : Array[Bool]) -> Unit!Error {
-  let expected : Array[Bool] = [false, true, true, false]
-  println("val: \{dump_mem_block(cast_to_ptr(val))}")
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_array_output_bool_0() -> Array[Bool] {
   // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 0 0 0 0]
   // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
@@ -80,4 +73,76 @@ pub fn test_array_output_bool_option_3() -> Array[Bool?] {
 ///|
 pub fn test_array_output_bool_option_4() -> Array[Bool?] {
   [Some(false), Some(true), Some(false), None]
+}
+
+///|
+pub fn test_array_input_bool_0(val : Array[Bool]) -> Unit!Error {
+  let expected = test_array_output_bool_0()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_1(val : Array[Bool]) -> Unit!Error {
+  let expected = test_array_output_bool_1()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_2(val : Array[Bool]) -> Unit!Error {
+  let expected = test_array_output_bool_2()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_3(val : Array[Bool]) -> Unit!Error {
+  let expected = test_array_output_bool_3()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_4(val : Array[Bool]) -> Unit!Error {
+  let expected = test_array_output_bool_4()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_0(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_0()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_1_none(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_1_none()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_1_false(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_1_false()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_1_true(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_1_true()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_2(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_2()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_3(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_3()
+  assert_eq!(expected, val)
+}
+
+///|
+pub fn test_array_input_bool_option_4(val : Array[Bool?]) -> Unit!Error {
+  let expected = test_array_output_bool_option_4()
+  assert_eq!(expected, val)
 }
