@@ -278,10 +278,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			return 0, cln, err
 		}
 
-		// For Int, UInt, Int64, UInt64, and Double, the `words` portion of the memory block
+		// For `Int?`, `UInt?`, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
-		if elemType.Name() == "Int?" || elemType.Name() == "UInt?" ||
-			elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" { // NOT "Double?"
+		if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
+			// NOT: elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Double?" {
 			memType := ((size / 8) << 8) | memBlockClassID
 			wa.Memory().WriteUint32Le(ptr-4, memType)
 		}
@@ -305,10 +305,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		if elemType.IsPrimitive() && isNullable {
 			if !utils.HasNil(val) {
 				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
-					subBlockClassID := memBlockClassID
-					if elemType.Name() == "Float?" || elemType.Name() == "Double?" {
-						subBlockClassID = OptionBlockType // TODO: rename
-					}
+					subBlockClassID := uint32(OptionBlockType) // TODO: rename
 					valueBlock, c, err := wa.allocateAndPinMemory(ctx, 8, subBlockClassID)
 					if err != nil {
 						return 0, cln, err

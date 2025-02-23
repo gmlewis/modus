@@ -32,6 +32,8 @@ func TestFixedArrayOutput_int64_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_1(t *testing.T) {
@@ -50,6 +52,8 @@ func TestFixedArrayOutput_int64_1(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_1_min(t *testing.T) {
@@ -68,6 +72,8 @@ func TestFixedArrayOutput_int64_1_min(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_1_max(t *testing.T) {
@@ -86,6 +92,8 @@ func TestFixedArrayOutput_int64_1_max(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_2(t *testing.T) {
@@ -104,6 +112,8 @@ func TestFixedArrayOutput_int64_2(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_3(t *testing.T) {
@@ -122,6 +132,8 @@ func TestFixedArrayOutput_int64_3(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_4(t *testing.T) {
@@ -140,6 +152,8 @@ func TestFixedArrayOutput_int64_4(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_0(t *testing.T) {
@@ -158,6 +172,8 @@ func TestFixedArrayOutput_int64_option_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_1_none(t *testing.T) {
@@ -176,6 +192,8 @@ func TestFixedArrayOutput_int64_option_1_none(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_1_min(t *testing.T) {
@@ -194,6 +212,8 @@ func TestFixedArrayOutput_int64_option_1_min(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_1_max(t *testing.T) {
@@ -212,6 +232,8 @@ func TestFixedArrayOutput_int64_option_1_max(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_2(t *testing.T) {
@@ -230,6 +252,8 @@ func TestFixedArrayOutput_int64_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_3(t *testing.T) {
@@ -240,7 +264,10 @@ func TestFixedArrayOutput_int64_option_3(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := []*int64{nil, nil, nil}
+	a := int64(11)
+	c := int64(33)
+	expected := []*int64{&a, nil, &c}
+
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*int64); !ok {
@@ -248,6 +275,8 @@ func TestFixedArrayOutput_int64_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_int64_option_4(t *testing.T) {
@@ -264,6 +293,8 @@ func TestFixedArrayOutput_int64_option_4(t *testing.T) {
 	} else if r, ok := result.([]*int64); !ok {
 		t.Errorf("expected a []*int64, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
+		t.Errorf("expected %+v, got %+v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
