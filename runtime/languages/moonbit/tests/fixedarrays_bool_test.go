@@ -32,6 +32,8 @@ func TestFixedArrayOutput_bool_0(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_1(t *testing.T) {
@@ -52,6 +54,8 @@ func TestFixedArrayOutput_bool_1(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_2(t *testing.T) {
@@ -71,6 +75,8 @@ func TestFixedArrayOutput_bool_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_3(t *testing.T) {
@@ -90,6 +96,8 @@ func TestFixedArrayOutput_bool_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_4(t *testing.T) {
@@ -109,6 +117,8 @@ func TestFixedArrayOutput_bool_4(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_0(t *testing.T) {
@@ -128,6 +138,8 @@ func TestFixedArrayOutput_bool_option_0(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_1_none(t *testing.T) {
@@ -147,6 +159,8 @@ func TestFixedArrayOutput_bool_option_1_none(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_1_false(t *testing.T) {
@@ -167,6 +181,8 @@ func TestFixedArrayOutput_bool_option_1_false(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_1_true(t *testing.T) {
@@ -187,6 +203,8 @@ func TestFixedArrayOutput_bool_option_1_true(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_2(t *testing.T) {
@@ -207,6 +225,8 @@ func TestFixedArrayOutput_bool_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_3(t *testing.T) {
@@ -227,6 +247,8 @@ func TestFixedArrayOutput_bool_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_bool_option_4(t *testing.T) {
@@ -247,4 +269,6 @@ func TestFixedArrayOutput_bool_option_4(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }

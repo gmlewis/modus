@@ -15,6 +15,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -429,6 +430,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			return slicePtr - 8, cln, nil
 		}
 	*/
+
+	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+		return offset - 8, cln, nil
+	}
 
 	// return offset - 8, cln, nil
 	return offset, cln, nil

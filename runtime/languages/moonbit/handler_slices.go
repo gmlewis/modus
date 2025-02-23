@@ -14,6 +14,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -331,6 +332,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// For debugging purposes:
 	memoryBlockAtOffset(wa, ptr-8, 0, true)
+
+	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+		return ptr - 8, cln, nil
+	}
 
 	// Finally, write the slice memory block.
 	slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
