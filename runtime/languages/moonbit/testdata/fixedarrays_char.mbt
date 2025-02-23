@@ -6,12 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_char_empty(val : FixedArray[Char]) -> Unit!Error {
-  let expected : FixedArray[Char] = []
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_fixedarray_output_char_0() -> FixedArray[Char] {
   []
 }
@@ -58,7 +52,7 @@ pub fn test_fixedarray_output_char_option_2() -> FixedArray[Char?] {
 
 ///|
 pub fn test_fixedarray_output_char_option_3() -> FixedArray[Char?] {
-  [None, None, None]
+  [Some('1'), None, Some('3')]
 }
 
 ///|
@@ -67,20 +61,79 @@ pub fn test_fixedarray_output_char_option_4() -> FixedArray[Char?] {
 }
 
 ///|
-pub fn test_fixedarray_input_char_option(val : FixedArray[Char?]) -> Unit!Error {
-  let expected = get_char_option_fixedarray()
-  assert_eq!(expected, val)
+pub fn test_fixedarray_input_char_0(val : FixedArray[Char]) -> Unit!Error {
+  let expected = test_fixedarray_output_char_0()
+  assert_eq!(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_output_char_option() -> FixedArray[Char?] {
-  get_char_option_fixedarray()
+pub fn test_fixedarray_input_char_1(val : FixedArray[Char]) -> Unit!Error {
+  let expected = test_fixedarray_output_char_1()
+  assert_eq!(val, expected)
 }
 
 ///|
-fn get_char_option_fixedarray() -> FixedArray[Char?] {
-  let a = Some('1')
-  let b = None
-  let c = Some('3')
-  [a, b, c]
+pub fn test_fixedarray_input_char_2(val : FixedArray[Char]) -> Unit!Error {
+  let expected = test_fixedarray_output_char_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_3(val : FixedArray[Char]) -> Unit!Error {
+  let expected = test_fixedarray_output_char_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_4(val : FixedArray[Char]) -> Unit!Error {
+  let expected = test_fixedarray_output_char_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_0(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_1_none(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_1_none()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_1_some(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_1_some()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_2(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_3(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_char_option_4(
+  val : FixedArray[Char?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_char_option_4()
+  assert_eq!(val, expected)
 }

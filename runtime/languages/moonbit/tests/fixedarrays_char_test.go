@@ -15,48 +15,6 @@ import (
 	"testing"
 )
 
-// func TestFixedArrayInput_char_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input_char_option"
-// 	s := getCharOptionFixedArray()
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-func TestFixedArrayOutput_char_option(t *testing.T) {
-	fnName := "test_fixedarray_output_char_option"
-
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := getCharOptionFixedArray()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*int16); !ok {
-		t.Errorf("expected a []*int16, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *int16) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
-		t.Errorf("expected %#v, got %#v", expected, r)
-	}
-}
-
-func getCharOptionFixedArray() []*int16 {
-	a := int16('1')
-	c := int16('3')
-	return []*int16{&a, nil, &c}
-}
-
-func TestFixedArrayInput_char_empty(t *testing.T) {
-	fnName := "test_fixedarray_input_char_empty"
-	s := []int16{}
-
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
-
 func TestFixedArrayOutput_char_0(t *testing.T) {
 	fnName := "test_fixedarray_output_char_0"
 
@@ -73,6 +31,8 @@ func TestFixedArrayOutput_char_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_1(t *testing.T) {
@@ -91,6 +51,8 @@ func TestFixedArrayOutput_char_1(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_2(t *testing.T) {
@@ -109,6 +71,8 @@ func TestFixedArrayOutput_char_2(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_3(t *testing.T) {
@@ -127,6 +91,8 @@ func TestFixedArrayOutput_char_3(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_4(t *testing.T) {
@@ -145,6 +111,8 @@ func TestFixedArrayOutput_char_4(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_0(t *testing.T) {
@@ -163,6 +131,8 @@ func TestFixedArrayOutput_char_option_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_1_none(t *testing.T) {
@@ -181,6 +151,8 @@ func TestFixedArrayOutput_char_option_1_none(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_1_some(t *testing.T) {
@@ -199,6 +171,8 @@ func TestFixedArrayOutput_char_option_1_some(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_2(t *testing.T) {
@@ -217,6 +191,8 @@ func TestFixedArrayOutput_char_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_3(t *testing.T) {
@@ -227,7 +203,10 @@ func TestFixedArrayOutput_char_option_3(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := []*int16{nil, nil, nil}
+	a := int16('1')
+	c := int16('3')
+	expected := []*int16{&a, nil, &c}
+
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*int16); !ok {
@@ -235,6 +214,8 @@ func TestFixedArrayOutput_char_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_char_option_4(t *testing.T) {
@@ -253,4 +234,6 @@ func TestFixedArrayOutput_char_option_4(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }

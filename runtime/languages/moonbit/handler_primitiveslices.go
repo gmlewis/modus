@@ -305,21 +305,22 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	numElements := uint32(len(slice))
-	elementSize := h.converter.TypeSize()
+	elemTypeSize := h.converter.TypeSize()
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
-		elementSize = 4
+		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
+		elemTypeSize = 4
 	}
-	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elementSize: %v, slice: %+v", len(slice), numElements, elementSize, slice)
+	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elemTypeSize: %v, slice: %+v", len(slice), numElements, elemTypeSize, slice)
 
 	var size uint32
 	// var headerValue uint32
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
 
-	// Handle different types based on elementSize
-	if elementSize == 1 {
+	// Handle different types based on elemTypeSize
+	if elemTypeSize == 1 {
 		// Byte arrays: round up to nearest 4 bytes + padding byte
 		paddedSize := ((numElements + 4) / 4) * 4
 		padding := uint8(3 - (numElements % 4))
@@ -340,7 +341,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 	} else {
 		// Int arrays: 4 bytes per element + header
-		size = numElements * uint32(elementSize)
+		size = numElements * uint32(elemTypeSize)
 		// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 		memBlockClassID = FixedArrayPrimitiveBlockType
 
@@ -394,6 +395,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			} else {
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
 			}
+		}
+	} else if elemType.Name() == "Char" {
+		dataBuffer = make([]byte, numElements*4)
+		for i := 0; i < len(slice); i++ {
+			val := reflect.ValueOf(slice[i])
+			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Int()))
 		}
 	} else {
 		// Allocate data buffer and write using the appropriate function
