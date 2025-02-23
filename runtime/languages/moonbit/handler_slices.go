@@ -288,7 +288,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, ptr-8, 0, true)
+	memoryBlockAtOffset(wa, ptr-8, size, true)
 
 	innerCln := utils.NewCleanerN(len(slice))
 
@@ -321,7 +321,12 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 					if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
 						return 0, cln, err
 					}
-					wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(*)
+					highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
+					if ok && highByte&0x80 != 0 {
+						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)
+					} else {
+						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(positive number)
+					}
 				}
 			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
 				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
@@ -349,7 +354,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, ptr-8, 0, true)
+	memoryBlockAtOffset(wa, ptr-8, size, true)
 
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
 		return ptr - 8, cln, nil
