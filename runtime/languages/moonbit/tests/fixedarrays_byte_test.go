@@ -18,6 +18,7 @@ import (
 func TestFixedArrayOutput_byte_0(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_0"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 0 0 0 3]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -39,6 +40,7 @@ func TestFixedArrayOutput_byte_0(t *testing.T) {
 func TestFixedArrayOutput_byte_1(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_1"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1 0 0 2]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -60,6 +62,7 @@ func TestFixedArrayOutput_byte_1(t *testing.T) {
 func TestFixedArrayOutput_byte_2(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_2"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1 2 0 1]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -81,6 +84,7 @@ func TestFixedArrayOutput_byte_2(t *testing.T) {
 func TestFixedArrayOutput_byte_3(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_3"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=246(FixedArray[Byte]), words=1, memBlock=[1 0 0 0 246 1 0 0 1 2 3 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -102,6 +106,7 @@ func TestFixedArrayOutput_byte_3(t *testing.T) {
 func TestFixedArrayOutput_byte_4(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_4"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=246(FixedArray[Byte]), words=2, memBlock=[1 0 0 0 246 2 0 0 1 2 3 4 0 0 0 3]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -123,6 +128,7 @@ func TestFixedArrayOutput_byte_4(t *testing.T) {
 func TestFixedArrayOutput_byte_option_0(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_option_0"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 8=8+words*4), classID=241(FixedArray[Primitive]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -144,6 +150,7 @@ func TestFixedArrayOutput_byte_option_0(t *testing.T) {
 func TestFixedArrayOutput_byte_option_1(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_option_1"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -166,6 +173,7 @@ func TestFixedArrayOutput_byte_option_1(t *testing.T) {
 func TestFixedArrayOutput_byte_option_2(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_option_2"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 1 0 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -188,6 +196,7 @@ func TestFixedArrayOutput_byte_option_2(t *testing.T) {
 func TestFixedArrayOutput_byte_option_3(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_option_3"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 255 255 255 255 2 0 0 0 3 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -210,6 +219,7 @@ func TestFixedArrayOutput_byte_option_3(t *testing.T) {
 func TestFixedArrayOutput_byte_option_4(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_option_4"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 1 0 0 0 2 0 0 0 3 0 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
