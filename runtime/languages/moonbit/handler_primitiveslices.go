@@ -321,25 +321,22 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// Handle different types based on elementSize
 	if elementSize == 1 {
 		// Byte arrays: round up to nearest 4 bytes + padding byte
-		paddedSize := ((numElements + 5) / 4) * 4
-		// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: numElements: %v, paddedSize: %v", numElements, paddedSize)
-		size = numElements
+		paddedSize := ((numElements + 4) / 4) * 4
+		padding := uint8(3 - (numElements % 4))
+		if padding != 0 {
+			writeHeader = func(mem []byte) {
+				// Write padding byte at the end
+				mem[paddedSize-1] = padding
+			}
+		}
+
+		size = paddedSize
 		// headerValue = ((paddedSize / 4) << 8) | 246 // 246 is the byte array header type
 		memBlockClassID = 246
 		var zero T
 		for i := numElements; i < paddedSize; i++ {
 			// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
 			slice = append(slice, zero) // add the padding bytes
-		}
-
-		writeHeader = func(mem []byte) {
-			// // Write the data bytes
-			// for i, b := range slice {
-			// 	mem[i] = b
-			// }
-			// Write padding byte at the end
-			padding := uint8(3 - (numElements % 4))
-			mem[paddedSize-1] = padding
 		}
 	} else {
 		// Int arrays: 4 bytes per element + header
@@ -369,6 +366,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		if err != nil {
 			return 0, cln, err
 		}
+		// For debugging:
+		memoryBlockAtOffset(wa, offset-8, 0, true)
+
 		// For both Int64 and UInt64, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if elemType.Name() == "Int64" || elemType.Name() == "UInt64" {

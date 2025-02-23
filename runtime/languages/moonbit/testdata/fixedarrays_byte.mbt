@@ -6,12 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input_byte(val : FixedArray[Byte]) -> Unit!Error {
-  let expected : FixedArray[Byte] = [1, 2, 3, 4]
-  assert_eq!(expected, val)
-}
-
-///|
 pub fn test_fixedarray_output_byte_0() -> FixedArray[Byte] {
   []
 }
@@ -59,4 +53,74 @@ pub fn test_fixedarray_output_byte_option_3() -> FixedArray[Byte?] {
 ///|
 pub fn test_fixedarray_output_byte_option_4() -> FixedArray[Byte?] {
   [Some(1), Some(2), Some(3), None]
+}
+
+///|
+pub fn test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_4()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_option_0(
+  val : FixedArray[Byte?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_option_0()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_option_1(
+  val : FixedArray[Byte?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_option_1()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_option_2(
+  val : FixedArray[Byte?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_option_2()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_option_3(
+  val : FixedArray[Byte?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_option_3()
+  assert_eq!(val, expected)
+}
+
+///|
+pub fn test_fixedarray_input_byte_option_4(
+  val : FixedArray[Byte?]
+) -> Unit!Error {
+  let expected = test_fixedarray_output_byte_option_4()
+  assert_eq!(val, expected)
 }

@@ -15,15 +15,6 @@ import (
 	"testing"
 )
 
-// func TestFixedArrayInput_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_input_byte"
-// 	s := []byte{1, 2, 3, 4}
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
 func TestFixedArrayOutput_byte_0(t *testing.T) {
 	fnName := "test_fixedarray_output_byte_0"
 
@@ -41,6 +32,8 @@ func TestFixedArrayOutput_byte_0(t *testing.T) {
 	} else if !bytes.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_1(t *testing.T) {
@@ -60,6 +53,8 @@ func TestFixedArrayOutput_byte_1(t *testing.T) {
 	} else if !bytes.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_2(t *testing.T) {
@@ -79,6 +74,8 @@ func TestFixedArrayOutput_byte_2(t *testing.T) {
 	} else if !bytes.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_3(t *testing.T) {
@@ -98,6 +95,8 @@ func TestFixedArrayOutput_byte_3(t *testing.T) {
 	} else if !bytes.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_4(t *testing.T) {
@@ -117,6 +116,8 @@ func TestFixedArrayOutput_byte_4(t *testing.T) {
 	} else if !bytes.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_option_0(t *testing.T) {
@@ -136,6 +137,8 @@ func TestFixedArrayOutput_byte_option_0(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_option_1(t *testing.T) {
@@ -156,6 +159,8 @@ func TestFixedArrayOutput_byte_option_1(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_option_2(t *testing.T) {
@@ -176,6 +181,8 @@ func TestFixedArrayOutput_byte_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_option_3(t *testing.T) {
@@ -196,6 +203,8 @@ func TestFixedArrayOutput_byte_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_byte_option_4(t *testing.T) {
@@ -216,4 +225,6 @@ func TestFixedArrayOutput_byte_option_4(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
