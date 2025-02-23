@@ -42,13 +42,18 @@ pub fn test_fixedarray_output0_string_option() -> FixedArray[String?] {
 
 ///|
 pub fn test_fixedarray_input0_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  let expected = get_int_option_fixedarray()
+  let expected = get_int_option0_fixedarray()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output0_int_option() -> FixedArray[Int?] {
-  get_int_option_fixedarray()
+  get_int_option0_fixedarray()
+}
+
+///|
+fn get_int_option0_fixedarray() -> FixedArray[Int?] {
+  []
 }
 
 ///|

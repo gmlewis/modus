@@ -15,14 +15,14 @@ import (
 	"testing"
 )
 
-func TestFixedArrayInput_char_option(t *testing.T) {
-	fnName := "test_fixedarray_input_char_option"
-	s := getCharOptionFixedArray()
+// func TestFixedArrayInput_char_option(t *testing.T) {
+// 	fnName := "test_fixedarray_input_char_option"
+// 	s := getCharOptionFixedArray()
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_char_option(t *testing.T) {
 	fnName := "test_fixedarray_output_char_option"

@@ -140,7 +140,18 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return []T{}, nil // empty slice
 	}
 
+	numElements := words
 	elemTypeSize := h.converter.TypeSize()
+	if classID == FixedArrayPrimitiveBlockType && elemTypeSize == 8 {
+		// For Int64 and UInt64, the `words` portion of the memory block
+		// indicates the number of elements in the slice, not the number of 16-bit words.
+		size := numElements * uint32(elemTypeSize)
+		sliceMemBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), size, true)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	elemType := h.typeInfo.ListElementType()
 	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
@@ -152,7 +163,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// Int64? and UInt64? both provide pointers to values.
 		elemTypeSize = 8
 	}
-	numElements := words
 
 	if classID == TupleBlockType { // Used by Array[...] but not by FixedArray[...]
 		numElements = binary.LittleEndian.Uint32(sliceMemBlock[12:16])
@@ -166,12 +176,15 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 		sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
 		size := numElements * uint32(elemTypeSize)
-		gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, size=%v", debugShowOffset(sliceOffset), numElements, size)
+		if elemTypeSize != 8 {
+			size = 0 // do not override the memory block size for 1, 2, or 4-byte types.
+		}
+		gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, elemTypeSize=%v, size=%v", debugShowOffset(sliceOffset), numElements, elemTypeSize, size)
 
 		// For reverse engineering:
 		memoryBlockAtOffset(wa, sliceOffset, 0, true)
 
-		sliceMemBlock, classID, _, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
+		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
 		if err != nil {
 			return nil, err
 		}
@@ -179,7 +192,8 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	switch classID {
 	case FixedArrayPrimitiveBlockType: // Int
-	case FixedArrayByteBlockType: // Byte
+	case FixedArrayByteBlockType, // Byte
+		StringBlockType: // Int16, Char
 		remainderOffset := words*4 + 7
 		remainder := uint32(3 - sliceMemBlock[remainderOffset]%4)
 		size := (words-1)*4 + remainder
@@ -191,7 +205,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 
 		sliceMemBlock = sliceMemBlock[:size+8] // trim to the actual size
-	case StringBlockType: // Int16, Char
 	default:
 		return nil, fmt.Errorf("primitiveSliceHandler.Decode: unexpected classID %v", classID)
 	}
@@ -227,14 +240,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 		return items.Interface(), nil
 	}
-	if elemType.Name() == "Int16" {
-		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
-		for i := 0; i < int(numElements); i++ {
-			val := int16(binary.LittleEndian.Uint16(sliceMemBlock[8+i*elemTypeSize:]))
-			items.Index(int(i)).Set(reflect.ValueOf(val))
-		}
-		return items.Interface(), nil
-	}
+	// if elemType.Name() == "Int16" {
+	// 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+	// 	for i := 0; i < int(numElements); i++ {
+	// 		val := int16(binary.LittleEndian.Uint16(sliceMemBlock[8+i*elemTypeSize:]))
+	// 		items.Index(int(i)).Set(reflect.ValueOf(val))
+	// 	}
+	// 	return items.Interface(), nil
+	// }
 
 	items := h.converter.BytesToSlice(sliceMemBlock[8:])
 	return items, nil

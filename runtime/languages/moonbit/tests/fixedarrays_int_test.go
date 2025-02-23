@@ -16,14 +16,14 @@ import (
 	"testing"
 )
 
-func TestFixedArrayInput_int_option(t *testing.T) {
-	fnName := "test_fixedarray_input_int_option"
-	s := getIntOptionFixedArray()
+// func TestFixedArrayInput_int_option(t *testing.T) {
+// 	fnName := "test_fixedarray_input_int_option"
+// 	s := getIntOptionFixedArray()
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output_int_option"

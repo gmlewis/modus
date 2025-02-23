@@ -102,7 +102,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		elemTypeSize = 8
 	}
-	if classID == FixedArrayPrimitiveBlockType && elemType.IsPrimitive() && isNullable {
+	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType { // && isNullable && elemType.IsPrimitive()
 		memBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize, true)
 		if err != nil {
 			return nil, err
@@ -111,6 +111,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 		if sliceOffset == 0 {
 			return nil, nil // nil slice
+			// return h.emptyValue, nil // empty slice
 		}
 
 		// For debugging:

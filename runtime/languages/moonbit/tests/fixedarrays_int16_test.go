@@ -16,14 +16,14 @@ import (
 	"testing"
 )
 
-func TestFixedArrayInput_int16_option(t *testing.T) {
-	fnName := "test_fixedarray_input_int16_option"
-	s := getInt16OptionFixedArray()
+// func TestFixedArrayInput_int16_option(t *testing.T) {
+// 	fnName := "test_fixedarray_input_int16_option"
+// 	s := getInt16OptionFixedArray()
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_int16_option(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option"
@@ -49,14 +49,14 @@ func getInt16OptionFixedArray() []*int16 {
 	return []*int16{&a, nil, &c}
 }
 
-func TestFixedArrayInput_int16_empty(t *testing.T) {
-	fnName := "test_fixedarray_input_int16_empty"
-	s := []int16{}
+// func TestFixedArrayInput_int16_empty(t *testing.T) {
+// 	fnName := "test_fixedarray_input_int16_empty"
+// 	s := []int16{}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_int16_0(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_0"

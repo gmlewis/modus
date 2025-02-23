@@ -15,7 +15,7 @@ import (
 )
 
 // func TestFixedArrayInput_uint16_option(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_input_uint16_option"
+// 	fnName := "test_fixedarray_input_uint16_option"
 // 	s := getUint16OptionFixedArray()
 //
 // 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
@@ -24,7 +24,7 @@ import (
 // }
 
 // func TestFixedArrayOutput_uint16_option(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option"
+// 	fnName := "test_fixedarray_output_uint16_option"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -48,7 +48,7 @@ func getUint16OptionFixedArray() []*uint16 {
 }
 
 // func TestFixedArrayInput_uint16_empty(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_input_uint16_empty"
+// 	fnName := "test_fixedarray_input_uint16_empty"
 // 	s := []uint16{}
 
 // 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
@@ -57,7 +57,7 @@ func getUint16OptionFixedArray() []*uint16 {
 // }
 
 func TestFixedArrayOutput_uint16_0(t *testing.T) {
-	fnName := "test_fixedfixedarray_output_uint16_0"
+	fnName := "test_fixedarray_output_uint16_0"
 
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -75,7 +75,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 }
 
 // func TestFixedArrayOutput_uint16_1(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_1"
+// 	fnName := "test_fixedarray_output_uint16_1"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -93,7 +93,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_1_min(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_1_min"
+// 	fnName := "test_fixedarray_output_uint16_1_min"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -111,7 +111,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_1_max(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_1_max"
+// 	fnName := "test_fixedarray_output_uint16_1_max"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -129,7 +129,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_2(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_2"
+// 	fnName := "test_fixedarray_output_uint16_2"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -147,7 +147,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_3(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_3"
+// 	fnName := "test_fixedarray_output_uint16_3"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -165,7 +165,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_4(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_4"
+// 	fnName := "test_fixedarray_output_uint16_4"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -183,7 +183,7 @@ func TestFixedArrayOutput_uint16_0(t *testing.T) {
 // }
 
 func TestFixedArrayOutput_uint16_option_0(t *testing.T) {
-	fnName := "test_fixedfixedarray_output_uint16_option_0"
+	fnName := "test_fixedarray_output_uint16_option_0"
 
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -201,7 +201,7 @@ func TestFixedArrayOutput_uint16_option_0(t *testing.T) {
 }
 
 func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
-	fnName := "test_fixedfixedarray_output_uint16_option_1_none"
+	fnName := "test_fixedarray_output_uint16_option_1_none"
 
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -219,7 +219,7 @@ func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
 }
 
 // func TestFixedArrayOutput_uint16_option_1_min(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option_1_min"
+// 	fnName := "test_fixedarray_output_uint16_option_1_min"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -237,7 +237,7 @@ func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_option_1_max(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option_1_max"
+// 	fnName := "test_fixedarray_output_uint16_option_1_max"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -255,7 +255,7 @@ func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_option_2(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option_2"
+// 	fnName := "test_fixedarray_output_uint16_option_2"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -273,7 +273,7 @@ func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_option_3(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option_3"
+// 	fnName := "test_fixedarray_output_uint16_option_3"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {
@@ -291,7 +291,7 @@ func TestFixedArrayOutput_uint16_option_1_none(t *testing.T) {
 // }
 //
 // func TestFixedArrayOutput_uint16_option_4(t *testing.T) {
-// 	fnName := "test_fixedfixedarray_output_uint16_option_4"
+// 	fnName := "test_fixedarray_output_uint16_option_4"
 //
 // 	result, err := fixture.CallFunction(t, fnName)
 // 	if err != nil {

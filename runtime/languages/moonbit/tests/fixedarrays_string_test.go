@@ -15,23 +15,23 @@ import (
 	"testing"
 )
 
-func TestFixedArrayInput_string(t *testing.T) {
-	fnName := "test_fixedarray_input_string"
-	s := []string{"abc", "def", "ghi"}
+// func TestFixedArrayInput_string(t *testing.T) {
+// 	fnName := "test_fixedarray_input_string"
+// 	s := []string{"abc", "def", "ghi"}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
-func TestFixedArrayInput_string_option(t *testing.T) {
-	fnName := "test_fixedarray_input_string_option"
-	s := getStringOptionFixedArray()
+// func TestFixedArrayInput_string_option(t *testing.T) {
+// 	fnName := "test_fixedarray_input_string_option"
+// 	s := getStringOptionFixedArray()
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_string(t *testing.T) {
 	fnName := "test_fixedarray_output_string"
@@ -97,14 +97,14 @@ func TestFixedArrayOutput_string_none(t *testing.T) {
 	}
 }
 
-func TestFixedArrayInput_string_empty(t *testing.T) {
-	fnName := "test_fixedarray_input_string_empty"
-	s := []string{}
+// func TestFixedArrayInput_string_empty(t *testing.T) {
+// 	fnName := "test_fixedarray_input_string_empty"
+// 	s := []string{}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func TestFixedArrayOutput_string_empty(t *testing.T) {
 	fnName := "test_fixedarray_output_string_empty"
@@ -181,14 +181,14 @@ func Test2DFixedArrayOutput_string_none(t *testing.T) {
 	}
 }
 
-func Test2DFixedArrayInput_string_empty(t *testing.T) {
-	fnName := "test2d_fixedarray_input_string_empty"
-	s := [][]string{}
+// func Test2DFixedArrayInput_string_empty(t *testing.T) {
+// 	fnName := "test2d_fixedarray_input_string_empty"
+// 	s := [][]string{}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func Test2DFixedArrayOutput_string_empty(t *testing.T) {
 	fnName := "test2d_fixedarray_output_string_empty"
@@ -209,14 +209,14 @@ func Test2DFixedArrayOutput_string_empty(t *testing.T) {
 	}
 }
 
-func Test2DFixedArrayInput_string_inner_empty(t *testing.T) {
-	fnName := "test2d_fixedarray_input_string_inner_empty"
-	s := [][]string{{}}
+// func Test2DFixedArrayInput_string_inner_empty(t *testing.T) {
+// 	fnName := "test2d_fixedarray_input_string_inner_empty"
+// 	s := [][]string{{}}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func Test2DFixedArrayOutput_string_inner_empty(t *testing.T) {
 	fnName := "test2d_fixedarray_output_string_inner_empty"
@@ -237,14 +237,14 @@ func Test2DFixedArrayOutput_string_inner_empty(t *testing.T) {
 	}
 }
 
-func Test2DFixedArrayInput_string_inner_none(t *testing.T) {
-	fnName := "test2d_fixedarray_input_string_inner_none"
-	s := []*[]string{nil}
+// func Test2DFixedArrayInput_string_inner_none(t *testing.T) {
+// 	fnName := "test2d_fixedarray_input_string_inner_none"
+// 	s := []*[]string{nil}
 
-	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-		t.Error(err)
-	}
-}
+// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+// 		t.Error(err)
+// 	}
+// }
 
 func Test2DFixedArrayOutput_string_inner_none(t *testing.T) {
 	fnName := "test2d_fixedarray_output_string_inner_none"

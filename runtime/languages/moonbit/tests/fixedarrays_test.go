@@ -97,7 +97,6 @@ func TestFixedArrayOutput0_string_option(t *testing.T) {
 func TestFixedArrayOutput0_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output0_int_option"
 
-	// memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
