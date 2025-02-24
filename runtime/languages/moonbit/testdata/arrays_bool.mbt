@@ -78,6 +78,12 @@ pub fn test_array_output_bool_option_4() -> Array[Bool?] {
 ///|
 pub fn test_array_input_bool_0(val : Array[Bool]) -> Unit!Error {
   let expected = test_array_output_bool_0()
+  println("expected: \{cast_to_ptr(expected)}")
+  println("expected: \{dump_mem_block(cast_to_ptr(expected))}")
+  println("expected: \{expected}")
+  println("val: \{cast_to_ptr(val)}")
+  println("val: \{dump_mem_block(cast_to_ptr(val))}")
+  println("val: \{val}")
   assert_eq!(expected, val)
 }
 
