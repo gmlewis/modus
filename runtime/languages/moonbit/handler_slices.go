@@ -301,7 +301,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// elementTypeSize (above) is the skip size when writing the encoded value to memory.
 	// elementSize (below) is the native size of the MoonBit value.
-	elementSize := h.elementHandler.TypeInfo().Size()
+	elementSize := h.elementHandler.TypeInfo().Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
+	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+		elementSize = 8 // TODO: Fix this.
+	}
 
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
