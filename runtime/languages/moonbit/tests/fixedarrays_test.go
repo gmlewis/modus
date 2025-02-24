@@ -12,35 +12,37 @@ package moonbit_test
 import (
 	"reflect"
 	"testing"
+
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
-// func TestFixedArrayInput0_string(t *testing.T) {
-// 	fnName := "test_fixedarray_input0_string"
-// 	arr := [0]string{}
+func TestFixedArrayInput0_string(t *testing.T) {
+	fnName := "test_fixedarray_input0_string"
+	arr := [0]string{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput0_string_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input0_string_option"
-// 	arr := [0]*string{}
+func TestFixedArrayInput0_string_option(t *testing.T) {
+	fnName := "test_fixedarray_input0_string_option"
+	arr := [0]*string{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayOutput0_string(t *testing.T) {
 	fnName := "test_fixedarray_output0_string"
@@ -80,19 +82,19 @@ func TestFixedArrayOutput0_string_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayInput0_int_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input0_int_option"
-// 	arr := [0]*int32{}
+func TestFixedArrayInput0_int_option(t *testing.T) {
+	fnName := "test_fixedarray_input0_int_option"
+	arr := [0]*int32{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayOutput0_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output0_int_option"
@@ -112,33 +114,33 @@ func TestFixedArrayOutput0_int_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayInput1_string(t *testing.T) {
-// 	fnName := "test_fixedarray_input1_string"
-// 	arr := [1]string{"abc"}
+func TestFixedArrayInput1_string(t *testing.T) {
+	fnName := "test_fixedarray_input1_string"
+	arr := [1]string{"abc"}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput1_string_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input1_string_option"
-// 	arr := getStringOptionFixedArray1()
+func TestFixedArrayInput1_string_option(t *testing.T) {
+	fnName := "test_fixedarray_input1_string_option"
+	arr := getStringOptionFixedArray1()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayOutput1_string(t *testing.T) {
 	fnName := "test_fixedarray_output1_string"
@@ -180,19 +182,19 @@ func TestFixedArrayOutput1_string_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayInput1_int_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input1_int_option"
-// 	arr := getIntOptionFixedArray1()
+func TestFixedArrayInput1_int_option(t *testing.T) {
+	fnName := "test_fixedarray_input1_int_option"
+	arr := getIntOptionFixedArray1()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayOutput1_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output1_int_option"
@@ -214,33 +216,33 @@ func TestFixedArrayOutput1_int_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayInput2_string(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_string"
-// 	arr := [2]string{"abc", "def"}
+func TestFixedArrayInput2_string(t *testing.T) {
+	fnName := "test_fixedarray_input2_string"
+	arr := [2]string{"abc", "def"}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput2_string_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_string_option"
-// 	arr := getStringOptionFixedArray2()
+func TestFixedArrayInput2_string_option(t *testing.T) {
+	fnName := "test_fixedarray_input2_string_option"
+	arr := getStringOptionFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 // func TestFixedArrayInput2_struct(t *testing.T) {
 // 	fnName := "test_fixedarray_input2_struct"
@@ -298,19 +300,19 @@ func TestFixedArrayOutput1_int_option(t *testing.T) {
 // 	}
 // }
 
-// func TestFixedArrayInput2_int_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_int_option"
-// 	arr := getIntOptionFixedArray2()
+func TestFixedArrayInput2_int_option(t *testing.T) {
+	fnName := "test_fixedarray_input2_int_option"
+	arr := getIntOptionFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayOutput2_int_option(t *testing.T) {
 	fnName := "test_fixedarray_output2_int_option"
@@ -332,56 +334,56 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayOutput2_string(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_string"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_string(t *testing.T) {
+	fnName := "test_fixedarray_output2_string"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := []string{"abc", "def"}
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]string); !ok {
-// 		t.Errorf("expected a []string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := []string{"abc", "def"}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]string); !ok {
+		t.Errorf("expected a []string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestFixedArrayOutput2_string_option(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_string_option"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_string_option(t *testing.T) {
+	fnName := "test_fixedarray_output2_string_option"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getStringOptionFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]*string); !ok {
-// 		t.Errorf("expected a [2]*string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getStringOptionFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*string); !ok {
+		t.Errorf("expected a []*string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestFixedArrayOutput2_struct(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_struct"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_struct(t *testing.T) {
+	fnName := "test_fixedarray_output2_struct"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getStructFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]TestStruct2); !ok {
-// 		t.Errorf("expected a [2]TestStruct2, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getStructFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]TestStruct2); !ok {
+		t.Errorf("expected a []TestStruct2, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 // func TestFixedArrayOutput2_struct_option(t *testing.T) {
 // 	fnName := "test_fixedarray_output2_struct_option"
@@ -393,29 +395,29 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	expected := getStructOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]*TestStruct2); !ok {
-// 		t.Errorf("expected a [2]*TestStruct2, got %T", result)
+// 	} else if r, ok := result.([]*TestStruct2); !ok {
+// 		t.Errorf("expected a []*TestStruct2, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
 // }
 
-// func TestFixedArrayOutput2_map(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_map"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_map(t *testing.T) {
+	fnName := "test_fixedarray_output2_map"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getMapFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]map[string]string); !ok {
-// 		t.Errorf("expected a [2]map[string]string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getMapFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]map[string]string); !ok {
+		t.Errorf("expected a []map[string]string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 // func TestFixedArrayOutput2_map_option(t *testing.T) {
 // 	fnName := "test_fixedarray_output2_map_option"
@@ -427,229 +429,229 @@ func TestFixedArrayOutput2_int_option(t *testing.T) {
 // 	expected := getMapOptionFixedArray2()
 // 	if result == nil {
 // 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]*map[string]string); !ok {
-// 		t.Errorf("expected a [2]*map[string]string, got %T", result)
+// 	} else if r, ok := result.([]*map[string]string); !ok {
+// 		t.Errorf("expected a []*map[string]string, got %T", result)
 // 	} else if !reflect.DeepEqual(expected, r) {
 // 		t.Errorf("expected %v, got %v", expected, r)
 // 	}
 // }
 
-// func TestOptionFixedArrayInput1_int(t *testing.T) {
-// 	fnName := "test_option_fixedarray_input1_int"
-// 	arr := getOptionIntFixedArray1()
+func TestOptionFixedArrayInput1_int(t *testing.T) {
+	fnName := "test_option_fixedarray_input1_int"
+	arr := getOptionIntFixedArray1()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestOptionFixedArrayInput2_int(t *testing.T) {
-// 	fnName := "test_option_fixedarray_input2_int"
-// 	arr := getOptionIntFixedArray2()
+func TestOptionFixedArrayInput2_int(t *testing.T) {
+	fnName := "test_option_fixedarray_input2_int"
+	arr := getOptionIntFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestOptionFixedArrayInput1_string(t *testing.T) {
-// 	fnName := "test_option_fixedarray_input1_string"
-// 	arr := getOptionStringFixedArray1()
+func TestOptionFixedArrayInput1_string(t *testing.T) {
+	fnName := "test_option_fixedarray_input1_string"
+	arr := getOptionStringFixedArray1()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestOptionFixedArrayInput2_string(t *testing.T) {
-// 	fnName := "test_option_fixedarray_input2_string"
-// 	arr := getOptionStringFixedArray2()
+func TestOptionFixedArrayInput2_string(t *testing.T) {
+	fnName := "test_option_fixedarray_input2_string"
+	arr := getOptionStringFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](*arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, &arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestOptionFixedArrayOutput1_int(t *testing.T) {
-// 	fnName := "test_option_fixedarray_output1_int"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestOptionFixedArrayOutput1_int(t *testing.T) {
+	fnName := "test_option_fixedarray_output1_int"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getOptionIntFixedArray1()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[]int32); !ok {
-// 		t.Errorf("expected a *[]int32, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getOptionIntFixedArray1()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*[]int32); !ok {
+		t.Errorf("expected a *[]int32, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestOptionFixedArrayOutput2_int(t *testing.T) {
-// 	fnName := "test_option_fixedarray_output2_int"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestOptionFixedArrayOutput2_int(t *testing.T) {
+	fnName := "test_option_fixedarray_output2_int"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getOptionIntFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[]int32); !ok {
-// 		t.Errorf("expected a *[]int32, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getOptionIntFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*[]int32); !ok {
+		t.Errorf("expected a *[]int32, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestOptionFixedArrayOutput1_string(t *testing.T) {
-// 	fnName := "test_option_fixedarray_output1_string"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestOptionFixedArrayOutput1_string(t *testing.T) {
+	fnName := "test_option_fixedarray_output1_string"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getOptionStringFixedArray1()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[1]string); !ok {
-// 		t.Errorf("expected a *[1]string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getOptionStringFixedArray1()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*[]string); !ok {
+		t.Errorf("expected a *[]string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestOptionFixedArrayOutput2_string(t *testing.T) {
-// 	fnName := "test_option_fixedarray_output2_string"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestOptionFixedArrayOutput2_string(t *testing.T) {
+	fnName := "test_option_fixedarray_output2_string"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getOptionStringFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*[2]string); !ok {
-// 		t.Errorf("expected a *[2]string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getOptionStringFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*[]string); !ok {
+		t.Errorf("expected a *[]string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestFixedArrayInput0_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_input0_byte"
-// 	arr := [0]byte{}
+func TestFixedArrayInput0_byte(t *testing.T) {
+	fnName := "test_fixedarray_input0_byte"
+	arr := [0]byte{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput1_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_input1_byte"
-// 	arr := [1]byte{1}
+func TestFixedArrayInput1_byte(t *testing.T) {
+	fnName := "test_fixedarray_input1_byte"
+	arr := [1]byte{1}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput2_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_byte"
-// 	arr := [2]byte{1, 2}
+func TestFixedArrayInput2_byte(t *testing.T) {
+	fnName := "test_fixedarray_input2_byte"
+	arr := [2]byte{1, 2}
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayOutput0_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_output0_byte"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput0_byte(t *testing.T) {
+	fnName := "test_fixedarray_output0_byte"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := [0]byte{}
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([0]byte); !ok {
-// 		t.Errorf("expected a [0]byte, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := []byte{}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestFixedArrayOutput1_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_output1_byte"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput1_byte(t *testing.T) {
+	fnName := "test_fixedarray_output1_byte"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := [1]byte{1}
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([1]byte); !ok {
-// 		t.Errorf("expected a [1]byte, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := []byte{1}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// func TestFixedArrayOutput2_byte(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_byte"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_byte(t *testing.T) {
+	fnName := "test_fixedarray_output2_byte"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := [2]byte{1, 2}
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([2]byte); !ok {
-// 		t.Errorf("expected a [2]byte, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := []byte{1, 2}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]byte); !ok {
+		t.Errorf("expected a []byte, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func getIntOptionFixedArray1() []*int32 {
 	a := int32(11)
@@ -687,23 +689,23 @@ func getStructOptionFixedArray2() []*TestStruct2 {
 	}
 }
 
-// func getMapFixedArray2() []map[string]string {
-// 	return []map[string]string{
-// 		{"A": "true", "B": "123"},
-// 		{"C": "false", "D": "456"},
-// 	}
-// }
+func getMapFixedArray2() []map[string]string {
+	return []map[string]string{
+		{"A": "true", "B": "123"},
+		{"C": "false", "D": "456"},
+	}
+}
 
-// func getMapOptionFixedArray2() []*map[string]string {
-// 	return []*map[string]string{
-// 		{"A": "true", "B": "123"},
-// 		{"C": "false", "D": "456"},
-// 	}
-// }
+func getMapOptionFixedArray2() []*map[string]string {
+	return []*map[string]string{
+		{"A": "true", "B": "123"},
+		{"C": "false", "D": "456"},
+	}
+}
 
-// func getOptionIntFixedArray1() *[]int32 {
-// 	return &[]int32{11}
-// }
+func getOptionIntFixedArray1() *[]int32 {
+	return &[]int32{11}
+}
 
 func getOptionIntFixedArray2() *[]int32 {
 	return &[]int32{11, 22}
