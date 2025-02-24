@@ -20,31 +20,23 @@ pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
   } else {
     timezone
   }
-  println("pkg/localtime: now: timezone: \{timezone}")
 
   //
   if timezone == "" {
     // If still empty, let the host get the local time.
-    let result = @host.get_local_time!()
-    println("pkg/localtime: now: @host.get_local_time!(): result: \{result}")
-    return result
+    let s = @host.get_local_time_modus()
+    let pdt = @time.PlainDateTime::from_string!(s)
+    return @time.ZonedDateTime::from_plain_datetime(pdt)
   }
   let now = @wasi.now() / 1_000_000_000
   let zone = get_time_zone!(timezone~)
-  println("pkg/localtime: now: now: \{now}, zone: \{zone}")
-  let result = @time.unix!(now, zone~)
-  println(
-    "pkg/localtime: now: timezone: \{timezone}, now: \{now}, zone: \{zone}, result: \{result}",
-  )
-  result
+  @time.unix!(now, zone~)
 }
 
 ///| get_local_time_zone_id returns the local time zone identifier, in IANA format
 /// (e.g., "America/Los_Angeles").
 pub fn get_local_time_zone_id() -> String {
-  let result = @wasi.environ_get("TZ")
-  println("pkg/localtime: get_local_time_zone_id: result: \{result}")
-  result
+  @wasi.environ_get("TZ")
 }
 
 ///| get_time_zone returns the @time.Zone for the given time zone (or the local
@@ -63,19 +55,20 @@ pub fn get_time_zone(timezone~ : String = "") -> @time.Zone!Error {
   if result.length() == 0 {
     raise LocaltimeError("time zone '\{timezone}' not found")
   }
-  let result = @time.Zone::from_tzif2!(timezone, result)
-  println(
-    "pkg/localtime: get_time_zone: timezone: \{timezone}, result: \{result}",
-  )
-  result
+  @time.Zone::from_tzif2!(timezone, result)
 }
 
 ///| is_valid_time_zone returns true if the given time zone is valid.
 pub fn is_valid_time_zone(timezone : String) -> Bool {
-  let t = @host.get_time_in_zone(timezone)
-  let result = t != ""
-  println(
-    "pkg/localtime: is_valid_time_zone: timezone: \{timezone}, result: \{result}",
-  )
-  result
+  @host.get_time_in_zone_modus(timezone) != ""
+}
+
+///|
+pub fn get_local_time_modus() -> String {
+  @host.get_local_time_modus()
+}
+
+///|
+pub fn get_time_in_zone_modus(timezone : String) -> String {
+  @host.get_time_in_zone_modus(timezone)
 }

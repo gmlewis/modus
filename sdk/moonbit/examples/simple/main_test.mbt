@@ -5,6 +5,7 @@
 // These tests are fairly straightforward.
 // They are here to demonstrate how to write tests for your functions.
 
+///|
 test "log_message" {
   let msg = "Hello, World!"
   log_message(msg)
@@ -19,11 +20,13 @@ test "log_message" {
   )
 }
 
+///|
 test "add" {
   let result = add(1, 2)
   inspect!(result, content="3")
 }
 
+///|
 test "add3" {
   let a = 1
   let b = 2
@@ -32,6 +35,7 @@ test "add3" {
   inspect!(result, content="6")
 }
 
+///|
 test "add_n" {
   // Test case 1: Empty arguments
   let result = add_n([])
@@ -61,6 +65,7 @@ test "add_n" {
 //   inspect!(result, content="2024-01-01T00:00:00Z")
 // }
 
+///|
 test "get_full_name" {
   let first_name = "John"
   let last_name = "Doe"
@@ -78,11 +83,13 @@ test "get_full_name" {
 //   inspect!(result, content="Hello there!")
 // }
 
+///|
 test "get_person" {
   let result = get_person()
   inspect!(result, content="{firstName: \"John\", lastName: \"Doe\", age: 42}")
 }
 
+///|
 test "get_random_person" {
   // The same seed is always used, so the result is deterministic.
   let result = get_random_person()
@@ -92,6 +99,7 @@ test "get_random_person" {
   )
 }
 
+///|
 test "get_people" {
   let result = get_people()
   inspect!(

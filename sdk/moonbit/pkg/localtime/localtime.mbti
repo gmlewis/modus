@@ -41,7 +41,11 @@ const TimeOnly : String = "15:04:05"
 
 const UnixDate : String = "Mon Jan _2 15:04:05 MST 2006"
 
+fn get_local_time_modus() -> String
+
 fn get_local_time_zone_id() -> String
+
+fn get_time_in_zone_modus(String) -> String
 
 fn get_time_zone(timezone~ : String = ..) -> @time.Zone!
 

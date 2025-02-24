@@ -22,18 +22,26 @@ pub fn get_utc_time() -> @time.ZonedDateTime!Error {
   result
 }
 
-///| Returns the current local time.
-pub fn get_local_time() -> String!Error {
-  let now = @localtime.now!()
-  println("GML: main.mbt: get_local_time: now=\{now}")
-  now.to_string()
+///| Returns the current local time using the moonbitlang/x/time package.
+pub fn get_local_time_moonbit() -> String!Error {
+  @localtime.now!().to_string()
 }
 
-///| Returns the current time in a specified time zone.
-pub fn get_time_in_zone(tz : String) -> String!Error {
-  let now = @localtime.now!(timezone=tz)
-  println("GML: main.mbt: get_time_in_zone: tz: \{tz}, now: \{now}")
-  now.to_string()
+///| Returns the current local time using the Modus host Go function.
+pub fn get_local_time_modus() -> String {
+  @localtime.get_local_time_modus()
+}
+
+///| Returns the current time in a specified time zone using
+/// the moonbitlang/x/time package.
+pub fn get_time_in_zone_moonbit(tz : String) -> String!Error {
+  @localtime.now!(timezone=tz).to_string()
+}
+
+///| Returns the current time in a specified time zone using
+/// the Modus host Go function.
+pub fn get_time_in_zone_modus(tz : String) -> String {
+  @localtime.get_time_in_zone_modus(tz)
 }
 
 ///| Returns the local time zone identifier.

@@ -415,7 +415,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// For debugging:
 	memoryBlockAtOffset(wa, offset-8, 0, true)
 
-	if h.typeDef.Name == "Array[Bool]" {
+	if strings.HasPrefix(h.typeDef.Name, "Array[") {
 		// Finally, write the slice memory block.
 		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
 		innerCln := utils.NewCleanerN(1)

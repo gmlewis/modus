@@ -192,7 +192,7 @@ var wantSimpleFnImports = metadata.FunctionMap{
 	"modus_system.getTimeInZone": {
 		Name:       "modus_system.getTimeInZone",
 		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
-		Results:    []*metadata.Result{{Type: "String!Error"}},
+		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"modus_system.getTimeZoneData": {
 		Name:       "modus_system.getTimeZoneData",
