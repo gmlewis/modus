@@ -60,14 +60,14 @@ func getIntOptionArray() []*int32 {
 	return []*int32{&a, nil, &c}
 }
 
-// func TestArrayInput_int_empty(t *testing.T) {
-// 	fnName := "test_array_input_int_empty"
-// 	s := []int32{}
+func TestArrayInput_int_empty(t *testing.T) {
+	fnName := "test_array_input_int_empty"
+	s := []int32{}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestArrayOutput_int_0(t *testing.T) {
 	fnName := "test_array_output_int_0"

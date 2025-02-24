@@ -144,18 +144,18 @@ func TestArrayOutput_string_empty(t *testing.T) {
 	}
 }
 
-// func Test2DArrayInput_string(t *testing.T) {
-// 	fnName := "test2d_array_input_string"
-// 	s := [][]string{
-// 		{"abc", "def", "ghi"},
-// 		{"jkl", "mno", "pqr"},
-// 		{"stu", "vwx", "yz"},
-// 	}
+func Test2DArrayInput_string(t *testing.T) {
+	fnName := "test2d_array_input_string"
+	s := [][]string{
+		{"abc", "def", "ghi"},
+		{"jkl", "mno", "pqr"},
+		{"stu", "vwx", "yz"},
+	}
 
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
+		t.Error(err)
+	}
+}
 
 func Test2DArrayOutput_string(t *testing.T) {
 	fnName := "test2d_array_output_string"

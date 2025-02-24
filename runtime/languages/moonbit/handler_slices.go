@@ -258,12 +258,11 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
-	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
-	memBlockClassID := uint32(FixedArrayPrimitiveBlockType)
-	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" ||
-		elemType.Name() == "Float?" || elemType.Name() == "Double?" ||
-		elemType.Name() == "String" || elemType.Name() == "String?" {
-		memBlockClassID = uint32(PtrArrayBlockType)
+	memBlockClassID := uint32(PtrArrayBlockType)
+	if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" || elemType.Name() == "Char?" ||
+		elemType.Name() == "Int?" || elemType.Name() == "UInt?" ||
+		elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" {
+		memBlockClassID = uint32(FixedArrayPrimitiveBlockType)
 	}
 
 	// Allocate memory
@@ -305,6 +304,8 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	elementSize := h.elementHandler.TypeInfo().Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
 	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
 		elementSize = 8 // TODO: Fix this.
+	} else if elementSize > 4 { // Another bug?!?  Array[Array[String]] = 12?!?
+		elementSize = 4
 	}
 
 	for i, val := range slice {
