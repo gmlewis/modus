@@ -328,7 +328,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 						return 0, cln, err
 					}
 					switch elemType.Name() {
-					case "Byte?", "Bool?", "Char?", "UInt?", "String?":
+					case "Byte?", "Bool?", "Char?", "String?": // "UInt?" in MoonBit for some reason uses sign extending below.
 						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
 					case "Int16?":
 						highByte, ok := wa.Memory().ReadByte(ptr + 1 + uint32(i)*elemTypeSize)
@@ -338,7 +338,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
 						}
 					// case "Int64?", "UInt64?", "Float?", "Double?": // handled above
-					case "Int?":
+					case "Int?", "UInt?": // I don't know why uses sign extending for "UInt?", but seems to.
 						highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
 						if ok && highByte&0x80 != 0 {
 							wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)

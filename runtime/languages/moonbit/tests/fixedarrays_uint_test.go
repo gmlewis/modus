@@ -16,57 +16,10 @@ import (
 	"testing"
 )
 
-// func TestFixedArrayInput_uint_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input_uint_option"
-// 	s := getUIntOptionFixedArray()
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
-func TestFixedArrayOutput_uint_option(t *testing.T) {
-	fnName := "test_fixedarray_output_uint_option"
-
-	result, err := fixture.CallFunction(t, fnName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := getUIntOptionFixedArray()
-	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.([]*uint32); !ok {
-		t.Errorf("expected a []*uint32, got %T", result)
-	} else if !slices.EqualFunc(expected, r, func(a, b *uint32) bool { return (a == nil && b == nil) || (a != nil && b != nil && *a == *b) }) {
-		for i, v := range expected {
-			t.Logf("expected[%v]: %v", i, *v)
-		}
-		for i, v := range r {
-			t.Logf("r[%v]: %v", i, *v)
-		}
-		t.Errorf("expected %#v, got %#v", expected, r)
-	}
-}
-
-func getUIntOptionFixedArray() []*uint32 {
-	a := uint32(11)
-	c := uint32(33)
-	return []*uint32{&a, nil, &c}
-}
-
-// func TestFixedArrayInput_uint_empty(t *testing.T) {
-// 	fnName := "test_fixedarray_input_uint_empty"
-// 	s := []uint32{}
-
-// 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
-// 		t.Error(err)
-// 	}
-// }
-
 func TestFixedArrayOutput_uint_0(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_0"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 8=8+words*4), classID=241(FixedArray[Primitive]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -80,11 +33,14 @@ func TestFixedArrayOutput_uint_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_1(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_1"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -98,11 +54,14 @@ func TestFixedArrayOutput_uint_1(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_1_min(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_1_min"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -116,11 +75,14 @@ func TestFixedArrayOutput_uint_1_min(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_1_max(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_1_max"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -134,11 +96,14 @@ func TestFixedArrayOutput_uint_1_max(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_2(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_2"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 0 0 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -152,11 +117,14 @@ func TestFixedArrayOutput_uint_2(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_3(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_3"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 1 0 0 0 2 0 0 0 3 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -170,11 +138,14 @@ func TestFixedArrayOutput_uint_3(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_4(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_4"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 1 0 0 0 2 0 0 0 3 0 0 0 4 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -188,11 +159,14 @@ func TestFixedArrayOutput_uint_4(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_0(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_0"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 8=8+words*4), classID=241(FixedArray[Primitive]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -206,11 +180,14 @@ func TestFixedArrayOutput_uint_option_0(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_1_none(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_1_none"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -224,11 +201,14 @@ func TestFixedArrayOutput_uint_option_1_none(t *testing.T) {
 	} else if !slices.Equal(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_1_min(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_1_min"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -242,11 +222,14 @@ func TestFixedArrayOutput_uint_option_1_min(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_1_max(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_1_max"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -260,11 +243,14 @@ func TestFixedArrayOutput_uint_option_1_max(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_2(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_2"
 
+	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -278,17 +264,23 @@ func TestFixedArrayOutput_uint_option_2(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_3(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_3"
 
+	// memoryBlockAtOffset(offset: 92160=0x00016800=[0 104 1 0], size: 32=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 11 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 33 0 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := []*uint32{nil, nil, nil}
+	a := uint32(11)
+	c := uint32(33)
+	expected := []*uint32{&a, nil, &c}
+
 	if result == nil {
 		t.Error("expected a result")
 	} else if r, ok := result.([]*uint32); !ok {
@@ -296,11 +288,14 @@ func TestFixedArrayOutput_uint_option_3(t *testing.T) {
 	} else if !reflect.DeepEqual(expected, r) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
 
 func TestFixedArrayOutput_uint_option_4(t *testing.T) {
 	fnName := "test_fixedarray_output_uint_option_4"
 
+	// memoryBlockAtOffset(offset: 92160=0x00016800=[0 104 1 0], size: 40=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 255 255 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -312,6 +307,8 @@ func TestFixedArrayOutput_uint_option_4(t *testing.T) {
 	} else if r, ok := result.([]*uint32); !ok {
 		t.Errorf("expected a []*uint32, got %T", result)
 	} else if !reflect.DeepEqual(expected, r) {
-		t.Errorf("expected %v, got %v", expected, r)
+		t.Errorf("expected %+v, got %+v", expected, r)
 	}
+
+	testInputSide(t, fnName, expected)
 }
