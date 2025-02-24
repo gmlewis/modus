@@ -337,7 +337,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 						} else {
 							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
 						}
-					// case "Int64?", "UInt64?", "Float?", "Double?": // handled above
+					case "UInt16?":
+						wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
+						// case "Int64?", "UInt64?", "Float?", "Double?": // handled above
 					case "Int?", "UInt?": // I don't know why uses sign extending for "UInt?", but seems to.
 						highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
 						if ok && highByte&0x80 != 0 {
@@ -358,7 +360,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
 				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, noneBlock-8)
 			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" ||
-				elemType.Name() == "Char?" || elemType.Name() == "Int16?" {
+				elemType.Name() == "Char?" || elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" {
 				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
 			} else {
 				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
