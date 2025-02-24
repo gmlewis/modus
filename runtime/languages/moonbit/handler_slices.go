@@ -254,14 +254,15 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		// elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
 		// elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
 		// elemType.Name() != "Float?" && elemType.Name() != "Double?" {
-		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") {
+		(elemType.Name() == "Int?" || elemType.Name() == "UInt?") {
 		elemTypeSize = 8
 	}
 	size := numElements * uint32(elemTypeSize)
 	// headerValue = (numElements << 8) | 241 // 241 is the int array header type
 	memBlockClassID := uint32(FixedArrayPrimitiveBlockType)
 	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" ||
-		elemType.Name() == "Float?" || elemType.Name() == "Double?" {
+		elemType.Name() == "Float?" || elemType.Name() == "Double?" ||
+		elemType.Name() == "String" || elemType.Name() == "String?" {
 		memBlockClassID = uint32(PtrArrayBlockType)
 	}
 
@@ -370,7 +371,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			if err != nil {
 				return 0, cln, err
 			}
-		}
+		} // TODO: else is it safe to assume the memory has been cleared out to zeros, or do we need to write them explicitly?
 	}
 
 	// For debugging purposes:
