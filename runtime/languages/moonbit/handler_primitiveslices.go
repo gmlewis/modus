@@ -314,16 +314,24 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 	// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: len(slice): %v, numElements: %v, elemTypeSize: %v, slice: %+v", len(slice), numElements, elemTypeSize, slice)
 
-	var size uint32
-	// var headerValue uint32
+	size := numElements * uint32(elemTypeSize)
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
+	switch elemType.Name() {
+	case "Bool", "Char", "Int", "UInt", "Int64", "UInt64", "Float", "Double":
+		memBlockClassID = FixedArrayPrimitiveBlockType
+	case "Byte":
+		memBlockClassID = FixedArrayByteBlockType
+	case "Int16", "UInt16":
+		memBlockClassID = StringBlockType
+	default:
+		return 0, nil, fmt.Errorf("unsupported primitive MoonBit slice type: %v", elemType.Name())
+	}
 
 	// Handle different types based on elemTypeSize
-	if elemTypeSize == 1 {
-		// Byte arrays: round up to nearest 4 bytes + padding byte
-		paddedSize := ((numElements + 4) / 4) * 4
-		padding := uint8(3 - (numElements % 4))
+	if memBlockClassID == FixedArrayByteBlockType || memBlockClassID == StringBlockType {
+		paddedSize := ((size + 4) / 4) * 4
+		padding := uint8(3 - (size % 4))
 		if padding != 0 {
 			writeHeader = func(mem []byte) {
 				// Write padding byte at the end
@@ -332,24 +340,11 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 
 		size = paddedSize
-		// headerValue = ((paddedSize / 4) << 8) | 246 // 246 is the byte array header type
-		memBlockClassID = 246
 		var zero T
 		for i := numElements; i < paddedSize; i++ {
 			// gmlPrintf("GML: handler_primitiveslices.go: doWriteSlice: ADDING PADDING BYTE #%v of %v", i+1-numElements, paddedSize-numElements)
 			slice = append(slice, zero) // add the padding bytes
 		}
-	} else {
-		// Int arrays: 4 bytes per element + header
-		size = numElements * uint32(elemTypeSize)
-		// headerValue = (numElements << 8) | 241 // 241 is the int array header type
-		memBlockClassID = FixedArrayPrimitiveBlockType
-
-		// writeHeader = func(mem []byte) {
-		// 	for i, val := range slice {
-		// 		binary.LittleEndian.PutUint32(mem[i*4:(i+1)*4], uint32(val.(int32)))
-		// 	}
-		// }
 	}
 
 	// Allocate memory

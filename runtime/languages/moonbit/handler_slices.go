@@ -299,7 +299,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 	}()
 
-	elementSize := h.elementHandler.TypeInfo().Size() // TODO: How is this different from elemTypeSize above?!?
+	// elementTypeSize (above) is the skip size when writing the encoded value to memory.
+	// elementSize (below) is the native size of the MoonBit value.
+	elementSize := h.elementHandler.TypeInfo().Size()
 
 	for i, val := range slice {
 		if elemType.IsPrimitive() && isNullable {
@@ -321,11 +323,26 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 					if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
 						return 0, cln, err
 					}
-					highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
-					if ok && highByte&0x80 != 0 {
-						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)
-					} else {
-						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(positive number)
+					switch elemType.Name() {
+					case "Byte?", "Bool?", "Char?", "UInt?", "String?":
+						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
+					case "Int16?":
+						highByte, ok := wa.Memory().ReadByte(ptr + 1 + uint32(i)*elemTypeSize)
+						if ok && highByte&0x80 != 0 {
+							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{255, 255}) // Some(negative number)
+						} else {
+							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
+						}
+					// case "Int64?", "UInt64?", "Float?", "Double?": // handled above
+					case "Int?":
+						highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
+						if ok && highByte&0x80 != 0 {
+							wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)
+						} else {
+							wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(positive number)
+						}
+					default:
+						return 0, cln, fmt.Errorf("unsupported nullable primitive type: %v", elemType.Name())
 					}
 				}
 			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
