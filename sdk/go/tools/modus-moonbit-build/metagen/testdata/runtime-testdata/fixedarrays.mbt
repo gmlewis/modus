@@ -42,17 +42,17 @@ pub fn test_fixedarray_output0_string_option() -> FixedArray[String?] {
 
 ///|
 pub fn test_fixedarray_input0_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  let expected = get_int_option_fixedarray()
+  let expected = get_int_option0_fixedarray()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output0_int_option() -> FixedArray[Int?] {
-  get_int_option_fixedarray()
+  get_int_option0_fixedarray()
 }
 
 ///|
-fn get_int_option_fixedarray() -> FixedArray[Int?] {
+fn get_int_option0_fixedarray() -> FixedArray[Int?] {
   []
 }
 
@@ -154,17 +154,17 @@ pub fn get_string_option_array2() -> FixedArray[String?] {
 
 ///|
 pub fn test_fixedarray_input2_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  let expected = getIntPtrArray2()
+  let expected = get_int_ptr_array2()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output2_int_option() -> FixedArray[Int?] {
-  getIntPtrArray2()
+  get_int_ptr_array2()
 }
 
 ///|
-pub fn getIntPtrArray2() -> FixedArray[Int?] {
+pub fn get_int_ptr_array2() -> FixedArray[Int?] {
   [Some(11), Some(22)]
 }
 
@@ -221,13 +221,13 @@ pub fn test_fixedarray_output2_map() -> FixedArray[Map[String, String]] {
 pub fn test_fixedarray_input2_map_option(
   val : FixedArray[Map[String, String]?]
 ) -> Unit!Error {
-  let expected = getMapPtrArray2()
+  let expected = get_map_ptr_array2()
   assert_eq!(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_output2_map_option() -> FixedArray[Map[String, String]?] {
-  getMapPtrArray2()
+  get_map_ptr_array2()
 }
 
 ///|
@@ -236,7 +236,7 @@ pub fn get_map_array2() -> FixedArray[Map[String, String]] {
 }
 
 ///|
-pub fn getMapPtrArray2() -> FixedArray[Map[String, String]?] {
+pub fn get_map_ptr_array2() -> FixedArray[Map[String, String]?] {
   [Some({ "A": "true", "B": "123" }), Some({ "C": "false", "D": "456" })]
 }
 

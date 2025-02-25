@@ -47,7 +47,7 @@ func TestGetHandler_int(t *testing.T) {
 
 func TestGetHandler_int_option(t *testing.T) {
 	typ := "Int?"
-	rt := reflect.TypeFor[int32]()
+	rt := reflect.TypeFor[*int32]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)
@@ -120,7 +120,7 @@ func TestGetHandler_string(t *testing.T) {
 
 func TestGetHandler_string_option(t *testing.T) {
 	typ := "String?"
-	rt := reflect.TypeFor[string]()
+	rt := reflect.TypeFor[*string]()
 
 	planner := fixture.NewPlanner()
 	handler, err := planner.GetHandler(fixture.Context, typ)

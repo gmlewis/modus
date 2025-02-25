@@ -6,6 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
+type! TestError String derive(Show, Eq)
+
+///|
 let test_time : Ref[@time.ZonedDateTime?] = { val: None }
 
 ///|
@@ -14,7 +17,17 @@ let test_duration : Ref[@time.Duration] = { val: @time.Duration::zero() }
 ///|
 fn init {
   test_time.val = try {
-    Some(@time.date_time!(2024, 12, 31, hour=23, minute=59, second=59))
+    Some(
+      @time.date_time!(
+        2024,
+        12,
+        31,
+        hour=23,
+        minute=59,
+        second=59,
+        nanosecond=999_999_999,
+      ),
+    )
   } catch {
     _ => abort("Failed to create test time")
   }
@@ -29,20 +42,66 @@ fn init {
 pub fn test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
   guard let Some(test_time) = test_time.val
   assert_eq!(t.to_unix_second(), test_time.to_unix_second())
+  assert_eq!(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
 pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
   guard let Some(test_time) = test_time.val
   guard let Some(t) = t
+  let got_seconds = t.to_unix_second()
+  let got_nanoseconds = t.nanosecond()
+  println(
+    "test_time_option_input: got_seconds=\{got_seconds}, got_nanoseconds=\{got_nanoseconds}",
+  )
   assert_eq!(t.to_unix_second(), test_time.to_unix_second())
+  assert_eq!(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
-type! TestError String derive(Show, Eq)
+pub fn call_test_time_option_input_some() -> @time.ZonedDateTime? {
+  println(
+    "call_test_time_option_input_some: calling test_time_option_input(\{test_time.val})",
+  )
+  try {
+    test_time_option_input!(test_time.val)
+  } catch {
+    _ => ()
+  }
+  test_time.val
+}
 
 ///|
-pub fn test_time_option_input_nil(t : @time.ZonedDateTime?) -> Unit!Error {
+pub fn call_test_time_option_input_none() -> @time.ZonedDateTime? {
+  println(
+    "call_test_time_option_input_some: calling test_time_option_input(None)",
+  )
+  try {
+    test_time_option_input!(test_time.val)
+  } catch {
+    _ => ()
+  }
+  None
+}
+
+///|
+pub fn test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!Error {
+  guard let Some(test_time) = test_time.val
+  guard let Some(t) = t
+  assert_eq!(t.to_unix_second(), test_time.to_unix_second())
+  assert_eq!(t.nanosecond(), test_time.nanosecond())
+}
+
+///|
+pub fn test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Error {
+  guard let None = t else { _ => raise TestError("expected None") }
+
+}
+
+///|
+pub fn test_time_option_input_none_style2(
+  t? : @time.ZonedDateTime
+) -> Unit!Error {
   guard let None = t else { _ => raise TestError("expected None") }
 
 }
@@ -59,7 +118,7 @@ pub fn test_time_option_output() -> @time.ZonedDateTime? {
 }
 
 ///|
-pub fn test_time_option_output_nil() -> @time.ZonedDateTime? {
+pub fn test_time_option_output_none() -> @time.ZonedDateTime? {
   None
 }
 
@@ -74,7 +133,19 @@ pub fn test_duration_option_input(d : @time.Duration?) -> Unit!Error {
 }
 
 ///|
-pub fn test_duration_option_input_nil(d : @time.Duration?) -> Unit!Error {
+pub fn test_duration_option_input_style2(d? : @time.Duration) -> Unit!Error {
+  assert_eq!(d, Some(test_duration.val))
+}
+
+///|
+pub fn test_duration_option_input_none(d : @time.Duration?) -> Unit!Error {
+  assert_eq!(d, None)
+}
+
+///|
+pub fn test_duration_option_input_none_style2(
+  d? : @time.Duration
+) -> Unit!Error {
   assert_eq!(d, None)
 }
 
@@ -89,6 +160,6 @@ pub fn test_duration_option_output() -> @time.Duration? {
 }
 
 ///|
-pub fn test_duration_option_output_nil() -> @time.Duration? {
+pub fn test_duration_option_output_none() -> @time.Duration? {
   None
 }

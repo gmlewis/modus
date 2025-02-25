@@ -70,19 +70,27 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "a", Type: "Int"}, {Name: "b", Type: "Int"}},
 		Results:    []*metadata.Result{{Type: "Int"}},
 	},
+	"call_test_time_option_input_none": {
+		Name:    "call_test_time_option_input_none",
+		Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
+	},
+	"call_test_time_option_input_some": {
+		Name:    "call_test_time_option_input_some",
+		Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
+	},
 	"echo1": {
 		Name:       "echo1",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
-		Results:    []*metadata.Result{{Type: "String?"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"echo2": {
 		Name:       "echo2",
 		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
-		Results:    []*metadata.Result{{Type: "String?"}},
+		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"echo3": {
 		Name:       "echo3",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
 		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"echo4": {
@@ -100,17 +108,17 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "items", Type: "Array[String?]?"}},
 		Results:    []*metadata.Result{{Type: "String?"}},
 	},
-	"getIntPtrArray2": {
-		Name:    "getIntPtrArray2",
-		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
-	},
-	"getMapPtrArray2": {
-		Name:    "getMapPtrArray2",
-		Results: []*metadata.Result{{Type: "FixedArray[Map[String, String]?]"}},
-	},
 	"get_int_option_fixedarray1": {
 		Name:    "get_int_option_fixedarray1",
 		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"get_int_ptr_array2": {
+		Name:    "get_int_ptr_array2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"get_map_ptr_array2": {
+		Name:    "get_map_ptr_array2",
+		Results: []*metadata.Result{{Type: "FixedArray[Map[String, String]?]"}},
 	},
 	"get_map_array2": {
 		Name:    "get_map_array2",
@@ -140,6 +148,26 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "get_string_option_fixedarray1",
 		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
 	},
+	"host_echo1": {
+		Name:       "host_echo1",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String"}},
+	},
+	"host_echo2": {
+		Name:       "host_echo2",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
+		Results:    []*metadata.Result{{Type: "String"}},
+	},
+	"host_echo3": {
+		Name:       "host_echo3",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
+	},
+	"host_echo4": {
+		Name:       "host_echo4",
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
+	},
 	"test2d_array_input_string": {
 		Name:       "test2d_array_input_string",
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]]"}},
@@ -150,9 +178,14 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
+	"test2d_array_input_string_inner_empty": {
+		Name:       "test2d_array_input_string_inner_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
 	"test2d_array_input_string_inner_none": {
 		Name:       "test2d_array_input_string_inner_none",
-		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]]?"}},
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]?]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
 	"test2d_array_input_string_none": {
@@ -168,21 +201,170 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test2d_array_output_string_empty",
 		Results: []*metadata.Result{{Type: "Array[Array[String]]"}},
 	},
+	"test2d_array_output_string_inner_empty": {
+		Name:    "test2d_array_output_string_inner_empty",
+		Results: []*metadata.Result{{Type: "Array[Array[String]]"}},
+	},
 	"test2d_array_output_string_inner_none": {
 		Name:    "test2d_array_output_string_inner_none",
-		Results: []*metadata.Result{{Type: "Array[Array[String]]"}},
+		Results: []*metadata.Result{{Type: "Array[Array[String]?]"}},
 	},
 	"test2d_array_output_string_none": {
 		Name:    "test2d_array_output_string_none",
 		Results: []*metadata.Result{{Type: "Array[Array[String]]?"}},
 	},
-	"test_array_input_byte": {
-		Name:       "test_array_input_byte",
+	"test_array_input_bool_0": {
+		Name:       "test_array_input_bool_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_1": {
+		Name:       "test_array_input_bool_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_2": {
+		Name:       "test_array_input_bool_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_3": {
+		Name:       "test_array_input_bool_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_4": {
+		Name:       "test_array_input_bool_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_0": {
+		Name:       "test_array_input_bool_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_1_false": {
+		Name:       "test_array_input_bool_option_1_false",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_1_none": {
+		Name:       "test_array_input_bool_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_1_true": {
+		Name:       "test_array_input_bool_option_1_true",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_2": {
+		Name:       "test_array_input_bool_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_3": {
+		Name:       "test_array_input_bool_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_bool_option_4": {
+		Name:       "test_array_input_bool_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_0": {
+		Name:       "test_array_input_byte_0",
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_array_input_int32_empty": {
-		Name:       "test_array_input_int32_empty",
+	"test_array_input_byte_1": {
+		Name:       "test_array_input_byte_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_2": {
+		Name:       "test_array_input_byte_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_3": {
+		Name:       "test_array_input_byte_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_4": {
+		Name:       "test_array_input_byte_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_option_0": {
+		Name:       "test_array_input_byte_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_option_1": {
+		Name:       "test_array_input_byte_option_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_option_2": {
+		Name:       "test_array_input_byte_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_option_3": {
+		Name:       "test_array_input_byte_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_byte_option_4": {
+		Name:       "test_array_input_byte_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_char_empty": {
+		Name:       "test_array_input_char_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_char_option": {
+		Name:       "test_array_input_char_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_double_empty": {
+		Name:       "test_array_input_double_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_double_option": {
+		Name:       "test_array_input_double_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_float_empty": {
+		Name:       "test_array_input_float_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_float_option": {
+		Name:       "test_array_input_float_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_int16_empty": {
+		Name:       "test_array_input_int16_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_int16_option": {
+		Name:       "test_array_input_int16_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_int_empty": {
+		Name:       "test_array_input_int_empty",
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Int]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -211,16 +393,432 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[String?]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_array_output_byte": {
-		Name:    "test_array_output_byte",
+	"test_array_input_uint16_empty": {
+		Name:       "test_array_input_uint16_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_uint16_option": {
+		Name:       "test_array_input_uint16_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_uint_empty": {
+		Name:       "test_array_input_uint_empty",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_input_uint_option": {
+		Name:       "test_array_input_uint_option",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_array_output_bool_0": {
+		Name:    "test_array_output_bool_0",
+		Results: []*metadata.Result{{Type: "Array[Bool]"}},
+	},
+	"test_array_output_bool_1": {
+		Name:    "test_array_output_bool_1",
+		Results: []*metadata.Result{{Type: "Array[Bool]"}},
+	},
+	"test_array_output_bool_2": {
+		Name:    "test_array_output_bool_2",
+		Results: []*metadata.Result{{Type: "Array[Bool]"}},
+	},
+	"test_array_output_bool_3": {
+		Name:    "test_array_output_bool_3",
+		Results: []*metadata.Result{{Type: "Array[Bool]"}},
+	},
+	"test_array_output_bool_4": {
+		Name:    "test_array_output_bool_4",
+		Results: []*metadata.Result{{Type: "Array[Bool]"}},
+	},
+	"test_array_output_bool_option_0": {
+		Name:    "test_array_output_bool_option_0",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_1_false": {
+		Name:    "test_array_output_bool_option_1_false",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_1_none": {
+		Name:    "test_array_output_bool_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_1_true": {
+		Name:    "test_array_output_bool_option_1_true",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_2": {
+		Name:    "test_array_output_bool_option_2",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_3": {
+		Name:    "test_array_output_bool_option_3",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_bool_option_4": {
+		Name:    "test_array_output_bool_option_4",
+		Results: []*metadata.Result{{Type: "Array[Bool?]"}},
+	},
+	"test_array_output_byte_0": {
+		Name:    "test_array_output_byte_0",
 		Results: []*metadata.Result{{Type: "Array[Byte]"}},
 	},
-	"test_array_output_int32_empty": {
-		Name:    "test_array_output_int32_empty",
+	"test_array_output_byte_1": {
+		Name:    "test_array_output_byte_1",
+		Results: []*metadata.Result{{Type: "Array[Byte]"}},
+	},
+	"test_array_output_byte_2": {
+		Name:    "test_array_output_byte_2",
+		Results: []*metadata.Result{{Type: "Array[Byte]"}},
+	},
+	"test_array_output_byte_3": {
+		Name:    "test_array_output_byte_3",
+		Results: []*metadata.Result{{Type: "Array[Byte]"}},
+	},
+	"test_array_output_byte_4": {
+		Name:    "test_array_output_byte_4",
+		Results: []*metadata.Result{{Type: "Array[Byte]"}},
+	},
+	"test_array_output_byte_option_0": {
+		Name:    "test_array_output_byte_option_0",
+		Results: []*metadata.Result{{Type: "Array[Byte?]"}},
+	},
+	"test_array_output_byte_option_1": {
+		Name:    "test_array_output_byte_option_1",
+		Results: []*metadata.Result{{Type: "Array[Byte?]"}},
+	},
+	"test_array_output_byte_option_2": {
+		Name:    "test_array_output_byte_option_2",
+		Results: []*metadata.Result{{Type: "Array[Byte?]"}},
+	},
+	"test_array_output_byte_option_3": {
+		Name:    "test_array_output_byte_option_3",
+		Results: []*metadata.Result{{Type: "Array[Byte?]"}},
+	},
+	"test_array_output_byte_option_4": {
+		Name:    "test_array_output_byte_option_4",
+		Results: []*metadata.Result{{Type: "Array[Byte?]"}},
+	},
+	"test_array_output_char_0": {
+		Name:    "test_array_output_char_0",
+		Results: []*metadata.Result{{Type: "Array[Char]"}},
+	},
+	"test_array_output_char_1": {
+		Name:    "test_array_output_char_1",
+		Results: []*metadata.Result{{Type: "Array[Char]"}},
+	},
+	"test_array_output_char_2": {
+		Name:    "test_array_output_char_2",
+		Results: []*metadata.Result{{Type: "Array[Char]"}},
+	},
+	"test_array_output_char_3": {
+		Name:    "test_array_output_char_3",
+		Results: []*metadata.Result{{Type: "Array[Char]"}},
+	},
+	"test_array_output_char_4": {
+		Name:    "test_array_output_char_4",
+		Results: []*metadata.Result{{Type: "Array[Char]"}},
+	},
+	"test_array_output_char_option": {
+		Name:    "test_array_output_char_option",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_0": {
+		Name:    "test_array_output_char_option_0",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_1_none": {
+		Name:    "test_array_output_char_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_1_some": {
+		Name:    "test_array_output_char_option_1_some",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_2": {
+		Name:    "test_array_output_char_option_2",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_3": {
+		Name:    "test_array_output_char_option_3",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_char_option_4": {
+		Name:    "test_array_output_char_option_4",
+		Results: []*metadata.Result{{Type: "Array[Char?]"}},
+	},
+	"test_array_output_double_0": {
+		Name:    "test_array_output_double_0",
+		Results: []*metadata.Result{{Type: "Array[Double]"}},
+	},
+	"test_array_output_double_1": {
+		Name:    "test_array_output_double_1",
+		Results: []*metadata.Result{{Type: "Array[Double]"}},
+	},
+	"test_array_output_double_2": {
+		Name:    "test_array_output_double_2",
+		Results: []*metadata.Result{{Type: "Array[Double]"}},
+	},
+	"test_array_output_double_3": {
+		Name:    "test_array_output_double_3",
+		Results: []*metadata.Result{{Type: "Array[Double]"}},
+	},
+	"test_array_output_double_4": {
+		Name:    "test_array_output_double_4",
+		Results: []*metadata.Result{{Type: "Array[Double]"}},
+	},
+	"test_array_output_double_option": {
+		Name:    "test_array_output_double_option",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_0": {
+		Name:    "test_array_output_double_option_0",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_1_none": {
+		Name:    "test_array_output_double_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_1_some": {
+		Name:    "test_array_output_double_option_1_some",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_2": {
+		Name:    "test_array_output_double_option_2",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_3": {
+		Name:    "test_array_output_double_option_3",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_double_option_4": {
+		Name:    "test_array_output_double_option_4",
+		Results: []*metadata.Result{{Type: "Array[Double?]"}},
+	},
+	"test_array_output_float_0": {
+		Name:    "test_array_output_float_0",
+		Results: []*metadata.Result{{Type: "Array[Float]"}},
+	},
+	"test_array_output_float_1": {
+		Name:    "test_array_output_float_1",
+		Results: []*metadata.Result{{Type: "Array[Float]"}},
+	},
+	"test_array_output_float_2": {
+		Name:    "test_array_output_float_2",
+		Results: []*metadata.Result{{Type: "Array[Float]"}},
+	},
+	"test_array_output_float_3": {
+		Name:    "test_array_output_float_3",
+		Results: []*metadata.Result{{Type: "Array[Float]"}},
+	},
+	"test_array_output_float_4": {
+		Name:    "test_array_output_float_4",
+		Results: []*metadata.Result{{Type: "Array[Float]"}},
+	},
+	"test_array_output_float_option": {
+		Name:    "test_array_output_float_option",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_0": {
+		Name:    "test_array_output_float_option_0",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_1_none": {
+		Name:    "test_array_output_float_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_1_some": {
+		Name:    "test_array_output_float_option_1_some",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_2": {
+		Name:    "test_array_output_float_option_2",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_3": {
+		Name:    "test_array_output_float_option_3",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_float_option_4": {
+		Name:    "test_array_output_float_option_4",
+		Results: []*metadata.Result{{Type: "Array[Float?]"}},
+	},
+	"test_array_output_int16_0": {
+		Name:    "test_array_output_int16_0",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_1": {
+		Name:    "test_array_output_int16_1",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_1_max": {
+		Name:    "test_array_output_int16_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_1_min": {
+		Name:    "test_array_output_int16_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_2": {
+		Name:    "test_array_output_int16_2",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_3": {
+		Name:    "test_array_output_int16_3",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_4": {
+		Name:    "test_array_output_int16_4",
+		Results: []*metadata.Result{{Type: "Array[Int16]"}},
+	},
+	"test_array_output_int16_option": {
+		Name:    "test_array_output_int16_option",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_0": {
+		Name:    "test_array_output_int16_option_0",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_1_max": {
+		Name:    "test_array_output_int16_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_1_min": {
+		Name:    "test_array_output_int16_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_1_none": {
+		Name:    "test_array_output_int16_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_2": {
+		Name:    "test_array_output_int16_option_2",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_3": {
+		Name:    "test_array_output_int16_option_3",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int16_option_4": {
+		Name:    "test_array_output_int16_option_4",
+		Results: []*metadata.Result{{Type: "Array[Int16?]"}},
+	},
+	"test_array_output_int64_0": {
+		Name:    "test_array_output_int64_0",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_1": {
+		Name:    "test_array_output_int64_1",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_1_max": {
+		Name:    "test_array_output_int64_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_1_min": {
+		Name:    "test_array_output_int64_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_2": {
+		Name:    "test_array_output_int64_2",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_3": {
+		Name:    "test_array_output_int64_3",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_4": {
+		Name:    "test_array_output_int64_4",
+		Results: []*metadata.Result{{Type: "Array[Int64]"}},
+	},
+	"test_array_output_int64_option_0": {
+		Name:    "test_array_output_int64_option_0",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_1_max": {
+		Name:    "test_array_output_int64_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_1_min": {
+		Name:    "test_array_output_int64_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_1_none": {
+		Name:    "test_array_output_int64_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_2": {
+		Name:    "test_array_output_int64_option_2",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_3": {
+		Name:    "test_array_output_int64_option_3",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int64_option_4": {
+		Name:    "test_array_output_int64_option_4",
+		Results: []*metadata.Result{{Type: "Array[Int64?]"}},
+	},
+	"test_array_output_int_0": {
+		Name:    "test_array_output_int_0",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_1": {
+		Name:    "test_array_output_int_1",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_1_max": {
+		Name:    "test_array_output_int_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_1_min": {
+		Name:    "test_array_output_int_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_2": {
+		Name:    "test_array_output_int_2",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_3": {
+		Name:    "test_array_output_int_3",
+		Results: []*metadata.Result{{Type: "Array[Int]"}},
+	},
+	"test_array_output_int_4": {
+		Name:    "test_array_output_int_4",
 		Results: []*metadata.Result{{Type: "Array[Int]"}},
 	},
 	"test_array_output_int_option": {
 		Name:    "test_array_output_int_option",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_0": {
+		Name:    "test_array_output_int_option_0",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_1_max": {
+		Name:    "test_array_output_int_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_1_min": {
+		Name:    "test_array_output_int_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_1_none": {
+		Name:    "test_array_output_int_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_2": {
+		Name:    "test_array_output_int_option_2",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_3": {
+		Name:    "test_array_output_int_option_3",
+		Results: []*metadata.Result{{Type: "Array[Int?]"}},
+	},
+	"test_array_output_int_option_4": {
+		Name:    "test_array_output_int_option_4",
 		Results: []*metadata.Result{{Type: "Array[Int?]"}},
 	},
 	"test_array_output_string": {
@@ -239,6 +837,182 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_array_output_string_option",
 		Results: []*metadata.Result{{Type: "Array[String?]"}},
 	},
+	"test_array_output_uint16_0": {
+		Name:    "test_array_output_uint16_0",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_1": {
+		Name:    "test_array_output_uint16_1",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_1_max": {
+		Name:    "test_array_output_uint16_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_1_min": {
+		Name:    "test_array_output_uint16_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_2": {
+		Name:    "test_array_output_uint16_2",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_3": {
+		Name:    "test_array_output_uint16_3",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_4": {
+		Name:    "test_array_output_uint16_4",
+		Results: []*metadata.Result{{Type: "Array[UInt16]"}},
+	},
+	"test_array_output_uint16_option": {
+		Name:    "test_array_output_uint16_option",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_0": {
+		Name:    "test_array_output_uint16_option_0",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_1_max": {
+		Name:    "test_array_output_uint16_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_1_min": {
+		Name:    "test_array_output_uint16_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_1_none": {
+		Name:    "test_array_output_uint16_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_2": {
+		Name:    "test_array_output_uint16_option_2",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_3": {
+		Name:    "test_array_output_uint16_option_3",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint16_option_4": {
+		Name:    "test_array_output_uint16_option_4",
+		Results: []*metadata.Result{{Type: "Array[UInt16?]"}},
+	},
+	"test_array_output_uint64_0": {
+		Name:    "test_array_output_uint64_0",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_1": {
+		Name:    "test_array_output_uint64_1",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_1_max": {
+		Name:    "test_array_output_uint64_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_1_min": {
+		Name:    "test_array_output_uint64_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_2": {
+		Name:    "test_array_output_uint64_2",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_3": {
+		Name:    "test_array_output_uint64_3",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_4": {
+		Name:    "test_array_output_uint64_4",
+		Results: []*metadata.Result{{Type: "Array[UInt64]"}},
+	},
+	"test_array_output_uint64_option_0": {
+		Name:    "test_array_output_uint64_option_0",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_1_max": {
+		Name:    "test_array_output_uint64_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_1_min": {
+		Name:    "test_array_output_uint64_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_1_none": {
+		Name:    "test_array_output_uint64_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_2": {
+		Name:    "test_array_output_uint64_option_2",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_3": {
+		Name:    "test_array_output_uint64_option_3",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint64_option_4": {
+		Name:    "test_array_output_uint64_option_4",
+		Results: []*metadata.Result{{Type: "Array[UInt64?]"}},
+	},
+	"test_array_output_uint_0": {
+		Name:    "test_array_output_uint_0",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_1": {
+		Name:    "test_array_output_uint_1",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_1_max": {
+		Name:    "test_array_output_uint_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_1_min": {
+		Name:    "test_array_output_uint_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_2": {
+		Name:    "test_array_output_uint_2",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_3": {
+		Name:    "test_array_output_uint_3",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_4": {
+		Name:    "test_array_output_uint_4",
+		Results: []*metadata.Result{{Type: "Array[UInt]"}},
+	},
+	"test_array_output_uint_option": {
+		Name:    "test_array_output_uint_option",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_0": {
+		Name:    "test_array_output_uint_option_0",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_1_max": {
+		Name:    "test_array_output_uint_option_1_max",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_1_min": {
+		Name:    "test_array_output_uint_option_1_min",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_1_none": {
+		Name:    "test_array_output_uint_option_1_none",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_2": {
+		Name:    "test_array_output_uint_option_2",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_3": {
+		Name:    "test_array_output_uint_option_3",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
+	"test_array_output_uint_option_4": {
+		Name:    "test_array_output_uint_option_4",
+		Results: []*metadata.Result{{Type: "Array[UInt?]"}},
+	},
 	"test_bool_input_false": {
 		Name:       "test_bool_input_false",
 		Parameters: []*metadata.Parameter{{Name: "b", Type: "Bool"}},
@@ -254,8 +1028,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "b", Type: "Bool?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_bool_option_input_nil": {
-		Name:       "test_bool_option_input_nil",
+	"test_bool_option_input_none": {
+		Name:       "test_bool_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "b", Type: "Bool?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -268,8 +1042,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_bool_option_output_false",
 		Results: []*metadata.Result{{Type: "Bool?"}},
 	},
-	"test_bool_option_output_nil": {
-		Name:    "test_bool_option_output_nil",
+	"test_bool_option_output_none": {
+		Name:    "test_bool_option_output_none",
 		Results: []*metadata.Result{{Type: "Bool?"}},
 	},
 	"test_bool_option_output_true": {
@@ -298,8 +1072,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "b", Type: "Byte?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_byte_option_input_nil": {
-		Name:       "test_byte_option_input_nil",
+	"test_byte_option_input_none": {
+		Name:       "test_byte_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "b", Type: "Byte?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -311,8 +1085,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_byte_option_output_min",
 		Results: []*metadata.Result{{Type: "Byte?"}},
 	},
-	"test_byte_option_output_nil": {
-		Name:    "test_byte_option_output_nil",
+	"test_byte_option_output_none": {
+		Name:    "test_byte_option_output_none",
 		Results: []*metadata.Result{{Type: "Byte?"}},
 	},
 	"test_byte_output_max": {Name: "test_byte_output_max", Results: []*metadata.Result{{Type: "Byte"}}},
@@ -337,8 +1111,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "c", Type: "Char?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_char_option_input_nil": {
-		Name:       "test_char_option_input_nil",
+	"test_char_option_input_none": {
+		Name:       "test_char_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "c", Type: "Char?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -350,8 +1124,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_char_option_output_min",
 		Results: []*metadata.Result{{Type: "Char?"}},
 	},
-	"test_char_option_output_nil": {
-		Name:    "test_char_option_output_nil",
+	"test_char_option_output_none": {
+		Name:    "test_char_option_output_none",
 		Results: []*metadata.Result{{Type: "Char?"}},
 	},
 	"test_char_output_max": {Name: "test_char_output_max", Results: []*metadata.Result{{Type: "Char"}}},
@@ -376,8 +1150,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Double?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_double_option_input_nil": {
-		Name:       "test_double_option_input_nil",
+	"test_double_option_input_none": {
+		Name:       "test_double_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Double?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -389,8 +1163,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_double_option_output_min",
 		Results: []*metadata.Result{{Type: "Double?"}},
 	},
-	"test_double_option_output_nil": {
-		Name:    "test_double_option_output_nil",
+	"test_double_option_output_none": {
+		Name:    "test_double_option_output_none",
 		Results: []*metadata.Result{{Type: "Double?"}},
 	},
 	"test_double_output_max": {Name: "test_double_output_max", Results: []*metadata.Result{{Type: "Double"}}},
@@ -405,17 +1179,27 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "d", Type: "@time.Duration?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_duration_option_input_nil": {
-		Name:       "test_duration_option_input_nil",
+	"test_duration_option_input_none": {
+		Name:       "test_duration_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "d", Type: "@time.Duration?"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_duration_option_input_none_style2": {
+		Name:       "test_duration_option_input_none_style2",
+		Parameters: []*metadata.Parameter{{Name: "d?", Type: "@time.Duration"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_duration_option_input_style2": {
+		Name:       "test_duration_option_input_style2",
+		Parameters: []*metadata.Parameter{{Name: "d?", Type: "@time.Duration"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
 	"test_duration_option_output": {
 		Name:    "test_duration_option_output",
 		Results: []*metadata.Result{{Type: "@time.Duration?"}},
 	},
-	"test_duration_option_output_nil": {
-		Name:    "test_duration_option_output_nil",
+	"test_duration_option_output_none": {
+		Name:    "test_duration_option_output_none",
 		Results: []*metadata.Result{{Type: "@time.Duration?"}},
 	},
 	"test_duration_output": {
@@ -502,6 +1286,756 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[TestStruct2?]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
+	"test_fixedarray_input_bool_0": {
+		Name:       "test_fixedarray_input_bool_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_1": {
+		Name:       "test_fixedarray_input_bool_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_2": {
+		Name:       "test_fixedarray_input_bool_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_3": {
+		Name:       "test_fixedarray_input_bool_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_4": {
+		Name:       "test_fixedarray_input_bool_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_0": {
+		Name:       "test_fixedarray_input_bool_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_1_false": {
+		Name:       "test_fixedarray_input_bool_option_1_false",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_1_none": {
+		Name:       "test_fixedarray_input_bool_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_1_true": {
+		Name:       "test_fixedarray_input_bool_option_1_true",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_2": {
+		Name:       "test_fixedarray_input_bool_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_3": {
+		Name:       "test_fixedarray_input_bool_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_bool_option_4": {
+		Name:       "test_fixedarray_input_bool_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Bool?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_0": {
+		Name:       "test_fixedarray_input_byte_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_1": {
+		Name:       "test_fixedarray_input_byte_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_2": {
+		Name:       "test_fixedarray_input_byte_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_3": {
+		Name:       "test_fixedarray_input_byte_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_4": {
+		Name:       "test_fixedarray_input_byte_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_option_0": {
+		Name:       "test_fixedarray_input_byte_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_option_1": {
+		Name:       "test_fixedarray_input_byte_option_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_option_2": {
+		Name:       "test_fixedarray_input_byte_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_option_3": {
+		Name:       "test_fixedarray_input_byte_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_byte_option_4": {
+		Name:       "test_fixedarray_input_byte_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Byte?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_0": {
+		Name:       "test_fixedarray_input_char_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_1": {
+		Name:       "test_fixedarray_input_char_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_2": {
+		Name:       "test_fixedarray_input_char_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_3": {
+		Name:       "test_fixedarray_input_char_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_4": {
+		Name:       "test_fixedarray_input_char_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_0": {
+		Name:       "test_fixedarray_input_char_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_1_none": {
+		Name:       "test_fixedarray_input_char_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_1_some": {
+		Name:       "test_fixedarray_input_char_option_1_some",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_2": {
+		Name:       "test_fixedarray_input_char_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_3": {
+		Name:       "test_fixedarray_input_char_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_char_option_4": {
+		Name:       "test_fixedarray_input_char_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Char?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_0": {
+		Name:       "test_fixedarray_input_double_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_1": {
+		Name:       "test_fixedarray_input_double_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_2": {
+		Name:       "test_fixedarray_input_double_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_3": {
+		Name:       "test_fixedarray_input_double_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_4": {
+		Name:       "test_fixedarray_input_double_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_0": {
+		Name:       "test_fixedarray_input_double_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_1_none": {
+		Name:       "test_fixedarray_input_double_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_1_some": {
+		Name:       "test_fixedarray_input_double_option_1_some",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_2": {
+		Name:       "test_fixedarray_input_double_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_3": {
+		Name:       "test_fixedarray_input_double_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_double_option_4": {
+		Name:       "test_fixedarray_input_double_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Double?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_0": {
+		Name:       "test_fixedarray_input_float_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_1": {
+		Name:       "test_fixedarray_input_float_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_2": {
+		Name:       "test_fixedarray_input_float_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_3": {
+		Name:       "test_fixedarray_input_float_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_4": {
+		Name:       "test_fixedarray_input_float_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_0": {
+		Name:       "test_fixedarray_input_float_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_1_none": {
+		Name:       "test_fixedarray_input_float_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_1_some": {
+		Name:       "test_fixedarray_input_float_option_1_some",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_2": {
+		Name:       "test_fixedarray_input_float_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_3": {
+		Name:       "test_fixedarray_input_float_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_float_option_4": {
+		Name:       "test_fixedarray_input_float_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Float?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_0": {
+		Name:       "test_fixedarray_input_int16_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_1": {
+		Name:       "test_fixedarray_input_int16_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_1_max": {
+		Name:       "test_fixedarray_input_int16_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_1_min": {
+		Name:       "test_fixedarray_input_int16_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_2": {
+		Name:       "test_fixedarray_input_int16_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_3": {
+		Name:       "test_fixedarray_input_int16_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_4": {
+		Name:       "test_fixedarray_input_int16_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_0": {
+		Name:       "test_fixedarray_input_int16_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_1_max": {
+		Name:       "test_fixedarray_input_int16_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_1_min": {
+		Name:       "test_fixedarray_input_int16_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_1_none": {
+		Name:       "test_fixedarray_input_int16_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_2": {
+		Name:       "test_fixedarray_input_int16_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_3": {
+		Name:       "test_fixedarray_input_int16_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int16_option_4": {
+		Name:       "test_fixedarray_input_int16_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_0": {
+		Name:       "test_fixedarray_input_int64_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_1": {
+		Name:       "test_fixedarray_input_int64_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_1_max": {
+		Name:       "test_fixedarray_input_int64_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_1_min": {
+		Name:       "test_fixedarray_input_int64_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_2": {
+		Name:       "test_fixedarray_input_int64_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_3": {
+		Name:       "test_fixedarray_input_int64_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_4": {
+		Name:       "test_fixedarray_input_int64_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_0": {
+		Name:       "test_fixedarray_input_int64_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_1_max": {
+		Name:       "test_fixedarray_input_int64_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_1_min": {
+		Name:       "test_fixedarray_input_int64_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_1_none": {
+		Name:       "test_fixedarray_input_int64_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_2": {
+		Name:       "test_fixedarray_input_int64_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_3": {
+		Name:       "test_fixedarray_input_int64_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int64_option_4": {
+		Name:       "test_fixedarray_input_int64_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_0": {
+		Name:       "test_fixedarray_input_int_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_1": {
+		Name:       "test_fixedarray_input_int_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_1_max": {
+		Name:       "test_fixedarray_input_int_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_1_min": {
+		Name:       "test_fixedarray_input_int_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_2": {
+		Name:       "test_fixedarray_input_int_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_3": {
+		Name:       "test_fixedarray_input_int_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_4": {
+		Name:       "test_fixedarray_input_int_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_0": {
+		Name:       "test_fixedarray_input_int_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_1_max": {
+		Name:       "test_fixedarray_input_int_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_1_min": {
+		Name:       "test_fixedarray_input_int_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_1_none": {
+		Name:       "test_fixedarray_input_int_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_2": {
+		Name:       "test_fixedarray_input_int_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_3": {
+		Name:       "test_fixedarray_input_int_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_int_option_4": {
+		Name:       "test_fixedarray_input_int_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[Int?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_0": {
+		Name:       "test_fixedarray_input_string_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_1": {
+		Name:       "test_fixedarray_input_string_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_2": {
+		Name:       "test_fixedarray_input_string_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_3": {
+		Name:       "test_fixedarray_input_string_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_4": {
+		Name:       "test_fixedarray_input_string_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_0": {
+		Name:       "test_fixedarray_input_string_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_1_none": {
+		Name:       "test_fixedarray_input_string_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_1_some": {
+		Name:       "test_fixedarray_input_string_option_1_some",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_2": {
+		Name:       "test_fixedarray_input_string_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_3": {
+		Name:       "test_fixedarray_input_string_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_string_option_4": {
+		Name:       "test_fixedarray_input_string_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[String?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_0": {
+		Name:       "test_fixedarray_input_uint16_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_1": {
+		Name:       "test_fixedarray_input_uint16_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_1_max": {
+		Name:       "test_fixedarray_input_uint16_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_1_min": {
+		Name:       "test_fixedarray_input_uint16_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_2": {
+		Name:       "test_fixedarray_input_uint16_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_3": {
+		Name:       "test_fixedarray_input_uint16_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_4": {
+		Name:       "test_fixedarray_input_uint16_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_0": {
+		Name:       "test_fixedarray_input_uint16_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_1_max": {
+		Name:       "test_fixedarray_input_uint16_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_1_min": {
+		Name:       "test_fixedarray_input_uint16_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_1_none": {
+		Name:       "test_fixedarray_input_uint16_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_2": {
+		Name:       "test_fixedarray_input_uint16_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_3": {
+		Name:       "test_fixedarray_input_uint16_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint16_option_4": {
+		Name:       "test_fixedarray_input_uint16_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt16?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_0": {
+		Name:       "test_fixedarray_input_uint64_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_1": {
+		Name:       "test_fixedarray_input_uint64_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_1_max": {
+		Name:       "test_fixedarray_input_uint64_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_1_min": {
+		Name:       "test_fixedarray_input_uint64_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_2": {
+		Name:       "test_fixedarray_input_uint64_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_3": {
+		Name:       "test_fixedarray_input_uint64_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_4": {
+		Name:       "test_fixedarray_input_uint64_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_0": {
+		Name:       "test_fixedarray_input_uint64_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_1_max": {
+		Name:       "test_fixedarray_input_uint64_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_1_min": {
+		Name:       "test_fixedarray_input_uint64_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_1_none": {
+		Name:       "test_fixedarray_input_uint64_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_2": {
+		Name:       "test_fixedarray_input_uint64_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_3": {
+		Name:       "test_fixedarray_input_uint64_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint64_option_4": {
+		Name:       "test_fixedarray_input_uint64_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt64?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_0": {
+		Name:       "test_fixedarray_input_uint_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_1": {
+		Name:       "test_fixedarray_input_uint_1",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_1_max": {
+		Name:       "test_fixedarray_input_uint_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_1_min": {
+		Name:       "test_fixedarray_input_uint_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_2": {
+		Name:       "test_fixedarray_input_uint_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_3": {
+		Name:       "test_fixedarray_input_uint_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_4": {
+		Name:       "test_fixedarray_input_uint_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_0": {
+		Name:       "test_fixedarray_input_uint_option_0",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_1_max": {
+		Name:       "test_fixedarray_input_uint_option_1_max",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_1_min": {
+		Name:       "test_fixedarray_input_uint_option_1_min",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_1_none": {
+		Name:       "test_fixedarray_input_uint_option_1_none",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_2": {
+		Name:       "test_fixedarray_input_uint_option_2",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_3": {
+		Name:       "test_fixedarray_input_uint_option_3",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_fixedarray_input_uint_option_4": {
+		Name:       "test_fixedarray_input_uint_option_4",
+		Parameters: []*metadata.Parameter{{Name: "val", Type: "FixedArray[UInt?]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
 	"test_fixedarray_output0_byte": {
 		Name:    "test_fixedarray_output0_byte",
 		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
@@ -566,45 +2100,649 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_fixedarray_output2_struct_option",
 		Results: []*metadata.Result{{Type: "FixedArray[TestStruct2?]"}},
 	},
-	"test_float32_input_max": {
-		Name:       "test_float32_input_max",
+	"test_fixedarray_output_bool_0": {
+		Name:    "test_fixedarray_output_bool_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool]"}},
+	},
+	"test_fixedarray_output_bool_1": {
+		Name:    "test_fixedarray_output_bool_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool]"}},
+	},
+	"test_fixedarray_output_bool_2": {
+		Name:    "test_fixedarray_output_bool_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool]"}},
+	},
+	"test_fixedarray_output_bool_3": {
+		Name:    "test_fixedarray_output_bool_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool]"}},
+	},
+	"test_fixedarray_output_bool_4": {
+		Name:    "test_fixedarray_output_bool_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool]"}},
+	},
+	"test_fixedarray_output_bool_option_0": {
+		Name:    "test_fixedarray_output_bool_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_1_false": {
+		Name:    "test_fixedarray_output_bool_option_1_false",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_1_none": {
+		Name:    "test_fixedarray_output_bool_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_1_true": {
+		Name:    "test_fixedarray_output_bool_option_1_true",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_2": {
+		Name:    "test_fixedarray_output_bool_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_3": {
+		Name:    "test_fixedarray_output_bool_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_bool_option_4": {
+		Name:    "test_fixedarray_output_bool_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Bool?]"}},
+	},
+	"test_fixedarray_output_byte_0": {
+		Name:    "test_fixedarray_output_byte_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
+	},
+	"test_fixedarray_output_byte_1": {
+		Name:    "test_fixedarray_output_byte_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
+	},
+	"test_fixedarray_output_byte_2": {
+		Name:    "test_fixedarray_output_byte_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
+	},
+	"test_fixedarray_output_byte_3": {
+		Name:    "test_fixedarray_output_byte_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
+	},
+	"test_fixedarray_output_byte_4": {
+		Name:    "test_fixedarray_output_byte_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte]"}},
+	},
+	"test_fixedarray_output_byte_option_0": {
+		Name:    "test_fixedarray_output_byte_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte?]"}},
+	},
+	"test_fixedarray_output_byte_option_1": {
+		Name:    "test_fixedarray_output_byte_option_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte?]"}},
+	},
+	"test_fixedarray_output_byte_option_2": {
+		Name:    "test_fixedarray_output_byte_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte?]"}},
+	},
+	"test_fixedarray_output_byte_option_3": {
+		Name:    "test_fixedarray_output_byte_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte?]"}},
+	},
+	"test_fixedarray_output_byte_option_4": {
+		Name:    "test_fixedarray_output_byte_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Byte?]"}},
+	},
+	"test_fixedarray_output_char_0": {
+		Name:    "test_fixedarray_output_char_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Char]"}},
+	},
+	"test_fixedarray_output_char_1": {
+		Name:    "test_fixedarray_output_char_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Char]"}},
+	},
+	"test_fixedarray_output_char_2": {
+		Name:    "test_fixedarray_output_char_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Char]"}},
+	},
+	"test_fixedarray_output_char_3": {
+		Name:    "test_fixedarray_output_char_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Char]"}},
+	},
+	"test_fixedarray_output_char_4": {
+		Name:    "test_fixedarray_output_char_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Char]"}},
+	},
+	"test_fixedarray_output_char_option_0": {
+		Name:    "test_fixedarray_output_char_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_char_option_1_none": {
+		Name:    "test_fixedarray_output_char_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_char_option_1_some": {
+		Name:    "test_fixedarray_output_char_option_1_some",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_char_option_2": {
+		Name:    "test_fixedarray_output_char_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_char_option_3": {
+		Name:    "test_fixedarray_output_char_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_char_option_4": {
+		Name:    "test_fixedarray_output_char_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Char?]"}},
+	},
+	"test_fixedarray_output_double_0": {
+		Name:    "test_fixedarray_output_double_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Double]"}},
+	},
+	"test_fixedarray_output_double_1": {
+		Name:    "test_fixedarray_output_double_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Double]"}},
+	},
+	"test_fixedarray_output_double_2": {
+		Name:    "test_fixedarray_output_double_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Double]"}},
+	},
+	"test_fixedarray_output_double_3": {
+		Name:    "test_fixedarray_output_double_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Double]"}},
+	},
+	"test_fixedarray_output_double_4": {
+		Name:    "test_fixedarray_output_double_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Double]"}},
+	},
+	"test_fixedarray_output_double_option_0": {
+		Name:    "test_fixedarray_output_double_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_double_option_1_none": {
+		Name:    "test_fixedarray_output_double_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_double_option_1_some": {
+		Name:    "test_fixedarray_output_double_option_1_some",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_double_option_2": {
+		Name:    "test_fixedarray_output_double_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_double_option_3": {
+		Name:    "test_fixedarray_output_double_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_double_option_4": {
+		Name:    "test_fixedarray_output_double_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Double?]"}},
+	},
+	"test_fixedarray_output_float_0": {
+		Name:    "test_fixedarray_output_float_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Float]"}},
+	},
+	"test_fixedarray_output_float_1": {
+		Name:    "test_fixedarray_output_float_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Float]"}},
+	},
+	"test_fixedarray_output_float_2": {
+		Name:    "test_fixedarray_output_float_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Float]"}},
+	},
+	"test_fixedarray_output_float_3": {
+		Name:    "test_fixedarray_output_float_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Float]"}},
+	},
+	"test_fixedarray_output_float_4": {
+		Name:    "test_fixedarray_output_float_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Float]"}},
+	},
+	"test_fixedarray_output_float_option_0": {
+		Name:    "test_fixedarray_output_float_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_float_option_1_none": {
+		Name:    "test_fixedarray_output_float_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_float_option_1_some": {
+		Name:    "test_fixedarray_output_float_option_1_some",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_float_option_2": {
+		Name:    "test_fixedarray_output_float_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_float_option_3": {
+		Name:    "test_fixedarray_output_float_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_float_option_4": {
+		Name:    "test_fixedarray_output_float_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Float?]"}},
+	},
+	"test_fixedarray_output_int16_0": {
+		Name:    "test_fixedarray_output_int16_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_1": {
+		Name:    "test_fixedarray_output_int16_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_1_max": {
+		Name:    "test_fixedarray_output_int16_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_1_min": {
+		Name:    "test_fixedarray_output_int16_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_2": {
+		Name:    "test_fixedarray_output_int16_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_3": {
+		Name:    "test_fixedarray_output_int16_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_4": {
+		Name:    "test_fixedarray_output_int16_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16]"}},
+	},
+	"test_fixedarray_output_int16_option_0": {
+		Name:    "test_fixedarray_output_int16_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_1_max": {
+		Name:    "test_fixedarray_output_int16_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_1_min": {
+		Name:    "test_fixedarray_output_int16_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_1_none": {
+		Name:    "test_fixedarray_output_int16_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_2": {
+		Name:    "test_fixedarray_output_int16_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_3": {
+		Name:    "test_fixedarray_output_int16_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int16_option_4": {
+		Name:    "test_fixedarray_output_int16_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int16?]"}},
+	},
+	"test_fixedarray_output_int64_0": {
+		Name:    "test_fixedarray_output_int64_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_1": {
+		Name:    "test_fixedarray_output_int64_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_1_max": {
+		Name:    "test_fixedarray_output_int64_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_1_min": {
+		Name:    "test_fixedarray_output_int64_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_2": {
+		Name:    "test_fixedarray_output_int64_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_3": {
+		Name:    "test_fixedarray_output_int64_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_4": {
+		Name:    "test_fixedarray_output_int64_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64]"}},
+	},
+	"test_fixedarray_output_int64_option_0": {
+		Name:    "test_fixedarray_output_int64_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_1_max": {
+		Name:    "test_fixedarray_output_int64_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_1_min": {
+		Name:    "test_fixedarray_output_int64_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_1_none": {
+		Name:    "test_fixedarray_output_int64_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_2": {
+		Name:    "test_fixedarray_output_int64_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_3": {
+		Name:    "test_fixedarray_output_int64_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int64_option_4": {
+		Name:    "test_fixedarray_output_int64_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int64?]"}},
+	},
+	"test_fixedarray_output_int_0": {
+		Name:    "test_fixedarray_output_int_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_1": {
+		Name:    "test_fixedarray_output_int_1",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_1_max": {
+		Name:    "test_fixedarray_output_int_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_1_min": {
+		Name:    "test_fixedarray_output_int_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_2": {
+		Name:    "test_fixedarray_output_int_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_3": {
+		Name:    "test_fixedarray_output_int_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_4": {
+		Name:    "test_fixedarray_output_int_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int]"}},
+	},
+	"test_fixedarray_output_int_option_0": {
+		Name:    "test_fixedarray_output_int_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_1_max": {
+		Name:    "test_fixedarray_output_int_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_1_min": {
+		Name:    "test_fixedarray_output_int_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_1_none": {
+		Name:    "test_fixedarray_output_int_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_2": {
+		Name:    "test_fixedarray_output_int_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_3": {
+		Name:    "test_fixedarray_output_int_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_int_option_4": {
+		Name:    "test_fixedarray_output_int_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[Int?]"}},
+	},
+	"test_fixedarray_output_string_0": {
+		Name:    "test_fixedarray_output_string_0",
+		Results: []*metadata.Result{{Type: "FixedArray[String]"}},
+	},
+	"test_fixedarray_output_string_1": {
+		Name:    "test_fixedarray_output_string_1",
+		Results: []*metadata.Result{{Type: "FixedArray[String]"}},
+	},
+	"test_fixedarray_output_string_2": {
+		Name:    "test_fixedarray_output_string_2",
+		Results: []*metadata.Result{{Type: "FixedArray[String]"}},
+	},
+	"test_fixedarray_output_string_3": {
+		Name:    "test_fixedarray_output_string_3",
+		Results: []*metadata.Result{{Type: "FixedArray[String]"}},
+	},
+	"test_fixedarray_output_string_4": {
+		Name:    "test_fixedarray_output_string_4",
+		Results: []*metadata.Result{{Type: "FixedArray[String]"}},
+	},
+	"test_fixedarray_output_string_option_0": {
+		Name:    "test_fixedarray_output_string_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_string_option_1_none": {
+		Name:    "test_fixedarray_output_string_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_string_option_1_some": {
+		Name:    "test_fixedarray_output_string_option_1_some",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_string_option_2": {
+		Name:    "test_fixedarray_output_string_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_string_option_3": {
+		Name:    "test_fixedarray_output_string_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_string_option_4": {
+		Name:    "test_fixedarray_output_string_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[String?]"}},
+	},
+	"test_fixedarray_output_uint16_0": {
+		Name:    "test_fixedarray_output_uint16_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_1": {
+		Name:    "test_fixedarray_output_uint16_1",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_1_max": {
+		Name:    "test_fixedarray_output_uint16_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_1_min": {
+		Name:    "test_fixedarray_output_uint16_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_2": {
+		Name:    "test_fixedarray_output_uint16_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_3": {
+		Name:    "test_fixedarray_output_uint16_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_4": {
+		Name:    "test_fixedarray_output_uint16_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16]"}},
+	},
+	"test_fixedarray_output_uint16_option_0": {
+		Name:    "test_fixedarray_output_uint16_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_1_max": {
+		Name:    "test_fixedarray_output_uint16_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_1_min": {
+		Name:    "test_fixedarray_output_uint16_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_1_none": {
+		Name:    "test_fixedarray_output_uint16_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_2": {
+		Name:    "test_fixedarray_output_uint16_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_3": {
+		Name:    "test_fixedarray_output_uint16_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint16_option_4": {
+		Name:    "test_fixedarray_output_uint16_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt16?]"}},
+	},
+	"test_fixedarray_output_uint64_0": {
+		Name:    "test_fixedarray_output_uint64_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_1": {
+		Name:    "test_fixedarray_output_uint64_1",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_1_max": {
+		Name:    "test_fixedarray_output_uint64_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_1_min": {
+		Name:    "test_fixedarray_output_uint64_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_2": {
+		Name:    "test_fixedarray_output_uint64_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_3": {
+		Name:    "test_fixedarray_output_uint64_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_4": {
+		Name:    "test_fixedarray_output_uint64_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64]"}},
+	},
+	"test_fixedarray_output_uint64_option_0": {
+		Name:    "test_fixedarray_output_uint64_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_1_max": {
+		Name:    "test_fixedarray_output_uint64_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_1_min": {
+		Name:    "test_fixedarray_output_uint64_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_1_none": {
+		Name:    "test_fixedarray_output_uint64_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_2": {
+		Name:    "test_fixedarray_output_uint64_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_3": {
+		Name:    "test_fixedarray_output_uint64_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint64_option_4": {
+		Name:    "test_fixedarray_output_uint64_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt64?]"}},
+	},
+	"test_fixedarray_output_uint_0": {
+		Name:    "test_fixedarray_output_uint_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_1": {
+		Name:    "test_fixedarray_output_uint_1",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_1_max": {
+		Name:    "test_fixedarray_output_uint_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_1_min": {
+		Name:    "test_fixedarray_output_uint_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_2": {
+		Name:    "test_fixedarray_output_uint_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_3": {
+		Name:    "test_fixedarray_output_uint_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_4": {
+		Name:    "test_fixedarray_output_uint_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt]"}},
+	},
+	"test_fixedarray_output_uint_option_0": {
+		Name:    "test_fixedarray_output_uint_option_0",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_1_max": {
+		Name:    "test_fixedarray_output_uint_option_1_max",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_1_min": {
+		Name:    "test_fixedarray_output_uint_option_1_min",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_1_none": {
+		Name:    "test_fixedarray_output_uint_option_1_none",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_2": {
+		Name:    "test_fixedarray_output_uint_option_2",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_3": {
+		Name:    "test_fixedarray_output_uint_option_3",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_fixedarray_output_uint_option_4": {
+		Name:    "test_fixedarray_output_uint_option_4",
+		Results: []*metadata.Result{{Type: "FixedArray[UInt?]"}},
+	},
+	"test_float_input_max": {
+		Name:       "test_float_input_max",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Float"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_float32_input_min": {
-		Name:       "test_float32_input_min",
+	"test_float_input_min": {
+		Name:       "test_float_input_min",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Float"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_float32_option_input_max": {
-		Name:       "test_float32_option_input_max",
+	"test_float_option_input_max": {
+		Name:       "test_float_option_input_max",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Float?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_float32_option_input_min": {
-		Name:       "test_float32_option_input_min",
+	"test_float_option_input_min": {
+		Name:       "test_float_option_input_min",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Float?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_float32_option_input_nil": {
-		Name:       "test_float32_option_input_nil",
+	"test_float_option_input_none": {
+		Name:       "test_float_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Float?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_float32_option_output_max": {
-		Name:    "test_float32_option_output_max",
+	"test_float_option_output_max": {
+		Name:    "test_float_option_output_max",
 		Results: []*metadata.Result{{Type: "Float?"}},
 	},
-	"test_float32_option_output_min": {
-		Name:    "test_float32_option_output_min",
+	"test_float_option_output_min": {
+		Name:    "test_float_option_output_min",
 		Results: []*metadata.Result{{Type: "Float?"}},
 	},
-	"test_float32_option_output_nil": {
-		Name:    "test_float32_option_output_nil",
+	"test_float_option_output_none": {
+		Name:    "test_float_option_output_none",
 		Results: []*metadata.Result{{Type: "Float?"}},
 	},
-	"test_float32_output_max": {Name: "test_float32_output_max", Results: []*metadata.Result{{Type: "Float"}}},
-	"test_float32_output_min": {Name: "test_float32_output_min", Results: []*metadata.Result{{Type: "Float"}}},
+	"test_float_output_max": {Name: "test_float_output_max", Results: []*metadata.Result{{Type: "Float"}}},
+	"test_float_output_min": {Name: "test_float_output_min", Results: []*metadata.Result{{Type: "Float"}}},
+	"test_generate_map_string_string_output": {
+		Name:    "test_generate_map_string_string_output",
+		Results: []*metadata.Result{{Type: "Map[String, String]"}},
+	},
 	"test_http_header": {
 		Name:       "test_http_header",
 		Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeader?"}},
@@ -641,8 +2779,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int16?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_int16_option_input_nil": {
-		Name:       "test_int16_option_input_nil",
+	"test_int16_option_input_none": {
+		Name:       "test_int16_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int16?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -654,8 +2792,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_int16_option_output_min",
 		Results: []*metadata.Result{{Type: "Int16?"}},
 	},
-	"test_int16_option_output_nil": {
-		Name:    "test_int16_option_output_nil",
+	"test_int16_option_output_none": {
+		Name:    "test_int16_option_output_none",
 		Results: []*metadata.Result{{Type: "Int16?"}},
 	},
 	"test_int16_output_max": {Name: "test_int16_output_max", Results: []*metadata.Result{{Type: "Int16"}}},
@@ -680,8 +2818,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int64?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_int64_option_input_nil": {
-		Name:       "test_int64_option_input_nil",
+	"test_int64_option_input_none": {
+		Name:       "test_int64_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int64?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -693,8 +2831,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_int64_option_output_min",
 		Results: []*metadata.Result{{Type: "Int64?"}},
 	},
-	"test_int64_option_output_nil": {
-		Name:    "test_int64_option_output_nil",
+	"test_int64_option_output_none": {
+		Name:    "test_int64_option_output_none",
 		Results: []*metadata.Result{{Type: "Int64?"}},
 	},
 	"test_int64_output_max": {Name: "test_int64_output_max", Results: []*metadata.Result{{Type: "Int64"}}},
@@ -719,16 +2857,16 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_int_option_input_nil": {
-		Name:       "test_int_option_input_nil",
+	"test_int_option_input_none": {
+		Name:       "test_int_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_int_option_output_max": {Name: "test_int_option_output_max", Results: []*metadata.Result{{Type: "Int?"}}},
-	"test_int_option_output_min": {Name: "test_int_option_output_min", Results: []*metadata.Result{{Type: "Int?"}}},
-	"test_int_option_output_nil": {Name: "test_int_option_output_nil", Results: []*metadata.Result{{Type: "Int?"}}},
-	"test_int_output_max":        {Name: "test_int_output_max", Results: []*metadata.Result{{Type: "Int"}}},
-	"test_int_output_min":        {Name: "test_int_output_min", Results: []*metadata.Result{{Type: "Int"}}},
+	"test_int_option_output_max":  {Name: "test_int_option_output_max", Results: []*metadata.Result{{Type: "Int?"}}},
+	"test_int_option_output_min":  {Name: "test_int_option_output_min", Results: []*metadata.Result{{Type: "Int?"}}},
+	"test_int_option_output_none": {Name: "test_int_option_output_none", Results: []*metadata.Result{{Type: "Int?"}}},
+	"test_int_output_max":         {Name: "test_int_output_max", Results: []*metadata.Result{{Type: "Int"}}},
+	"test_int_output_min":         {Name: "test_int_output_min", Results: []*metadata.Result{{Type: "Int"}}},
 	"test_iterate_map_string_string": {
 		Name:       "test_iterate_map_string_string",
 		Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[String, String]"}},
@@ -736,6 +2874,11 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 	"test_map_input_int_double": {
 		Name:       "test_map_input_int_double",
 		Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[Int, Double]"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_map_input_int_float": {
+		Name:       "test_map_input_int_float",
+		Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[Int, Float]"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
 	"test_map_input_string_string": {
@@ -760,6 +2903,10 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 	"test_map_output_int_double": {
 		Name:    "test_map_output_int_double",
 		Results: []*metadata.Result{{Type: "Map[Int, Double]"}},
+	},
+	"test_map_output_int_float": {
+		Name:    "test_map_output_int_float",
+		Results: []*metadata.Result{{Type: "Map[Int, Float]"}},
 	},
 	"test_map_output_string_string": {
 		Name:    "test_map_output_string_string",
@@ -1080,22 +3227,36 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "t", Type: "@time.ZonedDateTime?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_time_option_input_nil": {
-		Name:       "test_time_option_input_nil",
+	"test_time_option_input_none": {
+		Name:       "test_time_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "t", Type: "@time.ZonedDateTime?"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_time_option_input_none_style2": {
+		Name:       "test_time_option_input_none_style2",
+		Parameters: []*metadata.Parameter{{Name: "t?", Type: "@time.ZonedDateTime"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_time_option_input_style2": {
+		Name:       "test_time_option_input_style2",
+		Parameters: []*metadata.Parameter{{Name: "t?", Type: "@time.ZonedDateTime"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
 	"test_time_option_output": {
 		Name:    "test_time_option_output",
 		Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
 	},
-	"test_time_option_output_nil": {
-		Name:    "test_time_option_output_nil",
+	"test_time_option_output_none": {
+		Name:    "test_time_option_output_none",
 		Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
 	},
 	"test_time_output": {
 		Name:    "test_time_output",
 		Results: []*metadata.Result{{Type: "@time.ZonedDateTime"}},
+	},
+	"test_tuple_output": {
+		Name:    "test_tuple_output",
+		Results: []*metadata.Result{{Type: "(Int, Bool, String)"}},
 	},
 	"test_uint16_input_max": {
 		Name:       "test_uint16_input_max",
@@ -1117,8 +3278,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt16?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_uint16_option_input_nil": {
-		Name:       "test_uint16_option_input_nil",
+	"test_uint16_option_input_none": {
+		Name:       "test_uint16_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt16?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -1130,8 +3291,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_uint16_option_output_min",
 		Results: []*metadata.Result{{Type: "UInt16?"}},
 	},
-	"test_uint16_option_output_nil": {
-		Name:    "test_uint16_option_output_nil",
+	"test_uint16_option_output_none": {
+		Name:    "test_uint16_option_output_none",
 		Results: []*metadata.Result{{Type: "UInt16?"}},
 	},
 	"test_uint16_output_max": {Name: "test_uint16_output_max", Results: []*metadata.Result{{Type: "UInt16"}}},
@@ -1156,8 +3317,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt64?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_uint64_option_input_nil": {
-		Name:       "test_uint64_option_input_nil",
+	"test_uint64_option_input_none": {
+		Name:       "test_uint64_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt64?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -1169,8 +3330,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_uint64_option_output_min",
 		Results: []*metadata.Result{{Type: "UInt64?"}},
 	},
-	"test_uint64_option_output_nil": {
-		Name:    "test_uint64_option_output_nil",
+	"test_uint64_option_output_none": {
+		Name:    "test_uint64_option_output_none",
 		Results: []*metadata.Result{{Type: "UInt64?"}},
 	},
 	"test_uint64_output_max": {Name: "test_uint64_output_max", Results: []*metadata.Result{{Type: "UInt64"}}},
@@ -1195,8 +3356,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
-	"test_uint_option_input_nil": {
-		Name:       "test_uint_option_input_nil",
+	"test_uint_option_input_none": {
+		Name:       "test_uint_option_input_none",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "UInt?"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
@@ -1208,8 +3369,8 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:    "test_uint_option_output_min",
 		Results: []*metadata.Result{{Type: "UInt?"}},
 	},
-	"test_uint_option_output_nil": {
-		Name:    "test_uint_option_output_nil",
+	"test_uint_option_output_none": {
+		Name:    "test_uint_option_output_none",
 		Results: []*metadata.Result{{Type: "UInt?"}},
 	},
 	"test_uint_output_max": {Name: "test_uint_output_max", Results: []*metadata.Result{{Type: "UInt"}}},
@@ -1244,224 +3405,270 @@ var wantRuntimeFnImports = metadata.FunctionMap{
 	},
 	"modus_test.echo1": {
 		Name:       "modus_test.echo1",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"modus_test.echo2": {
 		Name:       "modus_test.echo2",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
+		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"modus_test.echo3": {
 		Name:       "modus_test.echo3",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"modus_test.echo4": {
 		Name:       "modus_test.echo4",
-		Parameters: []*metadata.Parameter{{Name: "message", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"modus_test.encodeStrings1": {
 		Name:       "modus_test.encodeStrings1",
-		Parameters: []*metadata.Parameter{{Name: "items", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "items", Type: "Array[String]?"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"modus_test.encodeStrings2": {
 		Name:       "modus_test.encodeStrings2",
-		Parameters: []*metadata.Parameter{{Name: "items", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "items", Type: "Array[String?]?"}},
+		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 }
 
 var wantRuntimeTypes = metadata.TypeMap{
-	"(String)": {Id: 4,
+	"(Int, Bool, String)": {Id: 4,
+		Name: "(Int, Bool, String)",
+		Fields: []*metadata.Field{
+			{Name: "0", Type: "Int"}, {Name: "1", Type: "Bool"},
+			{Name: "2", Type: "String"},
+		},
+	},
+	"(String)": {Id: 5,
 		Name:   "(String)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
 	},
-	"@time.Duration":                   {Id: 5, Name: "@time.Duration"},
-	"@time.Duration?":                  {Id: 6, Name: "@time.Duration?"},
-	"@time.ZonedDateTime":              {Id: 7, Name: "@time.ZonedDateTime", Fields: nil, Docs: nil},
-	"@time.ZonedDateTime?":             {Id: 8, Name: "@time.ZonedDateTime?"},
-	"Array[Array[String]]":             {Id: 9, Name: "Array[Array[String]]"},
-	"Array[Array[String]]?":            {Id: 10, Name: "Array[Array[String]]?"},
-	"Array[Byte]":                      {Id: 11, Name: "Array[Byte]", Fields: nil, Docs: nil},
-	"Array[Double]":                    {Id: 12, Name: "Array[Double]"},
-	"Array[HttpHeader?]":               {Id: 13, Name: "Array[HttpHeader?]"},
-	"Array[Int?]":                      {Id: 14, Name: "Array[Int?]"},
-	"Array[Int]":                       {Id: 15, Name: "Array[Int]"},
-	"Array[String?]":                   {Id: 16, Name: "Array[String?]"},
-	"Array[String?]?":                  {Id: 17, Name: "Array[String?]?"},
-	"Array[String]":                    {Id: 18, Name: "Array[String]"},
-	"Array[String]?":                   {Id: 19, Name: "Array[String]?"},
-	"Bool":                             {Id: 20, Name: "Bool"},
-	"Bool?":                            {Id: 21, Name: "Bool?"},
-	"Byte":                             {Id: 22, Name: "Byte"},
-	"Byte?":                            {Id: 23, Name: "Byte?"},
-	"Char":                             {Id: 24, Name: "Char"},
-	"Char?":                            {Id: 25, Name: "Char?"},
-	"Double":                           {Id: 26, Name: "Double"},
-	"Double?":                          {Id: 27, Name: "Double?"},
-	"FixedArray[Byte]":                 {Id: 28, Name: "FixedArray[Byte]"},
-	"FixedArray[Int?]":                 {Id: 29, Name: "FixedArray[Int?]"},
-	"FixedArray[Int]":                  {Id: 30, Name: "FixedArray[Int]"},
-	"FixedArray[Int]?":                 {Id: 31, Name: "FixedArray[Int]?"},
-	"FixedArray[Map[String, String]?]": {Id: 32, Name: "FixedArray[Map[String, String]?]"},
-	"FixedArray[Map[String, String]]":  {Id: 33, Name: "FixedArray[Map[String, String]]"},
-	"FixedArray[String?]":              {Id: 34, Name: "FixedArray[String?]"},
-	"FixedArray[String]":               {Id: 35, Name: "FixedArray[String]"},
-	"FixedArray[String]?":              {Id: 36, Name: "FixedArray[String]?"},
-	"FixedArray[TestStruct2?]":         {Id: 37, Name: "FixedArray[TestStruct2?]"},
-	"FixedArray[TestStruct2]":          {Id: 38, Name: "FixedArray[TestStruct2]"},
-	"Float":                            {Id: 39, Name: "Float"},
-	"Float?":                           {Id: 40, Name: "Float?"},
-	"HttpHeader": {Id: 41,
+	"@time.Duration":                   {Id: 6, Name: "@time.Duration"},
+	"@time.Duration?":                  {Id: 7, Name: "@time.Duration?"},
+	"@time.ZonedDateTime":              {Id: 8, Name: "@time.ZonedDateTime", Fields: nil, Docs: nil},
+	"@time.ZonedDateTime?":             {Id: 9, Name: "@time.ZonedDateTime?"},
+	"Array[Array[String]?]":            {Id: 10, Name: "Array[Array[String]?]"},
+	"Array[Array[String]]":             {Id: 11, Name: "Array[Array[String]]"},
+	"Array[Array[String]]?":            {Id: 12, Name: "Array[Array[String]]?"},
+	"Array[Bool?]":                     {Id: 13, Name: "Array[Bool?]", Fields: nil, Docs: nil},
+	"Array[Bool]":                      {Id: 14, Name: "Array[Bool]", Fields: nil, Docs: nil},
+	"Array[Byte?]":                     {Id: 15, Name: "Array[Byte?]", Fields: nil, Docs: nil},
+	"Array[Byte]":                      {Id: 16, Name: "Array[Byte]", Fields: nil, Docs: nil},
+	"Array[Char?]":                     {Id: 17, Name: "Array[Char?]"},
+	"Array[Char]":                      {Id: 18, Name: "Array[Char]"},
+	"Array[Double?]":                   {Id: 19, Name: "Array[Double?]"},
+	"Array[Double]":                    {Id: 20, Name: "Array[Double]"},
+	"Array[Float?]":                    {Id: 21, Name: "Array[Float?]"},
+	"Array[Float]":                     {Id: 22, Name: "Array[Float]"},
+	"Array[HttpHeader?]":               {Id: 23, Name: "Array[HttpHeader?]"},
+	"Array[Int16?]":                    {Id: 24, Name: "Array[Int16?]"},
+	"Array[Int16]":                     {Id: 25, Name: "Array[Int16]"},
+	"Array[Int64?]":                    {Id: 26, Name: "Array[Int64?]"},
+	"Array[Int64]":                     {Id: 27, Name: "Array[Int64]"},
+	"Array[Int?]":                      {Id: 28, Name: "Array[Int?]"},
+	"Array[Int]":                       {Id: 29, Name: "Array[Int]"},
+	"Array[String?]":                   {Id: 30, Name: "Array[String?]"},
+	"Array[String?]?":                  {Id: 31, Name: "Array[String?]?"},
+	"Array[String]":                    {Id: 32, Name: "Array[String]"},
+	"Array[String]?":                   {Id: 33, Name: "Array[String]?"},
+	"Array[UInt16?]":                   {Id: 34, Name: "Array[UInt16?]"},
+	"Array[UInt16]":                    {Id: 35, Name: "Array[UInt16]"},
+	"Array[UInt64?]":                   {Id: 36, Name: "Array[UInt64?]"},
+	"Array[UInt64]":                    {Id: 37, Name: "Array[UInt64]"},
+	"Array[UInt?]":                     {Id: 38, Name: "Array[UInt?]"},
+	"Array[UInt]":                      {Id: 39, Name: "Array[UInt]"},
+	"Bool":                             {Id: 40, Name: "Bool"},
+	"Bool?":                            {Id: 41, Name: "Bool?"},
+	"Byte":                             {Id: 42, Name: "Byte"},
+	"Byte?":                            {Id: 43, Name: "Byte?"},
+	"Char":                             {Id: 44, Name: "Char"},
+	"Char?":                            {Id: 45, Name: "Char?"},
+	"Double":                           {Id: 46, Name: "Double"},
+	"Double?":                          {Id: 47, Name: "Double?"},
+	"FixedArray[Bool?]":                {Id: 48, Name: "FixedArray[Bool?]"},
+	"FixedArray[Bool]":                 {Id: 49, Name: "FixedArray[Bool]"},
+	"FixedArray[Byte?]":                {Id: 50, Name: "FixedArray[Byte?]"},
+	"FixedArray[Byte]":                 {Id: 51, Name: "FixedArray[Byte]"},
+	"FixedArray[Char?]":                {Id: 52, Name: "FixedArray[Char?]"},
+	"FixedArray[Char]":                 {Id: 53, Name: "FixedArray[Char]"},
+	"FixedArray[Double?]":              {Id: 54, Name: "FixedArray[Double?]"},
+	"FixedArray[Double]":               {Id: 55, Name: "FixedArray[Double]"},
+	"FixedArray[Float?]":               {Id: 56, Name: "FixedArray[Float?]"},
+	"FixedArray[Float]":                {Id: 57, Name: "FixedArray[Float]"},
+	"FixedArray[Int16?]":               {Id: 58, Name: "FixedArray[Int16?]"},
+	"FixedArray[Int16]":                {Id: 59, Name: "FixedArray[Int16]"},
+	"FixedArray[Int64?]":               {Id: 60, Name: "FixedArray[Int64?]"},
+	"FixedArray[Int64]":                {Id: 61, Name: "FixedArray[Int64]"},
+	"FixedArray[Int?]":                 {Id: 62, Name: "FixedArray[Int?]"},
+	"FixedArray[Int]":                  {Id: 63, Name: "FixedArray[Int]"},
+	"FixedArray[Int]?":                 {Id: 64, Name: "FixedArray[Int]?"},
+	"FixedArray[Map[String, String]?]": {Id: 65, Name: "FixedArray[Map[String, String]?]"},
+	"FixedArray[Map[String, String]]":  {Id: 66, Name: "FixedArray[Map[String, String]]"},
+	"FixedArray[String?]":              {Id: 67, Name: "FixedArray[String?]"},
+	"FixedArray[String]":               {Id: 68, Name: "FixedArray[String]"},
+	"FixedArray[String]?":              {Id: 69, Name: "FixedArray[String]?"},
+	"FixedArray[TestStruct2?]":         {Id: 70, Name: "FixedArray[TestStruct2?]"},
+	"FixedArray[TestStruct2]":          {Id: 71, Name: "FixedArray[TestStruct2]"},
+	"FixedArray[UInt16?]":              {Id: 72, Name: "FixedArray[UInt16?]"},
+	"FixedArray[UInt16]":               {Id: 73, Name: "FixedArray[UInt16]"},
+	"FixedArray[UInt64?]":              {Id: 74, Name: "FixedArray[UInt64?]"},
+	"FixedArray[UInt64]":               {Id: 75, Name: "FixedArray[UInt64]"},
+	"FixedArray[UInt?]":                {Id: 76, Name: "FixedArray[UInt?]"},
+	"FixedArray[UInt]":                 {Id: 77, Name: "FixedArray[UInt]"},
+	"Float":                            {Id: 78, Name: "Float"},
+	"Float?":                           {Id: 79, Name: "Float?"},
+	"HttpHeader": {Id: 80,
 		Name:   "HttpHeader",
 		Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "values", Type: "Array[String]"}},
 	},
-	"HttpHeader?": {Id: 42,
+	"HttpHeader?": {Id: 81,
 		Name:   "HttpHeader?",
 		Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "values", Type: "Array[String]"}},
 	},
-	"HttpHeaders": {Id: 43,
+	"HttpHeaders": {Id: 82,
 		Name:   "HttpHeaders",
 		Fields: []*metadata.Field{{Name: "data", Type: "Map[String, HttpHeader?]"}},
 	},
-	"HttpHeaders?": {Id: 44,
+	"HttpHeaders?": {Id: 83,
 		Name:   "HttpHeaders?",
 		Fields: []*metadata.Field{{Name: "data", Type: "Map[String, HttpHeader?]"}},
 	},
-	"HttpResponse": {Id: 45,
+	"HttpResponse": {Id: 84,
 		Name: "HttpResponse",
 		Fields: []*metadata.Field{
 			{Name: "status", Type: "UInt16"}, {Name: "status_text", Type: "String"},
 			{Name: "headers", Type: "HttpHeaders?"}, {Name: "body", Type: "Array[Byte]"},
 		},
 	},
-	"HttpResponse?": {Id: 46,
+	"HttpResponse?": {Id: 85,
 		Name: "HttpResponse?",
 		Fields: []*metadata.Field{
 			{Name: "status", Type: "UInt16"}, {Name: "status_text", Type: "String"},
 			{Name: "headers", Type: "HttpHeaders?"}, {Name: "body", Type: "Array[Byte]"},
 		},
 	},
-	"Int":                      {Id: 47, Name: "Int"},
-	"Int16":                    {Id: 48, Name: "Int16"},
-	"Int16?":                   {Id: 49, Name: "Int16?"},
-	"Int64":                    {Id: 50, Name: "Int64"},
-	"Int64?":                   {Id: 51, Name: "Int64?"},
-	"Int?":                     {Id: 52, Name: "Int?"},
-	"Map[Int, Double]":         {Id: 53, Name: "Map[Int, Double]"},
-	"Map[String, HttpHeader?]": {Id: 54, Name: "Map[String, HttpHeader?]"},
-	"Map[String, String]":      {Id: 55, Name: "Map[String, String]"},
-	"Map[String, String]?":     {Id: 56, Name: "Map[String, String]?"},
-	"String":                   {Id: 57, Name: "String"},
-	"String?":                  {Id: 58, Name: "String?"},
-	"TestRecursiveStruct": {Id: 59,
+	"Int":                      {Id: 86, Name: "Int"},
+	"Int16":                    {Id: 87, Name: "Int16"},
+	"Int16?":                   {Id: 88, Name: "Int16?"},
+	"Int64":                    {Id: 89, Name: "Int64"},
+	"Int64?":                   {Id: 90, Name: "Int64?"},
+	"Int?":                     {Id: 91, Name: "Int?"},
+	"Map[Int, Double]":         {Id: 92, Name: "Map[Int, Double]"},
+	"Map[Int, Float]":          {Id: 93, Name: "Map[Int, Float]"},
+	"Map[String, HttpHeader?]": {Id: 94, Name: "Map[String, HttpHeader?]"},
+	"Map[String, String]":      {Id: 95, Name: "Map[String, String]"},
+	"Map[String, String]?":     {Id: 96, Name: "Map[String, String]?"},
+	"String":                   {Id: 97, Name: "String"},
+	"String?":                  {Id: 98, Name: "String?"},
+	"TestRecursiveStruct": {Id: 99,
 		Name:   "TestRecursiveStruct",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
 	},
-	"TestRecursiveStruct?": {Id: 60,
+	"TestRecursiveStruct?": {Id: 100,
 		Name:   "TestRecursiveStruct?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
 	},
-	"TestRecursiveStruct_map": {Id: 61,
+	"TestRecursiveStruct_map": {Id: 101,
 		Name:   "TestRecursiveStruct_map",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct_map?"}},
 	},
-	"TestRecursiveStruct_map?": {Id: 62,
+	"TestRecursiveStruct_map?": {Id: 102,
 		Name:   "TestRecursiveStruct_map?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct_map?"}},
 	},
-	"TestStruct1": {Id: 63,
+	"TestStruct1": {Id: 103,
 		Name:   "TestStruct1",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}},
 	},
-	"TestStruct1?": {Id: 64,
+	"TestStruct1?": {Id: 104,
 		Name:   "TestStruct1?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}},
 	},
-	"TestStruct1_map": {Id: 65,
+	"TestStruct1_map": {Id: 105,
 		Name:   "TestStruct1_map",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}},
 	},
-	"TestStruct1_map?": {Id: 66,
+	"TestStruct1_map?": {Id: 106,
 		Name:   "TestStruct1_map?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}},
 	},
-	"TestStruct2": {Id: 67,
+	"TestStruct2": {Id: 107,
 		Name:   "TestStruct2",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"}},
 	},
-	"TestStruct2?": {Id: 68,
+	"TestStruct2?": {Id: 108,
 		Name:   "TestStruct2?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"}},
 	},
-	"TestStruct2_map": {Id: 69,
+	"TestStruct2_map": {Id: 109,
 		Name:   "TestStruct2_map",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"}},
 	},
-	"TestStruct2_map?": {Id: 70,
+	"TestStruct2_map?": {Id: 110,
 		Name:   "TestStruct2_map?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"}},
 	},
-	"TestStruct3": {Id: 71,
+	"TestStruct3": {Id: 111,
 		Name: "TestStruct3",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String"},
 		},
 	},
-	"TestStruct3?": {Id: 72,
+	"TestStruct3?": {Id: 112,
 		Name: "TestStruct3?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String"},
 		},
 	},
-	"TestStruct3_map": {Id: 73,
+	"TestStruct3_map": {Id: 113,
 		Name: "TestStruct3_map",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String"},
 		},
 	},
-	"TestStruct3_map?": {Id: 74,
+	"TestStruct3_map?": {Id: 114,
 		Name: "TestStruct3_map?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String"},
 		},
 	},
-	"TestStruct4": {Id: 75,
+	"TestStruct4": {Id: 115,
 		Name: "TestStruct4",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String?"},
 		},
 	},
-	"TestStruct4?": {Id: 76,
+	"TestStruct4?": {Id: 116,
 		Name: "TestStruct4?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String?"},
 		},
 	},
-	"TestStruct4_map": {Id: 77,
+	"TestStruct4_map": {Id: 117,
 		Name: "TestStruct4_map",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String?"},
 		},
 	},
-	"TestStruct4_map?": {Id: 78,
+	"TestStruct4_map?": {Id: 118,
 		Name: "TestStruct4_map?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "Bool"}, {Name: "b", Type: "Int"},
 			{Name: "c", Type: "String?"},
 		},
 	},
-	"TestStruct5": {Id: 79,
+	"TestStruct5": {Id: 119,
 		Name: "TestStruct5",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "String"}, {Name: "b", Type: "String"},
@@ -1469,7 +3676,7 @@ var wantRuntimeTypes = metadata.TypeMap{
 			{Name: "e", Type: "Double"}, {Name: "f", Type: "Double"},
 		},
 	},
-	"TestStruct5?": {Id: 80,
+	"TestStruct5?": {Id: 120,
 		Name: "TestStruct5?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "String"}, {Name: "b", Type: "String"},
@@ -1477,7 +3684,7 @@ var wantRuntimeTypes = metadata.TypeMap{
 			{Name: "e", Type: "Double"}, {Name: "f", Type: "Double"},
 		},
 	},
-	"TestStruct5_map": {Id: 81,
+	"TestStruct5_map": {Id: 121,
 		Name: "TestStruct5_map",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "String"}, {Name: "b", Type: "String"},
@@ -1485,7 +3692,7 @@ var wantRuntimeTypes = metadata.TypeMap{
 			{Name: "e", Type: "Double"}, {Name: "f", Type: "Double"},
 		},
 	},
-	"TestStruct5_map?": {Id: 82,
+	"TestStruct5_map?": {Id: 122,
 		Name: "TestStruct5_map?",
 		Fields: []*metadata.Field{
 			{Name: "a", Type: "String"}, {Name: "b", Type: "String"},
@@ -1493,16 +3700,16 @@ var wantRuntimeTypes = metadata.TypeMap{
 			{Name: "e", Type: "Double"}, {Name: "f", Type: "Double"},
 		},
 	},
-	"TestStructWithMap": {Id: 83,
+	"TestStructWithMap": {Id: 123,
 		Name:   "TestStructWithMap",
 		Fields: []*metadata.Field{{Name: "m", Type: "Map[String, String]"}},
 	},
-	"UInt":       {Id: 84, Name: "UInt"},
-	"UInt16":     {Id: 85, Name: "UInt16"},
-	"UInt16?":    {Id: 86, Name: "UInt16?"},
-	"UInt64":     {Id: 87, Name: "UInt64"},
-	"UInt64?":    {Id: 88, Name: "UInt64?"},
-	"UInt?":      {Id: 89, Name: "UInt?"},
-	"Unit":       {Id: 90, Name: "Unit"},
-	"Unit!Error": {Id: 91, Name: "Unit!Error"},
+	"UInt":       {Id: 124, Name: "UInt"},
+	"UInt16":     {Id: 125, Name: "UInt16"},
+	"UInt16?":    {Id: 126, Name: "UInt16?"},
+	"UInt64":     {Id: 127, Name: "UInt64"},
+	"UInt64?":    {Id: 128, Name: "UInt64?"},
+	"UInt?":      {Id: 129, Name: "UInt?"},
+	"Unit":       {Id: 130, Name: "Unit"},
+	"Unit!Error": {Id: 131, Name: "Unit!Error"},
 }

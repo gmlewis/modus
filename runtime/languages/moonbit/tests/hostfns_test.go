@@ -54,7 +54,7 @@ func hostLog(ctx context.Context, level, message string) {
 		hostfunctions.LogMessage(ctx, level, message)
 	}
 	t := testutils.GetTestT(ctx)
-	t.Logf("[%s] %s", level, message)
+	t.Logf("[%v] %v", level, message)
 }
 
 func hostAdd(a, b int32) int32 {
@@ -127,196 +127,186 @@ func TestHostFn_add(t *testing.T) {
 	}
 }
 
-// TODO: Support host function signature overrides.
-// func TestHostFn_echo1_string(t *testing.T) {
-// 	fnName := "echo1"
-// 	result, err := fixture.CallFunction(t, fnName, "hello")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestHostFn_echo1_string(t *testing.T) {
+	fnName := "echo1"
+	result, err := fixture.CallFunction(t, fnName, "hello")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo1_string_option(t *testing.T) {
-// 	fnName := "echo1"
-// 	s := "hello"
+func TestHostFn_echo1_string_option(t *testing.T) {
+	fnName := "echo1"
+	s := "hello"
 
-// 	result, err := fixture.CallFunction(t, fnName, &s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, &s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo2_string(t *testing.T) {
-// 	fnName := "echo2"
-// 	result, err := fixture.CallFunction(t, fnName, "hello")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestHostFn_echo2_string(t *testing.T) {
+	fnName := "echo2"
+	result, err := fixture.CallFunction(t, fnName, "hello")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo2_string_option(t *testing.T) {
-// 	fnName := "echo2"
-// 	s := "hello"
+func TestHostFn_echo2_string_option(t *testing.T) {
+	fnName := "echo2"
+	s := "hello"
 
-// 	result, err := fixture.CallFunction(t, fnName, &s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, &s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if r != expected {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo3_string(t *testing.T) {
-// 	fnName := "echo3"
-// 	result, err := fixture.CallFunction(t, fnName, "hello")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestHostFn_echo3_string(t *testing.T) {
+	fnName := "echo3"
+	result, err := fixture.CallFunction(t, fnName, "hello")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo3_string_option(t *testing.T) {
-// 	fnName := "echo3"
-// 	s := "hello"
+func TestHostFn_echo3_string_option(t *testing.T) {
+	fnName := "echo3"
+	s := "hello"
 
-// 	result, err := fixture.CallFunction(t, fnName, &s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, &s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo4_string(t *testing.T) {
-// 	fnName := "echo4"
-// 	result, err := fixture.CallFunction(t, fnName, "hello")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestHostFn_echo4_string(t *testing.T) {
+	fnName := "echo4"
+	result, err := fixture.CallFunction(t, fnName, "hello")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
-// TODO:
-// func TestHostFn_echo4_string_option(t *testing.T) {
-// 	fnName := "echo4"
-// 	s := "hello"
+func TestHostFn_echo4_string_option(t *testing.T) {
+	fnName := "echo4"
+	s := "hello"
 
-// 	result, err := fixture.CallFunction(t, fnName, &s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, &s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := "echo: hello"
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := "echo: hello"
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
-// TODO:
-// func TestHostFn_encodeStrings1(t *testing.T) {
-// 	fnName := "encodeStrings1"
-// 	s := []string{"hello", "world"}
+func TestHostFn_encodeStrings1(t *testing.T) {
+	fnName := "encode_strings1"
+	s := []string{"hello", "world"}
 
-// 	result, err := fixture.CallFunction(t, fnName, s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := `["hello","world"]`
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := `["hello","world"]`
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}
 
-// TODO:
-// func TestHostFn_encodeStrings2(t *testing.T) {
-// 	fnName := "encodeStrings2"
-// 	e0 := "hello"
-// 	e1 := "world"
-// 	s := []*string{&e0, &e1}
+func TestHostFn_encodeStrings2(t *testing.T) {
+	fnName := "encode_strings2"
+	e0 := "hello"
+	e1 := "world"
+	s := []*string{&e0, &e1}
 
-// 	result, err := fixture.CallFunction(t, fnName, s)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	result, err := fixture.CallFunction(t, fnName, s)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := `["hello","world"]`
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(string); !ok {
-// 		t.Errorf("expected a string, got %T", result)
-// 	} else if r != expected {
-// 		t.Errorf("expected %s, got %s", expected, r)
-// 	}
-// }
+	expected := `["hello","world"]`
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*string); !ok {
+		t.Errorf("expected a string, got %T", result)
+	} else if *r != expected {
+		t.Errorf("expected %v, got %v", expected, *r)
+	}
+}

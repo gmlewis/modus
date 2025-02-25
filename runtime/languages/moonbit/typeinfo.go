@@ -583,6 +583,10 @@ func (lti *langTypeInfo) GetDataSizeOfType(ctx context.Context, typ string) (uin
 }
 
 func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string) (uint32, error) {
+	// NOTE that the encoding length refers to the number of uint64 words on the wazero stack
+	// needed to represent the type, which for MoonBit is typically 1 (or 2 if an error code is included).
+	// This is used by the wasm runtime to determine how many words to pop off the stack after a function call.
+	// The encoding length is not the same as the size of the type in memory.
 	var hasError, hasOption bool
 	typ, hasError, hasOption = stripErrorAndOption(typ)
 	var errorSize uint32
@@ -592,7 +596,7 @@ func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string
 
 	if hasOption {
 		gmlPrintf("GML: moonbit/typeinfo.go: GetEncodingLengthOfType('%v?') = 4 + errorSize=%v", typ, errorSize)
-		return 4 + errorSize, nil
+		return 1 + errorSize, nil
 	}
 
 	// if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
@@ -742,9 +746,14 @@ func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*me
 }
 
 func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (reflect.Type, error) {
-	typ, _, _ = stripErrorAndOption(typ)
+	// NOTE that the reflected type tells wazero how to interpret the handler's type with respect to Go's type system.
+	var hasOption bool
+	typ, _, hasOption = stripErrorAndOption(typ)
 
-	// TODO: Does Unit!Error need to be handled here?
+	// Strip !Error information, but add back in the option type.
+	if hasOption {
+		typ += "?"
+	}
 
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)
@@ -856,19 +865,34 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 
 var rtMapStringAny = reflect.TypeFor[map[string]any]()
 var reflectedTypeMap = map[string]reflect.Type{
-	"Bool":                reflect.TypeFor[bool](),
-	"Byte":                reflect.TypeFor[byte](),
-	"Char":                reflect.TypeFor[int16](),
-	"Double":              reflect.TypeFor[float64](),
-	"Float":               reflect.TypeFor[float32](),
-	"Int":                 reflect.TypeFor[int32](),
-	"Int16":               reflect.TypeFor[int16](),
-	"Int64":               reflect.TypeFor[int64](),
-	"String":              reflect.TypeFor[string](),
-	"UInt":                reflect.TypeFor[uint32](),
-	"UInt16":              reflect.TypeFor[uint16](),
-	"UInt64":              reflect.TypeFor[uint64](),
-	"@time.Duration":      reflect.TypeFor[time.Duration](),
-	"@time.ZonedDateTime": reflect.TypeFor[time.Time](),
-	"@wallClock.Datetime": reflect.TypeFor[time.Time](),
+	"@time.Duration?":      reflect.TypeFor[*time.Duration](),
+	"@time.Duration":       reflect.TypeFor[time.Duration](),
+	"@time.ZonedDateTime?": reflect.TypeFor[*time.Time](),
+	"@time.ZonedDateTime":  reflect.TypeFor[time.Time](),
+	"@wallClock.Datetime?": reflect.TypeFor[*time.Time](),
+	"@wallClock.Datetime":  reflect.TypeFor[time.Time](),
+	"Bool?":                reflect.TypeFor[*bool](),
+	"Bool":                 reflect.TypeFor[bool](),
+	"Byte?":                reflect.TypeFor[*byte](),
+	"Byte":                 reflect.TypeFor[byte](),
+	"Char?":                reflect.TypeFor[*int16](),
+	"Char":                 reflect.TypeFor[int16](),
+	"Double?":              reflect.TypeFor[*float64](),
+	"Double":               reflect.TypeFor[float64](),
+	"Float?":               reflect.TypeFor[*float32](),
+	"Float":                reflect.TypeFor[float32](),
+	"Int?":                 reflect.TypeFor[*int32](),
+	"Int":                  reflect.TypeFor[int32](),
+	"Int16?":               reflect.TypeFor[*int16](),
+	"Int16":                reflect.TypeFor[int16](),
+	"Int64?":               reflect.TypeFor[*int64](),
+	"Int64":                reflect.TypeFor[int64](),
+	"String?":              reflect.TypeFor[*string](),
+	"String":               reflect.TypeFor[string](),
+	"UInt?":                reflect.TypeFor[*uint32](),
+	"UInt":                 reflect.TypeFor[uint32](),
+	"UInt16?":              reflect.TypeFor[*uint16](),
+	"UInt16":               reflect.TypeFor[uint16](),
+	"UInt64?":              reflect.TypeFor[*uint64](),
+	"UInt64":               reflect.TypeFor[uint64](),
 }

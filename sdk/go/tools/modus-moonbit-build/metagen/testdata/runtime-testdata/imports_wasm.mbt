@@ -8,52 +8,69 @@
 ///|
 fn host_add(a : Int, b : Int) -> Int = "modus_test" "add"
 
-///|
+// TODO: Handle import function type signature overrides:
+///|modus:import modus_test echo1(String) -> String
 fn _host_echo1(message : Int) -> Int = "modus_test" "echo1"
 
-///|
+///|modus:import modus_test echo2(String?) -> String
 fn _host_echo2(message : Int) -> Int = "modus_test" "echo2"
 
-///|
+///|modus:import modus_test echo3(String) -> String?
 fn _host_echo3(message : Int) -> Int = "modus_test" "echo3"
 
-///|
+///|modus:import modus_test echo4(String?) -> String?
 fn _host_echo4(message : Int) -> Int = "modus_test" "echo4"
 
 ///|
-fn run_host_echo(message : String?, f : (Int) -> Int) -> String? {
+pub fn host_echo1(message : String) -> String {
+  let ptr = @ffi.str2ptr(m) - 8
+  let result = _host_echo1(ptr)
+  @ffi.ptr2str(result + 8)
+}
+
+///|
+pub fn host_echo2(message : String?) -> String {
+  match message {
+    None => {
+      let result = _host_echo2(0)
+      @ffi.ptr2str(result + 8)
+    }
+    Some(m) => {
+      let ptr = @ffi.str2ptr(m) - 8
+      let result = _host_echo2(ptr)
+      @ffi.ptr2str(result + 8)
+    }
+  }
+}
+
+///|
+pub fn host_echo3(message : String) -> String? {
+  let ptr = @ffi.str2ptr(m) - 8
+  let result = _host_echo3(ptr)
+  match result {
+    0 => None
+    _ => Some(@ffi.ptr2str(result + 8))
+  }
+}
+
+///|
+pub fn host_echo4(message : String?) -> String? {
   let result = match message {
-    None => f(0)
-    Some(m) => f(@ffi.str2ptr(m))
+    None => _host_echo4(0)
+    Some(m) => {
+      let ptr = @ffi.str2ptr(m) - 8
+      _host_echo4(ptr)
+    }
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result))
+    _ => Some(@ffi.ptr2str(result + 8))
   }
 }
 
-///|
-fn host_echo1(message : String?) -> String? {
-  run_host_echo(message, _host_echo1)
-}
+///|modus:import modus_test encodeStrings1(Array[String]?) -> String?
+fn _host_encode_strings1(items : Int) -> Int = "modus_test" "encodeStrings1"
 
-///|
-fn host_echo2(message : String?) -> String? {
-  run_host_echo(message, _host_echo2)
-}
-
-///|
-fn host_echo3(message : String?) -> String? {
-  run_host_echo(message, _host_echo3)
-}
-
-///|
-fn host_echo4(message : String?) -> String? {
-  run_host_echo(message, _host_echo4)
-}
-
-///|
-fn _hostEncodeStrings1(items : Int) -> Int = "modus_test" "encodeStrings1"
 
 ///|
 extern "wasm" fn _string_array2ptr(items : Int) -> Int =
@@ -62,13 +79,13 @@ extern "wasm" fn _string_array2ptr(items : Int) -> Int =
 ///|
 fn host_encode_strings1(items : Array[String]?) -> String? {
   let result = match items {
-    None => _hostEncodeStrings1(0)
+    None => _host_encode_strings1(0)
     Some(m) => {
       let ptr = @ffi.malloc(4 * m.length())
       for i in 0..<m.length() {
         @ffi.store32(ptr + 4 * i, @ffi.str2ptr(m[i]))
       }
-      let result = _hostEncodeStrings1(_string_array2ptr(ptr))
+      let result = _host_encode_strings1(_string_array2ptr(ptr))
       @ffi.free(ptr)
       result
     }
@@ -79,13 +96,13 @@ fn host_encode_strings1(items : Array[String]?) -> String? {
   }
 }
 
-///|
-fn _hostEncodeStrings2(items : Int) -> Int = "modus_test" "encodeStrings2"
+///|modus:import modus_test encodeStrings2(Array[String?]?) -> String?
+fn _host_encode_strings2(items : Int) -> Int = "modus_test" "encodeStrings2"
 
 ///|
 fn host_encode_strings2(items : Array[String?]?) -> String? {
   let result = match items {
-    None => _hostEncodeStrings2(0)
+    None => _host_encode_strings2(0)
     Some(m) => {
       let ptr = @ffi.malloc(4 * m.length())
       for i in 0..<m.length() {
@@ -94,7 +111,7 @@ fn host_encode_strings2(items : Array[String?]?) -> String? {
           Some(s) => @ffi.store32(ptr + 4 * i, @ffi.str2ptr(s))
         }
       }
-      let result = _hostEncodeStrings2(_string_array2ptr(ptr))
+      let result = _host_encode_strings2(_string_array2ptr(ptr))
       @ffi.free(ptr)
       result
     }

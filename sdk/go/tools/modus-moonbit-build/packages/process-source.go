@@ -43,7 +43,7 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 	decls = p.processPubFns(typesPkg, decls, m, fullSrc)
 
 	m = importedHostFnRE.FindAllStringSubmatch(src, -1)
-	decls = p.processImportedHostFns(typesPkg, decls, m)
+	decls = p.processImportedHostFns(typesPkg, decls, m, fullSrc)
 
 	p.Syntax = append(p.Syntax, &ast.File{
 		Name:    &ast.Ident{Name: filename},
