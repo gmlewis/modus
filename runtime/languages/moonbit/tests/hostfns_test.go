@@ -12,6 +12,7 @@ package moonbit_test
 import (
 	"context"
 	"strings"
+	"testing"
 
 	"github.com/gmlewis/modus/runtime/hostfunctions"
 	"github.com/gmlewis/modus/runtime/testutils"
@@ -56,7 +57,7 @@ func hostLog(ctx context.Context, level, message string) {
 	t.Logf("[%s] %s", level, message)
 }
 
-func hostAdd(a, b int) int {
+func hostAdd(a, b int32) int32 {
 	return a + b
 }
 
@@ -110,7 +111,6 @@ func hostEncodeStrings2(items *[]*string) *string {
 	return &result
 }
 
-/*
 func TestHostFn_add(t *testing.T) {
 	fnName := "add"
 	result, err := fixture.CallFunction(t, fnName, int32(1), int32(2))
@@ -126,9 +126,8 @@ func TestHostFn_add(t *testing.T) {
 		t.Errorf("expected %v, got %v", 3, r)
 	}
 }
-*/
 
-// TODO:
+// TODO: Support host function signature overrides.
 // func TestHostFn_echo1_string(t *testing.T) {
 // 	fnName := "echo1"
 // 	result, err := fixture.CallFunction(t, fnName, "hello")

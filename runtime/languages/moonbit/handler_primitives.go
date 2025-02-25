@@ -142,7 +142,7 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			return nil, nil
 		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
-			memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+			memoryBlockAtOffset(wa, uint32(vals[0]), 0, true) //nolint:errcheck
 			memBlockHeader, ok := wa.Memory().ReadUint64Le(uint32(vals[0]))
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)

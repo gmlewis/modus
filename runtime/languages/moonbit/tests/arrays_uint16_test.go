@@ -41,12 +41,12 @@ import (
 // 	}
 // }
 
-func getUint16OptionArray() []*uint16 {
-	a := uint16(11)
-	// b := 22
-	c := uint16(33)
-	return []*uint16{&a, nil, &c}
-}
+// func getUint16OptionArray() []*uint16 {
+// 	a := uint16(11)
+// 	// b := 22
+// 	c := uint16(33)
+// 	return []*uint16{&a, nil, &c}
+// }
 
 // func TestArrayInput_uint16_empty(t *testing.T) {
 // 	fnName := "test_array_input_uint16_empty"

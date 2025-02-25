@@ -148,7 +148,7 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	// }
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, offset, 0, true)
+	memoryBlockAtOffset(wa, offset, 0, true) //nolint:errcheck
 
 	// return res, cln, nil
 	return []uint64{uint64(offset)}, cln, nil

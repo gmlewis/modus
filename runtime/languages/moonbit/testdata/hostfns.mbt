@@ -11,17 +11,17 @@ pub fn add(a : Int, b : Int) -> Int {
 }
 
 ///|
-pub fn echo1(message : String?) -> String? {
+pub fn echo1(message : String) -> String {
   host_echo1(message)
 }
 
 ///|
-pub fn echo2(message : String?) -> String? {
+pub fn echo2(message : String?) -> String {
   host_echo2(message)
 }
 
 ///|
-pub fn echo3(message : String?) -> String? {
+pub fn echo3(message : String) -> String? {
   host_echo3(message)
 }
 

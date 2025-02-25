@@ -11,17 +11,17 @@ fn host_add(_a : Int, _b : Int) -> Int {
 }
 
 ///|
-fn host_echo1(_message : String?) -> String? {
+fn host_echo1(_message : String) -> String {
   abort("should not be called")
 }
 
 ///|
-fn host_echo2(_message : String?) -> String? {
+fn host_echo2(_message : String?) -> String {
   abort("should not be called")
 }
 
 ///|
-fn host_echo3(_message : String?) -> String? {
+fn host_echo3(_message : String) -> String? {
   abort("should not be called")
 }
 

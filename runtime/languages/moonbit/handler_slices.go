@@ -118,7 +118,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		}
 
 		// For debugging:
-		memoryBlockAtOffset(wa, sliceOffset, 0, true)
+		memoryBlockAtOffset(wa, sliceOffset, 0, true) //nolint:errcheck
 
 		if words == 1 {
 			// sliceOffset is the pointer to the single-slice element.
@@ -288,7 +288,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, ptr-8, size, true)
+	memoryBlockAtOffset(wa, ptr-8, size, true) //nolint:errcheck
 
 	innerCln := utils.NewCleanerN(len(slice))
 
@@ -323,7 +323,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 					}
 					wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, valueBlock-8)
 					// For debugging:
-					memoryBlockAtOffset(wa, valueBlock-8, 0, true)
+					memoryBlockAtOffset(wa, valueBlock-8, 0, true) //nolint:errcheck
 				} else {
 					if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
 						return 0, cln, err
@@ -378,7 +378,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, ptr-8, size, true)
+	memoryBlockAtOffset(wa, ptr-8, size, true) //nolint:errcheck
 
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
 		return ptr - 8, cln, nil
@@ -394,7 +394,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 	// For debugging purposes:
-	memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+	memoryBlockAtOffset(wa, slicePtr-8, 0, true) //nolint:errcheck
 
 	return slicePtr - 8, cln, nil
 }

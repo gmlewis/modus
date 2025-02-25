@@ -682,12 +682,12 @@ func getStructFixedArray2() []TestStruct2 {
 	}
 }
 
-func getStructOptionFixedArray2() []*TestStruct2 {
-	return []*TestStruct2{
-		{A: true, B: 123},
-		{A: false, B: 456},
-	}
-}
+// func getStructOptionFixedArray2() []*TestStruct2 {
+// 	return []*TestStruct2{
+// 		{A: true, B: 123},
+// 		{A: false, B: 456},
+// 	}
+// }
 
 func getMapFixedArray2() []map[string]string {
 	return []map[string]string{
@@ -696,12 +696,12 @@ func getMapFixedArray2() []map[string]string {
 	}
 }
 
-func getMapOptionFixedArray2() []*map[string]string {
-	return []*map[string]string{
-		{"A": "true", "B": "123"},
-		{"C": "false", "D": "456"},
-	}
-}
+// func getMapOptionFixedArray2() []*map[string]string {
+// 	return []*map[string]string{
+// 		{"A": "true", "B": "123"},
+// 		{"C": "false", "D": "456"},
+// 	}
+// }
 
 func getOptionIntFixedArray1() *[]int32 {
 	return &[]int32{11}

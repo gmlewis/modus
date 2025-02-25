@@ -66,11 +66,11 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32, dbgHa
 	words = part2 >> 8
 	size := uint32(8 + words*4)
 	if sizeOverride > 0 {
-		if sizeOverride+8 == size {
-			sizeOverride = 0 // for debugging - no need for override
-		} else {
-			size = 8 + sizeOverride
-		}
+		// if sizeOverride+8 == size {
+		// 	sizeOverride = 0 // for debugging - no need for override
+		// } else {
+		size = 8 + sizeOverride
+		// }
 	}
 	memBlock, ok := wa.Memory().Read(offset, size)
 	if !ok {

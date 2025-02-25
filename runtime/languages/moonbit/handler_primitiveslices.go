@@ -170,7 +170,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		if numElements == 0 {
 			// For debugging:
 			sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
-			memoryBlockAtOffset(wa, sliceOffset, 0, true)
+			memoryBlockAtOffset(wa, sliceOffset, 0, true) //nolint:errcheck
 
 			return []T{}, nil
 		}
@@ -183,7 +183,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		gmlPrintf("GML: handler_primitiveslices.go: primitiveSliceHandler.Decode: sliceOffset=%v, numElements=%v, elemTypeSize=%v, size=%v", debugShowOffset(sliceOffset), numElements, elemTypeSize, size)
 
 		// For reverse engineering:
-		memoryBlockAtOffset(wa, sliceOffset, 0, true)
+		memoryBlockAtOffset(wa, sliceOffset, 0, true) //nolint:errcheck
 
 		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, sliceOffset, size, true)
 		if err != nil {
@@ -371,7 +371,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 
 		// For debugging:
-		memoryBlockAtOffset(wa, offset-8, 0, true)
+		memoryBlockAtOffset(wa, offset-8, 0, true) //nolint:errcheck
 	}
 
 	// Write header
@@ -413,7 +413,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	// For debugging:
-	memoryBlockAtOffset(wa, offset-8, 0, true)
+	memoryBlockAtOffset(wa, offset-8, 0, true) //nolint:errcheck
 
 	if strings.HasPrefix(h.typeDef.Name, "Array[") {
 		// Finally, write the slice memory block.
@@ -427,7 +427,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 		// For debugging purposes:
-		memoryBlockAtOffset(wa, slicePtr-8, 0, true)
+		memoryBlockAtOffset(wa, slicePtr-8, 0, true) //nolint:errcheck
 
 		return slicePtr - 8, cln, nil
 	}

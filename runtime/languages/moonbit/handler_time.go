@@ -95,9 +95,9 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 	datetimePtr := binary.LittleEndian.Uint32(memBlock[8:])
 	// For reverse-engineering purposes only:
 	zonePtr := binary.LittleEndian.Uint32(memBlock[12:])
-	memoryBlockAtOffset(wa, zonePtr, 0, true)
+	memoryBlockAtOffset(wa, zonePtr, 0, true) //nolint:errcheck
 	offsetPtr := binary.LittleEndian.Uint32(memBlock[16:])
-	memoryBlockAtOffset(wa, offsetPtr, 0, true)
+	memoryBlockAtOffset(wa, offsetPtr, 0, true) //nolint:errcheck
 	// end of reverse-engineering section.
 
 	datetime, _, _, err := memoryBlockAtOffset(wa, datetimePtr, 0, true)

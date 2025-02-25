@@ -9,29 +9,21 @@
 
 package moonbit
 
-import (
-	"context"
-	"testing"
+// func mustGetTypeInfo(t *testing.T, name string) langsupport.TypeInfo {
+// 	t.Helper()
+// 	cache := map[string]langsupport.TypeInfo{}
+// 	ti, err := GetTypeInfo(context.Background(), name, cache)
+// 	if err != nil {
+// 		t.Fatalf("GetTypeInfo(%q) returned nil", name)
+// 	}
+// 	return ti
+// }
 
-	"github.com/gmlewis/modus/lib/metadata"
-	"github.com/gmlewis/modus/runtime/langsupport"
-)
-
-func mustGetTypeInfo(t *testing.T, name string) langsupport.TypeInfo {
-	t.Helper()
-	cache := map[string]langsupport.TypeInfo{}
-	ti, err := GetTypeInfo(context.Background(), name, cache)
-	if err != nil {
-		t.Fatalf("GetTypeInfo(%q) returned nil", name)
-	}
-	return ti
-}
-
-func mustGetTypeDef(t *testing.T, metadata *metadata.Metadata, name string) *metadata.TypeDefinition {
-	t.Helper()
-	td, err := metadata.GetTypeDefinition(name)
-	if err != nil {
-		t.Fatalf("GetTypeDef(%q) returned nil", name)
-	}
-	return td
-}
+// func mustGetTypeDef(t *testing.T, metadata *metadata.Metadata, name string) *metadata.TypeDefinition {
+// 	t.Helper()
+// 	td, err := metadata.GetTypeDefinition(name)
+// 	if err != nil {
+// 		t.Fatalf("GetTypeDef(%q) returned nil", name)
+// 	}
+// 	return td
+// }

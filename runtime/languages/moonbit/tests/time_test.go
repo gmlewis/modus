@@ -18,7 +18,8 @@ import (
 
 var testTimeStr = "2024-12-31T23:59:59.999999999Z"
 var testTime, _ = time.Parse(time.RFC3339, testTimeStr)
-var testDuration = time.Duration(5 * time.Second)
+
+// var testDuration = time.Duration(5 * time.Second)
 
 func TestTimeInput(t *testing.T) {
 	fnName := "test_time_input"
