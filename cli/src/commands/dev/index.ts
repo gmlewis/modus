@@ -380,7 +380,7 @@ export default class DevCommand extends BaseCommand {
 
 function getGlobsToWatch(sdk: SDK) {
   const included: string[] = [];
-  const excluded: string[] = [".git/**", "build/**"];
+  const excluded: string[] = [".git/**", ".modusdb/**", "build/**"];
 
   switch (sdk) {
     case SDK.AssemblyScript:
