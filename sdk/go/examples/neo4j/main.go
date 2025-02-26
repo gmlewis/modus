@@ -10,7 +10,7 @@ import (
 	"github.com/gmlewis/modus/sdk/go/pkg/neo4j"
 )
 
-// The name of the PostgreSQL connection, as specified in the modus.json manifest
+// The name of the Neo4j connection, as specified in the modus.json manifest
 const connection = "my-database"
 
 func CreatePeopleAndRelationships() (string, error) {

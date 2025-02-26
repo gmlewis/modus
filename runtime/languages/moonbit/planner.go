@@ -95,6 +95,9 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 
 	ti, err := GetTypeInfo(ctx, typeName, p.typeCache)
 	if err != nil {
+		if strings.Contains(err.Error(), "info for type") {
+			return nil, fmt.Errorf("failed to get type info for %v: %w - did you remember to export ('pub') the struct?", typeName, err)
+		}
 		return nil, fmt.Errorf("failed to get type info for %v: %w", typeName, err)
 	}
 	gmlPrintf("GML: planner.go: GetTypeInfo: %#v", ti)

@@ -228,22 +228,8 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 		}
 
 		u := t.Underlying()
-		// Hack to make a tuple appear to have an underlying struct type for the metadata:
 		if u == nil {
-			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
-			if s, ok := t.Obj().Type().(*types.Struct); ok {
-				u = s
-			} else {
-				gmlPrintf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
-				if typeSpec, ok := pkg.StructLookup[name]; ok {
-					if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
-						u = customType.Type().Underlying()
-						gmlPrintf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
-					} else {
-						gmlPrintf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
-					}
-				}
-			}
+			u = resolveMissingUnderlyingType(name, t, m, pkg)
 		}
 		m[name] = u
 		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
@@ -380,4 +366,59 @@ func GetMapSubtypes(typ string) (string, string) {
 
 	gmlPrintf("GML: extractor/functions.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
+}
+
+// Due to simulating the MoonBit source code AST as Go AST nodes without fully parsing all source files
+// that the MoonBit compiler reads, it is currently necessary to provide workarounds as bugs are found.
+// This is one such workaround.
+func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]types.Type, pkg *packages.Package) types.Type {
+	// Hack to make a tuple appear to have an underlying struct type for the metadata:
+	gmlPrintf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
+	if s, ok := t.Obj().Type().(*types.Struct); ok {
+		return s
+	}
+
+	gmlPrintf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
+	if typeSpec, ok := pkg.StructLookup[name]; ok {
+		if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+			u := customType.Type().Underlying()
+			gmlPrintf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
+			return u
+		}
+		gmlPrintf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
+		return nil
+	}
+
+	if strings.HasPrefix(name, "Array[") {
+		// Add the underlying struct, but don't make it the underlying type for the array.
+		name = strings.TrimSuffix(strings.TrimPrefix(name, "Array["), "]")
+		if u := lookupStruct(name, m, pkg); u != nil {
+			m[name] = u
+		}
+		return nil
+	}
+
+	if strings.HasPrefix(name, "FixedArray[") {
+		// Add the underlying struct, but don't make it the underlying type for the fixedarray.
+		name = strings.TrimSuffix(strings.TrimPrefix(name, "FixedArray["), "]")
+		if u := lookupStruct(name, m, pkg); u != nil {
+			m[name] = u
+		}
+		return nil
+	}
+
+	return nil
+}
+
+func lookupStruct(name string, m map[string]types.Type, pkg *packages.Package) types.Type {
+	if u, ok := m[name]; ok {
+		return u
+	}
+	if typeSpec, ok := pkg.StructLookup[name]; ok {
+		if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+			u := customType.Type().Underlying()
+			return u
+		}
+	}
+	return nil
 }

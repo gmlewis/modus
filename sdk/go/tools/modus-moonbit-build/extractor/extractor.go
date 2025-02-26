@@ -57,9 +57,11 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	}
 
 	// Since MoonBit currently does not give us AST information for imported functions,
-	// we currently check all function signatures for two things:
-	// If a function returns any `@time.*`, the time-related imports will be added.
-	// If a function returns any `!Error`, the `logMessage` import will be added.
+	// and our `packages` MoonBit-as-Go-AST simulator does not parse all source files (yet),
+	// we currently check all function signatures for the following:
+	// * If a function returns any `@time.*`, the time-related imports will be added.
+	// * If a function returns any `!Error`, the `logMessage` import will be added.
+	// * If the @neo4j package is used, the corresponding modus:import will be added.
 	for _, export := range meta.FnExports {
 		returnType := moonBitReturnType(export)
 		if strings.Contains(returnType, "@time.") {
@@ -69,6 +71,21 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		}
 		if strings.Contains(returnType, "!") {
 			meta.FnImports["modus_system.logMessage"] = moonBitFnImports["modus_system.logMessage"]
+		}
+	}
+	for _, pkg := range pkgs {
+		for _, imp := range pkg.MoonPkgJSON.Imports {
+			if strings.Contains(string(imp), "pkg/neo4j") {
+				name := "modus_neo4j_client.executeQuery"
+				meta.FnImports[name] = moonBitFnImports[name]
+				requiredTypes["Array[Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Json]", nil), nil, nil)
+				requiredTypes["Array[String]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[String]", nil), nil, nil)
+				requiredTypes["Json"] = types.NewNamed(types.NewTypeName(0, nil, "Json", nil), nil, nil)
+				requiredTypes["EagerResult"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult", nil), nil, nil)
+				requiredTypes["EagerResult?"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult?", nil), nil, nil)
+				requiredTypes["EagerResult?!Error"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult?!Error", nil), nil, nil)
+				requiredTypes["Map[String, Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Map[String, Json]", nil), nil, nil)
+			}
 		}
 	}
 

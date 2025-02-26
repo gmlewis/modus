@@ -1,21 +1,29 @@
 package gmlewis/modus/pkg/neo4j
 
-alias @gmlewis/modus/wit/interface/neo4jClient as @neo4jClient
 alias @moonbitlang/core/json as @json
 
 // Values
-fn execute_query(String, String, Json, opts~ : Array[Neo4jOption] = ..) -> @neo4jClient.EagerResult!
+fn execute_query(String, String, Map[String, Json], opts~ : Array[Neo4jOption] = ..) -> EagerResult!
+
+fn host_execute_query(String, String, String, Map[String, Json]) -> EagerResult?!
 
 fn with_db_name(String) -> Neo4jOption
 
 // Types and methods
+pub(all) struct EagerResult {
+  keys : Array[String]
+  records : Array[Record]
+}
+
 pub(all) type! Neo4jError String
 impl Eq for Neo4jError
 impl Show for Neo4jError
 
 pub(all) type Neo4jOption (Neo4jOptions) -> Unit
 
-type Neo4jOptions
+pub struct Neo4jOptions {
+  db_name : String
+}
 
 pub(all) struct Node {
   element_id : String
@@ -43,7 +51,7 @@ impl @json.FromJson for Path
 pub(all) struct Point2D {
   x : Double
   y : Double
-  spatial_ref_id : Int
+  spatial_ref_id : UInt
 }
 impl Point2D {
   to_string(Self) -> String
@@ -57,7 +65,7 @@ pub(all) struct Point3D {
   x : Double
   y : Double
   z : Double
-  spatial_ref_id : Int
+  spatial_ref_id : UInt
 }
 impl Point3D {
   to_string(Self) -> String
@@ -72,6 +80,9 @@ pub(all) enum PropertyValue {
   Int64(Int64)
   Double(Double)
   String(String)
+  Time(String)
+  Bytes(Array[Int])
+  AnyArray(Array[Json])
   Point2D(Point2D)
   Point3D(Point3D)
 }
@@ -99,6 +110,9 @@ pub(all) enum RecordValue {
   Int64(Int64)
   Double(Double)
   String(String)
+  Time(String)
+  Bytes(Array[Int])
+  AnyArray(Array[Json])
   Map(Json)
   Node(Node)
   Relationship(Relationship)
@@ -132,7 +146,6 @@ impl Entity {
 }
 
 // Type aliases
-pub typealias EagerResult = @neo4jClient.EagerResult
 
 // Traits
 pub(open) trait Entity {

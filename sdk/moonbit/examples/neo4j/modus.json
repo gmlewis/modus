@@ -16,9 +16,9 @@
 
     "my-database": {
       "type": "neo4j",
-      "dbUri": "neo4j+s://9fdf1513.databases.neo4j.io",
-      "username": "{{USERNAME}}",
-      "password": "{{PASSWORD}}"
+      "dbUri": "neo4j://localhost:7687",
+      "username": "{{NEO4J_USER}}",
+      "password": "{{NEO4J_PASSWORD}}"
     }
   }
 }

@@ -12,10 +12,13 @@ pub(all) type! Neo4jError String derive(Show, Eq)
 pub(all) type Neo4jOption (Neo4jOptions) -> Unit
 
 ///|
-pub typealias EagerResult = @host.EagerResult
+pub(all) struct EagerResult {
+  keys : Array[String]
+  records : Array[Record]
+}
 
 ///|
-struct Neo4jOptions {
+pub struct Neo4jOptions {
   mut db_name : String
 }
 
@@ -23,12 +26,6 @@ struct Neo4jOptions {
 pub fn with_db_name(db_name : String) -> Neo4jOption {
   fn(options) { options.db_name = db_name }
 }
-
-///|
-// pub(all) struct EagerResult {
-//   keys : Array[String]
-//   records : Array[Record]
-// }
 
 ///|
 pub(all) struct Record {
@@ -42,9 +39,9 @@ pub(all) enum RecordValue {
   Int64(Int64)
   Double(Double)
   String(String)
-  // TODO: Time(Time)
-  // TODO: Bytes(Bytes)
-  // TODO: AnyArray(Array[Any])
+  Time(String)
+  Bytes(Array[Int])
+  AnyArray(Array[Json])
   Map(Json)
   Node(Node)
   Relationship(Relationship)
@@ -67,12 +64,12 @@ pub(all) struct Node {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub fn get_element_id(self : Node) -> String {
+pub fn Node::get_element_id(self : Node) -> String {
   self.element_id
 }
 
 ///|
-pub fn get_properties(self : Node) -> Map[String, Json] {
+pub fn Node::get_properties(self : Node) -> Map[String, Json] {
   self.props
 }
 
@@ -86,12 +83,12 @@ pub(all) struct Relationship {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub fn get_element_id(self : Relationship) -> String {
+pub fn Relationship::get_element_id(self : Relationship) -> String {
   self.element_id
 }
 
 ///|
-pub fn get_properties(self : Relationship) -> Json {
+pub fn Relationship::get_properties(self : Relationship) -> Json {
   self.props
 }
 
@@ -107,9 +104,9 @@ pub(all) enum PropertyValue {
   Int64(Int64)
   Double(Double)
   String(String)
-  // TODO: Time(Time)
-  // TODO: Bytes(Bytes)
-  // TODO: AnyArray(Array[Any])
+  Time(String)
+  Bytes(Array[Int])
+  AnyArray(Array[Json])
   Point2D(Point2D)
   Point3D(Point3D)
 } derive(Show, Eq, FromJson, ToJson)
@@ -118,7 +115,7 @@ pub(all) enum PropertyValue {
 pub(all) struct Point2D {
   x : Double
   y : Double
-  spatial_ref_id : Int // TODO: UInt // Id of coordinate reference system.
+  spatial_ref_id : UInt // Id of coordinate reference system.
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Point3D represents a three dimensional point in a particular coordinate reference system.
@@ -126,16 +123,16 @@ pub(all) struct Point3D {
   x : Double
   y : Double
   z : Double
-  spatial_ref_id : Int // TODO: UInt // Id of coordinate reference system.
+  spatial_ref_id : UInt // Id of coordinate reference system.
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| String returns string representation of this point.
-pub fn to_string(self : Point2D) -> String {
+pub fn Point2D::to_string(self : Point2D) -> String {
   "Point{SpatialRefId=\{self.spatial_ref_id}, X=\{self.x}, Y=\{self.y}}"
 }
 
 ///| String returns string representation of this point.
-pub fn to_string(self : Point3D) -> String {
+pub fn Point3D::to_string(self : Point3D) -> String {
   "Point{SpatialRefId=\{self.spatial_ref_id}, X=\{self.x}, Y=\{self.y}, Z=\{self.z}}"
 }
 
@@ -143,7 +140,7 @@ pub fn to_string(self : Point3D) -> String {
 pub fn execute_query(
   host_name : String,
   query : String,
-  parameters : Json,
+  parameters_json : Map[String, Json],
   opts~ : Array[Neo4jOption] = []
 ) -> EagerResult!Error {
   let db_opts = { db_name: "neo4j" }
@@ -152,8 +149,7 @@ pub fn execute_query(
   }
 
   //
-  let parameters_json = @json.stringify(parameters)
-  let response = @host.execute_query(
+  let response = host_execute_query!(
     host_name,
     db_opts.db_name,
     query,
