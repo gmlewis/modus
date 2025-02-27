@@ -81,10 +81,22 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 				requiredTypes["Array[Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Json]", nil), nil, nil)
 				requiredTypes["Array[String]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[String]", nil), nil, nil)
 				requiredTypes["Json"] = types.NewNamed(types.NewTypeName(0, nil, "Json", nil), nil, nil)
-				requiredTypes["EagerResult"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult", nil), nil, nil)
-				requiredTypes["EagerResult?"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult?", nil), nil, nil)
-				requiredTypes["EagerResult?!Error"] = types.NewNamed(types.NewTypeName(0, nil, "EagerResult?!Error", nil), nil, nil)
-				requiredTypes["Map[String, Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Map[String, Json]", nil), nil, nil)
+
+				stringArray := types.NewNamed(types.NewTypeName(0, nil, "Array[String]", nil), nil, nil)
+				recordsArray := types.NewNamed(types.NewTypeName(0, nil, "Array[@neo4j.Record?]", nil), nil, nil)
+				resultFields := []*types.Var{types.NewVar(0, nil, "keys", stringArray), types.NewVar(0, nil, "records", recordsArray)}
+				resultStruct := types.NewStruct(resultFields, nil)
+				requiredTypes["@neo4j.EagerResult"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult", nil), resultStruct, nil)
+
+				recordFields := []*types.Var{types.NewVar(0, nil, "values", stringArray), types.NewVar(0, nil, "keys", stringArray)}
+				recordStruct := types.NewStruct(recordFields, nil)
+				requiredTypes["@neo4j.Record"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.Record", nil), recordStruct, nil)
+				requiredTypes["@neo4j.Record?"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.Record?", nil), nil, nil)
+				requiredTypes["Array[@neo4j.Record?]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[@neo4j.Record?]", nil), nil, nil)
+
+				requiredTypes["@neo4j.EagerResult?"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult?", nil), nil, nil)
+				requiredTypes["@neo4j.EagerResult?!Error"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult?!Error", nil), nil, nil)
+				// requiredTypes["Map[String, Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Map[String, Json]", nil), nil, nil)
 			}
 		}
 	}

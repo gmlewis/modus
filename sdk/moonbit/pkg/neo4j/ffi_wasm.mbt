@@ -15,15 +15,19 @@ pub fn host_execute_query(
   query : String,
   parameters_json : Map[String, Json]
 ) -> EagerResult?!Error {
+  let json_str = @json.stringify(parameters_json.to_json())
+  println(
+    "GML: neo4j/ffi_wasm.mbt: host_execute_query: host_name=\{host_name}, db_name=\{db_name}, query=\{query}, parameters_json=\{json_str}",
+  )
   let host_name_ptr = @ffi.str2ptr(host_name) - 8
   let db_name_ptr = @ffi.str2ptr(db_name) - 8
   let query_ptr = @ffi.str2ptr(query) - 8
-  let parameters_json_ptr : Int = cast(parameters_json)
+  let json_str_ptr = @ffi.str2ptr(json_str) - 8
   println(
-    "GML: neo4j/ffi_wasm.mbt: CALLING wasmImportExecuteQuery(host_name_ptr=\{host_name_ptr}, db_name_ptr=\{db_name_ptr}, query_ptr=\{query_ptr}, parameters_json_ptr=\{parameters_json_ptr})",
+    "GML: neo4j/ffi_wasm.mbt: CALLING wasmImportExecuteQuery(host_name_ptr=\{host_name_ptr}, db_name_ptr=\{db_name_ptr}, query_ptr=\{query_ptr}, json_str_ptr=\{json_str_ptr})",
   )
   let result = wasmImportExecuteQuery(
-    host_name_ptr, db_name_ptr, query_ptr, parameters_json_ptr,
+    host_name_ptr, db_name_ptr, query_ptr, json_str_ptr,
   )
   println(
     "GML: neo4j/ffi_wasm.mbt: wasmImportExecuteQuery returned result=\{result}",

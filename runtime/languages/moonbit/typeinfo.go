@@ -18,6 +18,7 @@ import (
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/neo4jclient"
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
@@ -865,6 +866,10 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 
 var rtMapStringAny = reflect.TypeFor[map[string]any]()
 var reflectedTypeMap = map[string]reflect.Type{
+	"@neo4j.EagerResult":   reflect.TypeFor[neo4jclient.EagerResult](),
+	"@neo4j.EagerResult?":  reflect.TypeFor[*neo4jclient.EagerResult](),
+	"@neo4j.Record":        reflect.TypeFor[neo4jclient.Record](),
+	"@neo4j.Record?":       reflect.TypeFor[*neo4jclient.Record](),
 	"@time.Duration?":      reflect.TypeFor[*time.Duration](),
 	"@time.Duration":       reflect.TypeFor[time.Duration](),
 	"@time.ZonedDateTime?": reflect.TypeFor[*time.Time](),

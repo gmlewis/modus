@@ -151,6 +151,10 @@ func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapt
 	}
 	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: res=%+v", res)
 
+	if len(res) != 1 {
+		return 0, cln, fmt.Errorf("PROGRAMMING ERROR: handler_pointers.go: writeData: expected 1 value, got %v: %+v", len(res), res)
+	}
+
 	return uint32(res[0]), cln, nil
 
 	// ptr, cln, err := wa.(*wasmAdapter).newWasmObject(ctx, h.typeDef.Id)

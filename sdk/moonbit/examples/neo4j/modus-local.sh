@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 # Load environment variables
-source .env.development.local
+source .env.dev.local
 
 # If no arguments are provided, set default to "dev"
 args=("${@:-"dev"}")
