@@ -108,6 +108,9 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdap
 	return nil, nil
 }
 
+// Unlike all the other handlers, the primitiveHandler[T].Decode method
+// should always be passed an actual value, not a pointer to a value except for
+// the four cases that don't fit in a single 64-bit value: Int64?, UInt64?, Float?, Double?.
 func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, vals []uint64) (any, error) {
 	wa, ok := wasmAdapter.(wasmMemoryReader)
 	if !ok {

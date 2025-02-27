@@ -193,6 +193,7 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 	return cln, nil
 }
 
+// Decode should always be passed an address to a Map[] in memory.
 func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	gmlPrintf("GML: handler_maps.go: DEBUG mapHandler.Decode(vals: %+v)", vals)
 

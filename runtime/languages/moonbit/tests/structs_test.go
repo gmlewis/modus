@@ -527,6 +527,40 @@ func TestStructOptionOutput4(t *testing.T) {
 
 func TestStructOptionOutput5(t *testing.T) {
 	fnName := "test_struct_option_output5"
+
+	// memoryBlockAtOffset(offset: 93344=0x00016CA0=[160 108 1 0], size: 40=8+words*4), classID=0(Tuple), words=8, memBlock=[2 0 0 0 0 8 0 0 48 56 0 0 200 59 0 0 104 161 0 0 128 108 1 0 124 242 176 80 107 154 191 63 238 148 14 214 255 255 88 64]
+	// GML: handler_structs.go: structHandler.Read(offset: 93344=0x00016CA0=[160 108 1 0])
+	// memoryBlockAtOffset(offset: 93344=0x00016CA0=[160 108 1 0], size: 40=8+words*4), classID=0(Tuple), words=8, memBlock=[2 0 0 0 0 8 0 0 48 56 0 0 200 59 0 0 104 161 0 0 128 108 1 0 124 242 176 80 107 154 191 63 238 148 14 214 255 255 88 64]
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'a', type: 'String', fieldOffset: 0, uint32 ptr: 14384=0x00003830=[48 56 0 0]
+	// GML: handler_strings.go: stringHandler.Decode(vals: [14384])
+	// memoryBlockAtOffset(offset: 14384=0x00003830=[48 56 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 97 0 98 0 99 0 0 1] = 'abc'
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'b', type: 'String', fieldOffset: 4, uint32 ptr: 15304=0x00003BC8=[200 59 0 0]
+	// GML: handler_strings.go: stringHandler.Decode(vals: [15304])
+	// memoryBlockAtOffset(offset: 15304=0x00003BC8=[200 59 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 100 0 101 0 102 0 0 1] = 'def'
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'c', type: 'String', fieldOffset: 8, uint32 ptr: 41320=0x0000A168=[104 161 0 0]
+	// GML: handler_strings.go: stringHandler.Decode(vals: [41320])
+	// memoryBlockAtOffset(offset: 41320=0x0000A168=[104 161 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 103 0 104 0 105 0 0 1] = 'ghi'
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'd', type: 'Array[String]', fieldOffset: 12, uint32 ptr: 93312=0x00016C80=[128 108 1 0]
+	// GML: handler_slices.go: sliceHandler.Decode(vals: [93312])
+	// memoryBlockAtOffset(offset: 93312=0x00016C80=[128 108 1 0], size: 16=8+words*4), classID=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 96 108 1 0 3 0 0 0]
+	// memoryBlockAtOffset(offset: 93280=0x00016C60=[96 108 1 0], size: 20=8+words*4), classID=242(FixedArray[String]), words=3, memBlock=[1 0 0 0 242 3 0 0 120 165 0 0 96 165 0 0 72 165 0 0]
+	// GML: handler_slices.go: sliceHandler.Decode: sliceOffset=93280=0x00016C60=[96 108 1 0], numElements=3, size=12
+	// memoryBlockAtOffset(offset: 93280=0x00016C60=[96 108 1 0], size: 20=8+words*4), classID=242(FixedArray[String]), words=3, memBlock=[1 0 0 0 242 3 0 0 120 165 0 0 96 165 0 0 72 165 0 0]
+	// GML: handler_strings.go: stringHandler.Read(offset: 42360=0x0000A578=[120 165 0 0])
+	// GML: handler_strings.go: stringHandler.Decode(vals: [42360])
+	// memoryBlockAtOffset(offset: 42360=0x0000A578=[120 165 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 106 0 107 0 108 0 0 1] = 'jkl'
+	// GML: handler_strings.go: stringHandler.Read(offset: 42336=0x0000A560=[96 165 0 0])
+	// GML: handler_strings.go: stringHandler.Decode(vals: [42336])
+	// memoryBlockAtOffset(offset: 42336=0x0000A560=[96 165 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 109 0 110 0 111 0 0 1] = 'mno'
+	// GML: handler_strings.go: stringHandler.Read(offset: 42312=0x0000A548=[72 165 0 0])
+	// GML: handler_strings.go: stringHandler.Decode(vals: [42312])
+	// memoryBlockAtOffset(offset: 42312=0x0000A548=[72 165 0 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[255 255 255 255 243 2 0 0 112 0 113 0 114 0 0 1] = 'pqr'
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'e', type: 'Double', fieldOffset: 16, uint64 ptr: 4593559930647147132
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [4593559930647147132])
+	// GML: handler_structs.go: structHandler.Read: field.Name: 'f', type: 'Double', fieldOffset: 24, uint64 ptr: 4636737290650948846
+	// GML: handler_primitives.go: primitiveHandler.Decode(vals: [4636737290650948846])
+	// GML: handler_structs.go: getStructOutput: rt.Kind()=struct
+	// GML: handler_pointers.go: pointerHandler.readData: data=moonbit_test.TestStruct5{A:"abc", B:"def", C:"ghi", D:[]string{"jkl", "mno", "pqr"}, E:0.12345, F:99.99999}
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

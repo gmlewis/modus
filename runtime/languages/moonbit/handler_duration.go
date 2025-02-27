@@ -54,6 +54,7 @@ func (h *durationHandler) Write(ctx context.Context, wa langsupport.WasmAdapter,
 	return nil, nil
 }
 
+// Decode should always be passed an address to a @time.Duration in memory.
 func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	gmlPrintf("GML: handler_duration.go: durationHandler.Decode(vals: %+v)", vals)
 
