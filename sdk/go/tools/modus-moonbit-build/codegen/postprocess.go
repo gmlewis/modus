@@ -281,8 +281,13 @@ pub extern "wasm" fn ptr2str(ptr : Int) -> String =
 fn cast[A, B](a : A) -> B = "%identity"
 
 pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
-  let key_type_name = ptr2str(key_type_name_ptr)
-  let value_type_name = ptr2str(value_type_name_ptr)
+  println(
+    "GML: write_map(key_type_name_ptr=\{key_type_name_ptr}, value_type_name_ptr=\{value_type_name_ptr}, keys_ptr=\{keys_ptr}, values_ptr=\{values_ptr})",
+  )
+  let key_type_name = ptr2str(key_type_name_ptr + 8)
+  println("GML: write_map_helper_3: got key_type_name=\{key_type_name}")
+  let value_type_name = ptr2str(value_type_name_ptr + 8)
+  println("GML: write_map_helper_3: got value_type_name=\{value_type_name}")
   match (key_type_name, value_type_name) {
 `)
 
@@ -363,13 +368,21 @@ func genWriteMapPatternsAndHelpers(meta *metadata.Metadata) (string, string) {
 
 func genWriteMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string {
 	return fmt.Sprintf(`fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
-    let keys : Array[%[2]v] = cast(keys_ptr)
-    let values : Array[%[3]v] = cast(values_ptr)
-    let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
-    for i in 0..<keys.length() {
-      m[keys[i]] = values[i]
-    }
-    cast(m)
+  println(
+    "GML: write_map_helper_%[1]v(keys_ptr=\{keys_ptr}, values_ptr=\{values_ptr})",
+  )
+  let keys : Array[%[2]v] = cast(keys_ptr)
+  println("GML: write_map_helper_%[1]v: got keys=\{keys}")
+  let values : Array[%[3]v] = cast(values_ptr)
+  println("GML: write_map_helper_%[1]v: got values=\{values}")
+  let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
+  for i in 0..<keys.length() {
+    m[keys[i]] = values[i]
+  }
+  println("GML: write_map_helper_%[1]v: m=\{m}")
+  let debug_ptr : Int = cast(m)  // remove
+  println("GML: write_map_helper_%[1]v: cast(m)=\{debug_ptr}")
+  cast(m)
 }
 `, fnNum, keyTypeName, valueTypeName)
 }

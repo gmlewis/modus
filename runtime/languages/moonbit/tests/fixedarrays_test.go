@@ -272,33 +272,33 @@ func TestFixedArrayInput2_struct_option(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayInput2_map(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_map"
-// 	arr := getMapFixedArray2()
+func TestFixedArrayInput2_map(t *testing.T) {
+	fnName := "test_fixedarray_input2_map"
+	arr := getMapFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestFixedArrayInput2_map_option(t *testing.T) {
-// 	fnName := "test_fixedarray_input2_map_option"
-// 	arr := getMapOptionFixedArray2()
+func TestFixedArrayInput2_map_option(t *testing.T) {
+	fnName := "test_fixedarray_input2_map_option"
+	arr := getMapOptionFixedArray2()
 
-// 	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
-// 		t.Error("failed conversion to interface slice")
-// 	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+	if arr, ok := utils.ConvertToSliceOf[any](arr); !ok {
+		t.Error("failed conversion to interface slice")
+	} else if _, err := fixture.CallFunction(t, fnName, arr); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestFixedArrayInput2_int_option(t *testing.T) {
 	fnName := "test_fixedarray_input2_int_option"
