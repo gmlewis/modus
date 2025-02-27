@@ -12,6 +12,7 @@ package moonbit
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -103,41 +104,52 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 }
 
 func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	var mapObj map[string]any
-	var rvObj reflect.Value
-	if m, ok := obj.(map[string]any); ok {
-		mapObj = m
-	} else {
-		rvObj = reflect.ValueOf(obj)
-		if rvObj.Kind() != reflect.Struct {
-			return nil, fmt.Errorf("expected a struct, got %s", rvObj.Kind())
-		}
+	ptr, cln, err := h.Encode(ctx, wa, obj)
+	if err != nil {
+		return cln, err
 	}
 
-	numFields := len(h.typeDef.Fields)
-	fieldOffsets := h.typeInfo.ObjectFieldOffsets()
-	cleaner := utils.NewCleanerN(numFields)
-
-	for i, field := range h.typeDef.Fields {
-		var fieldObj any
-		if mapObj != nil {
-			// case sensitive when reading from map
-			fieldObj = mapObj[field.Name]
-		} else {
-			// case insensitive when reading from struct
-			fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, field.Name) }).Interface()
-		}
-
-		fieldOffset := offset + fieldOffsets[i]
-		handler := h.fieldHandlers[i]
-		cln, err := handler.Write(ctx, wa, fieldOffset, fieldObj)
-		cleaner.AddCleaner(cln)
-		if err != nil {
-			return cleaner, err
-		}
+	if ok := wa.Memory().WriteUint32Le(offset, uint32(ptr[0])); !ok {
+		return cln, errors.New("failed to write struct pointer to memory")
 	}
 
-	return cleaner, nil
+	return cln, nil
+
+	// var mapObj map[string]any
+	// var rvObj reflect.Value
+	// if m, ok := obj.(map[string]any); ok {
+	// 	mapObj = m
+	// } else {
+	// 	rvObj = reflect.ValueOf(obj)
+	// 	if rvObj.Kind() != reflect.Struct {
+	// 		return nil, fmt.Errorf("expected a struct, got %s", rvObj.Kind())
+	// 	}
+	// }
+	//
+	// numFields := len(h.typeDef.Fields)
+	// fieldOffsets := h.typeInfo.ObjectFieldOffsets()
+	// cleaner := utils.NewCleanerN(numFields)
+	//
+	// for i, field := range h.typeDef.Fields {
+	// 	var fieldObj any
+	// 	if mapObj != nil {
+	// 		// case sensitive when reading from map
+	// 		fieldObj = mapObj[field.Name]
+	// 	} else {
+	// 		// case insensitive when reading from struct
+	// 		fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, field.Name) }).Interface()
+	// 	}
+	//
+	// 	fieldOffset := offset + fieldOffsets[i]
+	// 	handler := h.fieldHandlers[i]
+	// 	cln, err := handler.Write(ctx, wa, fieldOffset, fieldObj)
+	// 	cleaner.AddCleaner(cln)
+	// 	if err != nil {
+	// 		return cleaner, err
+	// 	}
+	// }
+	//
+	// return cleaner, nil
 }
 
 func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
@@ -215,8 +227,18 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	numFields := len(h.typeDef.Fields)
-	results := make([]uint64, 0, numFields*2)
+	// results := make([]uint64, 0, numFields*2)
 	cleaner := utils.NewCleanerN(numFields)
+
+	fieldOffsets := h.typeInfo.ObjectFieldOffsets()
+	totalSize := h.typeInfo.Size()
+	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v, fieldOffsets=%+v", totalSize, fieldOffsets)
+
+	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, totalSize, TupleBlockType)
+	if err != nil {
+		return nil, cln, err
+	}
+	cleaner.AddCleaner(cln)
 
 	for i, field := range h.typeDef.Fields {
 		var fieldObj any
@@ -228,16 +250,23 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 			fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, field.Name) }).Interface()
 		}
 
+		if utils.HasNil(fieldObj) {
+			continue
+		}
+
 		handler := h.fieldHandlers[i]
-		vals, cln, err := handler.Encode(ctx, wa, fieldObj)
+		fieldOffset := offset + fieldOffsets[i]
+		cln, err := handler.Write(ctx, wa, fieldOffset, fieldObj)
 		cleaner.AddCleaner(cln)
 		if err != nil {
 			return nil, cleaner, err
 		}
-		results = append(results, vals...)
+
+		// results = append(results, vals...)
 	}
 
-	return results, cleaner, nil
+	// return results, cleaner, nil
+	return []uint64{uint64(offset - 8)}, cleaner, nil
 }
 
 func (h *structHandler) getStructOutput(data map[string]any) (any, error) {

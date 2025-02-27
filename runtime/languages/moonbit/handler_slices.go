@@ -61,6 +61,12 @@ func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, off
 		return h.emptyValue, nil
 	}
 
+	// First attempt to read slice directly, but if it fails, then treat the offset as a pointer to the slice
+	// and try again.
+	if v, err := h.Decode(ctx, wa, []uint64{uint64(offset)}); err == nil {
+		return v, nil
+	}
+
 	// Read pointer to slice
 	ptr, ok := wa.Memory().ReadUint32Le(offset)
 	if !ok {
@@ -318,8 +324,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	// elementSize (below) is the native size of the MoonBit value.
 	elementSize := h.elementHandler.TypeInfo().Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
 	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
-		elementSize = 8 // TODO: Fix this.
-	} else if elementSize > 4 { // Another bug?!?  Array[Array[String]] = 12?!?
+		elementSize = 8
+	} else if elementSize > 4 {
+		// Note that the element size itself may be larger than 4, but we are writing a pointer to it, so make it 4.
 		elementSize = 4
 	}
 

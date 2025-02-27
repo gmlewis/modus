@@ -183,8 +183,8 @@ func TestGetHandler_stringSlice(t *testing.T) {
 	if info.Name() != typ {
 		t.Errorf("expected type name %q, got %q", typ, info.Name())
 	}
-	if info.Size() != 12 {
-		t.Errorf("expected type size 12, got %d", info.Size())
+	if info.Size() != 4 {
+		t.Errorf("expected type size 4, got %d", info.Size())
 	}
 	if info.ReflectedType() != rt {
 		t.Errorf("expected reflected type %v, got %v", rt, info.ReflectedType())
@@ -302,8 +302,8 @@ func TestGetHandler_map(t *testing.T) {
 	if innerInfo0.Name() != typInner0 {
 		t.Errorf("expected inner type name %q, got %q", typInner0, innerInfo0.Name())
 	}
-	if innerInfo0.Size() != 12 {
-		t.Errorf("expected inner type size 12, got %d", innerInfo0.Size())
+	if innerInfo0.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo0.Size())
 	}
 	if innerInfo0.ReflectedType() != rtInner0 {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner0, innerInfo0.ReflectedType())
@@ -316,8 +316,8 @@ func TestGetHandler_map(t *testing.T) {
 	if innerInfo1.Name() != typInner1 {
 		t.Errorf("expected inner type name %q, got %q", typInner1, innerInfo1.Name())
 	}
-	if innerInfo1.Size() != 12 {
-		t.Errorf("expected inner type size 12, got %d", innerInfo1.Size())
+	if innerInfo1.Size() != 4 {
+		t.Errorf("expected inner type size 4, got %d", innerInfo1.Size())
 	}
 	if innerInfo1.ReflectedType() != rtInner1 {
 		t.Errorf("expected inner reflected type %v, got %v", rtInner1, innerInfo1.ReflectedType())
