@@ -126,7 +126,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// elemType.Name() != "Char?" && elemType.Name() != "Int16?" &&
 		// elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" &&
 		// elemType.Name() != "Float?" && elemType.Name() != "Double?" {
-		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") {
+		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") { // TODO: "String?" is not a "primitive" type, probably can be removed.
 		elemTypeSize = 8
 	}
 	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType { // && isNullable && elemType.IsPrimitive()
@@ -198,8 +198,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			}
 			continue
 		}
-		itemOffset := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
-		item, err := h.elementHandler.Read(ctx, wasmAdapter, itemOffset)
+		ptr := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
+		// item, err := h.elementHandler.Read(ctx, wasmAdapter, itemOffset)
+		item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
 		if err != nil {
 			return nil, err
 		}
