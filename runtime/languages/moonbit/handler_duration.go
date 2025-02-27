@@ -74,8 +74,8 @@ func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter
 		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding duration but got %v: %+v", len(memBlock), memBlock)
 	}
 
-	second := time.Duration(binary.LittleEndian.Uint32(memBlock[16:]))
-	nanosecond := time.Duration(binary.LittleEndian.Uint32(memBlock[20:]))
+	second := time.Duration(binary.LittleEndian.Uint64(memBlock[8:]))
+	nanosecond := time.Duration(binary.LittleEndian.Uint32(memBlock[16:]))
 	return time.Duration(second*time.Second + nanosecond), nil
 }
 
@@ -85,12 +85,17 @@ func (h *durationHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter
 		return []uint64{0}, nil, nil
 	}
 
-	nanos, ok := obj.(int64)
-	if !ok {
-		gmlPrintf("GML: handler_duration.go: durationHandler.Encode(obj: %+v): unexpected type obj=%T", obj, obj)
-		return []uint64{0}, nil, nil
+	var d time.Duration
+	switch t := obj.(type) {
+	case time.Duration:
+		d = t
+	case *time.Duration:
+		d = *t
+	default:
+		return nil, nil, fmt.Errorf("MoonBit: expected time.Duration but got %T: %+[1]v", obj)
 	}
 
+	nanos := d.Nanoseconds()
 	gmlPrintf("GML: handler_duration.go: durationHandler.Encode(obj: %v): nanos=%v", obj, nanos)
 	res, err := wa.(*wasmAdapter).fnDurationFromNanos.Call(ctx, uint64(nanos))
 	if err != nil {

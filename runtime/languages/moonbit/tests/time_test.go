@@ -16,10 +16,11 @@ import (
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
-var testTimeStr = "2024-12-31T23:59:59.999999999Z"
-var testTime, _ = time.Parse(time.RFC3339, testTimeStr)
-
-// var testDuration = time.Duration(5 * time.Second)
+var (
+	testTimeStr  = "2024-12-31T23:59:59.999999999Z"
+	testTime, _  = time.Parse(time.RFC3339, testTimeStr)
+	testDuration = time.Duration(5 * time.Second)
+)
 
 func TestTimeInput(t *testing.T) {
 	fnName := "test_time_input"
@@ -147,32 +148,32 @@ func TestTimeOptionOutput_none(t *testing.T) {
 	}
 }
 
-// func TestDurationInput(t *testing.T) {
-// 	fnName := "test_duration_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestDurationInput(t *testing.T) {
+	fnName := "test_duration_input"
+	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestDurationOptionInput(t *testing.T) {
-// 	fnName := "test_duration_option_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestDurationOptionInput(t *testing.T) {
+	fnName := "test_duration_option_input"
+	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestDurationOptionInputStyle2(t *testing.T) {
-// 	fnName := "test_duration_option_input_style2"
-// 	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// 	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestDurationOptionInputStyle2(t *testing.T) {
+	fnName := "test_duration_option_input_style2"
+	if _, err := fixture.CallFunction(t, fnName, testDuration); err != nil {
+		t.Error(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &testDuration); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestDurationOptionInput_none(t *testing.T) {
 	fnName := "test_duration_option_input_none"
@@ -188,39 +189,39 @@ func TestDurationOptionInput_none_style2(t *testing.T) {
 	}
 }
 
-// TODO: FAILS
-// func TestDurationOutput(t *testing.T) {
-// 	fnName := "test_duration_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestDurationOutput(t *testing.T) {
+	fnName := "test_duration_output"
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(time.Duration); !ok {
-// 		t.Errorf("expected a time.Duration, got %T", result)
-// 	} else if r != testDuration {
-// 		t.Errorf("expected %v, got %v", true, r)
-// 	}
-// }
+	// memoryBlockAtOffset(offset: 92048=0x00016790=[144 103 1 0], size: 20=8+words*4), classID=0(Tuple), words=3, memBlock=[2 0 0 0 0 3 0 0 5 0 0 0 0 0 0 0 0 0 0 0]
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// TODO: FAILS
-// func TestDurationOptionOutput(t *testing.T) {
-// 	fnName := "test_duration_option_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(time.Duration); !ok {
+		t.Errorf("expected a time.Duration, got %T", result)
+	} else if r != testDuration {
+		t.Errorf("expected %v, got %v", true, r)
+	}
+}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*time.Duration); !ok {
-// 		t.Errorf("expected a *time.Duration, got %T", result)
-// 	} else if *r != testDuration {
-// 		t.Errorf("expected %v, got %v", true, *r)
-// 	}
-// }
+func TestDurationOptionOutput(t *testing.T) {
+	fnName := "test_duration_option_output"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*time.Duration); !ok {
+		t.Errorf("expected a *time.Duration, got %T", result)
+	} else if *r != testDuration {
+		t.Errorf("expected %v, got %v", true, *r)
+	}
+}
 
 func TestDurationOptionOutput_none(t *testing.T) {
 	fnName := "test_duration_option_output_none"
