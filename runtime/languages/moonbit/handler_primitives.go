@@ -81,7 +81,7 @@ type primitiveHandler[T primitive] struct {
 }
 
 func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	gmlPrintf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, offset)
+	gmlPrintf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, debugShowOffset(offset))
 
 	val, ok := h.converter.Read(wa.Memory(), offset)
 	if !ok {

@@ -54,7 +54,22 @@ type sliceHandler struct {
 
 func (h *sliceHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
 	gmlPrintf("GML: handler_slices.go: sliceHandler.Read(offset: %v), type=%T", debugShowOffset(offset), h.emptyValue)
-	return h.Decode(ctx, wa, []uint64{uint64(offset)})
+	if offset == 0 {
+		if h.typeInfo.IsPointer() {
+			return nil, nil
+		}
+		return h.emptyValue, nil
+	}
+
+	// Read pointer to slice
+	ptr, ok := wa.Memory().ReadUint32Le(offset)
+	if !ok {
+		gmlPrintf("GML: sliceHandler.Read: failed to read pointer to slice at offset %v", debugShowOffset(offset))
+	} else {
+		gmlPrintf("GML: sliceHandler.Read: ptr: %v", debugShowOffset(ptr))
+	}
+
+	return h.Decode(ctx, wa, []uint64{uint64(ptr)})
 }
 
 func (h *sliceHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {

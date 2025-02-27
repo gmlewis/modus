@@ -76,7 +76,6 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		}
 	}()
 
-	// For debugging purposes only:
 	_, _, _, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
 		return nil, fmt.Errorf("structHandler failed to read memory block at offset %v: %w", debugShowOffset(offset), err)
@@ -87,7 +86,12 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	m := make(map[string]any, len(h.fieldHandlers))
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
+		// fieldOffset := fieldOffsets[i]
+		// ptr := binary.LittleEndian.Uint32(memBlock[8+fieldOffset:])
+		// gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', fieldOffset: %v, ptr: %v", field.Name, fieldOffset, debugShowOffset(ptr))
+		// val, err := handler.Decode(ctx, wa, []uint64{uint64(ptr)})
 		fieldOffset := offset + 8 + fieldOffsets[i]
+		gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', fieldOffset: %v", field.Name, debugShowOffset(fieldOffset))
 		val, err := handler.Read(ctx, wa, fieldOffset)
 		if err != nil {
 			return nil, err

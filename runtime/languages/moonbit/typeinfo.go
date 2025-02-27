@@ -503,6 +503,7 @@ func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint3
 			maxAlign = alignment
 		}
 		offset = langsupport.AlignOffset(offset, alignment)
+		gmlPrintf("GML: typeinfo.go: getSizeOfStruct: name='%v.%v', size=%v, alignment=%v, offset=%v", def.Name, field.Name, size, alignment, offset)
 		offset += size
 	}
 
@@ -706,9 +707,8 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 	}
 
 	if lti.IsSliceType(typ) {
-		// slice header is a 4 byte pointer, 4 byte length, 4 byte capacity
-		gmlPrintf("GML: moonbit/typeinfo.go: H: GetSizeOfType('%v') = 12", typ)
-		return 12, nil
+		gmlPrintf("GML: moonbit/typeinfo.go: H: GetSizeOfType('%v') = 4", typ)
+		return 4, nil
 	}
 
 	if lti.IsTimestampType(typ) {
