@@ -96,30 +96,30 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	m := make(map[string]any, len(h.fieldHandlers))
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
-		// fieldOffset := fieldOffsets[i]
+		fieldName := strings.TrimPrefix(field.Name, "mut ")
 		var ptr uint64
 		switch handler.TypeInfo().Size() {
 		case 4:
 			ptr = uint64(binary.LittleEndian.Uint32(memBlock[8+fieldOffset:]))
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', type: '%v', fieldOffset: %v, uint32 ptr: %v", field.Name, handler.TypeInfo().Name(), fieldOffset, debugShowOffset(uint32(ptr)))
+			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint32 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, debugShowOffset(uint32(ptr)))
 		case 8:
 			ptr = binary.LittleEndian.Uint64(memBlock[8+fieldOffset:])
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', type: '%v', fieldOffset: %v, uint64 ptr: %v", field.Name, handler.TypeInfo().Name(), fieldOffset, ptr)
+			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint64 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, ptr)
 		default:
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', type: '%v', fieldOffset: %v", field.Name, handler.TypeInfo().Name(), fieldOffset)
+			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v", fieldName, handler.TypeInfo().Name(), fieldOffset)
 			return nil, fmt.Errorf("unsupported size for type '%v': %v", handler.TypeInfo().Name(), handler.TypeInfo().Size())
 		}
 
 		if ptr == uint64(offset) {
-			recursionOnFields[field.Name] = i
-			m[field.Name] = nil
-			log.Printf("GML: recursion detected on field '%v'", field.Name)
+			recursionOnFields[fieldName] = i
+			m[fieldName] = nil
+			log.Printf("GML: recursion detected on field '%v'", fieldName)
 		} else {
 			val, err := handler.Decode(ctx, wa, []uint64{ptr})
 			if err != nil {
 				return nil, err
 			}
-			m[field.Name] = val
+			m[fieldName] = val
 		}
 
 		fieldOffset += handler.TypeInfo().Size()
@@ -314,6 +314,9 @@ func (h *structHandler) getStructOutput(data map[string]any, recursionOnFields m
 
 	rt := h.typeInfo.ReflectedType()
 	if rt.Kind() == reflect.Map {
+		for name := range recursionOnFields {
+			data[name] = data
+		}
 		return data, nil
 	}
 

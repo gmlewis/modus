@@ -101,53 +101,61 @@ func TestRecursiveStructOutput(t *testing.T) {
 	}
 }
 
-// func TestRecursiveStructOptionOutput(t *testing.T) {
-// 	fnName := "test_recursive_struct_option_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
+func TestRecursiveStructOptionOutput(t *testing.T) {
+	fnName := "test_recursive_struct_option_output"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(*TestRecursiveStruct); !ok {
-// 		t.Errorf("expected a pointer to a struct, got %T", result)
-// 	} else if !reflect.DeepEqual(testRecursiveStruct, *r) {
-// 		t.Errorf("expected %v, got %v", testRecursiveStruct, *r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*TestRecursiveStruct); !ok {
+		t.Errorf("expected a pointer to a struct, got %T", result)
+	} else if !reflect.DeepEqual(testRecursiveStruct, *r) {
+		t.Errorf("expected %v, got %v", testRecursiveStruct, *r)
+	}
+}
 
-// func TestRecursiveStructOutput_map(t *testing.T) {
-// 	fnName := "test_recursive_struct_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
+func TestRecursiveStructOutput_map(t *testing.T) {
+	fnName := "test_recursive_struct_output_map"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(map[string]any); !ok {
-// 		t.Errorf("expected a map[string]any, got %T", result)
-// 	} else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
-// 		t.Errorf("expected %v, got %v", testRecursiveStructAsMap, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(map[string]any); !ok {
+		t.Errorf("expected a map[string]any, got %T", result)
+		// reflect.DeepEqual does not work here with two self-referencing maps.
+		// } else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
+	} else if r["a"] != true {
+		t.Errorf("expected r.a=true, got %v", r["a"])
+	} else if r["b"] == nil {
+		t.Errorf("expected r.b!=nil, got %v", r["b"])
+	}
+}
 
-// func TestRecursiveStructOptionOutput_map(t *testing.T) {
-// 	fnName := "test_recursive_struct_option_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
+func TestRecursiveStructOptionOutput_map(t *testing.T) {
+	fnName := "test_recursive_struct_option_output_map"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(map[string]any); !ok {
-// 		t.Errorf("expected a map[string]any, got %T", result)
-// 	} else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
-// 		t.Errorf("expected %v, got %v", testRecursiveStructAsMap, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(*map[string]any); !ok {
+		t.Errorf("expected a map[string]any, got %T", result)
+		// reflect.DeepEqual does not work here with two self-referencing maps.
+		// } else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
+	} else if (*r)["a"] != true {
+		t.Errorf("expected r.a=true, got %v", (*r)["a"])
+	} else if (*r)["b"] == nil {
+		t.Errorf("expected r.b!=nil, got %v", (*r)["b"])
+	}
+}
 
 func TestRecursiveStructOptionOutput_none(t *testing.T) {
 	fnName := "test_recursive_struct_option_output_none"

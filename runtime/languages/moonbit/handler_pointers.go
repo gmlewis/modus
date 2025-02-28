@@ -133,8 +133,6 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 		return nil, nil
 	}
 
-	gmlPrintf("GML: handler_pointers.go: pointerHandler.readData: data=%#v", data)
-
 	ptr := utils.MakePointer(data)
 	return ptr, nil
 }
