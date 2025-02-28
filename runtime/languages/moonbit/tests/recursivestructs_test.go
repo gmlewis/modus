@@ -10,6 +10,7 @@
 package moonbit_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/utils"
@@ -20,25 +21,25 @@ type TestRecursiveStruct struct {
 	B *TestRecursiveStruct
 }
 
-// var testRecursiveStruct = func() TestRecursiveStruct {
-// 	r := TestRecursiveStruct{
-// 		A: true,
-// 	}
-// 	r.B = &r
-// 	return r
-// }()
+var testRecursiveStruct = func() TestRecursiveStruct {
+	r := TestRecursiveStruct{
+		A: true,
+	}
+	r.B = &r
+	return r
+}()
 
-// var testRecursiveStructAsMap = func() map[string]any {
-// 	r1 := map[string]any{
-// 		"a": true,
-// 	}
-// 	r2 := map[string]any{
-// 		"a": false,
-// 	}
-// 	r1["b"] = r2
-// 	r2["b"] = r1
-// 	return r1
-// }()
+var testRecursiveStructAsMap = func() map[string]any {
+	r1 := map[string]any{
+		"a": true,
+	}
+	r2 := map[string]any{
+		"a": false,
+	}
+	r1["b"] = r2
+	r2["b"] = r1
+	return r1
+}()
 
 // TODO:
 // func TestRecursiveStructInput(t *testing.T) {
@@ -84,21 +85,21 @@ func TestRecursiveStructOptionInput_none(t *testing.T) {
 	}
 }
 
-// func TestRecursiveStructOutput(t *testing.T) {
-// 	fnName := "test_recursive_struct_output"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
+func TestRecursiveStructOutput(t *testing.T) {
+	fnName := "test_recursive_struct_output"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.(TestRecursiveStruct); !ok {
-// 		t.Errorf("expected a struct, got %T", result)
-// 	} else if !reflect.DeepEqual(testRecursiveStruct, r) {
-// 		t.Errorf("expected %v, got %v", testRecursiveStruct, r)
-// 	}
-// }
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.(TestRecursiveStruct); !ok {
+		t.Errorf("expected a struct, got %T", result)
+	} else if !reflect.DeepEqual(testRecursiveStruct, r) {
+		t.Errorf("expected %v, got %v", testRecursiveStruct, r)
+	}
+}
 
 // func TestRecursiveStructOptionOutput(t *testing.T) {
 // 	fnName := "test_recursive_struct_option_output"

@@ -128,6 +128,11 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	if err != nil {
 		return nil, err
 	}
+
+	if utils.HasNil(data) {
+		return nil, nil
+	}
+
 	gmlPrintf("GML: handler_pointers.go: pointerHandler.readData: data=%#v", data)
 
 	ptr := utils.MakePointer(data)

@@ -12,7 +12,9 @@ package langsupport
 import (
 	"context"
 	"errors"
+	"log"
 	"reflect"
+	"strings"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -50,6 +52,10 @@ type TypeInfo interface {
 }
 
 func GetTypeInfo(ctx context.Context, lti LanguageTypeInfo, typeName string, typeCache map[string]TypeInfo) (TypeInfo, error) {
+	if strings.HasPrefix(typeName, "TestRecursiveStruct") {
+		log.Printf("GML: SET BREAKPOINT HERE")
+	}
+
 	if t, ok := typeCache[typeName]; ok {
 		return t, nil
 	}

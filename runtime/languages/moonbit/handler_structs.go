@@ -82,12 +82,21 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		return nil, fmt.Errorf("structHandler failed to read memory block at offset %v: %w", debugShowOffset(offset), err)
 	}
 
-	fieldOffsets := h.typeInfo.ObjectFieldOffsets()
+	// TODO: fieldOffsets are unreliable because in the MoonBit metadata, the option
+	// types do not have the full underlying struct info. When a Go map is traversed
+	// to get the struct info, the option type may be processed before the underlying
+	// type which causes zeros to be returned for size and alignment.
+	// To fix this, the type cache would need to be always created by processing
+	// the underlying types first.
+	// fieldOffsets := h.typeInfo.ObjectFieldOffsets()
 
+	recursionOnFields := map[string]int{}
+
+	var fieldOffset uint32
 	m := make(map[string]any, len(h.fieldHandlers))
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
-		fieldOffset := fieldOffsets[i]
+		// fieldOffset := fieldOffsets[i]
 		var ptr uint64
 		switch handler.TypeInfo().Size() {
 		case 4:
@@ -100,14 +109,28 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 			gmlPrintf("GML: handler_structs.go: structHandler.Read: field.Name: '%v', type: '%v', fieldOffset: %v", field.Name, handler.TypeInfo().Name(), fieldOffset)
 			return nil, fmt.Errorf("unsupported size for type '%v': %v", handler.TypeInfo().Name(), handler.TypeInfo().Size())
 		}
-		val, err := handler.Decode(ctx, wa, []uint64{ptr})
-		if err != nil {
-			return nil, err
+
+		if ptr == uint64(offset) {
+			recursionOnFields[field.Name] = i
+			m[field.Name] = nil
+			log.Printf("GML: recursion detected on field '%v'", field.Name)
+		} else {
+			val, err := handler.Decode(ctx, wa, []uint64{ptr})
+			if err != nil {
+				return nil, err
+			}
+			m[field.Name] = val
 		}
-		m[field.Name] = val
+
+		fieldOffset += handler.TypeInfo().Size()
 	}
 
-	return h.getStructOutput(m)
+	result, err := h.getStructOutput(m, recursionOnFields)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -160,50 +183,53 @@ func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 }
 
 func (h *structHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	gmlPrintf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
+	return h.Read(ctx, wa, uint32(vals[0]))
 
-	if len(vals) != 1 {
-		return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
-	}
+	// gmlPrintf("GML: handler_structs.go: structHandler.Decode(vals: %+v)", vals)
 
-	memBlockPtr := uint32(vals[0])
-	memBlock, classID, _, err := memoryBlockAtOffset(wa, memBlockPtr, 0, true)
-	if err != nil {
-		return nil, err
-	}
+	// if len(vals) != 1 {
+	// 	return nil, fmt.Errorf("expected 1 value when decoding a primitive slice but got %v: %+v", len(vals), vals)
+	// }
 
-	if classID != TupleBlockType {
-		return nil, fmt.Errorf("expected a tuple block but got classID %v", classID)
-	}
+	// memBlockPtr := uint32(vals[0])
+	// memBlock, classID, _, err := memoryBlockAtOffset(wa, memBlockPtr, 0, true)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	numFields := len(h.typeDef.Fields)
-	m := make(map[string]any, numFields)
+	// if classID != TupleBlockType {
+	// 	return nil, fmt.Errorf("expected a tuple block but got classID %v", classID)
+	// }
 
-	memBlockOffset := uint32(8)
-	for i, field := range h.typeDef.Fields {
-		handler := h.fieldHandlers[i]
-		// Is this a hack? It seems that MoonBit encodes primitives _directly_ into the struct without
-		// pointing to them. So we need to read the data directly from the memBlock.
-		if handler.TypeInfo().IsPrimitive() {
-			val, err := handler.Read(ctx, wa, memBlockPtr+memBlockOffset)
-			if err != nil {
-				return nil, err
-			}
-			m[field.Name] = val
-		} else {
-			// fieldOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
-			fieldOffset := binary.LittleEndian.Uint32(memBlock[memBlockOffset:])
-			fieldObj, err := handler.Decode(ctx, wa, []uint64{uint64(fieldOffset)})
-			if err != nil {
-				return nil, err
-			}
-			m[field.Name] = fieldObj
-		}
-		memBlockOffset += handler.TypeInfo().Alignment() // TODO: Is this correct, or should it be Size() or DataSize() or EncodingLength()?
-		gmlPrintf("GML: handler_structs.go: structHandler.Decode: field.Name: '%v', Alignment: %v, DataSize: %v, EncodingLength: %v, Size: %v", field.Name, handler.TypeInfo().Alignment(), handler.TypeInfo().DataSize(), handler.TypeInfo().EncodingLength(), handler.TypeInfo().Size())
-	}
+	// numFields := len(h.typeDef.Fields)
+	// m := make(map[string]any, numFields)
 
-	return h.getStructOutput(m)
+	// memBlockOffset := uint32(8)
+	// for i, field := range h.typeDef.Fields {
+	// 	handler := h.fieldHandlers[i]
+	// 	// Is this a hack? It seems that MoonBit encodes primitives _directly_ into the struct without
+	// 	// pointing to them. So we need to read the data directly from the memBlock.
+	// 	if handler.TypeInfo().IsPrimitive() {
+	// 		val, err := handler.Read(ctx, wa, memBlockPtr+memBlockOffset)
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		m[field.Name] = val
+	// 	} else {
+	// 		// fieldOffset := binary.LittleEndian.Uint32(memBlock[8+i*4:])
+	// 		fieldOffset := binary.LittleEndian.Uint32(memBlock[memBlockOffset:])
+	// 		fieldObj, err := handler.Decode(ctx, wa, []uint64{uint64(fieldOffset)})
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		m[field.Name] = fieldObj
+	// 	}
+	// 	// memBlockOffset += handler.TypeInfo().Alignment() // TODO: Is this correct, or should it be Size() or DataSize() or EncodingLength()?
+	// 	memBlockOffset += handler.TypeInfo().Size()
+	// 	gmlPrintf("GML: handler_structs.go: structHandler.Decode: field.Name: '%v', Alignment: %v, DataSize: %v, EncodingLength: %v, Size: %v", field.Name, handler.TypeInfo().Alignment(), handler.TypeInfo().DataSize(), handler.TypeInfo().EncodingLength(), handler.TypeInfo().Size())
+	// }
+
+	// return h.getStructOutput(m)
 
 	// switch len(h.fieldHandlers) {
 	// case 0:
@@ -276,7 +302,7 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	return []uint64{uint64(offset - 8)}, cleaner, nil
 }
 
-func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
+func (h *structHandler) getStructOutput(data map[string]any, recursionOnFields map[string]int) (any, error) {
 	if strings.HasPrefix(h.typeInfo.Name(), "(") {
 		// Handle tuple output
 		result := make([]any, 0, len(data))
@@ -287,7 +313,6 @@ func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
 	}
 
 	rt := h.typeInfo.ReflectedType()
-	log.Printf("GML: handler_structs.go: getStructOutput: rt.Kind()=%v", rt.Kind())
 	if rt.Kind() == reflect.Map {
 		return data, nil
 	}
@@ -296,5 +321,13 @@ func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
 	if err := utils.MapToStruct(data, rv.Interface()); err != nil {
 		return nil, err
 	}
+
+	for _, index := range recursionOnFields {
+		fieldObj := rv.Elem().FieldByIndex([]int{index})
+		// Set this field to the pointer to the struct itself.
+		ptrValue := rv.Elem()
+		fieldObj.Set(ptrValue.Addr())
+	}
+
 	return rv.Elem().Interface(), nil
 }

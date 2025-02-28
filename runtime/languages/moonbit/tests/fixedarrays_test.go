@@ -495,22 +495,22 @@ func TestFixedArrayOutput2_map(t *testing.T) {
 	}
 }
 
-// func TestFixedArrayOutput2_map_option(t *testing.T) {
-// 	fnName := "test_fixedarray_output2_map_option"
-// 	result, err := fixture.CallFunction(t, fnName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+func TestFixedArrayOutput2_map_option(t *testing.T) {
+	fnName := "test_fixedarray_output2_map_option"
+	result, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	expected := getMapOptionFixedArray2()
-// 	if result == nil {
-// 		t.Error("expected a result")
-// 	} else if r, ok := result.([]*map[string]string); !ok {
-// 		t.Errorf("expected a []*map[string]string, got %T", result)
-// 	} else if !reflect.DeepEqual(expected, r) {
-// 		t.Errorf("expected %v, got %v", expected, r)
-// 	}
-// }
+	expected := getMapOptionFixedArray2()
+	if result == nil {
+		t.Error("expected a result")
+	} else if r, ok := result.([]*map[string]string); !ok {
+		t.Errorf("expected a []*map[string]string, got %T", result)
+	} else if !reflect.DeepEqual(expected, r) {
+		t.Errorf("expected %v, got %v", expected, r)
+	}
+}
 
 func TestOptionFixedArrayInput1_int(t *testing.T) {
 	fnName := "test_option_fixedarray_input1_int"

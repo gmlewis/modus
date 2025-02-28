@@ -489,7 +489,7 @@ func (lti *langTypeInfo) getSizeOfStruct(ctx context.Context, typ string) (uint3
 	}
 
 	offset := uint32(0)
-	maxAlign := uint32(1)
+	maxAlign := uint32(0)
 	for _, field := range def.Fields {
 		size, err := lti.GetSizeOfType(ctx, field.Type)
 		if err != nil {
@@ -565,7 +565,7 @@ func (lti *langTypeInfo) getAlignmentOfStruct(ctx context.Context, typ string) (
 		return 0, err
 	}
 
-	max := uint32(1)
+	max := uint32(4)
 	for _, field := range def.Fields {
 		align, err := lti.GetAlignmentOfType(ctx, field.Type)
 		if err != nil {

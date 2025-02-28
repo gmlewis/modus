@@ -160,7 +160,7 @@ let test_struct5_map : TestStruct5_map = TestStruct5_map::{
 ///|
 let test_recursive_struct : TestRecursiveStruct = TestRecursiveStruct::{
   a: true,
-  b: None, // initialized by the init() to point to itself.
+  b: None, // initialized by the init() function to point to itself.
 }
 
 ///|
@@ -171,7 +171,7 @@ fn init {
 ///|
 let test_recursive_struct_map : TestRecursiveStruct_map = TestRecursiveStruct_map::{
   a: true,
-  b: None, // initialized by the init() to point to itself.
+  b: None, // initialized by the init() function to point to itself.
 }
 
 ///|
