@@ -21,11 +21,11 @@ type TestRecursiveStruct struct {
 	B *TestRecursiveStruct
 }
 
-var testRecursiveStruct = func() TestRecursiveStruct {
-	r := TestRecursiveStruct{
+var testRecursiveStruct = func() *TestRecursiveStruct {
+	r := &TestRecursiveStruct{
 		A: true,
 	}
-	r.B = &r
+	r.B = r // Point B to itself
 	return r
 }()
 
@@ -41,13 +41,12 @@ var testRecursiveStructAsMap = func() map[string]any {
 	return r1
 }()
 
-// TODO:
-// func TestRecursiveStructInput(t *testing.T) {
-// 	fnName := "test_recursive_struct_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestRecursiveStructInput(t *testing.T) {
+	fnName := "test_recursive_struct_input"
+	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
+		t.Error(err)
+	}
+}
 
 // func TestRecursiveStructOptionInput(t *testing.T) {
 // 	fnName := "test_recursive_struct_option_input"

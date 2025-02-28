@@ -138,17 +138,19 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 }
 
 func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: obj=%T=%+v", obj, obj)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: obj=%p=%[1]T=%+[1]v", obj)
 
 	if utils.HasNil(obj) {
 		// nil pointer
 		return 0, nil, nil
 	}
 
-	data := utils.DereferencePointer(obj)
-	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+v", data, data)
+	if !h.TypeInfo().IsPointer() {
+		obj = utils.DereferencePointer(obj)
+		gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+[1]v", obj)
+	}
 
-	res, cln, err := h.elementHandler.Encode(ctx, wa, data)
+	res, cln, err := h.elementHandler.Encode(ctx, wa, obj)
 	if err != nil {
 		return 0, cln, err
 	}

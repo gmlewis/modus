@@ -210,8 +210,15 @@ pub fn test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
 }
 
 ///|
-pub fn test_recursive_struct_input(o : TestRecursiveStruct) -> Unit!Error {
-  assert_eq!(test_recursive_struct, o)
+fn cast_struct_to_ptr[A](a : A) -> Int = "%identity"
+
+///|
+pub fn test_recursive_struct_input(o : TestRecursiveStruct?) -> Unit!Error {
+  guard let Some(s) = o else { _ => fail("Expected Some, got None") }
+  assert_eq!(s.a, true)
+  let o_ptr = cast_struct_to_ptr(o)
+  let sb_ptr = cast_struct_to_ptr(s.b)
+  assert_eq!(o_ptr, sb_ptr)
 }
 
 ///|

@@ -254,18 +254,22 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 		mapObj = m
 	} else {
 		rvObj = reflect.ValueOf(obj)
+		if rvObj.Kind() == reflect.Ptr {
+			// Dereference the pointer but leave `obj` pointing to the original object to
+			// detect and handle self-referencing fields.
+			structObj := utils.DereferencePointer(obj)
+			rvObj = reflect.ValueOf(structObj)
+		}
 		if rvObj.Kind() != reflect.Struct {
 			return nil, nil, fmt.Errorf("expected a struct, got %s", rvObj.Kind())
 		}
 	}
 
 	numFields := len(h.typeDef.Fields)
-	// results := make([]uint64, 0, numFields*2)
 	cleaner := utils.NewCleanerN(numFields)
 
-	fieldOffsets := h.typeInfo.ObjectFieldOffsets()
 	totalSize := h.typeInfo.Size()
-	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v, fieldOffsets=%+v", totalSize, fieldOffsets)
+	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v", totalSize)
 
 	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, totalSize, TupleBlockType)
 	if err != nil {
@@ -273,14 +277,16 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 	cleaner.AddCleaner(cln)
 
+	var fieldOffset uint32
 	for i, field := range h.typeDef.Fields {
 		var fieldObj any
+		fieldName := strings.TrimPrefix(field.Name, "mut ")
 		if mapObj != nil {
 			// case sensitive when reading from map
-			fieldObj = mapObj[field.Name]
+			fieldObj = mapObj[fieldName]
 		} else {
 			// case insensitive when reading from struct
-			fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, field.Name) }).Interface()
+			fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, fieldName) }).Interface()
 		}
 
 		if utils.HasNil(fieldObj) {
@@ -288,17 +294,28 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 		}
 
 		handler := h.fieldHandlers[i]
-		fieldOffset := offset + fieldOffsets[i]
-		cln, err := handler.Write(ctx, wa, fieldOffset, fieldObj)
-		cleaner.AddCleaner(cln)
-		if err != nil {
-			return nil, cleaner, err
+		log.Printf("GML: reflect.TypOf(fieldObj).Kind()=%v", reflect.TypeOf(fieldObj).Kind())
+		if reflect.TypeOf(fieldObj).Kind() == reflect.Ptr {
+			log.Printf("GML: obj=%p", obj)
+			log.Printf("GML: &obj=%p", &obj)
+			log.Printf("GML: fieldObj=%p", fieldObj)
+			log.Printf("GML: &fieldObj=%p", &fieldObj)
+			log.Printf("GML: reflect.ValueOf(fieldObj).Pointer()=%v, reflect.ValueOf(obj).Pointer()=%v", reflect.ValueOf(fieldObj).Pointer(), reflect.ValueOf(obj).Pointer())
+		}
+		if reflect.TypeOf(fieldObj).Kind() == reflect.Ptr && reflect.ValueOf(fieldObj).Pointer() == reflect.ValueOf(obj).Pointer() {
+			// This is a self-referencing field. We need to write the pointer to the struct itself.
+			wa.Memory().WriteUint32Le(offset+fieldOffset, offset-8)
+		} else {
+			cln, err := handler.Write(ctx, wa, offset+fieldOffset, fieldObj)
+			cleaner.AddCleaner(cln)
+			if err != nil {
+				return nil, cleaner, err
+			}
 		}
 
-		// results = append(results, vals...)
+		fieldOffset += handler.TypeInfo().Size()
 	}
 
-	// return results, cleaner, nil
 	return []uint64{uint64(offset - 8)}, cleaner, nil
 }
 
