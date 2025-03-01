@@ -160,23 +160,37 @@ let test_struct5_map : TestStruct5_map = TestStruct5_map::{
 ///|
 let test_recursive_struct : TestRecursiveStruct = TestRecursiveStruct::{
   a: true,
-  b: None, // initialized by the init() function to point to itself.
+  b: None, // initialized by the init function to point to test_recursive_struct_r2
+}
+
+///|
+let test_recursive_struct_r2 : TestRecursiveStruct = TestRecursiveStruct::{
+  a: false,
+  b: None, // initialized by the init function to point to test_recursive_struct
 }
 
 ///|
 fn init {
-  test_recursive_struct.b = Some(test_recursive_struct)
+  test_recursive_struct.b = Some(test_recursive_struct_r2)
+  test_recursive_struct_r2.b = Some(test_recursive_struct)
 }
 
 ///|
 let test_recursive_struct_map : TestRecursiveStruct_map = TestRecursiveStruct_map::{
   a: true,
-  b: None, // initialized by the init() function to point to itself.
+  b: None, // initialized by the init() function to point to test_recursive_struct_map_r2
+}
+
+///|
+let test_recursive_struct_map_r2 : TestRecursiveStruct_map = TestRecursiveStruct_map::{
+  a: false,
+  b: None, // initialized by the init() function to point to test_recursive_struct_map
 }
 
 ///|
 fn init {
-  test_recursive_struct_map.b = Some(test_recursive_struct_map)
+  test_recursive_struct_map.b = Some(test_recursive_struct_map_r2)
+  test_recursive_struct_map_r2.b = Some(test_recursive_struct_map)
 }
 
 ///|
@@ -213,12 +227,18 @@ pub fn test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
 fn cast_struct_to_ptr[A](a : A) -> Int = "%identity"
 
 ///|
-pub fn test_recursive_struct_input(o : TestRecursiveStruct?) -> Unit!Error {
-  guard let Some(s) = o else { _ => fail("Expected Some, got None") }
-  assert_eq!(s.a, true)
-  let o_ptr = cast_struct_to_ptr(o)
-  let sb_ptr = cast_struct_to_ptr(s.b)
-  assert_eq!(o_ptr, sb_ptr)
+pub fn test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Error {
+  let r1_ptr = cast_struct_to_ptr(r1)
+  println("test_recursive_struct_input: r1_ptr=\{r1_ptr}, r1.a=\{r1.a}")
+  assert_true!(r1.a)
+  guard let Some(r2) = r1.b else { _ => fail("Expected Some, got None") }
+  let r2_ptr = cast_struct_to_ptr(r2)
+  println("test_recursive_struct_input: r2_ptr=\{r2_ptr}, r2.a=\{r2.a}")
+  assert_false!(r2.a)
+  guard let Some(r3) = r2.b else { _ => fail("Expected Some, got None") }
+  let r3_ptr = cast_struct_to_ptr(r3)
+  println("test_recursive_struct_input: r3_ptr=\{r3_ptr}, r3.a=\{r3.a}")
+  assert_eq!(r1_ptr, r3_ptr)
 }
 
 ///|
@@ -255,7 +275,14 @@ pub fn test_struct_option_input4_with_none(o : TestStruct4?) -> Unit!Error {
 pub fn test_recursive_struct_option_input(
   o : TestRecursiveStruct?
 ) -> Unit!Error {
-  assert_eq!(Some(test_recursive_struct), o)
+  guard let Some(r1) = o else { _ => fail("Expected Some, got None") }
+  assert_true!(r1.a)
+  guard let Some(r2) = r1.b else { _ => fail("Expected Some, got None") }
+  assert_false!(r2.a)
+  guard let Some(r3) = r2.b else { _ => fail("Expected Some, got None") }
+  let r1_ptr = cast_struct_to_ptr(r1)
+  let r3_ptr = cast_struct_to_ptr(r3)
+  assert_eq!(r1_ptr, r3_ptr)
 }
 
 ///|
@@ -352,6 +379,26 @@ pub fn test_struct_output4_map_with_none() -> TestStruct4_map {
 
 ///|
 pub fn test_recursive_struct_output() -> TestRecursiveStruct {
+  let r1 = test_recursive_struct
+  println("test_recursive_struct_output: r1.a=\{r1.a}")
+  match r1.b {
+    Some(r2) => {
+      println("test_recursive_struct_output: r2.a=\{r2.a}")
+      match r2.b {
+        Some(r3) => {
+          println("test_recursive_struct_output: r3.a=\{r3.a}")
+          let r1_ptr = cast_struct_to_ptr(r1)
+          let r2_ptr = cast_struct_to_ptr(r2)
+          let r3_ptr = cast_struct_to_ptr(r3)
+          println("test_recursive_struct_output: r1_ptr=\{r1_ptr}")
+          println("test_recursive_struct_output: r2_ptr=\{r2_ptr}")
+          println("test_recursive_struct_output: r3_ptr=\{r3_ptr}")
+        }
+        _ => fail("Expected Some, got None")
+      }
+    }
+    _ => ()
+  }
   test_recursive_struct
 }
 

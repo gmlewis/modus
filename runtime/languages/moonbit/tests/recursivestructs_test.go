@@ -10,7 +10,6 @@
 package moonbit_test
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/utils"
@@ -22,13 +21,21 @@ type TestRecursiveStruct struct {
 }
 
 var testRecursiveStruct = func() *TestRecursiveStruct {
-	r := &TestRecursiveStruct{
+	r1 := &TestRecursiveStruct{
 		A: true,
 	}
-	r.B = r // Point B to itself
-	return r
+	r2 := &TestRecursiveStruct{
+		A: false,
+	}
+	r1.B = r2
+	r2.B = r1
+	return r1
 }()
 
+// Note that testRecursiveStruct and testRecursiveStructAsMap must
+// both represents two nodes that point to each other for the MoonBit
+// tests to pass. The first struct must have A=true and the second must
+// have A=false.
 var testRecursiveStructAsMap = func() map[string]any {
 	r1 := map[string]any{
 		"a": true,
@@ -48,34 +55,34 @@ func TestRecursiveStructInput(t *testing.T) {
 	}
 }
 
-// func TestRecursiveStructOptionInput(t *testing.T) {
-// 	fnName := "test_recursive_struct_option_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
-// 		t.Error(err)
-// 	}
-// 	fnName = "test_recursive_struct_option_input"
-// 	if _, err := fixture.CallFunction(t, fnName, &testRecursiveStruct); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestRecursiveStructOptionInput(t *testing.T) {
+	fnName := "test_recursive_struct_option_input"
+	if _, err := fixture.CallFunction(t, fnName, testRecursiveStruct); err != nil {
+		t.Error(err)
+	}
+}
 
-// func TestRecursiveStructInput_map(t *testing.T) {
-// 	fnName := "test_recursive_struct_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func TestRecursiveStructInput_map(t *testing.T) {
+	fnName := "test_recursive_struct_input"
 
-// func TestRecursiveStructOptionInput_map(t *testing.T) {
-// 	fnName := "test_recursive_struct_input"
-// 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
-// 		t.Error(err)
-// 	}
-// 	fnName = "test_recursive_struct_input"
-// 	if _, err := fixture.CallFunction(t, fnName, &testRecursiveStructAsMap); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap    =%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap).Pointer())
+	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap.b  =%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap["b"]).Pointer())
+	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap.b.b=%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap["b"].(map[string]any)["b"]).Pointer())
+
+	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestRecursiveStructOptionInput_map(t *testing.T) {
+	fnName := "test_recursive_struct_input"
+	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := fixture.CallFunction(t, fnName, &testRecursiveStructAsMap); err != nil {
+		t.Fatal(err)
+	}
+}
 
 func TestRecursiveStructOptionInput_none(t *testing.T) {
 	fnName := "test_recursive_struct_option_input_none"
@@ -88,15 +95,31 @@ func TestRecursiveStructOutput(t *testing.T) {
 	fnName := "test_recursive_struct_output"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
-
 	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(TestRecursiveStruct); !ok {
-		t.Errorf("expected a struct, got %T", result)
-	} else if !reflect.DeepEqual(testRecursiveStruct, r) {
-		t.Errorf("expected %v, got %v", testRecursiveStruct, r)
+		t.Fatal("expected a result")
+	}
+	r1, ok := result.(TestRecursiveStruct)
+	if !ok {
+		t.Fatalf("expected a struct, got %T", result)
+	}
+	r2 := r1.B
+	if r2 == nil {
+		t.Fatalf("expected a struct, got %T", r2)
+	}
+	r3 := r2.B
+	if r3 == nil {
+		t.Fatalf("expected a struct, got %T", r2)
+	}
+	if !r1.A {
+		t.Errorf("expected r1.A=true, got %v", r1.A)
+	}
+	if r2.A {
+		t.Errorf("expected r2.A=false, got %v", r2.A)
+	}
+	if !r3.A {
+		t.Errorf("expected r3.A=true, got %v", r3.A)
 	}
 }
 
@@ -108,11 +131,28 @@ func TestRecursiveStructOptionOutput(t *testing.T) {
 	}
 
 	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(*TestRecursiveStruct); !ok {
-		t.Errorf("expected a pointer to a struct, got %T", result)
-	} else if !reflect.DeepEqual(testRecursiveStruct, *r) {
-		t.Errorf("expected %v, got %v", testRecursiveStruct, *r)
+		t.Fatal("expected a result")
+	}
+	r1, ok := result.(*TestRecursiveStruct)
+	if !ok {
+		t.Fatalf("expected a pointer to a struct, got %T", result)
+	}
+	r2 := r1.B
+	if r2 == nil {
+		t.Fatalf("expected a struct, got %T", r2)
+	}
+	r3 := r2.B
+	if r3 == nil {
+		t.Fatalf("expected a struct, got %T", r2)
+	}
+	if !r1.A {
+		t.Errorf("expected r1.A=true, got %v", r1.A)
+	}
+	if r2.A {
+		t.Errorf("expected r2.A=false, got %v", r2.A)
+	}
+	if !r3.A {
+		t.Errorf("expected r3.A=true, got %v", r3.A)
 	}
 }
 
@@ -124,15 +164,31 @@ func TestRecursiveStructOutput_map(t *testing.T) {
 	}
 
 	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(map[string]any); !ok {
-		t.Errorf("expected a map[string]any, got %T", result)
+		t.Fatal("expected a result")
+	}
+	r1, ok := result.(map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", result)
 		// reflect.DeepEqual does not work here with two self-referencing maps.
 		// } else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
-	} else if r["a"] != true {
-		t.Errorf("expected r.a=true, got %v", r["a"])
-	} else if r["b"] == nil {
-		t.Errorf("expected r.b!=nil, got %v", r["b"])
+	}
+	if r1["a"] != true {
+		t.Errorf("expected r1.a=true, got %v", r1["a"])
+	}
+	r2p, ok := r1["b"].(*map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", r1["b"])
+	}
+	r2 := *r2p
+	if r2["a"] != false {
+		t.Errorf("expected r2.a=true, got %v", r2["a"])
+	}
+	r3, ok := r2["b"].(map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", r2["b"])
+	}
+	if r3["a"] != true {
+		t.Errorf("expected r3.a=true, got %v", r3["a"])
 	}
 }
 
@@ -144,15 +200,30 @@ func TestRecursiveStructOptionOutput_map(t *testing.T) {
 	}
 
 	if result == nil {
-		t.Error("expected a result")
-	} else if r, ok := result.(*map[string]any); !ok {
-		t.Errorf("expected a map[string]any, got %T", result)
-		// reflect.DeepEqual does not work here with two self-referencing maps.
-		// } else if !reflect.DeepEqual(testRecursiveStructAsMap, r) {
-	} else if (*r)["a"] != true {
-		t.Errorf("expected r.a=true, got %v", (*r)["a"])
-	} else if (*r)["b"] == nil {
-		t.Errorf("expected r.b!=nil, got %v", (*r)["b"])
+		t.Fatal("expected a result")
+	}
+	r1p, ok := result.(*map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", result)
+	}
+	r1 := *r1p
+	if r1["a"] != true {
+		t.Errorf("expected r1.a=true, got %v", r1["a"])
+	}
+	r2p, ok := r1["b"].(*map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", r1["b"])
+	}
+	r2 := *r2p
+	if r2["a"] != false {
+		t.Errorf("expected r2.a=true, got %v", r2["a"])
+	}
+	r3, ok := r2["b"].(map[string]any)
+	if !ok {
+		t.Fatalf("expected a map[string]any, got %T", r2["b"])
+	}
+	if r3["a"] != true {
+		t.Errorf("expected r3.a=true, got %v", r3["a"])
 	}
 }
 

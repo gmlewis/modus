@@ -237,16 +237,16 @@ func TestStructOptionInput3(t *testing.T) {
 func TestStructOptionInput4(t *testing.T) {
 	fnName := "test_struct_option_input4"
 	if _, err := fixture.CallFunction(t, fnName, testStruct4); err != nil {
-		t.Error(err)
+		t.Error("test_struct_option_input4(testStruct4): %w", err)
 	}
 	if _, err := fixture.CallFunction(t, fnName, &testStruct4); err != nil {
-		t.Error(err)
+		t.Error("test_struct_option_input4(&testStruct4): %w", err)
 	}
 	if _, err := fixture.CallFunction(t, fnName, testStruct4AsMap); err != nil {
-		t.Error(err)
+		t.Error("test_struct_option_input4(testStruct4AsMap): %w", err)
 	}
 	if _, err := fixture.CallFunction(t, fnName, &testStruct4AsMap); err != nil {
-		t.Error(err)
+		t.Error("test_struct_option_input4(&testStruct4AsMap): %w", err)
 	}
 }
 

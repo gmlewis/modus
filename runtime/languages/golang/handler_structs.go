@@ -57,7 +57,6 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
 	if visitedPtrs[offset] >= maxDepth {

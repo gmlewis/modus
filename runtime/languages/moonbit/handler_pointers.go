@@ -13,6 +13,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"reflect"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -133,31 +134,44 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 		return nil, nil
 	}
 
+	kind := reflect.ValueOf(data).Kind()
+	// The following line broke lots of tests, although I think it is the right thing to do:
+	// TODO: Investigate and maybe change the tests so we don't see things like `*map` and `*[]`.
+	// if kind == reflect.Ptr || kind == reflect.Map || kind == reflect.Slice {
+	if kind == reflect.Ptr {
+		// data is already a reference type
+		return data, nil
+	}
+
 	ptr := utils.MakePointer(data)
 	return ptr, nil
 }
 
 func (h *pointerHandler) writeData(ctx context.Context, wa langsupport.WasmAdapter, obj any) (uint32, utils.Cleaner, error) {
-	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: obj=%p=%[1]T=%+[1]v", obj)
+	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: obj=%p=%[1]T", obj)
 
 	if utils.HasNil(obj) {
 		// nil pointer
 		return 0, nil, nil
 	}
 
-	if !h.TypeInfo().IsPointer() {
+	rv := reflect.ValueOf(obj)
+	gmlPrintf("GML: rv.Kind()=%v", rv.Kind())
+	if rv.Kind() == reflect.Ptr {
+		gmlPrintf("GML: rv.Kind()=%v, rv.Elem().Kind()=%v", rv.Kind(), rv.Elem().Kind())
+	}
+	if rv.Kind() != reflect.Ptr || rv.Elem().Kind() != reflect.Struct {
 		obj = utils.DereferencePointer(obj)
-		gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: data=%T=%+[1]v", obj)
+		gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: data=%T", obj)
 	}
 
 	res, cln, err := h.elementHandler.Encode(ctx, wa, obj)
 	if err != nil {
 		return 0, cln, err
 	}
-	gmlPrintf("GML: handler_pointers.go: pointerHandler.writeData: res=%+v", res)
 
 	if len(res) != 1 {
-		return 0, cln, fmt.Errorf("PROGRAMMING ERROR: handler_pointers.go: writeData: expected 1 value, got %v: %+v", len(res), res)
+		return 0, cln, fmt.Errorf("PROGRAMMING ERROR: handler_pointers.go: writeData: expected 1 value, got %v", len(res))
 	}
 
 	return uint32(res[0]), cln, nil
