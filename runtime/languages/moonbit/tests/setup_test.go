@@ -17,6 +17,7 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/gmlewis/modus/runtime/httpclient"
 	"github.com/gmlewis/modus/runtime/testutils"
 )
 
@@ -39,6 +40,9 @@ func TestMain(m *testing.M) {
 	customTypes["TestStruct5"] = reflect.TypeFor[TestStruct5]()
 	customTypes["TestStructWithMap"] = reflect.TypeFor[TestStructWithMap1]()
 	customTypes["TestRecursiveStruct"] = reflect.TypeFor[TestRecursiveStruct]()
+	customTypes["HttpResponse"] = reflect.TypeFor[httpclient.HttpResponse]()
+	customTypes["HttpHeaders"] = reflect.TypeFor[httpclient.HttpHeaders]()
+	customTypes["HttpHeader"] = reflect.TypeFor[httpclient.HttpHeader]()
 
 	registrations := getTestHostFunctionRegistrations()
 	fixture = testutils.NewWasmTestFixture(path, customTypes, registrations)

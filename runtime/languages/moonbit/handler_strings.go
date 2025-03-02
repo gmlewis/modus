@@ -118,7 +118,12 @@ func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, 
 	return s, nil
 }
 
-func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+func (h *stringHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return nil, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
+
 	gmlPrintf("GML: handler_strings.go: stringHandler.Encode(obj: '%v')", obj)
 
 	if obj == nil {
@@ -131,11 +136,7 @@ func (h *stringHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	}
 
 	bytes := convertGoUTF8ToUTF16(str)
-	wasmWriter, ok := wa.(*wasmAdapter)
-	if !ok {
-		return nil, nil, fmt.Errorf("expected *wasmAdapter, got %T", wa)
-	}
-	offset, cln, err := h.doWriteStringBytes(ctx, wasmWriter, bytes)
+	offset, cln, err := h.doWriteStringBytes(ctx, wa, bytes)
 	if err != nil {
 		return nil, cln, err
 	}

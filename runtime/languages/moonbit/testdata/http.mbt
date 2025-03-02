@@ -8,7 +8,7 @@
 ///|
 pub struct HttpResponse {
   status : UInt16
-  status_text : String
+  statusText : String
   headers : HttpHeaders?
   body : Array[Byte]
 } derive(Show, Eq)
@@ -26,9 +26,27 @@ pub struct HttpHeader {
 
 ///|
 pub fn test_http_response_headers(r : HttpResponse?) -> Unit {
+  println("test_http_response_headers")
   guard let Some(r) = r else { _ => fail("Response is None") }
+  println("Status: \{r.status}")
+  println("StatusText: \{r.statusText}")
   guard let Some(h) = r.headers else { _ => fail("Headers is None") }
   dump_header_map(h.data)
+  println("Body: \{r.body}")
+}
+
+///|
+pub fn test_http_response_headers_output() -> HttpResponse? {
+  Some({
+    status: 200,
+    statusText: "OK",
+    headers: Some({
+      data: {
+        "content-type": Some({ name: "Content-Type", values: ["text/plain"] }),
+      },
+    }),
+    body: b"Hello, world!".to_array(),
+  })
 }
 
 ///|

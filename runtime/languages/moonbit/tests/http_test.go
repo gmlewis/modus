@@ -9,66 +9,90 @@
 
 package moonbit_test
 
-// TODO:
+import (
+	"testing"
+
+	"github.com/gmlewis/modus/runtime/httpclient"
+	"github.com/google/go-cmp/cmp"
+)
+
 // func TestHttpResponseHeaders(t *testing.T) {
 // 	fnName := "test_http_response_headers"
-// 	r := &httpclient.HttpResponse{
-// 		Status:     200,
-// 		StatusText: "OK",
-// 		Headers: &httpclient.HttpHeaders{
-// 			Data: map[string]*httpclient.HttpHeader{
-// 				"content-type": {
-// 					Name:   "Content-Type",
-// 					Values: []string{"text/plain"},
-// 				},
-// 			},
-// 		},
-// 		Body: []byte("Hello, world!"),
-// 	}
+// 	r := getTestHttpResponse()
 
 // 	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
 // 		t.Error(err)
 // 	}
 // }
 
-// func TestHttpHeaders(t *testing.T) {
-// 	fnName := "test_http_headers"
-// 	h := &httpclient.HttpHeaders{
-// 		Data: map[string]*httpclient.HttpHeader{
-// 			"content-type": {
-// 				Name:   "Content-Type",
-// 				Values: []string{"text/plain"},
-// 			},
-// 		},
-// 	}
+func TestHttpResponseHeadersOutput(t *testing.T) {
+	fnName := "test_http_response_headers_output"
 
-// 	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	got, err := fixture.CallFunction(t, fnName)
+	if err != nil {
+		t.Error(err)
+	}
 
-// func TestHttpHeaderMap(t *testing.T) {
-// 	fnName := "test_http_header_map"
-// 	m := map[string]*httpclient.HttpHeader{
-// 		"content-type": {
-// 			Name:   "Content-Type",
-// 			Values: []string{"text/plain"},
-// 		},
-// 	}
+	want := getTestHttpResponse()
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("%v: unexpected response (-want +got):\n%v", fnName, diff)
+	}
+}
 
-// 	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+func getTestHttpResponse() *httpclient.HttpResponse {
+	return &httpclient.HttpResponse{
+		Status:     200,
+		StatusText: "OK",
+		Headers: &httpclient.HttpHeaders{
+			Data: map[string]*httpclient.HttpHeader{
+				"content-type": {
+					Name:   "Content-Type",
+					Values: []string{"text/plain"},
+				},
+			},
+		},
+		Body: []byte("Hello, world!"),
+	}
+}
 
-// func TestHttpHeader(t *testing.T) {
-// 	fnName := "test_http_header"
-// 	h := httpclient.HttpHeader{
-// 		Name:   "Content-Type",
-// 		Values: []string{"text/plain"},
-// 	}
+func TestHttpHeaders(t *testing.T) {
+	fnName := "test_http_headers"
+	h := &httpclient.HttpHeaders{
+		Data: map[string]*httpclient.HttpHeader{
+			"content-type": {
+				Name:   "Content-Type",
+				Values: []string{"text/plain"},
+			},
+		},
+	}
 
-// 	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestHttpHeaderMap(t *testing.T) {
+	fnName := "test_http_header_map"
+	m := map[string]*httpclient.HttpHeader{
+		"content-type": {
+			Name:   "Content-Type",
+			Values: []string{"text/plain"},
+		},
+	}
+
+	if _, err := fixture.CallFunction(t, fnName, m); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestHttpHeader(t *testing.T) {
+	fnName := "test_http_header"
+	h := httpclient.HttpHeader{
+		Name:   "Content-Type",
+		Values: []string{"text/plain"},
+	}
+
+	if _, err := fixture.CallFunction(t, fnName, h); err != nil {
+		t.Error(err)
+	}
+}

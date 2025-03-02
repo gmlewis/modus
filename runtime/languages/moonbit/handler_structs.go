@@ -20,11 +20,10 @@ import (
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
-	"github.com/gmlewis/modus/runtime/logger"
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
-const maxDepth = 5 // TODO: make this based on the depth requested in the query
+// const maxDepth = 5 // TODO: make this based on the depth requested in the query
 
 func (p *planner) NewStructHandler(ctx context.Context, ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &structHandler{
@@ -89,21 +88,21 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		delete(h.seenOffsets, offset)
 	}()
 
-	// Check for recursion
-	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
-	if visitedPtrs[offset] >= maxDepth {
-		logger.Warn(ctx).Bool("user_visible", true).Msgf("Excessive recursion detected in %s. Stopping at depth %d.", h.typeInfo.Name(), maxDepth)
-		return nil, nil
-	}
-	visitedPtrs[offset]++
-	defer func() {
-		n := visitedPtrs[offset]
-		if n == 1 {
-			delete(visitedPtrs, offset)
-		} else {
-			visitedPtrs[offset] = n - 1
-		}
-	}()
+	// // Check for recursion
+	// visitedPtrs := wa.(*wasmAdapter).visitedPtrs
+	// if visitedPtrs[offset] >= maxDepth {
+	// 	logger.Warn(ctx).Bool("user_visible", true).Msgf("Excessive recursion detected in %s. Stopping at depth %d.", h.typeInfo.Name(), maxDepth)
+	// 	return nil, nil
+	// }
+	// visitedPtrs[offset]++
+	// defer func() {
+	// 	n := visitedPtrs[offset]
+	// 	if n == 1 {
+	// 		delete(visitedPtrs, offset)
+	// 	} else {
+	// 		visitedPtrs[offset] = n - 1
+	// 	}
+	// }()
 
 	memBlock, _, _, err := memoryBlockAtOffset(wa, offset, 0, true)
 	if err != nil {
@@ -126,15 +125,17 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		fieldName := strings.TrimPrefix(field.Name, "mut ")
 		var ptr uint64
 		switch handler.TypeInfo().Size() {
-		case 4:
-			ptr = uint64(binary.LittleEndian.Uint32(memBlock[8+fieldOffset:]))
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint32 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, debugShowOffset(uint32(ptr)))
 		case 8:
 			ptr = binary.LittleEndian.Uint64(memBlock[8+fieldOffset:])
 			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint64 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, ptr)
 		default:
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v", fieldName, handler.TypeInfo().Name(), fieldOffset)
-			return nil, fmt.Errorf("unsupported size for type '%v': %v", handler.TypeInfo().Name(), handler.TypeInfo().Size())
+			// gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v", fieldName, handler.TypeInfo().Name(), fieldOffset)
+			// return nil, fmt.Errorf("unsupported size for type '%v': %v", handler.TypeInfo().Name(), handler.TypeInfo().Size())
+			// case 4:
+			// Go primitive types (e.g. "uint16", "int16") return a size of 2, but all MoonBit sizes in structs
+			// are either 4 or 8, so make the default be case 4.
+			ptr = uint64(binary.LittleEndian.Uint32(memBlock[8+fieldOffset:]))
+			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint32 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, debugShowOffset(uint32(ptr)))
 		}
 
 		v, ok := h.seenOffsets[uint32(ptr)]
@@ -153,7 +154,15 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 			m[fieldName] = val
 		}
 
-		fieldOffset += handler.TypeInfo().Size()
+		switch handler.TypeInfo().Size() {
+		case 8:
+			fieldOffset += 8
+		default:
+			// case 4:
+			// Go primitive types (e.g. "uint16", "int16") return a size of 2, but all MoonBit sizes in structs
+			// are either 4 or 8, so make the default be case 4.
+			fieldOffset += 4
+		}
 	}
 
 	// Handle tuple output
@@ -197,7 +206,12 @@ func (h *structHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 	return cln, nil
 }
 
-func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return nil, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
+
 	var mapObj map[string]any
 	var rvObj reflect.Value
 	var thisObjPtr uintptr // populated for maps or pointers to structs
@@ -234,7 +248,7 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 	totalSize := h.typeInfo.Size()
 	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v", totalSize)
 
-	offset, cln, err := wa.(*wasmAdapter).allocateAndPinMemory(ctx, totalSize, TupleBlockType)
+	offset, cln, err := wa.allocateAndPinMemory(ctx, totalSize, TupleBlockType)
 	if err != nil {
 		return nil, cln, err
 	}
@@ -263,8 +277,9 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 			// 	}
 			// }
 		} else {
+			fieldObj = rvObj.FieldByIndex([]int{i}).Interface()
 			// case insensitive when reading from struct
-			fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, fieldName) }).Interface()
+			// fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, fieldName) }).Interface()
 			// if reflect.TypeOf(fieldObj).Kind() == reflect.Ptr && reflect.TypeOf(obj).Kind() == reflect.Ptr {
 			// 	fieldObjAddr := int64(reflect.ValueOf(fieldObj).Pointer())
 			// 	objAddr := int64(reflect.ValueOf(obj).Pointer())
@@ -283,7 +298,7 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 		// 	// This is a self-referencing field. We need to write the pointer to the struct itself.
 		// 	wa.Memory().WriteUint32Le(offset+fieldOffset, offset-8)
 		// } else {
-		cln, err := handler.Write(ctx, wa, offset+fieldOffset, fieldObj)
+		cln, err := handler.Write(ctx, wasmAdapter, offset+fieldOffset, fieldObj)
 		cleaner.AddCleaner(cln)
 		if err != nil {
 			return nil, cleaner, err
