@@ -212,6 +212,7 @@ var wantMoonPkgJSON = `{
         "load32",
         "malloc",
         "ptr2str",
+        "read_map",
         "store32",
         "store8",
         "write_map",

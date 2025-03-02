@@ -27,12 +27,16 @@ func PostProcess(config *config.Config, meta *metadata.Metadata) error {
 	imports := meta.GetImports()
 	types := getTypes(meta)
 
+	keys, pairs := genMapKeyValuePairs(meta)
+
 	body := &bytes.Buffer{}
 	writeFuncUnpin(body)
 	writeFuncNew(body, types, imports)
 	writeFuncMake(body, types, imports)
-	writeFuncReadMap(body, types, imports)
-	writeFuncWriteMap(body, types, imports)
+	// if len(keys) > 0 {
+	writeFuncReadMap(body, keys, pairs)
+	writeFuncWriteMap(body, keys, pairs)
+	// }
 
 	header := &bytes.Buffer{}
 	writePostProcessHeader(header, meta, imports)
@@ -278,25 +282,9 @@ pub extern "wasm" fn ptr2str(ptr : Int) -> String =
 //   align : Int
 // }
 
+///|
 fn cast[A, B](a : A) -> B = "%identity"
-
-pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
-  let key_type_name = ptr2str(key_type_name_ptr + 8)
-  let value_type_name = ptr2str(value_type_name_ptr + 8)
-  match (key_type_name, value_type_name) {
 `)
-
-	patterns, helpers := genWriteMapPatternsAndHelpers(meta)
-	b.WriteString(patterns)
-	b.WriteString(`
-  }
-}
-`)
-	b.WriteString(helpers)
-
-	// for pkg, name := range imports {
-	// 	gmlPrintf("GML: codegen/postprocess.go: writePostProcessHeader: imports['%v']='%v'", pkg, name)
-	// }
 
 	if _, ok := imports["@time"]; ok {
 		b.WriteString(`
@@ -312,66 +300,6 @@ pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error {
 }
 `)
 	}
-
-	// b.WriteString("package main\n\n")
-	// b.WriteString("import (\n")
-	// b.WriteString("\t\"unsafe\"\n")
-	// for pkg, name := range imports {
-	// 	if pkg != "" && pkg != "unsafe" && pkg != meta.Module {
-	// 		if pkg == name || strings.HasSuffix(pkg, "/"+name) {
-	// 			b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
-	// 		} else {
-	// 			b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
-	// 		}
-	// 	}
-	// }
-	// b.WriteString(")\n")
-}
-
-func genWriteMapPatternsAndHelpers(meta *metadata.Metadata) (string, string) {
-	var patterns []string
-	var helpers []string
-	type keyValuePair struct {
-		key   string
-		value string
-	}
-	processed := map[string]*keyValuePair{}
-
-	for typ := range meta.Types {
-		if utils.IsMapType(typ) {
-			keyTypeName, valueTypeName := utils.GetMapSubtypes(typ)
-			mapTypeName := fmt.Sprintf("Map[%v, %v]", keyTypeName, valueTypeName)
-			if _, ok := processed[mapTypeName]; ok {
-				continue
-			}
-			processed[mapTypeName] = &keyValuePair{key: keyTypeName, value: valueTypeName}
-		}
-	}
-
-	// Output the patterns and helpers in sorted order.
-	keys := slices.Sorted(maps.Keys(processed))
-	for _, kvPair := range keys {
-		keyTypeName := processed[kvPair].key
-		valueTypeName := processed[kvPair].value
-		patterns = append(patterns, fmt.Sprintf("    (%q, %q) => write_map_helper_%v(keys_ptr, values_ptr)", keyTypeName, valueTypeName, len(helpers)))
-		helpers = append(helpers, genWriteMapHelperFuncs(len(helpers), keyTypeName, valueTypeName))
-	}
-
-	patterns = append(patterns, "    _ => 0")
-	return strings.Join(patterns, "\n"), strings.Join(helpers, "\n")
-}
-
-func genWriteMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string {
-	return fmt.Sprintf(`fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
-  let keys : Array[%[2]v] = cast(keys_ptr)
-  let values : Array[%[3]v] = cast(values_ptr)
-  let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
-  for i in 0..<keys.length() {
-    m[keys[i]] = values[i]
-  }
-  cast(m)
-}
-`, fnNum, keyTypeName, valueTypeName)
 }
 
 func writeFuncUnpin(b *bytes.Buffer) {
@@ -456,84 +384,135 @@ func writeFuncMake(b *bytes.Buffer, types []*metadata.TypeDefinition, imports ma
 	// 	b.WriteString("\treturn nil\n}\n")
 }
 
-func writeFuncReadMap(b *bytes.Buffer, types []*metadata.TypeDefinition, imports map[string]string) {
-	// 	buf := &bytes.Buffer{}
-	// 	found := false
-	//
-	// 	buf.WriteString(`
-	// //go:export __read_map
-	// func __read_map(id int, m unsafe.Pointer) uint64 {
-	// `)
-	// 	buf.WriteString("\tswitch id {\n")
-	// 	for _, t := range types {
-	// 		if utils.IsMapType(t.Name) {
-	// 			found = true
-	// 			typeName := utils.GetNameForType(t.Name, imports)
-	// 			buf.WriteString(fmt.Sprintf(`	case %d:
-	// 		return __doReadMap(*(*%s)(m))
-	// `, t.Id, typeName))
-	// 		}
-	// 	}
-	// 	buf.WriteString("\t}\n\n")
-	// 	buf.WriteString("\treturn 0\n}\n")
-	//
-	// 	buf.WriteString(`
-	// func __doReadMap[M ~map[K]V, K comparable, V any](m M) uint64 {
-	// 	size := len(m)
-	// 	keys := make([]K, size)
-	// 	values := make([]V, size)
-	//
-	// 	i := 0
-	// 	for k, v := range m {
-	// 		keys[i] = k
-	// 		values[i] = v
-	// 		i++
-	// 	}
-	//
-	// 	pKeys := uint32(uintptr(unsafe.Pointer(&keys)))
-	// 	pValues := uint32(uintptr(unsafe.Pointer(&values)))
-	// 	return uint64(pKeys)<<32 | uint64(pValues)
+func writeFuncReadMap(b *bytes.Buffer, keys []string, pairs pairsMapT) {
+	buf := &bytes.Buffer{}
+	buf.WriteString(`
+///|
+pub fn read_map(
+  key_type_name_ptr : Int,
+  value_type_name_ptr : Int,
+  map_ptr : Int
+) -> Int64 {
+  let key_type_name = ptr2str(key_type_name_ptr + 8)
+  let value_type_name = ptr2str(value_type_name_ptr + 8)
+  match (key_type_name, value_type_name) {
+`)
+
+	patterns, helpers := genReadMapPatternsAndHelpers(keys, pairs)
+	buf.WriteString(patterns)
+	buf.WriteString(`
+  }
+}
+`)
+	buf.WriteString(helpers)
+
+	//	if helpers != "" {
+	_, _ = buf.WriteTo(b)
 	// }
-	// `)
-	//
-	// 	if found {
-	// 		_, _ = buf.WriteTo(b)
-	// 	}
 }
 
-func writeFuncWriteMap(b *bytes.Buffer, types []*metadata.TypeDefinition, imports map[string]string) {
-	// 	buf := &bytes.Buffer{}
-	// 	found := false
-	//
-	// 	buf.WriteString(`
-	// //go:export __write_map
-	// func __write_map(id int, m, keys, values unsafe.Pointer) {
-	// `)
-	// 	buf.WriteString("\tswitch id {\n")
-	// 	for _, t := range types {
-	// 		if strings.HasPrefix(t.Name, "map[") {
-	// 			found = true
-	// 			typeName := utils.GetNameForType(t.Name, imports)
-	// 			kt, vt := utils.GetMapSubtypes(t.Name)
-	// 			keyTypeName := utils.GetNameForType(kt, imports)
-	// 			valTypeName := utils.GetNameForType(vt, imports)
-	// 			buf.WriteString(fmt.Sprintf(`	case %d:
-	// 		__doWriteMap(*(*%s)(m), *(*[]%s)(keys), *(*[]%s)(values))
-	// `, t.Id, typeName, keyTypeName, valTypeName))
-	// 		}
-	// 	}
-	// 	buf.WriteString("\t}\n")
-	// 	buf.WriteString("}\n")
-	//
-	// 	buf.WriteString(`
-	// func __doWriteMap[M ~map[K]V, K comparable, V any](m M, keys[]K, values[]V) {
-	// 	for i := 0; i < len(keys); i++ {
-	// 		m[keys[i]] = values[i]
-	// 	}
+func genReadMapPatternsAndHelpers(keys []string, pairs pairsMapT) (string, string) {
+	var patterns []string
+	var helpers []string
+	for _, kvPair := range keys {
+		keyTypeName := pairs[kvPair].keyTypeName
+		valueTypeName := pairs[kvPair].valueTypeName
+		patterns = append(patterns, fmt.Sprintf("    (%q, %q) => read_map_helper_%v(map_ptr)", keyTypeName, valueTypeName, len(helpers)))
+		helpers = append(helpers, genReadMapHelperFuncs(len(helpers), keyTypeName, valueTypeName))
+	}
+
+	patterns = append(patterns, "    _ => 0")
+	return strings.Join(patterns, "\n"), strings.Join(helpers, "\n")
+}
+
+func genReadMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string {
+	return fmt.Sprintf(`///|
+fn read_map_helper_%v(map_ptr : Int) -> Int64 {
+  let m : Map[%v, %v] = cast(map_ptr)
+  let pairs = m.to_array()
+  let keys = pairs.map(fn(t) { t.0 })
+  let values = pairs.map(fn(t) { t.1 })
+  let keys_ptr : Int = cast(keys)
+  let values_ptr : Int = cast(values)
+  (keys_ptr.to_int64() << 32) | values_ptr.to_int64()
+}
+`, fnNum, keyTypeName, valueTypeName)
+}
+
+func writeFuncWriteMap(b *bytes.Buffer, keys []string, pairs pairsMapT) {
+	buf := &bytes.Buffer{}
+	buf.WriteString(`
+///|
+pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : Int, values_ptr : Int) -> Int {
+  let key_type_name = ptr2str(key_type_name_ptr + 8)
+  let value_type_name = ptr2str(value_type_name_ptr + 8)
+  match (key_type_name, value_type_name) {
+`)
+
+	patterns, helpers := genWriteMapPatternsAndHelpers(keys, pairs)
+	buf.WriteString(patterns)
+	buf.WriteString(`
+  }
+}
+`)
+	buf.WriteString(helpers)
+
+	//	if helpers != "" {
+	_, _ = buf.WriteTo(b)
 	// }
-	// `)
-	//
-	// 	if found {
-	// 		_, _ = buf.WriteTo(b)
-	// 	}
+}
+
+func genWriteMapPatternsAndHelpers(keys []string, pairs pairsMapT) (string, string) {
+	var patterns []string
+	var helpers []string
+	for _, kvPair := range keys {
+		keyTypeName := pairs[kvPair].keyTypeName
+		valueTypeName := pairs[kvPair].valueTypeName
+		patterns = append(patterns, fmt.Sprintf("    (%q, %q) => write_map_helper_%v(keys_ptr, values_ptr)", keyTypeName, valueTypeName, len(helpers)))
+		helpers = append(helpers, genWriteMapHelperFuncs(len(helpers), keyTypeName, valueTypeName))
+	}
+
+	patterns = append(patterns, "    _ => 0")
+	return strings.Join(patterns, "\n"), strings.Join(helpers, "\n")
+}
+
+func genWriteMapHelperFuncs(fnNum int, keyTypeName, valueTypeName string) string {
+	return fmt.Sprintf(`///|
+fn write_map_helper_%v(keys_ptr: Int, values_ptr: Int) -> Int {
+  let keys : Array[%[2]v] = cast(keys_ptr)
+  let values : Array[%[3]v] = cast(values_ptr)
+  let m : Map[%[2]v, %[3]v] = Map::new(capacity=keys.length())
+  for i in 0..<keys.length() {
+    m[keys[i]] = values[i]
+  }
+  cast(m)
+}
+`, fnNum, keyTypeName, valueTypeName)
+}
+
+type keyValuePair struct {
+	keyTypeName   string
+	valueTypeName string
+}
+
+type pairsMapT map[string]*keyValuePair
+
+func genMapKeyValuePairs(meta *metadata.Metadata) (keys []string, pairs pairsMapT) {
+	pairs = map[string]*keyValuePair{}
+
+	for typ := range meta.Types {
+		if utils.IsMapType(typ) {
+			keyTypeName, valueTypeName := utils.GetMapSubtypes(typ)
+			mapTypeName := fmt.Sprintf("Map[%v, %v]", keyTypeName, valueTypeName)
+			if _, ok := pairs[mapTypeName]; ok {
+				continue
+			}
+			pairs[mapTypeName] = &keyValuePair{keyTypeName: keyTypeName, valueTypeName: valueTypeName}
+		}
+	}
+
+	// Output the patterns and helpers in sorted order.
+	keys = slices.Sorted(maps.Keys(pairs))
+
+	return keys, pairs
 }
