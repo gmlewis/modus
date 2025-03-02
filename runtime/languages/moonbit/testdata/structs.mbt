@@ -8,52 +8,52 @@
 ///|
 pub struct TestStruct1 {
   a : Bool
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct1_map {
   a : Bool
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct2 {
   a : Bool
   b : Int
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct2_map {
   a : Bool
   b : Int
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct3 {
   a : Bool
   b : Int
   c : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct3_map {
   a : Bool
   b : Int
   c : String
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct4 {
   a : Bool
   b : Int
   c : String?
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct4_map {
   a : Bool
   b : Int
   c : String?
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct5 {
@@ -63,7 +63,7 @@ pub struct TestStruct5 {
   d : Array[String]
   e : Double
   f : Double
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestStruct5_map {
@@ -73,18 +73,98 @@ pub struct TestStruct5_map {
   d : Array[String]
   e : Double
   f : Double
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestRecursiveStruct {
   a : Bool
   mut b : TestRecursiveStruct?
-} derive(Show, Eq)
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub struct TestRecursiveStruct_map {
   a : Bool
   mut b : TestRecursiveStruct_map?
+} derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub struct TestSmorgasbordStruct {
+  bool : Bool
+  byte : Byte
+  c : Char
+  f : Float
+  d : Double
+  i16 : Int16
+  i32 : Int
+  i64 : Int64
+  s : String
+  u16 : UInt16
+  u32 : UInt
+  u64 : UInt64
+  someBool : Bool?
+  noneBool : Bool?
+  someByte : Byte?
+  noneByte : Byte?
+  someChar : Char?
+  noneChar : Char?
+  someFloat : Float?
+  noneFloat : Float?
+  someDouble : Double?
+  noneDouble : Double?
+  someI16 : Int16?
+  noneI16 : Int16?
+  someI32 : Int?
+  noneI32 : Int?
+  someI64 : Int64?
+  noneI64 : Int64?
+  someString : String?
+  noneString : String?
+  someU16 : UInt16?
+  noneU16 : UInt16?
+  someU32 : UInt?
+  noneU32 : UInt?
+  someU64 : UInt64?
+  noneU64 : UInt64?
+} derive(Show, Eq)
+
+///|
+pub struct TestSmorgasbordStruct_map {
+  bool : Bool
+  byte : Byte
+  c : Char
+  f : Float
+  d : Double
+  i16 : Int16
+  i32 : Int
+  i64 : Int64
+  s : String
+  u16 : UInt16
+  u32 : UInt
+  u64 : UInt64
+  someBool : Bool?
+  noneBool : Bool?
+  someByte : Byte?
+  noneByte : Byte?
+  someChar : Char?
+  noneChar : Char?
+  someFloat : Float?
+  noneFloat : Float?
+  someDouble : Double?
+  noneDouble : Double?
+  someI16 : Int16?
+  noneI16 : Int16?
+  someI32 : Int?
+  noneI32 : Int?
+  someI64 : Int64?
+  noneI64 : Int64?
+  someString : String?
+  noneString : String?
+  someU16 : UInt16?
+  noneU16 : UInt16?
+  someU32 : UInt?
+  noneU32 : UInt?
+  someU64 : UInt64?
+  noneU64 : UInt64?
 } derive(Show, Eq)
 
 ///|
@@ -194,6 +274,86 @@ fn init {
 }
 
 ///|
+let test_smorgasbord_struct : TestSmorgasbordStruct = {
+  bool: true,
+  byte: 0x12,
+  c: 'c',
+  f: 1.23,
+  d: 4.56,
+  i16: 123,
+  i32: 456,
+  i64: 789,
+  s: "abc",
+  u16: 123,
+  u32: 456,
+  u64: 789,
+  someBool: Some(true),
+  noneBool: None,
+  someByte: Some(0x34),
+  noneByte: None,
+  someChar: Some('d'),
+  noneChar: None,
+  someFloat: Some(7.89),
+  noneFloat: None,
+  someDouble: Some(0.12),
+  noneDouble: None,
+  someI16: Some(234),
+  noneI16: None,
+  someI32: Some(567),
+  noneI32: None,
+  someI64: Some(890),
+  noneI64: None,
+  someString: Some("def"),
+  noneString: None,
+  someU16: Some(234),
+  noneU16: None,
+  someU32: Some(567),
+  noneU32: None,
+  someU64: Some(890),
+  noneU64: None,
+}
+
+///|
+let test_smorgasbord_struct_map : TestSmorgasbordStruct_map = {
+  bool: true,
+  byte: 0x12,
+  c: 'c',
+  f: 1.23,
+  d: 4.56,
+  i16: 123,
+  i32: 456,
+  i64: 789,
+  s: "abc",
+  u16: 123,
+  u32: 456,
+  u64: 789,
+  someBool: Some(true),
+  noneBool: None,
+  someByte: Some(0x34),
+  noneByte: None,
+  someChar: Some('d'),
+  noneChar: None,
+  someFloat: Some(7.89),
+  noneFloat: None,
+  someDouble: Some(0.12),
+  noneDouble: None,
+  someI16: Some(234),
+  noneI16: None,
+  someI32: Some(567),
+  noneI32: None,
+  someI64: Some(890),
+  noneI64: None,
+  someString: Some("def"),
+  noneString: None,
+  someU16: Some(234),
+  noneU16: None,
+  someU32: Some(567),
+  noneU32: None,
+  someU64: Some(890),
+  noneU64: None,
+}
+
+///|
 pub fn test_struct_input1(o : TestStruct1) -> Unit!Error {
   assert_eq!(test_struct1, o)
 }
@@ -221,6 +381,11 @@ pub fn test_struct_input5(o : TestStruct5) -> Unit!Error {
 ///|
 pub fn test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
   assert_eq!(test_struct4_with_none, o)
+}
+
+///|
+pub fn test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit!Error {
+  assert_eq!(test_smorgasbord_struct, o)
 }
 
 ///|
@@ -286,6 +451,13 @@ pub fn test_recursive_struct_option_input(
 }
 
 ///|
+pub fn test_smorgasbord_struct_option_input(
+  o : TestSmorgasbordStruct?
+) -> Unit!Error {
+  assert_eq!(Some(test_smorgasbord_struct), o)
+}
+
+///|
 pub fn test_struct_option_input1_none(o : TestStruct1?) -> Unit!Error {
   assert_eq!(o, None)
 }
@@ -313,6 +485,13 @@ pub fn test_struct_option_input5_none(o : TestStruct5?) -> Unit!Error {
 ///|
 pub fn test_recursive_struct_option_input_none(
   o : TestRecursiveStruct?
+) -> Unit!Error {
+  assert_eq!(o, None)
+}
+
+///|
+pub fn test_smorgasbord_struct_option_input_none(
+  o : TestSmorgasbordStruct?
 ) -> Unit!Error {
   assert_eq!(o, None)
 }
@@ -408,6 +587,16 @@ pub fn test_recursive_struct_output_map() -> TestRecursiveStruct_map {
 }
 
 ///|
+pub fn test_smorgasbord_struct_output() -> TestSmorgasbordStruct {
+  test_smorgasbord_struct
+}
+
+///|
+pub fn test_smorgasbord_struct_output_map() -> TestSmorgasbordStruct_map {
+  test_smorgasbord_struct_map
+}
+
+///|
 pub fn test_struct_option_output1() -> TestStruct1? {
   Some(test_struct1)
 }
@@ -478,6 +667,16 @@ pub fn test_recursive_struct_option_output_map() -> TestRecursiveStruct_map? {
 }
 
 ///|
+pub fn test_smorgasbord_struct_option_output() -> TestSmorgasbordStruct? {
+  Some(test_smorgasbord_struct)
+}
+
+///|
+pub fn test_smorgasbord_struct_option_output_map() -> TestSmorgasbordStruct_map? {
+  Some(test_smorgasbord_struct_map)
+}
+
+///|
 pub fn test_struct_option_output1_none() -> TestStruct1? {
   None
 }
@@ -504,5 +703,16 @@ pub fn test_struct_option_output5_none() -> TestStruct5? {
 
 ///|
 pub fn test_recursive_struct_option_output_none() -> TestRecursiveStruct? {
+  None
+}
+
+///|
+pub fn test_smorgasbord_struct_option_output_none() -> TestSmorgasbordStruct? {
+  None
+}
+
+///|
+pub fn test_smorgasbord_struct_option_output_map_none() ->
+     TestSmorgasbordStruct_map? {
   None
 }

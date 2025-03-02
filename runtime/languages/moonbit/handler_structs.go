@@ -123,8 +123,17 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	for i, field := range h.typeDef.Fields {
 		handler := h.fieldHandlers[i]
 		fieldName := strings.TrimPrefix(field.Name, "mut ")
+
+		elementSize := handler.TypeInfo().Size()
+		elementTypeName := handler.TypeInfo().Name()
+		if elementTypeName == "Int?" || elementTypeName == "UInt?" {
+			elementSize = 8
+		} else if elementSize < 4 {
+			elementSize = 4
+		}
+
 		var ptr uint64
-		switch handler.TypeInfo().Size() {
+		switch elementSize {
 		case 8:
 			ptr = binary.LittleEndian.Uint64(memBlock[8+fieldOffset:])
 			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint64 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, ptr)
@@ -154,15 +163,16 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 			m[fieldName] = val
 		}
 
-		switch handler.TypeInfo().Size() {
-		case 8:
-			fieldOffset += 8
-		default:
-			// case 4:
-			// Go primitive types (e.g. "uint16", "int16") return a size of 2, but all MoonBit sizes in structs
-			// are either 4 or 8, so make the default be case 4.
-			fieldOffset += 4
-		}
+		// switch handler.TypeInfo().Size() {
+		// case 8:
+		// 	fieldOffset += 8
+		// default:
+		// 	// case 4:
+		// 	// Go primitive types (e.g. "uint16", "int16") return a size of 2, but all MoonBit sizes in structs
+		// 	// are either 4 or 8, so make the default be case 4.
+		// 	fieldOffset += 4
+		// }
+		fieldOffset += elementSize
 	}
 
 	// Handle tuple output
