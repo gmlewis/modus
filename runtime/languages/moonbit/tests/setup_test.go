@@ -39,6 +39,7 @@ func TestMain(m *testing.M) {
 	customTypes["TestStruct4"] = reflect.TypeFor[TestStruct4]()
 	customTypes["TestStruct5"] = reflect.TypeFor[TestStruct5]()
 	customTypes["TestStructWithMap"] = reflect.TypeFor[TestStructWithMap1]()
+	customTypes["TestRecursiveStruct"] = reflect.TypeFor[TestRecursiveStruct]()
 	customTypes["TestSmorgasbordStruct"] = reflect.TypeFor[TestSmorgasbordStruct]()
 	customTypes["HttpResponse"] = reflect.TypeFor[httpclient.HttpResponse]()
 	customTypes["HttpHeaders"] = reflect.TypeFor[httpclient.HttpHeaders]()

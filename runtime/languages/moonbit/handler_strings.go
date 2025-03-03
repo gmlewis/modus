@@ -17,7 +17,6 @@ import (
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
-	wasm "github.com/tetratelabs/wazero/api"
 
 	"github.com/spf13/cast"
 )
@@ -62,6 +61,13 @@ func (h *stringHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 
 func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
 	gmlPrintf("GML: handler_strings.go: stringHandler.Write(offset: %v, obj: '%v')", offset, obj)
+
+	if utils.HasNil(obj) {
+		if ok := wa.Memory().WriteUint32Le(offset, 0); !ok {
+			return nil, fmt.Errorf("failed to write nil string pointer to memory at offset %v", offset)
+		}
+		return nil, nil
+	}
 
 	str, err := cast.ToStringE(obj)
 	if err != nil {
@@ -199,12 +205,6 @@ func convertGoUTF8ToUTF16(str string) []byte {
 	}
 
 	return data
-}
-
-// For testing purposes:
-type wasmMemoryWriter interface {
-	allocateAndPinMemory(ctx context.Context, size, blockType uint32) (uint32, utils.Cleaner, error)
-	Memory() wasm.Memory
 }
 
 func (h *stringHandler) doWriteStringBytes(ctx context.Context, wa wasmMemoryWriter, bytes []byte) (uint32, utils.Cleaner, error) {

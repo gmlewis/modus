@@ -70,6 +70,8 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnReadMap: mod.ExportedFunction("read_map"),
 		// pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, key_ptr : Int, value_ptr : Int) -> Int
 		fnWriteMap: mod.ExportedFunction("write_map"),
+		// pub fn ptr_to_none() -> Int {
+		fnPtrToNone: mod.ExportedFunction("ptr_to_none"),
 	}
 }
 
@@ -120,6 +122,7 @@ type wasmAdapter struct {
 	fnDurationFromNanos wasm.Function
 	fnReadMap           wasm.Function
 	fnWriteMap          wasm.Function
+	fnPtrToNone         wasm.Function
 }
 
 func (*wasmAdapter) TypeInfo() langsupport.LanguageTypeInfo {

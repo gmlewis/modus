@@ -255,7 +255,24 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 	numFields := len(h.typeDef.Fields)
 	cleaner := utils.NewCleanerN(numFields)
 
-	totalSize := h.typeInfo.Size()
+	totalSize := uint32(0) // h.typeInfo.Size()
+	// NOTE: Due to the fact that the Go AST is being used to represent MoonBit types
+	// and due to MoonBit primitives not taking the same size as Go primitives, the
+	// totalSize is not correct.  Therefore, we need to calculate the totalSize based
+	// on the individual field sizes.
+	fieldOffsets := make([]uint32, 0, numFields)
+	for i := range h.typeDef.Fields {
+		handler := h.fieldHandlers[i]
+		elementSize := handler.TypeInfo().Size()
+		elementTypeName := handler.TypeInfo().Name()
+		if elementTypeName == "Int?" || elementTypeName == "UInt?" {
+			elementSize = 8
+		} else if elementSize < 4 {
+			elementSize = 4
+		}
+		fieldOffsets = append(fieldOffsets, totalSize)
+		totalSize += elementSize
+	}
 	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v", totalSize)
 
 	offset, cln, err := wa.allocateAndPinMemory(ctx, totalSize, TupleBlockType)
@@ -271,7 +288,6 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 		}()
 	}
 
-	var fieldOffset uint32
 	for i, field := range h.typeDef.Fields {
 		var fieldObj any
 		fieldName := strings.TrimPrefix(field.Name, "mut ")
@@ -299,23 +315,22 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 			// }
 		}
 
-		if utils.HasNil(fieldObj) {
-			continue
-		}
+		// In MoonBit, Nones/nils need to be written, so don't skip them.
+		// if utils.HasNil(fieldObj) {
+		// 	continue
+		// }
 
 		handler := h.fieldHandlers[i]
 		// if isRecursiveRef {
 		// 	// This is a self-referencing field. We need to write the pointer to the struct itself.
 		// 	wa.Memory().WriteUint32Le(offset+fieldOffset, offset-8)
 		// } else {
-		cln, err := handler.Write(ctx, wasmAdapter, offset+fieldOffset, fieldObj)
+		cln, err := handler.Write(ctx, wasmAdapter, offset+fieldOffsets[i], fieldObj)
 		cleaner.AddCleaner(cln)
 		if err != nil {
 			return nil, cleaner, err
 		}
 		// }
-
-		fieldOffset += handler.TypeInfo().Size()
 	}
 
 	return []uint64{uint64(offset - 8)}, cleaner, nil

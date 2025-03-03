@@ -282,6 +282,11 @@ pub extern "wasm" fn ptr2str(ptr : Int) -> String =
 //   align : Int
 // }
 
+pub fn ptr_to_none() -> Int {
+  let val : Double? = None
+  cast(val)
+}
+
 ///|
 fn cast[A, B](a : A) -> B = "%identity"
 `)

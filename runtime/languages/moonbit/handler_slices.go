@@ -324,83 +324,83 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 	}()
 
-	// elementTypeSize (above) is the skip size when writing the encoded value to memory.
-	// elementSize (below) is the native size of the MoonBit value.
-	elementSize := h.elementHandler.TypeInfo().Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
-	if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
-		elementSize = 8
-	} else if elementSize > 4 {
-		// Note that the element size itself may be larger than 4, but we are writing a pointer to it, so make it 4.
-		elementSize = 4
-	}
+	// // elementTypeSize (above) is the skip size when writing the encoded value to memory.
+	// // elementSize (below) is the native size of the MoonBit value.
+	// elementSize := h.elementHandler.TypeInfo().Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
+	// if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+	// 	elementSize = 8
+	// } else if elementSize > 4 {
+	// 	// Note that the element size itself may be larger than 4, but we are writing a pointer to it, so make it 4.
+	// 	elementSize = 4
+	// }
 
 	for i, val := range slice {
-		if elemType.IsPrimitive() && isNullable {
-			if !utils.HasNil(val) {
-				if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
-					subBlockClassID := uint32(OptionBlockType) // TODO: rename
-					valueBlock, c, err := wa.allocateAndPinMemory(ctx, elementSize, subBlockClassID)
-					if err != nil {
-						return 0, cln, err
-					}
-					innerCln.AddCleaner(c)
-					if _, err := h.elementHandler.Write(ctx, wasmAdapter, valueBlock, val); err != nil {
-						return 0, cln, err
-					}
-					wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, valueBlock-8)
-					// For debugging:
-					memoryBlockAtOffset(wa, valueBlock-8, 0, true) //nolint:errcheck
-				} else {
-					if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
-						return 0, cln, err
-					}
-					switch elemType.Name() {
-					case "Byte?", "Bool?", "Char?", "String?": // "UInt?" in MoonBit for some reason uses sign extending below.
-						wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
-					case "Int16?":
-						highByte, ok := wa.Memory().ReadByte(ptr + 1 + uint32(i)*elemTypeSize)
-						if ok && highByte&0x80 != 0 {
-							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{255, 255}) // Some(negative number)
-						} else {
-							wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
-						}
-					case "UInt16?":
-						wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
-						// case "Int64?", "UInt64?", "Float?", "Double?": // handled above
-					case "Int?", "UInt?": // I don't know why uses sign extending for "UInt?", but seems to.
-						highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
-						if ok && highByte&0x80 != 0 {
-							wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)
-						} else {
-							wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(positive number)
-						}
-					default:
-						return 0, cln, fmt.Errorf("unsupported nullable primitive type: %v", elemType.Name())
-					}
-				}
-			} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
-				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
-				if err != nil {
-					return 0, cln, err
-				}
-				innerCln.AddCleaner(c)
-				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
-				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, noneBlock-8)
-			} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" ||
-				elemType.Name() == "Char?" || elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" {
-				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
-			} else {
-				wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
-			}
-			continue
+		// if elemType.IsPrimitive() && isNullable {
+		// 	if !utils.HasNil(val) {
+		// 		// if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
+		// 		// 	subBlockClassID := uint32(OptionBlockType) // TODO: rename
+		// 		// 	valueBlock, c, err := wa.allocateAndPinMemory(ctx, elementSize, subBlockClassID)
+		// 		// 	if err != nil {
+		// 		// 		return 0, cln, err
+		// 		// 	}
+		// 		// 	innerCln.AddCleaner(c)
+		// 		// 	if _, err := h.elementHandler.Write(ctx, wasmAdapter, valueBlock, val); err != nil {
+		// 		// 		return 0, cln, err
+		// 		// 	}
+		// 		// 	wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, valueBlock-8)
+		// 		// 	// For debugging:
+		// 		// 	memoryBlockAtOffset(wa, valueBlock-8, 0, true) //nolint:errcheck
+		// 		// } else {
+		// 		if _, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val); err != nil {
+		// 			return 0, cln, err
+		// 		}
+		// 		switch elemType.Name() {
+		// 		case "Byte?", "Bool?", "Char?", "String?": // "UInt?" in MoonBit for some reason uses sign extending below.
+		// 			wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0})
+		// 		case "Int16?":
+		// 			highByte, ok := wa.Memory().ReadByte(ptr + 1 + uint32(i)*elemTypeSize)
+		// 			if ok && highByte&0x80 != 0 {
+		// 				wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{255, 255}) // Some(negative number)
+		// 			} else {
+		// 				wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
+		// 			}
+		// 		case "UInt16?":
+		// 			wa.Memory().Write(ptr+2+uint32(i)*elemTypeSize, []byte{0, 0}) // Some(positive number)
+		// 		case "Int?", "UInt?": // I don't know why uses sign extending for "UInt?", but seems to.
+		// 			highByte, ok := wa.Memory().ReadByte(ptr + 3 + uint32(i)*elemTypeSize)
+		// 			if ok && highByte&0x80 != 0 {
+		// 				wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // Some(negative number)
+		// 			} else {
+		// 				wa.Memory().Write(ptr+4+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0}) // Some(positive number)
+		// 			}
+		// 		case "Int64?", "UInt64?", "Float?", "Double?": // handled above
+		// 		default:
+		// 			return 0, cln, fmt.Errorf("unsupported nullable primitive type: %v", elemType.Name())
+		// 		}
+		// 		// }
+		// 	} else if elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Float?" || elemType.Name() == "Double?" {
+		// 		noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
+		// 		if err != nil {
+		// 			return 0, cln, err
+		// 		}
+		// 		innerCln.AddCleaner(c)
+		// 		wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
+		// 		wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, noneBlock-8)
+		// 	} else if elemType.Name() == "Byte?" || elemType.Name() == "Bool?" ||
+		// 		elemType.Name() == "Char?" || elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" {
+		// 		wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{255, 255, 255, 255}) // None
+		// 	} else {
+		// 		wa.Memory().Write(ptr+uint32(i)*elemTypeSize, []byte{0, 0, 0, 0, 1, 0, 0, 0}) // None
+		// 	}
+		// 	continue
+		// }
+		// if !utils.HasNil(val) {
+		c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val)
+		innerCln.AddCleaner(c)
+		if err != nil {
+			return 0, cln, err
 		}
-		if !utils.HasNil(val) {
-			c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elementSize, val)
-			innerCln.AddCleaner(c)
-			if err != nil {
-				return 0, cln, err
-			}
-		} // TODO: else is it safe to assume the memory has been cleared out to zeros, or do we need to write them explicitly?
+		// }
 	}
 
 	// For debugging purposes:

@@ -10,10 +10,12 @@
 package moonbit
 
 import (
+	"context"
 	"encoding/binary"
 	"fmt"
 	"log"
 
+	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
 )
 
@@ -48,6 +50,11 @@ const (
 
 // For testing purposes:
 type wasmMemoryReader interface {
+	Memory() wasm.Memory
+}
+
+type wasmMemoryWriter interface {
+	allocateAndPinMemory(ctx context.Context, size, blockType uint32) (uint32, utils.Cleaner, error)
 	Memory() wasm.Memory
 }
 

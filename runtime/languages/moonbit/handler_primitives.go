@@ -12,6 +12,7 @@ package moonbit
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -95,14 +96,118 @@ func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapt
 	return val, nil
 }
 
-func (h *primitiveHandler[T]) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
+func (h *primitiveHandler[T]) Write(ctx context.Context, wasmadapter langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
+	wa, ok := wasmadapter.(wasmMemoryWriter)
+	if !ok {
+		return nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmadapter)
+	}
+
+	if utils.HasNil(obj) {
+		// TODO: Improve this to avoid string comparison.
+		switch {
+		case h.typeInfo.IsBoolean(),
+			h.typeInfo.Name() == "Byte?",
+			h.typeInfo.Name() == "Char?",
+			h.typeInfo.Name() == "Int16?",
+			h.typeInfo.Name() == "UInt16?":
+			if ok := wa.Memory().WriteUint32Le(offset, 0xffffffff); !ok {
+				return nil, fmt.Errorf("failed to write %v 'None' to memory offset %v", h.typeInfo.Name(), offset)
+			}
+			return nil, nil
+		case h.typeInfo.Name() == "Int?", h.typeInfo.Name() == "UInt?":
+			if ok := wa.Memory().WriteUint64Le(offset, 0x100000000); !ok {
+				return nil, fmt.Errorf("failed to write %v 'None' to memory offset %v", h.typeInfo.Name(), offset)
+			}
+			return nil, nil
+		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
+			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
+			var res []uint64
+			var err error
+			if t, ok := wasmadapter.(*wasmAdapter); ok {
+				res, err = t.fnPtrToNone.Call(ctx)
+				if err != nil {
+					return nil, fmt.Errorf("failed to call ptr_to_none for type %v to memory offset %v", h.typeInfo.Name(), offset)
+				}
+			} else { // used only during unit testing since we can't call the plugin here.
+				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
+				if err != nil {
+					return c, err
+				}
+				// innerCln.AddCleaner(c)
+				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
+				res = []uint64{uint64(noneBlock - 8)}
+			}
+			log.Printf("GML: handler_primitives.go: primitiveHandler.Write: ptr_to_none() -> res=%+v", res)
+			if ok := wa.Memory().WriteUint32Le(offset, uint32(res[0])); !ok {
+				return nil, fmt.Errorf("failed to write %v 'None' to memory offset %v", h.typeInfo.Name(), offset)
+			}
+			return nil, nil
+		default:
+			return nil, fmt.Errorf("unhandled write nil primitive '%v'", h.typeInfo.Name())
+		}
+	}
+
 	val, err := utils.Cast[T](obj)
 	if err != nil {
 		return nil, err
 	}
 
+	if h.typeInfo.IsPointer() {
+		elementSize := h.typeInfo.Size() // BUG?!?  Int64?/UInt64? are 8 bytes, not 4
+		if h.typeInfo.Name() == "Int64?" || h.typeInfo.Name() == "UInt64?" {
+			elementSize = 8
+		} else if elementSize > 4 {
+			// Note that the element size itself may be larger than 4, but we are writing a pointer to it, so make it 4.
+			elementSize = 4
+		}
+		switch h.typeInfo.Name() {
+		case "Int64?",
+			"UInt64?",
+			"Float?",
+			"Double?":
+			// TODO: Would it be easier/safer/better to write helper functions and never call allocateAndPinMemory directly?
+			ptr, cln, err := wa.allocateAndPinMemory(ctx, elementSize, OptionBlockType)
+			if err != nil {
+				return cln, err
+			}
+			if ok := h.converter.Write(wa.Memory(), ptr, val); !ok {
+				return cln, fmt.Errorf("failed to write %s to memory", h.typeInfo.Name())
+			}
+			if ok := wa.Memory().WriteUint32Le(offset, ptr-8); !ok {
+				return cln, fmt.Errorf("failed to write %v 'None' to memory offset %v = %v", h.typeInfo.Name(), offset, ptr-8)
+			}
+			return cln, nil
+		}
+		// For all others, first write the data as usual, but then write the Some/None for pointers afterward
+	}
+
 	if ok := h.converter.Write(wa.Memory(), offset, val); !ok {
 		return nil, fmt.Errorf("failed to write %s to memory", h.typeInfo.Name())
+	}
+
+	if h.typeInfo.IsPointer() {
+		switch h.typeInfo.Name() {
+		case "Byte?", "Bool?", "Char?", "String?": // "UInt?" in MoonBit for some reason uses sign extending below.
+			wa.Memory().Write(offset+4, []byte{0, 0, 0, 0})
+		case "Int16?":
+			highByte, ok := wa.Memory().ReadByte(offset + 1)
+			if ok && highByte&0x80 != 0 {
+				wa.Memory().Write(offset+2, []byte{255, 255}) // Some(negative number)
+			} else {
+				wa.Memory().Write(offset+2, []byte{0, 0}) // Some(positive number)
+			}
+		case "UInt16?":
+			wa.Memory().Write(offset+2, []byte{0, 0}) // Some(positive number)
+		case "Int?", "UInt?": // I don't know why uses sign extending for "UInt?", but seems to.
+			highByte, ok := wa.Memory().ReadByte(offset + 3)
+			if ok && highByte&0x80 != 0 {
+				wa.Memory().Write(offset+4, []byte{255, 255, 255, 255}) // Some(negative number)
+			} else {
+				wa.Memory().Write(offset+4, []byte{0, 0, 0, 0}) // Some(positive number)
+			}
+		default:
+			return nil, fmt.Errorf("unsupported nullable primitive type: %v", h.typeInfo.Name())
+		}
 	}
 
 	return nil, nil

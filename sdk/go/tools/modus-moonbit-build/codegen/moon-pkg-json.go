@@ -112,6 +112,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		// "ptr2double_array",
 		"read_map",
 		"write_map",
+		"ptr_to_none",
 	}
 	gmlPrintf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
 	for _, v := range imports {
