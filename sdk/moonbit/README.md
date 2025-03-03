@@ -47,13 +47,17 @@ the query string to paste into the JSON file directly.
 
 The following MoonBit examples work:
 
+- [x] `sdk/moonbit/examples/hello-tuples`
+- [x] `sdk/moonbit/examples/neo4j`
+- [x] `sdk/moonbit/examples/simple`
 - [x] `sdk/moonbit/examples/test-suite`
+- [x] `sdk/moonbit/examples/time-example`
 
 The code has been updated to support compiler:
 
 ```bash
 $ moon version --all
-moon 0.1.20250113 (a18570d 2025-01-13) ~/.moon/bin/moon
-moonc v0.1.20250113+2f846af8e ~/.moon/bin/moonc
-moonrun 0.1.20250113 (a18570d 2025-01-13) ~/.moon/bin/moonrun
+moon 0.1.20250224 (d4d8b07 2025-02-24) ~/.moon/bin/moon
+moonc v0.1.20250224+e2253638a ~/.moon/bin/moonc
+moonrun 0.1.20250224 (d4d8b07 2025-02-24) ~/.moon/bin/moonrun
 ```

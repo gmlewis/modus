@@ -764,6 +764,35 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 	}
 }
 
+func TestPrimitiveSlicesDecodeIntExtraSpace(t *testing.T) {
+	// This test handles the case where a much larger memory block is allocated than needed.
+	// memBlock := []byte{1, 0, 0, 0, 0, 2, 0, 0, 224, 99, 0, 0, 2, 0, 0, 0}
+	// sliceMemBlock := []byte{1, 0, 0, 0, 241, 8, 0, 0, 30, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	wa := &myWasmMock{}
+	ctx := context.Background()
+	ptr, _, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ptr2, _, err := wa.allocateAndPinMemory(ctx, 32, FixedArrayPrimitiveBlockType)
+	if err != nil {
+		t.Fatal(err)
+	}
+	wa.Memory().WriteUint32Le(ptr, uint32(ptr2-8))
+	wa.Memory().WriteUint32Le(ptr+4, 2)
+	wa.Memory().WriteUint32Le(ptr2, 30)
+	wa.Memory().WriteUint32Le(ptr2+4, 19)
+	intSliceHandler := mustGetHandler(t, "Array[Int]")
+	got, err := intSliceHandler.Decode(ctx, wa, []uint64{uint64(ptr - 8)})
+	if err != nil {
+		t.Fatalf("h.Decode() returned an error: %v", err)
+	}
+	want := []int32{30, 19}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("encode/decode round trip conversion failed: got = %v, want = %v", got, want)
+	}
+}
+
 func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 	intSliceHandler := mustGetHandler(t, "Array[Int]")
 	intOptionSliceHandler := mustGetHandler(t, "Array[Int?]")

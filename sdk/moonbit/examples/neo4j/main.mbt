@@ -40,7 +40,7 @@ pub fn create_people_and_relationships() -> String!Error {
 ///|
 pub struct Person {
   name : String
-  age : Int64
+  age : Int
 } derive(Show, Eq, ToJson, FromJson)
 
 ///|
@@ -57,14 +57,14 @@ pub fn get_alice_friends_under_40() -> Array[Person]!Error {
   for record in response.records {
     let node : @neo4j.Node = @neo4j.get_record_value!(record, "friend")
     let name : String = @neo4j.get_property!(node, "name")
-    let age : Int64 = @neo4j.get_property!(node, "age")
+    let age : Int = @neo4j.get_property!(node, "age")
     persons.push({ name, age })
   }
   persons
 }
 
 ///|
-pub fn get_alice_friends_under_40_ages() -> Array[Int64]!Error {
+pub fn get_alice_friends_under_40_ages() -> Array[Int]!Error {
   let response = @neo4j.execute_query!(
     CONNECTION,
     #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
@@ -75,7 +75,8 @@ pub fn get_alice_friends_under_40_ages() -> Array[Int64]!Error {
   )
   let ages = []
   for record in response.records {
-    let age : Int64 = @neo4j.get_record_value!(record, "age")
+    let age : Int = @neo4j.get_record_value!(record, "age")
+    println("pushing age=\{age}")
     ages.push(age)
   }
   ages

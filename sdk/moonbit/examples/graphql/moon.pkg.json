@@ -1,6 +1,31 @@
 {
-  "is-main": true,
   "import": [
     "gmlewis/modus/pkg/vectors"
-  ]
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }

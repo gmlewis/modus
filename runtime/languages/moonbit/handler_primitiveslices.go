@@ -205,7 +205,8 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			return nil, fmt.Errorf("expected byte data size %v, got %v", size, len(sliceMemBlock))
 		}
 
-		sliceMemBlock = sliceMemBlock[:size+8] // trim to the actual size
+		sliceMemBlock = sliceMemBlock[:size+8]    // trim to the actual size
+		numElements = size / uint32(elemTypeSize) // and adjust the actual number of elements
 	default:
 		return nil, fmt.Errorf("primitiveSliceHandler.Decode: unexpected classID %v", classID)
 	}
@@ -250,8 +251,30 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	// 	return items.Interface(), nil
 	// }
 
-	items := h.converter.BytesToSlice(sliceMemBlock[8:])
-	return items, nil
+	// if elemType.Name() == "Byte" {
+	// 	items := h.converter.BytesToSlice(sliceMemBlock[8:])
+	// 	return items, nil
+	// }
+
+	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+	for i := 0; i < int(numElements); i++ {
+		var v uint64
+		switch elemTypeSize {
+		case 8:
+			v = binary.LittleEndian.Uint64(sliceMemBlock[8+i*elemTypeSize:])
+		case 4:
+			v = uint64(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
+		case 2:
+			v = uint64(binary.LittleEndian.Uint16(sliceMemBlock[8+i*elemTypeSize:]))
+		case 1:
+			v = uint64(sliceMemBlock[8+i*elemTypeSize])
+		default:
+			return nil, fmt.Errorf("unsupported element type size: %v", elemTypeSize)
+		}
+		val := h.converter.Decode(v)
+		items.Index(int(i)).Set(reflect.ValueOf(val))
+	}
+	return items.Interface(), nil
 }
 
 func (h *primitiveSliceHandler[T]) Encode(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) ([]uint64, utils.Cleaner, error) {

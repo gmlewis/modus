@@ -20,7 +20,6 @@
         "__modus_add3:add3",
         "__modus_add3_WithDefaults:add3_WithDefaults",
         "__modus_add:add",
-        "__modus_call_test_time_option_input_none:call_test_time_option_input_none",
         "__modus_call_test_time_option_input_some:call_test_time_option_input_some",
         "__modus_get_current_time:get_current_time",
         "__modus_get_current_time_formatted:get_current_time_formatted",

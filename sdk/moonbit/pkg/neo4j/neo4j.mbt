@@ -34,23 +34,6 @@ pub(all) struct Record {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-// pub(all) enum RecordValue {
-//   Bool(Bool)
-//   Int64(Int64)
-//   Double(Double)
-//   String(String)
-//   Time(String)
-//   Bytes(Array[Int])
-//   AnyArray(Array[Json])
-//   Map(Json)
-//   Node(Node)
-//   Relationship(Relationship)
-//   Path(Path)
-//   Point2D(Point2D)
-//   Point3D(Point3D)
-// } derive(Show, Eq, FromJson, ToJson)
-
-///|
 pub(open) trait Entity {
   get_element_id(Self) -> String
   get_properties(Self) -> Map[String, Json]
@@ -58,10 +41,28 @@ pub(open) trait Entity {
 
 ///|
 pub(all) struct Node {
-  element_id : String // `json:"ElementId"`
-  labels : Array[String] // `json:"Labels"`
-  props : Map[String, Json] // `json:"Props"`
-} derive(Show, Eq, FromJson, ToJson)
+  element_id : String
+  labels : Array[String]
+  props : Map[String, Json]
+} derive(Show, Eq)
+
+///|
+pub impl @json.FromJson for Node with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let element_id = @json.from_json!(json.get("ElementId").unwrap())
+  let labels = @json.from_json!(json.get("Labels").unwrap())
+  let props = @json.from_json!(json.get("Props").unwrap())
+  { element_id, labels, props }
+}
+
+///|
+pub impl ToJson for Node with to_json(self) {
+  {
+    "ElementId": self.element_id.to_json(),
+    "Labels": self.labels.to_json(),
+    "Props": self.props.to_json(),
+  }.to_json()
+}
 
 ///|
 pub fn Node::get_element_id(self : Node) -> String {
@@ -75,12 +76,34 @@ pub fn Node::get_properties(self : Node) -> Map[String, Json] {
 
 ///|
 pub(all) struct Relationship {
-  element_id : String // `json:"ElementId"`
-  start_element_id : String // `json:"StartElementId"`
-  end_element_id : String // `json:"EndElementId"`
-  type_ : String // `json:"Type"`
-  props : Json // `json:"Props"`
-} derive(Show, Eq, FromJson, ToJson)
+  element_id : String
+  start_element_id : String
+  end_element_id : String
+  type_ : String
+  props : Json
+} derive(Show, Eq)
+
+///|
+pub impl @json.FromJson for Relationship with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let element_id = @json.from_json!(json.get("ElementId").unwrap())
+  let start_element_id = @json.from_json!(json.get("StartElementId").unwrap())
+  let end_element_id = @json.from_json!(json.get("EndElementId").unwrap())
+  let type_ = @json.from_json!(json.get("Type").unwrap())
+  let props = @json.from_json!(json.get("Props").unwrap())
+  { element_id, start_element_id, end_element_id, type_, props }
+}
+
+///|
+pub impl ToJson for Relationship with to_json(self) {
+  {
+    "ElementId": self.element_id.to_json(),
+    "StartElementId": self.start_element_id.to_json(),
+    "EndElementId": self.end_element_id.to_json(),
+    "Type": self.type_.to_json(),
+    "Props": self.props.to_json(),
+  }.to_json()
+}
 
 ///|
 pub fn Relationship::get_element_id(self : Relationship) -> String {
@@ -94,22 +117,25 @@ pub fn Relationship::get_properties(self : Relationship) -> Json {
 
 ///|
 pub(all) struct Path {
-  nodes : Array[Node] // `json:"Nodes"`
-  relationships : Array[Relationship] // `json:"Relationships"`
-} derive(Show, Eq, FromJson, ToJson)
+  nodes : Array[Node]
+  relationships : Array[Relationship]
+} derive(Show, Eq)
 
-// ///|
-// pub(all) enum PropertyValue {
-//   Bool(Bool)
-//   Int64(Int64)
-//   Double(Double)
-//   String(String)
-//   Time(String)
-//   Bytes(Array[Int])
-//   AnyArray(Array[Json])
-//   Point2D(Point2D)
-//   Point3D(Point3D)
-// } derive(Show, Eq, FromJson, ToJson)
+///|
+pub impl @json.FromJson for Path with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let nodes = @json.from_json!(json.get("Nodes").unwrap())
+  let relationships = @json.from_json!(json.get("Relationships").unwrap())
+  { nodes, relationships }
+}
+
+///|
+pub impl ToJson for Path with to_json(self) {
+  {
+    "Nodes": self.nodes.to_json(),
+    "Relationships": self.relationships.to_json(),
+  }.to_json()
+}
 
 ///| Point2D represents a two dimensional point in a particular coordinate reference system.
 pub(all) struct Point2D {
