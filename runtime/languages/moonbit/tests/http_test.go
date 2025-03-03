@@ -16,14 +16,14 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-// func TestHttpResponseHeaders(t *testing.T) {
-// 	fnName := "test_http_response_headers"
-// 	r := getTestHttpResponse()
+func TestHttpResponseHeaders(t *testing.T) {
+	fnName := "test_http_response_headers"
+	r := getTestHttpResponse()
 
-// 	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
-// 		t.Error(err)
-// 	}
-// }
+	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestHttpResponseHeadersOutput(t *testing.T) {
 	fnName := "test_http_response_headers_output"
