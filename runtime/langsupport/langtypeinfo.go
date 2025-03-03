@@ -40,4 +40,9 @@ type LanguageTypeInfo interface {
 	IsSignedIntegerType(typ string) bool
 	IsStringType(typ string) bool
 	IsTimestampType(typ string) bool
+
+	// Special methods needed to support the MoonBit programming language:
+	IsErrorType(typ string) (string, bool)
+	IsTupleType(typ string) bool
+	GetTupleSubtypes(typ string) []string
 }

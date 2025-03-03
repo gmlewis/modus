@@ -17,8 +17,8 @@ import (
 	"time"
 
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/twpayne/go-geom/encoding/wkb"

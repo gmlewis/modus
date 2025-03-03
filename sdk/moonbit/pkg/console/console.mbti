@@ -1,0 +1,25 @@
+package gmlewis/modus/pkg/console
+
+alias @gmlewis/modus/pkg/testutils as @testutils
+
+// Values
+fn assert(Bool, String) -> Unit
+
+fn debug(String) -> Unit
+
+fn error(String) -> Unit
+
+fn info(String) -> Unit
+
+fn log(String) -> Unit
+
+let log_call_stack : @testutils.CallStack[String]
+
+fn warn(String) -> Unit
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

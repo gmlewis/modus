@@ -1,2 +1,2 @@
-github.com/hypermodeinc/modus/sdk/go v0.17.1 h1:mBuAEigt1vajdGJ0gXUbviptHL9tlVl0sCwqdp/Yhug=
-github.com/hypermodeinc/modus/sdk/go v0.17.1/go.mod h1:aWA2B+sq62gjrkTnwV2IZt3IcdpAti16dta6MbG9phY=
+github.com/gmlewis/modus/sdk/go v0.17.0 h1:gHqPJJJ96yuZuPFzA8fRvIqcN6yHpuV6tW8LiO68mBg=
+github.com/gmlewis/modus/sdk/go v0.17.0/go.mod h1:atGbfG4UyQdOurhixL8FObA5x2ilqMynTKcuPimxzAA=

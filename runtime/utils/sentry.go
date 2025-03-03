@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/app"
 
 	"github.com/getsentry/sentry-go"
 )

@@ -1,0 +1,29 @@
+package gmlewis/modus/pkg/dgraph
+
+alias @gmlewis/modus/wit/interface/dgraphClient as @dgraphClient
+
+// Values
+fn alter_schema(String, String) -> Unit!
+
+fn drop_all(String) -> Unit!
+
+fn drop_attr(String, String) -> Unit!
+
+fn execute(String, @dgraphClient.Request) -> @dgraphClient.Response!
+
+// Types and methods
+pub(all) type! DgraphError String
+impl Eq for DgraphError
+impl Show for DgraphError
+
+// Type aliases
+pub typealias Mutation = @dgraphClient.Mutation
+
+pub typealias Query = @dgraphClient.Query
+
+pub typealias Request = @dgraphClient.Request
+
+pub typealias Response = @dgraphClient.Response
+
+// Traits
+

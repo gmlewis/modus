@@ -1,0 +1,31 @@
+package gmlewis/modus/pkg/models
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn get_model(String) -> ModelBase!
+
+// Types and methods
+pub(all) struct ModelBase {
+  info : @gmlewis/modus/wit/interface/models.ModelInfo?
+  debug : Bool
+}
+impl Model for ModelBase
+impl Eq for ModelBase
+impl Show for ModelBase
+impl ToJson for ModelBase
+impl @json.FromJson for ModelBase
+
+pub(all) type! ModelError String
+impl Eq for ModelError
+impl Show for ModelError
+
+// Type aliases
+pub typealias ModelInfo = @gmlewis/modus/wit/interface/models.ModelInfo
+
+// Traits
+pub(open) trait Model {
+  info(Self) -> @gmlewis/modus/wit/interface/models.ModelInfo
+  invoke(Self, Json) -> Json!
+}
+
