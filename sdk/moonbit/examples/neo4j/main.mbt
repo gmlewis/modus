@@ -26,9 +26,9 @@ pub fn create_people_and_relationships() -> String!Error {
     let _ = @neo4j.execute_query!(
       CONNECTION,
       #|MATCH (p:Person {name: $person.name})
-      #|UNWIND $person.friends AS friend_name
-      #|MATCH (friend:Person {name: friend_name})
-      #|MERGE (p)-[:KNOWS]->(friend)
+      #|        UNWIND $person.friends AS friend_name
+      #|        MATCH (friend:Person {name: friend_name})
+      #|        MERGE (p)-[:KNOWS]->(friend)
       ,
       { "person": person },
     )
@@ -53,19 +53,14 @@ pub fn get_alice_friends_under_40() -> Array[Person]!Error {
     ,
     { "name": "Alice", "age": 40 },
   )
-  let records = response.records
-  records.filter_map(fn(record) {
-    let node = try {
-      @neo4j.get_record_value!(record, "friend")
-    } catch {
-      _ => return None
-    }
-    match node {
-      Map({ "name": String(name), "age": Number(age), .. }) =>
-        Some({ name, age: age.to_int64() })
-      _ => None
-    }
-  })
+  let persons = []
+  for record in response.records {
+    let node : @neo4j.Node = @neo4j.get_record_value!(record, "friend")
+    let name : String = @neo4j.get_property!(node, "name")
+    let age : Int64 = @neo4j.get_property!(node, "age")
+    persons.push({ name, age })
+  }
+  persons
 }
 
 ///|
@@ -78,18 +73,12 @@ pub fn get_alice_friends_under_40_ages() -> Array[Int64]!Error {
     ,
     { "name": "Alice", "age": 40 },
   )
-  let records = response.records
-  records.filter_map(fn(record) {
-    let node = try {
-      @neo4j.get_record_value!(record, "friend")
-    } catch {
-      _ => return None
-    }
-    match node {
-      Map({ "age": Number(age), .. }) => Some(age.to_int64())
-      _ => None
-    }
-  })
+  let ages = []
+  for record in response.records {
+    let age : Int64 = @neo4j.get_record_value!(record, "age")
+    ages.push(age)
+  }
+  ages
 }
 
 ///|

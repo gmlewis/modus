@@ -32,7 +32,12 @@ pub fn host_execute_query(
   println(
     "GML: neo4j/ffi_wasm.mbt: wasmImportExecuteQuery returned result=\{result}",
   )
-  fail!("not implemented yet")
+  if result == 0 {
+    raise Neo4jError("failed to execute query")
+  }
+  let result : EagerResult? = cast(result)
+  println("GML: neo4j/ffi_wasm.mbt: host_execute_query: result=\{result}")
+  result
 }
 
 ///|

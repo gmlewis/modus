@@ -15,7 +15,7 @@ pub(all) type Neo4jOption (Neo4jOptions) -> Unit
 pub(all) struct EagerResult {
   keys : Array[String]
   records : Array[Record]
-}
+} derive(Show, Eq)
 
 ///|
 pub struct Neo4jOptions {
@@ -34,21 +34,21 @@ pub(all) struct Record {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub(all) enum RecordValue {
-  Bool(Bool)
-  Int64(Int64)
-  Double(Double)
-  String(String)
-  Time(String)
-  Bytes(Array[Int])
-  AnyArray(Array[Json])
-  Map(Json)
-  Node(Node)
-  Relationship(Relationship)
-  Path(Path)
-  Point2D(Point2D)
-  Point3D(Point3D)
-} derive(Show, Eq, FromJson, ToJson)
+// pub(all) enum RecordValue {
+//   Bool(Bool)
+//   Int64(Int64)
+//   Double(Double)
+//   String(String)
+//   Time(String)
+//   Bytes(Array[Int])
+//   AnyArray(Array[Json])
+//   Map(Json)
+//   Node(Node)
+//   Relationship(Relationship)
+//   Path(Path)
+//   Point2D(Point2D)
+//   Point3D(Point3D)
+// } derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub(open) trait Entity {
@@ -98,18 +98,18 @@ pub(all) struct Path {
   relationships : Array[Relationship] // `json:"Relationships"`
 } derive(Show, Eq, FromJson, ToJson)
 
-///|
-pub(all) enum PropertyValue {
-  Bool(Bool)
-  Int64(Int64)
-  Double(Double)
-  String(String)
-  Time(String)
-  Bytes(Array[Int])
-  AnyArray(Array[Json])
-  Point2D(Point2D)
-  Point3D(Point3D)
-} derive(Show, Eq, FromJson, ToJson)
+// ///|
+// pub(all) enum PropertyValue {
+//   Bool(Bool)
+//   Int64(Int64)
+//   Double(Double)
+//   String(String)
+//   Time(String)
+//   Bytes(Array[Int])
+//   AnyArray(Array[Json])
+//   Point2D(Point2D)
+//   Point3D(Point3D)
+// } derive(Show, Eq, FromJson, ToJson)
 
 ///| Point2D represents a two dimensional point in a particular coordinate reference system.
 pub(all) struct Point2D {
@@ -159,15 +159,25 @@ pub fn execute_query(
     raise Neo4jError("Failed to execute the Neo4j query")
   }
   let response = response.unwrap()
+  println("GML: neo4j/neo4j.mbt: execute_query: response=\{response}")
 
   //
   response
 }
 
 ///|
-pub fn get_record_value(self : Record, key : String) -> RecordValue!Error {
+pub fn get_record_value[T : @json.FromJson](
+  self : Record,
+  key : String
+) -> T!Error {
   match self.get(key) {
-    (value, true) => @json.from_json!(@json.parse!(value))
+    (value, true) => {
+      // @json.from_json!(@json.parse!(value))
+      println("GML: neo4j/neo4j.mbt: get_record_value: value='\{value}'")
+      let json = @json.parse!(value)
+      println("GML: neo4j/neo4j.mbt: get_record_value: json=\{json}")
+      @json.from_json!(json)
+    }
     (_, false) => raise Neo4jError("Key not found in record")
   }
 }
@@ -192,11 +202,15 @@ pub fn as_map(self : Record) -> Map[String, String] {
 }
 
 ///|
-pub fn get_property(self : &Entity, key : String) -> PropertyValue!Error {
+pub fn get_property[T : @json.FromJson](
+  self : &Entity,
+  key : String
+) -> T!Error {
   let raw_val = self.get_properties().get(key)
   if raw_val.is_empty() {
     raise Neo4jError("Key not found in node")
   }
-  let val = raw_val.unwrap()
-  @json.from_json!(val)
+  let json = raw_val.unwrap()
+  println("GML: neo4j/neo4j.mbt: get_property: json=\{json}")
+  @json.from_json!(json)
 }

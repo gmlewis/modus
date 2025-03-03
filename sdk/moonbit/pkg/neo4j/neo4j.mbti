@@ -14,6 +14,8 @@ pub(all) struct EagerResult {
   keys : Array[String]
   records : Array[Record]
 }
+impl Eq for EagerResult
+impl Show for EagerResult
 
 pub(all) type! Neo4jError String
 impl Eq for Neo4jError
@@ -75,22 +77,6 @@ impl Show for Point3D
 impl ToJson for Point3D
 impl @json.FromJson for Point3D
 
-pub(all) enum PropertyValue {
-  Bool(Bool)
-  Int64(Int64)
-  Double(Double)
-  String(String)
-  Time(String)
-  Bytes(Array[Int])
-  AnyArray(Array[Json])
-  Point2D(Point2D)
-  Point3D(Point3D)
-}
-impl Eq for PropertyValue
-impl Show for PropertyValue
-impl ToJson for PropertyValue
-impl @json.FromJson for PropertyValue
-
 pub(all) struct Record {
   values : Array[String]
   keys : Array[String]
@@ -98,32 +84,12 @@ pub(all) struct Record {
 impl Record {
   as_map(Self) -> Map[String, String]
   get(Self, String) -> (String, Bool)
-  get_record_value(Self, String) -> RecordValue!
+  get_record_value[T : @json.FromJson](Self, String) -> T!
 }
 impl Eq for Record
 impl Show for Record
 impl ToJson for Record
 impl @json.FromJson for Record
-
-pub(all) enum RecordValue {
-  Bool(Bool)
-  Int64(Int64)
-  Double(Double)
-  String(String)
-  Time(String)
-  Bytes(Array[Int])
-  AnyArray(Array[Json])
-  Map(Json)
-  Node(Node)
-  Relationship(Relationship)
-  Path(Path)
-  Point2D(Point2D)
-  Point3D(Point3D)
-}
-impl Eq for RecordValue
-impl Show for RecordValue
-impl ToJson for RecordValue
-impl @json.FromJson for RecordValue
 
 pub(all) struct Relationship {
   element_id : String
@@ -142,7 +108,7 @@ impl ToJson for Relationship
 impl @json.FromJson for Relationship
 
 impl Entity {
-  get_property(&Self, String) -> PropertyValue!
+  get_property[T : @json.FromJson](&Self, String) -> T!
 }
 
 // Type aliases
