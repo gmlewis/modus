@@ -11,12 +11,13 @@ package wasm
 
 import (
 	"encoding/json"
+	"fmt"
 	"path/filepath"
-	"strings"
 
 	"github.com/gmlewis/modus/lib/wasmextractor"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
@@ -60,73 +61,67 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
-			//TODO: delete(meta.FnExports, name)
-			if strings.HasPrefix(name, "__modus_") {
-				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
-				delete(meta.FnExports, name)
+			delete(meta.FnExports, name)
+			// if strings.HasPrefix(name, "__modus_") {
+			// 	gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
+			// 	delete(meta.FnExports, name)
+			// }
+		}
+	}
+
+	// Remove unused types (they might not be needed now, due to removing functions)
+	var keptTypes = make(metadata.TypeMap, len(meta.Types))
+	for _, fn := range append(utils.MapValues(meta.FnImports), utils.MapValues(meta.FnExports)...) {
+		for _, param := range fn.Parameters {
+			if _, ok := meta.Types[param.Type]; ok {
+				keptTypes[param.Type] = meta.Types[param.Type]
+				delete(meta.Types, param.Type)
+			} else {
+				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
+			}
+		}
+		for _, result := range fn.Results {
+			if _, ok := meta.Types[result.Type]; ok {
+				keptTypes[result.Type] = meta.Types[result.Type]
+				delete(meta.Types, result.Type)
+			} else {
+				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
 			}
 		}
 	}
 
-	// For now, leave all types as-is. This continues to be a source of great confusion
-	// as we try to figure out what types are actually needed for MoonBit.
-	/*
-		// Remove unused types (they might not be needed now, due to removing functions)
-		var keptTypes = make(metadata.TypeMap, len(meta.Types))
-		for _, fn := range append(utils.MapValues(meta.FnImports), utils.MapValues(meta.FnExports)...) {
-			for _, param := range fn.Parameters {
-				// paramType := stripError(param.Type)
-				if _, ok := meta.Types[param.Type]; ok {
-					keptTypes[param.Type] = meta.Types[param.Type]
-					//TODO: delete(meta.Types, paramType)
-				} else {
-					gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
-				}
-			}
-			for _, result := range fn.Results {
-				// resultType := stripError(result.Type)
-				if _, ok := meta.Types[result.Type]; ok {
-					keptTypes[result.Type] = meta.Types[result.Type]
-					//TODO: delete(meta.Types, resultType)
-				} else {
-					gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
+	// ensure types used by kept types are also kept
+	for dirty := true; len(meta.Types) > 0 && dirty; {
+		dirty = false
+
+		keep := func(t string) {
+			if _, ok := meta.Types[t]; ok {
+				if _, ok := keptTypes[t]; !ok {
+					keptTypes[t] = meta.Types[t]
+					delete(meta.Types, t)
+					dirty = true
 				}
 			}
 		}
 
-		// ensure types used by kept types are also kept
-		for dirty := true; len(meta.Types) > 0 && dirty; {
-			dirty = false
-
-			keep := func(t string) {
-				if _, ok := meta.Types[t]; ok {
-					if _, ok := keptTypes[t]; !ok {
-						keptTypes[t] = meta.Types[t]
-						//TODO: delete(meta.Types, t)
-						//TODO: dirty = true
-					}
-				}
+		for _, t := range keptTypes {
+			// if utils.IsPointerType(t.Name) {
+			if utils.IsOptionType(t.Name) {
+				keep(utils.GetUnderlyingType(t.Name))
+			} else if utils.IsListType(t.Name) {
+				keep(utils.GetListSubtype(t.Name))
+			} else if utils.IsMapType(t.Name) {
+				kt, vt := utils.GetMapSubtypes(t.Name)
+				keep(kt)
+				keep(vt)
+				keep(fmt.Sprintf("Array[%v]", kt))
+				keep(fmt.Sprintf("Array[%v]", vt))
 			}
 
-			for _, t := range keptTypes {
-				// if utils.IsPointerType(t.Name) {
-				if utils.IsOptionType(t.Name) {
-					keep(utils.GetUnderlyingType(t.Name))
-				} else if utils.IsListType(t.Name) {
-					keep(utils.GetListSubtype(t.Name))
-				} else if utils.IsMapType(t.Name) {
-					kt, vt := utils.GetMapSubtypes(t.Name)
-					keep(kt)
-					keep(vt)
-					keep(fmt.Sprintf("Array[%v]", kt))
-					keep(fmt.Sprintf("Array[%v]", vt))
-				}
-
-				for _, field := range t.Fields {
-					keep(field.Type)
-				}
+			for _, field := range t.Fields {
+				keep(field.Type)
 			}
 		}
-		meta.Types = keptTypes
-	*/
+	}
+	meta.Types = keptTypes
 }

@@ -154,10 +154,23 @@ type Config struct {
 	// // but the logger is nil, default to gmlPrintf.
 	// Logf func(format string, args ...interface{})
 
+	// RootAbsPath is the absolute path to the root directory of the initial user program.
+	// This directory contains the ".mooncakes" subdirectory where all
+	// the imports should be able to be found.
+	RootAbsPath string
+
 	// Dir is the directory in which to run the build system's query tool
 	// that provides information about the packages.
 	// If Dir is empty, the tool is run in the current directory.
 	Dir string
+
+	// PackageName is the name that this package is referred to, which is
+	// found in the moon.mod.json file.
+	PackageName string
+
+	// PackageAlias is the alias that this package is referred to, which is
+	// found in the moon.mod.json file.
+	PackageAlias string
 
 	// Env is the environment to use when invoking the build system's query tool.
 	// If Env is nil, the current environment is used.

@@ -2,194 +2,132 @@
 // You may modify and use this example in accordance with the license.
 // See the LICENSE file that accompanied this code for further details.
 
-// package main
-// 
-// import (
-// 	"encoding/json"
-// 	"fmt"
-// 
-// 	"github.com/gmlewis/modus/sdk/go/pkg/dgraph"
-// )
-// 
-// const hostName = "dgraph"
-// 
-// func DropAll() string {
-// 	err := dgraph.DropAll(hostName)
-// 	if err != nil {
-// 		return err.Error()
-// 	}
-// 
-// 	return "Success"
-// }
-// 
-// func DropAttr(attr string) string {
-// 	err := dgraph.DropAttr(hostName, attr)
-// 	if err != nil {
-// 		return err.Error()
-// 	}
-// 
-// 	return "Success"
-// }
-// 
-// func AlterSchema() string {
-// 	schema := `
-// 	firstName: string @index(term) .
-// 	lastName: string @index(term) .
-// 	dgraph.type: [string] @index(exact) .
-//   
-// 	type Person {
-// 		firstName
-// 		lastName
-// 	}
-// 	`
-// 	err := dgraph.AlterSchema(hostName, schema)
-// 	if err != nil {
-// 		return err.Error()
-// 	}
-// 
-// 	return "Success"
-// }
-// 
-// func QueryPeople() ([]*Person, error) {
-// 	query := `
-// 	{
-// 	  people(func: type(Person)) {
-// 		uid
-// 		firstName
-// 		lastName
-// 		dgraph.type
-// 	  }
-// 	}
-// 	`
-// 
-// 	response, err := dgraph.Execute(hostName, &dgraph.Request{
-// 		Query: &dgraph.Query{
-// 			Query: query,
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	var peopleData PeopleData
-// 	if err := json.Unmarshal([]byte(response.Json), &peopleData); err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return peopleData.People, nil
-// }
-// 
-// func QuerySpecificPerson(firstName, lastName string) (*Person, error) {
-// 	statement := `
-// 	query queryPerson($firstName: string, $lastName: string) {
-// 	  people(func: eq(firstName, $firstName)) @filter(eq(lastName, $lastName)) {
-// 		  uid
-// 		  firstName
-// 		  lastName
-// 		  dgraph.type
-// 	  }
-//   }
-// 	`
-// 
-// 	variables := map[string]string{
-// 		"$firstName": firstName,
-// 		"$lastName":  lastName,
-// 	}
-// 
-// 	response, err := dgraph.Execute(hostName, &dgraph.Request{
-// 		Query: &dgraph.Query{
-// 			Query:     statement,
-// 			Variables: variables,
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	var peopleData PeopleData
-// 	if err := json.Unmarshal([]byte(response.Json), &peopleData); err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	if len(peopleData.People) == 0 {
-// 		return nil, nil // Person not found
-// 	}
-// 
-// 	return peopleData.People[0], nil
-// }
-// 
-// func AddPersonAsRDF(firstName, lastName string) (map[string]string, error) {
-// 	mutation := fmt.Sprintf(`
-//   _:user1 <firstName> "%s" .
-//   _:user1 <lastName> "%s" .
-//   _:user1 <dgraph.type> "Person" .
-//   `, firstName, lastName)
-// 
-// 	response, err := dgraph.Execute(hostName, &dgraph.Request{
-// 		Mutations: []*dgraph.Mutation{
-// 			{
-// 				SetNquads: mutation,
-// 			},
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return response.Uids, nil
-// }
-// 
-// func AddPersonAsJSON(firstName, lastName string) (map[string]string, error) {
-// 	person := Person{
-// 		Uid:       "_:user1",
-// 		FirstName: firstName,
-// 		LastName:  lastName,
-// 		DType:     []string{"Person"},
-// 	}
-// 
-// 	data, err := json.Marshal(person)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	response, err := dgraph.Execute(hostName, &dgraph.Request{
-// 		Mutations: []*dgraph.Mutation{
-// 			{
-// 				SetJson: string(data),
-// 			},
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return response.Uids, nil
-// }
-// 
-// func UpsertPerson(nameToChangeFrom, nameToChangeTo string) (map[string]string, error) {
-// 	query := fmt.Sprintf(`
-// 	query {
-// 	  person as var(func: eq(firstName, "%s"))
-// 	`, nameToChangeFrom)
-// 
-// 	mutation := fmt.Sprintf(`
-// 	uid(person) <firstName> "%s" .
-// 	`, nameToChangeTo)
-// 
-// 	response, err := dgraph.Execute(hostName, &dgraph.Request{
-// 		Query: &dgraph.Query{
-// 			Query: query,
-// 		},
-// 		Mutations: []*dgraph.Mutation{
-// 			{
-// 				SetNquads: mutation,
-// 			},
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return response.Uids, nil
-// }
-//
+///|
+const CONNECTION = "dgraph"
+
+///|
+pub struct Person {
+  uid : String // `json:"uid,omitempty"`
+  firstName : String // `json:"firstName,omitempty"`
+  lastName : String // `json:"lastName,omitempty"`
+  dType : Array[String] // `json:"dgraph.type,omitempty"`
+} derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub struct PeopleData {
+  people : Array[Person] // `json:"people"`
+} derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub fn drop_all() -> String!Error {
+  @dgraph.drop_all!(CONNECTION)
+  "Success"
+}
+
+///|
+pub fn drop_attr(attr : String) -> String!Error {
+  @dgraph.drop_attr!(CONNECTION, attr)
+  "Success"
+}
+
+///|
+pub fn alter_schema() -> String!Error {
+  let schema =
+    #|firstName: string @index(term) .
+    #|lastName: string @index(term) .
+    #|dgraph.type: [string] @index(exact) .
+    #|
+    #|type Person {
+    #|	firstName
+    #|	lastName
+    #|}
+  @dgraph.alter_schema!(CONNECTION, schema)
+  "Success"
+}
+
+///|
+pub fn query_people() -> Array[Person]!Error {
+  let query =
+    #|{
+    #|  people(func: type(Person)) {
+    #|    uid
+    #|    firstName
+    #|    lastName
+    #|    dgraph.type
+    #|  }
+    #|}
+  let response = @dgraph.execute_query!(CONNECTION, @dgraph.new_query(query))
+  let people_data : PeopleData = @json.from_json!(@json.parse!(response.json))
+  people_data.people
+}
+
+///|
+pub fn query_specific_person(
+  first_name : String,
+  last_name : String
+) -> Person?!Error {
+  let query =
+    #|query queryPerson($firstName: string, $lastName: string) {
+    #|  people(func: eq(firstName, $firstName)) @filter(eq(lastName, $lastName)) {
+    #|	  uid
+    #|	  firstName
+    #|	  lastName
+    #|	  dgraph.type
+    #|  }
+    #|}
+  let variables = { "$firstName": first_name, "$lastName": last_name }
+  let response = @dgraph.execute_query!(
+    CONNECTION,
+    @dgraph.new_query(query, variables~),
+  )
+  let people_data : PeopleData = @json.from_json!(@json.parse!(response.json))
+  if people_data.people.is_empty() {
+    None
+  } else {
+    Some(people_data.people[0])
+  }
+}
+
+///|
+pub fn add_person_as_rdf(
+  first_name : String,
+  last_name : String
+) -> Map[String, String]!Error {
+  let mutation =
+    $|_:user1 <firstName> "\{@dgraph.escape_rdf(first_name)}" .
+    $|_:user1 <lastName> "\{@dgraph.escape_rdf(last_name)}" .
+    #|_:user1 <dgraph.type> "Person" .
+  let response = @dgraph.execute_mutations!(CONNECTION, [
+    @dgraph.set_nquads(mutation),
+  ])
+  response.uids
+}
+
+///|
+pub fn add_person_as_json(
+  firstName : String,
+  lastName : String
+) -> Map[String, String]!Error {
+  let person = { uid: "_:user1", firstName, lastName, dType: ["Person"] }
+  let data = @json.stringify(person.to_json())
+  let response = @dgraph.execute_mutations!(CONNECTION, [@dgraph.set_json(data)])
+  response.uids
+}
+
+///|
+pub fn upsert_person(
+  name_to_change_from : String,
+  name_to_change_to : String
+) -> Map[String, String]!Error {
+  let query =
+    #|query findPerson($name: string) {
+    #|  person as var(func: eq(firstName, $name))
+    #|}
+  let variables = { "$name": name_to_change_from }
+  let mutation =
+    $|uid(person) <firstName> "\{@dgraph.escape_rdf(name_to_change_to)}" .
+  let response = @dgraph.execute_query!(CONNECTION, { query, variables }, mutations=[
+    @dgraph.set_nquads(mutation),
+  ])
+  response.uids
+}

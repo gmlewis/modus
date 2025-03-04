@@ -22,29 +22,7 @@ func moonBitReturnType(export *metadata.Function) string {
 }
 
 var moonBitFnImports = metadata.FunctionMap{
-	"modus_neo4j_client.executeQuery": {
-		Name: "modus_neo4j_client.executeQuery",
-		Parameters: []*metadata.Parameter{
-			{Name: "host_name", Type: "String"},
-			{Name: "db_name", Type: "String"},
-			{Name: "query", Type: "String"},
-			{Name: "parameters_json", Type: "String"},
-		},
-		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?"}},
-	},
-	"modus_system.getTimeInZone": {
-		Name:       "modus_system.getTimeInZone",
-		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
-		Results:    []*metadata.Result{{Type: "String"}},
-	},
-	"modus_system.getTimeZoneData": {
-		Name: "modus_system.getTimeZoneData",
-		Parameters: []*metadata.Parameter{
-			{Name: "tz", Type: "String"},
-			{Name: "format", Type: "String"},
-		},
-		Results: []*metadata.Result{{Type: "Array[Byte]"}},
-	},
+	// @console - always provide this metadata so that error messages can be printed.
 	"modus_system.logMessage": {
 		Name: "modus_system.logMessage",
 		Parameters: []*metadata.Parameter{

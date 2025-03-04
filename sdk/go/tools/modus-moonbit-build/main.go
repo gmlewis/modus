@@ -81,7 +81,7 @@ func buildPlugin(config *config.Config, start time.Time, trace bool) {
 		log.Println("Module info collected.")
 	}
 
-	if err := codegen.PreProcess(config); err != nil {
+	if err := codegen.PreProcess(config, mod); err != nil {
 		exitWithError("Error while pre-processing source files", err)
 	}
 

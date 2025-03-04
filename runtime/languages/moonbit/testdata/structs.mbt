@@ -396,11 +396,11 @@ pub fn test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Error {
   let r1_ptr = cast_struct_to_ptr(r1)
   println("test_recursive_struct_input: r1_ptr=\{r1_ptr}, r1.a=\{r1.a}")
   assert_true!(r1.a)
-  guard let Some(r2) = r1.b else { _ => fail("Expected Some, got None") }
+  guard r1.b is Some(r2) else { fail("Expected Some, got None") }
   let r2_ptr = cast_struct_to_ptr(r2)
   println("test_recursive_struct_input: r2_ptr=\{r2_ptr}, r2.a=\{r2.a}")
   assert_false!(r2.a)
-  guard let Some(r3) = r2.b else { _ => fail("Expected Some, got None") }
+  guard r2.b is Some(r3) else { fail("Expected Some, got None") }
   let r3_ptr = cast_struct_to_ptr(r3)
   println("test_recursive_struct_input: r3_ptr=\{r3_ptr}, r3.a=\{r3.a}")
   assert_eq!(r1_ptr, r3_ptr)
@@ -440,11 +440,11 @@ pub fn test_struct_option_input4_with_none(o : TestStruct4?) -> Unit!Error {
 pub fn test_recursive_struct_option_input(
   o : TestRecursiveStruct?
 ) -> Unit!Error {
-  guard let Some(r1) = o else { _ => fail("Expected Some, got None") }
+  guard o is Some(r1) else { fail("Expected Some, got None") }
   assert_true!(r1.a)
-  guard let Some(r2) = r1.b else { _ => fail("Expected Some, got None") }
+  guard r1.b is Some(r2) else { fail("Expected Some, got None") }
   assert_false!(r2.a)
-  guard let Some(r3) = r2.b else { _ => fail("Expected Some, got None") }
+  guard r2.b is Some(r3) else { fail("Expected Some, got None") }
   let r1_ptr = cast_struct_to_ptr(r1)
   let r3_ptr = cast_struct_to_ptr(r3)
   assert_eq!(r1_ptr, r3_ptr)

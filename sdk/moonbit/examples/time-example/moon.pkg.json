@@ -1,6 +1,5 @@
 {
   "import": [
-    "gmlewis/modus/pkg/console",
     "gmlewis/modus/pkg/localtime",
     "gmlewis/modus/wit/interface/wasi",
     "moonbitlang/x/time"

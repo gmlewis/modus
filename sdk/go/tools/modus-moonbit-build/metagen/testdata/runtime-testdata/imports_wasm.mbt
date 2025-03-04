@@ -23,7 +23,7 @@ fn _host_echo4(message : Int) -> Int = "modus_test" "echo4"
 
 ///|
 pub fn host_echo1(message : String) -> String {
-  let ptr = @ffi.str2ptr(m) - 8
+  let ptr = @ffi.str2ptr(message) - 8
   let result = _host_echo1(ptr)
   @ffi.ptr2str(result + 8)
 }
@@ -45,7 +45,7 @@ pub fn host_echo2(message : String?) -> String {
 
 ///|
 pub fn host_echo3(message : String) -> String? {
-  let ptr = @ffi.str2ptr(m) - 8
+  let ptr = @ffi.str2ptr(message) - 8
   let result = _host_echo3(ptr)
   match result {
     0 => None
@@ -71,28 +71,18 @@ pub fn host_echo4(message : String?) -> String? {
 ///|modus:import modus_test encodeStrings1(Array[String]?) -> String?
 fn _host_encode_strings1(items : Int) -> Int = "modus_test" "encodeStrings1"
 
-
-///|
-extern "wasm" fn _string_array2ptr(items : Int) -> Int =
-  #|(func (param i32) (result i32) local.get 0 i32.const 8 i32.sub)
-
 ///|
 fn host_encode_strings1(items : Array[String]?) -> String? {
   let result = match items {
     None => _host_encode_strings1(0)
     Some(m) => {
-      let ptr = @ffi.malloc(4 * m.length())
-      for i in 0..<m.length() {
-        @ffi.store32(ptr + 4 * i, @ffi.str2ptr(m[i]))
-      }
-      let result = _host_encode_strings1(_string_array2ptr(ptr))
-      @ffi.free(ptr)
-      result
+      let ptr : Int = cast(items)
+      _host_encode_strings1(ptr)
     }
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result))
+    _ => Some(@ffi.ptr2str(result + 8))
   }
 }
 
@@ -104,20 +94,12 @@ fn host_encode_strings2(items : Array[String?]?) -> String? {
   let result = match items {
     None => _host_encode_strings2(0)
     Some(m) => {
-      let ptr = @ffi.malloc(4 * m.length())
-      for i in 0..<m.length() {
-        match m[i] {
-          None => @ffi.store32(ptr + 4 * i, 0)
-          Some(s) => @ffi.store32(ptr + 4 * i, @ffi.str2ptr(s))
-        }
-      }
-      let result = _host_encode_strings2(_string_array2ptr(ptr))
-      @ffi.free(ptr)
-      result
+      let ptr : Int = cast(items)
+      _host_encode_strings2(ptr)
     }
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result))
+    _ => Some(@ffi.ptr2str(result + 8))
   }
 }

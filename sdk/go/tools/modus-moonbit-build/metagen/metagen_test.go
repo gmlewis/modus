@@ -1,5 +1,4 @@
-// -*- compile-command: "go generate ./..."; -*-
-//go:build ignore
+// -*- compile-command: "go test -run ^TestGenerateMetadata_Neo4j$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -10,58 +9,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// gen-metadata-testdata.go is used to marshal testdata/simple-example-metadata.json
-// from actual parsing of the MoonBit code so that all testing stays in sync.
-// It is needed to prevent an import cycle, but is also useful to test the JSON serialization.
-package main
+package metagen
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path"
-	"path/filepath"
-	"runtime"
+	"strings"
+	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
+	"github.com/google/go-cmp/cmp"
 )
 
-var (
-	genTestCases = []string{"simple-example", "time-example"}
-)
-
-func main() {
+func setupTestConfig(t *testing.T, sourceDir string) *metadata.Metadata {
+	t.Helper()
 	log.SetFlags(0)
-	_, thisFile, _, _ := runtime.Caller(0)
-	baseDir := filepath.Dir(thisFile)
-
-	for _, name := range genTestCases {
-		genJSON(name, baseDir)
-	}
-
-	log.Printf("Done.")
-}
-
-func genJSON(name, baseDir string) {
-	filename := fmt.Sprintf("testdata/%v-metadata.json", name)
-	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
-	sourceDir := filepath.Join(baseDir, "../metagen/testdata", name)
-
-	meta := genMetadata(sourceDir)
-
-	buf, err := json.MarshalIndent(meta, "", "  ")
-	if err != nil {
-		log.Fatalf("json.MarshalIndent: %v\n%s", err, buf)
-	}
-
-	if err := os.WriteFile(filename, buf, 0644); err != nil {
-		log.Fatalf("os.WriteFile: %v", err)
-	}
+	return genMetadata(sourceDir)
 }
 
 // genMetadata is used during 'go generate' and also during testing.
@@ -87,10 +54,33 @@ func genMetadata(sourceDir string) *metadata.Metadata {
 		log.Fatalf("CollectModuleInfo returned an error: %v", err)
 	}
 
-	meta, err := metagen.GenerateMetadata(config, mod)
+	meta, err := GenerateMetadata(config, mod)
 	if err != nil {
 		log.Fatalf("GenerateMetadata returned an error: %v", err)
 	}
 
 	return meta
+}
+
+func removeExternalFuncsForComparison(t *testing.T, meta *metadata.Metadata) {
+	t.Helper()
+	for name := range meta.FnExports {
+		if strings.HasPrefix(name, "@") {
+			delete(meta.FnExports, name)
+		}
+	}
+}
+
+func diffMetaTypes(t *testing.T, wantMetaTypes, gotMetaTypes metadata.TypeMap) {
+	t.Helper()
+	// zero out all the IDs because they are horribly distracting in the diffs
+	for k := range wantMetaTypes {
+		wantMetaTypes[k].Id = 0
+	}
+	for k := range gotMetaTypes {
+		gotMetaTypes[k].Id = 0
+	}
+	if diff := cmp.Diff(wantMetaTypes, gotMetaTypes); diff != "" {
+		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
+	}
 }

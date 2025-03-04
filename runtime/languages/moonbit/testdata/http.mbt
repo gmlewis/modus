@@ -27,10 +27,10 @@ pub struct HttpHeader {
 ///|
 pub fn test_http_response_headers(r : HttpResponse?) -> Unit {
   println("test_http_response_headers")
-  guard let Some(r) = r else { _ => fail("Response is None") }
+  guard r is Some(r) else { fail("Response is None") }
   println("Status: \{r.status}")
   println("StatusText: \{r.statusText}")
-  guard let Some(h) = r.headers else { _ => fail("Headers is None") }
+  guard r.headers is Some(h) else { fail("Headers is None") }
   dump_header_map(h.data)
   println("Body: \{r.body}")
 }
@@ -73,7 +73,7 @@ pub fn test_http_header_map(m : Map[String, HttpHeader?]) -> Unit {
 
 ///|
 pub fn test_http_header(h : HttpHeader?) -> Unit {
-  guard let Some(h) = h else { _ => fail("Header is None") }
+  guard h is Some(h) else { fail("Header is None") }
   if h.name == "" {
     fail("Header.Name is empty")
   }

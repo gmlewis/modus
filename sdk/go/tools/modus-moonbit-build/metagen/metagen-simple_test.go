@@ -14,27 +14,14 @@ package metagen
 import (
 	"testing"
 
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 func TestGenerateMetadata_Simple(t *testing.T) {
-	config := &config.Config{
-		SourceDir: "testdata/simple-example",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
-
-	meta, err := GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := setupTestConfig(t, "testdata/simple-example")
+	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "simple-example"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
@@ -206,28 +193,28 @@ var wantSimpleFnImports = metadata.FunctionMap{
 }
 
 var wantSimpleTypes = metadata.TypeMap{
-	"(String)": {Id: 4,
+	"(String)": {
 		Name:   "(String)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
 	},
-	"(String, Int)": {Id: 5,
+	"(String, Int)": {
 		Name:   "(String, Int)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Int"}},
 	},
-	"@time.ZonedDateTime":       {Id: 6, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 7, Name: "@time.ZonedDateTime!Error"},
-	"@wallClock.Datetime":       {Id: 8, Name: "@wallClock.Datetime"},
-	"Array[Byte]":               {Id: 9, Name: "Array[Byte]"},
-	"Array[Int]":                {Id: 10, Name: "Array[Int]"},
-	"Array[Person]":             {Id: 11, Name: "Array[Person]"},
-	"Int":                       {Id: 12, Name: "Int"},
-	"Person": {Id: 13,
+	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
+	"@wallClock.Datetime":       {Name: "@wallClock.Datetime"},
+	"Array[Byte]":               {Name: "Array[Byte]"},
+	"Array[Int]":                {Name: "Array[Int]"},
+	"Array[Person]":             {Name: "Array[Person]"},
+	"Int":                       {Name: "Int"},
+	"Person": {
 		Name: "Person",
 		Fields: []*metadata.Field{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"}, {Name: "age", Type: "Int"},
 		},
 	},
-	"String":       {Id: 14, Name: "String"},
-	"String!Error": {Id: 15, Name: "String!Error"},
-	"String?":      {Id: 16, Name: "String?"},
+	"String":       {Name: "String"},
+	"String!Error": {Name: "String!Error"},
+	"String?":      {Name: "String?"},
 }

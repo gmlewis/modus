@@ -59,7 +59,7 @@ func getExportedFunctions(pkgs map[string]*packages.Package) map[string]*funcWit
 					if name := getImportedFuncName(fd); name != "" {
 						continue
 					}
-					if name := getExportedFuncName(fd); name != "" {
+					if name := getExportedFuncName(pkg, fd); name != "" {
 						if f, ok := pkg.TypesInfo.Defs[fd.Name].(*types.Func); ok {
 							results[name] = &funcWithPkg{fn: f, pkg: pkg}
 						}
@@ -110,7 +110,10 @@ func getImportedFunctions(pkgs map[string]*packages.Package) map[string]*funcWit
 	return results
 }
 
-func getExportedFuncName(fn *ast.FuncDecl) string {
+func getExportedFuncName(pkg *packages.Package, fn *ast.FuncDecl) string {
+	if pkg.PkgPath != "" {
+		return pkg.PkgPath + "." + fn.Name.Name
+	}
 	return fn.Name.Name
 }
 
@@ -170,18 +173,8 @@ func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
 	}
 }
 
-// During runtime, we sometimes get types that start with "@..".
-// Remove them so that the types can be properly resolved.
-func hackStripEmptyPackage(typ string) string {
-	// if strings.HasPrefix(typ, "@..") { // TODO: Why is this seen during runtime?
-	// 	gmlPrintf("GML: extractor/functions.go: STRIPPING '@..' from type=%q", typ)
-	// 	return typ[3:]
-	// }
-	return typ
-}
-
 func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Package) bool {
-	name := hackStripEmptyPackage(t.String())
+	name := t.String()
 
 	// prevent infinite recursion
 	if _, ok := m[name]; ok {
@@ -214,6 +207,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			// Handle MoonBit error types as a tuple: `(String)`
 			fullName = "(String)"
 			if _, ok := m[fullName]; !ok {
+				gmlPrintf("GML: extractor/functions.go: addRequiredTYpes: adding type '%v' to metadata", fullName)
 				underlying := types.NewNamed(types.NewTypeName(0, nil, "String", nil), nil, nil)
 				fieldVars := []*types.Var{types.NewVar(0, nil, "0", underlying)}
 				tupleStruct := types.NewStruct(fieldVars, nil)

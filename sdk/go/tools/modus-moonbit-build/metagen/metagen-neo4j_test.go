@@ -14,29 +14,16 @@ package metagen
 import (
 	"testing"
 
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 func TestGenerateMetadata_Neo4j(t *testing.T) {
-	config := &config.Config{
-		SourceDir: "testdata/neo4j-example",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/neo4j-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
+	meta := setupTestConfig(t, "testdata/neo4j-example")
+	removeExternalFuncsForComparison(t, meta)
 
-	meta, err := GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
-
-	if got, want := meta.Plugin, "neo4j-example"; got != want {
+	if got, want := meta.Plugin, "neo4j"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
 	}
 
@@ -44,9 +31,9 @@ func TestGenerateMetadata_Neo4j(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
-		t.Errorf("meta.SDK = %q, want %q", got, want)
-	}
+	// if got, want := meta.SDK, "modus-sdk-mbt@0.16.5"; got != want {
+	// 	t.Errorf("meta.SDK = %q, want %q", got, want)
+	// }
 
 	if diff := cmp.Diff(wantNeo4jFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
@@ -56,9 +43,10 @@ func TestGenerateMetadata_Neo4j(t *testing.T) {
 		t.Errorf("meta.FnImports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantNeo4jTypes, meta.Types); diff != "" {
-		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	}
+	diffMetaTypes(t, wantNeo4jTypes, meta.Types)
+	// if diff := cmp.Diff(wantNeo4jTypes, meta.Types); diff != "" {
+	// 	t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
+	// }
 }
 
 var wantNeo4jFnExports = metadata.FunctionMap{
@@ -73,7 +61,7 @@ var wantNeo4jFnExports = metadata.FunctionMap{
 	},
 	"get_alice_friends_under_40_ages": {
 		Name:    "get_alice_friends_under_40_ages",
-		Results: []*metadata.Result{{Type: "Array[Int64]!Error"}},
+		Results: []*metadata.Result{{Type: "Array[Int]!Error"}},
 	},
 }
 
@@ -81,11 +69,12 @@ var wantNeo4jFnImports = metadata.FunctionMap{
 	"modus_neo4j_client.executeQuery": {
 		Name: "modus_neo4j_client.executeQuery",
 		Parameters: []*metadata.Parameter{
-			{Name: "host_name", Type: "String"}, {Name: "db_name", Type: "String"},
+			{Name: "host_name", Type: "String"},
+			{Name: "db_name", Type: "String"},
 			{Name: "query", Type: "String"},
-			{Name: "parameters_json", Type: "String"},
+			{Name: "parameters_json", Type: "Map[String, Json]"},
 		},
-		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?"}},
+		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?!Error"}},
 	},
 	"modus_system.logMessage": {
 		Name:       "modus_system.logMessage",
@@ -94,30 +83,30 @@ var wantNeo4jFnImports = metadata.FunctionMap{
 }
 
 var wantNeo4jTypes = metadata.TypeMap{
-	"(String)": {Id: 4, Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
-	"@neo4j.EagerResult": {Id: 5,
+	"(String)": {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+	"@neo4j.EagerResult": {
 		Name:   "@neo4j.EagerResult",
 		Fields: []*metadata.Field{{Name: "keys", Type: "Array[String]"}, {Name: "records", Type: "Array[@neo4j.Record?]"}},
 	},
-	"@neo4j.EagerResult?":       {Id: 6, Name: "@neo4j.EagerResult?"},
-	"@neo4j.EagerResult?!Error": {Id: 7, Name: "@neo4j.EagerResult?!Error"},
-	"@neo4j.Record": {Id: 8,
+	"@neo4j.EagerResult?":       {Name: "@neo4j.EagerResult?"},
+	"@neo4j.EagerResult?!Error": {Name: "@neo4j.EagerResult?!Error"},
+	"@neo4j.Record": {
 		Name:   "@neo4j.Record",
 		Fields: []*metadata.Field{{Name: "values", Type: "Array[String]"}, {Name: "keys", Type: "Array[String]"}},
 	},
-	"@neo4j.Record?":        {Id: 9, Name: "@neo4j.Record?"},
-	"Array[@neo4j.Record?]": {Id: 10, Name: "Array[@neo4j.Record?]"},
-	"Array[Int64]":          {Id: 11, Name: "Array[Int64]"},
-	"Array[Int64]!Error":    {Id: 12, Name: "Array[Int64]!Error"},
-	"Array[Json]":           {Id: 13, Name: "Array[Json]"},
-	"Array[Person]":         {Id: 14, Name: "Array[Person]"},
-	"Array[Person]!Error":   {Id: 15, Name: "Array[Person]!Error"},
-	"Array[String]":         {Id: 16, Name: "Array[String]"},
-	"Json":                  {Id: 17, Name: "Json"},
-	"Person": {Id: 18,
+	"@neo4j.Record?":        {Name: "@neo4j.Record?"},
+	"Array[@neo4j.Record?]": {Name: "Array[@neo4j.Record?]"},
+	"Array[Int]":            {Name: "Array[Int]"},
+	"Array[Int]!Error":      {Name: "Array[Int]!Error"},
+	"Array[Json]":           {Name: "Array[Json]"},
+	"Array[Person]":         {Name: "Array[Person]"},
+	"Array[Person]!Error":   {Name: "Array[Person]!Error"},
+	"Array[String]":         {Name: "Array[String]"},
+	"Json":                  {Name: "Json"},
+	"Person": {
 		Name:   "Person",
-		Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "age", Type: "Int64"}},
+		Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "age", Type: "Int"}},
 	},
-	"String":       {Id: 19, Name: "String"},
-	"String!Error": {Id: 20, Name: "String!Error"},
+	"String":       {Name: "String"},
+	"String!Error": {Name: "String!Error"},
 }

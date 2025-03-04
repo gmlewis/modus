@@ -19,7 +19,7 @@ import (
 
 func (p *Package) processImportedHostFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
-		gmlPrintf("GML: processImportedHostFns: processing: %+v", match)
+		gmlPrintf("GML: processImportedHostFns: processing:\n%v", strings.Join(match, "\n"))
 		if len(match) != 5 {
 			gmlPrintf("PROGRAMMING ERROR: len(match) != 5: %+v", match)
 			continue
@@ -61,13 +61,15 @@ var modusImportHostFnRE = regexp.MustCompile(`(?m)^// modus:import (.*?)\s+(.*?)
 func extractFnDetails(match []string, fullSrc string) (fnDetails fnDetailsT) {
 	origDetails := parseMatchFnDetails(match)
 	docs := getDocsForFunction(match[0], fullSrc)
-	gmlPrintf("GML: imported host function: %v(%v) -> %v\n%v", fnDetails.MethodName, fnDetails.AllArgs, fnDetails.ReturnSig, docs)
+	gmlPrintf("GML: imported host function: %v(%v) -> %v", origDetails.MethodName, origDetails.AllArgs, origDetails.ReturnSig)
 	if docs != nil {
 		for _, line := range docs.List {
+			log.Printf("GML: DEBUG: Looking at comment: '%v'", line.Text)
 			m := modusImportHostFnRE.FindStringSubmatch(line.Text)
 			if len(m) != 5 {
 				continue
 			}
+			log.Printf("GML: DEBUG: Found modus:import: %v", m[0])
 			parts := []string{"", m[3], m[4], m[1], m[2]}
 			fnDetails := parseMatchFnDetails(parts)
 			if fnDetails.MethodName != origDetails.MethodName {
@@ -79,6 +81,7 @@ func extractFnDetails(match []string, fullSrc string) (fnDetails fnDetailsT) {
 			return fnDetails
 		}
 	}
+	log.Printf("WARNING: no modus:import comment found for %v(%v) -> %v - skipping", origDetails.MethodName, origDetails.AllArgs, origDetails.ReturnSig)
 	return origDetails
 }
 
@@ -105,7 +108,7 @@ func resolveArgsDiffs(origArgs, newArgs string) string {
 	for i, s := range orig {
 		newParts := strings.Split(newA[i], ":")
 		if len(newParts) == 2 {
-			result = append(result, s)
+			result = append(result, newA[i])
 			continue
 		}
 		origParts := strings.Split(s, ":")

@@ -312,3 +312,36 @@ func IsTupleType(typ string) bool {
 	typ, _, _ = StripErrorAndOption(typ)
 	return strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")")
 }
+
+// IsWellKnownType is a hack to avoid listing types in external packages
+// as custom types in that package.
+func IsWellKnownType(typ string) bool {
+	typ, _, _ = StripErrorAndOption(typ)
+	if i := strings.Index(typ, "["); i >= 0 {
+		typ = typ[:i+1] // include the '['
+	}
+	return wellKnownTypes[typ]
+}
+
+var wellKnownTypes = map[string]bool{
+	"Array[":      true,
+	"ArrayView[":  true,
+	"Bool":        true,
+	"Byte":        true,
+	"Bytes":       true,
+	"Char":        true,
+	"Double":      true,
+	"FixedArray[": true,
+	"Float":       true,
+	"Int":         true,
+	"Int16":       true,
+	"Int64":       true,
+	"Iter[":       true,
+	"Map[":        true,
+	"Result[":     true,
+	"String":      true,
+	"UInt":        true,
+	"UInt16":      true,
+	"UInt64":      true,
+	"Unit":        true,
+}

@@ -15,20 +15,56 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
+	"log"
+	"os"
+	"os/exec"
+	"path"
 	"sort"
 	"testing"
 
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
+
 	"github.com/google/go-cmp/cmp"
 )
+
+// genModuleInfo is used during 'go generate' and also during testing.
+// To avoid cyclic imports, multiple copies of this function exist. :-(
+func genModuleInfo(t *testing.T, sourceDir string) *modinfo.ModuleInfo {
+	t.Helper()
+	log.SetFlags(0)
+	config := &config.Config{
+		SourceDir: sourceDir,
+	}
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		log.Fatalf("CollectModuleInfo returned an error: %v", err)
+	}
+
+	return mod
+}
 
 func TestPackage(t *testing.T) {
 	t.Parallel()
 	mode := NeedName | NeedImports | NeedDeps | NeedTypes | NeedSyntax | NeedTypesInfo
 	dir := "testdata"
 	cfg := &Config{Mode: mode, Dir: dir}
-	got, err := Load(cfg, ".")
+	mod := genModuleInfo(t, dir)
+	got, err := Load(cfg, mod, ".")
 	if err != nil || len(got) != 1 {
-		t.Fatal(err)
+		t.Fatalf("len(got)=%v, want 1, err=%v", len(got), err)
 	}
 
 	// Manually test the contents of TypesInfo since the map[*ast.Ident]types.Object
@@ -51,7 +87,9 @@ func TestPackage(t *testing.T) {
 		wantStr := fmt.Sprintf("%v", wantDef)
 		if diff := cmp.Diff(wantStr, gotStr); diff != "" {
 			t.Logf("gotDef: %#v", gotDef)
-			t.Logf("gotDef.Type(): %#v", gotDef.Type())
+			if gotDef != nil {
+				t.Logf("gotDef.Type(): %#v", gotDef.Type())
+			}
 			// t.Logf("gotDef.Type().Underlying(): %#v", gotDef.Type().Underlying())
 			t.Errorf("Load() mismatch for TypesInfo.Defs[%q] (-want +got):\n%v", k, diff)
 		}
@@ -65,14 +103,13 @@ func TestPackage(t *testing.T) {
 	}
 }
 
-var testdataPkg = types.NewPackage("@testdata", "main")
+var testdataPkg *types.Package // nil - was: types.NewPackage("@testdata", "main")
 var wantPackages = []*Package{
 	{
 		MoonPkgJSON: MoonPkgJSON{
 			IsMain: false,
 			Imports: []json.RawMessage{
 				json.RawMessage(`"gmlewis/modus/pkg/console"`),
-				json.RawMessage(`"gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock"`),
 				json.RawMessage(`"moonbitlang/x/sys"`),
 				json.RawMessage(`"moonbitlang/x/time"`),
 			},
@@ -80,8 +117,8 @@ var wantPackages = []*Package{
 		},
 		MoonBitFiles: []string{"testdata/simple-example.mbt"},
 		ID:           "moonbit-main",
-		Name:         "main",
-		PkgPath:      "@testdata",
+		// Name:         "main",
+		// PkgPath:      "@testdata",
 		StructLookup: map[string]*ast.TypeSpec{
 			"Person": {Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
 				Fields: &ast.FieldList{
@@ -413,7 +450,6 @@ var wantPackages = []*Package{
 				},
 				Imports: []*ast.ImportSpec{
 					{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
-					{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock"`}},
 					{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
 					{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
 				},

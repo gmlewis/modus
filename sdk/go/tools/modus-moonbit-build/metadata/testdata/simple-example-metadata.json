@@ -1,12 +1,4337 @@
 {
   "plugin": "simple-example",
   "module": "@simple-example",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv2gtqnrack4be1cib70",
-  "buildTs": "2025-03-03T02:07:38.682Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv3jo1frack9plsaa3c0",
+  "buildTs": "2025-03-04T17:44:37.264Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "27b4b69f661b7300e7b4821a15dcd43ddc21e6ad",
+  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
   "fnExports": {
+    "@console.assert": {
+      "parameters": [
+        {
+          "name": "condition",
+          "type": "Bool"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@console.debug": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@console.error": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@console.info": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@console.log": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@console.log_message": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Log a message with specified level"
+        ]
+      }
+    },
+    "@console.warn": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "@ffi.byte_array_from_extern": {
+      "parameters": [
+        {
+          "name": "e",
+          "type": "@ffi.XExternByteArray"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes"
+        }
+      ]
+    },
+    "@ffi.byte_array_to_extern": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "Bytes"
+        }
+      ],
+      "results": [
+        {
+          "type": "@ffi.XExternByteArray"
+        }
+      ]
+    },
+    "@ffi.mbt_string_to_utf8_bytes": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        },
+        {
+          "name": "is_filename",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes"
+        }
+      ]
+    },
+    "@ffi.string_array_from_extern": {
+      "parameters": [
+        {
+          "name": "e",
+          "type": "@ffi.XExternStringArray"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "@ffi.string_from_extern": {
+      "parameters": [
+        {
+          "name": "e",
+          "type": "@ffi.XExternString"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "@ffi.string_to_extern": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@ffi.XExternString"
+        }
+      ]
+    },
+    "@ffi.utf8_bytes_to_mbt_string": {
+      "parameters": [
+        {
+          "name": "bytes",
+          "type": "Bytes"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "@sys.exit": {
+      "parameters": [
+        {
+          "name": "code",
+          "type": "Int"
+        }
+      ]
+    },
+    "@sys.get_cli_args": {
+      "results": [
+        {
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "@sys.get_env_vars": {
+      "results": [
+        {
+          "type": "Map[String, String]"
+        }
+      ]
+    },
+    "@sys.set_env_var": {
+      "parameters": [
+        {
+          "name": "key",
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "type": "String"
+        }
+      ]
+    },
+    "@sys.unset_env_var": {
+      "parameters": [
+        {
+          "name": "key",
+          "type": "String"
+        }
+      ]
+    },
+    "@testutils.CallStack::new[T]": {
+      "results": [
+        {
+          "type": "@testutils.CallStack[T]"
+        }
+      ]
+    },
+    "@testutils.CallStack::size[T]": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@testutils.CallStack[T]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "@testutils.pop[T]": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@testutils.CallStack[T]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[T]"
+        }
+      ]
+    },
+    "@testutils.push[T]": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@testutils.CallStack[T]"
+        },
+        {
+          "name": "values",
+          "type": "Array[T]"
+        }
+      ]
+    },
+    "@time.Duration::from_string": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Parses a ISO 8601 format string like `PT[n]H[n]M[n].[n]S`."
+        ]
+      }
+    },
+    "@time.Duration::of": {
+      "parameters": [
+        {
+          "name": "hours~",
+          "type": "Int64"
+        },
+        {
+          "name": "minutes~",
+          "type": "Int64"
+        },
+        {
+          "name": "seconds~",
+          "type": "Int64"
+        },
+        {
+          "name": "nanoseconds~",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a Duration from hours, minutes, seconds and nanoseconds."
+        ]
+      }
+    },
+    "@time.Duration::of_WithDefaults": {
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a Duration from hours, minutes, seconds and nanoseconds."
+        ]
+      }
+    },
+    "@time.Duration::zero": {
+      "results": [
+        {
+          "type": "@time.Duration"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a zero length duration."
+        ]
+      }
+    },
+    "@time.Period::from_string": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Parses a ISO 8601 format string like `P[n]Y[n]M[n]D`."
+        ]
+      }
+    },
+    "@time.Period::is_neg": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this period is negative."
+        ]
+      }
+    },
+    "@time.Period::is_zero": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this period is zero length."
+        ]
+      }
+    },
+    "@time.Period::of": {
+      "parameters": [
+        {
+          "name": "years~",
+          "type": "Int"
+        },
+        {
+          "name": "months~",
+          "type": "Int"
+        },
+        {
+          "name": "days~",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a Period from years, months, and days."
+        ]
+      }
+    },
+    "@time.Period::of_WithDefaults": {
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a Period from years, months, and days."
+        ]
+      }
+    },
+    "@time.Period::op_add": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "other",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ]
+    },
+    "@time.Period::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representation of this period using ISO 8601 representation."
+        ]
+      }
+    },
+    "@time.Period::zero": {
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a zero length period."
+        ]
+      }
+    },
+    "@time.PlainDate::add_days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "days",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified days to this date, and returns a new date."
+        ]
+      }
+    },
+    "@time.PlainDate::add_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "months",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified months to this date, and returns a new date."
+        ]
+      }
+    },
+    "@time.PlainDate::add_period": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "period",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds a period to this date, and returns a new date."
+        ]
+      }
+    },
+    "@time.PlainDate::add_weeks": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "weeks",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified weeks to this date, and returns a new date."
+        ]
+      }
+    },
+    "@time.PlainDate::add_years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "years",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified years to this date, and returns a new date."
+        ]
+      }
+    },
+    "@time.PlainDate::days_in_week": {
+      "parameters": [
+        {
+          "name": "_self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in the week."
+        ]
+      }
+    },
+    "@time.PlainDate::from_string": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDate from a string, like \"2008-08-08\"."
+        ]
+      }
+    },
+    "@time.PlainDate::from_unix_day": {
+      "parameters": [
+        {
+          "name": "unix_day",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a date from the days count since unix epoch."
+        ]
+      }
+    },
+    "@time.PlainDate::from_year_ord": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "ordinal",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDate from year and ordinal day."
+        ]
+      }
+    },
+    "@time.PlainDate::months_in_year": {
+      "parameters": [
+        {
+          "name": "_self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of months in the year."
+        ]
+      }
+    },
+    "@time.PlainDate::of": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDate from the year, month and day."
+        ]
+      }
+    },
+    "@time.PlainDate::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representing the date."
+        ]
+      }
+    },
+    "@time.PlainDate::until": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "end",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the period between this date and another date."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "days",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified days to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_duration": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "duration",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds a duration of time to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_hours": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "hours",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified hours to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_minutes": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "minutes",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified minutes to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "months",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified months to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "nanoseconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified nanoseconds to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_period": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "period",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds a period of date to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "seconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified seconds to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_weeks": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "weeks",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified weeks to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::add_years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "years",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified years to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the day of month of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::days_in_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a month of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::days_in_week": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a week of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::days_in_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a year of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::era": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the era of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::era_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the year of era of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::from_string": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainTime from a string, like '2008-08-08T20:00:00'."
+        ]
+      }
+    },
+    "@time.PlainDateTime::from_unix_second": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int64"
+        },
+        {
+          "name": "nanosecond",
+          "type": "Int"
+        },
+        {
+          "name": "offset",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDateTime from the elapsed seconds since the unix epoch."
+        ]
+      }
+    },
+    "@time.PlainDateTime::hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the hour of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::in_leap_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this datetime is in a leap year."
+        ]
+      }
+    },
+    "@time.PlainDateTime::minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the minute of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the month of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::months_in_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of months in a year of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the nanosecond of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::of": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        },
+        {
+          "name": "hour~",
+          "type": "Int"
+        },
+        {
+          "name": "minute~",
+          "type": "Int"
+        },
+        {
+          "name": "second~",
+          "type": "Int"
+        },
+        {
+          "name": "nanosecond~",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDateTime from the year, month, day, hour, minute, second and nanosecond."
+        ]
+      }
+    },
+    "@time.PlainDateTime::of_WithDefaults": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainDateTime from the year, month, day, hour, minute, second and nanosecond."
+        ]
+      }
+    },
+    "@time.PlainDateTime::ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the ordinal day of year of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the second of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::to_plain_date": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the date part of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::to_plain_time": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the time part of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representing the datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::weekday": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Weekday"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the weekday of this datetime."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified day of month."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "hour",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified hour."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "minute",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified minute."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified month."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "nanosecond",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified nanosecond."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "ordinal",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified ordinal day of year."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "second",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified second."
+        ]
+      }
+    },
+    "@time.PlainDateTime::with_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "year",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified year."
+        ]
+      }
+    },
+    "@time.PlainDateTime::year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the year of this datetime."
+        ]
+      }
+    },
+    "@time.PlainTime::add_duration": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "duration",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds a duration to this time, and returns a new time."
+        ]
+      }
+    },
+    "@time.PlainTime::add_hours": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "hours",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified hours to this time, and returns a new time."
+        ]
+      }
+    },
+    "@time.PlainTime::add_minutes": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "minutes",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified minutes to this time, and returns a new time."
+        ]
+      }
+    },
+    "@time.PlainTime::add_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "nanoseconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified nanoseconds to this time, and returns a new time."
+        ]
+      }
+    },
+    "@time.PlainTime::add_seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "seconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified seconds to this time, and returns a new time."
+        ]
+      }
+    },
+    "@time.PlainTime::from_nanosecond_of_day": {
+      "parameters": [
+        {
+          "name": "nanosecond",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainTime from the total nanoseconds of the day."
+        ]
+      }
+    },
+    "@time.PlainTime::from_second_of_day": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainTime from the total seconds of the day."
+        ]
+      }
+    },
+    "@time.PlainTime::from_string": {
+      "parameters": [
+        {
+          "name": "str",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainTime from a string, like '10:20:30.45678'."
+        ]
+      }
+    },
+    "@time.PlainTime::hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the hour of this time."
+        ]
+      }
+    },
+    "@time.PlainTime::minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the minute of this time."
+        ]
+      }
+    },
+    "@time.PlainTime::nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the nanosecond of this time."
+        ]
+      }
+    },
+    "@time.PlainTime::of": {
+      "parameters": [
+        {
+          "name": "hour",
+          "type": "Int"
+        },
+        {
+          "name": "minute",
+          "type": "Int"
+        },
+        {
+          "name": "second",
+          "type": "Int"
+        },
+        {
+          "name": "nanosecond",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a PlainTime from the hour, minute, second and nanosecond."
+        ]
+      }
+    },
+    "@time.PlainTime::second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the second of this time."
+        ]
+      }
+    },
+    "@time.PlainTime::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representing the time."
+        ]
+      }
+    },
+    "@time.PlainTime::until": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "end",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the duration between this time and another time."
+        ]
+      }
+    },
+    "@time.PlainTime::with_hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "hour",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new time with the specified hour."
+        ]
+      }
+    },
+    "@time.PlainTime::with_minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "minute",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new time with the specified minute."
+        ]
+      }
+    },
+    "@time.PlainTime::with_nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "nanosecond",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new time with the specified nanosecond."
+        ]
+      }
+    },
+    "@time.PlainTime::with_second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "second",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new time with the specified second."
+        ]
+      }
+    },
+    "@time.Zone::from_tzif2": {
+      "parameters": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "data",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Zone!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a time zone from TZif2 data."
+        ]
+      }
+    },
+    "@time.Zone::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the fixed zone id (e.g. \"UTC\", \"America/Los_Angeles\", etc.)"
+        ]
+      }
+    },
+    "@time.ZoneOffset::abbreviation": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the zone offset abbreviation, e.g. \"PST\", \"CST\", \"EST\", \"UTC\", etc."
+        ]
+      }
+    },
+    "@time.ZoneOffset::compare": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        },
+        {
+          "name": "other",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "@time.ZoneOffset::from_seconds": {
+      "parameters": [
+        {
+          "name": "seconds",
+          "type": "Int"
+        },
+        {
+          "name": "abbrev~",
+          "type": "String"
+        },
+        {
+          "name": "dst~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZoneOffset!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a offset from seconds."
+        ]
+      }
+    },
+    "@time.ZoneOffset::from_seconds_WithDefaults": {
+      "parameters": [
+        {
+          "name": "seconds",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZoneOffset!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a offset from seconds."
+        ]
+      }
+    },
+    "@time.ZoneOffset::of": {
+      "parameters": [
+        {
+          "name": "hours~",
+          "type": "Int"
+        },
+        {
+          "name": "minutes~",
+          "type": "Int"
+        },
+        {
+          "name": "seconds~",
+          "type": "Int"
+        },
+        {
+          "name": "abbrev~",
+          "type": "String"
+        },
+        {
+          "name": "dst~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZoneOffset!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a offset from hours, minutes and seconds."
+        ]
+      }
+    },
+    "@time.ZoneOffset::of_WithDefaults": {
+      "results": [
+        {
+          "type": "@time.ZoneOffset!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a offset from hours, minutes and seconds."
+        ]
+      }
+    },
+    "@time.ZoneOffset::op_equal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        },
+        {
+          "name": "other",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ]
+    },
+    "@time.ZoneOffset::seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the total seconds of this offset."
+        ]
+      }
+    },
+    "@time.ZoneOffset::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the offset id, e.g. \"Z\", \"+08:00\", \"-05:30\", etc."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "days",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified days to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_hours": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "hours",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified hours to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_minutes": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "minutes",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified minutes to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "months",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified months to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "nanoseconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified nanoseconds to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "seconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified seconds to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_weeks": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "weeks",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified weeks to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::add_years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "years",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified years to this datetime, and returns a new datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the day of month of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::days_in_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a month of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::days_in_week": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a month of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::days_in_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in a year of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::era": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the era of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::era_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the year of era of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::from_plain_datetime": {
+      "parameters": [
+        {
+          "name": "datetime",
+          "type": "@time.PlainDateTime"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from a PlainDateTime and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::from_unix_second": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int64"
+        },
+        {
+          "name": "nanosecond~",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::from_unix_second_WithDefaults": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int64"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the hour of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::in_leap_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this datetime is in a leap year."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the minute of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the month of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::months_in_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of months in a year of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the nanosecond of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::of": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        },
+        {
+          "name": "hour~",
+          "type": "Int"
+        },
+        {
+          "name": "minute~",
+          "type": "Int"
+        },
+        {
+          "name": "second~",
+          "type": "Int"
+        },
+        {
+          "name": "nanosecond~",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from year, month, day, hour, minute and second.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::of_WithDefaults": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from year, month, day, hour, minute and second.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the ordinal day of year of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the second of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::to_plain_date": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the date part of this datetime, without timezone."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::to_plain_date_time": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the datetime part of this datetime, without timezone."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::to_plain_time": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainTime"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the time part of this datetime, without timezone."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representing this datetime, like \"2008-08-08T20:00:00+8:00[Asia/Beijing]\""
+        ]
+      }
+    },
+    "@time.ZonedDateTime::to_unix_second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the elapsed seconds since the unix epoch."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::weekday": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Weekday"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the weekday of this datetime."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified day of the month."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_hour": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "hour",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified hour."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_minute": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "minute",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified minute."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified month."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_nanosecond": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "nanosecond",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified nanosecond."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "ordinal",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified ordinal day of the year."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "second",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified second."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::with_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        },
+        {
+          "name": "year",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new datetime with the specified year."
+        ]
+      }
+    },
+    "@time.ZonedDateTime::year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the year of this datetime."
+        ]
+      }
+    },
+    "@time.add_days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "days",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified days to this period, and returns a new period."
+        ]
+      }
+    },
+    "@time.add_duration": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "other",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds other duration to this duration, and returns a new duration."
+        ]
+      }
+    },
+    "@time.add_hours": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "hours",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified hours to this duration, and returns a new duration."
+        ]
+      }
+    },
+    "@time.add_minutes": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "minutes",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified minutes to this duration, and returns a new duration."
+        ]
+      }
+    },
+    "@time.add_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "months",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified months to this period, and returns a new period."
+        ]
+      }
+    },
+    "@time.add_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "nanoseconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified nanoseconds to this duration, and returns a new duration."
+        ]
+      }
+    },
+    "@time.add_period": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "other",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds other period to this period, and returns a new period."
+        ]
+      }
+    },
+    "@time.add_seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "seconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified seconds to this duration, and returns a new duration."
+        ]
+      }
+    },
+    "@time.add_weeks": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "weeks",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified weeks to this period, and returns a new period."
+        ]
+      }
+    },
+    "@time.add_years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "years",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds specified years to this period, and returns a new period."
+        ]
+      }
+    },
+    "@time.at_date": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        },
+        {
+          "name": "date",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Combines this time with a date to creates a PlainDateTime"
+        ]
+      }
+    },
+    "@time.compare": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "other",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "@time.date_time": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        },
+        {
+          "name": "hour~",
+          "type": "Int"
+        },
+        {
+          "name": "minute~",
+          "type": "Int"
+        },
+        {
+          "name": "second~",
+          "type": "Int"
+        },
+        {
+          "name": "nanosecond~",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from year, month, day, hour, minute, second and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.date_time_WithDefaults": {
+      "parameters": [
+        {
+          "name": "year",
+          "type": "Int"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from year, month, day, hour, minute, second and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the day of the month."
+        ]
+      }
+    },
+    "@time.days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in this duration."
+        ]
+      }
+    },
+    "@time.days_in_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in the month."
+        ]
+      }
+    },
+    "@time.days_in_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of days in the year."
+        ]
+      }
+    },
+    "@time.era": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the era of this date."
+        ]
+      }
+    },
+    "@time.era_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the year of the era of this date."
+        ]
+      }
+    },
+    "@time.fixed_zone": {
+      "parameters": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "offset_seconds",
+          "type": "Int"
+        },
+        {
+          "name": "abbrev~",
+          "type": "String"
+        },
+        {
+          "name": "dst~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Zone!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a time zone with fixed offset from time zone id and offset seconds."
+        ]
+      }
+    },
+    "@time.fixed_zone_WithDefaults": {
+      "parameters": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "offset_seconds",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Zone!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a time zone with fixed offset from time zone id and offset seconds."
+        ]
+      }
+    },
+    "@time.id": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the offset id."
+        ]
+      }
+    },
+    "@time.in_leap_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if the date is in a leap year."
+        ]
+      }
+    },
+    "@time.is_dst": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this offset is daylight saving time."
+        ]
+      }
+    },
+    "@time.is_fixed": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this zone only has one offset."
+        ]
+      }
+    },
+    "@time.is_neg": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this duration is negative."
+        ]
+      }
+    },
+    "@time.is_zero": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Checks if this duration is zero length."
+        ]
+      }
+    },
+    "@time.month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the ordinal number of month in the current year."
+        ]
+      }
+    },
+    "@time.months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of months in this duration."
+        ]
+      }
+    },
+    "@time.multiply": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "n",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new period with all elements in this period multiplied by the specified value."
+        ]
+      }
+    },
+    "@time.nanosecond_of_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the total nanoseconds of this time."
+        ]
+      }
+    },
+    "@time.nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of nanoseconds in this duration."
+        ]
+      }
+    },
+    "@time.negated": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new period with all elements in this period negated."
+        ]
+      }
+    },
+    "@time.offset": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZoneOffset"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the time offset of this datetime."
+        ]
+      }
+    },
+    "@time.op_add": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "other",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ]
+    },
+    "@time.op_equal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "other",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ]
+    },
+    "@time.op_sub": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "other",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period!Error"
+        }
+      ]
+    },
+    "@time.ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the ordinal day of the year."
+        ]
+      }
+    },
+    "@time.second_of_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the total seconds of this time."
+        ]
+      }
+    },
+    "@time.seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of seconds in this duration."
+        ]
+      }
+    },
+    "@time.to_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Converts this duration to the total length in nanoseconds."
+        ]
+      }
+    },
+    "@time.to_string": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a string representation of this duration using ISO 8601 representation."
+        ]
+      }
+    },
+    "@time.to_total_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the total number of months in this period."
+        ]
+      }
+    },
+    "@time.to_unix_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the days count since unix epoch of this date."
+        ]
+      }
+    },
+    "@time.to_unix_second": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Converts this datetime to the elapsed seconds since the unix epoch."
+        ]
+      }
+    },
+    "@time.unix": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int64"
+        },
+        {
+          "name": "nanosecond~",
+          "type": "Int"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.unix_WithDefaults": {
+      "parameters": [
+        {
+          "name": "second",
+          "type": "Int64"
+        },
+        {
+          "name": "zone~",
+          "type": "@time.Zone"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
+          "The default time zone is UTC+0."
+        ]
+      }
+    },
+    "@time.weekday": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Weekday"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the weekday."
+        ]
+      }
+    },
+    "@time.with_day": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "day",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new date with the specified day of month."
+        ]
+      }
+    },
+    "@time.with_days": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "days",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new period with the specified amount of days."
+        ]
+      }
+    },
+    "@time.with_month": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "month",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new date with the specified month."
+        ]
+      }
+    },
+    "@time.with_months": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "months",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new period with the specified amount of months."
+        ]
+      }
+    },
+    "@time.with_nanoseconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "nanoseconds",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new duration with the specified nanosecond of second."
+        ]
+      }
+    },
+    "@time.with_ordinal": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "ordinal",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new date with the specified ordinal day of year."
+        ]
+      }
+    },
+    "@time.with_seconds": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Duration"
+        },
+        {
+          "name": "seconds",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Duration"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new duration with the specified amount of seconds."
+        ]
+      }
+    },
+    "@time.with_year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        },
+        {
+          "name": "year",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.PlainDate!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new date with the specified year."
+        ]
+      }
+    },
+    "@time.with_years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        },
+        {
+          "name": "years",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Period"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns a new period with the specified amount of years."
+        ]
+      }
+    },
+    "@time.year": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.PlainDate"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of years relative to a calendar-specific epoch."
+        ]
+      }
+    },
+    "@time.years": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.Period"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of years in this duration."
+        ]
+      }
+    },
+    "@time.zone": {
+      "parameters": [
+        {
+          "name": "self",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "@time.Zone"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the time zone of this datetime."
+        ]
+      }
+    },
     "add": {
       "parameters": [
         {
@@ -331,36 +4656,6 @@
     }
   },
   "fnImports": {
-    "modus_system.getTimeInZone": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "modus_system.getTimeZoneData": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        },
-        {
-          "name": "format",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[Byte]"
-        }
-      ]
-    },
     "modus_system.logMessage": {
       "parameters": [
         {
@@ -397,29 +4692,104 @@
         }
       ]
     },
-    "@time.ZonedDateTime": {
+    "@ffi.XExternByteArray": {
       "id": 6
     },
-    "@time.ZonedDateTime!Error": {
+    "@ffi.XExternString": {
       "id": 7
     },
-    "@wallClock.Datetime": {
+    "@ffi.XExternStringArray": {
       "id": 8
     },
-    "Array[Byte]": {
+    "@testutils.CallStack[T]": {
       "id": 9
     },
-    "Array[Int]": {
+    "@time.Duration": {
       "id": 10
     },
-    "Array[Person]": {
+    "@time.Duration!Error": {
       "id": 11
     },
-    "Int": {
+    "@time.Period": {
       "id": 12
     },
+    "@time.Period!Error": {
+      "id": 13
+    },
+    "@time.PlainDate": {
+      "id": 14
+    },
+    "@time.PlainDate!Error": {
+      "id": 15
+    },
+    "@time.PlainDateTime": {
+      "id": 16
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 17
+    },
+    "@time.PlainTime": {
+      "id": 18
+    },
+    "@time.PlainTime!Error": {
+      "id": 19
+    },
+    "@time.Weekday": {
+      "id": 20
+    },
+    "@time.Zone": {
+      "id": 21
+    },
+    "@time.Zone!Error": {
+      "id": 22
+    },
+    "@time.ZoneOffset": {
+      "id": 23
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 24
+    },
+    "@time.ZonedDateTime": {
+      "id": 25
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 26
+    },
+    "@wallClock.Datetime": {
+      "id": 27
+    },
+    "Array[Byte]": {
+      "id": 28
+    },
+    "Array[Int]": {
+      "id": 29
+    },
+    "Array[Person]": {
+      "id": 30
+    },
+    "Array[String]": {
+      "id": 31
+    },
+    "Array[T]": {
+      "id": 32
+    },
+    "Bool": {
+      "id": 33
+    },
+    "FixedArray[Byte]": {
+      "id": 34
+    },
+    "Int": {
+      "id": 35
+    },
+    "Int64": {
+      "id": 36
+    },
+    "Map[String, String]": {
+      "id": 37
+    },
     "Person": {
-      "id": 13,
+      "id": 38,
       "fields": [
         {
           "name": "firstName",
@@ -436,13 +4806,13 @@
       ]
     },
     "String": {
-      "id": 14
+      "id": 39
     },
     "String!Error": {
-      "id": 15
+      "id": 40
     },
     "String?": {
-      "id": 16
+      "id": 41
     }
   }
 }
