@@ -116,10 +116,10 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		// 			// Now we have found the old, empty struct. Find all references to it and replace them.
 		// 			p.replaceEmptyStructReferences(emptyNamedType, emptyTypeSpec, emptyStruct, namedType, typeSpec)
 		// 		} else {
-		// 			gmlPrintf("PROGRAMMING ERROR: expected *types.Struct, got %T", emptyNamedType.Type().Underlying())
+		// 			log.Fatalf("PROGRAMMING ERROR: expected *types.Struct, got %T", emptyNamedType.Type().Underlying())
 		// 		}
 		// 	} else {
-		// 		gmlPrintf("PROGRAMMING ERROR: expected *types.TypeName, got %T", p.TypesInfo.Defs[emptyTypeSpec.Name])
+		// 		log.Fatalf("PROGRAMMING ERROR: expected *types.TypeName, got %T", p.TypesInfo.Defs[emptyTypeSpec.Name])
 		// 	}
 		// }
 
@@ -130,21 +130,6 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 	}
 
 	return decls
-}
-
-func fullyQualifiedName(typesPkg *types.Package, name string) string {
-	if typesPkg.Path() != "" && !utils.IsWellKnownType(name) {
-		return typesPkg.Path() + "." + name
-	}
-	return name
-}
-
-func fullyQualifiedNewTypeName(typesPkg *types.Package, name string, underlying types.Type) (string, *types.TypeName) {
-	if typesPkg.Path() != "" && !utils.IsWellKnownType(name) {
-		newName := typesPkg.Path() + "." + name
-		return newName, types.NewTypeName(0, typesPkg, name, underlying)
-	}
-	return name, types.NewTypeName(0, nil, name, underlying)
 }
 
 // func (p *Package) replaceEmptyStructReferences(emptyNamedType *types.TypeName, emptyTypeSpec *ast.TypeSpec, emptyStruct *types.Struct, namedType *types.TypeName, typeSpec *ast.TypeSpec) {
@@ -318,7 +303,7 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 }
 
 func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (paramsList []*ast.Field, paramsVars []*types.Var) {
-	allArgParts := splitParamsWithBrackets(allArgs)
+	allArgParts := utils.SplitParamsWithBrackets(allArgs)
 	for _, arg := range allArgParts {
 		argParts := strings.Split(arg, ":")
 		if len(argParts) != 2 {
@@ -346,7 +331,7 @@ func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig stri
 
 	// fullyQualifiedReturnSig := returnSig
 	// if !strings.Contains(returnSig, ".") {
-	// 	typ, _, _ := utils.utils.StripErrorAndOption(returnSig)
+	// 	typ, _, _ := utils.StripErrorAndOption(returnSig)
 	// 	if utils.IsStructType(typ) {
 	// 		pkgName := typesPkg.Path()
 	// 		baseTypeName := pkgName + "." + typ
@@ -386,7 +371,7 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 			gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: FOUND FULLY-SPECIFIED Struct DEFINITION for p.StructLookup[%q]=%p: underlying: %+v", typ, typeSpec, underlying)
 			return types.NewNamed(fullCustomType, underlying, nil)
 		}
-		gmlPrintf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): typ '%v' missing from p.TypesInfo.Defs", typeSignature, typ)
+		log.Fatalf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): typ '%v' missing from p.TypesInfo.Defs", typeSignature, typ)
 	}
 
 	if utils.IsStructType(typ) {
@@ -463,7 +448,7 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
 	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
 		allArgs := typeSignature[1 : len(typeSignature)-1]
-		allTupleParts := splitParamsWithBrackets(allArgs)
+		allTupleParts := utils.SplitParamsWithBrackets(allArgs)
 		// var fields []*ast.Field
 		var fieldVars []*types.Var
 		for i, field := range allTupleParts {
@@ -482,6 +467,13 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 
 		tupleStruct := types.NewStruct(fieldVars, nil)
 		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, tupleStruct), nil, nil) // &moonType{typeName: typeSignature}
+	}
+
+	if v := utils.FullyQualifyTypeName(typesPkg.Path(), typeSignature); !strings.HasPrefix(v, "@") {
+		// Do not use the generated name if it is a package-level struct, as the next line will add
+		// the full typesPkg qualified name to the prefix. However, if it is something like `Array[@pkg.T]`
+		// then go ahead and use it.
+		typeSignature = v
 	}
 
 	resultType = p.checkCustomMoonBitType(typesPkg, typeSignature)

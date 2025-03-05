@@ -7,11 +7,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package packages
+package utils
 
 import "strings"
 
-func splitParamsWithBrackets(allArgs string) []string {
+func SplitParamsWithBrackets(allArgs string) []string {
 	var result []string
 	var n int     // count bracket pairs
 	var start int // start of current arg

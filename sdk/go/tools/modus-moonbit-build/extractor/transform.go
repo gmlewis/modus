@@ -13,6 +13,7 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
+	"log"
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
@@ -89,6 +90,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 		for i := 0; i < params.Len(); i++ {
 			p := params.At(i)
 			paramType := p.Type().String()
+			paramType = utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, paramType)
 			param := &metadata.Parameter{
 				Name: p.Name(),
 				Type: paramType,
@@ -105,6 +107,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 		for i := 0; i < results.Len(); i++ {
 			r := results.At(i)
 			resultType := r.Type().String()
+			resultType = utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, resultType)
 			result := &metadata.Result{
 				Name: r.Name(),
 				Type: resultType,
@@ -136,12 +139,12 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 					gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): FOUND: p.StructLookup[%q]=%p", name, typ, typeSpec)
 					customType, ok := pkg.TypesInfo.Defs[typeSpec.Name]
 					if !ok {
-						gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
+						log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
 					}
 					underlying := customType.Type().Underlying()
 					typesStruct, ok := underlying.(*types.Struct)
 					if !ok {
-						gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
+						log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
 					}
 					genDecl := findGenDeclForTypeSpecName(pkg.Syntax, typeSpec.Name.Name)
 					return genDecl, structType, typesStruct
@@ -149,14 +152,14 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 			}
 		}
 		// The struct is not found.
-		gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg not found!", name)
+		log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg not found!", name)
 		return nil, nil, nil
 	}
 
 	pkgName := pkgNames[0]
 	pkg := pkgs[pkgName]
 	if pkg == nil {
-		gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg[%q] is nil", name, pkgName)
+		log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg[%q] is nil", name, pkgName)
 		for pkgName := range pkgs {
 			gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
 		}
@@ -181,12 +184,12 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 										gmlPrintf("GML: extractor/transform.go: FOUND AND USING FULL DEFINITION getStructDeclarationAndType(name=%q): Z: fullStructType=%#v", name, fullStructType)
 										customType, ok := pkg.TypesInfo.Defs[fullTypeSpec.Name]
 										if !ok {
-											gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
+											log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
 										}
 										underlying := customType.Type().Underlying()
 										typesStruct, ok := underlying.(*types.Struct)
 										if !ok {
-											gmlPrintf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
+											log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): typesStruct not found!", name)
 										}
 										genDecl := findGenDeclForTypeSpecName(pkg.Syntax, typeSpec.Name.Name)
 										return genDecl, fullStructType, typesStruct

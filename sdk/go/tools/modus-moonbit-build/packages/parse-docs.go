@@ -11,6 +11,7 @@ package packages
 
 import (
 	"go/ast"
+	"log"
 	"regexp"
 	"strings"
 )
@@ -25,19 +26,19 @@ func getDocsForFunction(fnSignature, fullSrc string) *ast.CommentGroup {
 	if fnIndex < 0 {
 		m := pubFnPrefixRE.FindStringSubmatch(fnSignature)
 		if len(m) == 0 {
-			gmlPrintf("PROGRAMMING ERROR: len(m) == 0 for fnSignature=%v", fnSignature)
+			log.Fatalf("PROGRAMMING ERROR: len(m) == 0 for fnSignature=%v", fnSignature)
 			return nil
 		}
 		fnSignaturePrefix := m[0]
 		fnIndex = strings.Index(fullSrc, fnSignaturePrefix)
 		if fnIndex < 0 {
-			gmlPrintf("PROGRAMMING ERROR: fnIndex < 0 for fnSignature=%v", fnSignature)
+			log.Fatalf("PROGRAMMING ERROR: fnIndex < 0 for fnSignature=%v", fnSignature)
 			return nil
 		}
 	}
 	doubleBlankIndex := strings.LastIndex(fullSrc[:fnIndex], "\n\n")
 	if doubleBlankIndex < 0 {
-		gmlPrintf("PROGRAMMING ERROR: doubleBlankIndex < 0 for fnSignature=%v", fnSignature)
+		log.Fatalf("PROGRAMMING ERROR: doubleBlankIndex < 0 for fnSignature=%v", fnSignature)
 	}
 	fnSrcLines := strings.Split(fullSrc[doubleBlankIndex+2:fnIndex], "\n")
 	// gmlPrintf("GML: packages/parse-docs.go: getDocsForFunction: fnSrcLines=\n%v", fnSrcLines)

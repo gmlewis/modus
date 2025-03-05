@@ -253,6 +253,7 @@ type Package struct {
 	Name string
 
 	// PkgPath is the package path as used by the go/types package.
+	// It is "" for the main (user) package, and otherwise e.g. "@neo4j".
 	PkgPath string
 
 	// // Dir is the directory associated with the package, if it exists.

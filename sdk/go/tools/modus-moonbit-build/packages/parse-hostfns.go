@@ -15,13 +15,15 @@ import (
 	"log"
 	"regexp"
 	"strings"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 func (p *Package) processImportedHostFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
 		gmlPrintf("GML: processImportedHostFns: processing:\n%v", strings.Join(match, "\n"))
 		if len(match) != 5 {
-			gmlPrintf("PROGRAMMING ERROR: len(match) != 5: %+v", match)
+			log.Fatalf("PROGRAMMING ERROR: len(match) != 5: %+v", match)
 			continue
 		}
 
@@ -98,8 +100,8 @@ func parseMatchFnDetails(match []string) (fnDetails fnDetailsT) {
 }
 
 func resolveArgsDiffs(origArgs, newArgs string) string {
-	orig := splitParamsWithBrackets(origArgs)
-	newA := splitParamsWithBrackets(newArgs)
+	orig := utils.SplitParamsWithBrackets(origArgs)
+	newA := utils.SplitParamsWithBrackets(newArgs)
 	if len(orig) != len(newA) {
 		log.Printf("WARNING: unable to resolve old (%v) and new (%v) args", orig, newA)
 		return newArgs

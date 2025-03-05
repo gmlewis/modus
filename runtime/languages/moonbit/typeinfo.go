@@ -110,6 +110,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 
 // Note that GetNameForType is used for GraphQL Schema generation and must
 // strip all package, error, and option information.
+// TODO: This needs to be kept in sync with sdk/go/tools/modus-moonbit-build/utils/typeinfo.go GetNameForType()
 func (lti *langTypeInfo) GetNameForType(typ string) string {
 	// "github.com/gmlewis/modus/sdk/go/examples/simple.Person" -> "Person"
 	var hasError bool
@@ -416,7 +417,7 @@ func (lti *langTypeInfo) GetTupleSubtypes(typ string) []string {
 	return splitParamsWithBrackets(typ)
 }
 
-// TODO: DRY - copied from sdk/go/tools/modus-moonbit-build/packages/parse-params.go
+// TODO: DRY - copied from sdk/go/tools/modus-moonbit-build/utils/split-params.go
 func splitParamsWithBrackets(allArgs string) []string {
 	var result []string
 	var n int     // count bracket pairs
