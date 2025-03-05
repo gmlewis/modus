@@ -61,6 +61,13 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	}
 
 	returnMainPkgOnly := patterns[0] == "."
+	if cfg.RootAbsPath == "" {
+		var err error
+		cfg.RootAbsPath, err = filepath.Abs(cfg.Dir)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get absolute path for %q: %w", cfg.Dir, err)
+		}
+	}
 
 	// process imports
 	var imports []*ast.ImportSpec

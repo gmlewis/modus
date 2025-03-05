@@ -1,10 +1,55 @@
 {
   "import": [
     "gmlewis/modus/pkg/console",
+    "gmlewis/modus/wit/interface/wasi",
     "moonbitlang/x/sys",
     "moonbitlang/x/time"
   ],
   "test-import": [
     "gmlewis/modus/pkg/testutils"
-  ]
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_add3:add3",
+        "__modus_add3_WithDefaults:add3_WithDefaults",
+        "__modus_add:add",
+        "__modus_add_n:add_n",
+        "__modus_get_current_time:get_current_time",
+        "__modus_get_current_time_formatted:get_current_time_formatted",
+        "__modus_get_full_name:get_full_name",
+        "__modus_get_people:get_people",
+        "__modus_get_person:get_person",
+        "__modus_get_random_person:get_random_person",
+        "__modus_log_message:log_message",
+        "__modus_test_abort:test_abort",
+        "__modus_test_alternative_error:test_alternative_error",
+        "__modus_test_exit:test_exit",
+        "__modus_test_logging:test_logging",
+        "__modus_test_normal_error:test_normal_error",
+        "cabi_realloc",
+        "copy",
+        "duration_from_nanos",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map",
+        "zoned_date_time_from_unix_seconds_and_nanos"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }

@@ -25,22 +25,20 @@ pub fn add_n(args : Array[Int]) -> Int {
 
 ///| Returns the current time.
 pub fn get_current_time(
-  /// now is optional so we can mock time in tests
-  now~ : @wallClock.Datetime = @wallClock.now()
+// TODO:  /// now is optional so we can mock time in tests
+// now~ : Int64 = @wasi.now() / 1_000_000_000
 ) -> @time.ZonedDateTime!Error {
-  @time.ZonedDateTime::from_unix_second!(
-    now.seconds.reinterpret_as_int64(),
-    0,
-    @time.utc_offset,
-  )
+  let now = @wasi.now() / 1_000_000_000
+  @time.unix!(now)
 }
 
 ///| Returns the current time formatted as a string.
 pub fn get_current_time_formatted(
-  /// now is optional so we can mock time in tests
-  now~ : @wallClock.Datetime = @wallClock.now()
+// TODO:  /// now is optional so we can mock time in tests
+// now~ : Int64 = @wasi.now()
 ) -> String!Error {
-  get_current_time!(now~).to_string()
+  // get_current_time!(now).to_string()
+  get_current_time!().to_string()
 }
 
 ///| Combines the first and last name of a person, and returns the full name.
@@ -48,14 +46,15 @@ pub fn get_full_name(first_name : String, last_name : String) -> String {
   "\{first_name} \{last_name}"
 }
 
-///| Says hello to a person by name.
-/// If the name is not provided, it will say hello without a name.
-pub fn say_hello(name~ : String? = None) -> String {
-  match name {
-    Some(name) => "Hello, \{name}!"
-    None => "Hello!"
-  }
-}
+// TODO: Support optional args with new syntax.
+// ///| Says hello to a person by name.
+// /// If the name is not provided, it will say hello without a name.
+// pub fn say_hello(name? : String) -> String {
+//   match name {
+//     None | Some("") => "Hello there!"
+//     Some(name) => "Hello, \{name}!"
+//   }
+// }
 
 ///| A simple object representing a person.
 pub(all) struct Person {
@@ -72,13 +71,16 @@ pub fn get_person() -> Person {
   { firstName: "John", lastName: "Doe", age: 42 }
 }
 
-///|
-let rand : @random.Rand = @random.new()
+///| This gets the same seed every time, so the result is deterministic.
+// let rand : @random.Rand = @random.new()
+///| This SHOULD allow a loaded plugin to generate new random numbers on successive calls
+/// but currently doesn't.  TODO: Fix this.
+let rand : Ref[@random.Rand] = { val: @random.new() }
 
 ///| Gets a random person object from a list of people.
 pub fn get_random_person() -> Person {
   let people = get_people()
-  let i = rand.int(limit=people.length())
+  let i = rand.val.int(limit=people.length())
   people[i]
 }
 
@@ -91,11 +93,12 @@ pub fn get_people() -> Array[Person] {
   ]
 }
 
-///| Gets the name and age of a person.
-pub fn get_name_and_age() -> (String, Int) {
-  let p = get_person()
-  (get_full_name(p.firstName, p.lastName), p.age)
-}
+// TODO:
+// ///| Gets the name and age of a person.
+// pub fn get_name_and_age() -> (String, Int) {
+//   let p = get_person()
+//   (get_full_name(p.firstName, p.lastName), p.age)
+// }
 
 ///|
 pub(all) type! SimpleError String derive(Show, Eq)

@@ -2,11 +2,270 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv3jo1frack9plsaa3c0",
-  "buildTs": "2025-03-04T17:44:37.264Z",
+  "buildId": "cv3s0vnrack8k6q4nujg",
+  "buildTs": "2025-03-05T03:09:50.085Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "f8c6eabb508ab8571d9e4db55582128311bba589",
   "fnExports": {
+    "@base64.array2str": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "ArrayView[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`array2str` decodes a UTF-8 `ArrayView[Byte]` to a UTF-16 `String`.",
+          "This is a more convenient version of `bytes2str` for when you have an `ArrayView[Byte]`.",
+          "If you have an `Array[Byte]`, you can use `array2str(arr[:])`."
+        ]
+      }
+    },
+    "@base64.bytes2str": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bytes"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`bytes2str` decodes a UTF-8 `Bytes` to a UTF-16 `String`."
+        ]
+      }
+    },
+    "@base64.std_decode2bytes": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "String"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes!CorruptInputError"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`std_decode2bytes` base64-decodes the provided bytes using Standard encoding.",
+          "Setting `no_padding=true` is used for raw decoding."
+        ]
+      }
+    },
+    "@base64.std_decode2str": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "String"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!CorruptInputError"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`std_decode2str` base64-decodes the provided bytes using Standard encoding and returns a String.",
+          "Setting `no_padding=true` is used for raw decoding."
+        ]
+      }
+    },
+    "@base64.std_encode2bytes": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "FixedArray[Byte]"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`std_encode2bytes` base64-encodes the provided bytes using Standard encoding.",
+          "Setting `no_padding=true` is used for raw encoding."
+        ]
+      }
+    },
+    "@base64.std_encode2str": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "FixedArray[Byte]"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`std_encode2str` base64-encodes the provided bytes using Standard encoding and returns a String.",
+          "Setting `no_padding=true` is used for raw encoding."
+        ]
+      }
+    },
+    "@base64.str2array": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`str2array` encodes a UTF-16 `String` as a UTF-8 `Array[Byte]`.",
+          "This is a more convenient version of `str2bytes` for when you want an `Array[Byte]`."
+        ]
+      }
+    },
+    "@base64.str2bytes": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`str2bytes` encodes a UTF-16 `String` as a UTF-8 `Bytes`."
+        ]
+      }
+    },
+    "@base64.url_decode2bytes": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "String"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes!CorruptInputError"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`url_decode2bytes` base64-decodes the provided bytes using URL encoding.",
+          "Setting `no_padding=true` is used for raw decoding."
+        ]
+      }
+    },
+    "@base64.url_decode2str": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "String"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!CorruptInputError"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`url_decode2str` base64-decodes the provided bytes using URL encoding and returns a String.",
+          "Setting `no_padding=true` is used for raw decoding."
+        ]
+      }
+    },
+    "@base64.url_encode2bytes": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "FixedArray[Byte]"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Bytes"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`url_encode2bytes` base64-encodes the provided bytes using URL encoding.",
+          "Setting `no_padding=true` is used for raw encoding."
+        ]
+      }
+    },
+    "@base64.url_encode2str": {
+      "parameters": [
+        {
+          "name": "src",
+          "type": "FixedArray[Byte]"
+        },
+        {
+          "name": "no_padding~",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "`url_encode2str` base64-encodes the provided bytes using URL encoding and returns a String.",
+          "Setting `no_padding=true` is used for raw encoding."
+        ]
+      }
+    },
     "@console.assert": {
       "parameters": [
         {
@@ -73,6 +332,32 @@
         {
           "name": "message",
           "type": "String"
+        }
+      ]
+    },
+    "@decoder.utf8": {
+      "parameters": [
+        {
+          "name": "bytes",
+          "type": "Iter[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Iter[Char]"
+        }
+      ]
+    },
+    "@encoder.utf8": {
+      "parameters": [
+        {
+          "name": "string",
+          "type": "Iter[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Iter[Byte]"
         }
       ]
     },
@@ -242,7 +527,7 @@
       ],
       "results": [
         {
-          "type": "Array[T]"
+          "type": "Array[@testutils.T]"
         }
       ]
     },
@@ -254,7 +539,7 @@
         },
         {
           "name": "values",
-          "type": "Array[T]"
+          "type": "Array[@testutils.T]"
         }
       ]
     },
@@ -295,18 +580,6 @@
           "type": "Int64"
         }
       ],
-      "results": [
-        {
-          "type": "@time.Duration!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a Duration from hours, minutes, seconds and nanoseconds."
-        ]
-      }
-    },
-    "@time.Duration::of_WithDefaults": {
       "results": [
         {
           "type": "@time.Duration!Error"
@@ -399,18 +672,6 @@
           "type": "Int"
         }
       ],
-      "results": [
-        {
-          "type": "@time.Period"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a Period from years, months, and days."
-        ]
-      }
-    },
-    "@time.Period::of_WithDefaults": {
       "results": [
         {
           "type": "@time.Period"
@@ -1261,32 +1522,6 @@
         ]
       }
     },
-    "@time.PlainDateTime::of_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.PlainDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a PlainDateTime from the year, month, day, hour, minute, second and nanosecond."
-        ]
-      }
-    },
     "@time.PlainDateTime::ordinal": {
       "parameters": [
         {
@@ -2084,24 +2319,6 @@
         ]
       }
     },
-    "@time.ZoneOffset::from_seconds_WithDefaults": {
-      "parameters": [
-        {
-          "name": "seconds",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZoneOffset!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a offset from seconds."
-        ]
-      }
-    },
     "@time.ZoneOffset::of": {
       "parameters": [
         {
@@ -2125,18 +2342,6 @@
           "type": "Bool"
         }
       ],
-      "results": [
-        {
-          "type": "@time.ZoneOffset!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a offset from hours, minutes and seconds."
-        ]
-      }
-    },
-    "@time.ZoneOffset::of_WithDefaults": {
       "results": [
         {
           "type": "@time.ZoneOffset!Error"
@@ -2535,29 +2740,6 @@
         ]
       }
     },
-    "@time.ZonedDateTime::from_unix_second_WithDefaults": {
-      "parameters": [
-        {
-          "name": "second",
-          "type": "Int64"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.ZonedDateTime::hour": {
       "parameters": [
         {
@@ -2694,37 +2876,6 @@
         },
         {
           "name": "nanosecond~",
-          "type": "Int"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from year, month, day, hour, minute and second.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
-    "@time.ZonedDateTime::of_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
           "type": "Int"
         },
         {
@@ -3388,37 +3539,6 @@
         ]
       }
     },
-    "@time.date_time_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
-          "type": "Int"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from year, month, day, hour, minute, second and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.day": {
       "parameters": [
         {
@@ -3544,28 +3664,6 @@
         {
           "name": "dst~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.Zone!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a time zone with fixed offset from time zone id and offset seconds."
-        ]
-      }
-    },
-    "@time.fixed_zone_WithDefaults": {
-      "parameters": [
-        {
-          "name": "id",
-          "type": "String"
-        },
-        {
-          "name": "offset_seconds",
-          "type": "Int"
         }
       ],
       "results": [
@@ -4039,29 +4137,6 @@
         ]
       }
     },
-    "@time.unix_WithDefaults": {
-      "parameters": [
-        {
-          "name": "second",
-          "type": "Int64"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.weekday": {
       "parameters": [
         {
@@ -4332,6 +4407,112 @@
         ]
       }
     },
+    "@wasi.clock_res_get": {
+      "parameters": [
+        {
+          "name": "clockid",
+          "type": "UInt"
+        }
+      ],
+      "results": [
+        {
+          "type": "Result[UInt64, UInt]"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Timekeeping",
+          "Get the resolution of a clock."
+        ]
+      }
+    },
+    "@wasi.clock_time_get": {
+      "parameters": [
+        {
+          "name": "clockid",
+          "type": "UInt"
+        },
+        {
+          "name": "precision",
+          "type": "UInt64"
+        }
+      ],
+      "results": [
+        {
+          "type": "Result[UInt64, UInt]"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Get the current time of a clock."
+        ]
+      }
+    },
+    "@wasi.environ_get": {
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Get an environment variable."
+        ]
+      }
+    },
+    "@wasi.environ_sizes_get": {
+      "results": [
+        {
+          "type": "@wasi.(Int, Int, Int)"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the number of environment variables and the total size of the",
+          "environment (null-terminated Go-style) strings.",
+          "",
+          "- `errno`: The error code (0 for success).",
+          "- `environc`: The number of environment variables.",
+          "- `environ_buf_size`: The total size of the environment strings."
+        ]
+      }
+    },
+    "@wasi.now": {
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ]
+    },
+    "@wasi.random_get": {
+      "parameters": [
+        {
+          "name": "buf",
+          "type": "String"
+        },
+        {
+          "name": "buf_len",
+          "type": "UInt"
+        }
+      ],
+      "results": [
+        {
+          "type": "Result[Unit, UInt]"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Random Number Generation",
+          "Fill a buffer with random data."
+        ]
+      }
+    },
     "add": {
       "parameters": [
         {
@@ -4423,24 +4604,6 @@
       }
     },
     "get_current_time": {
-      "parameters": [
-        {
-          "name": "now~",
-          "type": "@wallClock.Datetime"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time."
-        ]
-      }
-    },
-    "get_current_time_WithDefaults": {
       "results": [
         {
           "type": "@time.ZonedDateTime!Error"
@@ -4453,24 +4616,6 @@
       }
     },
     "get_current_time_formatted": {
-      "parameters": [
-        {
-          "name": "now~",
-          "type": "@wallClock.Datetime"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time formatted as a string."
-        ]
-      }
-    },
-    "get_current_time_formatted_WithDefaults": {
       "results": [
         {
           "type": "String!Error"
@@ -4501,18 +4646,6 @@
       "docs": {
         "lines": [
           "Combines the first and last name of a person, and returns the full name."
-        ]
-      }
-    },
-    "get_name_and_age": {
-      "results": [
-        {
-          "type": "(String, Int)"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Gets the name and age of a person."
         ]
       }
     },
@@ -4562,38 +4695,6 @@
       "docs": {
         "lines": [
           "Logs a message."
-        ]
-      }
-    },
-    "say_hello": {
-      "parameters": [
-        {
-          "name": "name~",
-          "type": "String?"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Says hello to a person by name.",
-          "If the name is not provided, it will say hello without a name."
-        ]
-      }
-    },
-    "say_hello_WithDefaults": {
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Says hello to a person by name.",
-          "If the name is not provided, it will say hello without a name."
         ]
       }
     },
@@ -4670,25 +4771,29 @@
     }
   },
   "types": {
-    "(String)": {
+    "(Int, Int, Int)": {
       "id": 4,
       "fields": [
         {
           "name": "0",
-          "type": "String"
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Int"
+        },
+        {
+          "name": "2",
+          "type": "Int"
         }
       ]
     },
-    "(String, Int)": {
+    "(String)": {
       "id": 5,
       "fields": [
         {
           "name": "0",
           "type": "String"
-        },
-        {
-          "name": "1",
-          "type": "Int"
         }
       ]
     },
@@ -4702,7 +4807,13 @@
       "id": 8
     },
     "@testutils.CallStack[T]": {
-      "id": 9
+      "id": 9,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
     },
     "@time.Duration": {
       "id": 10
@@ -4755,41 +4866,53 @@
     "@time.ZonedDateTime!Error": {
       "id": 26
     },
-    "@wallClock.Datetime": {
+    "ArrayView[Byte]": {
       "id": 27
     },
-    "Array[Byte]": {
+    "Array[@testutils.T]": {
       "id": 28
     },
-    "Array[Int]": {
+    "Array[Byte]": {
       "id": 29
     },
-    "Array[Person]": {
+    "Array[Int]": {
       "id": 30
     },
-    "Array[String]": {
+    "Array[Person]": {
       "id": 31
     },
-    "Array[T]": {
+    "Array[String]": {
       "id": 32
     },
     "Bool": {
       "id": 33
     },
-    "FixedArray[Byte]": {
+    "Bytes": {
       "id": 34
     },
-    "Int": {
+    "Bytes!Error": {
       "id": 35
     },
-    "Int64": {
+    "FixedArray[Byte]": {
       "id": 36
     },
-    "Map[String, String]": {
+    "Int": {
       "id": 37
     },
+    "Int64": {
+      "id": 38
+    },
+    "Iter[Byte]": {
+      "id": 39
+    },
+    "Iter[Char]": {
+      "id": 40
+    },
+    "Map[String, String]": {
+      "id": 41
+    },
     "Person": {
-      "id": 38,
+      "id": 42,
       "fields": [
         {
           "name": "firstName",
@@ -4805,14 +4928,23 @@
         }
       ]
     },
+    "Result[UInt64, UInt]": {
+      "id": 43
+    },
+    "Result[Unit, UInt]": {
+      "id": 44
+    },
     "String": {
-      "id": 39
+      "id": 45
     },
     "String!Error": {
-      "id": 40
+      "id": 46
     },
-    "String?": {
-      "id": 41
+    "UInt": {
+      "id": 47
+    },
+    "UInt64": {
+      "id": 48
     }
   }
 }

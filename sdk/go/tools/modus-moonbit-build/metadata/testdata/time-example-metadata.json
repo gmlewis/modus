@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv3jo1frack9plsaa3cg",
-  "buildTs": "2025-03-04T17:44:37.309Z",
+  "buildId": "cv3s0vnrack8k6q4nuk0",
+  "buildTs": "2025-03-05T03:09:50.133Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "f8c6eabb508ab8571d9e4db55582128311bba589",
   "fnExports": {
     "@base64.array2str": {
       "parameters": [
@@ -68,25 +68,6 @@
         ]
       }
     },
-    "@base64.std_decode2bytes_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bytes!CorruptInputError"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`std_decode2bytes` base64-decodes the provided bytes using Standard encoding.",
-          "Setting `no_padding=true` is used for raw decoding."
-        ]
-      }
-    },
     "@base64.std_decode2str": {
       "parameters": [
         {
@@ -96,25 +77,6 @@
         {
           "name": "no_padding~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!CorruptInputError"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`std_decode2str` base64-decodes the provided bytes using Standard encoding and returns a String.",
-          "Setting `no_padding=true` is used for raw decoding."
-        ]
-      }
-    },
-    "@base64.std_decode2str_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "String"
         }
       ],
       "results": [
@@ -152,25 +114,6 @@
         ]
       }
     },
-    "@base64.std_encode2bytes_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "FixedArray[Byte]"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bytes"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`std_encode2bytes` base64-encodes the provided bytes using Standard encoding.",
-          "Setting `no_padding=true` is used for raw encoding."
-        ]
-      }
-    },
     "@base64.std_encode2str": {
       "parameters": [
         {
@@ -180,25 +123,6 @@
         {
           "name": "no_padding~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`std_encode2str` base64-encodes the provided bytes using Standard encoding and returns a String.",
-          "Setting `no_padding=true` is used for raw encoding."
-        ]
-      }
-    },
-    "@base64.std_encode2str_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "FixedArray[Byte]"
         }
       ],
       "results": [
@@ -273,25 +197,6 @@
         ]
       }
     },
-    "@base64.url_decode2bytes_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bytes!CorruptInputError"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`url_decode2bytes` base64-decodes the provided bytes using URL encoding.",
-          "Setting `no_padding=true` is used for raw decoding."
-        ]
-      }
-    },
     "@base64.url_decode2str": {
       "parameters": [
         {
@@ -301,25 +206,6 @@
         {
           "name": "no_padding~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!CorruptInputError"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`url_decode2str` base64-decodes the provided bytes using URL encoding and returns a String.",
-          "Setting `no_padding=true` is used for raw decoding."
-        ]
-      }
-    },
-    "@base64.url_decode2str_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "String"
         }
       ],
       "results": [
@@ -357,25 +243,6 @@
         ]
       }
     },
-    "@base64.url_encode2bytes_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "FixedArray[Byte]"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bytes"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`url_encode2bytes` base64-encodes the provided bytes using URL encoding.",
-          "Setting `no_padding=true` is used for raw encoding."
-        ]
-      }
-    },
     "@base64.url_encode2str": {
       "parameters": [
         {
@@ -385,25 +252,6 @@
         {
           "name": "no_padding~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "`url_encode2str` base64-encodes the provided bytes using URL encoding and returns a String.",
-          "Setting `no_padding=true` is used for raw encoding."
-        ]
-      }
-    },
-    "@base64.url_encode2str_WithDefaults": {
-      "parameters": [
-        {
-          "name": "src",
-          "type": "FixedArray[Byte]"
         }
       ],
       "results": [
@@ -666,18 +514,6 @@
         ]
       }
     },
-    "@time.Duration::of_WithDefaults": {
-      "results": [
-        {
-          "type": "@time.Duration!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a Duration from hours, minutes, seconds and nanoseconds."
-        ]
-      }
-    },
     "@time.Duration::zero": {
       "results": [
         {
@@ -759,18 +595,6 @@
           "type": "Int"
         }
       ],
-      "results": [
-        {
-          "type": "@time.Period"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a Period from years, months, and days."
-        ]
-      }
-    },
-    "@time.Period::of_WithDefaults": {
       "results": [
         {
           "type": "@time.Period"
@@ -1621,32 +1445,6 @@
         ]
       }
     },
-    "@time.PlainDateTime::of_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.PlainDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a PlainDateTime from the year, month, day, hour, minute, second and nanosecond."
-        ]
-      }
-    },
     "@time.PlainDateTime::ordinal": {
       "parameters": [
         {
@@ -2444,24 +2242,6 @@
         ]
       }
     },
-    "@time.ZoneOffset::from_seconds_WithDefaults": {
-      "parameters": [
-        {
-          "name": "seconds",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZoneOffset!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a offset from seconds."
-        ]
-      }
-    },
     "@time.ZoneOffset::of": {
       "parameters": [
         {
@@ -2485,18 +2265,6 @@
           "type": "Bool"
         }
       ],
-      "results": [
-        {
-          "type": "@time.ZoneOffset!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a offset from hours, minutes and seconds."
-        ]
-      }
-    },
-    "@time.ZoneOffset::of_WithDefaults": {
       "results": [
         {
           "type": "@time.ZoneOffset!Error"
@@ -2895,29 +2663,6 @@
         ]
       }
     },
-    "@time.ZonedDateTime::from_unix_second_WithDefaults": {
-      "parameters": [
-        {
-          "name": "second",
-          "type": "Int64"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.ZonedDateTime::hour": {
       "parameters": [
         {
@@ -3054,37 +2799,6 @@
         },
         {
           "name": "nanosecond~",
-          "type": "Int"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from year, month, day, hour, minute and second.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
-    "@time.ZonedDateTime::of_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
           "type": "Int"
         },
         {
@@ -3748,37 +3462,6 @@
         ]
       }
     },
-    "@time.date_time_WithDefaults": {
-      "parameters": [
-        {
-          "name": "year",
-          "type": "Int"
-        },
-        {
-          "name": "month",
-          "type": "Int"
-        },
-        {
-          "name": "day",
-          "type": "Int"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from year, month, day, hour, minute, second and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.day": {
       "parameters": [
         {
@@ -3904,28 +3587,6 @@
         {
           "name": "dst~",
           "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.Zone!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a time zone with fixed offset from time zone id and offset seconds."
-        ]
-      }
-    },
-    "@time.fixed_zone_WithDefaults": {
-      "parameters": [
-        {
-          "name": "id",
-          "type": "String"
-        },
-        {
-          "name": "offset_seconds",
-          "type": "Int"
         }
       ],
       "results": [
@@ -4399,29 +4060,6 @@
         ]
       }
     },
-    "@time.unix_WithDefaults": {
-      "parameters": [
-        {
-          "name": "second",
-          "type": "Int64"
-        },
-        {
-          "name": "zone~",
-          "type": "@time.Zone"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Creates a ZonedDateTime from elapsed seconds since the unix epoch and a time zone.",
-          "The default time zone is UTC+0."
-        ]
-      }
-    },
     "@time.weekday": {
       "parameters": [
         {
@@ -4754,7 +4392,7 @@
     "@wasi.environ_sizes_get": {
       "results": [
         {
-          "type": "(Int, Int, Int)"
+          "type": "@wasi.(Int, Int, Int)"
         }
       ],
       "docs": {

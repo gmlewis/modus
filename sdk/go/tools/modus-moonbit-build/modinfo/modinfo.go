@@ -96,7 +96,7 @@ func (m *ModuleInfo) GetModuleAbsPath(rootAbsPath, modName string) (string, erro
 		fullPath := filepath.Join(path, strings.TrimPrefix(modName, name))
 		return fullPath, nil
 	}
-	return "", fmt.Errorf("module '%v' not found", modName)
+	return "", fmt.Errorf("module '%v' not found - missing dir: '%v'", modName, path)
 }
 
 func (m *ModuleInfo) AlreadyProcessed(dir string) bool {
