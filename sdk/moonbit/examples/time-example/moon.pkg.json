@@ -2,7 +2,8 @@
   "import": [
     "gmlewis/modus/pkg/localtime",
     "gmlewis/modus/wit/interface/wasi",
-    "moonbitlang/x/time"
+    "moonbitlang/x/time",
+    "gmlewis/modus/pkg/console"
   ],
   "targets": {
     "modus_post_generated.mbt": [
