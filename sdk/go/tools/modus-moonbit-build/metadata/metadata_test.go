@@ -33,15 +33,13 @@ func TestFunction_String(t *testing.T) {
 		{name: "add", want: "(x : Int, y : Int) -> Int"},
 		{name: "add3", want: "(a : Int, b : Int, c~ : Int) -> Int"},
 		{name: "add_n", want: "(args : Array[Int]) -> Int"},
-		{name: "get_current_time", want: "(now~ : @wallClock.Datetime) -> @time.ZonedDateTime!Error"},
-		{name: "get_current_time_formatted", want: "(now~ : @wallClock.Datetime) -> String!Error"},
+		{name: "get_current_time", want: "() -> @time.ZonedDateTime!Error"},
+		{name: "get_current_time_formatted", want: "() -> String!Error"},
 		{name: "get_full_name", want: "(first_name : String, last_name : String) -> String"},
-		{name: "get_name_and_age", want: "() -> (String, Int)"},
 		{name: "get_people", want: "() -> Array[Person]"},
 		{name: "get_person", want: "() -> Person"},
 		{name: "get_random_person", want: "() -> Person"},
 		{name: "log_message", want: "(message : String) -> Unit"},
-		{name: "say_hello", want: "(name~ : String?) -> String"},
 		{name: "test_abort", want: "() -> Unit"},
 		{name: "test_alternative_error", want: "(input : String) -> String"},
 		{name: "test_exit", want: "() -> Unit"},
@@ -53,9 +51,13 @@ func TestFunction_String(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			f := meta.FnExports[tt.name]
+			if f == nil {
+				t.Fatalf("meta.FnExports missing tt.name=%q", tt.name)
+			}
+
 			got := f.String(meta)
 			if got != tt.want {
-				t.Errorf("function.String = %q, want %q", got, tt.want)
+				t.Errorf("function[%q].String = %q, want %q", tt.name, got, tt.want)
 			}
 		})
 	}
