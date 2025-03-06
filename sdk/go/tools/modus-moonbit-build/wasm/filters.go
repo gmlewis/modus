@@ -49,7 +49,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
-			gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing unused FnImport: %v", name)
+			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
 			delete(meta.FnImports, name)
 		}
 	}
@@ -61,6 +61,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
+			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
 			delete(meta.FnExports, name)
 			// if strings.HasPrefix(name, "__modus_") {
 			// 	gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
@@ -75,17 +76,19 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 		for _, param := range fn.Parameters {
 			if _, ok := meta.Types[param.Type]; ok {
 				keptTypes[param.Type] = meta.Types[param.Type]
+				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types[paramType='%v']", param.Type)
 				delete(meta.Types, param.Type)
 			} else {
-				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing param type: %v", param.Type)
+				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING param.Type: %v", param.Type)
 			}
 		}
 		for _, result := range fn.Results {
 			if _, ok := meta.Types[result.Type]; ok {
 				keptTypes[result.Type] = meta.Types[result.Type]
+				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types[result.Type='%v']", result.Type)
 				delete(meta.Types, result.Type)
 			} else {
-				gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing result type: %v", result.Type)
+				gmlPrintf("GML: wasm/filters.go: FilterMetadata: NOT KEEPING result.Type: %v", result.Type)
 			}
 		}
 	}
@@ -98,6 +101,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 			if _, ok := meta.Types[t]; ok {
 				if _, ok := keptTypes[t]; !ok {
 					keptTypes[t] = meta.Types[t]
+					gmlPrintf("GML: WARNING: SECOND PASS: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types['%v']", t)
 					delete(meta.Types, t)
 					dirty = true
 				}

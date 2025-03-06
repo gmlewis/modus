@@ -28,34 +28,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-// genModuleInfo is used during 'go generate' and also during testing.
-// To avoid cyclic imports, multiple copies of this function exist. :-(
-func genModuleInfo(t *testing.T, sourceDir string) *modinfo.ModuleInfo {
-	t.Helper()
-	log.SetFlags(0)
-	config := &config.Config{
-		SourceDir: sourceDir,
-	}
-
-	// Make sure the ".mooncakes" directory is initialized before running the test.
-	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
-	if _, err := os.Stat(mooncakesDir); err != nil {
-		// run the "moon check" command in that directory to initialize it.
-		args := []string{"moon", "check", "--directory", config.SourceDir}
-		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
-		if err != nil {
-			log.Fatalf("error running %q: %v\n%s", args, err, buf)
-		}
-	}
-
-	mod, err := modinfo.CollectModuleInfo(config)
-	if err != nil {
-		log.Fatalf("CollectModuleInfo returned an error: %v", err)
-	}
-
-	return mod
-}
-
 func TestPackage(t *testing.T) {
 	t.Parallel()
 	mode := NeedName | NeedImports | NeedDeps | NeedTypes | NeedSyntax | NeedTypesInfo
@@ -110,10 +82,51 @@ var wantPackages = []*Package{
 			IsMain: false,
 			Imports: []json.RawMessage{
 				json.RawMessage(`"gmlewis/modus/pkg/console"`),
+				json.RawMessage(`"gmlewis/modus/wit/interface/wasi"`),
 				json.RawMessage(`"moonbitlang/x/sys"`),
 				json.RawMessage(`"moonbitlang/x/time"`),
 			},
 			TestImport: []json.RawMessage{json.RawMessage(`"gmlewis/modus/pkg/testutils"`)},
+			Targets: map[string][]string{
+				"modus_post_generated.mbt": {"wasm"},
+				"modus_pre_generated.mbt":  {"wasm"},
+			},
+			LinkTargets: map[string]*LinkTarget{
+				"wasm": {
+					Exports: []string{
+						"__modus_add3:add3",
+						"__modus_add3_WithDefaults:add3_WithDefaults",
+						"__modus_add:add",
+						"__modus_add_n:add_n",
+						"__modus_get_current_time:get_current_time",
+						"__modus_get_current_time_formatted:get_current_time_formatted",
+						"__modus_get_full_name:get_full_name",
+						"__modus_get_people:get_people",
+						"__modus_get_person:get_person",
+						"__modus_get_random_person:get_random_person",
+						"__modus_log_message:log_message",
+						"__modus_test_abort:test_abort",
+						"__modus_test_alternative_error:test_alternative_error",
+						"__modus_test_exit:test_exit",
+						"__modus_test_logging:test_logging",
+						"__modus_test_normal_error:test_normal_error",
+						"cabi_realloc",
+						"copy",
+						"duration_from_nanos",
+						"free",
+						"load32",
+						"malloc",
+						"ptr2str",
+						"ptr_to_none",
+						"read_map",
+						"store32",
+						"store8",
+						"write_map",
+						"zoned_date_time_from_unix_seconds_and_nanos",
+					},
+					ExportMemoryName: "memory",
+				},
+			},
 		},
 		MoonBitFiles: []string{"testdata/simple-example.mbt"},
 		ID:           "moonbit-main",
@@ -235,27 +248,7 @@ var wantPackages = []*Package{
 						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time."}}},
 						Name: &ast.Ident{Name: "get_current_time"},
 						Type: &ast.FuncType{
-							Params: &ast.FieldList{
-								List: []*ast.Field{
-									{
-										Names: []*ast.Ident{{Name: "now~"}},
-										Type:  &ast.Ident{Name: "@wallClock.Datetime"},
-										Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`default:@wallClock.now()`"},
-									},
-								},
-							},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
-								},
-							},
-						},
-					},
-					&ast.FuncDecl{
-						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time."}}},
-						Name: &ast.Ident{Name: "get_current_time_WithDefaults"},
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{List: []*ast.Field{}},
+							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
 									{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
@@ -267,27 +260,7 @@ var wantPackages = []*Package{
 						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time formatted as a string."}}},
 						Name: &ast.Ident{Name: "get_current_time_formatted"},
 						Type: &ast.FuncType{
-							Params: &ast.FieldList{
-								List: []*ast.Field{
-									{
-										Names: []*ast.Ident{{Name: "now~"}},
-										Type:  &ast.Ident{Name: "@wallClock.Datetime"},
-										Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`default:@wallClock.now()`"},
-									},
-								},
-							},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "String!Error"}},
-								},
-							},
-						},
-					},
-					&ast.FuncDecl{
-						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time formatted as a string."}}},
-						Name: &ast.Ident{Name: "get_current_time_formatted_WithDefaults"},
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{List: []*ast.Field{}},
+							Params: &ast.FieldList{},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
 									{Type: &ast.Ident{Name: "String!Error"}},
@@ -305,40 +278,6 @@ var wantPackages = []*Package{
 									{Names: []*ast.Ident{{Name: "last_name"}}, Type: &ast.Ident{Name: "String"}},
 								},
 							},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "String"}},
-								},
-							},
-						},
-					},
-					&ast.FuncDecl{
-						Doc: &ast.CommentGroup{List: []*ast.Comment{
-							{Text: "// Says hello to a person by name."},
-							{Text: "// If the name is not provided, it will say hello without a name."},
-						}},
-						Name: &ast.Ident{Name: "say_hello"},
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{
-								List: []*ast.Field{
-									{Names: []*ast.Ident{{Name: "name~"}}, Type: &ast.Ident{Name: "String?"}, Tag: &ast.BasicLit{Kind: token.STRING, Value: "`default:None`"}},
-								},
-							},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "String"}},
-								},
-							},
-						},
-					},
-					&ast.FuncDecl{
-						Doc: &ast.CommentGroup{List: []*ast.Comment{
-							{Text: "// Says hello to a person by name."},
-							{Text: "// If the name is not provided, it will say hello without a name."},
-						}},
-						Name: &ast.Ident{Name: "say_hello_WithDefaults"},
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{List: []*ast.Field{}},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
 									{Type: &ast.Ident{Name: "String"}},
@@ -378,18 +317,6 @@ var wantPackages = []*Package{
 							Results: &ast.FieldList{
 								List: []*ast.Field{
 									{Type: &ast.Ident{Name: "Array[Person]"}},
-								},
-							},
-						},
-					},
-					&ast.FuncDecl{
-						Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Gets the name and age of a person."}}},
-						Name: &ast.Ident{Name: "get_name_and_age"},
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.Ident{Name: "(String, Int)"}},
 								},
 							},
 						},
@@ -450,6 +377,7 @@ var wantPackages = []*Package{
 				},
 				Imports: []*ast.ImportSpec{
 					{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+					{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/interface/wasi"`}},
 					{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
 					{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
 				},
@@ -475,20 +403,12 @@ var wantPackages = []*Package{
 				{Name: "add_n"}: types.NewFunc(0, testdataPkg, "add_n", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "args", &moonType{typeName: "Array[Int]"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
-				{Name: "get_current_time"}: types.NewFunc(0, testdataPkg, "get_current_time", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
-				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
-				{Name: "get_current_time_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
-				{Name: "get_current_time_formatted"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "now~", &moonType{typeName: "@wallClock.Datetime"}),
-				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
-				{Name: "get_current_time_formatted_WithDefaults"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
+				{Name: "get_current_time"}:           types.NewFunc(0, testdataPkg, "get_current_time", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
+				{Name: "get_current_time_formatted"}: types.NewFunc(0, testdataPkg, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
 				{Name: "get_full_name"}: types.NewFunc(0, testdataPkg, "get_full_name", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "first_name", &moonType{typeName: "String"}),
 					types.NewVar(0, nil, "last_name", &moonType{typeName: "String"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "get_name_and_age"}: types.NewFunc(0, testdataPkg, "get_name_and_age", types.NewSignatureType(nil, nil, nil, nil,
-					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "(String, Int)"})), false)),
 				{Name: "get_people"}: types.NewFunc(0, testdataPkg, "get_people", types.NewSignatureType(nil, nil, nil, nil,
 					types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Array[Person]"})), false)),
 				{Name: "get_person"}: types.NewFunc(0, testdataPkg, "get_person", types.NewSignatureType(nil, nil, nil, nil,
@@ -498,11 +418,7 @@ var wantPackages = []*Package{
 				{Name: "log_message"}: types.NewFunc(0, testdataPkg, "log_message", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "message", &moonType{typeName: "String"}),
 				), nil, false)),
-				{Name: "say_hello"}: types.NewFunc(0, testdataPkg, "say_hello", types.NewSignatureType(nil, nil, nil, types.NewTuple(
-					types.NewVar(0, nil, "name~", &moonType{typeName: "String?"}),
-				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "say_hello_WithDefaults"}: types.NewFunc(0, testdataPkg, "say_hello_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
-				{Name: "test_abort"}:             types.NewFunc(0, testdataPkg, "test_abort", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
+				{Name: "test_abort"}: types.NewFunc(0, testdataPkg, "test_abort", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
 				{Name: "test_alternative_error"}: types.NewFunc(0, testdataPkg, "test_alternative_error", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 					types.NewVar(0, nil, "input", &moonType{typeName: "String"}),
 				), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String"})), false)),
@@ -514,4 +430,32 @@ var wantPackages = []*Package{
 			},
 		},
 	},
+}
+
+// genModuleInfo is used during 'go generate' and also during testing.
+// To avoid cyclic imports, multiple copies of this function exist. :-(
+func genModuleInfo(t *testing.T, sourceDir string) *modinfo.ModuleInfo {
+	t.Helper()
+	log.SetFlags(0)
+	config := &config.Config{
+		SourceDir: sourceDir,
+	}
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		log.Fatalf("CollectModuleInfo returned an error: %v", err)
+	}
+
+	return mod
 }

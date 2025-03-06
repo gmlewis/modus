@@ -207,7 +207,7 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			// Handle MoonBit error types as a tuple: `(String)`
 			fullName = "(String)"
 			if _, ok := m[fullName]; !ok {
-				gmlPrintf("GML: extractor/functions.go: addRequiredTYpes: adding type '%v' to metadata", fullName)
+				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: adding type '%v' to metadata", fullName)
 				underlying := types.NewNamed(types.NewTypeName(0, nil, "String", nil), nil, nil)
 				fieldVars := []*types.Var{types.NewVar(0, nil, "0", underlying)}
 				tupleStruct := types.NewStruct(fieldVars, nil)

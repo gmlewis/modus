@@ -66,7 +66,7 @@ func extractFnDetails(match []string, fullSrc string) (fnDetails fnDetailsT) {
 	gmlPrintf("GML: imported host function: %v(%v) -> %v", origDetails.MethodName, origDetails.AllArgs, origDetails.ReturnSig)
 	if docs != nil {
 		for _, line := range docs.List {
-			log.Printf("GML: DEBUG: Looking at comment: '%v'", line.Text)
+			// gmlPrintf("GML: DEBUG: Looking at comment: '%v'", line.Text)
 			m := modusImportHostFnRE.FindStringSubmatch(line.Text)
 			if len(m) != 5 {
 				continue
