@@ -73,6 +73,9 @@ func LogToConsole(meta *metadata.Metadata) {
 		writeHeader(w, "Custom Types:")
 		for _, t := range types {
 			s := meta.Types[t].String(meta)
+			if strings.HasPrefix(s, "(") {
+				continue // skip tuples
+			}
 			gmlPrintf("GML: metagen/output.go: LogToConsole: custom type s: %v", s)
 			writeItem(w, s)
 		}

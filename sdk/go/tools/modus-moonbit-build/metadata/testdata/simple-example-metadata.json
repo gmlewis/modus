@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv3s0vnrack8k6q4nujg",
-  "buildTs": "2025-03-05T03:09:50.085Z",
+  "buildId": "cv4ggg7rack46d6a65j0",
+  "buildTs": "2025-03-06T02:28:16.788Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "f8c6eabb508ab8571d9e4db55582128311bba589",
+  "gitCommit": "fc097ae98cbc1e648474f5d787dcaf48fc857723",
   "fnExports": {
     "@base64.array2str": {
       "parameters": [
@@ -2276,23 +2276,6 @@
         ]
       }
     },
-    "@time.ZoneOffset::compare": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.ZoneOffset"
-        },
-        {
-          "name": "other",
-          "type": "@time.ZoneOffset"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ]
-    },
     "@time.ZoneOffset::from_seconds": {
       "parameters": [
         {
@@ -2352,23 +2335,6 @@
           "Creates a offset from hours, minutes and seconds."
         ]
       }
-    },
-    "@time.ZoneOffset::op_equal": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.ZoneOffset"
-        },
-        {
-          "name": "other",
-          "type": "@time.ZoneOffset"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bool"
-        }
-      ]
     },
     "@time.ZoneOffset::seconds": {
       "parameters": [
@@ -3475,23 +3441,6 @@
         ]
       }
     },
-    "@time.compare": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.PlainDate"
-        },
-        {
-          "name": "other",
-          "type": "@time.PlainDate"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ]
-    },
     "@time.date_time": {
       "parameters": [
         {
@@ -3929,23 +3878,6 @@
       "results": [
         {
           "type": "@time.Duration!Error"
-        }
-      ]
-    },
-    "@time.op_equal": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.PlainDate"
-        },
-        {
-          "name": "other",
-          "type": "@time.PlainDate"
-        }
-      ],
-      "results": [
-        {
-          "type": "Bool"
         }
       ]
     },
@@ -4815,104 +4747,110 @@
         }
       ]
     },
-    "@time.Duration": {
+    "@testutils.T": {
       "id": 10
     },
-    "@time.Duration!Error": {
+    "@time.Duration": {
       "id": 11
     },
-    "@time.Period": {
+    "@time.Duration!Error": {
       "id": 12
     },
-    "@time.Period!Error": {
+    "@time.Period": {
       "id": 13
     },
-    "@time.PlainDate": {
+    "@time.Period!Error": {
       "id": 14
     },
-    "@time.PlainDate!Error": {
+    "@time.PlainDate": {
       "id": 15
     },
-    "@time.PlainDateTime": {
+    "@time.PlainDate!Error": {
       "id": 16
     },
-    "@time.PlainDateTime!Error": {
+    "@time.PlainDateTime": {
       "id": 17
     },
-    "@time.PlainTime": {
+    "@time.PlainDateTime!Error": {
       "id": 18
     },
-    "@time.PlainTime!Error": {
+    "@time.PlainTime": {
       "id": 19
     },
-    "@time.Weekday": {
+    "@time.PlainTime!Error": {
       "id": 20
     },
-    "@time.Zone": {
+    "@time.Weekday": {
       "id": 21
     },
-    "@time.Zone!Error": {
+    "@time.Zone": {
       "id": 22
     },
-    "@time.ZoneOffset": {
+    "@time.Zone!Error": {
       "id": 23
     },
-    "@time.ZoneOffset!Error": {
+    "@time.ZoneOffset": {
       "id": 24
     },
-    "@time.ZonedDateTime": {
+    "@time.ZoneOffset!Error": {
       "id": 25
     },
-    "@time.ZonedDateTime!Error": {
+    "@time.ZonedDateTime": {
       "id": 26
     },
-    "ArrayView[Byte]": {
+    "@time.ZonedDateTime!Error": {
       "id": 27
     },
-    "Array[@testutils.T]": {
+    "ArrayView[Byte]": {
       "id": 28
     },
-    "Array[Byte]": {
+    "Array[@testutils.T]": {
       "id": 29
     },
-    "Array[Int]": {
+    "Array[Byte]": {
       "id": 30
     },
-    "Array[Person]": {
+    "Array[Int]": {
       "id": 31
     },
-    "Array[String]": {
+    "Array[Person]": {
       "id": 32
     },
-    "Bool": {
+    "Array[String]": {
       "id": 33
     },
-    "Bytes": {
+    "Bool": {
       "id": 34
     },
-    "Bytes!Error": {
+    "Byte": {
       "id": 35
     },
-    "FixedArray[Byte]": {
+    "Bytes": {
       "id": 36
     },
-    "Int": {
+    "Bytes!Error": {
       "id": 37
     },
-    "Int64": {
+    "FixedArray[Byte]": {
       "id": 38
     },
-    "Iter[Byte]": {
+    "Int": {
       "id": 39
     },
-    "Iter[Char]": {
+    "Int64": {
       "id": 40
     },
-    "Map[String, String]": {
+    "Iter[Byte]": {
       "id": 41
     },
+    "Iter[Char]": {
+      "id": 42
+    },
+    "Map[String, String]": {
+      "id": 43
+    },
     "Person": {
-      "id": 42,
+      "id": 44,
       "fields": [
         {
           "name": "firstName",
@@ -4929,22 +4867,22 @@
       ]
     },
     "Result[UInt64, UInt]": {
-      "id": 43
-    },
-    "Result[Unit, UInt]": {
-      "id": 44
-    },
-    "String": {
       "id": 45
     },
-    "String!Error": {
+    "Result[Unit, UInt]": {
       "id": 46
     },
-    "UInt": {
+    "String": {
       "id": 47
     },
-    "UInt64": {
+    "String!Error": {
       "id": 48
+    },
+    "UInt": {
+      "id": 49
+    },
+    "UInt64": {
+      "id": 50
     }
   }
 }

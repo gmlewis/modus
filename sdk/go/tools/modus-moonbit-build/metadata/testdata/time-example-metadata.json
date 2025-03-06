@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv3s0vnrack8k6q4nuk0",
-  "buildTs": "2025-03-05T03:09:50.133Z",
+  "buildId": "cv4ggg7rack46d6a65jg",
+  "buildTs": "2025-03-06T02:28:16.833Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "f8c6eabb508ab8571d9e4db55582128311bba589",
+  "gitCommit": "fc097ae98cbc1e648474f5d787dcaf48fc857723",
   "fnExports": {
     "@base64.array2str": {
       "parameters": [
@@ -4684,64 +4684,46 @@
     "Bool": {
       "id": 29
     },
-    "Bytes": {
+    "Byte": {
       "id": 30
     },
-    "Bytes!Error": {
+    "Bytes": {
       "id": 31
     },
-    "FixedArray[Byte]": {
+    "Bytes!Error": {
       "id": 32
     },
-    "Int": {
+    "FixedArray[Byte]": {
       "id": 33
     },
-    "Int64": {
+    "Int": {
       "id": 34
     },
-    "Iter[Byte]": {
+    "Int64": {
       "id": 35
     },
-    "Iter[Char]": {
+    "Iter[Byte]": {
       "id": 36
     },
-    "Map[String, String]": {
+    "Iter[Char]": {
       "id": 37
     },
-    "Result[UInt64, UInt]": {
+    "Map[String, String]": {
       "id": 38
     },
-    "Result[Unit, UInt]": {
+    "Result[UInt64, UInt]": {
       "id": 39
     },
-    "String": {
+    "Result[Unit, UInt]": {
       "id": 40
     },
-    "String!Error": {
+    "String": {
       "id": 41
     },
-    "TimeZoneInfo": {
-      "id": 42,
-      "fields": [
-        {
-          "name": "standard_name",
-          "type": "String"
-        },
-        {
-          "name": "standard_offset",
-          "type": "String"
-        },
-        {
-          "name": "daylight_name",
-          "type": "String"
-        },
-        {
-          "name": "daylight_offset",
-          "type": "String"
-        }
-      ]
+    "String!Error": {
+      "id": 42
     },
-    "TimeZoneInfo!Error": {
+    "TimeZoneInfo": {
       "id": 43,
       "fields": [
         {
@@ -4762,11 +4744,32 @@
         }
       ]
     },
+    "TimeZoneInfo!Error": {
+      "id": 44,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
     "UInt": {
-      "id": 44
+      "id": 45
     },
     "UInt64": {
-      "id": 45
+      "id": 46
     }
   }
 }

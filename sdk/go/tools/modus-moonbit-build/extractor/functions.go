@@ -227,9 +227,6 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 		}
 		m[name] = u
 		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
-		if strings.Contains(name, "FixedArray[Int]") {
-			log.Printf("GML: BREAKPOINT")
-		}
 		// Make sure that the underlying type is also added to the required types.
 		if hasOption {
 			m[typ] = u
@@ -367,36 +364,44 @@ func GetMapSubtypes(typ string) (string, string) {
 // This is one such workaround.
 func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]types.Type, pkg *packages.Package) types.Type {
 	// Hack to make a tuple appear to have an underlying struct type for the metadata:
-	gmlPrintf("GML: extractor/functions.go: addRequiredTypes: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
+	gmlPrintf("GML: extractor/functions.go: resolveMissingUnderlyingType: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
 	if s, ok := t.Obj().Type().(*types.Struct); ok {
 		return s
 	}
 
-	gmlPrintf("GML: extractor/functions: addRequiredTypes: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
+	gmlPrintf("GML: extractor/functions.go: resolveMissingUnderlyingType: p.StructLookup[%q]=%p", name, pkg.StructLookup[name])
 	if typeSpec, ok := pkg.StructLookup[name]; ok {
 		if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
 			u := customType.Type().Underlying()
-			gmlPrintf("GML: extractor/functions: addRequiredTypes: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
+			gmlPrintf("GML: extractor/functions.go: resolveMissingUnderlyingType: typeSpec=%p, u=%p=%+v", typeSpec, u, u)
 			return u
 		}
-		log.Fatalf("PROGRAMMING ERROR: extractor/functions.go: addRequiredTypes: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
+		log.Fatalf("PROGRAMMING ERROR: extractor/functions.go: resolveMissingUnderlyingType: *types.Named: pkg.TypesInfo.Defs[%q]=%T", typeSpec.Name.Name, pkg.TypesInfo.Defs[typeSpec.Name])
 		return nil
 	}
 
 	if strings.HasPrefix(name, "Array[") {
+		typ := utils.StripDefaultValue(name)
+		typ, _, _ = utils.StripErrorAndOption(typ)
 		// Add the underlying struct, but don't make it the underlying type for the array.
-		name = strings.TrimSuffix(strings.TrimPrefix(name, "Array["), "]")
-		if u := lookupStruct(name, m, pkg); u != nil {
-			m[name] = u
+		typ = strings.TrimSuffix(strings.TrimPrefix(typ, "Array["), "]")
+		// This is an ugly workaround - find a better solution
+		pkg.AddPossiblyMissingUnderlyingType(typ)
+		if u := lookupStruct(typ, m, pkg); u != nil {
+			m[typ] = u
 		}
 		return nil
 	}
 
 	if strings.HasPrefix(name, "FixedArray[") {
+		typ := utils.StripDefaultValue(name)
+		typ, _, _ = utils.StripErrorAndOption(typ)
 		// Add the underlying struct, but don't make it the underlying type for the fixedarray.
-		name = strings.TrimSuffix(strings.TrimPrefix(name, "FixedArray["), "]")
-		if u := lookupStruct(name, m, pkg); u != nil {
-			m[name] = u
+		typ = strings.TrimSuffix(strings.TrimPrefix(typ, "FixedArray["), "]")
+		// This is an ugly workaround - find a better solution
+		pkg.AddPossiblyMissingUnderlyingType(typ)
+		if u := lookupStruct(typ, m, pkg); u != nil {
+			m[typ] = u
 		}
 		return nil
 	}

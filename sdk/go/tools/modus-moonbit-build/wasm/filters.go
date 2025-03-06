@@ -12,6 +12,7 @@ package wasm
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"path/filepath"
 
 	"github.com/gmlewis/modus/lib/wasmextractor"
@@ -34,7 +35,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 	}
 
 	buf, _ := json.MarshalIndent(info, "", "  ")
-	gmlPrintf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
+	log.Printf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
 
 	filterExportsImportsAndTypes(info, meta)
 
@@ -49,7 +50,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
-			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
+			log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
 			delete(meta.FnImports, name)
 		}
 	}
@@ -61,10 +62,10 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
-			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
+			log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
 			delete(meta.FnExports, name)
 			// if strings.HasPrefix(name, "__modus_") {
-			// 	gmlPrintf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
+			// 	log.Printf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
 			// 	delete(meta.FnExports, name)
 			// }
 		}
@@ -76,46 +77,60 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 		for _, param := range fn.Parameters {
 			if _, ok := meta.Types[param.Type]; ok {
 				keptTypes[param.Type] = meta.Types[param.Type]
-				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types[paramType='%v']", param.Type)
+				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[paramType='%v']", param.Type)
 				delete(meta.Types, param.Type)
-			} else {
-				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING param.Type: %v", param.Type)
+				// } else {
+				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING param.Type: '%v'", param.Type)
 			}
 		}
 		for _, result := range fn.Results {
 			if _, ok := meta.Types[result.Type]; ok {
 				keptTypes[result.Type] = meta.Types[result.Type]
-				gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types[result.Type='%v']", result.Type)
+				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[result.Type='%v']", result.Type)
 				delete(meta.Types, result.Type)
-			} else {
-				gmlPrintf("GML: wasm/filters.go: FilterMetadata: NOT KEEPING result.Type: %v", result.Type)
+				// } else {
+				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING result.Type: '%v'", result.Type)
 			}
 		}
 	}
 
 	// ensure types used by kept types are also kept
+	// Note that this currently only looks at types one-level deep, assuming that the source-code
+	// processing in the `packages` package has already fully added all underlying types.
 	for dirty := true; len(meta.Types) > 0 && dirty; {
 		dirty = false
 
 		keep := func(t string) {
+			if t == "Unit" {
+				return // no need to keep 'Unit'.
+			}
 			if _, ok := meta.Types[t]; ok {
 				if _, ok := keptTypes[t]; !ok {
 					keptTypes[t] = meta.Types[t]
-					gmlPrintf("GML: WARNING: SECOND PASS: wasm/filters.go: FilterMetadata: deleting (but keeping) meta.Types['%v']", t)
+					// gmlPrintf("GML: SECOND PASS: wasm/filters.go: FilterMetadata: keeping meta.Types['%v']", t)
 					delete(meta.Types, t)
 					dirty = true
 				}
+			} else if _, ok := keptTypes[t]; !ok {
+				log.Printf("PROGRAMMING ERROR!!! wasm/filters.go: UNABLE TO KEEP type '%v' since it is missing from meta.Types!!!", t)
 			}
 		}
 
 		for _, t := range keptTypes {
-			// if utils.IsPointerType(t.Name) {
-			if utils.IsOptionType(t.Name) {
-				keep(utils.GetUnderlyingType(t.Name))
-			} else if utils.IsListType(t.Name) {
-				keep(utils.GetListSubtype(t.Name))
-			} else if utils.IsMapType(t.Name) {
-				kt, vt := utils.GetMapSubtypes(t.Name)
+			// types should not have default values at this point.
+			tName := utils.StripDefaultValue(t.Name) // TODO: verify and remove if true.
+			typ, hasError, _ := utils.StripErrorAndOption(tName)
+			if hasError {
+				keep("(String)") // needed for all !Error processing
+			}
+			keep(typ)
+
+			if utils.IsOptionType(tName) {
+				keep(utils.GetUnderlyingType(tName))
+			} else if utils.IsListType(tName) {
+				keep(utils.GetListSubtype(tName))
+			} else if utils.IsMapType(tName) {
+				kt, vt := utils.GetMapSubtypes(tName)
 				keep(kt)
 				keep(vt)
 				keep(fmt.Sprintf("Array[%v]", kt))

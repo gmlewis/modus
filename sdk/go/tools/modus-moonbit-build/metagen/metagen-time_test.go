@@ -150,6 +150,7 @@ var wantTimeTypes = metadata.TypeMap{
 	"Array[Byte]":               {Name: "Array[Byte]"},
 	"Array[String]":             {Name: "Array[String]"},
 	"Bool":                      {Name: "Bool"},
+	"Byte":                      {Name: "Byte"},
 	"Bytes":                     {Name: "Bytes"},
 	"Bytes!Error":               {Name: "Bytes!Error"},
 	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},

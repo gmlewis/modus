@@ -83,6 +83,17 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		}
 	}
 
+	// This is a hack, but now that all the packages have been processed, see if any underlying
+	// types have not been added to the `requiredTypes`.
+	for _, pkg := range pkgs {
+		for typ := range pkg.PossiblyMissingUnderlyingTypes {
+			if _, ok := requiredTypes[typ]; !ok {
+				log.Printf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", typ, pkg.PkgPath)
+				requiredTypes[typ] = nil // make an empty entry for it.
+			}
+		}
+	}
+
 	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String
 	keys := utils.MapKeys(requiredTypes)
 	sort.Strings(keys)

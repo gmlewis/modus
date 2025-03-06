@@ -652,6 +652,7 @@ var wantTestsuiteTypes = metadata.TypeMap{
 		Name:   "@testutils.CallStack[T]",
 		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
 	},
+	"@testutils.T":              {Name: "@testutils.T"},
 	"@time.Duration":            {Name: "@time.Duration"},
 	"@time.Duration!Error":      {Name: "@time.Duration!Error"},
 	"@time.Period":              {Name: "@time.Period"},

@@ -282,6 +282,15 @@ type Package struct {
 	// uniquely-identified by package.
 	StructLookup map[string]*ast.TypeSpec
 
+	// This is an ugly workaround, but due to the hack manner of processing MoonBit
+	// files in potentially random orders combined with forward references to
+	// custom types that are not resolved until all parsing has been completed,
+	// this map contains a list of underlying types that may need to be added to
+	// the metadata so that the Modus Runtime can prepare handlers for them.
+	// It is not known if they are needed until all the source code processing has
+	// been completed.
+	PossiblyMissingUnderlyingTypes map[string]struct{}
+
 	// // CompiledMoonBitFiles lists the absolute file paths of the package's source
 	// // files that are suitable for type checking.
 	// // This may differ from MoonBitFiles if files are processed before compilation.
@@ -358,6 +367,13 @@ type Package struct {
 
 	// // ForTest is the package under test, if any.
 	// ForTest string
+}
+
+func (p *Package) AddPossiblyMissingUnderlyingType(typ string) {
+	if p.PossiblyMissingUnderlyingTypes == nil {
+		p.PossiblyMissingUnderlyingTypes = map[string]struct{}{}
+	}
+	p.PossiblyMissingUnderlyingTypes[typ] = struct{}{}
 }
 
 // Module provides module information for a package.

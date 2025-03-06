@@ -3484,6 +3484,7 @@ var wantRuntimeTypes = metadata.TypeMap{
 	"@testutils.CallStack[T]": {Name: "@testutils.CallStack[T]",
 		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
 	},
+	"@testutils.T":                     {Name: "@testutils.T"},
 	"@time.Duration":                   {Name: "@time.Duration"},
 	"@time.Duration!Error":             {Name: "@time.Duration!Error"},
 	"@time.Duration?":                  {Name: "@time.Duration?"},
