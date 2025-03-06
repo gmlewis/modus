@@ -33,7 +33,7 @@ func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]lang
 	// When an "...!Error" is the return type, two values are returned.
 	// The first value is 0 on failure, and the second value is the actual return type.
 	result, err := langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
-	gmlPrintf("GML: moonbit/typeinfo.go: GetTypeInfo('%v') = %+v, err=%v", typeName, result, err)
+	// gmlPrintf("GML: moonbit/typeinfo.go: GetTypeInfo('%v') = %+v, err=%v", typeName, result, err)
 	return result, err
 }
 
@@ -60,11 +60,11 @@ func (lti *langTypeInfo) GetListSubtype(typ string) string {
 	switch {
 	case strings.HasPrefix(typ, "Array["):
 		result := strings.TrimPrefix(typ, "Array[")
-		gmlPrintf("GML: moonbit/typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 		return result
 	case strings.HasPrefix(typ, "FixedArray["):
 		result := strings.TrimPrefix(typ, "FixedArray[")
-		gmlPrintf("GML: moonbit/typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetListSubtype('%v') = '%v'", typ, result)
 		return result
 	default:
 		gmlPrintf("ERROR: moonbit/typeinfo.go: GetListSubtype('%v'): Bad list type!", typ)
@@ -82,7 +82,7 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 
 	const prefix = "Map[" // e.g. Map[String, Int]
 	if !strings.HasPrefix(typ, prefix) {
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetMapSubtypes('%v') = ('', '')", typ)
 		return "", ""
 	}
 	typ = strings.TrimSuffix(typ, "]")
@@ -98,13 +98,13 @@ func (lti *langTypeInfo) GetMapSubtypes(typ string) (string, string) {
 		case ',':
 			if n == 1 {
 				r1, r2 := strings.TrimSpace(typ[:i]), strings.TrimSpace(typ[i+1:])
-				gmlPrintf("GML: moonbit/typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
+				// gmlPrintf("GML: moonbit/typeinfo.go: B: GetMapSubtypes('%v') = ('%v', '%v')", typ, r1, r2)
 				return r1, r2
 			}
 		}
 	}
 
-	gmlPrintf("GML: moonbit/typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
+	// gmlPrintf("GML: moonbit/typeinfo.go: C: GetMapSubtypes('%v') = ('', '')", typ)
 	return "", ""
 }
 
@@ -134,13 +134,13 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 
 	if lti.IsOptionType(typ) { // TODO
 		result := lti.GetNameForType(lti.GetUnderlyingType(typ)) + "?"
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
 
 	// if lti.IsPointerType(typ) { // TODO
 	// 	result := "*" + lti.GetNameForType(lti.GetUnderlyingType(typ))
-	// 	gmlPrintf("GML: moonbit/typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
+	// 	// gmlPrintf("GML: moonbit/typeinfo.go: A: GetNameForType('%v') = '%v'", typ, result)
 	// 	return result
 	// }
 
@@ -148,11 +148,11 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 		switch {
 		case strings.HasPrefix(typ, "Array["):
 			result := "Array[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
-			gmlPrintf("GML: moonbit/typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+			// gmlPrintf("GML: moonbit/typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
 			return result
 		case strings.HasPrefix(typ, "FixedArray["):
 			result := "FixedArray[" + lti.GetNameForType(lti.GetListSubtype(typ)) + "]"
-			gmlPrintf("GML: moonbit/typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
+			// gmlPrintf("GML: moonbit/typeinfo.go: B: GetNameForType('%v') = '%v'", typ, result)
 			return result
 		default:
 			gmlPrintf("PROGRAMMING ERROR: moonbit/typeinfo.go: GetNameForType('%v'): Bad list type!", typ)
@@ -162,12 +162,12 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 	if lti.IsMapType(typ) {
 		kt, vt := lti.GetMapSubtypes(typ)
 		result := "Map[" + lti.GetNameForType(kt) + "," + lti.GetNameForType(vt) + "]"
-		gmlPrintf("GML: moonbit/typeinfo.go: C: GetNameForType('%v') = '%v'", typ, result)
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: GetNameForType('%v') = '%v'", typ, result)
 		return result
 	}
 
 	result := typ[strings.LastIndex(typ, ".")+1:] // strip package information
-	gmlPrintf("GML: moonbit/typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: D: GetNameForType('%v') = '%v'", typ, result)
 	return result
 }
 
@@ -181,7 +181,7 @@ func (lti *langTypeInfo) IsObjectType(typ string) bool {
 		!lti.IsTimestampType(typ) &&
 		!lti.IsOptionType(typ)
 		// !lti.IsPointerType(typ)
-	gmlPrintf("GML: moonbit/typeinfo.go: IsObjectType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsObjectType('%v') = %v", typ, result)
 	return result
 }
 
@@ -190,7 +190,7 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 	typ, hasError, _ = stripErrorAndOption(typ)
 
 	if typ == "Unit" || hasError {
-		gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('Unit!Error') = 'Int'")
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('Unit!Error') = 'Int'")
 		return "Int" // GML: Experiment
 	}
 
@@ -201,9 +201,9 @@ func (lti *langTypeInfo) GetUnderlyingType(typ string) (result string) {
 		result = typ
 	default:
 		result = typ
-		gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('%v') = '%v' - UNHANDLED DEFAULT CASE", typ, result)
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('%v') = '%v' - UNHANDLED DEFAULT CASE", typ, result)
 	}
-	gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('%v') = '%v'", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: GetUnderlyingType('%v') = '%v'", typ, result)
 	return result
 }
 
@@ -214,7 +214,7 @@ func (lti *langTypeInfo) IsListType(typ string) bool {
 		return false
 	}
 	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsListType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsListType('%v') = %v", typ, result)
 	return result
 }
 
@@ -226,7 +226,7 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 	}
 	// MoonBit Arrays and FixedArrays are similar to Go slices.
 	result := strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsSliceType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsSliceType('%v') = %v", typ, result)
 	return result
 }
 
@@ -239,7 +239,7 @@ func (lti *langTypeInfo) IsArrayType(typ string) bool {
 	// // MoonBit Arrays do not have a fixed length, unlike Go, so Array[T] is _NOT_ an "array" type.
 	// // Instead, a MoonBit Array is a slice type.
 	// result := strings.HasPrefix(typ, "FixedArray[")
-	// gmlPrintf("GML: moonbit/typeinfo.go: IsArrayType('%v') = %v", typ, result)
+	// // gmlPrintf("GML: moonbit/typeinfo.go: IsArrayType('%v') = %v", typ, result)
 	// return result
 	return false
 }
@@ -248,7 +248,7 @@ func (lti *langTypeInfo) IsBooleanType(typ string) bool {
 	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "Bool")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsBooleanType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsBooleanType('%v') = %v", typ, result)
 	return result
 }
 
@@ -262,7 +262,7 @@ func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
 		strings.HasPrefix(typ, "FixedArray[Byte]"),
 		strings.HasPrefix(typ, "Bytes"):
 		// strings.HasPrefix(typ, "BytesView"),  // covered by last case
-		gmlPrintf("GML: moonbit/typeinfo.go: IsByteSequenceType('%v') = true", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsByteSequenceType('%v') = true", typ)
 		return true
 	}
 
@@ -275,7 +275,7 @@ func (lti *langTypeInfo) IsByteSequenceType(typ string) bool {
 		}
 	}
 
-	gmlPrintf("GML: moonbit/typeinfo.go: IsByteSequenceType('%v') = false", typ)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsByteSequenceType('%v') = false", typ)
 	return false
 }
 
@@ -283,7 +283,7 @@ func (lti *langTypeInfo) IsFloatType(typ string) bool {
 	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "Float") || strings.HasPrefix(typ, "Double")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsFloatType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsFloatType('%v') = %v", typ, result)
 	return result
 }
 
@@ -292,7 +292,7 @@ func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 	typ, hasError, _ = stripErrorAndOption(typ)
 
 	if typ == "Unit" || hasError {
-		gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('Unit!Error') = true")
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('Unit!Error') = true")
 		return true // GML: Experiment
 	}
 
@@ -300,10 +300,10 @@ func (lti *langTypeInfo) IsIntegerType(typ string) bool {
 	case "Int", "Int16", "Int64",
 		"UInt", "UInt16", "UInt64",
 		"Byte", "Char":
-		gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('%v') = true", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('%v') = true", typ)
 		return true
 	default:
-		gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('%v') = false", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsIntegerType('%v') = false", typ)
 		return false
 	}
 }
@@ -315,7 +315,7 @@ func (lti *langTypeInfo) IsMapType(typ string) bool {
 		return false
 	}
 	result := strings.HasPrefix(typ, "Map[")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsMapType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsMapType('%v') = %v", typ, result)
 	return result
 }
 
@@ -323,13 +323,13 @@ func (lti *langTypeInfo) IsNullableType(typ string) bool {
 	typ, hasError, hasOption := stripErrorAndOption(typ)
 
 	if typ == "Unit" && hasError {
-		gmlPrintf("GML: moonbit/typeinfo.go: IsNullableType('Unit!Error') = true")
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsNullableType('Unit!Error') = true")
 		return true // GML: Experiment
 	}
 
 	// result := lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsMapType(typ)
 	result := hasError || hasOption
-	gmlPrintf("GML: moonbit/typeinfo.go: IsNullableType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsNullableType('%v') = %v", typ, result)
 	return result
 }
 
@@ -337,11 +337,11 @@ func (lti *langTypeInfo) IsOptionType(typ string) bool {
 	t, hasError, hasOption := stripErrorAndOption(typ)
 
 	if t == "Unit" && hasError {
-		gmlPrintf("GML: moonbit/typeinfo.go: IsOptionType('Unit!Error') = true")
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsOptionType('Unit!Error') = true")
 		return true // GML: Experiment
 	}
 
-	gmlPrintf("GML: moonbit/typeinfo.go: IsOptionType('%v') = %v", typ, hasOption)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsOptionType('%v') = %v", typ, hasOption)
 	return hasOption
 }
 
@@ -359,7 +359,7 @@ func (lti *langTypeInfo) IsPointerType(typ string) bool {
 // 	// WRONG! Option[T] is _NOT_ a pointer type! // result := strings.HasSuffix(typ, "?")
 // 	result := false
 // 	// result := strings.HasSuffix(typ, "?") // This is currently needed for the test suite!!!  FIND OUT WHY!!!
-// 	gmlPrintf("GML: moonbit/typeinfo.go: IsPointerType('%v') = %v", typ, result)
+// 	// gmlPrintf("GML: moonbit/typeinfo.go: IsPointerType('%v') = %v", typ, result)
 // 	return result
 // }
 
@@ -367,7 +367,7 @@ func (lti *langTypeInfo) IsPrimitiveType(typ string) bool {
 	typ, _, _ = stripErrorAndOption(typ)
 
 	result := lti.IsBooleanType(typ) || lti.IsIntegerType(typ) || lti.IsFloatType(typ) // TODO(gmlewis)
-	gmlPrintf("GML: moonbit/typeinfo.go: IsPrimitiveType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsPrimitiveType('%v') = %v", typ, result)
 	return result
 }
 
@@ -376,10 +376,10 @@ func (lti *langTypeInfo) IsSignedIntegerType(typ string) bool {
 
 	switch typ {
 	case "Int", "Int16", "Int64":
-		gmlPrintf("GML: moonbit/typeinfo.go: IsSignedIntegerType('%v') = true", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsSignedIntegerType('%v') = true", typ)
 		return true
 	default:
-		gmlPrintf("GML: moonbit/typeinfo.go: IsSignedIntegerType('%v') = false", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: IsSignedIntegerType('%v') = false", typ)
 		return false
 	}
 }
@@ -388,7 +388,7 @@ func (lti *langTypeInfo) IsStringType(typ string) bool {
 	typ, _, _ = stripErrorAndOption(typ)
 
 	result := strings.HasPrefix(typ, "String")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsStringType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsStringType('%v') = %v", typ, result)
 	return result
 }
 
@@ -397,7 +397,7 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 
 	// Special case for MoonBit moonbitlang/x or wasi "timestamp"-like struct.
 	result := strings.HasPrefix(typ, "@time.ZonedDateTime") || strings.HasPrefix(typ, "@wallClock.Datetime")
-	gmlPrintf("GML: moonbit/typeinfo.go: IsTimestampType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: IsTimestampType('%v') = %v", typ, result)
 	return result
 }
 
@@ -452,7 +452,7 @@ func splitParamsWithBrackets(allArgs string) []string {
 func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
 	gmlPrintf("PROGRAMMING ERROR: GML: moonbit/typeinfo.go: ArrayLength('%v'): Bad array type!", typ)
 	return 0, nil
-	// gmlPrintf("GML: moonbit/typeinfo.go: ENTER ArrayLength('%v')", typ)
+	// // gmlPrintf("GML: moonbit/typeinfo.go: ENTER ArrayLength('%v')", typ)
 	// i := strings.Index(typ, "]")
 	// if i == -1 {
 	// 	return -1, fmt.Errorf("invalid array type: %s", typ)
@@ -471,7 +471,7 @@ func (lti *langTypeInfo) ArrayLength(typ string) (int, error) {
 	// 	return -1, fmt.Errorf("array size out of bounds: %s", size)
 	// }
 
-	// gmlPrintf("GML: moonbit/typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
+	// // gmlPrintf("GML: moonbit/typeinfo.go: ArrayLength('%v') = %v", typ, parsedSize)
 	// return parsedSize, nil
 }
 
@@ -518,14 +518,14 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 	// reference: https://github.com/tinygo-org/tinygo/blob/release/compiler/sizes.go
 
 	if hasOption {
-		gmlPrintf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v?') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v?') = 4", typ)
 		return 4, nil
 	}
 
 	// primitives align to their natural size
 	if lti.IsPrimitiveType(typ) {
 		result, err := lti.GetSizeOfType(ctx, typ)
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 
@@ -533,26 +533,26 @@ func (lti *langTypeInfo) GetAlignmentOfType(ctx context.Context, typ string) (ui
 	if lti.IsArrayType(typ) {
 		t := lti.GetListSubtype(typ)
 		result, err := lti.GetAlignmentOfType(ctx, t)
-		gmlPrintf("GML: moonbit/typeinfo.go: B: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+		// gmlPrintf("GML: moonbit/typeinfo.go: B: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 		return result, err
 	}
 
 	// reference types align to the pointer size (4 bytes on 32-bit wasm)
 	// if lti.IsPointerType(typ) || lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
 	if lti.IsSliceType(typ) || lti.IsStringType(typ) || lti.IsMapType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: GetAlignmentOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	// time.Time has 3 fields, the maximum alignment is 8 bytes
 	if lti.IsTimestampType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: D: GetAlignmentOfType('%v') = 8", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: D: GetAlignmentOfType('%v') = 8", typ)
 		return 8, nil
 	}
 
 	// structs align to the maximum alignment of their fields
 	result, err := lti.getAlignmentOfStruct(ctx, typ)
-	gmlPrintf("GML: moonbit/typeinfo.go: E: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
+	// gmlPrintf("GML: moonbit/typeinfo.go: E: GetAlignmentOfType('%v') = %v, err=%v", typ, result, err)
 	return result, err
 }
 
@@ -577,7 +577,7 @@ func (lti *langTypeInfo) getAlignmentOfStruct(ctx context.Context, typ string) (
 		}
 	}
 
-	gmlPrintf("GML: moonbit/typeinfo.go: getAlignmentOfStruct('%v') = %v", typ, max)
+	// gmlPrintf("GML: moonbit/typeinfo.go: getAlignmentOfStruct('%v') = %v", typ, max)
 	return max, nil
 }
 
@@ -598,27 +598,27 @@ func (lti *langTypeInfo) GetEncodingLengthOfType(ctx context.Context, typ string
 	}
 
 	if hasOption {
-		gmlPrintf("GML: moonbit/typeinfo.go: GetEncodingLengthOfType('%v?') = 4 + errorSize=%v", typ, errorSize)
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetEncodingLengthOfType('%v?') = 4 + errorSize=%v", typ, errorSize)
 		return 1 + errorSize, nil
 	}
 
 	// if lti.IsPrimitiveType(typ) || lti.IsPointerType(typ) || lti.IsMapType(typ) {
 	if lti.IsPrimitiveType(typ) || lti.IsMapType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetEncodingLengthOfType('%v') = 1 + errorSize=%v", typ, errorSize)
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetEncodingLengthOfType('%v') = 1 + errorSize=%v", typ, errorSize)
 		return 1 + errorSize, nil
 	} else if lti.IsStringType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: B: GetEncodingLengthOfType('%v') = 1 + errorSize=%v", typ, errorSize)
+		// gmlPrintf("GML: moonbit/typeinfo.go: B: GetEncodingLengthOfType('%v') = 1 + errorSize=%v", typ, errorSize)
 		return 1 + errorSize, nil
 	} else if lti.IsSliceType(typ) || lti.IsTimestampType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: C: GetEncodingLengthOfType('%v') = 3 + errorSize=%v", typ, errorSize)
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: GetEncodingLengthOfType('%v') = 3 + errorSize=%v", typ, errorSize)
 		return 3 + errorSize, nil
 	} else if lti.IsArrayType(typ) {
 		result, err := lti.getEncodingLengthOfArray(ctx, typ)
-		gmlPrintf("GML: moonbit/typeinfo.go: D: GetEncodingLengthOfType('%v') = %v+%v, err=%v", typ, result, errorSize, err)
+		// gmlPrintf("GML: moonbit/typeinfo.go: D: GetEncodingLengthOfType('%v') = %v+%v, err=%v", typ, result, errorSize, err)
 		return result + errorSize, err
 	} else if lti.IsObjectType(typ) {
 		result, err := lti.getEncodingLengthOfStruct(ctx, typ)
-		gmlPrintf("GML: moonbit/typeinfo.go: E: GetEncodingLengthOfType('%v') = %v+%v, err=%v", typ, result, errorSize, err)
+		// gmlPrintf("GML: moonbit/typeinfo.go: E: GetEncodingLengthOfType('%v') = %v+%v, err=%v", typ, result, errorSize, err)
 		return result + errorSize, err
 	}
 
@@ -633,7 +633,7 @@ func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ strin
 	// 	return 0, err
 	// }
 	// if arrSize == 0 {
-	// 	gmlPrintf("GML: moonbit/typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
+	// 	// gmlPrintf("GML: moonbit/typeinfo.go: A: getEncodingLengthOfArray('%v') = 0", typ)
 	// 	return 0, nil
 	// }
 
@@ -644,7 +644,7 @@ func (lti *langTypeInfo) getEncodingLengthOfArray(ctx context.Context, typ strin
 	// }
 
 	// result := uint32(arrSize) * elementLen
-	// gmlPrintf("GML: moonbit/typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
+	// // gmlPrintf("GML: moonbit/typeinfo.go: B: getEncodingLengthOfArray('%v') = %v", typ, result)
 	// return result, nil
 }
 
@@ -663,7 +663,7 @@ func (lti *langTypeInfo) getEncodingLengthOfStruct(ctx context.Context, typ stri
 		total += len
 	}
 
-	gmlPrintf("GML: moonbit/typeinfo.go: getEncodingLengthOfStruct('%v') = %v", typ, total)
+	// gmlPrintf("GML: moonbit/typeinfo.go: getEncodingLengthOfStruct('%v') = %v", typ, total)
 	return total, nil
 }
 
@@ -672,61 +672,61 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 	typ, hasError, hasOption = stripErrorAndOption(typ) // TODO: Add size of error here?
 
 	if hasOption {
-		gmlPrintf("GML: moonbit/typeinfo.go: F: GetSizeOfType('%v?') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: F: GetSizeOfType('%v?') = 4", typ)
 		return 4, nil
 	}
 
 	if typ == "Unit" || hasError {
-		gmlPrintf("GML: moonbit/typeinfo.go: GetSizeOfType('Unit!Error') = 1")
+		// gmlPrintf("GML: moonbit/typeinfo.go: GetSizeOfType('Unit!Error') = 1")
 		return 1, nil // GML: Experiment
 	}
 
 	switch typ {
 	case "Byte":
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetSizeOfType('%v') = 1", typ)
 		return 1, nil
 	case "Char", "Int16", "UInt16":
-		gmlPrintf("GML: moonbit/typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: B: GetSizeOfType('%v') = 2", typ)
 		return 2, nil
 	case "Bool", "Int", "UInt", "Float": // we only support 32-bit wasm
-		gmlPrintf("GML: moonbit/typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	case "Int64", "UInt64", "Double", "@time.Duration":
-		gmlPrintf("GML: moonbit/typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: D: GetSizeOfType('%v') = 8", typ)
 		return 8, nil
 	}
 
 	if lti.IsStringType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: E: GetSizeOfType('%v') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: E: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	if lti.IsMapType(typ) {
 		// maps are passed by reference using a 4 byte pointer
-		gmlPrintf("GML: moonbit/typeinfo.go: G: GetSizeOfType('%v') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: G: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	if lti.IsSliceType(typ) {
-		gmlPrintf("GML: moonbit/typeinfo.go: H: GetSizeOfType('%v') = 4", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: H: GetSizeOfType('%v') = 4", typ)
 		return 4, nil
 	}
 
 	if lti.IsTimestampType(typ) {
 		// time.Time has 3 fields: 8 byte uint64, 8 byte int64, 4 byte pointer
-		gmlPrintf("GML: moonbit/typeinfo.go: I: GetSizeOfType('%v') = 20", typ)
+		// gmlPrintf("GML: moonbit/typeinfo.go: I: GetSizeOfType('%v') = 20", typ)
 		return 20, nil
 	}
 
 	// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
 	// if lti.IsArrayType(typ) {
 	// 	result, err := lti.getSizeOfArray(ctx, typ)
-	// 	gmlPrintf("GML: moonbit/typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
+	// 	// gmlPrintf("GML: moonbit/typeinfo.go: J: GetSizeOfType('%v') = %v", typ, result)
 	// 	return result, err
 	// }
 
 	result, err := lti.getSizeOfStruct(ctx, typ)
-	gmlPrintf("GML: moonbit/typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)
+	// gmlPrintf("GML: moonbit/typeinfo.go: K: GetSizeOfType('%v') = %v", typ, result)
 	return result, err
 }
 
@@ -743,7 +743,7 @@ func (lti *langTypeInfo) GetTypeDefinition(ctx context.Context, typ string) (*me
 		typ, _, _ = stripErrorAndOption(typ) // try locating the type without the error or option suffix
 		result, err = md.GetTypeDefinition(typ)
 	}
-	gmlPrintf("GML: moonbit/typeinfo.go: GetTypeDefinition('%v') = %+v, err=%v", typ, result, err)
+	// gmlPrintf("GML: moonbit/typeinfo.go: GetTypeDefinition('%v') = %+v, err=%v", typ, result, err)
 	return result, err
 }
 
@@ -759,25 +759,25 @@ func (lti *langTypeInfo) GetReflectedType(ctx context.Context, typ string) (refl
 
 	if customTypes, ok := ctx.Value(utils.CustomTypesContextKey).(map[string]reflect.Type); ok {
 		result, err := lti.getReflectedType(typ, customTypes)
-		gmlPrintf("GML: moonbit/typeinfo.go: A: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: A: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, err
 	}
 	result, err := lti.getReflectedType(typ, nil)
-	gmlPrintf("GML: moonbit/typeinfo.go: B: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+	// gmlPrintf("GML: moonbit/typeinfo.go: B: GetReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 	return result, err
 }
 
 func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]reflect.Type) (reflect.Type, error) {
-	gmlPrintf("GML: moonbit/typeinfo.go: ENTER getReflectedType('%v')", typ)
+	// gmlPrintf("GML: moonbit/typeinfo.go: ENTER getReflectedType('%v')", typ)
 	if customTypes != nil {
 		if rt, ok := customTypes[typ]; ok {
-			gmlPrintf("GML: moonbit/typeinfo.go: A: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
+			// gmlPrintf("GML: moonbit/typeinfo.go: A: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
 			return rt, nil
 		}
 	}
 
 	if rt, ok := reflectedTypeMap[typ]; ok {
-		gmlPrintf("GML: moonbit/typeinfo.go: B: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: B: getReflectedType('%v') = %v, Kind()=%v", typ, rt, rt.Kind())
 		return rt, nil
 	}
 
@@ -790,7 +790,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.PointerTo(targetType)
-		gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -801,7 +801,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 	// 		return nil, err
 	// 	}
 	// 	result := reflect.PointerTo(targetType)
-	// 	gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
+	// 	// gmlPrintf("GML: moonbit/typeinfo.go: C: getReflectedType('%v') = %v", typ, result)
 	// 	return result, nil
 	// }
 
@@ -816,7 +816,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.SliceOf(elementType)
-		gmlPrintf("GML: moonbit/typeinfo.go: D: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: D: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -836,7 +836,7 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 			return nil, err
 		}
 		result := reflect.ArrayOf(size, elementType)
-		gmlPrintf("GML: moonbit/typeinfo.go: E: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: E: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
@@ -856,12 +856,12 @@ func (lti *langTypeInfo) getReflectedType(typ string, customTypes map[string]ref
 		}
 
 		result := reflect.MapOf(keyType, valType)
-		gmlPrintf("GML: moonbit/typeinfo.go: F: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
+		// gmlPrintf("GML: moonbit/typeinfo.go: F: getReflectedType('%v') = %v, Kind()=%v", typ, result, result.Kind())
 		return result, nil
 	}
 
 	// All other types are custom classes, which are represented as a map[string]any
-	gmlPrintf("GML: moonbit/typeinfo.go: G: getReflectedType('%v') = %v, Kind()=%v", typ, rtMapStringAny, rtMapStringAny.Kind())
+	// gmlPrintf("GML: moonbit/typeinfo.go: G: getReflectedType('%v') = %v, Kind()=%v", typ, rtMapStringAny, rtMapStringAny.Kind())
 	return rtMapStringAny, nil
 }
 
