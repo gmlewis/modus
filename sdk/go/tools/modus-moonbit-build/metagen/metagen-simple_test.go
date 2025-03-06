@@ -81,24 +81,12 @@ var wantSimpleFnExports = metadata.FunctionMap{
 		Docs:       &metadata.Docs{Lines: []string{"Adds any number of integers together and returns the result."}},
 	},
 	"get_current_time": {
-		Name:       "get_current_time",
-		Parameters: []*metadata.Parameter{{Name: "now~", Type: "@wallClock.Datetime"}},
-		Results:    []*metadata.Result{{Type: "@time.ZonedDateTime!Error"}},
-		Docs:       &metadata.Docs{Lines: []string{"Returns the current time."}},
-	},
-	"get_current_time_WithDefaults": {
-		Name:    "get_current_time_WithDefaults",
+		Name:    "get_current_time",
 		Results: []*metadata.Result{{Type: "@time.ZonedDateTime!Error"}},
 		Docs:    &metadata.Docs{Lines: []string{"Returns the current time."}},
 	},
 	"get_current_time_formatted": {
-		Name:       "get_current_time_formatted",
-		Parameters: []*metadata.Parameter{{Name: "now~", Type: "@wallClock.Datetime"}},
-		Results:    []*metadata.Result{{Type: "String!Error"}},
-		Docs:       &metadata.Docs{Lines: []string{"Returns the current time formatted as a string."}},
-	},
-	"get_current_time_formatted_WithDefaults": {
-		Name:    "get_current_time_formatted_WithDefaults",
+		Name:    "get_current_time_formatted",
 		Results: []*metadata.Result{{Type: "String!Error"}},
 		Docs:    &metadata.Docs{Lines: []string{"Returns the current time formatted as a string."}},
 	},
@@ -107,11 +95,6 @@ var wantSimpleFnExports = metadata.FunctionMap{
 		Parameters: []*metadata.Parameter{{Name: "first_name", Type: "String"}, {Name: "last_name", Type: "String"}},
 		Results:    []*metadata.Result{{Type: "String"}},
 		Docs:       &metadata.Docs{Lines: []string{"Combines the first and last name of a person, and returns the full name."}},
-	},
-	"get_name_and_age": {
-		Name:    "get_name_and_age",
-		Results: []*metadata.Result{{Type: "(String, Int)"}},
-		Docs:    &metadata.Docs{Lines: []string{"Gets the name and age of a person."}},
 	},
 	"get_people": {
 		Name:    "get_people",
@@ -132,23 +115,6 @@ var wantSimpleFnExports = metadata.FunctionMap{
 		Name:       "log_message",
 		Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
 		Docs:       &metadata.Docs{Lines: []string{"Logs a message."}},
-	},
-	"say_hello": {
-		Name:       "say_hello",
-		Parameters: []*metadata.Parameter{{Name: "name~", Type: "String?"}},
-		Results:    []*metadata.Result{{Type: "String"}},
-		Docs: &metadata.Docs{Lines: []string{
-			"Says hello to a person by name.",
-			"If the name is not provided, it will say hello without a name.",
-		}},
-	},
-	"say_hello_WithDefaults": {
-		Name:    "say_hello_WithDefaults",
-		Results: []*metadata.Result{{Type: "String"}},
-		Docs: &metadata.Docs{Lines: []string{
-			"Says hello to a person by name.",
-			"If the name is not provided, it will say hello without a name.",
-		}},
 	},
 	"test_abort": {
 		Name: "test_abort",
@@ -184,13 +150,13 @@ var wantSimpleFnImports = metadata.FunctionMap{
 }
 
 var wantSimpleTypes = metadata.TypeMap{
+	"(Int, Int, Int)": {
+		Name:   "(Int, Int, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
+	},
 	"(String)": {
 		Name:   "(String)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
-	},
-	"(String, Int)": {
-		Name:   "(String, Int)",
-		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Int"}},
 	},
 	"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
 	"@ffi.XExternString":      {Name: "@ffi.XExternString"},
@@ -216,16 +182,20 @@ var wantSimpleTypes = metadata.TypeMap{
 	"@time.ZoneOffset!Error":    {Name: "@time.ZoneOffset!Error"},
 	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
 	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
-	"@wallClock.Datetime":       {Name: "@wallClock.Datetime"},
+	"ArrayView[Byte]":           {Name: "ArrayView[Byte]"},
 	"Array[@testutils.T]":       {Name: "Array[@testutils.T]"},
 	"Array[Byte]":               {Name: "Array[Byte]"},
 	"Array[Int]":                {Name: "Array[Int]"},
 	"Array[Person]":             {Name: "Array[Person]"},
 	"Array[String]":             {Name: "Array[String]"},
 	"Bool":                      {Name: "Bool"},
+	"Bytes":                     {Name: "Bytes"},
+	"Bytes!Error":               {Name: "Bytes!Error"},
 	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
 	"Int":                       {Name: "Int"},
 	"Int64":                     {Name: "Int64"},
+	"Iter[Byte]":                {Name: "Iter[Byte]"},
+	"Iter[Char]":                {Name: "Iter[Char]"},
 	"Map[String, String]":       {Name: "Map[String, String]"},
 	"Person": {
 		Name: "Person",
@@ -233,7 +203,10 @@ var wantSimpleTypes = metadata.TypeMap{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"}, {Name: "age", Type: "Int"},
 		},
 	},
-	"String":       {Name: "String"},
-	"String!Error": {Name: "String!Error"},
-	"String?":      {Name: "String?"},
+	"Result[UInt64, UInt]": {Name: "Result[UInt64, UInt]"},
+	"Result[Unit, UInt]":   {Name: "Result[Unit, UInt]"},
+	"String":               {Name: "String"},
+	"String!Error":         {Name: "String!Error"},
+	"UInt":                 {Name: "UInt"},
+	"UInt64":               {Name: "UInt64"},
 }
