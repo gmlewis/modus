@@ -154,13 +154,13 @@ var packagesTestData = &testData{
 	moonPkgJSON:   packagesMoonPkgJSON,
 }
 
-//go:embed codegen/testdata/simple-example.mbt
+//go:embed codegen/testdata/simple-example/simple-example.mbt
 var codegenSimpleExample string
 
-//go:embed codegen/testdata/moon.mod.json
+//go:embed codegen/testdata/simple-example/moon.mod.json
 var codegenMoonModJSON string
 
-//go:embed codegen/testdata/moon.pkg.json
+//go:embed codegen/testdata/simple-example/moon.pkg.json
 var codegenMoonPkgJSON string
 
 //go:embed metagen/testdata/simple-example/simple-example.mbt
@@ -172,11 +172,11 @@ var metagenMoonModJSON string
 //go:embed metagen/testdata/simple-example/moon.pkg.json
 var metagenMoonPkgJSON string
 
-//go:embed packages/testdata/simple-example.mbt
+//go:embed packages/testdata/simple-example/simple-example.mbt
 var packagesSimpleExample string
 
-//go:embed packages/testdata/moon.mod.json
+//go:embed packages/testdata/simple-example/moon.mod.json
 var packagesMoonModJSON string
 
-//go:embed packages/testdata/moon.pkg.json
+//go:embed packages/testdata/simple-example/moon.pkg.json
 var packagesMoonPkgJSON string
