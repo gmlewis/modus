@@ -14,6 +14,7 @@ package packages
 import (
 	"encoding/json"
 	"go/ast"
+	"go/token"
 	"go/types"
 	"testing"
 )
@@ -1011,7 +1012,11400 @@ var wantPackageRuntime = &Package{
 			}}},
 		},
 	},
-	Syntax: []*ast.File{}, // TODO
+	Syntax: []*ast.File{
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_bool.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_1_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_1_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_bool_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_1_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_1_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_bool_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_byte.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_option_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_byte_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_option_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_byte_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_char.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_char_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_char_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_char_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Char?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_double.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_double_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_double_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_double_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Double?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_float.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_float_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_float_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_float_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Float?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_int_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_int16_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_int16_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int16_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int16?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_int64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Int64?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_string.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_string_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_string_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[String]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_string_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_string_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_input_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_output_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_input_string_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Array[String]]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_output_string_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Array[String]]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_input_string_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_output_string_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_input_string_inner_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_output_string_inner_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Array[String]]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_input_string_inner_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[Array[String]?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test2d_array_output_string_inner_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[Array[String]?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_uint_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_uint_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_uint16_empty"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_input_uint16_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint16_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt16?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_array_output_uint64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Array[UInt64?]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/debug-memory_notwasm.mbt"},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/debug-memory_wasm.mbt"},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input0_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output0_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input0_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output0_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input0_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output0_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input0_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output0_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input1_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output1_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input1_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output1_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input1_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output1_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_string_option_fixedarray1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input1_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output1_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_int_option_fixedarray1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_byte"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_string_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_string_option_array2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_int_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_int_ptr_array2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_struct"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[TestStruct2]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_struct"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[TestStruct2]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_struct_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[TestStruct2?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_struct_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[TestStruct2?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Map[String, String]]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Map[String, String]]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input2_map_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Map[String, String]?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output2_map_option"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Map[String, String]?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_map_array2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Map[String, String]]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_map_ptr_array2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Map[String, String]?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_input1_int"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_output1_int"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_option_int_fixedarray1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_input2_int"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_output2_int"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_option_int_fixedarray2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_input1_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_output1_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_option_string_fixedarray1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "get_option_string_fixedarray2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_input2_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_option_fixedarray_output2_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_bool.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_1_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_1_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_bool_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_1_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_1_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_bool_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Bool?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_byte.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_option_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_byte_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_option_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_byte_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Byte?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_char.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_char_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_char_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Char?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_double.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_double_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_double_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Double?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_float.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_float_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_float_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Float?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_int64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_int64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[Int64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_string.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_string_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_1_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_string_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[String?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint16_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt16?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_output_uint64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_0"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_1_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_1_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_fixedarray_input_uint64_option_4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "val"}}, Type: &ast.Ident{Name: "FixedArray[UInt64?]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/hostfns.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "add"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Int"}},
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "echo1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "echo2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "echo3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "echo4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "encode_strings1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "items"}}, Type: &ast.Ident{Name: "Array[String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "encode_strings2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "items"}}, Type: &ast.Ident{Name: "Array[String?]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/http.mbt"},
+			Decls: []ast.Decl{
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "HttpResponse"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "status"}}, Type: &ast.Ident{Name: "UInt16"}},
+										{Names: []*ast.Ident{{Name: "status_text"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "headers"}}, Type: &ast.Ident{Name: "HttpHeaders?"}},
+										{Names: []*ast.Ident{{Name: "body"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "HttpHeaders"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "data"}}, Type: &ast.Ident{Name: "Map[String, HttpHeader?]"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "HttpHeader"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "values"}}, Type: &ast.Ident{Name: "Array[String]"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_http_response_headers"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "r"}}, Type: &ast.Ident{Name: "HttpResponse?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_http_headers"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "h"}}, Type: &ast.Ident{Name: "HttpHeaders"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_http_header_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, HttpHeader?]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_http_header"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "h"}}, Type: &ast.Ident{Name: "HttpHeader?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/imports_notwasm.mbt"},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/imports_wasm.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "host_echo1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "host_echo2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "host_echo3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "host_echo4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test add"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.add"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Int"}},
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test echo1"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.echo1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test echo2"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.echo2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test echo3"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.echo3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test echo4"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.echo4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "message"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test encodeStrings1"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.encodeStrings1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "items"}}, Type: &ast.Ident{Name: "Array[String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "//go:wasmimport modus_test encodeStrings2"},
+						},
+					},
+					Name: &ast.Ident{Name: "modus_test.encodeStrings2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "items"}}, Type: &ast.Ident{Name: "Array[String?]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/maps.mbt"},
+			Decls: []ast.Decl{
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStructWithMap"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, String]"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_input_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, String]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_option_input_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, String]?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_output_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Map[String, String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_option_output_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Map[String, String]?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_iterate_map_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, String]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_lookup_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[String, String]"}},
+								{Names: []*ast.Ident{{Name: "key"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_containing_map_input_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "TestStructWithMap"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_containing_map_output_string_string"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStructWithMap"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_input_int_float"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[Int, Float]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_output_int_float"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Map[Int, Float]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_input_int_double"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "m"}}, Type: &ast.Ident{Name: "Map[Int, Double]"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_map_output_int_double"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Map[Int, Double]"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_generate_map_string_string_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Map[String, String]"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_bool.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_input_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Bool"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_input_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Bool"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_output_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Bool"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_output_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Bool"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_input_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_input_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_output_false"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_output_true"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_bool_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Bool?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_byte.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Byte"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Byte"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Byte"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Byte"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_byte_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Byte?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_char.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Char"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Char"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_char_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Char?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_double.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Double"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Double"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Double"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Double"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_double_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Double?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_float.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Float"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Float"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Float"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Float"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_float_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Float?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int16"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int16"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int16"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int16"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int16_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int16?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int64"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int64"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int64"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int64"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_int64_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Int64?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint16.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt16"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt16"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt16"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt16"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint16_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt16?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint64.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt64"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt64"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt64"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt64"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_input_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_input_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "n"}}, Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_output_min"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_output_max"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_uint64_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "UInt64?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/strings.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_option_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_option_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_string_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/structs.mbt"},
+			Decls: []ast.Decl{
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct1"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct1_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct2"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct2_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct3"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct3_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct4"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String?"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct4_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String?"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct5"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Array[String]"}},
+										{Names: []*ast.Ident{{Name: "e"}}, Type: &ast.Ident{Name: "Double"}},
+										{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Double"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestStruct5_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "b"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Array[String]"}},
+										{Names: []*ast.Ident{{Name: "e"}}, Type: &ast.Ident{Name: "Double"}},
+										{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Double"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestRecursiveStruct"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "mut b"}}, Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestRecursiveStruct_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "a"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "mut b"}}, Type: &ast.Ident{Name: "TestRecursiveStruct_map?"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct1"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct2"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct3"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct4"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input5"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct5"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_input4_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct4"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestRecursiveStruct"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct1?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct2?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct3?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input5"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct5?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input4_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_option_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct1?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input2_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct2?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input3_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct3?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input4_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_input5_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestStruct5?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct1"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output1_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct1_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct2"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output2_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct2_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct3"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output3_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct3_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output4_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output5"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct5"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output5_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct5_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output4_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_output4_map_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestRecursiveStruct"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_output_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestRecursiveStruct_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output1"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct1?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output1_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct1_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct2?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output2_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct2_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output3"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct3?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output3_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct3_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output4"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output4_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output5"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct5?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output5_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct5_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output4_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output4_map_with_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_option_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_option_output_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestRecursiveStruct_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output1_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct1?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output2_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct2?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output3_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct3?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output4_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct4?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_struct_option_output5_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestStruct5?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_recursive_struct_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/time.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "t"}}, Type: &ast.Ident{Name: "@time.ZonedDateTime"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "t"}}, Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "call_test_time_option_input_some"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "call_test_time_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_input_style2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "t?"}}, Type: &ast.Ident{Name: "@time.ZonedDateTime"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "t"}}, Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_input_none_style2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "t?"}}, Type: &ast.Ident{Name: "@time.ZonedDateTime"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_time_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "@time.Duration"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "@time.Duration?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_input_style2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "d?"}}, Type: &ast.Ident{Name: "@time.Duration"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "@time.Duration?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_input_none_style2"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "d?"}}, Type: &ast.Ident{Name: "@time.Duration"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.Duration"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.Duration?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_duration_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.Duration?"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/tuples.mbt"},
+			Decls: []ast.Decl{
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_tuple_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "(Int, Bool, String)"}},
+							},
+						},
+					},
+				},
+			},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+		{
+			Name: &ast.Ident{Name: "testdata/runtime-testdata/utils.mbt"},
+			Imports: []*ast.ImportSpec{
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
+			},
+		},
+	},
 	TypesInfo: &types.Info{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
