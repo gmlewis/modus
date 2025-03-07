@@ -23,6 +23,8 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/printer"
 )
 
+const pre_file = "modus_pre_generated.mbt"
+
 func PreProcess(config *config.Config) error {
 	// cleanup from previous runs first
 	err := cleanup(config.SourceDir)
@@ -30,15 +32,7 @@ func PreProcess(config *config.Config) error {
 		return err
 	}
 
-	pkg, err := getMainPackage(config.SourceDir)
-	if err != nil {
-		return err
-	}
-
-	functions := getFunctionsNeedingWrappers(pkg)
-	imports := getRequiredImports(functions)
-
-	body, header, moonPkgJSON, err := genBuffers(pkg, imports, functions)
+	body, header, moonPkgJSON, err := testablePreProcess(config)
 	if err != nil {
 		return err
 	}
@@ -48,6 +42,23 @@ func PreProcess(config *config.Config) error {
 	}
 
 	return writeBuffersToFile(filepath.Join(config.SourceDir, "moon.pkg.json"), moonPkgJSON)
+}
+
+func testablePreProcess(config *config.Config) (body, header, moonPkgJSON *bytes.Buffer, err error) {
+	pkg, err := getMainPackage(config.SourceDir)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	functions := getFunctionsNeedingWrappers(pkg)
+	imports := getRequiredImports(functions)
+
+	body, header, moonPkgJSON, err = genBuffers(pkg, imports, functions)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	return body, header, moonPkgJSON, nil
 }
 
 func genBuffers(pkg *packages.Package, imports map[string]string, functions []*funcInfo) (body, header, moonPkgJSON *bytes.Buffer, err error) {

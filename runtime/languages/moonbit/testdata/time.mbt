@@ -40,15 +40,15 @@ fn init {
 
 ///|
 pub fn test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
-  guard let Some(test_time) = test_time.val
+  guard test_time.val is Some(test_time)
   assert_eq!(t.to_unix_second(), test_time.to_unix_second())
   assert_eq!(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
 pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
-  guard let Some(test_time) = test_time.val
-  guard let Some(t) = t
+  guard test_time.val is Some(test_time)
+  guard t is Some(t)
   let got_seconds = t.to_unix_second()
   let got_nanoseconds = t.nanosecond()
   println(
@@ -86,15 +86,15 @@ pub fn call_test_time_option_input_none() -> @time.ZonedDateTime? {
 
 ///|
 pub fn test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!Error {
-  guard let Some(test_time) = test_time.val
-  guard let Some(t) = t
+  guard test_time.val is Some(test_time)
+  guard t is Some(t)
   assert_eq!(t.to_unix_second(), test_time.to_unix_second())
   assert_eq!(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
 pub fn test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Error {
-  guard let None = t else { _ => raise TestError("expected None") }
+  guard t is None else { raise TestError("expected None") }
 
 }
 
@@ -102,13 +102,13 @@ pub fn test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Error {
 pub fn test_time_option_input_none_style2(
   t? : @time.ZonedDateTime
 ) -> Unit!Error {
-  guard let None = t else { _ => raise TestError("expected None") }
+  guard t is None else { raise TestError("expected None") }
 
 }
 
 ///|
 pub fn test_time_output() -> @time.ZonedDateTime {
-  guard let Some(test_time) = test_time.val
+  guard test_time.val is Some(test_time)
   test_time
 }
 

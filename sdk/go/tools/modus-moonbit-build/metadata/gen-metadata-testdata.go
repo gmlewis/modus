@@ -30,7 +30,13 @@ import (
 )
 
 var (
-	genTestCases = []string{"simple-example", "time-example"}
+	genTestCases = []string{
+		"neo4j-example",
+		"runtime-testdata",
+		"simple-example",
+		"test-suite",
+		"time-example",
+	}
 )
 
 func main() {

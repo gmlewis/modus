@@ -10,43 +10,29 @@
 package metadata
 
 import (
-	_ "embed"
 	"encoding/json"
+	"fmt"
 	"testing"
 )
 
-//go:embed testdata/simple-example-metadata.json
-var simpleExampleMetadataJSON []byte
+type functionStringTest struct {
+	name string
+	want string
+}
 
-func TestFunction_String(t *testing.T) {
-	t.Parallel()
+func testFunctionStringHelper(t *testing.T, name string, metadataJSON []byte, tests []functionStringTest) {
+	t.Helper()
 
 	var meta *Metadata
-	if err := json.Unmarshal(simpleExampleMetadataJSON, &meta); err != nil || meta == nil || meta.FnExports == nil {
-		t.Fatalf("json.Unmarshal: %v", err)
+	if err := json.Unmarshal(metadataJSON, &meta); err != nil || meta == nil || meta.FnExports == nil {
+		t.Fatalf("%v json.Unmarshal: %v", name, err)
 	}
 
-	tests := []struct {
-		name string
-		want string
-	}{
-		{name: "add", want: "(x : Int, y : Int) -> Int"},
-		{name: "add3", want: "(a : Int, b : Int, c~ : Int) -> Int"},
-		{name: "add_n", want: "(args : Array[Int]) -> Int"},
-		{name: "get_current_time", want: "(now~ : @wallClock.Datetime) -> @time.ZonedDateTime!Error"},
-		{name: "get_current_time_formatted", want: "(now~ : @wallClock.Datetime) -> String!Error"},
-		{name: "get_full_name", want: "(first_name : String, last_name : String) -> String"},
-		{name: "get_name_and_age", want: "() -> (String, Int)"},
-		{name: "get_people", want: "() -> Array[Person]"},
-		{name: "get_person", want: "() -> Person"},
-		{name: "get_random_person", want: "() -> Person"},
-		{name: "log_message", want: "(message : String) -> Unit"},
-		{name: "say_hello", want: "(name~ : String?) -> String"},
-		{name: "test_abort", want: "() -> Unit"},
-		{name: "test_alternative_error", want: "(input : String) -> String"},
-		{name: "test_exit", want: "() -> Unit"},
-		{name: "test_logging", want: "() -> Unit"},
-		{name: "test_normal_error", want: "(input : String) -> String!Error"},
+	if len(tests) != len(meta.FnExports) {
+		for k, v := range meta.FnExports {
+			fmt.Printf("    {name: %q, want: %q},\n", k, v.String(meta))
+		}
+		t.Fatalf("%v FnExports length mismatch: got %v, want %v", name, len(meta.FnExports), len(tests))
 	}
 
 	for _, tt := range tests {
@@ -55,8 +41,9 @@ func TestFunction_String(t *testing.T) {
 			f := meta.FnExports[tt.name]
 			got := f.String(meta)
 			if got != tt.want {
-				t.Errorf("function.String = %q, want %q", got, tt.want)
+				t.Errorf("%v function.String = %q, want %q", name, got, tt.want)
 			}
 		})
 	}
+
 }

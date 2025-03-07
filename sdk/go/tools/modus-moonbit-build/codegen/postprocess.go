@@ -23,13 +23,21 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
+const post_file = "modus_post_generated.mbt"
+
 func PostProcess(config *config.Config, meta *metadata.Metadata) error {
+	body, header := testablePostProcess(meta)
+
+	return writeBuffersToFile(filepath.Join(config.SourceDir, post_file), header, body)
+}
+
+func testablePostProcess(meta *metadata.Metadata) (body, header *bytes.Buffer) {
 	imports := meta.GetImports()
 	types := getTypes(meta)
 
 	keys, pairs := genMapKeyValuePairs(meta)
 
-	body := &bytes.Buffer{}
+	body = &bytes.Buffer{}
 	writeFuncUnpin(body)
 	writeFuncNew(body, types, imports)
 	writeFuncMake(body, types, imports)
@@ -38,10 +46,10 @@ func PostProcess(config *config.Config, meta *metadata.Metadata) error {
 	writeFuncWriteMap(body, keys, pairs)
 	// }
 
-	header := &bytes.Buffer{}
+	header = &bytes.Buffer{}
 	writePostProcessHeader(header, meta, imports)
 
-	return writeBuffersToFile(filepath.Join(config.SourceDir, post_file), header, body)
+	return body, header
 }
 
 func getTypes(meta *metadata.Metadata) []*metadata.TypeDefinition {

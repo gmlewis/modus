@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv2gtqnrack4be1cib70",
-  "buildTs": "2025-03-03T02:07:38.682Z",
+  "buildId": "cv51q6nrackeuns2q01g",
+  "buildTs": "2025-03-06T22:09:30.371Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "27b4b69f661b7300e7b4821a15dcd43ddc21e6ad",
+  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
   "fnExports": {
     "add": {
       "parameters": [
