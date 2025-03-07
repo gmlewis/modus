@@ -16,7 +16,9 @@ import (
 	"path"
 	"testing"
 
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
+
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -29,7 +31,9 @@ type preProcessDiffs struct {
 	gotPreProcessMoonPkgJSON  string
 }
 
-/*
+func preProcessTestSetup(t *testing.T, config *config.Config) *modinfo.ModuleInfo {
+	t.Helper()
+
 	// Make sure the ".mooncakes" directory is initialized before running the test.
 	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
 	if _, err := os.Stat(mooncakesDir); err != nil {
@@ -45,12 +49,9 @@ type preProcessDiffs struct {
 	if err != nil {
 		t.Fatalf("CollectModuleInfo failed: %v", err)
 	}
-	pkg, err := getMainPackage(config.SourceDir, mod)
-		t.Log(body.String())
-		t.Log(header.String())
-		t.Log(moonPkgJSON.String())
+
+	return mod
 }
-*/
 
 func reportPreProcessDiffs(t *testing.T, name string, wg *preProcessDiffs) {
 	t.Helper()

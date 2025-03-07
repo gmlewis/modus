@@ -24,7 +24,9 @@ func TestTestablePreProcess_Neo4j(t *testing.T) {
 		SourceDir: "testdata/neo4j-example",
 	}
 
-	body, header, moonPkgJSON, err := testablePreProcess(config)
+	mod := preProcessTestSetup(t, config)
+
+	body, header, moonPkgJSON, err := testablePreProcess(config, mod)
 	if err != nil {
 		t.Fatal(err)
 	}

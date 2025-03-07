@@ -33,7 +33,7 @@ func PreProcess(config *config.Config, mod *modinfo.ModuleInfo) error {
 		return err
 	}
 
-	body, header, moonPkgJSON, err := testablePreProcess(config)
+	body, header, moonPkgJSON, err := testablePreProcess(config, mod)
 	if err != nil {
 		return err
 	}
@@ -45,8 +45,8 @@ func PreProcess(config *config.Config, mod *modinfo.ModuleInfo) error {
 	return writeBuffersToFile(filepath.Join(config.SourceDir, "moon.pkg.json"), moonPkgJSON)
 }
 
-func testablePreProcess(config *config.Config) (body, header, moonPkgJSON *bytes.Buffer, err error) {
-	pkg, err := getMainPackage(config.SourceDir)
+func testablePreProcess(config *config.Config, mod *modinfo.ModuleInfo) (body, header, moonPkgJSON *bytes.Buffer, err error) {
+	pkg, err := getMainPackage(config.SourceDir, mod)
 	if err != nil {
 		return nil, nil, nil, err
 	}
