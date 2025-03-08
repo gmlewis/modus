@@ -39,6 +39,10 @@ func testFunctionStringHelper(t *testing.T, name string, metadataJSON []byte, te
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			f := meta.FnExports[tt.name]
+			if f == nil {
+				t.Fatalf("meta.FnExports missing tt.name=%q", tt.name)
+			}
+
 			got := f.String(meta)
 			if got != tt.want {
 				t.Errorf("%v function.String = %q, want %q", name, got, tt.want)
