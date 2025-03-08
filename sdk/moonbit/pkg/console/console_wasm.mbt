@@ -5,6 +5,16 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
+///|modus:import modus_system logMessage(level : String, message : String) -> Unit
+fn wasmImportLogMessage(level : Int, message : Int) = "modus_system" "logMessage"
+
+///| Log a message with specified level
+pub fn log_message(level : String, message : String) -> Unit {
+  let level_ptr = @ffi.str2ptr(level) - 8
+  let message_ptr = @ffi.str2ptr(message) - 8
+  wasmImportLogMessage(level_ptr, message_ptr)
+}
+
 ///|
 pub fn assert(condition : Bool, message : String) -> Unit {
   if not(condition) {
@@ -14,25 +24,25 @@ pub fn assert(condition : Bool, message : String) -> Unit {
 
 ///|
 pub fn log(message : String) -> Unit {
-  @host.log_message("", message)
+  log_message("", message)
 }
 
 ///|
 pub fn debug(message : String) -> Unit {
-  @host.log_message("debug", message)
+  log_message("debug", message)
 }
 
 ///|
 pub fn info(message : String) -> Unit {
-  @host.log_message("info", message)
+  log_message("info", message)
 }
 
 ///|
 pub fn warn(message : String) -> Unit {
-  @host.log_message("warning", message)
+  log_message("warning", message)
 }
 
 ///|
 pub fn error(message : String) -> Unit {
-  @host.log_message("error", message)
+  log_message("error", message)
 }
