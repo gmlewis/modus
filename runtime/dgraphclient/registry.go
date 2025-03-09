@@ -16,8 +16,8 @@ import (
 	"strings"
 
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/secrets"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

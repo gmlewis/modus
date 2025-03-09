@@ -1,0 +1,129 @@
+package gmlewis/modus/wit/interface/collections
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn classify_text(String, String, String, String) -> CollectionClassificationResult?
+
+fn compute_distance(String, String, String, String, String) -> CollectionSearchResultObject?
+
+fn delete(String, String, String) -> CollectionMutationResult?
+
+fn dump_texts(String, String) -> String
+
+fn get_labels(String, String, String) -> Array[String]?
+
+fn get_namespaces(String) -> Array[String]?
+
+fn get_text(String, String, String) -> String?
+
+fn get_vector(String, String, String, String) -> FixedArray[Float]?
+
+fn recompute_index(String, String, String) -> SearchMethodMutationResult?
+
+fn search(String, Array[String], String, String, Int, Bool) -> CollectionSearchResult?
+
+fn search_by_vector(String, Array[String], String, FixedArray[Float], Int, Bool) -> CollectionSearchResult?
+
+fn upsert(String, String, Array[String], Array[String], Array[Array[String]]) -> CollectionMutationResult?
+
+// Types and methods
+pub(all) struct CollectionClassificationLabelObject {
+  label : String
+  confidence : Double
+}
+impl Eq for CollectionClassificationLabelObject
+impl Show for CollectionClassificationLabelObject
+impl ToJson for CollectionClassificationLabelObject
+impl @json.FromJson for CollectionClassificationLabelObject
+
+pub(all) struct CollectionClassificationResult {
+  collection : String
+  status : String
+  error : String
+  search_method : String
+  labels_result : Array[CollectionClassificationLabelObject]
+  cluster : Array[CollectionClassificationResultObject]
+}
+impl Eq for CollectionClassificationResult
+impl Show for CollectionClassificationResult
+impl ToJson for CollectionClassificationResult
+impl @json.FromJson for CollectionClassificationResult
+
+pub(all) struct CollectionClassificationResultObject {
+  key : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+}
+impl Eq for CollectionClassificationResultObject
+impl Show for CollectionClassificationResultObject
+impl ToJson for CollectionClassificationResultObject
+impl @json.FromJson for CollectionClassificationResultObject
+
+pub(all) struct CollectionMutationResult {
+  collection : String
+  status : String
+  error : String
+  operation : String
+  keys : Array[String]
+}
+impl Eq for CollectionMutationResult
+impl Show for CollectionMutationResult
+impl ToJson for CollectionMutationResult
+impl @json.FromJson for CollectionMutationResult
+
+pub(all) struct CollectionSearchResult {
+  collection : String
+  status : String
+  error : String
+  search_method : String
+  objects : Array[CollectionSearchResultObject]
+}
+impl Eq for CollectionSearchResult
+impl Show for CollectionSearchResult
+impl ToJson for CollectionSearchResult
+impl @json.FromJson for CollectionSearchResult
+
+pub(all) struct CollectionSearchResultObject {
+  namespace : String
+  key : String
+  text : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+}
+impl Eq for CollectionSearchResultObject
+impl Show for CollectionSearchResultObject
+impl ToJson for CollectionSearchResultObject
+impl @json.FromJson for CollectionSearchResultObject
+
+pub(all) enum CollectionStatus {
+  SUCCESS
+  ERROR
+}
+impl CollectionStatus {
+  from(Int) -> Self
+  ordinal(Self) -> Int
+}
+impl Eq for CollectionStatus
+impl Show for CollectionStatus
+impl ToJson for CollectionStatus
+impl @json.FromJson for CollectionStatus
+
+pub(all) struct SearchMethodMutationResult {
+  collection : String
+  status : String
+  error : String
+  operation : String
+  search_method : String
+}
+impl Eq for SearchMethodMutationResult
+impl Show for SearchMethodMutationResult
+impl ToJson for SearchMethodMutationResult
+impl @json.FromJson for SearchMethodMutationResult
+
+// Type aliases
+
+// Traits
+

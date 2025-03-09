@@ -14,20 +14,39 @@ import (
 	"cmp"
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"slices"
 	"sort"
 	"strings"
+	"sync"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/languages"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/languages"
+	"github.com/gmlewis/modus/runtime/utils"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 type GraphQLSchema struct {
 	Schema            string
 	FieldsToFunctions map[string]string
 	MapTypes          []string
+	TupleTypes        []string
 }
 
 func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchema, error) {
@@ -59,9 +78,13 @@ func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchem
 	writeSchema(&buf, root, scalarTypes, inputTypes, resultTypes)
 
 	mapTypes := make([]string, 0, len(resultTypeDefs))
+	tupleTypes := make([]string, 0, len(resultTypeDefs))
 	for _, t := range resultTypeDefs {
 		if t.IsMapType {
 			mapTypes = append(mapTypes, t.Name)
+		}
+		if t.IsTupleType {
+			tupleTypes = append(tupleTypes, t.Name)
 		}
 	}
 
@@ -74,6 +97,7 @@ func GetGraphQLSchema(ctx context.Context, md *metadata.Metadata) (*GraphQLSchem
 		Schema:            buf.String(),
 		FieldsToFunctions: fieldsToFunctions,
 		MapTypes:          mapTypes,
+		TupleTypes:        tupleTypes,
 	}, nil
 }
 
@@ -141,10 +165,11 @@ type FieldDefinition struct {
 }
 
 type TypeDefinition struct {
-	Name      string
-	Fields    []*FieldDefinition
-	IsMapType bool
-	DocLines  []string
+	Name        string
+	Fields      []*FieldDefinition
+	IsMapType   bool
+	IsTupleType bool
+	DocLines    []string
 }
 
 type ArgumentDefinition struct {
@@ -566,10 +591,16 @@ func convertFields(fields []*metadata.Field, lti langsupport.LanguageTypeInfo, t
 }
 
 func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[string]*TypeDefinition, firstPass, forInput bool) (string, error) {
+	gmlPrintf("GML: schemagen.go: ENTER convertType: typ='%v'", typ)
+	if underlyingType, ok := lti.IsErrorType(typ); ok {
+		typ = underlyingType
+	}
 
-	// Unwrap parentheses if present
-	if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
-		return convertType(typ[1:len(typ)-1], lti, typeDefs, firstPass, forInput)
+	if !lti.IsTupleType(typ) {
+		// Unwrap parentheses if present
+		if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
+			return convertType(typ[1:len(typ)-1], lti, typeDefs, firstPass, forInput)
+		}
 	}
 
 	// Set the nullable flag.
@@ -593,6 +624,7 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 	// TODO: How do we want to provide GraphQL "ID" scalar types? Maybe they're annotated? or maybe by naming convention?
 
 	if lti.IsStringType(typ) {
+		gmlPrintf("GML: schemagen.go: convertType: A: typ='%v'", typ)
 		return "String" + n, nil
 	}
 
@@ -600,14 +632,17 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		// Note: If the bytes represent valid UTF-8 strings, Go will serialize them as actual strings.
 		// Otherwise, the data will be base64 encoded.
 		// TODO: We may want to ensure that the results are _always_ base64 encoded.
+		gmlPrintf("GML: schemagen.go: convertType: B: typ='%v'", typ)
 		return "String" + n, nil
 	}
 
 	if lti.IsBooleanType(typ) {
+		gmlPrintf("GML: schemagen.go: convertType: C: typ='%v'", typ)
 		return "Boolean" + n, nil
 	}
 
 	if lti.IsFloatType(typ) {
+		gmlPrintf("GML: schemagen.go: convertType: D: typ='%v'", typ)
 		return "Float" + n, nil
 	}
 
@@ -622,20 +657,25 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		switch size {
 		case 8:
 			if signed {
+				gmlPrintf("GML: schemagen.go: convertType: E: typ='%v'", typ)
 				return newScalar("Int64", typeDefs) + n, nil
 			} else {
+				gmlPrintf("GML: schemagen.go: convertType: F: typ='%v'", typ)
 				return newScalar("UInt64", typeDefs) + n, nil
 			}
 		case 4:
 			if !signed {
+				gmlPrintf("GML: schemagen.go: convertType: G: typ='%v'", typ)
 				return newScalar("UInt", typeDefs) + n, nil
 			}
 		}
 
+		gmlPrintf("GML: schemagen.go: convertType: H: typ='%v'", typ)
 		return "Int" + n, nil
 	}
 
 	if lti.IsTimestampType(typ) {
+		gmlPrintf("GML: schemagen.go: convertType: I: typ='%v'", typ)
 		return newScalar("Timestamp", typeDefs) + n, nil
 	}
 
@@ -646,7 +686,54 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		if err != nil {
 			return "", err
 		}
+		gmlPrintf("GML: schemagen.go: convertType: J: typ='%v'", typ)
 		return "[" + t + "]" + n, nil
+	}
+
+	if lti.IsTupleType(typ) {
+		subTypes := lti.GetTupleSubtypes(typ)
+		// tts := make([]string, 0, len(subTypes))
+		ttns := make([]string, 0, len(subTypes))
+		fields := make([]*FieldDefinition, 0, len(subTypes))
+		for i, subType := range subTypes {
+			tt, err := convertType(subType, lti, typeDefs, firstPass, forInput)
+			if err != nil {
+				return "", err
+			}
+			// tts = append(tts, tt)
+
+			var ttn string
+			if strings.HasSuffix(tt, "!") {
+				ttn = tt[:len(tt)-1]
+			} else if tt[0] == '[' {
+				ttn = "[Nullable" + tt[1:]
+			} else {
+				ttn = "Nullable" + tt
+			}
+			if ttn[0] == '[' {
+				t := ttn[1 : len(ttn)-2]
+				if forInput {
+					t = strings.TrimSuffix(t, "Input")
+				}
+				ttn = t + "List"
+			} else if forInput {
+				ttn = strings.TrimSuffix(ttn, "Input")
+			}
+			ttns = append(ttns, ttn)
+			fields = append(fields, &FieldDefinition{Name: fmt.Sprintf("t%v", i), Type: tt})
+		}
+
+		typeName := strings.Join(ttns, "") + "Tuple"
+		if forInput {
+			typeName += "Input"
+		}
+
+		newTupleType(typeName, fields, typeDefs)
+
+		// The tuple is represented as a map.
+		// e.g. IntBoolStringTuple! or IntBoolStringTupleInput!
+		gmlPrintf("GML: schemagen.go: convertType: K: typ='%v'", typ)
+		return typeName + n, nil
 	}
 
 	// check for map types
@@ -710,6 +797,7 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		// The map is represented as a list of the pair type.
 		// The list might be nullable, but the pair type within the list is always non-nullable.
 		// ex: [StringStringPair!] or [StringStringPair!]!
+		gmlPrintf("GML: schemagen.go: convertType: K: typ='%v'", typ)
 		return "[" + typeName + "!]" + n, nil
 	}
 
@@ -724,11 +812,13 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 
 	// in the first pass, we convert input custom type definitions
 	if firstPass {
+		gmlPrintf("GML: schemagen.go: convertType: L: typ='%v'", typ)
 		return name + n, nil
 	}
 
 	// going forward, convert custom types only if they have a type definition
 	if _, ok := typeDefs[name]; ok {
+		gmlPrintf("GML: schemagen.go: convertType: M: typ='%v'", typ)
 		return name + n, nil
 	}
 
@@ -736,6 +826,7 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 	if forInput {
 		name = strings.TrimSuffix(name, "Input")
 		if _, ok := typeDefs[name]; ok {
+			gmlPrintf("GML: schemagen.go: convertType: N: typ='%v'", typ)
 			return name + n, nil
 		}
 	}
@@ -763,6 +854,17 @@ func newMapType(name string, fields []*FieldDefinition, typeDefs map[string]*Typ
 			Name:      name,
 			Fields:    fields,
 			IsMapType: true,
+		}
+	}
+	return name
+}
+
+func newTupleType(name string, fields []*FieldDefinition, typeDefs map[string]*TypeDefinition) string {
+	if _, ok := typeDefs[name]; !ok {
+		typeDefs[name] = &TypeDefinition{
+			Name:        name,
+			Fields:      fields,
+			IsTupleType: true,
 		}
 	}
 	return name

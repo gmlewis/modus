@@ -15,7 +15,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/collections"
+	"github.com/gmlewis/modus/sdk/go/pkg/collections"
 )
 
 var (

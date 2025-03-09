@@ -16,9 +16,9 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/langsupport/primitives"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/langsupport/primitives"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func (p *planner) NewPrimitiveArrayHandler(ti langsupport.TypeInfo) (h langsupport.TypeHandler, err error) {

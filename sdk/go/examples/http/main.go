@@ -10,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/http"
+	"github.com/gmlewis/modus/sdk/go/pkg/http"
 )
 
 // This function makes a simple HTTP GET request to example.com, and returns the HTML text of the response.

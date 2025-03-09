@@ -1,0 +1,167 @@
+{
+  "plugin": "neo4j-example",
+  "module": "@neo4j-example",
+  "sdk": "modus-sdk-mbt@40.11.0",
+  "buildId": "cv51q4vrackeuns2q00g",
+  "buildTs": "2025-03-06T22:09:23.528Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "fnExports": {
+    "create_people_and_relationships": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "delete_all_nodes": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_alice_friends_under_40": {
+      "results": [
+        {
+          "type": "Array[Person]!Error"
+        }
+      ]
+    },
+    "get_alice_friends_under_40_ages": {
+      "results": [
+        {
+          "type": "Array[Int64]!Error"
+        }
+      ]
+    }
+  },
+  "fnImports": {
+    "modus_neo4j_client.executeQuery": {
+      "parameters": [
+        {
+          "name": "host_name",
+          "type": "String"
+        },
+        {
+          "name": "db_name",
+          "type": "String"
+        },
+        {
+          "name": "query",
+          "type": "String"
+        },
+        {
+          "name": "parameters_json",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@neo4j.EagerResult?"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(String)": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "@neo4j.EagerResult": {
+      "id": 5,
+      "fields": [
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        },
+        {
+          "name": "records",
+          "type": "Array[@neo4j.Record?]"
+        }
+      ]
+    },
+    "@neo4j.EagerResult?": {
+      "id": 6
+    },
+    "@neo4j.EagerResult?!Error": {
+      "id": 7
+    },
+    "@neo4j.Record": {
+      "id": 8,
+      "fields": [
+        {
+          "name": "values",
+          "type": "Array[String]"
+        },
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "@neo4j.Record?": {
+      "id": 9
+    },
+    "Array[@neo4j.Record?]": {
+      "id": 10
+    },
+    "Array[Int64]": {
+      "id": 11
+    },
+    "Array[Int64]!Error": {
+      "id": 12
+    },
+    "Array[Json]": {
+      "id": 13
+    },
+    "Array[Person]": {
+      "id": 14
+    },
+    "Array[Person]!Error": {
+      "id": 15
+    },
+    "Array[String]": {
+      "id": 16
+    },
+    "Json": {
+      "id": 17
+    },
+    "Person": {
+      "id": 18,
+      "fields": [
+        {
+          "name": "name",
+          "type": "String"
+        },
+        {
+          "name": "age",
+          "type": "Int64"
+        }
+      ]
+    },
+    "String": {
+      "id": 19
+    },
+    "String!Error": {
+      "id": 20
+    }
+  }
+}

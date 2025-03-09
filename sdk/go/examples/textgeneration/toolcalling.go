@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/localtime"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models/openai"
+	"github.com/gmlewis/modus/sdk/go/pkg/localtime"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models/openai"
 	"github.com/tidwall/gjson"
 )
 

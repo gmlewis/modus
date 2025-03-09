@@ -1,0 +1,75 @@
+package gmlewis/modus/pkg/collections
+
+// Values
+fn compute_distance(String, String, String, String, Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.CollectionSearchResultObject!
+
+fn get_labels(String, String, Array[NamespaceOption]) -> Array[String]!
+
+fn get_namespaces(String) -> Array[String]!
+
+fn get_text(String, String, Array[NamespaceOption]) -> String!
+
+fn get_texts(String, Array[NamespaceOption]) -> Map[String, String]!
+
+fn get_vector(String, String, String, Array[NamespaceOption]) -> FixedArray[Float]!
+
+fn nn_classify(String, String, String, Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.CollectionClassificationResult!
+
+fn recompute_search_method(String, String, Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.SearchMethodMutationResult!
+
+fn remove(String, String, Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.CollectionMutationResult!
+
+fn search(String, String, String, Array[SearchOption]) -> @gmlewis/modus/wit/interface/collections.CollectionSearchResult!
+
+fn search_by_vector(String, String, FixedArray[Float], Array[SearchOption]) -> @gmlewis/modus/wit/interface/collections.CollectionSearchResult!
+
+fn upsert(String, String, String, Array[String], Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.CollectionMutationResult!
+
+fn upsert_batch(String, Array[String], Array[String], Array[Array[String]], Array[NamespaceOption]) -> @gmlewis/modus/wit/interface/collections.CollectionMutationResult!
+
+fn with_limit(Int) -> SearchOption
+
+fn with_namespace(String) -> NamespaceOption
+
+fn with_namespaces(Array[String]) -> SearchOption
+
+fn with_return_text(Bool) -> SearchOption
+
+// Types and methods
+pub(all) type! CollectionError String
+impl Eq for CollectionError
+impl Show for CollectionError
+
+pub(all) type NamespaceOption (NamespaceOptions) -> Unit
+
+pub(all) struct NamespaceOptions {
+  namespace : String
+}
+
+pub(all) type SearchOption (SearchOptions) -> Unit
+
+pub(all) struct SearchOptions {
+  namespaces : Array[String]
+  limit : Int
+  return_text : Bool
+}
+
+// Type aliases
+pub typealias CollectionClassificationLabelObject = @gmlewis/modus/wit/interface/collections.CollectionClassificationLabelObject
+
+pub typealias CollectionClassificationResult = @gmlewis/modus/wit/interface/collections.CollectionClassificationResult
+
+pub typealias CollectionClassificationResultObject = @gmlewis/modus/wit/interface/collections.CollectionClassificationResultObject
+
+pub typealias CollectionMutationResult = @gmlewis/modus/wit/interface/collections.CollectionMutationResult
+
+pub typealias CollectionSearchResult = @gmlewis/modus/wit/interface/collections.CollectionSearchResult
+
+pub typealias CollectionSearchResultObject = @gmlewis/modus/wit/interface/collections.CollectionSearchResultObject
+
+pub typealias CollectionStatus = @gmlewis/modus/wit/interface/collections.CollectionStatus
+
+pub typealias SearchMethodMutationResult = @gmlewis/modus/wit/interface/collections.SearchMethodMutationResult
+
+// Traits
+

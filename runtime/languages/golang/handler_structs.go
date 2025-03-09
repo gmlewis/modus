@@ -12,13 +12,14 @@ package golang
 import (
 	"context"
 	"fmt"
+	"log"
 	"reflect"
 	"strings"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 const maxDepth = 5 // TODO: make this based on the depth requested in the query
@@ -56,7 +57,6 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
 	if visitedPtrs[offset] >= maxDepth {
@@ -184,6 +184,7 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 
 func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
 	rt := h.typeInfo.ReflectedType()
+	log.Printf("GML: handler_structs.go: getStructOutput: rt.Kind()=%v", rt.Kind())
 	if rt.Kind() == reflect.Map {
 		return data, nil
 	}
