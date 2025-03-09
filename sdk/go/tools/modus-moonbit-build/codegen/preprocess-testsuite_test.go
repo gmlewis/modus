@@ -24,7 +24,9 @@ func TestTestablePreProcess_Testsuite(t *testing.T) {
 		SourceDir: "testdata/test-suite",
 	}
 
-	body, header, moonPkgJSON, err := testablePreProcess(config)
+	mod := preProcessTestSetup(t, config)
+
+	body, header, moonPkgJSON, err := testablePreProcess(config, mod)
 	if err != nil {
 		t.Fatal(err)
 	}

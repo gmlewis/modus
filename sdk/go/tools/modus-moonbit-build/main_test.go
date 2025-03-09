@@ -12,6 +12,10 @@ package main
 import (
 	_ "embed"
 	"encoding/json"
+	"log"
+	"os"
+	"os/exec"
+	"path"
 	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -19,7 +23,6 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 //go:embed metadata/testdata/simple-example-metadata.json
@@ -50,18 +53,20 @@ func TestAllTestDataIsIdentical(t *testing.T) {
 		metaJSON.FnImports = metadata.FunctionMap{}
 	}
 
-	config := &config.Config{
-		SourceDir: "metagen/testdata/simple-example",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
+	metaLive := genMetadata("metagen/testdata/simple-example")
+	// config := &config.Config{
+	// 	SourceDir:
+	// }
+	// mod := &modinfo.ModuleInfo{
+	// 	ModulePath:      "github.com/gmlewis/modus/examples/simple-example",
+	// 	ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
+	// }
+	//
+	// metaLive, err := metagen.GenerateMetadata(config, mod)
+	// if err != nil {
+	// 	t.Fatalf("GenerateMetadata returned an error: %v", err)
+	// }
 
-	metaLive, err := metagen.GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
 	// Make the "BuildID" and "BuildTime" fields match the JSON version:
 	metaLive.BuildID = metaJSON.BuildID
 	metaLive.BuildTime = metaJSON.BuildTime
@@ -79,13 +84,46 @@ func compareTwoTestSetups(t *testing.T, a, b *testData) {
 		t.Errorf("%v/testdata/simple-example.mbt != %v/testdata/simple-example.mbt:\n%v", a.name, b.name, diff)
 	}
 
-	if diff := cmp.Diff(a.moonModJSON, b.moonModJSON); diff != "" {
-		t.Errorf("%v/testdata/moon.mod.json != %v/testdata/moon.mod.json:\n%v", a.name, b.name, diff)
-	}
+	// With the incorporation of parsing all MoonBit source code dependencies,
+	// the path to "gmlewis/modus" must be accurate, so the relative paths differ.
+	// if diff := cmp.Diff(a.moonModJSON, b.moonModJSON); diff != "" {
+	// 	t.Errorf("%v/testdata/moon.mod.json != %v/testdata/moon.mod.json:\n%v", a.name, b.name, diff)
+	// }
 
 	if diff := cmp.Diff(a.moonPkgJSON, b.moonPkgJSON); diff != "" {
 		t.Errorf("%v/testdata/moon.pkg.json != %v/testdata/moon.pkg.json:\n%v", a.name, b.name, diff)
 	}
+}
+
+// genMetadata is used during 'go generate' and also during testing.
+// To avoid cyclic imports, multiple copies of this function exist. :-(
+func genMetadata(sourceDir string) *metadata.Metadata {
+	config := &config.Config{
+		SourceDir: sourceDir,
+	}
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		log.Fatalf("CollectModuleInfo returned an error: %v", err)
+	}
+
+	meta, err := metagen.GenerateMetadata(config, mod)
+	if err != nil {
+		log.Fatalf("GenerateMetadata returned an error: %v", err)
+	}
+
+	return meta
 }
 
 type testData struct {

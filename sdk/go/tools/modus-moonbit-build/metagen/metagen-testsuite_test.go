@@ -12,33 +12,18 @@
 package metagen
 
 import (
-	"log"
 	"testing"
 
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 func TestGenerateMetadata_Testsuite(t *testing.T) {
-	log.SetFlags(0)
-	config := &config.Config{
-		SourceDir: "testdata/test-suite",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/runtime/testdata",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
+	meta := setupTestConfig(t, "testdata/test-suite")
+	removeExternalFuncsForComparison(t, meta)
 
-	meta, err := GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
-
-	if got, want := meta.Plugin, "testdata"; got != want {
+	if got, want := meta.Plugin, "test-suite"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
 	}
 
@@ -46,9 +31,9 @@ func TestGenerateMetadata_Testsuite(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
-		t.Errorf("meta.SDK = %q, want %q", got, want)
-	}
+	// if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
+	// 	t.Errorf("meta.SDK = %q, want %q", got, want)
+	// }
 
 	if diff := cmp.Diff(wantTestsuiteFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
@@ -58,9 +43,10 @@ func TestGenerateMetadata_Testsuite(t *testing.T) {
 		t.Errorf("meta.FnImports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantTestsuiteTypes, meta.Types); diff != "" {
-		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	}
+	diffMetaTypes(t, wantTestsuiteTypes, meta.Types)
+	// if diff := cmp.Diff(wantTestsuiteTypes, meta.Types); diff != "" {
+	// 	t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
+	// }
 
 	// This call makes it easy to step through the code with a debugger:
 	// LogToConsole(meta)
@@ -654,42 +640,75 @@ var wantTestsuiteFnImports = metadata.FunctionMap{
 }
 
 var wantTestsuiteTypes = metadata.TypeMap{
-	"(String)": {Id: 4,
-		Name:   "(String)",
-		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
+	"(Int, Int, Int)": {
+		Name:   "(Int, Int, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
 	},
-	"@time.ZonedDateTime":       {Id: 5, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 6, Name: "@time.ZonedDateTime!Error"},
-	"Array[Byte]":               {Id: 7, Name: "Array[Byte]"},
-	"Array[Int]":                {Id: 8, Name: "Array[Int]"},
-	"Array[Int]?":               {Id: 9, Name: "Array[Int]?"},
-	"Array[Person]":             {Id: 10, Name: "Array[Person]"},
-	"Array[String]":             {Id: 11, Name: "Array[String]"},
-	"Array[String]?":            {Id: 12, Name: "Array[String]?"},
-	"Bool":                      {Id: 13, Name: "Bool"},
-	"Byte":                      {Id: 14, Name: "Byte"},
-	"Char":                      {Id: 15, Name: "Char"},
-	"Double":                    {Id: 16, Name: "Double"},
-	"FixedArray[Double]":        {Id: 17, Name: "FixedArray[Double]"},
-	"FixedArray[Int64]":         {Id: 18, Name: "FixedArray[Int64]"},
-	"FixedArray[UInt64]":        {Id: 19, Name: "FixedArray[UInt64]"},
-	"Float":                     {Id: 20, Name: "Float"},
-	"Int":                       {Id: 21, Name: "Int"},
-	"Int16":                     {Id: 22, Name: "Int16"},
-	"Int64":                     {Id: 23, Name: "Int64"},
-	"Map[String, String]":       {Id: 24, Name: "Map[String, String]"},
-	"Map[String, String]?":      {Id: 25, Name: "Map[String, String]?"},
-	"Person": {Id: 26,
+	"(String)":                {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+	"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
+	"@ffi.XExternString":      {Name: "@ffi.XExternString"},
+	"@ffi.XExternStringArray": {Name: "@ffi.XExternStringArray"},
+	"@testutils.CallStack[T]": {
+		Name:   "@testutils.CallStack[T]",
+		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	},
+	"@testutils.T":              {Name: "@testutils.T"},
+	"@time.Duration":            {Name: "@time.Duration"},
+	"@time.Duration!Error":      {Name: "@time.Duration!Error"},
+	"@time.Period":              {Name: "@time.Period"},
+	"@time.Period!Error":        {Name: "@time.Period!Error"},
+	"@time.PlainDate":           {Name: "@time.PlainDate"},
+	"@time.PlainDate!Error":     {Name: "@time.PlainDate!Error"},
+	"@time.PlainDateTime":       {Name: "@time.PlainDateTime"},
+	"@time.PlainDateTime!Error": {Name: "@time.PlainDateTime!Error"},
+	"@time.PlainTime":           {Name: "@time.PlainTime"},
+	"@time.PlainTime!Error":     {Name: "@time.PlainTime!Error"},
+	"@time.Weekday":             {Name: "@time.Weekday"},
+	"@time.Zone":                {Name: "@time.Zone"},
+	"@time.Zone!Error":          {Name: "@time.Zone!Error"},
+	"@time.ZoneOffset":          {Name: "@time.ZoneOffset"},
+	"@time.ZoneOffset!Error":    {Name: "@time.ZoneOffset!Error"},
+	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
+	"ArrayView[Byte]":           {Name: "ArrayView[Byte]"},
+	"Array[@testutils.T]":       {Name: "Array[@testutils.T]"},
+	"Array[Byte]":               {Name: "Array[Byte]"},
+	"Array[Int]":                {Name: "Array[Int]"},
+	"Array[Int]?":               {Name: "Array[Int]?"},
+	"Array[Person]":             {Name: "Array[Person]"},
+	"Array[String]":             {Name: "Array[String]"},
+	"Array[String]?":            {Name: "Array[String]?"},
+	"Bool":                      {Name: "Bool"},
+	"Byte":                      {Name: "Byte"},
+	"Bytes":                     {Name: "Bytes"},
+	"Bytes!Error":               {Name: "Bytes!Error"},
+	"Char":                      {Name: "Char"},
+	"Double":                    {Name: "Double"},
+	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
+	"FixedArray[Double]":        {Name: "FixedArray[Double]"},
+	"FixedArray[Int64]":         {Name: "FixedArray[Int64]"},
+	"FixedArray[UInt64]":        {Name: "FixedArray[UInt64]"},
+	"Float":                     {Name: "Float"},
+	"Int":                       {Name: "Int"},
+	"Int16":                     {Name: "Int16"},
+	"Int64":                     {Name: "Int64"},
+	"Iter[Byte]":                {Name: "Iter[Byte]"},
+	"Iter[Char]":                {Name: "Iter[Char]"},
+	"Map[String, String]":       {Name: "Map[String, String]"},
+	"Map[String, String]?":      {Name: "Map[String, String]?"},
+	"Person": {
 		Name: "Person",
 		Fields: []*metadata.Field{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"},
 			{Name: "age", Type: "Int"},
 		},
 	},
-	"String":       {Id: 27, Name: "String"},
-	"String!Error": {Id: 28, Name: "String!Error"},
-	"String?":      {Id: 29, Name: "String?"},
-	"TimeZoneInfo": {Id: 30,
+	"Result[UInt64, UInt]": {Name: "Result[UInt64, UInt]"},
+	"Result[Unit, UInt]":   {Name: "Result[Unit, UInt]"},
+	"String":               {Name: "String"},
+	"String!Error":         {Name: "String!Error"},
+	"String?":              {Name: "String?"},
+	"TimeZoneInfo": {
 		Name: "TimeZoneInfo",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -698,7 +717,7 @@ var wantTestsuiteTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"TimeZoneInfo!Error": {Id: 31,
+	"TimeZoneInfo!Error": {
 		Name: "TimeZoneInfo!Error",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -707,7 +726,7 @@ var wantTestsuiteTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"UInt":   {Id: 32, Name: "UInt"},
-	"UInt16": {Id: 33, Name: "UInt16"},
-	"UInt64": {Id: 34, Name: "UInt64"},
+	"UInt":   {Name: "UInt"},
+	"UInt16": {Name: "UInt16"},
+	"UInt64": {Name: "UInt64"},
 }

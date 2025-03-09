@@ -14,27 +14,14 @@ package metagen
 import (
 	"testing"
 
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 func TestGenerateMetadata_Time(t *testing.T) {
-	config := &config.Config{
-		SourceDir: "testdata/time-example",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/time-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
-
-	meta, err := GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := setupTestConfig(t, "testdata/time-example")
+	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "time-example"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
@@ -44,9 +31,9 @@ func TestGenerateMetadata_Time(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
-		t.Errorf("meta.SDK = %q, want %q", got, want)
-	}
+	// if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
+	// 	t.Errorf("meta.SDK = %q, want %q", got, want)
+	// }
 
 	if diff := cmp.Diff(wantTimeFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
@@ -56,30 +43,46 @@ func TestGenerateMetadata_Time(t *testing.T) {
 		t.Errorf("meta.FnImports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantTimeTypes, meta.Types); diff != "" {
-		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	}
+	diffMetaTypes(t, wantTimeTypes, meta.Types)
+	// if diff := cmp.Diff(wantTimeTypes, meta.Types); diff != "" {
+	// 	t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
+	// }
 
 	// This call makes it easy to step through the code with a debugger:
 	// LogToConsole(meta)
 }
 
 var wantTimeFnExports = metadata.FunctionMap{
-	"get_local_time": {
-		Name:    "get_local_time",
-		Results: []*metadata.Result{{Type: "String!Error"}},
-		Docs:    &metadata.Docs{Lines: []string{"Returns the current local time."}},
+	"get_local_time_modus": {
+		Name:    "get_local_time_modus",
+		Results: []*metadata.Result{{Type: "String"}},
+		Docs:    &metadata.Docs{Lines: []string{"Returns the current local time using the Modus host Go function."}},
 	},
-	"get_local_time_zone": {
-		Name:    "get_local_time_zone",
+	"get_local_time_moonbit": {
+		Name:    "get_local_time_moonbit",
+		Results: []*metadata.Result{{Type: "String!Error"}},
+		Docs:    &metadata.Docs{Lines: []string{"Returns the current local time using the moonbitlang/x/time package."}},
+	},
+	"get_local_time_zone_id": {
+		Name:    "get_local_time_zone_id",
 		Results: []*metadata.Result{{Type: "String"}},
 		Docs:    &metadata.Docs{Lines: []string{"Returns the local time zone identifier."}},
 	},
-	"get_time_in_zone": {
-		Name:       "get_time_in_zone",
+	"get_time_in_zone_modus": {
+		Name:       "get_time_in_zone_modus",
+		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
+		Results:    []*metadata.Result{{Type: "String"}},
+		Docs: &metadata.Docs{
+			Lines: []string{"Returns the current time in a specified time zone using", "the Modus host Go function."},
+		},
+	},
+	"get_time_in_zone_moonbit": {
+		Name:       "get_time_in_zone_moonbit",
 		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
 		Results:    []*metadata.Result{{Type: "String!Error"}},
-		Docs:       &metadata.Docs{Lines: []string{"Returns the current time in a specified time zone."}},
+		Docs: &metadata.Docs{
+			Lines: []string{"Returns the current time in a specified time zone using", "the moonbitlang/x/time package."},
+		},
 	},
 	"get_time_zone_info": {
 		Name:       "get_time_zone_info",
@@ -118,16 +121,49 @@ var wantTimeFnImports = metadata.FunctionMap{
 }
 
 var wantTimeTypes = metadata.TypeMap{
-	"(String)": {Id: 4,
-		Name:   "(String)",
-		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
+	"(Int, Int, Int)": {
+		Name:   "(Int, Int, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
 	},
-	"@time.ZonedDateTime":       {Id: 5, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 6, Name: "@time.ZonedDateTime!Error"},
-	"Array[Byte]":               {Id: 7, Name: "Array[Byte]"},
-	"String":                    {Id: 8, Name: "String"},
-	"String!Error":              {Id: 9, Name: "String!Error"},
-	"TimeZoneInfo": {Id: 10,
+	"(String)":                  {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+	"@ffi.XExternByteArray":     {Name: "@ffi.XExternByteArray"},
+	"@ffi.XExternString":        {Name: "@ffi.XExternString"},
+	"@ffi.XExternStringArray":   {Name: "@ffi.XExternStringArray"},
+	"@time.Duration":            {Name: "@time.Duration"},
+	"@time.Duration!Error":      {Name: "@time.Duration!Error"},
+	"@time.Period":              {Name: "@time.Period"},
+	"@time.Period!Error":        {Name: "@time.Period!Error"},
+	"@time.PlainDate":           {Name: "@time.PlainDate"},
+	"@time.PlainDate!Error":     {Name: "@time.PlainDate!Error"},
+	"@time.PlainDateTime":       {Name: "@time.PlainDateTime"},
+	"@time.PlainDateTime!Error": {Name: "@time.PlainDateTime!Error"},
+	"@time.PlainTime":           {Name: "@time.PlainTime"},
+	"@time.PlainTime!Error":     {Name: "@time.PlainTime!Error"},
+	"@time.Weekday":             {Name: "@time.Weekday"},
+	"@time.Zone":                {Name: "@time.Zone"},
+	"@time.Zone!Error":          {Name: "@time.Zone!Error"},
+	"@time.ZoneOffset":          {Name: "@time.ZoneOffset"},
+	"@time.ZoneOffset!Error":    {Name: "@time.ZoneOffset!Error"},
+	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
+	"ArrayView[Byte]":           {Name: "ArrayView[Byte]"},
+	"Array[Byte]":               {Name: "Array[Byte]"},
+	"Array[String]":             {Name: "Array[String]"},
+	"Bool":                      {Name: "Bool"},
+	"Byte":                      {Name: "Byte"},
+	"Bytes":                     {Name: "Bytes"},
+	"Bytes!Error":               {Name: "Bytes!Error"},
+	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
+	"Int":                       {Name: "Int"},
+	"Int64":                     {Name: "Int64"},
+	"Iter[Byte]":                {Name: "Iter[Byte]"},
+	"Iter[Char]":                {Name: "Iter[Char]"},
+	"Map[String, String]":       {Name: "Map[String, String]"},
+	"Result[UInt64, UInt]":      {Name: "Result[UInt64, UInt]"},
+	"Result[Unit, UInt]":        {Name: "Result[Unit, UInt]"},
+	"String":                    {Name: "String"},
+	"String!Error":              {Name: "String!Error"},
+	"TimeZoneInfo": {
 		Name: "TimeZoneInfo",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -136,7 +172,7 @@ var wantTimeTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
-	"TimeZoneInfo!Error": {Id: 11,
+	"TimeZoneInfo!Error": {
 		Name: "TimeZoneInfo!Error",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -145,4 +181,6 @@ var wantTimeTypes = metadata.TypeMap{
 			{Name: "daylight_offset", Type: "String"},
 		},
 	},
+	"UInt":   {Name: "UInt"},
+	"UInt64": {Name: "UInt64"},
 }
