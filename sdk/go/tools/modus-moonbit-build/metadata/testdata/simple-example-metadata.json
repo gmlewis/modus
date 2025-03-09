@@ -1,11 +1,11 @@
 {
   "plugin": "simple-example",
   "module": "@simple-example",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv51q6nrackeuns2q01g",
-  "buildTs": "2025-03-06T22:09:30.371Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc2vrack3t03p9kh0",
+  "buildTs": "2025-03-09T03:07:55.069Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
     "add": {
       "parameters": [
@@ -98,24 +98,6 @@
       }
     },
     "get_current_time": {
-      "parameters": [
-        {
-          "name": "now~",
-          "type": "@wallClock.Datetime"
-        }
-      ],
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time."
-        ]
-      }
-    },
-    "get_current_time_WithDefaults": {
       "results": [
         {
           "type": "@time.ZonedDateTime!Error"
@@ -128,24 +110,6 @@
       }
     },
     "get_current_time_formatted": {
-      "parameters": [
-        {
-          "name": "now~",
-          "type": "@wallClock.Datetime"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time formatted as a string."
-        ]
-      }
-    },
-    "get_current_time_formatted_WithDefaults": {
       "results": [
         {
           "type": "String!Error"
@@ -176,18 +140,6 @@
       "docs": {
         "lines": [
           "Combines the first and last name of a person, and returns the full name."
-        ]
-      }
-    },
-    "get_name_and_age": {
-      "results": [
-        {
-          "type": "(String, Int)"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Gets the name and age of a person."
         ]
       }
     },
@@ -237,38 +189,6 @@
       "docs": {
         "lines": [
           "Logs a message."
-        ]
-      }
-    },
-    "say_hello": {
-      "parameters": [
-        {
-          "name": "name~",
-          "type": "String?"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Says hello to a person by name.",
-          "If the name is not provided, it will say hello without a name."
-        ]
-      }
-    },
-    "say_hello_WithDefaults": {
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Says hello to a person by name.",
-          "If the name is not provided, it will say hello without a name."
         ]
       }
     },
@@ -384,42 +304,26 @@
         }
       ]
     },
-    "(String, Int)": {
-      "id": 5,
-      "fields": [
-        {
-          "name": "0",
-          "type": "String"
-        },
-        {
-          "name": "1",
-          "type": "Int"
-        }
-      ]
-    },
     "@time.ZonedDateTime": {
-      "id": 6
+      "id": 5
     },
     "@time.ZonedDateTime!Error": {
-      "id": 7
-    },
-    "@wallClock.Datetime": {
-      "id": 8
+      "id": 6
     },
     "Array[Byte]": {
-      "id": 9
+      "id": 7
     },
     "Array[Int]": {
-      "id": 10
+      "id": 8
     },
     "Array[Person]": {
-      "id": 11
+      "id": 9
     },
     "Int": {
-      "id": 12
+      "id": 10
     },
     "Person": {
-      "id": 13,
+      "id": 11,
       "fields": [
         {
           "name": "firstName",
@@ -436,13 +340,10 @@
       ]
     },
     "String": {
-      "id": 14
+      "id": 12
     },
     "String!Error": {
-      "id": 15
-    },
-    "String?": {
-      "id": 16
+      "id": 13
     }
   }
 }

@@ -1,11 +1,11 @@
 {
   "plugin": "runtime-testdata",
   "module": "@runtime-testdata",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv51q4vrackeuns2q010",
-  "buildTs": "2025-03-06T22:09:23.582Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc0vrack3t03p9kgg",
+  "buildTs": "2025-03-09T03:07:47.556Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
     "add": {
       "parameters": [
@@ -5853,6 +5853,13 @@
         }
       ]
     },
+    "test_http_response_headers_output": {
+      "results": [
+        {
+          "type": "HttpResponse?"
+        }
+      ]
+    },
     "test_int16_input_max": {
       "parameters": [
         {
@@ -6341,7 +6348,7 @@
     "test_recursive_struct_input": {
       "parameters": [
         {
-          "name": "o",
+          "name": "r1",
           "type": "TestRecursiveStruct"
         }
       ],
@@ -6409,6 +6416,87 @@
       "results": [
         {
           "type": "TestRecursiveStruct_map"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_input": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_input": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_input_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_map": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_map_none": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_none": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_output": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_output_map": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map"
         }
       ]
     },
@@ -7750,7 +7838,7 @@
           "type": "UInt16"
         },
         {
-          "name": "status_text",
+          "name": "statusText",
           "type": "String"
         },
         {
@@ -7771,7 +7859,7 @@
           "type": "UInt16"
         },
         {
-          "name": "status_text",
+          "name": "statusText",
           "type": "String"
         },
         {
@@ -7875,8 +7963,604 @@
         }
       ]
     },
-    "TestStruct1": {
+    "TestSmorgasbordStruct": {
       "id": 103,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct?": {
+      "id": 104,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct_map": {
+      "id": 105,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct_map?": {
+      "id": 106,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestStruct1": {
+      "id": 107,
       "fields": [
         {
           "name": "a",
@@ -7885,7 +8569,7 @@
       ]
     },
     "TestStruct1?": {
-      "id": 104,
+      "id": 108,
       "fields": [
         {
           "name": "a",
@@ -7894,7 +8578,7 @@
       ]
     },
     "TestStruct1_map": {
-      "id": 105,
+      "id": 109,
       "fields": [
         {
           "name": "a",
@@ -7903,7 +8587,7 @@
       ]
     },
     "TestStruct1_map?": {
-      "id": 106,
+      "id": 110,
       "fields": [
         {
           "name": "a",
@@ -7912,7 +8596,7 @@
       ]
     },
     "TestStruct2": {
-      "id": 107,
+      "id": 111,
       "fields": [
         {
           "name": "a",
@@ -7925,7 +8609,7 @@
       ]
     },
     "TestStruct2?": {
-      "id": 108,
+      "id": 112,
       "fields": [
         {
           "name": "a",
@@ -7938,7 +8622,7 @@
       ]
     },
     "TestStruct2_map": {
-      "id": 109,
+      "id": 113,
       "fields": [
         {
           "name": "a",
@@ -7951,7 +8635,7 @@
       ]
     },
     "TestStruct2_map?": {
-      "id": 110,
+      "id": 114,
       "fields": [
         {
           "name": "a",
@@ -7964,7 +8648,7 @@
       ]
     },
     "TestStruct3": {
-      "id": 111,
+      "id": 115,
       "fields": [
         {
           "name": "a",
@@ -7981,7 +8665,7 @@
       ]
     },
     "TestStruct3?": {
-      "id": 112,
+      "id": 116,
       "fields": [
         {
           "name": "a",
@@ -7998,7 +8682,7 @@
       ]
     },
     "TestStruct3_map": {
-      "id": 113,
+      "id": 117,
       "fields": [
         {
           "name": "a",
@@ -8015,7 +8699,7 @@
       ]
     },
     "TestStruct3_map?": {
-      "id": 114,
+      "id": 118,
       "fields": [
         {
           "name": "a",
@@ -8032,7 +8716,7 @@
       ]
     },
     "TestStruct4": {
-      "id": 115,
+      "id": 119,
       "fields": [
         {
           "name": "a",
@@ -8049,7 +8733,7 @@
       ]
     },
     "TestStruct4?": {
-      "id": 116,
+      "id": 120,
       "fields": [
         {
           "name": "a",
@@ -8066,7 +8750,7 @@
       ]
     },
     "TestStruct4_map": {
-      "id": 117,
+      "id": 121,
       "fields": [
         {
           "name": "a",
@@ -8083,7 +8767,7 @@
       ]
     },
     "TestStruct4_map?": {
-      "id": 118,
+      "id": 122,
       "fields": [
         {
           "name": "a",
@@ -8100,7 +8784,7 @@
       ]
     },
     "TestStruct5": {
-      "id": 119,
+      "id": 123,
       "fields": [
         {
           "name": "a",
@@ -8129,7 +8813,7 @@
       ]
     },
     "TestStruct5?": {
-      "id": 120,
+      "id": 124,
       "fields": [
         {
           "name": "a",
@@ -8158,7 +8842,7 @@
       ]
     },
     "TestStruct5_map": {
-      "id": 121,
+      "id": 125,
       "fields": [
         {
           "name": "a",
@@ -8187,7 +8871,7 @@
       ]
     },
     "TestStruct5_map?": {
-      "id": 122,
+      "id": 126,
       "fields": [
         {
           "name": "a",
@@ -8216,7 +8900,7 @@
       ]
     },
     "TestStructWithMap": {
-      "id": 123,
+      "id": 127,
       "fields": [
         {
           "name": "m",
@@ -8225,28 +8909,28 @@
       ]
     },
     "UInt": {
-      "id": 124
-    },
-    "UInt16": {
-      "id": 125
-    },
-    "UInt16?": {
-      "id": 126
-    },
-    "UInt64": {
-      "id": 127
-    },
-    "UInt64?": {
       "id": 128
     },
-    "UInt?": {
+    "UInt16": {
       "id": 129
     },
-    "Unit": {
+    "UInt16?": {
       "id": 130
     },
-    "Unit!Error": {
+    "UInt64": {
       "id": 131
+    },
+    "UInt64?": {
+      "id": 132
+    },
+    "UInt?": {
+      "id": 133
+    },
+    "Unit": {
+      "id": 134
+    },
+    "Unit!Error": {
+      "id": 135
     }
   }
 }

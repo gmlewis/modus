@@ -1,8 +1,0 @@
-{
-  "name": "gmlewis/modus/examples/time-example",
-  "version": "30.3.0",
-  "deps": {
-    "gmlewis/modus": "40.11.0",
-    "moonbitlang/x": "0.4.18"
-  }
-}

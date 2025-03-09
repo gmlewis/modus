@@ -14,27 +14,13 @@ package metagen
 import (
 	"testing"
 
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/hashicorp/go-version"
 )
 
 func TestGenerateMetadata_Runtime(t *testing.T) {
-	config := &config.Config{
-		SourceDir: "testdata/runtime-testdata",
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/runtime/testdata",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
-
-	meta, err := GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := setupTestConfig(t, "../testdata/runtime-testdata")
 
 	if got, want := meta.Plugin, "testdata"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
@@ -44,7 +30,7 @@ func TestGenerateMetadata_Runtime(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
+	if got, want := meta.SDK, "modus-sdk-mbt@0.16.5"; got != want {
 		t.Errorf("meta.SDK = %q, want %q", got, want)
 	}
 
@@ -56,12 +42,7 @@ func TestGenerateMetadata_Runtime(t *testing.T) {
 		t.Errorf("meta.FnImports mismatch (-want +got):\n%v", diff)
 	}
 
-	if diff := cmp.Diff(wantRuntimeTypes, meta.Types); diff != "" {
-		t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	}
-
-	// This call makes it easy to step through the code with a debugger:
-	// LogToConsole(meta)
+	diffMetaTypes(t, wantRuntimeTypes, meta.Types)
 }
 
 var wantRuntimeFnExports = metadata.FunctionMap{
@@ -2759,6 +2740,10 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 		Name:       "test_http_response_headers",
 		Parameters: []*metadata.Parameter{{Name: "r", Type: "HttpResponse?"}},
 	},
+	"test_http_response_headers_output": {
+		Name:    "test_http_response_headers_output",
+		Results: []*metadata.Result{{Type: "HttpResponse?"}},
+	},
 	"test_int16_input_max": {
 		Name:       "test_int16_input_max",
 		Parameters: []*metadata.Parameter{{Name: "n", Type: "Int16"}},
@@ -2950,7 +2935,7 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 	},
 	"test_recursive_struct_input": {
 		Name:       "test_recursive_struct_input",
-		Parameters: []*metadata.Parameter{{Name: "o", Type: "TestRecursiveStruct"}},
+		Parameters: []*metadata.Parameter{{Name: "r1", Type: "TestRecursiveStruct"}},
 		Results:    []*metadata.Result{{Type: "Unit!Error"}},
 	},
 	"test_recursive_struct_option_input": {
@@ -2982,6 +2967,45 @@ var wantRuntimeFnExports = metadata.FunctionMap{
 	"test_recursive_struct_output_map": {
 		Name:    "test_recursive_struct_output_map",
 		Results: []*metadata.Result{{Type: "TestRecursiveStruct_map"}},
+	},
+	"test_smorgasbord_struct_input": {
+		Name:       "test_smorgasbord_struct_input",
+		Parameters: []*metadata.Parameter{{Name: "o", Type: "TestSmorgasbordStruct"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_smorgasbord_struct_option_input": {
+		Name:       "test_smorgasbord_struct_option_input",
+		Parameters: []*metadata.Parameter{{Name: "o", Type: "TestSmorgasbordStruct?"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_smorgasbord_struct_option_input_none": {
+		Name:       "test_smorgasbord_struct_option_input_none",
+		Parameters: []*metadata.Parameter{{Name: "o", Type: "TestSmorgasbordStruct?"}},
+		Results:    []*metadata.Result{{Type: "Unit!Error"}},
+	},
+	"test_smorgasbord_struct_option_output": {
+		Name:    "test_smorgasbord_struct_option_output",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct?"}},
+	},
+	"test_smorgasbord_struct_option_output_map": {
+		Name:    "test_smorgasbord_struct_option_output_map",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct_map?"}},
+	},
+	"test_smorgasbord_struct_option_output_map_none": {
+		Name:    "test_smorgasbord_struct_option_output_map_none",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct_map?"}},
+	},
+	"test_smorgasbord_struct_option_output_none": {
+		Name:    "test_smorgasbord_struct_option_output_none",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct?"}},
+	},
+	"test_smorgasbord_struct_output": {
+		Name:    "test_smorgasbord_struct_output",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct"}},
+	},
+	"test_smorgasbord_struct_output_map": {
+		Name:    "test_smorgasbord_struct_output_map",
+		Results: []*metadata.Result{{Type: "TestSmorgasbordStruct_map"}},
 	},
 	"test_string_input": {
 		Name:       "test_string_input",
@@ -3540,14 +3564,14 @@ var wantRuntimeTypes = metadata.TypeMap{
 	"HttpResponse": {Id: 84,
 		Name: "HttpResponse",
 		Fields: []*metadata.Field{
-			{Name: "status", Type: "UInt16"}, {Name: "status_text", Type: "String"},
+			{Name: "status", Type: "UInt16"}, {Name: "statusText", Type: "String"},
 			{Name: "headers", Type: "HttpHeaders?"}, {Name: "body", Type: "Array[Byte]"},
 		},
 	},
 	"HttpResponse?": {Id: 85,
 		Name: "HttpResponse?",
 		Fields: []*metadata.Field{
-			{Name: "status", Type: "UInt16"}, {Name: "status_text", Type: "String"},
+			{Name: "status", Type: "UInt16"}, {Name: "statusText", Type: "String"},
 			{Name: "headers", Type: "HttpHeaders?"}, {Name: "body", Type: "Array[Byte]"},
 		},
 	},
@@ -3579,6 +3603,174 @@ var wantRuntimeTypes = metadata.TypeMap{
 	"TestRecursiveStruct_map?": {Id: 102,
 		Name:   "TestRecursiveStruct_map?",
 		Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct_map?"}},
+	},
+	"TestSmorgasbordStruct": {
+		Id:   103,
+		Name: "TestSmorgasbordStruct",
+		Fields: []*metadata.Field{
+			{Name: "bool", Type: "Bool"},
+			{Name: "byte", Type: "Byte"},
+			{Name: "c", Type: "Char"},
+			{Name: "f", Type: "Float"},
+			{Name: "d", Type: "Double"},
+			{Name: "i16", Type: "Int16"},
+			{Name: "i32", Type: "Int"},
+			{Name: "i64", Type: "Int64"},
+			{Name: "s", Type: "String"},
+			{Name: "u16", Type: "UInt16"},
+			{Name: "u32", Type: "UInt"},
+			{Name: "u64", Type: "UInt64"},
+			{Name: "someBool", Type: "Bool?"},
+			{Name: "noneBool", Type: "Bool?"},
+			{Name: "someByte", Type: "Byte?"},
+			{Name: "noneByte", Type: "Byte?"},
+			{Name: "someChar", Type: "Char?"},
+			{Name: "noneChar", Type: "Char?"},
+			{Name: "someFloat", Type: "Float?"},
+			{Name: "noneFloat", Type: "Float?"},
+			{Name: "someDouble", Type: "Double?"},
+			{Name: "noneDouble", Type: "Double?"},
+			{Name: "someI16", Type: "Int16?"},
+			{Name: "noneI16", Type: "Int16?"},
+			{Name: "someI32", Type: "Int?"},
+			{Name: "noneI32", Type: "Int?"},
+			{Name: "someI64", Type: "Int64?"},
+			{Name: "noneI64", Type: "Int64?"},
+			{Name: "someString", Type: "String?"},
+			{Name: "noneString", Type: "String?"},
+			{Name: "someU16", Type: "UInt16?"},
+			{Name: "noneU16", Type: "UInt16?"},
+			{Name: "someU32", Type: "UInt?"},
+			{Name: "noneU32", Type: "UInt?"},
+			{Name: "someU64", Type: "UInt64?"},
+			{Name: "noneU64", Type: "UInt64?"},
+		},
+	},
+	"TestSmorgasbordStruct?": {
+		Id:   104,
+		Name: "TestSmorgasbordStruct?",
+		Fields: []*metadata.Field{
+			{Name: "bool", Type: "Bool"},
+			{Name: "byte", Type: "Byte"},
+			{Name: "c", Type: "Char"},
+			{Name: "f", Type: "Float"},
+			{Name: "d", Type: "Double"},
+			{Name: "i16", Type: "Int16"},
+			{Name: "i32", Type: "Int"},
+			{Name: "i64", Type: "Int64"},
+			{Name: "s", Type: "String"},
+			{Name: "u16", Type: "UInt16"},
+			{Name: "u32", Type: "UInt"},
+			{Name: "u64", Type: "UInt64"},
+			{Name: "someBool", Type: "Bool?"},
+			{Name: "noneBool", Type: "Bool?"},
+			{Name: "someByte", Type: "Byte?"},
+			{Name: "noneByte", Type: "Byte?"},
+			{Name: "someChar", Type: "Char?"},
+			{Name: "noneChar", Type: "Char?"},
+			{Name: "someFloat", Type: "Float?"},
+			{Name: "noneFloat", Type: "Float?"},
+			{Name: "someDouble", Type: "Double?"},
+			{Name: "noneDouble", Type: "Double?"},
+			{Name: "someI16", Type: "Int16?"},
+			{Name: "noneI16", Type: "Int16?"},
+			{Name: "someI32", Type: "Int?"},
+			{Name: "noneI32", Type: "Int?"},
+			{Name: "someI64", Type: "Int64?"},
+			{Name: "noneI64", Type: "Int64?"},
+			{Name: "someString", Type: "String?"},
+			{Name: "noneString", Type: "String?"},
+			{Name: "someU16", Type: "UInt16?"},
+			{Name: "noneU16", Type: "UInt16?"},
+			{Name: "someU32", Type: "UInt?"},
+			{Name: "noneU32", Type: "UInt?"},
+			{Name: "someU64", Type: "UInt64?"},
+			{Name: "noneU64", Type: "UInt64?"},
+		},
+	},
+	"TestSmorgasbordStruct_map": {
+		Id:   105,
+		Name: "TestSmorgasbordStruct_map",
+		Fields: []*metadata.Field{
+			{Name: "bool", Type: "Bool"},
+			{Name: "byte", Type: "Byte"},
+			{Name: "c", Type: "Char"},
+			{Name: "f", Type: "Float"},
+			{Name: "d", Type: "Double"},
+			{Name: "i16", Type: "Int16"},
+			{Name: "i32", Type: "Int"},
+			{Name: "i64", Type: "Int64"},
+			{Name: "s", Type: "String"},
+			{Name: "u16", Type: "UInt16"},
+			{Name: "u32", Type: "UInt"},
+			{Name: "u64", Type: "UInt64"},
+			{Name: "someBool", Type: "Bool?"},
+			{Name: "noneBool", Type: "Bool?"},
+			{Name: "someByte", Type: "Byte?"},
+			{Name: "noneByte", Type: "Byte?"},
+			{Name: "someChar", Type: "Char?"},
+			{Name: "noneChar", Type: "Char?"},
+			{Name: "someFloat", Type: "Float?"},
+			{Name: "noneFloat", Type: "Float?"},
+			{Name: "someDouble", Type: "Double?"},
+			{Name: "noneDouble", Type: "Double?"},
+			{Name: "someI16", Type: "Int16?"},
+			{Name: "noneI16", Type: "Int16?"},
+			{Name: "someI32", Type: "Int?"},
+			{Name: "noneI32", Type: "Int?"},
+			{Name: "someI64", Type: "Int64?"},
+			{Name: "noneI64", Type: "Int64?"},
+			{Name: "someString", Type: "String?"},
+			{Name: "noneString", Type: "String?"},
+			{Name: "someU16", Type: "UInt16?"},
+			{Name: "noneU16", Type: "UInt16?"},
+			{Name: "someU32", Type: "UInt?"},
+			{Name: "noneU32", Type: "UInt?"},
+			{Name: "someU64", Type: "UInt64?"},
+			{Name: "noneU64", Type: "UInt64?"},
+		},
+	},
+	"TestSmorgasbordStruct_map?": {
+		Id:   106,
+		Name: "TestSmorgasbordStruct_map?",
+		Fields: []*metadata.Field{
+			{Name: "bool", Type: "Bool"},
+			{Name: "byte", Type: "Byte"},
+			{Name: "c", Type: "Char"},
+			{Name: "f", Type: "Float"},
+			{Name: "d", Type: "Double"},
+			{Name: "i16", Type: "Int16"},
+			{Name: "i32", Type: "Int"},
+			{Name: "i64", Type: "Int64"},
+			{Name: "s", Type: "String"},
+			{Name: "u16", Type: "UInt16"},
+			{Name: "u32", Type: "UInt"},
+			{Name: "u64", Type: "UInt64"},
+			{Name: "someBool", Type: "Bool?"},
+			{Name: "noneBool", Type: "Bool?"},
+			{Name: "someByte", Type: "Byte?"},
+			{Name: "noneByte", Type: "Byte?"},
+			{Name: "someChar", Type: "Char?"},
+			{Name: "noneChar", Type: "Char?"},
+			{Name: "someFloat", Type: "Float?"},
+			{Name: "noneFloat", Type: "Float?"},
+			{Name: "someDouble", Type: "Double?"},
+			{Name: "noneDouble", Type: "Double?"},
+			{Name: "someI16", Type: "Int16?"},
+			{Name: "noneI16", Type: "Int16?"},
+			{Name: "someI32", Type: "Int?"},
+			{Name: "noneI32", Type: "Int?"},
+			{Name: "someI64", Type: "Int64?"},
+			{Name: "noneI64", Type: "Int64?"},
+			{Name: "someString", Type: "String?"},
+			{Name: "noneString", Type: "String?"},
+			{Name: "someU16", Type: "UInt16?"},
+			{Name: "noneU16", Type: "UInt16?"},
+			{Name: "someU32", Type: "UInt?"},
+			{Name: "noneU32", Type: "UInt?"},
+			{Name: "someU64", Type: "UInt64?"},
+			{Name: "noneU64", Type: "UInt64?"},
+		},
 	},
 	"TestStruct1": {Id: 103,
 		Name:   "TestStruct1",

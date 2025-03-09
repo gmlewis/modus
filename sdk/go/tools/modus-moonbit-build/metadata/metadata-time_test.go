@@ -23,9 +23,11 @@ func TestFunction_String_Time(t *testing.T) {
 	t.Parallel()
 
 	tests := []functionStringTest{
-		{name: "get_local_time", want: "() -> String!Error"},
-		{name: "get_local_time_zone", want: "() -> String"},
-		{name: "get_time_in_zone", want: "(tz : String) -> String!Error"},
+		{name: "get_local_time_modus", want: "() -> String"},
+		{name: "get_local_time_moonbit", want: "() -> String!Error"},
+		{name: "get_local_time_zone_id", want: "() -> String"},
+		{name: "get_time_in_zone_modus", want: "(tz : String) -> String"},
+		{name: "get_time_in_zone_moonbit", want: "(tz : String) -> String!Error"},
 		{name: "get_time_zone_info", want: "(tz : String) -> TimeZoneInfo!Error"},
 		{name: "get_utc_time", want: "() -> @time.ZonedDateTime!Error"},
 	}
