@@ -1,6 +1,40 @@
 {
-  "is-main": true,
   "import": [
-    "gmlewis/modus/pkg/vectors"
-  ]
+    "gmlewis/modus/pkg/dgraph",
+    "gmlewis/modus/pkg/console"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_add_person_as_json:add_person_as_json",
+        "__modus_add_person_as_rdf:add_person_as_rdf",
+        "__modus_alter_schema:alter_schema",
+        "__modus_drop_all:drop_all",
+        "__modus_drop_attr:drop_attr",
+        "__modus_query_people:query_people",
+        "__modus_query_specific_person:query_specific_person",
+        "__modus_upsert_person:upsert_person",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }
