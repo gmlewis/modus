@@ -1,11 +1,11 @@
 {
   "plugin": "neo4j-example",
   "module": "@neo4j-example",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv51q4vrackeuns2q00g",
-  "buildTs": "2025-03-06T22:09:23.528Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc0vrack3t03p9kg0",
+  "buildTs": "2025-03-09T03:07:47.501Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
     "create_people_and_relationships": {
       "results": [
@@ -31,7 +31,7 @@
     "get_alice_friends_under_40_ages": {
       "results": [
         {
-          "type": "Array[Int64]!Error"
+          "type": "Array[Int]!Error"
         }
       ]
     }
@@ -123,10 +123,10 @@
     "Array[@neo4j.Record?]": {
       "id": 10
     },
-    "Array[Int64]": {
+    "Array[Int]": {
       "id": 11
     },
-    "Array[Int64]!Error": {
+    "Array[Int]!Error": {
       "id": 12
     },
     "Array[Json]": {
@@ -153,7 +153,7 @@
         },
         {
           "name": "age",
-          "type": "Int64"
+          "type": "Int"
         }
       ]
     },
