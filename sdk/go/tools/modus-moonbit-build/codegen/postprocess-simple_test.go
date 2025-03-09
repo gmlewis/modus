@@ -25,7 +25,7 @@ func TestTestablePostProcess_Simple(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/simple-example",
+		SourceDir: "../testdata/simple-example",
 	}
 
 	mod := &modinfo.ModuleInfo{

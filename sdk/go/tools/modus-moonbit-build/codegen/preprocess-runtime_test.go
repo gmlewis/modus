@@ -21,7 +21,7 @@ func TestTestablePreProcess_Runtime(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/runtime-testdata",
+		SourceDir: "../testdata/runtime-testdata",
 	}
 
 	body, header, moonPkgJSON, err := testablePreProcess(config)
@@ -3347,6 +3347,10 @@ pub fn __modus_test_http_response_headers(r : HttpResponse?) -> Unit {
   test_http_response_headers(r)
 }
 
+pub fn __modus_test_http_response_headers_output() -> HttpResponse? {
+  test_http_response_headers_output()
+}
+
 pub fn __modus_test_http_headers(h : HttpHeaders) -> Unit {
   test_http_headers(h)
 }
@@ -4260,8 +4264,17 @@ pub fn __modus_test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_recursive_struct_input(o : TestRecursiveStruct) -> Unit!Error {
-  try test_recursive_struct_input!(o) {
+pub fn __modus_test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit!Error {
+  try test_smorgasbord_struct_input!(o) {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+pub fn __modus_test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Error {
+  try test_recursive_struct_input!(r1) {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4332,6 +4345,15 @@ pub fn __modus_test_recursive_struct_option_input(o : TestRecursiveStruct?) -> U
   }
 }
 
+pub fn __modus_test_smorgasbord_struct_option_input(o : TestSmorgasbordStruct?) -> Unit!Error {
+  try test_smorgasbord_struct_option_input!(o) {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
 pub fn __modus_test_struct_option_input1_none(o : TestStruct1?) -> Unit!Error {
   try test_struct_option_input1_none!(o) {
     e => {
@@ -4379,6 +4401,15 @@ pub fn __modus_test_struct_option_input5_none(o : TestStruct5?) -> Unit!Error {
 
 pub fn __modus_test_recursive_struct_option_input_none(o : TestRecursiveStruct?) -> Unit!Error {
   try test_recursive_struct_option_input_none!(o) {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+pub fn __modus_test_smorgasbord_struct_option_input_none(o : TestSmorgasbordStruct?) -> Unit!Error {
+  try test_smorgasbord_struct_option_input_none!(o) {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4442,6 +4473,14 @@ pub fn __modus_test_recursive_struct_output_map() -> TestRecursiveStruct_map {
   test_recursive_struct_output_map()
 }
 
+pub fn __modus_test_smorgasbord_struct_output() -> TestSmorgasbordStruct {
+  test_smorgasbord_struct_output()
+}
+
+pub fn __modus_test_smorgasbord_struct_output_map() -> TestSmorgasbordStruct_map {
+  test_smorgasbord_struct_output_map()
+}
+
 pub fn __modus_test_struct_option_output1() -> TestStruct1? {
   test_struct_option_output1()
 }
@@ -4498,6 +4537,14 @@ pub fn __modus_test_recursive_struct_option_output_map() -> TestRecursiveStruct_
   test_recursive_struct_option_output_map()
 }
 
+pub fn __modus_test_smorgasbord_struct_option_output() -> TestSmorgasbordStruct? {
+  test_smorgasbord_struct_option_output()
+}
+
+pub fn __modus_test_smorgasbord_struct_option_output_map() -> TestSmorgasbordStruct_map? {
+  test_smorgasbord_struct_option_output_map()
+}
+
 pub fn __modus_test_struct_option_output1_none() -> TestStruct1? {
   test_struct_option_output1_none()
 }
@@ -4520,6 +4567,14 @@ pub fn __modus_test_struct_option_output5_none() -> TestStruct5? {
 
 pub fn __modus_test_recursive_struct_option_output_none() -> TestRecursiveStruct? {
   test_recursive_struct_option_output_none()
+}
+
+pub fn __modus_test_smorgasbord_struct_option_output_none() -> TestSmorgasbordStruct? {
+  test_smorgasbord_struct_option_output_none()
+}
+
+pub fn __modus_test_smorgasbord_struct_option_output_map_none() -> TestSmorgasbordStruct_map? {
+  test_smorgasbord_struct_option_output_map_none()
 }
 
 pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
@@ -5311,6 +5366,7 @@ var wantRuntimePreProcessMoonPkgJSON = `{
         "__modus_test_http_header_map:test_http_header_map",
         "__modus_test_http_headers:test_http_headers",
         "__modus_test_http_response_headers:test_http_response_headers",
+        "__modus_test_http_response_headers_output:test_http_response_headers_output",
         "__modus_test_int16_input_max:test_int16_input_max",
         "__modus_test_int16_input_min:test_int16_input_min",
         "__modus_test_int16_option_input_max:test_int16_option_input_max",
@@ -5367,6 +5423,15 @@ var wantRuntimePreProcessMoonPkgJSON = `{
         "__modus_test_recursive_struct_option_output_none:test_recursive_struct_option_output_none",
         "__modus_test_recursive_struct_output:test_recursive_struct_output",
         "__modus_test_recursive_struct_output_map:test_recursive_struct_output_map",
+        "__modus_test_smorgasbord_struct_input:test_smorgasbord_struct_input",
+        "__modus_test_smorgasbord_struct_option_input:test_smorgasbord_struct_option_input",
+        "__modus_test_smorgasbord_struct_option_input_none:test_smorgasbord_struct_option_input_none",
+        "__modus_test_smorgasbord_struct_option_output:test_smorgasbord_struct_option_output",
+        "__modus_test_smorgasbord_struct_option_output_map:test_smorgasbord_struct_option_output_map",
+        "__modus_test_smorgasbord_struct_option_output_map_none:test_smorgasbord_struct_option_output_map_none",
+        "__modus_test_smorgasbord_struct_option_output_none:test_smorgasbord_struct_option_output_none",
+        "__modus_test_smorgasbord_struct_output:test_smorgasbord_struct_output",
+        "__modus_test_smorgasbord_struct_output_map:test_smorgasbord_struct_output_map",
         "__modus_test_string_input:test_string_input",
         "__modus_test_string_option_input:test_string_option_input",
         "__modus_test_string_option_input_none:test_string_option_input_none",

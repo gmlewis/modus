@@ -25,7 +25,7 @@ func TestTestablePostProcess_Time(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/time-example",
+		SourceDir: "../testdata/time-example",
 	}
 
 	mod := &modinfo.ModuleInfo{
