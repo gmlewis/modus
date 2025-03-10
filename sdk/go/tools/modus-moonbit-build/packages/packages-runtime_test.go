@@ -21,7 +21,7 @@ import (
 
 func TestPackage_Runtime(t *testing.T) {
 	t.Parallel()
-	dir := "testdata/runtime-testdata"
+	dir := "../testdata/runtime-testdata"
 	testPackageLoadHelper(t, "runtime", dir, wantPackageRuntime)
 }
 
@@ -64,6 +64,10 @@ var wantPackageRuntime = &Package{
 					"__modus_get_option_string_fixedarray2:get_option_string_fixedarray2",
 					"__modus_get_string_option_array2:get_string_option_array2",
 					"__modus_get_string_option_fixedarray1:get_string_option_fixedarray1",
+					"__modus_host_echo1:host_echo1",
+					"__modus_host_echo2:host_echo2",
+					"__modus_host_echo3:host_echo3",
+					"__modus_host_echo4:host_echo4",
 					"__modus_modus_test.add:modus_test.add",
 					"__modus_modus_test.echo1:modus_test.echo1",
 					"__modus_modus_test.echo2:modus_test.echo2",
@@ -666,6 +670,7 @@ var wantPackageRuntime = &Package{
 					"__modus_test_http_header_map:test_http_header_map",
 					"__modus_test_http_headers:test_http_headers",
 					"__modus_test_http_response_headers:test_http_response_headers",
+					"__modus_test_http_response_headers_output:test_http_response_headers_output",
 					"__modus_test_int16_input_max:test_int16_input_max",
 					"__modus_test_int16_input_min:test_int16_input_min",
 					"__modus_test_int16_option_input_max:test_int16_option_input_max",
@@ -722,6 +727,15 @@ var wantPackageRuntime = &Package{
 					"__modus_test_recursive_struct_option_output_none:test_recursive_struct_option_output_none",
 					"__modus_test_recursive_struct_output:test_recursive_struct_output",
 					"__modus_test_recursive_struct_output_map:test_recursive_struct_output_map",
+					"__modus_test_smorgasbord_struct_input:test_smorgasbord_struct_input",
+					"__modus_test_smorgasbord_struct_option_input:test_smorgasbord_struct_option_input",
+					"__modus_test_smorgasbord_struct_option_input_none:test_smorgasbord_struct_option_input_none",
+					"__modus_test_smorgasbord_struct_option_output:test_smorgasbord_struct_option_output",
+					"__modus_test_smorgasbord_struct_option_output_map:test_smorgasbord_struct_option_output_map",
+					"__modus_test_smorgasbord_struct_option_output_map_none:test_smorgasbord_struct_option_output_map_none",
+					"__modus_test_smorgasbord_struct_option_output_none:test_smorgasbord_struct_option_output_none",
+					"__modus_test_smorgasbord_struct_output:test_smorgasbord_struct_output",
+					"__modus_test_smorgasbord_struct_output_map:test_smorgasbord_struct_output_map",
 					"__modus_test_string_input:test_string_input",
 					"__modus_test_string_option_input:test_string_option_input",
 					"__modus_test_string_option_input_none:test_string_option_input_none",
@@ -822,6 +836,7 @@ var wantPackageRuntime = &Package{
 					"load32",
 					"malloc",
 					"ptr2str",
+					"ptr_to_none",
 					"read_map",
 					"store32",
 					"store8",
@@ -833,54 +848,54 @@ var wantPackageRuntime = &Package{
 		},
 	},
 	MoonBitFiles: []string{
-		"testdata/runtime-testdata/arrays_bool.mbt",
-		"testdata/runtime-testdata/arrays_byte.mbt",
-		"testdata/runtime-testdata/arrays_char.mbt",
-		"testdata/runtime-testdata/arrays_double.mbt",
-		"testdata/runtime-testdata/arrays_float.mbt",
-		"testdata/runtime-testdata/arrays_int.mbt",
-		"testdata/runtime-testdata/arrays_int16.mbt",
-		"testdata/runtime-testdata/arrays_int64.mbt",
-		"testdata/runtime-testdata/arrays_string.mbt",
-		"testdata/runtime-testdata/arrays_uint.mbt",
-		"testdata/runtime-testdata/arrays_uint16.mbt",
-		"testdata/runtime-testdata/arrays_uint64.mbt",
-		"testdata/runtime-testdata/debug-memory_notwasm.mbt",
-		"testdata/runtime-testdata/debug-memory_wasm.mbt",
-		"testdata/runtime-testdata/fixedarrays.mbt",
-		"testdata/runtime-testdata/fixedarrays_bool.mbt",
-		"testdata/runtime-testdata/fixedarrays_byte.mbt",
-		"testdata/runtime-testdata/fixedarrays_char.mbt",
-		"testdata/runtime-testdata/fixedarrays_double.mbt",
-		"testdata/runtime-testdata/fixedarrays_float.mbt",
-		"testdata/runtime-testdata/fixedarrays_int.mbt",
-		"testdata/runtime-testdata/fixedarrays_int16.mbt",
-		"testdata/runtime-testdata/fixedarrays_int64.mbt",
-		"testdata/runtime-testdata/fixedarrays_string.mbt",
-		"testdata/runtime-testdata/fixedarrays_uint.mbt",
-		"testdata/runtime-testdata/fixedarrays_uint16.mbt",
-		"testdata/runtime-testdata/fixedarrays_uint64.mbt",
-		"testdata/runtime-testdata/hostfns.mbt",
-		"testdata/runtime-testdata/http.mbt",
-		"testdata/runtime-testdata/imports_notwasm.mbt",
-		"testdata/runtime-testdata/imports_wasm.mbt",
-		"testdata/runtime-testdata/maps.mbt",
-		"testdata/runtime-testdata/primitives_bool.mbt",
-		"testdata/runtime-testdata/primitives_byte.mbt",
-		"testdata/runtime-testdata/primitives_char.mbt",
-		"testdata/runtime-testdata/primitives_double.mbt",
-		"testdata/runtime-testdata/primitives_float.mbt",
-		"testdata/runtime-testdata/primitives_int.mbt",
-		"testdata/runtime-testdata/primitives_int16.mbt",
-		"testdata/runtime-testdata/primitives_int64.mbt",
-		"testdata/runtime-testdata/primitives_uint.mbt",
-		"testdata/runtime-testdata/primitives_uint16.mbt",
-		"testdata/runtime-testdata/primitives_uint64.mbt",
-		"testdata/runtime-testdata/strings.mbt",
-		"testdata/runtime-testdata/structs.mbt",
-		"testdata/runtime-testdata/time.mbt",
-		"testdata/runtime-testdata/tuples.mbt",
-		"testdata/runtime-testdata/utils.mbt",
+		"../testdata/runtime-testdata/arrays_bool.mbt",
+		"../testdata/runtime-testdata/arrays_byte.mbt",
+		"../testdata/runtime-testdata/arrays_char.mbt",
+		"../testdata/runtime-testdata/arrays_double.mbt",
+		"../testdata/runtime-testdata/arrays_float.mbt",
+		"../testdata/runtime-testdata/arrays_int.mbt",
+		"../testdata/runtime-testdata/arrays_int16.mbt",
+		"../testdata/runtime-testdata/arrays_int64.mbt",
+		"../testdata/runtime-testdata/arrays_string.mbt",
+		"../testdata/runtime-testdata/arrays_uint.mbt",
+		"../testdata/runtime-testdata/arrays_uint16.mbt",
+		"../testdata/runtime-testdata/arrays_uint64.mbt",
+		"../testdata/runtime-testdata/debug-memory_notwasm.mbt",
+		"../testdata/runtime-testdata/debug-memory_wasm.mbt",
+		"../testdata/runtime-testdata/fixedarrays.mbt",
+		"../testdata/runtime-testdata/fixedarrays_bool.mbt",
+		"../testdata/runtime-testdata/fixedarrays_byte.mbt",
+		"../testdata/runtime-testdata/fixedarrays_char.mbt",
+		"../testdata/runtime-testdata/fixedarrays_double.mbt",
+		"../testdata/runtime-testdata/fixedarrays_float.mbt",
+		"../testdata/runtime-testdata/fixedarrays_int.mbt",
+		"../testdata/runtime-testdata/fixedarrays_int16.mbt",
+		"../testdata/runtime-testdata/fixedarrays_int64.mbt",
+		"../testdata/runtime-testdata/fixedarrays_string.mbt",
+		"../testdata/runtime-testdata/fixedarrays_uint.mbt",
+		"../testdata/runtime-testdata/fixedarrays_uint16.mbt",
+		"../testdata/runtime-testdata/fixedarrays_uint64.mbt",
+		"../testdata/runtime-testdata/hostfns.mbt",
+		"../testdata/runtime-testdata/http.mbt",
+		"../testdata/runtime-testdata/imports_notwasm.mbt",
+		"../testdata/runtime-testdata/imports_wasm.mbt",
+		"../testdata/runtime-testdata/maps.mbt",
+		"../testdata/runtime-testdata/primitives_bool.mbt",
+		"../testdata/runtime-testdata/primitives_byte.mbt",
+		"../testdata/runtime-testdata/primitives_char.mbt",
+		"../testdata/runtime-testdata/primitives_double.mbt",
+		"../testdata/runtime-testdata/primitives_float.mbt",
+		"../testdata/runtime-testdata/primitives_int.mbt",
+		"../testdata/runtime-testdata/primitives_int16.mbt",
+		"../testdata/runtime-testdata/primitives_int64.mbt",
+		"../testdata/runtime-testdata/primitives_uint.mbt",
+		"../testdata/runtime-testdata/primitives_uint16.mbt",
+		"../testdata/runtime-testdata/primitives_uint64.mbt",
+		"../testdata/runtime-testdata/strings.mbt",
+		"../testdata/runtime-testdata/structs.mbt",
+		"../testdata/runtime-testdata/time.mbt",
+		"../testdata/runtime-testdata/tuples.mbt",
+		"../testdata/runtime-testdata/utils.mbt",
 	},
 	ID:      "moonbit-main",
 	Name:    "main",
@@ -904,7 +919,7 @@ var wantPackageRuntime = &Package{
 			Name: &ast.Ident{Name: "HttpResponse"},
 			Type: &ast.StructType{Fields: &ast.FieldList{List: []*ast.Field{
 				{Names: []*ast.Ident{{Name: "status"}}, Type: &ast.Ident{Name: "UInt16"}},
-				{Names: []*ast.Ident{{Name: "status_text"}}, Type: &ast.Ident{Name: "String"}},
+				{Names: []*ast.Ident{{Name: "statusText"}}, Type: &ast.Ident{Name: "String"}},
 				{Names: []*ast.Ident{{Name: "headers"}}, Type: &ast.Ident{Name: "HttpHeaders?"}},
 				{Names: []*ast.Ident{{Name: "body"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
 			}}},
@@ -925,6 +940,88 @@ var wantPackageRuntime = &Package{
 			}}},
 		},
 		"TestRecursiveStruct_map?": {Name: &ast.Ident{Name: "TestRecursiveStruct_map"}},
+		"TestSmorgasbordStruct": {
+			Name: &ast.Ident{Name: "TestSmorgasbordStruct"},
+			Type: &ast.StructType{Fields: &ast.FieldList{List: []*ast.Field{
+				{Names: []*ast.Ident{{Name: "bool"}}, Type: &ast.Ident{Name: "Bool"}},
+				{Names: []*ast.Ident{{Name: "byte"}}, Type: &ast.Ident{Name: "Byte"}},
+				{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+				{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Float"}},
+				{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Double"}},
+				{Names: []*ast.Ident{{Name: "i16"}}, Type: &ast.Ident{Name: "Int16"}},
+				{Names: []*ast.Ident{{Name: "i32"}}, Type: &ast.Ident{Name: "Int"}},
+				{Names: []*ast.Ident{{Name: "i64"}}, Type: &ast.Ident{Name: "Int64"}},
+				{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String"}},
+				{Names: []*ast.Ident{{Name: "u16"}}, Type: &ast.Ident{Name: "UInt16"}},
+				{Names: []*ast.Ident{{Name: "u32"}}, Type: &ast.Ident{Name: "UInt"}},
+				{Names: []*ast.Ident{{Name: "u64"}}, Type: &ast.Ident{Name: "UInt64"}},
+				{Names: []*ast.Ident{{Name: "someBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+				{Names: []*ast.Ident{{Name: "noneBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+				{Names: []*ast.Ident{{Name: "someByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+				{Names: []*ast.Ident{{Name: "noneByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+				{Names: []*ast.Ident{{Name: "someChar"}}, Type: &ast.Ident{Name: "Char?"}},
+				{Names: []*ast.Ident{{Name: "noneChar"}}, Type: &ast.Ident{Name: "Char?"}},
+				{Names: []*ast.Ident{{Name: "someFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+				{Names: []*ast.Ident{{Name: "noneFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+				{Names: []*ast.Ident{{Name: "someDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+				{Names: []*ast.Ident{{Name: "noneDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+				{Names: []*ast.Ident{{Name: "someI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+				{Names: []*ast.Ident{{Name: "noneI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+				{Names: []*ast.Ident{{Name: "someI32"}}, Type: &ast.Ident{Name: "Int?"}},
+				{Names: []*ast.Ident{{Name: "noneI32"}}, Type: &ast.Ident{Name: "Int?"}},
+				{Names: []*ast.Ident{{Name: "someI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+				{Names: []*ast.Ident{{Name: "noneI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+				{Names: []*ast.Ident{{Name: "someString"}}, Type: &ast.Ident{Name: "String?"}},
+				{Names: []*ast.Ident{{Name: "noneString"}}, Type: &ast.Ident{Name: "String?"}},
+				{Names: []*ast.Ident{{Name: "someU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+				{Names: []*ast.Ident{{Name: "noneU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+				{Names: []*ast.Ident{{Name: "someU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+				{Names: []*ast.Ident{{Name: "noneU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+				{Names: []*ast.Ident{{Name: "someU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+				{Names: []*ast.Ident{{Name: "noneU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+			}}},
+		},
+		"TestSmorgasbordStruct_map": {
+			Name: &ast.Ident{Name: "TestSmorgasbordStruct_map"},
+			Type: &ast.StructType{Fields: &ast.FieldList{List: []*ast.Field{
+				{Names: []*ast.Ident{{Name: "bool"}}, Type: &ast.Ident{Name: "Bool"}},
+				{Names: []*ast.Ident{{Name: "byte"}}, Type: &ast.Ident{Name: "Byte"}},
+				{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+				{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Float"}},
+				{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Double"}},
+				{Names: []*ast.Ident{{Name: "i16"}}, Type: &ast.Ident{Name: "Int16"}},
+				{Names: []*ast.Ident{{Name: "i32"}}, Type: &ast.Ident{Name: "Int"}},
+				{Names: []*ast.Ident{{Name: "i64"}}, Type: &ast.Ident{Name: "Int64"}},
+				{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String"}},
+				{Names: []*ast.Ident{{Name: "u16"}}, Type: &ast.Ident{Name: "UInt16"}},
+				{Names: []*ast.Ident{{Name: "u32"}}, Type: &ast.Ident{Name: "UInt"}},
+				{Names: []*ast.Ident{{Name: "u64"}}, Type: &ast.Ident{Name: "UInt64"}},
+				{Names: []*ast.Ident{{Name: "someBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+				{Names: []*ast.Ident{{Name: "noneBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+				{Names: []*ast.Ident{{Name: "someByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+				{Names: []*ast.Ident{{Name: "noneByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+				{Names: []*ast.Ident{{Name: "someChar"}}, Type: &ast.Ident{Name: "Char?"}},
+				{Names: []*ast.Ident{{Name: "noneChar"}}, Type: &ast.Ident{Name: "Char?"}},
+				{Names: []*ast.Ident{{Name: "someFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+				{Names: []*ast.Ident{{Name: "noneFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+				{Names: []*ast.Ident{{Name: "someDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+				{Names: []*ast.Ident{{Name: "noneDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+				{Names: []*ast.Ident{{Name: "someI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+				{Names: []*ast.Ident{{Name: "noneI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+				{Names: []*ast.Ident{{Name: "someI32"}}, Type: &ast.Ident{Name: "Int?"}},
+				{Names: []*ast.Ident{{Name: "noneI32"}}, Type: &ast.Ident{Name: "Int?"}},
+				{Names: []*ast.Ident{{Name: "someI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+				{Names: []*ast.Ident{{Name: "noneI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+				{Names: []*ast.Ident{{Name: "someString"}}, Type: &ast.Ident{Name: "String?"}},
+				{Names: []*ast.Ident{{Name: "noneString"}}, Type: &ast.Ident{Name: "String?"}},
+				{Names: []*ast.Ident{{Name: "someU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+				{Names: []*ast.Ident{{Name: "noneU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+				{Names: []*ast.Ident{{Name: "someU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+				{Names: []*ast.Ident{{Name: "noneU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+				{Names: []*ast.Ident{{Name: "someU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+				{Names: []*ast.Ident{{Name: "noneU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+			}}},
+		},
 		"TestStruct1": {
 			Name: &ast.Ident{Name: "TestStruct1"},
 			Type: &ast.StructType{Fields: &ast.FieldList{List: []*ast.Field{
@@ -1014,7 +1111,7 @@ var wantPackageRuntime = &Package{
 	},
 	Syntax: []*ast.File{
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_bool.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_bool.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -1361,7 +1458,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_byte.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_byte.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -1652,7 +1749,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_char.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_char.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -1839,7 +1936,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_double.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_double.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -2026,7 +2123,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_float.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_float.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -2213,7 +2310,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_int.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -2436,7 +2533,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_int16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -2659,7 +2756,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_int64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_int64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -2838,7 +2935,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_string.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_string.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -3101,7 +3198,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_uint.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -3324,7 +3421,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_uint16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -3547,7 +3644,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/arrays_uint64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/arrays_uint64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -3726,7 +3823,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/debug-memory_notwasm.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/debug-memory_notwasm.mbt"},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
@@ -3735,7 +3832,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/debug-memory_wasm.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/debug-memory_wasm.mbt"},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
@@ -3744,7 +3841,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -4435,7 +4532,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_bool.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_bool.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -4782,7 +4879,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_byte.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_byte.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -5073,7 +5170,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_char.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_char.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -5392,7 +5489,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_double.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_double.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -5711,7 +5808,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_float.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_float.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -6030,7 +6127,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_int.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -6433,7 +6530,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_int16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -6836,7 +6933,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_int64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_int64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -7239,7 +7336,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_string.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_string.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -7558,7 +7655,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_uint.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -7961,7 +8058,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_uint16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -8364,7 +8461,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/fixedarrays_uint64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/fixedarrays_uint64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -8767,7 +8864,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/hostfns.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/hostfns.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -8891,7 +8988,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/http.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/http.mbt"},
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
@@ -8901,7 +8998,7 @@ var wantPackageRuntime = &Package{
 								Fields: &ast.FieldList{
 									List: []*ast.Field{
 										{Names: []*ast.Ident{{Name: "status"}}, Type: &ast.Ident{Name: "UInt16"}},
-										{Names: []*ast.Ident{{Name: "status_text"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "statusText"}}, Type: &ast.Ident{Name: "String"}},
 										{Names: []*ast.Ident{{Name: "headers"}}, Type: &ast.Ident{Name: "HttpHeaders?"}},
 										{Names: []*ast.Ident{{Name: "body"}}, Type: &ast.Ident{Name: "Array[Byte]"}},
 									},
@@ -8952,6 +9049,18 @@ var wantPackageRuntime = &Package{
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_http_response_headers_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "HttpResponse?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_http_headers"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{
@@ -8992,7 +9101,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/imports_notwasm.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/imports_notwasm.mbt"},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
@@ -9001,7 +9110,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/imports_wasm.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/imports_wasm.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -9217,7 +9326,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/maps.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/maps.mbt"},
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
@@ -9422,7 +9531,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_bool.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_bool.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -9573,7 +9682,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_byte.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_byte.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -9724,7 +9833,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_char.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_char.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -9875,7 +9984,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_double.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_double.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10026,7 +10135,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_float.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_float.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10177,7 +10286,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_int.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10328,7 +10437,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_int16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10479,7 +10588,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_int64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_int64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10630,7 +10739,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_uint.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10781,7 +10890,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint16.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_uint16.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -10932,7 +11041,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/primitives_uint64.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/primitives_uint64.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -11083,7 +11192,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/strings.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/strings.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -11178,7 +11287,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/structs.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/structs.mbt"},
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
@@ -11370,6 +11479,104 @@ var wantPackageRuntime = &Package{
 						},
 					},
 				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestSmorgasbordStruct"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "bool"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "byte"}}, Type: &ast.Ident{Name: "Byte"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+										{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Float"}},
+										{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Double"}},
+										{Names: []*ast.Ident{{Name: "i16"}}, Type: &ast.Ident{Name: "Int16"}},
+										{Names: []*ast.Ident{{Name: "i32"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "i64"}}, Type: &ast.Ident{Name: "Int64"}},
+										{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "u16"}}, Type: &ast.Ident{Name: "UInt16"}},
+										{Names: []*ast.Ident{{Name: "u32"}}, Type: &ast.Ident{Name: "UInt"}},
+										{Names: []*ast.Ident{{Name: "u64"}}, Type: &ast.Ident{Name: "UInt64"}},
+										{Names: []*ast.Ident{{Name: "someBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+										{Names: []*ast.Ident{{Name: "noneBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+										{Names: []*ast.Ident{{Name: "someByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+										{Names: []*ast.Ident{{Name: "noneByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+										{Names: []*ast.Ident{{Name: "someChar"}}, Type: &ast.Ident{Name: "Char?"}},
+										{Names: []*ast.Ident{{Name: "noneChar"}}, Type: &ast.Ident{Name: "Char?"}},
+										{Names: []*ast.Ident{{Name: "someFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+										{Names: []*ast.Ident{{Name: "noneFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+										{Names: []*ast.Ident{{Name: "someDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+										{Names: []*ast.Ident{{Name: "noneDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+										{Names: []*ast.Ident{{Name: "someI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+										{Names: []*ast.Ident{{Name: "noneI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+										{Names: []*ast.Ident{{Name: "someI32"}}, Type: &ast.Ident{Name: "Int?"}},
+										{Names: []*ast.Ident{{Name: "noneI32"}}, Type: &ast.Ident{Name: "Int?"}},
+										{Names: []*ast.Ident{{Name: "someI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+										{Names: []*ast.Ident{{Name: "noneI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+										{Names: []*ast.Ident{{Name: "someString"}}, Type: &ast.Ident{Name: "String?"}},
+										{Names: []*ast.Ident{{Name: "noneString"}}, Type: &ast.Ident{Name: "String?"}},
+										{Names: []*ast.Ident{{Name: "someU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+										{Names: []*ast.Ident{{Name: "noneU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+										{Names: []*ast.Ident{{Name: "someU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+										{Names: []*ast.Ident{{Name: "noneU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+										{Names: []*ast.Ident{{Name: "someU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+										{Names: []*ast.Ident{{Name: "noneU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+									},
+								},
+							},
+						},
+					},
+				},
+				&ast.GenDecl{
+					Tok: token.TYPE,
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TestSmorgasbordStruct_map"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "bool"}}, Type: &ast.Ident{Name: "Bool"}},
+										{Names: []*ast.Ident{{Name: "byte"}}, Type: &ast.Ident{Name: "Byte"}},
+										{Names: []*ast.Ident{{Name: "c"}}, Type: &ast.Ident{Name: "Char"}},
+										{Names: []*ast.Ident{{Name: "f"}}, Type: &ast.Ident{Name: "Float"}},
+										{Names: []*ast.Ident{{Name: "d"}}, Type: &ast.Ident{Name: "Double"}},
+										{Names: []*ast.Ident{{Name: "i16"}}, Type: &ast.Ident{Name: "Int16"}},
+										{Names: []*ast.Ident{{Name: "i32"}}, Type: &ast.Ident{Name: "Int"}},
+										{Names: []*ast.Ident{{Name: "i64"}}, Type: &ast.Ident{Name: "Int64"}},
+										{Names: []*ast.Ident{{Name: "s"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "u16"}}, Type: &ast.Ident{Name: "UInt16"}},
+										{Names: []*ast.Ident{{Name: "u32"}}, Type: &ast.Ident{Name: "UInt"}},
+										{Names: []*ast.Ident{{Name: "u64"}}, Type: &ast.Ident{Name: "UInt64"}},
+										{Names: []*ast.Ident{{Name: "someBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+										{Names: []*ast.Ident{{Name: "noneBool"}}, Type: &ast.Ident{Name: "Bool?"}},
+										{Names: []*ast.Ident{{Name: "someByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+										{Names: []*ast.Ident{{Name: "noneByte"}}, Type: &ast.Ident{Name: "Byte?"}},
+										{Names: []*ast.Ident{{Name: "someChar"}}, Type: &ast.Ident{Name: "Char?"}},
+										{Names: []*ast.Ident{{Name: "noneChar"}}, Type: &ast.Ident{Name: "Char?"}},
+										{Names: []*ast.Ident{{Name: "someFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+										{Names: []*ast.Ident{{Name: "noneFloat"}}, Type: &ast.Ident{Name: "Float?"}},
+										{Names: []*ast.Ident{{Name: "someDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+										{Names: []*ast.Ident{{Name: "noneDouble"}}, Type: &ast.Ident{Name: "Double?"}},
+										{Names: []*ast.Ident{{Name: "someI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+										{Names: []*ast.Ident{{Name: "noneI16"}}, Type: &ast.Ident{Name: "Int16?"}},
+										{Names: []*ast.Ident{{Name: "someI32"}}, Type: &ast.Ident{Name: "Int?"}},
+										{Names: []*ast.Ident{{Name: "noneI32"}}, Type: &ast.Ident{Name: "Int?"}},
+										{Names: []*ast.Ident{{Name: "someI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+										{Names: []*ast.Ident{{Name: "noneI64"}}, Type: &ast.Ident{Name: "Int64?"}},
+										{Names: []*ast.Ident{{Name: "someString"}}, Type: &ast.Ident{Name: "String?"}},
+										{Names: []*ast.Ident{{Name: "noneString"}}, Type: &ast.Ident{Name: "String?"}},
+										{Names: []*ast.Ident{{Name: "someU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+										{Names: []*ast.Ident{{Name: "noneU16"}}, Type: &ast.Ident{Name: "UInt16?"}},
+										{Names: []*ast.Ident{{Name: "someU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+										{Names: []*ast.Ident{{Name: "noneU32"}}, Type: &ast.Ident{Name: "UInt?"}},
+										{Names: []*ast.Ident{{Name: "someU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+										{Names: []*ast.Ident{{Name: "noneU64"}}, Type: &ast.Ident{Name: "UInt64?"}},
+									},
+								},
+							},
+						},
+					},
+				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_struct_input1"},
@@ -11468,11 +11675,27 @@ var wantPackageRuntime = &Package{
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestSmorgasbordStruct"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_recursive_struct_input"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{
 							List: []*ast.Field{
-								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestRecursiveStruct"}},
+								{Names: []*ast.Ident{{Name: "r1"}}, Type: &ast.Ident{Name: "TestRecursiveStruct"}},
 							},
 						},
 						Results: &ast.FieldList{
@@ -11596,6 +11819,22 @@ var wantPackageRuntime = &Package{
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_input"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestSmorgasbordStruct?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_struct_option_input1_none"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{
@@ -11681,6 +11920,22 @@ var wantPackageRuntime = &Package{
 						Params: &ast.FieldList{
 							List: []*ast.Field{
 								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestRecursiveStruct?"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "Unit!Error"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_input_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "o"}}, Type: &ast.Ident{Name: "TestSmorgasbordStruct?"}},
 							},
 						},
 						Results: &ast.FieldList{
@@ -11860,6 +12115,30 @@ var wantPackageRuntime = &Package{
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_output_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct_map"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_struct_option_output1"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{},
@@ -12028,6 +12307,30 @@ var wantPackageRuntime = &Package{
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_output"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_output_map"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct_map?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
 					Name: &ast.Ident{Name: "test_struct_option_output1_none"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{},
@@ -12098,6 +12401,30 @@ var wantPackageRuntime = &Package{
 						},
 					},
 				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_output_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct?"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc:  &ast.CommentGroup{},
+					Name: &ast.Ident{Name: "test_smorgasbord_struct_option_output_map_none"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TestSmorgasbordStruct_map?"}},
+							},
+						},
+					},
+				},
 			},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
@@ -12107,7 +12434,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/time.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/time.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -12374,7 +12701,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/tuples.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/tuples.mbt"},
 			Decls: []ast.Decl{
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -12397,7 +12724,7 @@ var wantPackageRuntime = &Package{
 			},
 		},
 		{
-			Name: &ast.Ident{Name: "testdata/runtime-testdata/utils.mbt"},
+			Name: &ast.Ident{Name: "../testdata/runtime-testdata/utils.mbt"},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/ffi"`}},
@@ -12412,11 +12739,13 @@ var wantPackageRuntime = &Package{
 			{Name: "HttpHeader"}:                                      &moonFunc{funcName: "type HttpHeader = struct{name String; values Array[String]}"},
 			{Name: "HttpHeaders"}:                                     &moonFunc{funcName: "type HttpHeaders = struct{data Map[String, HttpHeader?]}"},
 			{Name: "HttpHeaders"}:                                     &moonFunc{funcName: "type HttpHeaders = struct{}"},
-			{Name: "HttpResponse"}:                                    &moonFunc{funcName: "type HttpResponse = struct{status UInt16; status_text String; headers HttpHeaders?; body Array[Byte]}"},
+			{Name: "HttpResponse"}:                                    &moonFunc{funcName: "type HttpResponse = struct{status UInt16; statusText String; headers HttpHeaders?; body Array[Byte]}"},
 			{Name: "TestRecursiveStruct"}:                             &moonFunc{funcName: "type TestRecursiveStruct = struct{a Bool; mut b TestRecursiveStruct?}"},
 			{Name: "TestRecursiveStruct"}:                             &moonFunc{funcName: "type TestRecursiveStruct = struct{}"},
-			{Name: "TestRecursiveStruct_map"}:                         &moonFunc{funcName: "type TestRecursiveStruct_map = struct{}"},
 			{Name: "TestRecursiveStruct_map"}:                         &moonFunc{funcName: "type TestRecursiveStruct_map = struct{a Bool; mut b TestRecursiveStruct_map?}"},
+			{Name: "TestRecursiveStruct_map"}:                         &moonFunc{funcName: "type TestRecursiveStruct_map = struct{}"},
+			{Name: "TestSmorgasbordStruct"}:                           &moonFunc{funcName: "type TestSmorgasbordStruct = struct{bool Bool; byte Byte; c Char; f Float; d Double; i16 Int16; i32 Int; i64 Int64; s String; u16 UInt16; u32 UInt; u64 UInt64; someBool Bool?; noneBool Bool?; someByte Byte?; noneByte Byte?; someChar Char?; noneChar Char?; someFloat Float?; noneFloat Float?; someDouble Double?; noneDouble Double?; someI16 Int16?; noneI16 Int16?; someI32 Int?; noneI32 Int?; someI64 Int64?; noneI64 Int64?; someString String?; noneString String?; someU16 UInt16?; noneU16 UInt16?; someU32 UInt?; noneU32 UInt?; someU64 UInt64?; noneU64 UInt64?}"},
+			{Name: "TestSmorgasbordStruct_map"}:                       &moonFunc{funcName: "type TestSmorgasbordStruct_map = struct{bool Bool; byte Byte; c Char; f Float; d Double; i16 Int16; i32 Int; i64 Int64; s String; u16 UInt16; u32 UInt; u64 UInt64; someBool Bool?; noneBool Bool?; someByte Byte?; noneByte Byte?; someChar Char?; noneChar Char?; someFloat Float?; noneFloat Float?; someDouble Double?; noneDouble Double?; someI16 Int16?; noneI16 Int16?; someI32 Int?; noneI32 Int?; someI64 Int64?; noneI64 Int64?; someString String?; noneString String?; someU16 UInt16?; noneU16 UInt16?; someU32 UInt?; noneU32 UInt?; someU64 UInt64?; noneU64 UInt64?}"},
 			{Name: "TestStruct1"}:                                     &moonFunc{funcName: "type TestStruct1 = struct{a Bool}"},
 			{Name: "TestStruct1_map"}:                                 &moonFunc{funcName: "type TestStruct1_map = struct{a Bool}"},
 			{Name: "TestStruct2"}:                                     &moonFunc{funcName: "type TestStruct2 = struct{a Bool; b Int}"},
@@ -13053,6 +13382,7 @@ var wantPackageRuntime = &Package{
 			{Name: "test_http_header_map"}:                            &moonFunc{funcName: "func @runtime-testdata.test_http_header_map(m Map[String, HttpHeader?])"},
 			{Name: "test_http_headers"}:                               &moonFunc{funcName: "func @runtime-testdata.test_http_headers(h HttpHeaders)"},
 			{Name: "test_http_response_headers"}:                      &moonFunc{funcName: "func @runtime-testdata.test_http_response_headers(r HttpResponse?)"},
+			{Name: "test_http_response_headers_output"}:               &moonFunc{funcName: "func @runtime-testdata.test_http_response_headers_output() HttpResponse?"},
 			{Name: "test_int16_input_max"}:                            &moonFunc{funcName: "func @runtime-testdata.test_int16_input_max(n Int16) Unit!Error"},
 			{Name: "test_int16_input_min"}:                            &moonFunc{funcName: "func @runtime-testdata.test_int16_input_min(n Int16) Unit!Error"},
 			{Name: "test_int16_option_input_max"}:                     &moonFunc{funcName: "func @runtime-testdata.test_int16_option_input_max(n Int16?) Unit!Error"},
@@ -13101,7 +13431,7 @@ var wantPackageRuntime = &Package{
 			{Name: "test_option_fixedarray_output1_string"}:           &moonFunc{funcName: "func @runtime-testdata.test_option_fixedarray_output1_string() FixedArray[String]?"},
 			{Name: "test_option_fixedarray_output2_int"}:              &moonFunc{funcName: "func @runtime-testdata.test_option_fixedarray_output2_int() FixedArray[Int]?"},
 			{Name: "test_option_fixedarray_output2_string"}:           &moonFunc{funcName: "func @runtime-testdata.test_option_fixedarray_output2_string() FixedArray[String]?"},
-			{Name: "test_recursive_struct_input"}:                     &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_input(o TestRecursiveStruct) Unit!Error"},
+			{Name: "test_recursive_struct_input"}:                     &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_input(r1 TestRecursiveStruct) Unit!Error"},
 			{Name: "test_recursive_struct_option_input"}:              &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_option_input(o TestRecursiveStruct?) Unit!Error"},
 			{Name: "test_recursive_struct_option_input_none"}:         &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_option_input_none(o TestRecursiveStruct?) Unit!Error"},
 			{Name: "test_recursive_struct_option_output"}:             &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_option_output() TestRecursiveStruct?"},
@@ -13109,6 +13439,15 @@ var wantPackageRuntime = &Package{
 			{Name: "test_recursive_struct_option_output_none"}:        &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_option_output_none() TestRecursiveStruct?"},
 			{Name: "test_recursive_struct_output"}:                    &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_output() TestRecursiveStruct"},
 			{Name: "test_recursive_struct_output_map"}:                &moonFunc{funcName: "func @runtime-testdata.test_recursive_struct_output_map() TestRecursiveStruct_map"},
+			{Name: "test_smorgasbord_struct_input"}:                   &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_input(o TestSmorgasbordStruct) Unit!Error"},
+			{Name: "test_smorgasbord_struct_option_input"}:            &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_input(o TestSmorgasbordStruct?) Unit!Error"},
+			{Name: "test_smorgasbord_struct_option_input_none"}:       &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_input_none(o TestSmorgasbordStruct?) Unit!Error"},
+			{Name: "test_smorgasbord_struct_option_output"}:           &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_output() TestSmorgasbordStruct?"},
+			{Name: "test_smorgasbord_struct_option_output_map"}:       &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_output_map() TestSmorgasbordStruct_map?"},
+			{Name: "test_smorgasbord_struct_option_output_map_none"}:  &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_output_map_none() TestSmorgasbordStruct_map?"},
+			{Name: "test_smorgasbord_struct_option_output_none"}:      &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_option_output_none() TestSmorgasbordStruct?"},
+			{Name: "test_smorgasbord_struct_output"}:                  &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_output() TestSmorgasbordStruct"},
+			{Name: "test_smorgasbord_struct_output_map"}:              &moonFunc{funcName: "func @runtime-testdata.test_smorgasbord_struct_output_map() TestSmorgasbordStruct_map"},
 			{Name: "test_string_input"}:                               &moonFunc{funcName: "func @runtime-testdata.test_string_input(s String) Unit!Error"},
 			{Name: "test_string_option_input"}:                        &moonFunc{funcName: "func @runtime-testdata.test_string_option_input(s String?) Unit!Error"},
 			{Name: "test_string_option_input_none"}:                   &moonFunc{funcName: "func @runtime-testdata.test_string_option_input_none(s String?) Unit!Error"},

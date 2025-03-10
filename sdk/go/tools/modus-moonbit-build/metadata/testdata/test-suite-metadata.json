@@ -1,682 +1,12 @@
 {
   "plugin": "test-suite",
   "module": "@test-suite",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv51q6nrackeuns2q020",
-  "buildTs": "2025-03-06T22:09:30.539Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc2vrack3t03p9khg",
+  "buildTs": "2025-03-09T03:07:55.216Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
-    "__modus_add": {
-      "parameters": [
-        {
-          "name": "x",
-          "type": "Int"
-        },
-        {
-          "name": "y",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Adds two integers together and returns the result."
-        ]
-      }
-    },
-    "__modus_add3": {
-      "parameters": [
-        {
-          "name": "a",
-          "type": "Int"
-        },
-        {
-          "name": "b",
-          "type": "Int"
-        },
-        {
-          "name": "c",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Adds three integers together and returns the result.",
-          "The third integer is optional."
-        ]
-      }
-    },
-    "__modus_add3_WithDefaults": {
-      "parameters": [
-        {
-          "name": "a",
-          "type": "Int"
-        },
-        {
-          "name": "b",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Adds three integers together and returns the result.",
-          "The third integer is optional."
-        ]
-      }
-    },
-    "__modus_get_current_time": {
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time."
-        ]
-      }
-    },
-    "__modus_get_current_time_formatted": {
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time formatted as a string."
-        ]
-      }
-    },
-    "__modus_get_full_name": {
-      "parameters": [
-        {
-          "name": "first_name",
-          "type": "String"
-        },
-        {
-          "name": "last_name",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Combines the first and last name of a person, and returns the full name."
-        ]
-      }
-    },
-    "__modus_get_local_time": {
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current local time."
-        ]
-      }
-    },
-    "__modus_get_local_time_zone_id": {
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the local time zone identifier."
-        ]
-      }
-    },
-    "__modus_get_people": {
-      "results": [
-        {
-          "type": "Array[Person]"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Gets a list of people."
-        ]
-      }
-    },
-    "__modus_get_person": {
-      "results": [
-        {
-          "type": "Person"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Gets a person object."
-        ]
-      }
-    },
-    "__modus_get_random_person": {
-      "results": [
-        {
-          "type": "Person"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Gets a random person object from a list of people."
-        ]
-      }
-    },
-    "__modus_get_time_in_zone": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time in a specified time zone."
-        ]
-      }
-    },
-    "__modus_get_time_zone_info": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "TimeZoneInfo!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns some basic information about the time zone specified."
-        ]
-      }
-    },
-    "__modus_get_utc_time": {
-      "results": [
-        {
-          "type": "@time.ZonedDateTime!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the current time in UTC."
-        ]
-      }
-    },
-    "__modus_hello_array_of_ints": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[Int]"
-        }
-      ]
-    },
-    "__modus_hello_array_of_ints_WithDefaults": {
-      "results": [
-        {
-          "type": "Array[Int]"
-        }
-      ]
-    },
-    "__modus_hello_array_of_ints_option": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[Int]?"
-        }
-      ]
-    },
-    "__modus_hello_array_of_ints_option_WithDefaults": {
-      "results": [
-        {
-          "type": "Array[Int]?"
-        }
-      ]
-    },
-    "__modus_hello_array_of_strings": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[String]"
-        }
-      ]
-    },
-    "__modus_hello_array_of_strings_WithDefaults": {
-      "results": [
-        {
-          "type": "Array[String]"
-        }
-      ]
-    },
-    "__modus_hello_array_of_strings_option": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[String]?"
-        }
-      ]
-    },
-    "__modus_hello_array_of_strings_option_WithDefaults": {
-      "results": [
-        {
-          "type": "Array[String]?"
-        }
-      ]
-    },
-    "__modus_hello_maps_n_items": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Map[String, String]"
-        }
-      ]
-    },
-    "__modus_hello_maps_n_items_WithDefaults": {
-      "results": [
-        {
-          "type": "Map[String, String]"
-        }
-      ]
-    },
-    "__modus_hello_maps_n_items_option": {
-      "parameters": [
-        {
-          "name": "n",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "Map[String, String]?"
-        }
-      ]
-    },
-    "__modus_hello_maps_n_items_option_WithDefaults": {
-      "results": [
-        {
-          "type": "Map[String, String]?"
-        }
-      ]
-    },
-    "__modus_hello_option_empty_string": {
-      "parameters": [
-        {
-          "name": "some",
-          "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_option_empty_string_WithDefaults": {
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_option_none": {
-      "parameters": [
-        {
-          "name": "some",
-          "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_option_none_WithDefaults": {
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_option_some_string": {
-      "parameters": [
-        {
-          "name": "some",
-          "type": "Bool"
-        }
-      ],
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_option_some_string_WithDefaults": {
-      "results": [
-        {
-          "type": "String?"
-        }
-      ]
-    },
-    "__modus_hello_primitive_bool_max": {
-      "results": [
-        {
-          "type": "Bool"
-        }
-      ]
-    },
-    "__modus_hello_primitive_bool_min": {
-      "results": [
-        {
-          "type": "Bool"
-        }
-      ]
-    },
-    "__modus_hello_primitive_byte_max": {
-      "results": [
-        {
-          "type": "Byte"
-        }
-      ]
-    },
-    "__modus_hello_primitive_byte_min": {
-      "results": [
-        {
-          "type": "Byte"
-        }
-      ]
-    },
-    "__modus_hello_primitive_char_max": {
-      "results": [
-        {
-          "type": "Char"
-        }
-      ]
-    },
-    "__modus_hello_primitive_char_min": {
-      "results": [
-        {
-          "type": "Char"
-        }
-      ]
-    },
-    "__modus_hello_primitive_double_max": {
-      "results": [
-        {
-          "type": "Double"
-        }
-      ]
-    },
-    "__modus_hello_primitive_double_min": {
-      "results": [
-        {
-          "type": "Double"
-        }
-      ]
-    },
-    "__modus_hello_primitive_float_max": {
-      "results": [
-        {
-          "type": "Float"
-        }
-      ]
-    },
-    "__modus_hello_primitive_float_min": {
-      "results": [
-        {
-          "type": "Float"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int16_max": {
-      "results": [
-        {
-          "type": "Int16"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int16_min": {
-      "results": [
-        {
-          "type": "Int16"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int64_max": {
-      "results": [
-        {
-          "type": "Int64"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int64_min": {
-      "results": [
-        {
-          "type": "Int64"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int_max": {
-      "results": [
-        {
-          "type": "Int"
-        }
-      ]
-    },
-    "__modus_hello_primitive_int_min": {
-      "results": [
-        {
-          "type": "Int"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint16_max": {
-      "results": [
-        {
-          "type": "UInt16"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint16_min": {
-      "results": [
-        {
-          "type": "UInt16"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint64_max": {
-      "results": [
-        {
-          "type": "UInt64"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint64_min": {
-      "results": [
-        {
-          "type": "UInt64"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint_max": {
-      "results": [
-        {
-          "type": "UInt"
-        }
-      ]
-    },
-    "__modus_hello_primitive_uint_min": {
-      "results": [
-        {
-          "type": "UInt"
-        }
-      ]
-    },
-    "__modus_hello_world": {
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "__modus_hello_world_with_arg": {
-      "parameters": [
-        {
-          "name": "name",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "__modus_hello_world_with_optional_arg": {
-      "parameters": [
-        {
-          "name": "name",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "__modus_hello_world_with_optional_arg_WithDefaults": {
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "__modus_log_message": {
-      "parameters": [
-        {
-          "name": "message",
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Logs a message."
-        ]
-      }
-    },
-    "__modus_test_abort": {
-      "docs": {
-        "lines": [
-          "Tests an abort."
-        ]
-      }
-    },
-    "__modus_test_alternative_error": {
-      "parameters": [
-        {
-          "name": "input",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Tests an alternative way to handle errors in functions."
-        ]
-      }
-    },
-    "__modus_test_exit": {
-      "docs": {
-        "lines": [
-          "Tests an exit with a non-zero exit code."
-        ]
-      }
-    },
-    "__modus_test_logging": {
-      "docs": {
-        "lines": [
-          "Tests logging at different levels."
-        ]
-      }
-    },
-    "__modus_test_normal_error": {
-      "parameters": [
-        {
-          "name": "input",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String!Error"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Tests returning an error."
-        ]
-      }
-    },
     "add": {
       "parameters": [
         {
@@ -749,40 +79,10 @@
         ]
       }
     },
-    "cabi_realloc": {
-      "parameters": [
-        {
-          "name": "src_offset",
-          "type": "Int"
-        },
-        {
-          "name": "src_size",
-          "type": "Int"
-        },
-        {
-          "name": "_dst_alignment",
-          "type": "Int"
-        },
-        {
-          "name": "dst_size",
-          "type": "Int"
-        }
-      ],
+    "call_test_time_option_input_some": {
       "results": [
         {
-          "type": "Int"
-        }
-      ]
-    },
-    "copy": {
-      "parameters": [
-        {
-          "name": "dest",
-          "type": "Int"
-        },
-        {
-          "name": "src",
-          "type": "Int"
+          "type": "Unit!Error"
         }
       ]
     },
@@ -1327,7 +627,7 @@
         ]
       }
     },
-    "malloc": {
+    "make_test_map": {
       "parameters": [
         {
           "name": "size",
@@ -1336,48 +636,14 @@
       ],
       "results": [
         {
-          "type": "Int"
-        }
-      ]
-    },
-    "ptr2double_array": {
-      "parameters": [
-        {
-          "name": "ptr",
-          "type": "Int"
+          "type": "Map[String, String]"
         }
       ],
-      "results": [
-        {
-          "type": "FixedArray[Double]"
-        }
-      ]
-    },
-    "ptr2int64_array": {
-      "parameters": [
-        {
-          "name": "ptr",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "FixedArray[Int64]"
-        }
-      ]
-    },
-    "ptr2uint64_array": {
-      "parameters": [
-        {
-          "name": "ptr",
-          "type": "Int"
-        }
-      ],
-      "results": [
-        {
-          "type": "FixedArray[UInt64]"
-        }
-      ]
+      "docs": {
+        "lines": [
+          "This generated map mimics the test map created on the Go side."
+        ]
+      }
     },
     "test_abort": {
       "docs": {
@@ -1404,6 +670,33 @@
         ]
       }
     },
+    "test_array_input_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_output_int_option": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_string_option": {
+      "results": [
+        {
+          "type": "Array[String?]"
+        }
+      ]
+    },
     "test_exit": {
       "docs": {
         "lines": [
@@ -1411,12 +704,117 @@
         ]
       }
     },
+    "test_iterate_map_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ]
+    },
     "test_logging": {
       "docs": {
         "lines": [
           "Tests logging at different levels."
         ]
       }
+    },
+    "test_map_input_int_double": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[Int, Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_input_int_float": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[Int, Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_input_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_lookup_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        },
+        {
+          "name": "key",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "test_map_option_input_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_option_output_string_string": {
+      "results": [
+        {
+          "type": "Map[String, String]?"
+        }
+      ]
+    },
+    "test_map_output_int_double": {
+      "results": [
+        {
+          "type": "Map[Int, Double]"
+        }
+      ]
+    },
+    "test_map_output_int_float": {
+      "results": [
+        {
+          "type": "Map[Int, Float]"
+        }
+      ]
+    },
+    "test_map_output_string_string": {
+      "results": [
+        {
+          "type": "Map[String, String]"
+        }
+      ]
     },
     "test_normal_error": {
       "parameters": [
@@ -1435,6 +833,66 @@
           "Tests returning an error."
         ]
       }
+    },
+    "test_struct_containing_map_input_string_string": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "TestStructWithMap"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_containing_map_output_string_string": {
+      "results": [
+        {
+          "type": "TestStructWithMap"
+        }
+      ]
+    },
+    "test_time_input": {
+      "parameters": [
+        {
+          "name": "t",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_input": {
+      "parameters": [
+        {
+          "name": "t",
+          "type": "@time.ZonedDateTime?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_tuple_output": {
+      "results": [
+        {
+          "type": "(Int, Bool, String)"
+        }
+      ]
+    },
+    "test_tuple_simulator": {
+      "results": [
+        {
+          "type": "TupleSimulator"
+        }
+      ]
     }
   },
   "fnImports": {
@@ -1482,8 +940,25 @@
     }
   },
   "types": {
-    "(String)": {
+    "(Int, Bool, String)": {
       "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Bool"
+        },
+        {
+          "name": "2",
+          "type": "String"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 5,
       "fields": [
         {
           "name": "0",
@@ -1492,70 +967,82 @@
       ]
     },
     "@time.ZonedDateTime": {
-      "id": 5
-    },
-    "@time.ZonedDateTime!Error": {
       "id": 6
     },
-    "Array[Byte]": {
+    "@time.ZonedDateTime!Error": {
       "id": 7
     },
-    "Array[Int]": {
+    "@time.ZonedDateTime?": {
       "id": 8
     },
-    "Array[Int]?": {
+    "Array[Byte]": {
       "id": 9
     },
-    "Array[Person]": {
+    "Array[Double]": {
       "id": 10
     },
-    "Array[String]": {
+    "Array[Float]": {
       "id": 11
     },
-    "Array[String]?": {
+    "Array[Int?]": {
       "id": 12
     },
-    "Bool": {
+    "Array[Int]": {
       "id": 13
     },
-    "Byte": {
+    "Array[Int]?": {
       "id": 14
     },
-    "Char": {
+    "Array[Person]": {
       "id": 15
     },
-    "Double": {
+    "Array[String?]": {
       "id": 16
     },
-    "FixedArray[Double]": {
+    "Array[String]": {
       "id": 17
     },
-    "FixedArray[Int64]": {
+    "Array[String]?": {
       "id": 18
     },
-    "FixedArray[UInt64]": {
+    "Bool": {
       "id": 19
     },
-    "Float": {
+    "Byte": {
       "id": 20
     },
-    "Int": {
+    "Char": {
       "id": 21
     },
-    "Int16": {
+    "Double": {
       "id": 22
     },
-    "Int64": {
+    "Float": {
       "id": 23
     },
-    "Map[String, String]": {
+    "Int": {
       "id": 24
     },
-    "Map[String, String]?": {
+    "Int16": {
       "id": 25
     },
+    "Int64": {
+      "id": 26
+    },
+    "Map[Int, Double]": {
+      "id": 27
+    },
+    "Map[Int, Float]": {
+      "id": 28
+    },
+    "Map[String, String]": {
+      "id": 29
+    },
+    "Map[String, String]?": {
+      "id": 30
+    },
     "Person": {
-      "id": 26,
+      "id": 31,
       "fields": [
         {
           "name": "firstName",
@@ -1572,16 +1059,25 @@
       ]
     },
     "String": {
-      "id": 27
+      "id": 32
     },
     "String!Error": {
-      "id": 28
+      "id": 33
     },
     "String?": {
-      "id": 29
+      "id": 34
+    },
+    "TestStructWithMap": {
+      "id": 35,
+      "fields": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ]
     },
     "TimeZoneInfo": {
-      "id": 30,
+      "id": 36,
       "fields": [
         {
           "name": "standard_name",
@@ -1602,7 +1098,7 @@
       ]
     },
     "TimeZoneInfo!Error": {
-      "id": 31,
+      "id": 37,
       "fields": [
         {
           "name": "standard_name",
@@ -1622,14 +1118,37 @@
         }
       ]
     },
+    "TupleSimulator": {
+      "id": 38,
+      "fields": [
+        {
+          "name": "t0",
+          "type": "Int"
+        },
+        {
+          "name": "t1",
+          "type": "Bool"
+        },
+        {
+          "name": "t2",
+          "type": "String"
+        }
+      ]
+    },
     "UInt": {
-      "id": 32
+      "id": 39
     },
     "UInt16": {
-      "id": 33
+      "id": 40
     },
     "UInt64": {
-      "id": 34
+      "id": 41
+    },
+    "Unit": {
+      "id": 42
+    },
+    "Unit!Error": {
+      "id": 43
     }
   }
 }

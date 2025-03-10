@@ -21,7 +21,7 @@ import (
 
 func TestPackage_Time(t *testing.T) {
 	t.Parallel()
-	dir := "testdata/time-example"
+	dir := "../testdata/time-example"
 	testPackageLoadHelper(t, "time", dir, wantPackageTime)
 }
 
@@ -30,15 +30,43 @@ var wantPackageTime = &Package{
 		IsMain: false,
 		Imports: []json.RawMessage{
 			json.RawMessage(`"gmlewis/modus/pkg/console"`),
-			json.RawMessage(`"gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock"`),
-			json.RawMessage(`"moonbitlang/x/sys"`),
+			json.RawMessage(`"gmlewis/modus/pkg/localtime"`),
+			json.RawMessage(`"gmlewis/modus/wit/interface/wasi"`),
 			json.RawMessage(`"moonbitlang/x/time"`),
 		},
-		TestImport: []json.RawMessage{
-			[]byte(`"gmlewis/modus/pkg/testutils"`),
+		Targets: map[string][]string{
+			"modus_post_generated.mbt": []string{"wasm"},
+			"modus_pre_generated.mbt":  []string{"wasm"},
+		},
+		LinkTargets: map[string]*LinkTarget{
+			"wasm": {
+				Exports: []string{
+					"__modus_get_local_time_modus:get_local_time_modus",
+					"__modus_get_local_time_moonbit:get_local_time_moonbit",
+					"__modus_get_local_time_zone_id:get_local_time_zone_id",
+					"__modus_get_time_in_zone_modus:get_time_in_zone_modus",
+					"__modus_get_time_in_zone_moonbit:get_time_in_zone_moonbit",
+					"__modus_get_time_zone_info:get_time_zone_info",
+					"__modus_get_utc_time:get_utc_time",
+					"cabi_realloc",
+					"copy",
+					"duration_from_nanos",
+					"free",
+					"load32",
+					"malloc",
+					"ptr2str",
+					"ptr_to_none",
+					"read_map",
+					"store32",
+					"store8",
+					"write_map",
+					"zoned_date_time_from_unix_seconds_and_nanos",
+				},
+				ExportMemoryName: "memory",
+			},
 		},
 	},
-	MoonBitFiles: []string{"testdata/time-example/time-example.mbt"},
+	MoonBitFiles: []string{"../testdata/time-example/main.mbt"},
 	ID:           "moonbit-main",
 	Name:         "main",
 	PkgPath:      "@time-example",
@@ -56,80 +84,156 @@ var wantPackageTime = &Package{
 	},
 	Syntax: []*ast.File{
 		{
-			Name: &ast.Ident{Name: "testdata/time-example/time-example.mbt"},
+			Name: &ast.Ident{Name: "../testdata/time-example/main.mbt"},
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
-					Specs: []ast.Spec{&ast.TypeSpec{Name: &ast.Ident{Name: "TimeZoneInfo"}, Type: &ast.StructType{
-						Fields: &ast.FieldList{
-							List: []*ast.Field{
-								{Names: []*ast.Ident{{Name: "standard_name"}}, Type: &ast.Ident{Name: "String"}},
-								{Names: []*ast.Ident{{Name: "standard_offset"}}, Type: &ast.Ident{Name: "String"}},
-								{Names: []*ast.Ident{{Name: "daylight_name"}}, Type: &ast.Ident{Name: "String"}},
-								{Names: []*ast.Ident{{Name: "daylight_offset"}}, Type: &ast.Ident{Name: "String"}},
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "TimeZoneInfo"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "standard_name"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "standard_offset"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "daylight_name"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "daylight_offset"}}, Type: &ast.Ident{Name: "String"}},
+									},
+								},
 							},
 						},
-					}}},
+					},
 				},
 				&ast.FuncDecl{
-					Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time in UTC."}}},
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the current time in UTC."},
+						},
+					},
 					Name: &ast.Ident{Name: "get_utc_time"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
-							List: []*ast.Field{{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}}},
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
+							},
 						},
 					},
 				},
 				&ast.FuncDecl{
-					Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current local time."}}},
-					Name: &ast.Ident{Name: "get_local_time"},
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the current local time using the moonbitlang/x/time package."},
+						},
+					},
+					Name: &ast.Ident{Name: "get_local_time_moonbit"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
-							List: []*ast.Field{{Type: &ast.Ident{Name: "String!Error"}}},
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String!Error"}},
+							},
 						},
 					},
 				},
 				&ast.FuncDecl{
-					Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the current time in a specified time zone."}}},
-					Name: &ast.Ident{Name: "get_time_in_zone"},
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the current local time using the Modus host Go function."},
+						},
+					},
+					Name: &ast.Ident{Name: "get_local_time_modus"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the current time in a specified time zone using"},
+							{Text: "// the moonbitlang/x/time package."},
+						},
+					},
+					Name: &ast.Ident{Name: "get_time_in_zone_moonbit"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{
-							List: []*ast.Field{{Names: []*ast.Ident{{Name: "tz"}}, Type: &ast.Ident{Name: "String"}}},
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "tz"}}, Type: &ast.Ident{Name: "String"}},
+							},
 						},
 						Results: &ast.FieldList{
-							List: []*ast.Field{{Type: &ast.Ident{Name: "String!Error"}}},
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String!Error"}},
+							},
 						},
 					},
 				},
 				&ast.FuncDecl{
-					Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns the local time zone identifier."}}},
-					Name: &ast.Ident{Name: "get_local_time_zone"},
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the current time in a specified time zone using"},
+							{Text: "// the Modus host Go function."},
+						},
+					},
+					Name: &ast.Ident{Name: "get_time_in_zone_modus"},
+					Type: &ast.FuncType{
+						Params: &ast.FieldList{
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "tz"}}, Type: &ast.Ident{Name: "String"}},
+							},
+						},
+						Results: &ast.FieldList{
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
+						},
+					},
+				},
+				&ast.FuncDecl{
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns the local time zone identifier."},
+						},
+					},
+					Name: &ast.Ident{Name: "get_local_time_zone_id"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
-							List: []*ast.Field{{Type: &ast.Ident{Name: "String"}}},
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "String"}},
+							},
 						},
 					},
 				},
 				&ast.FuncDecl{
-					Doc:  &ast.CommentGroup{List: []*ast.Comment{{Text: "// Returns some basic information about the time zone specified."}}},
+					Doc: &ast.CommentGroup{
+						List: []*ast.Comment{
+							{Text: "// Returns some basic information about the time zone specified."},
+						},
+					},
 					Name: &ast.Ident{Name: "get_time_zone_info"},
 					Type: &ast.FuncType{
 						Params: &ast.FieldList{
-							List: []*ast.Field{{Names: []*ast.Ident{{Name: "tz"}}, Type: &ast.Ident{Name: "String"}}},
+							List: []*ast.Field{
+								{Names: []*ast.Ident{{Name: "tz"}}, Type: &ast.Ident{Name: "String"}},
+							},
 						},
 						Results: &ast.FieldList{
-							List: []*ast.Field{{Type: &ast.Ident{Name: "TimeZoneInfo!Error"}}},
+							List: []*ast.Field{
+								{Type: &ast.Ident{Name: "TimeZoneInfo!Error"}},
+							},
 						},
 					},
 				},
 			},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
-				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/interface/imports/wasi/clocks/wallClock"`}},
-				{Path: &ast.BasicLit{Value: `"moonbitlang/x/sys"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/localtime"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/wit/interface/wasi"`}},
 				{Path: &ast.BasicLit{Value: `"moonbitlang/x/time"`}},
 			},
 		},
@@ -137,12 +241,14 @@ var wantPackageTime = &Package{
 	TypesInfo: &types.Info{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
-			{Name: "TimeZoneInfo"}:        &moonFunc{funcName: "type TimeZoneInfo = struct{standard_name String; standard_offset String; daylight_name String; daylight_offset String}"},
-			{Name: "get_local_time"}:      &moonFunc{funcName: "func @time-example.get_local_time() String!Error"},
-			{Name: "get_local_time_zone"}: &moonFunc{funcName: "func @time-example.get_local_time_zone() String"},
-			{Name: "get_time_in_zone"}:    &moonFunc{funcName: "func @time-example.get_time_in_zone(tz String) String!Error"},
-			{Name: "get_time_zone_info"}:  &moonFunc{funcName: "func @time-example.get_time_zone_info(tz String) TimeZoneInfo!Error"},
-			{Name: "get_utc_time"}:        &moonFunc{funcName: "func @time-example.get_utc_time() @time.ZonedDateTime!Error"},
+			{Name: "TimeZoneInfo"}:             &moonFunc{funcName: "type TimeZoneInfo = struct{standard_name String; standard_offset String; daylight_name String; daylight_offset String}"},
+			{Name: "get_local_time_modus"}:     &moonFunc{funcName: "func @time-example.get_local_time_modus() String"},
+			{Name: "get_local_time_moonbit"}:   &moonFunc{funcName: "func @time-example.get_local_time_moonbit() String!Error"},
+			{Name: "get_local_time_zone_id"}:   &moonFunc{funcName: "func @time-example.get_local_time_zone_id() String"},
+			{Name: "get_time_in_zone_modus"}:   &moonFunc{funcName: "func @time-example.get_time_in_zone_modus(tz String) String"},
+			{Name: "get_time_in_zone_moonbit"}: &moonFunc{funcName: "func @time-example.get_time_in_zone_moonbit(tz String) String!Error"},
+			{Name: "get_time_zone_info"}:       &moonFunc{funcName: "func @time-example.get_time_zone_info(tz String) TimeZoneInfo!Error"},
+			{Name: "get_utc_time"}:             &moonFunc{funcName: "func @time-example.get_utc_time() @time.ZonedDateTime!Error"},
 		},
 	},
 }

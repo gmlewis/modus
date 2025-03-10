@@ -1,13 +1,25 @@
 {
   "plugin": "time-example",
   "module": "@time-example",
-  "sdk": "modus-sdk-mbt@40.11.0",
-  "buildId": "cv51q6vrackeuns2q02g",
-  "buildTs": "2025-03-06T22:09:31.639Z",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc37rack3t03p9ki0",
+  "buildTs": "2025-03-09T03:07:56.102Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "e57fd574b110b2bae7c02f71fc205179d76ee755",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
-    "get_local_time": {
+    "get_local_time_modus": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current local time using the Modus host Go function."
+        ]
+      }
+    },
+    "get_local_time_moonbit": {
       "results": [
         {
           "type": "String!Error"
@@ -15,11 +27,11 @@
       ],
       "docs": {
         "lines": [
-          "Returns the current local time."
+          "Returns the current local time using the moonbitlang/x/time package."
         ]
       }
     },
-    "get_local_time_zone": {
+    "get_local_time_zone_id": {
       "results": [
         {
           "type": "String"
@@ -31,7 +43,26 @@
         ]
       }
     },
-    "get_time_in_zone": {
+    "get_time_in_zone_modus": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in a specified time zone using",
+          "the Modus host Go function."
+        ]
+      }
+    },
+    "get_time_in_zone_moonbit": {
       "parameters": [
         {
           "name": "tz",
@@ -45,7 +76,8 @@
       ],
       "docs": {
         "lines": [
-          "Returns the current time in a specified time zone."
+          "Returns the current time in a specified time zone using",
+          "the moonbitlang/x/time package."
         ]
       }
     },

@@ -21,7 +21,7 @@ func TestTestablePreProcess_Neo4j(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/neo4j-example",
+		SourceDir: "../testdata/neo4j-example",
 	}
 
 	body, header, moonPkgJSON, err := testablePreProcess(config)
@@ -58,7 +58,7 @@ pub fn __modus_get_alice_friends_under_40() -> Array[Person]!Error {
   }
 }
 
-pub fn __modus_get_alice_friends_under_40_ages() -> Array[Int64]!Error {
+pub fn __modus_get_alice_friends_under_40_ages() -> Array[Int]!Error {
   try get_alice_friends_under_40_ages!() {
     e => {
       @console.error(e.to_string())

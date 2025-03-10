@@ -21,7 +21,7 @@ import (
 
 func TestPackage_Neo4j(t *testing.T) {
 	t.Parallel()
-	dir := "testdata/neo4j-example"
+	dir := "../testdata/neo4j-example"
 	testPackageLoadHelper(t, "neo4j", dir, wantPackageNeo4j)
 }
 
@@ -30,6 +30,7 @@ var wantPackageNeo4j = &Package{
 		IsMain: false,
 		Imports: []json.RawMessage{
 			json.RawMessage(`"gmlewis/modus/pkg/neo4j"`),
+			json.RawMessage(`"gmlewis/modus/pkg/console"`),
 		},
 		Targets: map[string][]string{
 			"modus_post_generated.mbt": {"wasm"},
@@ -38,12 +39,17 @@ var wantPackageNeo4j = &Package{
 		LinkTargets: map[string]*LinkTarget{
 			"wasm": {
 				Exports: []string{
+					"__modus_create_people_and_relationships:create_people_and_relationships",
+					"__modus_delete_all_nodes:delete_all_nodes",
+					"__modus_get_alice_friends_under_40:get_alice_friends_under_40",
+					"__modus_get_alice_friends_under_40_ages:get_alice_friends_under_40_ages",
 					"cabi_realloc",
 					"copy",
 					"free",
 					"load32",
 					"malloc",
 					"ptr2str",
+					"ptr_to_none",
 					"read_map",
 					"store32",
 					"store8",
@@ -53,7 +59,7 @@ var wantPackageNeo4j = &Package{
 			},
 		},
 	},
-	MoonBitFiles: []string{"testdata/neo4j-example/main.mbt"},
+	MoonBitFiles: []string{"../testdata/neo4j-example/main.mbt"},
 	ID:           "moonbit-main",
 	Name:         "main",
 	PkgPath:      "@neo4j-example",
@@ -62,14 +68,14 @@ var wantPackageNeo4j = &Package{
 			Fields: &ast.FieldList{
 				List: []*ast.Field{
 					{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
-					{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int64"}},
+					{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int"}},
 				},
 			},
 		}},
 	},
 	Syntax: []*ast.File{
 		{
-			Name: &ast.Ident{Name: "testdata/neo4j-example/main.mbt"},
+			Name: &ast.Ident{Name: "../testdata/neo4j-example/main.mbt"},
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
@@ -77,7 +83,7 @@ var wantPackageNeo4j = &Package{
 						Fields: &ast.FieldList{
 							List: []*ast.Field{
 								{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
-								{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int64"}},
+								{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int"}},
 							},
 						},
 					}}},
@@ -113,7 +119,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Array[Int64]!Error"}},
+								{Type: &ast.Ident{Name: "Array[Int]!Error"}},
 							},
 						},
 					},
@@ -133,16 +139,17 @@ var wantPackageNeo4j = &Package{
 			},
 			Imports: []*ast.ImportSpec{
 				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/neo4j"`}},
+				{Path: &ast.BasicLit{Value: `"gmlewis/modus/pkg/console"`}},
 			},
 		},
 	},
 	TypesInfo: &types.Info{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
-			{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int64}"}),
+			{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int}"}),
 			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func @neo4j-example.create_people_and_relationships() String!Error"},
 			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40() Array[Person]!Error"},
-			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40_ages() Array[Int64]!Error"},
+			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40_ages() Array[Int]!Error"},
 			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func @neo4j-example.delete_all_nodes() String!Error"},
 		},
 	},

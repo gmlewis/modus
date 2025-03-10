@@ -1,0 +1,36 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/neo4j",
+    "gmlewis/modus/pkg/console"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ],
+    "modus_pre_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_create_people_and_relationships:create_people_and_relationships",
+        "__modus_delete_all_nodes:delete_all_nodes",
+        "__modus_get_alice_friends_under_40:get_alice_friends_under_40",
+        "__modus_get_alice_friends_under_40_ages:get_alice_friends_under_40_ages",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}

@@ -25,7 +25,7 @@ func TestTestablePostProcess_Runtime(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/runtime-testdata",
+		SourceDir: "../testdata/runtime-testdata",
 	}
 
 	mod := &modinfo.ModuleInfo{
