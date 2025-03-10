@@ -22,7 +22,7 @@ import (
 var gmlDebugEnv bool
 
 func gmlPrintf(fmtStr string, args ...any) {
-	gmlDebugEnv = true
+	// gmlDebugEnv = true
 	sync.OnceFunc(func() {
 		log.SetFlags(0)
 		if os.Getenv("GML_DEBUG") == "true" {
@@ -154,10 +154,23 @@ type Config struct {
 	// // but the logger is nil, default to gmlPrintf.
 	// Logf func(format string, args ...interface{})
 
+	// RootAbsPath is the absolute path to the root directory of the initial user program.
+	// This directory contains the ".mooncakes" subdirectory where all
+	// the imports should be able to be found.
+	RootAbsPath string
+
 	// Dir is the directory in which to run the build system's query tool
 	// that provides information about the packages.
 	// If Dir is empty, the tool is run in the current directory.
 	Dir string
+
+	// PackageName is the name that this package is referred to, which is
+	// found in the moon.mod.json file.
+	PackageName string
+
+	// PackageAlias is the alias that this package is referred to, which is
+	// found in the moon.mod.json file.
+	PackageAlias string
 
 	// Env is the environment to use when invoking the build system's query tool.
 	// If Env is nil, the current environment is used.
@@ -240,6 +253,7 @@ type Package struct {
 	Name string
 
 	// PkgPath is the package path as used by the go/types package.
+	// It is "" for the main (user) package, and otherwise e.g. "@neo4j".
 	PkgPath string
 
 	// // Dir is the directory associated with the package, if it exists.
@@ -267,6 +281,15 @@ type Package struct {
 	// assistance in resolving publicly-exported structs so that they can be
 	// uniquely-identified by package.
 	StructLookup map[string]*ast.TypeSpec
+
+	// This is an ugly workaround, but due to the hack manner of processing MoonBit
+	// files in potentially random orders combined with forward references to
+	// custom types that are not resolved until all parsing has been completed,
+	// this map contains a list of underlying types that may need to be added to
+	// the metadata so that the Modus Runtime can prepare handlers for them.
+	// It is not known if they are needed until all the source code processing has
+	// been completed.
+	PossiblyMissingUnderlyingTypes map[string]struct{}
 
 	// // CompiledMoonBitFiles lists the absolute file paths of the package's source
 	// // files that are suitable for type checking.
@@ -344,6 +367,13 @@ type Package struct {
 
 	// // ForTest is the package under test, if any.
 	// ForTest string
+}
+
+func (p *Package) AddPossiblyMissingUnderlyingType(typ string) {
+	if p.PossiblyMissingUnderlyingTypes == nil {
+		p.PossiblyMissingUnderlyingTypes = map[string]struct{}{}
+	}
+	p.PossiblyMissingUnderlyingTypes[typ] = struct{}{}
 }
 
 // Module provides module information for a package.

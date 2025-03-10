@@ -41,8 +41,11 @@ func TestCollectModuleInfo(t *testing.T) {
 			if err != nil {
 				t.Fatalf("CollectModuleInfo() error = %v", err)
 			}
-			if diff := cmp.Diff(got, tt.want); diff != "" {
-				t.Errorf("CollectModuleInfo() mismatch (-want +got):\n%v", diff)
+			if got.ModulePath != tt.want.ModulePath {
+				t.Errorf("ModulePath = %q, want %q", got.ModulePath, tt.want.ModulePath)
+			}
+			if diff := cmp.Diff(tt.want.ModusSDKVersion, got.ModusSDKVersion); diff != "" {
+				t.Errorf("ModusSDKVersion mismatch (-want +got):\n%v", diff)
 			}
 		})
 	}

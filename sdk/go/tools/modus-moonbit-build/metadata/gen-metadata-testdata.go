@@ -21,13 +21,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
+	"path"
 	"path/filepath"
 	"runtime"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
-	"github.com/hashicorp/go-version"
 )
 
 var (
@@ -57,18 +59,7 @@ func genJSON(name, baseDir string) {
 	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
 	sourceDir := filepath.Join(baseDir, "../testdata", name)
 
-	config := &config.Config{
-		SourceDir: sourceDir,
-	}
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      fmt.Sprintf("github.com/gmlewis/modus/examples/%v", name),
-		ModusSDKVersion: version.Must(version.NewVersion("0.16.5")),
-	}
-
-	meta, err := metagen.GenerateMetadata(config, mod)
-	if err != nil {
-		log.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := genMetadata(sourceDir)
 
 	buf, err := json.MarshalIndent(meta, "", "  ")
 	if err != nil {
@@ -78,4 +69,35 @@ func genJSON(name, baseDir string) {
 	if err := os.WriteFile(filename, buf, 0644); err != nil {
 		log.Fatalf("os.WriteFile: %v", err)
 	}
+}
+
+// genMetadata is used during 'go generate' and also during testing.
+// To avoid cyclic imports, multiple copies of this function exist. :-(
+func genMetadata(sourceDir string) *metadata.Metadata {
+	config := &config.Config{
+		SourceDir: sourceDir,
+	}
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		log.Fatalf("CollectModuleInfo returned an error: %v", err)
+	}
+
+	meta, err := metagen.GenerateMetadata(config, mod)
+	if err != nil {
+		log.Fatalf("GenerateMetadata returned an error: %v", err)
+	}
+
+	return meta
 }
