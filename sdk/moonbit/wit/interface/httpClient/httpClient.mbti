@@ -1,0 +1,38 @@
+package gmlewis/modus/wit/interface/httpClient
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn fetch(Request) -> Response?
+
+// Types and methods
+pub(all) struct Headers {
+  data : Array[(String, String)]
+}
+impl Eq for Headers
+impl Show for Headers
+impl ToJson for Headers
+impl @json.FromJson for Headers
+
+pub(all) struct Request {
+  url : String
+  method_ : String
+  headers : Headers?
+  body : FixedArray[Byte]
+}
+impl Eq for Request
+impl Show for Request
+
+pub(all) struct Response {
+  status : UInt
+  status_text : String
+  headers : Headers?
+  body : FixedArray[Byte]
+}
+impl Eq for Response
+impl Show for Response
+
+// Type aliases
+
+// Traits
+

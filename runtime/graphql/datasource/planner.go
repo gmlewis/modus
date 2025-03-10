@@ -15,8 +15,8 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/ast"
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/engine/plan"
@@ -38,14 +38,15 @@ type HypDSPlanner struct {
 }
 
 type fieldInfo struct {
-	ref        int         `json:"-"`
-	Name       string      `json:"name"`
-	Alias      string      `json:"alias,omitempty"`
-	TypeName   string      `json:"type,omitempty"`
-	ParentType string      `json:"parentType,omitempty"`
-	Fields     []fieldInfo `json:"fields,omitempty"`
-	IsMapType  bool        `json:"isMapType,omitempty"`
-	fieldRefs  []int       `json:"-"`
+	ref         int         `json:"-"`
+	Name        string      `json:"name"`
+	Alias       string      `json:"alias,omitempty"`
+	TypeName    string      `json:"type,omitempty"`
+	ParentType  string      `json:"parentType,omitempty"`
+	Fields      []fieldInfo `json:"fields,omitempty"`
+	IsMapType   bool        `json:"isMapType,omitempty"`
+	IsTupleType bool        `json:"isTupleType,omitempty"`
+	fieldRefs   []int       `json:"-"`
 }
 
 func (t *fieldInfo) AliasOrName() string {
@@ -171,6 +172,7 @@ func (p *HypDSPlanner) captureField(ref int) *fieldInfo {
 		f.TypeName = definition.FieldDefinitionTypeNameString(def)
 		f.ParentType = walker.EnclosingTypeDefinition.NameString(definition)
 		f.IsMapType = slices.Contains(p.config.MapTypes, f.TypeName)
+		f.IsTupleType = slices.Contains(p.config.TupleTypes, f.TypeName)
 	}
 
 	if operation.FieldHasSelections(ref) {

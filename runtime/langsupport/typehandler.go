@@ -12,7 +12,7 @@ package langsupport
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 type TypeHandler interface {

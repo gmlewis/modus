@@ -10,15 +10,16 @@
 package hnsw
 
 import (
+	"context"
 	"fmt"
 	"sync"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/collections/utils"
 )
 
 func TestMultipleSequentialVectorIndexes(t *testing.T) {
-	ctx := t.Context()
+	ctx := context.Background()
 
 	// Define the base data to be inserted
 	baseTextIds := []int64{1, 2, 3}

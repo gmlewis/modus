@@ -1,0 +1,349 @@
+{
+  "plugin": "simple-example",
+  "module": "@simple-example",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv6gc2vrack3t03p9kh0",
+  "buildTs": "2025-03-09T03:07:55.069Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
+  "fnExports": {
+    "add": {
+      "parameters": [
+        {
+          "name": "x",
+          "type": "Int"
+        },
+        {
+          "name": "y",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds two integers together and returns the result."
+        ]
+      }
+    },
+    "add3": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c~",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds three integers together and returns the result.",
+          "The third integer is optional."
+        ]
+      }
+    },
+    "add3_WithDefaults": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds three integers together and returns the result.",
+          "The third integer is optional."
+        ]
+      }
+    },
+    "add_n": {
+      "parameters": [
+        {
+          "name": "args",
+          "type": "Array[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Adds any number of integers together and returns the result."
+        ]
+      }
+    },
+    "get_current_time": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time."
+        ]
+      }
+    },
+    "get_current_time_formatted": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time formatted as a string."
+        ]
+      }
+    },
+    "get_full_name": {
+      "parameters": [
+        {
+          "name": "first_name",
+          "type": "String"
+        },
+        {
+          "name": "last_name",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Combines the first and last name of a person, and returns the full name."
+        ]
+      }
+    },
+    "get_people": {
+      "results": [
+        {
+          "type": "Array[Person]"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Gets a list of people."
+        ]
+      }
+    },
+    "get_person": {
+      "results": [
+        {
+          "type": "Person"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Gets a person object."
+        ]
+      }
+    },
+    "get_random_person": {
+      "results": [
+        {
+          "type": "Person"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Gets a random person object from a list of people."
+        ]
+      }
+    },
+    "log_message": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Logs a message."
+        ]
+      }
+    },
+    "test_abort": {
+      "docs": {
+        "lines": [
+          "Tests an abort."
+        ]
+      }
+    },
+    "test_alternative_error": {
+      "parameters": [
+        {
+          "name": "input",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Tests an alternative way to handle errors in functions."
+        ]
+      }
+    },
+    "test_exit": {
+      "docs": {
+        "lines": [
+          "Tests an exit with a non-zero exit code."
+        ]
+      }
+    },
+    "test_logging": {
+      "docs": {
+        "lines": [
+          "Tests logging at different levels."
+        ]
+      }
+    },
+    "test_normal_error": {
+      "parameters": [
+        {
+          "name": "input",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Tests returning an error."
+        ]
+      }
+    }
+  },
+  "fnImports": {
+    "modus_system.getTimeInZone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "modus_system.getTimeZoneData": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        },
+        {
+          "name": "format",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(String)": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "@time.ZonedDateTime": {
+      "id": 5
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 6
+    },
+    "Array[Byte]": {
+      "id": 7
+    },
+    "Array[Int]": {
+      "id": 8
+    },
+    "Array[Person]": {
+      "id": 9
+    },
+    "Int": {
+      "id": 10
+    },
+    "Person": {
+      "id": 11,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "String"
+        },
+        {
+          "name": "lastName",
+          "type": "String"
+        },
+        {
+          "name": "age",
+          "type": "Int"
+        }
+      ]
+    },
+    "String": {
+      "id": 12
+    },
+    "String!Error": {
+      "id": 13
+    }
+  }
+}

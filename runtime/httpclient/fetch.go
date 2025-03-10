@@ -16,8 +16,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hypermodeinc/modus/runtime/secrets"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {

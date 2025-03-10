@@ -14,8 +14,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/spf13/cast"
 )

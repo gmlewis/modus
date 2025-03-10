@@ -1,0 +1,10 @@
+{
+  "name": "gmlewis/modus/examples/test-suite",
+  "version": "0.1.0",
+  "deps": {
+    "gmlewis/modus": {
+      "path": "../../../../../moonbit"
+    },
+    "moonbitlang/x": "0.4.21"
+  }
+}
