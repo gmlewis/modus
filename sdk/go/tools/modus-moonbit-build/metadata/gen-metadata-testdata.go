@@ -10,9 +10,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// gen-metadata-testdata.go is used to marshal testdata/simple-example-metadata.json
-// from actual parsing of the MoonBit code so that all testing stays in sync.
-// It is needed to prevent an import cycle, but is also useful to test the JSON serialization.
+// gen-metadata-testdata.go is used to marshal testdata actual
+// parsing of the MoonBit code so that all testing stays in sync.
+// It is needed to prevent an import cycle, but is also useful
+// to test the JSON serialization.
 package main
 
 import (
@@ -56,7 +57,7 @@ func main() {
 func genJSON(name, baseDir string) {
 	filename := fmt.Sprintf("testdata/%v-metadata.json", name)
 	log.Printf("gen-metadata-testdata.go: Generating %v ...", filename)
-	sourceDir := filepath.Join(baseDir, "../metagen/testdata", name)
+	sourceDir := filepath.Join(baseDir, "../testdata", name)
 
 	meta := genMetadata(sourceDir)
 

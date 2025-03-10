@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv4ggg7rack46d6a65j0",
-  "buildTs": "2025-03-06T02:28:16.788Z",
+  "buildId": "cv6gc2vrack3t03p9kh0",
+  "buildTs": "2025-03-09T03:07:55.069Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "fc097ae98cbc1e648474f5d787dcaf48fc857723",
+  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
   "fnExports": {
     "@base64.array2str": {
       "parameters": [
@@ -1283,24 +1283,6 @@
       ],
       "results": [
         {
-          "type": "Int"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the number of days in a year of this datetime."
-        ]
-      }
-    },
-    "@time.PlainDateTime::era": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.PlainDateTime"
-        }
-      ],
-      "results": [
-        {
           "type": "String"
         }
       ],
@@ -1311,24 +1293,6 @@
       }
     },
     "@time.PlainDateTime::era_year": {
-      "parameters": [
-        {
-          "name": "self",
-          "type": "@time.PlainDateTime"
-        }
-      ],
-      "results": [
-        {
-          "type": "Int"
-        }
-      ],
-      "docs": {
-        "lines": [
-          "Returns the year of era of this datetime."
-        ]
-      }
-    },
-    "@time.PlainDateTime::from_string": {
       "parameters": [
         {
           "name": "str",

@@ -20,7 +20,7 @@ import (
 )
 
 func TestGenerateMetadata_Simple(t *testing.T) {
-	meta := setupTestConfig(t, "testdata/simple-example")
+	meta := setupTestConfig(t, "../testdata/simple-example")
 	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "simple-example"; got != want {
@@ -44,9 +44,6 @@ func TestGenerateMetadata_Simple(t *testing.T) {
 	}
 
 	diffMetaTypes(t, wantSimpleTypes, meta.Types)
-	// if diff := cmp.Diff(wantSimpleTypes, meta.Types); diff != "" {
-	// 	t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	// }
 }
 
 var wantSimpleFnExports = metadata.FunctionMap{

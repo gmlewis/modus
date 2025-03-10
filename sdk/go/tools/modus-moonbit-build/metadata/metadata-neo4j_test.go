@@ -26,7 +26,7 @@ func TestFunction_String_Neo4j(t *testing.T) {
 		{name: "create_people_and_relationships", want: "() -> String!Error"},
 		{name: "delete_all_nodes", want: "() -> String!Error"},
 		{name: "get_alice_friends_under_40", want: "() -> Array[Person]!Error"},
-		{name: "get_alice_friends_under_40_ages", want: "() -> Array[Int64]!Error"},
+		{name: "get_alice_friends_under_40_ages", want: "() -> Array[Int]!Error"},
 	}
 
 	testFunctionStringHelper(t, "neo4j", neo4jExampleMetadataJSON, tests)

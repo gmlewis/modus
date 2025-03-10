@@ -25,7 +25,7 @@ func TestTestablePostProcess_Neo4j(t *testing.T) {
 	t.Parallel()
 
 	config := &config.Config{
-		SourceDir: "testdata/neo4j-example",
+		SourceDir: "../testdata/neo4j-example",
 	}
 
 	mod := &modinfo.ModuleInfo{

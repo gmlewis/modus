@@ -20,7 +20,7 @@ import (
 )
 
 func TestGenerateMetadata_Neo4j(t *testing.T) {
-	meta := setupTestConfig(t, "testdata/neo4j-example")
+	meta := setupTestConfig(t, "../testdata/neo4j-example")
 	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "neo4j"; got != want {
@@ -44,9 +44,6 @@ func TestGenerateMetadata_Neo4j(t *testing.T) {
 	}
 
 	diffMetaTypes(t, wantNeo4jTypes, meta.Types)
-	// if diff := cmp.Diff(wantNeo4jTypes, meta.Types); diff != "" {
-	// 	t.Errorf("meta.Types mismatch (-want +got):\n%v", diff)
-	// }
 }
 
 var wantNeo4jFnExports = metadata.FunctionMap{
