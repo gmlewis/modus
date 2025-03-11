@@ -10,6 +10,8 @@
 package functions
 
 import (
+	"log"
+
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/plugins"
@@ -35,6 +37,7 @@ func NewFunctionInfo(fnName string, plugin *plugins.Plugin, isImport bool) (Func
 	fnMeta := fnMap[fnName]
 	plan := plugin.ExecutionPlans[fnName]
 	if fnMeta == nil || plan == nil {
+		log.Printf("GML: WARNING: functions/fninfo.go: no info found for function '%v'", fnName)
 		return nil, false
 	}
 

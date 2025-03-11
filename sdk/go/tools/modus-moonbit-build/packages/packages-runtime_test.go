@@ -848,7 +848,7 @@ var wantPackageRuntime = &Package{
 		},
 	},
 	ID:      "moonbit-main",
-	Name:    "",
+	Name:    "main",
 	PkgPath: "",
 	MoonBitFiles: []string{
 		"../testdata/runtime-testdata/arrays_bool.mbt",

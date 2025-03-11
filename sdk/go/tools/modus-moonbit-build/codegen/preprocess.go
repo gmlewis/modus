@@ -100,8 +100,8 @@ func getMainPackage(dir string, mod *modinfo.ModuleInfo) (*packages.Package, err
 
 	pkg := pkgs[0]
 
-	if pkg.Name != "" {
-		return nil, fmt.Errorf("expected root package name to be '', got '%v'", pkg.Name)
+	if pkg.Name != "main" {
+		return nil, fmt.Errorf("expected root package name to be 'main', got '%v'", pkg.Name)
 	}
 
 	return pkg, nil

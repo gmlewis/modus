@@ -67,7 +67,7 @@ var wantPackageTime = &Package{
 		},
 	},
 	ID:           "moonbit-main",
-	Name:         "",
+	Name:         "main",
 	PkgPath:      "",
 	MoonBitFiles: []string{"../testdata/time-example/main.mbt"},
 	StructLookup: map[string]*ast.TypeSpec{

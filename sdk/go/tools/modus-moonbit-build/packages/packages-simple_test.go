@@ -77,7 +77,7 @@ var wantPackageSimple = &Package{
 		},
 	},
 	ID:           "moonbit-main",
-	Name:         "",
+	Name:         "main",
 	PkgPath:      "",
 	MoonBitFiles: []string{"../testdata/simple-example/main.mbt"},
 	StructLookup: map[string]*ast.TypeSpec{

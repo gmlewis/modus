@@ -31,6 +31,7 @@ import (
 var gmlDebugEnv bool
 
 func gmlPrintf(fmtStr string, args ...any) {
+	gmlDebugEnv = true
 	sync.OnceFunc(func() {
 		log.SetFlags(0)
 		if os.Getenv("GML_DEBUG") == "true" {

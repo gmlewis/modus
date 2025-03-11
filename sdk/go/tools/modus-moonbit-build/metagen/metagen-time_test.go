@@ -31,10 +31,6 @@ func TestGenerateMetadata_Time(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	// if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
-	// 	t.Errorf("meta.SDK = %q, want %q", got, want)
-	// }
-
 	if diff := cmp.Diff(wantTimeFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
 	}

@@ -145,15 +145,16 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	}
 
 	pkgPath := "@" + filepath.Base(cfg.Dir)
+	log.Printf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
 	if cfg.PackageName == "" {
-		// Leave the top-level package name empty, as all of its structs will
-		// not be name-spaced.
-		// cfg.PackageName = "main"
-		pkgPath = "" // top-level "main" package - this is the user's app.
+		// The top-level package must be "main" for the runtime to load it properly.
+		cfg.PackageName = "main"
+		// However, its PkgPath must be empty.
+		pkgPath = ""
 	}
 
 	result := &Package{
-		ID:      "moonbit-main", // unused?
+		ID:      "moonbit-main", // this appears to be unused
 		Name:    cfg.PackageName,
 		PkgPath: pkgPath,
 		TypesInfo: &types.Info{

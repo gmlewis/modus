@@ -59,10 +59,10 @@ var wantPackageNeo4j = &Package{
 			},
 		},
 	},
-	MoonBitFiles: []string{"../testdata/neo4j-example/main.mbt"},
 	ID:           "moonbit-main",
-	Name:         "",
+	Name:         "main",
 	PkgPath:      "",
+	MoonBitFiles: []string{"../testdata/neo4j-example/main.mbt"},
 	StructLookup: map[string]*ast.TypeSpec{
 		"Person": {Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
 			Fields: &ast.FieldList{
