@@ -34,6 +34,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 		return err
 	}
 
+	// for debugging purposes:
 	buf, _ := json.MarshalIndent(info, "", "  ")
 	log.Printf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
 
