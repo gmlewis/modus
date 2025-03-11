@@ -61,8 +61,8 @@ var wantPackageNeo4j = &Package{
 	},
 	MoonBitFiles: []string{"../testdata/neo4j-example/main.mbt"},
 	ID:           "moonbit-main",
-	Name:         "main",
-	PkgPath:      "@neo4j-example",
+	Name:         "",
+	PkgPath:      "",
 	StructLookup: map[string]*ast.TypeSpec{
 		"Person": {Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
 			Fields: &ast.FieldList{
@@ -79,14 +79,18 @@ var wantPackageNeo4j = &Package{
 			Decls: []ast.Decl{
 				&ast.GenDecl{
 					Tok: token.TYPE,
-					Specs: []ast.Spec{&ast.TypeSpec{Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
-						Fields: &ast.FieldList{
-							List: []*ast.Field{
-								{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
-								{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int"}},
+					Specs: []ast.Spec{
+						&ast.TypeSpec{Name: &ast.Ident{Name: "Person"},
+							Type: &ast.StructType{
+								Fields: &ast.FieldList{
+									List: []*ast.Field{
+										{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
+										{Names: []*ast.Ident{{Name: "age"}}, Type: &ast.Ident{Name: "Int"}},
+									},
+								},
 							},
 						},
-					}}},
+					},
 				},
 				&ast.FuncDecl{
 					Doc:  &ast.CommentGroup{},
@@ -147,10 +151,10 @@ var wantPackageNeo4j = &Package{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
 			{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int}"}),
-			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func @neo4j-example.create_people_and_relationships() String!Error"},
-			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40() Array[Person]!Error"},
-			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40_ages() Array[Int]!Error"},
-			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func @neo4j-example.delete_all_nodes() String!Error"},
+			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func create_people_and_relationships() String!Error"},
+			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func get_alice_friends_under_40() Array[Person]!Error"},
+			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func get_alice_friends_under_40_ages() Array[Int]!Error"},
+			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func delete_all_nodes() String!Error"},
 		},
 	},
 }

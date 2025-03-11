@@ -10,7 +10,16 @@
 package codegen
 
 import (
+	"log"
+	"os"
+	"os/exec"
+	"path"
 	"testing"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -20,6 +29,33 @@ type postProcessDiffs struct {
 	gotPostProcessBody    string
 	wantPostProcessHeader string
 	gotPostProcessHeader  string
+}
+
+func postProcessTestSetup(t *testing.T, config *config.Config) *metadata.Metadata {
+	t.Helper()
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		t.Fatalf("CollectModuleInfo failed: %v", err)
+	}
+
+	meta, err := metagen.GenerateMetadata(config, mod)
+	if err != nil {
+		t.Fatalf("GenerateMetadata returned an error: %v", err)
+	}
+
+	return meta
 }
 
 func reportPostProcessDiffs(t *testing.T, name string, wg *postProcessDiffs) {

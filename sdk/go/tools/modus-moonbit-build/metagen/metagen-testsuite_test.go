@@ -31,10 +31,6 @@ func TestGenerateMetadata_Testsuite(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	// if got, want := meta.SDK, "modus-sdk-mbt@40.11.0"; got != want {
-	// 	t.Errorf("meta.SDK = %q, want %q", got, want)
-	// }
-
 	if diff := cmp.Diff(wantTestsuiteFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
 	}
@@ -407,10 +403,14 @@ var wantTestsuiteTypes = metadata.TypeMap{
 	"(Int, Bool, String)": {
 		Name: "(Int, Bool, String)",
 		Fields: []*metadata.Field{
-			{Name: "0", Type: "Int"}, {Name: "1", Type: "Bool"},
+			{Name: "0", Type: "Int"},
+			{Name: "1", Type: "Bool"},
 			{Name: "2", Type: "String"},
 		},
 	},
+	"(Int, Int, Int)": {
+		Name:   "(Int, Int, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
 	},
 	"(String)":                {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
 	"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
@@ -438,12 +438,17 @@ var wantTestsuiteTypes = metadata.TypeMap{
 	"@time.ZoneOffset!Error":    {Name: "@time.ZoneOffset!Error"},
 	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
 	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
+	"@time.ZonedDateTime?":      {Name: "@time.ZonedDateTime?"},
 	"ArrayView[Byte]":           {Name: "ArrayView[Byte]"},
 	"Array[@testutils.T]":       {Name: "Array[@testutils.T]"},
 	"Array[Byte]":               {Name: "Array[Byte]"},
+	"Array[Double]":             {Name: "Array[Double]"},
+	"Array[Float]":              {Name: "Array[Float]"},
+	"Array[Int?]":               {Name: "Array[Int?]"},
 	"Array[Int]":                {Name: "Array[Int]"},
 	"Array[Int]?":               {Name: "Array[Int]?"},
 	"Array[Person]":             {Name: "Array[Person]"},
+	"Array[String?]":            {Name: "Array[String?]"},
 	"Array[String]":             {Name: "Array[String]"},
 	"Array[String]?":            {Name: "Array[String]?"},
 	"Bool":                      {Name: "Bool"},
@@ -453,21 +458,22 @@ var wantTestsuiteTypes = metadata.TypeMap{
 	"Char":                      {Name: "Char"},
 	"Double":                    {Name: "Double"},
 	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
-	"FixedArray[Double]":        {Name: "FixedArray[Double]"},
-	"FixedArray[Int64]":         {Name: "FixedArray[Int64]"},
-	"FixedArray[UInt64]":        {Name: "FixedArray[UInt64]"},
 	"Float":                     {Name: "Float"},
 	"Int":                       {Name: "Int"},
 	"Int16":                     {Name: "Int16"},
 	"Int64":                     {Name: "Int64"},
+	"Int?":                      {Name: "Int?"},
 	"Iter[Byte]":                {Name: "Iter[Byte]"},
 	"Iter[Char]":                {Name: "Iter[Char]"},
+	"Map[Int, Double]":          {Name: "Map[Int, Double]"},
+	"Map[Int, Float]":           {Name: "Map[Int, Float]"},
 	"Map[String, String]":       {Name: "Map[String, String]"},
 	"Map[String, String]?":      {Name: "Map[String, String]?"},
 	"Person": {
 		Name: "Person",
 		Fields: []*metadata.Field{
-			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"},
+			{Name: "firstName", Type: "String"},
+			{Name: "lastName", Type: "String"},
 			{Name: "age", Type: "Int"},
 		},
 	},
@@ -476,8 +482,11 @@ var wantTestsuiteTypes = metadata.TypeMap{
 	"String":               {Name: "String"},
 	"String!Error":         {Name: "String!Error"},
 	"String?":              {Name: "String?"},
-	"TimeZoneInfo": {
+	"TestStructWithMap": {
+		Name:   "TestStructWithMap",
+		Fields: []*metadata.Field{{Name: "m", Type: "Map[String, String]"}},
 	},
+	"TimeZoneInfo": {
 		Name: "TimeZoneInfo",
 		Fields: []*metadata.Field{
 			{Name: "standard_name", Type: "String"},
@@ -498,13 +507,14 @@ var wantTestsuiteTypes = metadata.TypeMap{
 	"TupleSimulator": {
 		Name: "TupleSimulator",
 		Fields: []*metadata.Field{
-			{Name: "t0", Type: "Int"}, {Name: "t1", Type: "Bool"},
+			{Name: "t0", Type: "Int"},
+			{Name: "t1", Type: "Bool"},
 			{Name: "t2", Type: "String"},
 		},
 	},
-	"UInt":       {Id: 32, Name: "UInt"},
-	"UInt16":     {Id: 33, Name: "UInt16"},
-	"UInt64":     {Id: 34, Name: "UInt64"},
+	"UInt":       {Name: "UInt"},
+	"UInt16":     {Name: "UInt16"},
+	"UInt64":     {Name: "UInt64"},
 	"Unit":       {Name: "Unit"},
 	"Unit!Error": {Name: "Unit!Error"},
 }

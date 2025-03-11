@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"go/token"
 	"go/types"
+	"log"
 	"os"
 	"os/exec"
 	"path"

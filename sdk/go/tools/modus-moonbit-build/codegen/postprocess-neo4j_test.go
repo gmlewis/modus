@@ -15,10 +15,6 @@ import (
 	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
-
-	"github.com/hashicorp/go-version"
 )
 
 func TestTestablePostProcess_Neo4j(t *testing.T) {
@@ -28,15 +24,7 @@ func TestTestablePostProcess_Neo4j(t *testing.T) {
 		SourceDir: "../testdata/neo4j-example",
 	}
 
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/neo4j-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
-
-	meta, err := metagen.GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := postProcessTestSetup(t, config)
 
 	body, header := testablePostProcess(meta)
 
@@ -59,8 +47,31 @@ pub fn read_map(
   let key_type_name = ptr2str(key_type_name_ptr + 8)
   let value_type_name = ptr2str(value_type_name_ptr + 8)
   match (key_type_name, value_type_name) {
+    ("String", "Json") => read_map_helper_0(map_ptr)
+    ("String", "String") => read_map_helper_1(map_ptr)
     _ => 0
   }
+}
+///|
+fn read_map_helper_0(map_ptr : Int) -> Int64 {
+  let m : Map[String, Json] = cast(map_ptr)
+  let pairs = m.to_array()
+  let keys = pairs.map(fn(t) { t.0 })
+  let values = pairs.map(fn(t) { t.1 })
+  let keys_ptr : Int = cast(keys)
+  let values_ptr : Int = cast(values)
+  (keys_ptr.to_int64() << 32) | values_ptr.to_int64()
+}
+
+///|
+fn read_map_helper_1(map_ptr : Int) -> Int64 {
+  let m : Map[String, String] = cast(map_ptr)
+  let pairs = m.to_array()
+  let keys = pairs.map(fn(t) { t.0 })
+  let values = pairs.map(fn(t) { t.1 })
+  let keys_ptr : Int = cast(keys)
+  let values_ptr : Int = cast(values)
+  (keys_ptr.to_int64() << 32) | values_ptr.to_int64()
 }
 
 ///|
@@ -68,8 +79,31 @@ pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : 
   let key_type_name = ptr2str(key_type_name_ptr + 8)
   let value_type_name = ptr2str(value_type_name_ptr + 8)
   match (key_type_name, value_type_name) {
+    ("String", "Json") => write_map_helper_0(keys_ptr, values_ptr)
+    ("String", "String") => write_map_helper_1(keys_ptr, values_ptr)
     _ => 0
   }
+}
+///|
+fn write_map_helper_0(keys_ptr: Int, values_ptr: Int) -> Int {
+  let keys : Array[String] = cast(keys_ptr)
+  let values : Array[Json] = cast(values_ptr)
+  let m : Map[String, Json] = Map::new(capacity=keys.length())
+  for i in 0..<keys.length() {
+    m[keys[i]] = values[i]
+  }
+  cast(m)
+}
+
+///|
+fn write_map_helper_1(keys_ptr: Int, values_ptr: Int) -> Int {
+  let keys : Array[String] = cast(keys_ptr)
+  let values : Array[String] = cast(values_ptr)
+  let m : Map[String, String] = Map::new(capacity=keys.length())
+  for i in 0..<keys.length() {
+    m[keys[i]] = values[i]
+  }
+  cast(m)
 }
 `
 
