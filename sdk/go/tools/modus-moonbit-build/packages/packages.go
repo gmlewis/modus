@@ -22,7 +22,7 @@ import (
 var gmlDebugEnv bool
 
 func gmlPrintf(fmtStr string, args ...any) {
-	// gmlDebugEnv = true
+	gmlDebugEnv = true
 	sync.OnceFunc(func() {
 		log.SetFlags(0)
 		if os.Getenv("GML_DEBUG") == "true" {
@@ -253,7 +253,7 @@ type Package struct {
 	Name string
 
 	// PkgPath is the package path as used by the go/types package.
-	// It is "" for the main (user) package, and otherwise e.g. "@neo4j".
+	// It is "@"+filpath.Base(cfg.Dir), e.g. "@neo4j".
 	PkgPath string
 
 	// // Dir is the directory associated with the package, if it exists.

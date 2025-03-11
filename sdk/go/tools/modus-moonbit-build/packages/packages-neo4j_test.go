@@ -61,10 +61,10 @@ var wantPackageNeo4j = &Package{
 	},
 	ID:           "moonbit-main",
 	Name:         "main",
-	PkgPath:      "",
+	PkgPath:      "@neo4j-example",
 	MoonBitFiles: []string{"../testdata/neo4j-example/main.mbt"},
 	StructLookup: map[string]*ast.TypeSpec{
-		"Person": {Name: &ast.Ident{Name: "Person"}, Type: &ast.StructType{
+		"@neo4j-example.Person": {Name: &ast.Ident{Name: "@neo4j-example.Person"}, Type: &ast.StructType{
 			Fields: &ast.FieldList{
 				List: []*ast.Field{
 					{Names: []*ast.Ident{{Name: "name"}}, Type: &ast.Ident{Name: "String"}},
@@ -80,7 +80,7 @@ var wantPackageNeo4j = &Package{
 				&ast.GenDecl{
 					Tok: token.TYPE,
 					Specs: []ast.Spec{
-						&ast.TypeSpec{Name: &ast.Ident{Name: "Person"},
+						&ast.TypeSpec{Name: &ast.Ident{Name: "@neo4j-example.Person"},
 							Type: &ast.StructType{
 								Fields: &ast.FieldList{
 									List: []*ast.Field{
@@ -111,7 +111,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Array[Person]!Error"}},
+								{Type: &ast.Ident{Name: "Array[@neo4j-example.Person]!Error"}},
 							},
 						},
 					},
@@ -150,11 +150,11 @@ var wantPackageNeo4j = &Package{
 	TypesInfo: &types.Info{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
-			{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int}"}),
-			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func create_people_and_relationships() String!Error"},
-			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func get_alice_friends_under_40() Array[Person]!Error"},
-			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func get_alice_friends_under_40_ages() Array[Int]!Error"},
-			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func delete_all_nodes() String!Error"},
+			{Name: "@neo4j-example.Person"}:           types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int}"}),
+			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func @neo4j-example.create_people_and_relationships() String!Error"},
+			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40() Array[@neo4j-example.Person]!Error"},
+			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func @neo4j-example.get_alice_friends_under_40_ages() Array[Int]!Error"},
+			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func @neo4j-example.delete_all_nodes() String!Error"},
 		},
 	},
 }
