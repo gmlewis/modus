@@ -145,10 +145,12 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	}
 
 	pkgPath := "@" + filepath.Base(cfg.Dir)
-	log.Printf("\n\n*** GML: cfg.PackageName=%q, pkgPath=%q ***\n\n", cfg.PackageName, pkgPath)
+	log.Printf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
 	if cfg.PackageName == "" {
 		// The top-level package must be "main" for the runtime to load it properly.
 		cfg.PackageName = "main"
+		// However, its PkgPath must be empty.
+		pkgPath = ""
 	}
 
 	result := &Package{

@@ -99,6 +99,10 @@ func (m *ModuleInfo) GetModuleAbsPath(rootAbsPath, modName string) (string, erro
 	return "", fmt.Errorf("module '%v' not found - missing dir: '%v'", modName, path)
 }
 
+func (m *ModuleInfo) ResetAlreadyProcessed() {
+	m.alreadyProcessed = nil
+}
+
 func (m *ModuleInfo) AlreadyProcessed(dir string) bool {
 	if m.alreadyProcessed == nil {
 		m.alreadyProcessed = map[string]bool{}

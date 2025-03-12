@@ -21,7 +21,6 @@ import (
 
 func TestGenerateMetadata_Runtime(t *testing.T) {
 	meta := setupTestConfig(t, "../testdata/runtime-testdata")
-	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "testdata"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)

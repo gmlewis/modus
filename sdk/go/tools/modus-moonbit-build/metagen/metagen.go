@@ -14,6 +14,7 @@ import (
 	"log"
 	"path"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"os"
@@ -59,6 +60,13 @@ func GenerateMetadata(config *config.Config, mod *modinfo.ModuleInfo) (*metadata
 
 	if err := extractor.CollectProgramInfo(config, meta, mod); err != nil {
 		return nil, fmt.Errorf("error collecting program info: %w", err)
+	}
+
+	// remove external funcs from FnExports
+	for name := range meta.FnExports {
+		if strings.HasPrefix(name, "@") {
+			delete(meta.FnExports, name)
+		}
 	}
 
 	gitinfo.TryCollectGitInfo(config, meta)

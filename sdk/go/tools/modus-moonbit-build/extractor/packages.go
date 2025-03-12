@@ -37,6 +37,8 @@ func loadPackages(dir string, mod *modinfo.ModuleInfo) (map[string]*packages.Pac
 		Env:         os.Environ(),
 	}
 
+	mod.ResetAlreadyProcessed()
+
 	pkgs, err := packages.Load(cfg, mod, "./...")
 	if err != nil {
 		return nil, err

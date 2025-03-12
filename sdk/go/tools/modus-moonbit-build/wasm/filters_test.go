@@ -39,6 +39,9 @@ func TestFilterMetadata(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// if err := codegen.PostProcess(config, meta); err != nil {
+	// 	t.Fatal(err)
+	// }
 
 	// zero out fields that change regularly
 	meta.SDK = ""

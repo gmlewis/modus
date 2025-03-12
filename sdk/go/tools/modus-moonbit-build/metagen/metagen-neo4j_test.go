@@ -21,7 +21,6 @@ import (
 
 func TestGenerateMetadata_Neo4j(t *testing.T) {
 	meta := setupTestConfig(t, "../testdata/neo4j-example")
-	removeExternalFuncsForComparison(t, meta)
 
 	if got, want := meta.Plugin, "neo4j"; got != want {
 		t.Errorf("meta.Plugin = %q, want %q", got, want)
