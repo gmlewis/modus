@@ -29,7 +29,6 @@ import (
 var gmlDebugEnv bool
 
 func gmlPrintf(fmtStr string, args ...any) {
-	gmlDebugEnv = true
 	sync.OnceFunc(func() {
 		log.SetFlags(0)
 		if os.Getenv("GML_DEBUG") == "true" {
@@ -88,7 +87,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	for _, pkg := range pkgs {
 		for typ := range pkg.PossiblyMissingUnderlyingTypes {
 			if _, ok := requiredTypes[typ]; !ok {
-				log.Printf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", typ, pkg.PkgPath)
+				// log.Printf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", typ, pkg.PkgPath)
 				requiredTypes[typ] = nil // make an empty entry for it.
 			}
 		}
