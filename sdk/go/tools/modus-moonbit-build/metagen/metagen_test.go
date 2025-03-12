@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestGenerateMetadata_Neo4j$ ."; -*-
+// -*- compile-command: "go test ./..."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
