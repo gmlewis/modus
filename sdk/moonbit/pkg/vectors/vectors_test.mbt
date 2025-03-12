@@ -10,7 +10,7 @@ test "add" {
   // Int
   let a = [1, 2, 3]
   let b = [4, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
@@ -18,7 +18,7 @@ test "add" {
   // UInt
   let a = [1U, 2, 3]
   let b = [4U, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
@@ -26,13 +26,13 @@ test "add" {
   // Int64
   let a = [1L, 2, 3]
   let b = [4L, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(got, content="[5, 7, 9]")
 
   // UInt64
   let a = [1UL, 2, 3]
   let b = [4UL, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
@@ -40,25 +40,25 @@ test "add" {
   // Float
   let a : Array[Float] = [1.0, 2, 3]
   let b : Array[Float] = [4.0, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(got, content="[5, 7, 9]")
 
   // Double
   let a = [1.0, 2, 3]
   let b = [4.0, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(got, content="[5, 7, 9]")
 
   // Byte
   let a = [b'\x01', 2, 3]
   let b = [b'\x04', 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(got, content="[b'\\x05', b'\\x07', b'\\x09']")
 
   // BigInt
   let a = [1N, 2, 3]
   let b = [4N, 5, 6]
-  let got = add(a, b)
+  let got = a + b
   inspect!(got, content="[5, 7, 9]")
 }
 
@@ -76,7 +76,7 @@ test "subtract" {
   // Int
   let a = [4, 5, 6]
   let b = [1, 2, 3]
-  let got = subtract(a, b)
+  let got = a - b
   inspect!(a, content="[4, 5, 6]")
   inspect!(b, content="[1, 2, 3]")
   inspect!(got, content="[3, 3, 3]")

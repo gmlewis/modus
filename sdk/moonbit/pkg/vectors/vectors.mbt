@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///| add adds two vectors together and returns the result.
-pub fn add[T : Addable](a : Array[T], b : Array[T]) -> Array[T] {
+pub impl[T : Addable] Addable for Array[T] with op_add(a, b) {
   let len = a.length()
   guard len == b.length()
   Array::makei(len, fn(i) { a[i] + b[i] })
@@ -22,7 +22,7 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
 }
 
 ///| subtract subtracts one vector from another and returns the result.
-pub fn subtract[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
+pub impl[T : Subtractable] Subtractable for Array[T] with op_sub(a, b) {
   let len = a.length()
   guard len == b.length()
   Array::makei(len, fn(i) { a[i] - b[i] })

@@ -2,7 +2,7 @@
   "name": "gmlewis/modus",
   "version": "0.16.5",
   "deps": {
-    "moonbitlang/x": "0.4.21",
+    "moonbitlang/x": "0.4.22",
     "gmlewis/base64": "0.14.1"
   },
   "readme": "README.md",
