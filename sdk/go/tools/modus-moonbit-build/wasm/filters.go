@@ -36,7 +36,7 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 
 	// for debugging purposes:
 	buf, _ := json.MarshalIndent(info, "", "  ")
-	log.Printf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
+	gmlPrintf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
 
 	filterExportsImportsAndTypes(info, meta)
 
@@ -51,7 +51,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
-			log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
+			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
 			delete(meta.FnImports, name)
 		}
 	}
@@ -63,7 +63,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
-			log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
+			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
 			delete(meta.FnExports, name)
 			// if strings.HasPrefix(name, "__modus_") {
 			// 	log.Printf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
