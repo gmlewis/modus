@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 
@@ -83,7 +82,7 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	default:
 		h.seenOffsets[offset] = objPtr
 	}
-	log.Printf("GML: structHandler.Read: h.seenOffsets[%v]=%v=0x%[2]x", offset, reflect.ValueOf(h.seenOffsets[offset]).Pointer())
+	gmlPrintf("GML: structHandler.Read: h.seenOffsets[%v]=%v=0x%[2]x", offset, reflect.ValueOf(h.seenOffsets[offset]).Pointer())
 	defer func() {
 		delete(h.seenOffsets, offset)
 	}()
@@ -186,7 +185,7 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 
 	// Handle map output
 	if rt.Kind() == reflect.Map {
-		log.Printf("GML: structHandler.Read: rt.Kind() == reflect.Map: m=%v=0x%[1]x", reflect.ValueOf(m).Pointer())
+		gmlPrintf("GML: structHandler.Read: rt.Kind() == reflect.Map: m=%v=0x%[1]x", reflect.ValueOf(m).Pointer())
 		return m, nil
 	}
 

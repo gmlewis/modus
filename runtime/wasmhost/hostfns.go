@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"runtime/debug"
 	"time"
@@ -424,7 +423,7 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 		}
 
 		// special case for non-pointers that need to be converted to pointers
-		log.Printf("GML: hostfns.go: decodeParams: handler.TypeInfo().Name()='%v', handler.TypeInfo().ReflectedType().Kind()=%v, reflect.TypeOf(params[%v]).Kind()=%v",
+		gmlPrintf("GML: hostfns.go: decodeParams: handler.TypeInfo().Name()='%v', handler.TypeInfo().ReflectedType().Kind()=%v, reflect.TypeOf(params[%v]).Kind()=%v",
 			handler.TypeInfo().Name(), handler.TypeInfo().ReflectedType().Kind(), i, reflect.TypeOf(params[i]).Kind())
 		if handler.TypeInfo().ReflectedType().Kind() != reflect.Ptr && reflect.TypeOf(params[i]).Kind() == reflect.Ptr {
 			gmlPrintf("GML: hostfns.go: decodeParams: params[%v]: calling utils.MakePointer: data: %+v", i, data)

@@ -12,7 +12,6 @@ package moonbit
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -137,7 +136,7 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wasmadapter langsupport
 				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
 				res = []uint64{uint64(noneBlock - 8)}
 			}
-			log.Printf("GML: handler_primitives.go: primitiveHandler.Write: ptr_to_none() -> res=%+v", res)
+			gmlPrintf("GML: handler_primitives.go: primitiveHandler.Write: ptr_to_none() -> res=%+v", res)
 			if ok := wa.Memory().WriteUint32Le(offset, uint32(res[0])); !ok {
 				return nil, fmt.Errorf("failed to write %v 'None' to memory offset %v", h.typeInfo.Name(), offset)
 			}

@@ -419,9 +419,9 @@ pub fn read_map(
 `)
 	buf.WriteString(helpers)
 
-	//	if helpers != "" {
-	_, _ = buf.WriteTo(b)
-	// }
+	if helpers != "" {
+		_, _ = buf.WriteTo(b)
+	}
 }
 
 func genReadMapPatternsAndHelpers(keys []string, pairs pairsMapT) (string, string) {
@@ -470,9 +470,9 @@ pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, keys_ptr : 
 `)
 	buf.WriteString(helpers)
 
-	//	if helpers != "" {
-	_, _ = buf.WriteTo(b)
-	// }
+	if helpers != "" {
+		_, _ = buf.WriteTo(b)
+	}
 }
 
 func genWriteMapPatternsAndHelpers(keys []string, pairs pairsMapT) (string, string) {
