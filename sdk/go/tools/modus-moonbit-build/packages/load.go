@@ -110,7 +110,7 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 			path, ok1 := v["path"].(string)
 			alias, ok2 := v["alias"].(string)
 			if !ok1 || !ok2 {
-				log.Printf("Warning: unexpected import map: %+v; skipping", v)
+				log.Printf("WARNING: unexpected import map: %+v; skipping", v)
 				continue
 			}
 			dir, err := mod.GetModuleAbsPath(cfg.RootAbsPath, path)
@@ -145,7 +145,7 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	}
 
 	pkgPath := "@" + filepath.Base(cfg.Dir)
-	log.Printf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
+	gmlPrintf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
 	if cfg.PackageName == "" {
 		// The top-level package must be "main" for the runtime to load it properly.
 		cfg.PackageName = "main"
