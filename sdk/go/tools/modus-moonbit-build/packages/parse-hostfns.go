@@ -71,7 +71,7 @@ func extractFnDetails(match []string, fullSrc string) (fnDetails fnDetailsT) {
 			if len(m) != 5 {
 				continue
 			}
-			log.Printf("GML: DEBUG: Found modus:import: %v", m[0])
+			gmlPrintf("GML: DEBUG: Found modus:import: %v", m[0])
 			parts := []string{"", m[3], m[4], m[1], m[2]}
 			fnDetails := parseMatchFnDetails(parts)
 			if fnDetails.MethodName != origDetails.MethodName {
