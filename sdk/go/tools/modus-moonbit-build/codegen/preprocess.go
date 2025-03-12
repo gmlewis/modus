@@ -19,20 +19,21 @@ import (
 	"strings"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/printer"
 )
 
 const pre_file = "modus_pre_generated.mbt"
 
-func PreProcess(config *config.Config) error {
+func PreProcess(config *config.Config, mod *modinfo.ModuleInfo) error {
 	// cleanup from previous runs first
 	err := cleanup(config.SourceDir)
 	if err != nil {
 		return err
 	}
 
-	body, header, moonPkgJSON, err := testablePreProcess(config)
+	body, header, moonPkgJSON, err := testablePreProcess(config, mod)
 	if err != nil {
 		return err
 	}
@@ -44,8 +45,8 @@ func PreProcess(config *config.Config) error {
 	return writeBuffersToFile(filepath.Join(config.SourceDir, "moon.pkg.json"), moonPkgJSON)
 }
 
-func testablePreProcess(config *config.Config) (body, header, moonPkgJSON *bytes.Buffer, err error) {
-	pkg, err := getMainPackage(config.SourceDir)
+func testablePreProcess(config *config.Config, mod *modinfo.ModuleInfo) (body, header, moonPkgJSON *bytes.Buffer, err error) {
+	pkg, err := getMainPackage(config.SourceDir, mod)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -79,7 +80,7 @@ func genBuffers(pkg *packages.Package, imports map[string]string, functions []*f
 	return body, header, moonPkgJSON, nil
 }
 
-func getMainPackage(dir string) (*packages.Package, error) {
+func getMainPackage(dir string, mod *modinfo.ModuleInfo) (*packages.Package, error) {
 	mode := packages.NeedName |
 		packages.NeedImports |
 		packages.NeedDeps |
@@ -88,19 +89,19 @@ func getMainPackage(dir string) (*packages.Package, error) {
 		packages.NeedTypesInfo
 
 	cfg := &packages.Config{Mode: mode, Dir: dir}
-	pkgs, err := packages.Load(cfg, ".")
+	pkgs, err := packages.Load(cfg, mod, ".")
 	if err != nil {
 		return nil, err
 	}
 
 	if len(pkgs) != 1 {
-		return nil, fmt.Errorf("expected exactly one root package, got %d", len(pkgs))
+		return nil, fmt.Errorf("expected exactly one root package, got %v", len(pkgs))
 	}
 
 	pkg := pkgs[0]
 
 	if pkg.Name != "main" {
-		return nil, fmt.Errorf("expected root package name to be 'main', got %s", pkg.Name)
+		return nil, fmt.Errorf("expected root package name to be 'main', got '%v'", pkg.Name)
 	}
 
 	return pkg, nil

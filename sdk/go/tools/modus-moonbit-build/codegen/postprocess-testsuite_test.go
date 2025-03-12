@@ -15,10 +15,6 @@ import (
 	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
-
-	"github.com/hashicorp/go-version"
 )
 
 func TestTestablePostProcess_Testsuite(t *testing.T) {
@@ -28,15 +24,7 @@ func TestTestablePostProcess_Testsuite(t *testing.T) {
 		SourceDir: "../testdata/test-suite",
 	}
 
-	mod := &modinfo.ModuleInfo{
-		ModulePath:      "github.com/gmlewis/modus/examples/testsuite-example",
-		ModusSDKVersion: version.Must(version.NewVersion("40.11.0")),
-	}
-
-	meta, err := metagen.GenerateMetadata(config, mod)
-	if err != nil {
-		t.Fatalf("GenerateMetadata returned an error: %v", err)
-	}
+	meta := postProcessTestSetup(t, config)
 
 	body, header := testablePostProcess(meta)
 

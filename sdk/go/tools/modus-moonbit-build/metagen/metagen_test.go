@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestGenerateMetadata_Neo4j$ ."; -*-
+// -*- compile-command: "go test ./..."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -16,7 +16,6 @@ import (
 	"os"
 	"os/exec"
 	"path"
-	"strings"
 	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
@@ -60,15 +59,6 @@ func genMetadata(sourceDir string) *metadata.Metadata {
 	}
 
 	return meta
-}
-
-func removeExternalFuncsForComparison(t *testing.T, meta *metadata.Metadata) {
-	t.Helper()
-	for name := range meta.FnExports {
-		if strings.HasPrefix(name, "@") {
-			delete(meta.FnExports, name)
-		}
-	}
 }
 
 func diffMetaTypes(t *testing.T, wantMetaTypes, gotMetaTypes metadata.TypeMap) {

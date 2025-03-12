@@ -39,6 +39,10 @@ func TestFilterMetadata(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// Causes no change:
+	// if err := codegen.PostProcess(config, meta); err != nil {
+	// 	t.Fatal(err)
+	// }
 
 	// zero out fields that change regularly
 	meta.SDK = ""
@@ -6824,16 +6828,6 @@ var wantBeforeFilter = &metadata.Metadata{
 		},
 	},
 	FnImports: metadata.FunctionMap{
-		"modus_system.getTimeInZone": {
-			Name:       "modus_system.getTimeInZone",
-			Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
-			Results:    []*metadata.Result{{Type: "String"}},
-		},
-		"modus_system.getTimeZoneData": {
-			Name:       "modus_system.getTimeZoneData",
-			Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}, {Name: "format", Type: "String"}},
-			Results:    []*metadata.Result{{Type: "Array[Byte]"}},
-		},
 		"modus_system.logMessage": {
 			Name:       "modus_system.logMessage",
 			Parameters: []*metadata.Parameter{{Name: "level", Type: "String"}, {Name: "message", Type: "String"}},
@@ -6882,13 +6876,35 @@ var wantBeforeFilter = &metadata.Metadata{
 				{Name: "2", Type: "String"},
 			},
 		},
-		"(String)":                         {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+		"(String)":                {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+		"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
+		"@ffi.XExternString":      {Name: "@ffi.XExternString"},
+		"@ffi.XExternStringArray": {Name: "@ffi.XExternStringArray"},
+		"@testutils.CallStack[T]": {
+			Name:   "@testutils.CallStack[T]",
+			Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+		},
+		"@testutils.T":                     {Name: "@testutils.T"},
 		"@time.Duration":                   {Name: "@time.Duration"},
 		"@time.Duration!Error":             {Name: "@time.Duration!Error"},
 		"@time.Duration?":                  {Name: "@time.Duration?"},
+		"@time.Period":                     {Name: "@time.Period"},
+		"@time.Period!Error":               {Name: "@time.Period!Error"},
+		"@time.PlainDate":                  {Name: "@time.PlainDate"},
+		"@time.PlainDate!Error":            {Name: "@time.PlainDate!Error"},
+		"@time.PlainDateTime":              {Name: "@time.PlainDateTime"},
+		"@time.PlainDateTime!Error":        {Name: "@time.PlainDateTime!Error"},
+		"@time.PlainTime":                  {Name: "@time.PlainTime"},
+		"@time.PlainTime!Error":            {Name: "@time.PlainTime!Error"},
+		"@time.Weekday":                    {Name: "@time.Weekday"},
+		"@time.Zone":                       {Name: "@time.Zone"},
+		"@time.Zone!Error":                 {Name: "@time.Zone!Error"},
+		"@time.ZoneOffset":                 {Name: "@time.ZoneOffset"},
+		"@time.ZoneOffset!Error":           {Name: "@time.ZoneOffset!Error"},
 		"@time.ZonedDateTime":              {Name: "@time.ZonedDateTime"},
 		"@time.ZonedDateTime!Error":        {Name: "@time.ZonedDateTime!Error"},
 		"@time.ZonedDateTime?":             {Name: "@time.ZonedDateTime?"},
+		"Array[@testutils.T]":              {Name: "Array[@testutils.T]"},
 		"Array[Array[String]?]":            {Name: "Array[Array[String]?]"},
 		"Array[Array[String]]":             {Name: "Array[Array[String]]"},
 		"Array[Array[String]]?":            {Name: "Array[Array[String]]?"},
@@ -11177,7 +11193,6 @@ var wantAfterFilter = &metadata.Metadata{
 		"UInt64":     {Name: "UInt64"},
 		"UInt64?":    {Name: "UInt64?"},
 		"UInt?":      {Name: "UInt?"},
-		"Unit":       {Name: "Unit"},
 		"Unit!Error": {Name: "Unit!Error"},
 	},
 }

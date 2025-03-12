@@ -11,11 +11,13 @@ package extractor
 
 import (
 	"os"
+	"path/filepath"
 
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 )
 
-func loadPackages(dir string) (map[string]*packages.Package, error) {
+func loadPackages(dir string, mod *modinfo.ModuleInfo) (map[string]*packages.Package, error) {
 	mode := packages.NeedName |
 		packages.NeedImports |
 		packages.NeedDeps |
@@ -23,13 +25,21 @@ func loadPackages(dir string) (map[string]*packages.Package, error) {
 		packages.NeedSyntax |
 		packages.NeedTypesInfo
 
-	cfg := &packages.Config{
-		Mode: mode,
-		Dir:  dir,
-		Env:  os.Environ(),
+	rootAbsPath, err := filepath.Abs(dir)
+	if err != nil {
+		return nil, err
 	}
 
-	pkgs, err := packages.Load(cfg, "./...")
+	cfg := &packages.Config{
+		RootAbsPath: rootAbsPath,
+		Mode:        mode,
+		Dir:         rootAbsPath,
+		Env:         os.Environ(),
+	}
+
+	mod.ResetAlreadyProcessed()
+
+	pkgs, err := packages.Load(cfg, mod, "./...")
 	if err != nil {
 		return nil, err
 	}

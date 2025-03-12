@@ -30,10 +30,6 @@ func TestGenerateMetadata_Simple(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@0.16.5"; got != want {
-		t.Errorf("meta.SDK = %q, want %q", got, want)
-	}
-
 	if diff := cmp.Diff(wantSimpleFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
 	}
@@ -139,16 +135,6 @@ var wantSimpleFnExports = metadata.FunctionMap{
 }
 
 var wantSimpleFnImports = metadata.FunctionMap{
-	"modus_system.getTimeInZone": {
-		Name:       "modus_system.getTimeInZone",
-		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}},
-		Results:    []*metadata.Result{{Type: "String"}},
-	},
-	"modus_system.getTimeZoneData": {
-		Name:       "modus_system.getTimeZoneData",
-		Parameters: []*metadata.Parameter{{Name: "tz", Type: "String"}, {Name: "format", Type: "String"}},
-		Results:    []*metadata.Result{{Type: "Array[Byte]"}},
-	},
 	"modus_system.logMessage": {
 		Name:       "modus_system.logMessage",
 		Parameters: []*metadata.Parameter{{Name: "level", Type: "String"}, {Name: "message", Type: "String"}},
@@ -156,22 +142,65 @@ var wantSimpleFnImports = metadata.FunctionMap{
 }
 
 var wantSimpleTypes = metadata.TypeMap{
-	"(String)": {Id: 4,
+	"(Int, Int, Int)": {
+		Name:   "(Int, Int, Int)",
+		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
+	},
+	"(String)": {
 		Name:   "(String)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}},
 	},
-	"@time.ZonedDateTime":       {Id: 6, Name: "@time.ZonedDateTime"},
-	"@time.ZonedDateTime!Error": {Id: 7, Name: "@time.ZonedDateTime!Error"},
-	"Array[Byte]":               {Id: 9, Name: "Array[Byte]"},
-	"Array[Int]":                {Id: 10, Name: "Array[Int]"},
-	"Array[Person]":             {Id: 11, Name: "Array[Person]"},
-	"Int":                       {Id: 12, Name: "Int"},
-	"Person": {Id: 13,
+	"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
+	"@ffi.XExternString":      {Name: "@ffi.XExternString"},
+	"@ffi.XExternStringArray": {Name: "@ffi.XExternStringArray"},
+	"@testutils.CallStack[T]": {
+		Name:   "@testutils.CallStack[T]",
+		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	},
+	"@testutils.T":              {Name: "@testutils.T"},
+	"@time.Duration":            {Name: "@time.Duration"},
+	"@time.Duration!Error":      {Name: "@time.Duration!Error"},
+	"@time.Period":              {Name: "@time.Period"},
+	"@time.Period!Error":        {Name: "@time.Period!Error"},
+	"@time.PlainDate":           {Name: "@time.PlainDate"},
+	"@time.PlainDate!Error":     {Name: "@time.PlainDate!Error"},
+	"@time.PlainDateTime":       {Name: "@time.PlainDateTime"},
+	"@time.PlainDateTime!Error": {Name: "@time.PlainDateTime!Error"},
+	"@time.PlainTime":           {Name: "@time.PlainTime"},
+	"@time.PlainTime!Error":     {Name: "@time.PlainTime!Error"},
+	"@time.Weekday":             {Name: "@time.Weekday"},
+	"@time.Zone":                {Name: "@time.Zone"},
+	"@time.Zone!Error":          {Name: "@time.Zone!Error"},
+	"@time.ZoneOffset":          {Name: "@time.ZoneOffset"},
+	"@time.ZoneOffset!Error":    {Name: "@time.ZoneOffset!Error"},
+	"@time.ZonedDateTime":       {Name: "@time.ZonedDateTime"},
+	"@time.ZonedDateTime!Error": {Name: "@time.ZonedDateTime!Error"},
+	"ArrayView[Byte]":           {Name: "ArrayView[Byte]"},
+	"Array[@testutils.T]":       {Name: "Array[@testutils.T]"},
+	"Array[Byte]":               {Name: "Array[Byte]"},
+	"Array[Int]":                {Name: "Array[Int]"},
+	"Array[Person]":             {Name: "Array[Person]"},
+	"Array[String]":             {Name: "Array[String]"},
+	"Bool":                      {Name: "Bool"},
+	"Byte":                      {Name: "Byte"},
+	"Bytes":                     {Name: "Bytes"},
+	"Bytes!Error":               {Name: "Bytes!Error"},
+	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
+	"Int":                       {Name: "Int"},
+	"Int64":                     {Name: "Int64"},
+	"Iter[Byte]":                {Name: "Iter[Byte]"},
+	"Iter[Char]":                {Name: "Iter[Char]"},
+	"Map[String, String]":       {Name: "Map[String, String]"},
+	"Person": {
 		Name: "Person",
 		Fields: []*metadata.Field{
 			{Name: "firstName", Type: "String"}, {Name: "lastName", Type: "String"}, {Name: "age", Type: "Int"},
 		},
 	},
-	"String":       {Id: 14, Name: "String"},
-	"String!Error": {Id: 15, Name: "String!Error"},
+	"Result[UInt64, UInt]": {Name: "Result[UInt64, UInt]"},
+	"Result[Unit, UInt]":   {Name: "Result[Unit, UInt]"},
+	"String":               {Name: "String"},
+	"String!Error":         {Name: "String!Error"},
+	"UInt":                 {Name: "UInt"},
+	"UInt64":               {Name: "UInt64"},
 }

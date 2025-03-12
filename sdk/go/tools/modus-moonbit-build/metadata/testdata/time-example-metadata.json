@@ -2,10 +2,10 @@
   "plugin": "time-example",
   "module": "@time-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv6gc37rack3t03p9ki0",
-  "buildTs": "2025-03-09T03:07:56.102Z",
+  "buildId": "cv8mrhvrackaht3o9ck0",
+  "buildTs": "2025-03-12T11:19:35.722Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
+  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
   "fnExports": {
     "get_local_time_modus": {
       "results": [
@@ -157,8 +157,25 @@
     }
   },
   "types": {
-    "(String)": {
+    "(Int, Int, Int)": {
       "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Int"
+        },
+        {
+          "name": "2",
+          "type": "Int"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 5,
       "fields": [
         {
           "name": "0",
@@ -166,23 +183,134 @@
         }
       ]
     },
-    "@time.ZonedDateTime": {
-      "id": 5
-    },
-    "@time.ZonedDateTime!Error": {
+    "@ffi.XExternByteArray": {
       "id": 6
     },
-    "Array[Byte]": {
+    "@ffi.XExternString": {
       "id": 7
     },
-    "String": {
+    "@ffi.XExternStringArray": {
       "id": 8
     },
+    "@testutils.CallStack[T]": {
+      "id": 9,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
+    },
+    "@testutils.T": {
+      "id": 10
+    },
+    "@time.Duration": {
+      "id": 11
+    },
+    "@time.Duration!Error": {
+      "id": 12
+    },
+    "@time.Period": {
+      "id": 13
+    },
+    "@time.Period!Error": {
+      "id": 14
+    },
+    "@time.PlainDate": {
+      "id": 15
+    },
+    "@time.PlainDate!Error": {
+      "id": 16
+    },
+    "@time.PlainDateTime": {
+      "id": 17
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 18
+    },
+    "@time.PlainTime": {
+      "id": 19
+    },
+    "@time.PlainTime!Error": {
+      "id": 20
+    },
+    "@time.Weekday": {
+      "id": 21
+    },
+    "@time.Zone": {
+      "id": 22
+    },
+    "@time.Zone!Error": {
+      "id": 23
+    },
+    "@time.ZoneOffset": {
+      "id": 24
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 25
+    },
+    "@time.ZonedDateTime": {
+      "id": 26
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 27
+    },
+    "ArrayView[Byte]": {
+      "id": 28
+    },
+    "Array[@testutils.T]": {
+      "id": 29
+    },
+    "Array[Byte]": {
+      "id": 30
+    },
+    "Array[String]": {
+      "id": 31
+    },
+    "Bool": {
+      "id": 32
+    },
+    "Byte": {
+      "id": 33
+    },
+    "Bytes": {
+      "id": 34
+    },
+    "Bytes!Error": {
+      "id": 35
+    },
+    "FixedArray[Byte]": {
+      "id": 36
+    },
+    "Int": {
+      "id": 37
+    },
+    "Int64": {
+      "id": 38
+    },
+    "Iter[Byte]": {
+      "id": 39
+    },
+    "Iter[Char]": {
+      "id": 40
+    },
+    "Map[String, String]": {
+      "id": 41
+    },
+    "Result[UInt64, UInt]": {
+      "id": 42
+    },
+    "Result[Unit, UInt]": {
+      "id": 43
+    },
+    "String": {
+      "id": 44
+    },
     "String!Error": {
-      "id": 9
+      "id": 45
     },
     "TimeZoneInfo": {
-      "id": 10,
+      "id": 46,
       "fields": [
         {
           "name": "standard_name",
@@ -203,7 +331,7 @@
       ]
     },
     "TimeZoneInfo!Error": {
-      "id": 11,
+      "id": 47,
       "fields": [
         {
           "name": "standard_name",
@@ -222,6 +350,12 @@
           "type": "String"
         }
       ]
+    },
+    "UInt": {
+      "id": 48
+    },
+    "UInt64": {
+      "id": 49
     }
   }
 }

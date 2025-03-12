@@ -20,6 +20,7 @@ import (
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
@@ -39,8 +40,8 @@ func gmlPrintf(fmtStr string, args ...any) {
 	}
 }
 
-func CollectProgramInfo(config *config.Config, meta *metadata.Metadata) error {
-	pkgs, err := loadPackages(config.SourceDir)
+func CollectProgramInfo(config *config.Config, meta *metadata.Metadata, mod *modinfo.ModuleInfo) error {
+	pkgs, err := loadPackages(config.SourceDir, mod)
 	if err != nil {
 		return err
 	}
@@ -56,48 +57,15 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		findRequiredTypes(f, requiredTypes)
 	}
 
-	// Since MoonBit currently does not give us AST information for imported functions,
-	// and our `packages` MoonBit-as-Go-AST simulator does not parse all source files (yet),
-	// we currently check all function signatures for the following:
-	// * If a function returns any `@time.*`, the time-related imports will be added.
+	// * If a function returns any `@time.*`, the time-related types will be added.
 	// * If a function returns any `!Error`, the `logMessage` import will be added.
-	// * If the @neo4j package is used, the corresponding modus:import will be added.
 	for _, export := range meta.FnExports {
 		returnType := moonBitReturnType(export)
 		if strings.Contains(returnType, "@time.") {
-			meta.FnImports["modus_system.getTimeInZone"] = moonBitFnImports["modus_system.getTimeInZone"]
-			meta.FnImports["modus_system.getTimeZoneData"] = moonBitFnImports["modus_system.getTimeZoneData"]
 			requiredTypes["Array[Byte]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Byte]", nil), nil, nil)
 		}
 		if strings.Contains(returnType, "!") {
 			meta.FnImports["modus_system.logMessage"] = moonBitFnImports["modus_system.logMessage"]
-		}
-	}
-	for _, pkg := range pkgs {
-		for _, imp := range pkg.MoonPkgJSON.Imports {
-			if strings.Contains(string(imp), "pkg/neo4j") {
-				name := "modus_neo4j_client.executeQuery"
-				meta.FnImports[name] = moonBitFnImports[name]
-				requiredTypes["Array[Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Json]", nil), nil, nil)
-				requiredTypes["Array[String]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[String]", nil), nil, nil)
-				requiredTypes["Json"] = types.NewNamed(types.NewTypeName(0, nil, "Json", nil), nil, nil)
-
-				stringArray := types.NewNamed(types.NewTypeName(0, nil, "Array[String]", nil), nil, nil)
-				recordsArray := types.NewNamed(types.NewTypeName(0, nil, "Array[@neo4j.Record?]", nil), nil, nil)
-				resultFields := []*types.Var{types.NewVar(0, nil, "keys", stringArray), types.NewVar(0, nil, "records", recordsArray)}
-				resultStruct := types.NewStruct(resultFields, nil)
-				requiredTypes["@neo4j.EagerResult"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult", nil), resultStruct, nil)
-
-				recordFields := []*types.Var{types.NewVar(0, nil, "values", stringArray), types.NewVar(0, nil, "keys", stringArray)}
-				recordStruct := types.NewStruct(recordFields, nil)
-				requiredTypes["@neo4j.Record"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.Record", nil), recordStruct, nil)
-				requiredTypes["@neo4j.Record?"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.Record?", nil), nil, nil)
-				requiredTypes["Array[@neo4j.Record?]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[@neo4j.Record?]", nil), nil, nil)
-
-				requiredTypes["@neo4j.EagerResult?"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult?", nil), nil, nil)
-				requiredTypes["@neo4j.EagerResult?!Error"] = types.NewNamed(types.NewTypeName(0, nil, "@neo4j.EagerResult?!Error", nil), nil, nil)
-				// requiredTypes["Map[String, Json]"] = types.NewNamed(types.NewTypeName(0, nil, "Map[String, Json]", nil), nil, nil)
-			}
 		}
 	}
 
@@ -111,6 +79,17 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		if _, ok := meta.FnImports[name]; ok {
 			meta.FnImports[name] = transformFunc(name, f, pkgs)
 			findRequiredTypes(f, requiredTypes)
+		}
+	}
+
+	// This is a hack, but now that all the packages have been processed, see if any underlying
+	// types have not been added to the `requiredTypes`.
+	for _, pkg := range pkgs {
+		for typ := range pkg.PossiblyMissingUnderlyingTypes {
+			if _, ok := requiredTypes[typ]; !ok {
+				// log.Printf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", typ, pkg.PkgPath)
+				requiredTypes[typ] = nil // make an empty entry for it.
+			}
 		}
 	}
 

@@ -12,9 +12,12 @@ import (
 	"fmt"
 	"go/ast"
 	"go/types"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 )
 
 // Load loads and returns the MoonBit packages named by the given patterns.
@@ -44,9 +47,32 @@ import (
 // return an error. Clients may need to handle such errors before
 // proceeding with further analysis. The [PrintErrors] function is
 // provided for convenient display of all errors.
-func Load(cfg *Config, patterns ...string) ([]*Package, error) {
+func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package, error) {
+	if mod.AlreadyProcessed(cfg.Dir) {
+		return nil, nil
+	}
+	mod.MarkProcessed(cfg.Dir)
+
+	// Note that if patterns=="." then only the main package is loaded.
+	// Also note that all MoonBit dependencies must be parsed in either
+	// case in order to record all the imported host functions.
+	if len(patterns) == 0 {
+		return nil, fmt.Errorf("no patterns provided")
+	}
+
+	returnMainPkgOnly := patterns[0] == "."
+	if cfg.RootAbsPath == "" {
+		var err error
+		cfg.RootAbsPath, err = filepath.Abs(cfg.Dir)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get absolute path for %q: %w", cfg.Dir, err)
+		}
+	}
+
 	// process imports
 	var imports []*ast.ImportSpec
+	var subPackages []*Package
+	gmlPrintf("GML: packages/load.go: Parsing '%v/moon.pkg.json'", cfg.Dir)
 	buf, err := os.ReadFile(filepath.Join(cfg.Dir, "moon.pkg.json"))
 	if err != nil {
 		return nil, err
@@ -63,6 +89,48 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		switch v := jsonMsg.(type) {
 		case string:
 			imports = append(imports, &ast.ImportSpec{Path: &ast.BasicLit{Value: fmt.Sprintf("%q", v)}})
+			dir, err := mod.GetModuleAbsPath(cfg.RootAbsPath, v)
+			if err != nil {
+				return nil, err
+			}
+			subCfg := &Config{
+				Mode:        cfg.Mode,
+				RootAbsPath: cfg.RootAbsPath,
+				Dir:         dir,
+				PackageName: v,
+				Env:         cfg.Env,
+			}
+			// recurse into sub-packages
+			subPkgs, err := Load(subCfg, mod, patterns...)
+			if err != nil {
+				return nil, err
+			}
+			subPackages = append(subPackages, subPkgs...)
+		case map[string]any:
+			path, ok1 := v["path"].(string)
+			alias, ok2 := v["alias"].(string)
+			if !ok1 || !ok2 {
+				log.Printf("WARNING: unexpected import map: %+v; skipping", v)
+				continue
+			}
+			dir, err := mod.GetModuleAbsPath(cfg.RootAbsPath, path)
+			if err != nil {
+				return nil, err
+			}
+			subCfg := &Config{
+				Mode:         cfg.Mode,
+				RootAbsPath:  cfg.RootAbsPath,
+				Dir:          dir,
+				PackageName:  path,
+				PackageAlias: alias,
+				Env:          cfg.Env,
+			}
+			// recurse into sub-packages
+			subPkgs, err := Load(subCfg, mod, patterns...)
+			if err != nil {
+				return nil, err
+			}
+			subPackages = append(subPackages, subPkgs...)
 		default:
 			gmlPrintf("Warning: unexpected import type: %T; skipping", jsonMsg)
 		}
@@ -76,22 +144,33 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		return nil, err
 	}
 
+	pkgPath := "@" + filepath.Base(cfg.Dir)
+	gmlPrintf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
+	if cfg.PackageName == "" {
+		// The top-level package must be "main" for the runtime to load it properly.
+		cfg.PackageName = "main"
+		// However, its PkgPath must be empty.
+		pkgPath = ""
+	}
+
 	result := &Package{
-		ID:      "moonbit-main", // unused?
-		Name:    "main",
-		PkgPath: "@" + filepath.Base(cfg.Dir),
+		ID:      "moonbit-main", // this appears to be unused
+		Name:    cfg.PackageName,
+		PkgPath: pkgPath,
 		TypesInfo: &types.Info{
 			Defs: map[*ast.Ident]types.Object{},
 		},
 		MoonPkgJSON:  moonPkgJSON,
 		StructLookup: map[string]*ast.TypeSpec{},
 	}
-	pkg := types.NewPackage(result.PkgPath, "main")
+	pkg := types.NewPackage(result.PkgPath, cfg.PackageName)
 	for _, sourceFile := range sourceFiles {
+		// TODO: Support "target" MoonPkgJSON field with ["wasm"] and ["not","wasm"].
 		if strings.HasSuffix(sourceFile, "_test.mbt") { // ignore test files
 			continue
 		}
 		result.MoonBitFiles = append(result.MoonBitFiles, sourceFile)
+		gmlPrintf("GML: packages/load.go: Parsing '%v'", sourceFile)
 		buf, err := os.ReadFile(sourceFile)
 		if err != nil {
 			return nil, err
@@ -99,5 +178,8 @@ func Load(cfg *Config, patterns ...string) ([]*Package, error) {
 		result.processSourceFile(pkg, sourceFile, buf, imports)
 	}
 
-	return []*Package{result}, nil
+	if returnMainPkgOnly {
+		return []*Package{result}, nil
+	}
+	return append([]*Package{result}, subPackages...), nil
 }

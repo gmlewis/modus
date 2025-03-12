@@ -14,8 +14,15 @@ import (
 	"fmt"
 	"go/token"
 	"go/types"
+	"log"
+	"os"
+	"os/exec"
+	"path"
 	"sort"
 	"testing"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -25,9 +32,10 @@ func testPackageLoadHelper(t *testing.T, name, dir string, wantPackage *Package)
 
 	mode := NeedName | NeedImports | NeedDeps | NeedTypes | NeedSyntax | NeedTypesInfo
 	cfg := &Config{Mode: mode, Dir: dir}
-	got, err := Load(cfg, ".")
+	mod := genModuleInfo(t, dir)
+	got, err := Load(cfg, mod, ".")
 	if err != nil || len(got) != 1 {
-		t.Fatal(err)
+		t.Fatalf("len(got)=%v, want 1, err=%v", len(got), err)
 	}
 
 	// Manually test the contents of TypesInfo since the map[*ast.Ident]types.Object
@@ -92,6 +100,34 @@ func testPackageLoadHelper(t *testing.T, name, dir string, wantPackage *Package)
 	if diff := cmp.Diff(wantPackage, got[0]); diff != "" {
 		t.Errorf("%v Load() Package mismatch (-want +got):\n%v", name, diff)
 	}
+}
+
+// genModuleInfo is used during 'go generate' and also during testing.
+// To avoid cyclic imports, multiple copies of this function exist. :-(
+func genModuleInfo(t *testing.T, sourceDir string) *modinfo.ModuleInfo {
+	t.Helper()
+	log.SetFlags(0)
+	config := &config.Config{
+		SourceDir: sourceDir,
+	}
+
+	// Make sure the ".mooncakes" directory is initialized before running the test.
+	mooncakesDir := path.Join(config.SourceDir, ".mooncakes")
+	if _, err := os.Stat(mooncakesDir); err != nil {
+		// run the "moon check" command in that directory to initialize it.
+		args := []string{"moon", "check", "--directory", config.SourceDir}
+		buf, err := exec.Command(args[0], args[1:]...).CombinedOutput()
+		if err != nil {
+			log.Fatalf("error running %q: %v\n%s", args, err, buf)
+		}
+	}
+
+	mod, err := modinfo.CollectModuleInfo(config)
+	if err != nil {
+		log.Fatalf("CollectModuleInfo returned an error: %v", err)
+	}
+
+	return mod
 }
 
 // moonFunc is a helper function to create a *types.Func.

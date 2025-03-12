@@ -14,6 +14,7 @@ import (
 	"log"
 	"path"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"os"
@@ -49,7 +50,7 @@ func GenerateMetadata(config *config.Config, mod *modinfo.ModuleInfo) (*metadata
 
 	meta := metadata.NewMetadata()
 	// meta.Module = mod.ModulePath  // "gmlewis/modus/examples/simple-example"
-	meta.Module = "@" + filepath.Base(config.SourceDir) // "@simple"
+	meta.Module = "@" + filepath.Base(config.SourceDir) // "@simple" - should this be empty for the top-level?
 	meta.Plugin = path.Base(mod.ModulePath)
 
 	meta.SDK = sdkName
@@ -57,8 +58,15 @@ func GenerateMetadata(config *config.Config, mod *modinfo.ModuleInfo) (*metadata
 		meta.SDK += "@" + mod.ModusSDKVersion.String()
 	}
 
-	if err := extractor.CollectProgramInfo(config, meta); err != nil {
+	if err := extractor.CollectProgramInfo(config, meta, mod); err != nil {
 		return nil, fmt.Errorf("error collecting program info: %w", err)
+	}
+
+	// remove external funcs from FnExports
+	for name := range meta.FnExports {
+		if strings.HasPrefix(name, "@") {
+			delete(meta.FnExports, name)
+		}
 	}
 
 	gitinfo.TryCollectGitInfo(config, meta)

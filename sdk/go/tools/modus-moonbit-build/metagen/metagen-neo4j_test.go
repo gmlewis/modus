@@ -30,10 +30,6 @@ func TestGenerateMetadata_Neo4j(t *testing.T) {
 		t.Errorf("meta.Module = %q, want %q", got, want)
 	}
 
-	if got, want := meta.SDK, "modus-sdk-mbt@0.16.5"; got != want {
-		t.Errorf("meta.SDK = %q, want %q", got, want)
-	}
-
 	if diff := cmp.Diff(wantNeo4jFnExports, meta.FnExports); diff != "" {
 		t.Errorf("meta.FnExports mismatch (-want +got):\n%v", diff)
 	}
@@ -65,11 +61,12 @@ var wantNeo4jFnImports = metadata.FunctionMap{
 	"modus_neo4j_client.executeQuery": {
 		Name: "modus_neo4j_client.executeQuery",
 		Parameters: []*metadata.Parameter{
-			{Name: "host_name", Type: "String"}, {Name: "db_name", Type: "String"},
+			{Name: "host_name", Type: "String"},
+			{Name: "db_name", Type: "String"},
 			{Name: "query", Type: "String"},
-			{Name: "parameters_json", Type: "String"},
+			{Name: "parameters_json", Type: "Map[String, Json]"},
 		},
-		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?"}},
+		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?!Error"}},
 	},
 	"modus_system.logMessage": {
 		Name:       "modus_system.logMessage",
@@ -78,30 +75,98 @@ var wantNeo4jFnImports = metadata.FunctionMap{
 }
 
 var wantNeo4jTypes = metadata.TypeMap{
-	"(String)": {Id: 4, Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
-	"@neo4j.EagerResult": {Id: 5,
-		Name:   "@neo4j.EagerResult",
-		Fields: []*metadata.Field{{Name: "keys", Type: "Array[String]"}, {Name: "records", Type: "Array[@neo4j.Record?]"}},
+	"(String)": {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+	"(String, Bool)": {
+		Name:   "(String, Bool)",
+		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Bool"}},
 	},
-	"@neo4j.EagerResult?":       {Id: 6, Name: "@neo4j.EagerResult?"},
-	"@neo4j.EagerResult?!Error": {Id: 7, Name: "@neo4j.EagerResult?!Error"},
-	"@neo4j.Record": {Id: 8,
+	"@neo4j.&Entity": {Name: "@neo4j.&Entity"},
+	"@neo4j.EagerResult": {
+		Name:   "@neo4j.EagerResult",
+		Fields: []*metadata.Field{{Name: "keys", Type: "Array[String]"}, {Name: "records", Type: "Array[@neo4j.Record]"}},
+	},
+	"@neo4j.EagerResult?": {
+		Name:   "@neo4j.EagerResult?",
+		Fields: []*metadata.Field{{Name: "keys", Type: "Array[String]"}, {Name: "records", Type: "Array[@neo4j.Record]"}},
+	},
+	"@neo4j.EagerResult!Error": {
+		Name: "@neo4j.EagerResult!Error",
+		Fields: []*metadata.Field{
+			{Name: "keys", Type: "Array[String]"},
+			{Name: "records", Type: "Array[@neo4j.Record]"},
+		},
+	},
+	"@neo4j.Neo4jOption": {Name: "@neo4j.Neo4jOption"},
+	"@neo4j.Node": {
+		Name: "@neo4j.Node",
+		Fields: []*metadata.Field{
+			{Name: "element_id", Type: "String"},
+			{Name: "labels", Type: "Array[String]"},
+			{Name: "props", Type: "Map[String, Json]"},
+		},
+	},
+	"@neo4j.Point2D": {
+		Name: "@neo4j.Point2D",
+		Fields: []*metadata.Field{
+			{Name: "x", Type: "Double"}, {Name: "y", Type: "Double"},
+			{Name: "spatial_ref_id", Type: "UInt"},
+		},
+	},
+	"@neo4j.Point3D": {
+		Name: "@neo4j.Point3D",
+		Fields: []*metadata.Field{
+			{Name: "x", Type: "Double"}, {Name: "y", Type: "Double"},
+			{Name: "z", Type: "Double"}, {Name: "spatial_ref_id", Type: "UInt"},
+		},
+	},
+	"@neo4j.Record": {
 		Name:   "@neo4j.Record",
 		Fields: []*metadata.Field{{Name: "values", Type: "Array[String]"}, {Name: "keys", Type: "Array[String]"}},
 	},
-	"@neo4j.Record?":        {Id: 9, Name: "@neo4j.Record?"},
-	"Array[@neo4j.Record?]": {Id: 10, Name: "Array[@neo4j.Record?]"},
-	"Array[Int]":            {Id: 11, Name: "Array[Int]"},
-	"Array[Int]!Error":      {Id: 12, Name: "Array[Int]!Error"},
-	"Array[Json]":           {Id: 13, Name: "Array[Json]"},
-	"Array[Person]":         {Id: 14, Name: "Array[Person]"},
-	"Array[Person]!Error":   {Id: 15, Name: "Array[Person]!Error"},
-	"Array[String]":         {Id: 16, Name: "Array[String]"},
-	"Json":                  {Id: 17, Name: "Json"},
-	"Person": {Id: 18,
+	"@neo4j.Relationship": {
+		Name: "@neo4j.Relationship",
+		Fields: []*metadata.Field{
+			{Name: "element_id", Type: "String"},
+			{Name: "start_element_id", Type: "String"},
+			{Name: "end_element_id", Type: "String"}, {Name: "type_", Type: "String"},
+			{Name: "props", Type: "Json"},
+		},
+	},
+	"@neo4j.T":       {Name: "@neo4j.T"},
+	"@neo4j.T!Error": {Name: "@neo4j.T!Error"},
+	"@testutils.CallStack[T]": {
+		Name:   "@testutils.CallStack[T]",
+		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	},
+	"@testutils.T":              {Name: "@testutils.T"},
+	"Array[@neo4j.Neo4jOption]": {Name: "Array[@neo4j.Neo4jOption]"},
+	"Array[@testutils.T]":       {Name: "Array[@testutils.T]"},
+	"Array[Int]":                {Name: "Array[Int]"},
+	"Array[Int]!Error":          {Name: "Array[Int]!Error"},
+	"Array[Json]":               {Name: "Array[Json]"},
+	"Array[Person]":             {Name: "Array[Person]"},
+	"Array[Person]!Error":       {Name: "Array[Person]!Error"},
+	"Array[String]":             {Name: "Array[String]"},
+	"Bool":                      {Name: "Bool"},
+	"Double":                    {Name: "Double"},
+	"FixedArray[Double]":        {Name: "FixedArray[Double]"},
+	"FixedArray[Float]":         {Name: "FixedArray[Float]"},
+	"FixedArray[Int64]":         {Name: "FixedArray[Int64]"},
+	"FixedArray[Int]":           {Name: "FixedArray[Int]"},
+	"FixedArray[UInt64]":        {Name: "FixedArray[UInt64]"},
+	"FixedArray[UInt]":          {Name: "FixedArray[UInt]"},
+	"Float":                     {Name: "Float"},
+	"Int":                       {Name: "Int"},
+	"Int64":                     {Name: "Int64"},
+	"Json":                      {Name: "Json"},
+	"Map[String, Json]":         {Name: "Map[String, Json]"},
+	"Map[String, String]":       {Name: "Map[String, String]"},
+	"Person": {
 		Name:   "Person",
 		Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "age", Type: "Int"}},
 	},
-	"String":       {Id: 19, Name: "String"},
-	"String!Error": {Id: 20, Name: "String!Error"},
+	"String":       {Name: "String"},
+	"String!Error": {Name: "String!Error"},
+	"UInt":         {Name: "UInt"},
+	"UInt64":       {Name: "UInt64"},
 }

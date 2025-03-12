@@ -2,10 +2,10 @@
   "plugin": "simple-example",
   "module": "@simple-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv6gc2vrack3t03p9kh0",
-  "buildTs": "2025-03-09T03:07:55.069Z",
+  "buildId": "cv8mrhvrackaht3o9cj0",
+  "buildTs": "2025-03-12T11:19:35.655Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
+  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
   "fnExports": {
     "add": {
       "parameters": [
@@ -251,36 +251,6 @@
     }
   },
   "fnImports": {
-    "modus_system.getTimeInZone": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "String"
-        }
-      ]
-    },
-    "modus_system.getTimeZoneData": {
-      "parameters": [
-        {
-          "name": "tz",
-          "type": "String"
-        },
-        {
-          "name": "format",
-          "type": "String"
-        }
-      ],
-      "results": [
-        {
-          "type": "Array[Byte]"
-        }
-      ]
-    },
     "modus_system.logMessage": {
       "parameters": [
         {
@@ -295,8 +265,25 @@
     }
   },
   "types": {
-    "(String)": {
+    "(Int, Int, Int)": {
       "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Int"
+        },
+        {
+          "name": "2",
+          "type": "Int"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 5,
       "fields": [
         {
           "name": "0",
@@ -304,26 +291,128 @@
         }
       ]
     },
-    "@time.ZonedDateTime": {
-      "id": 5
-    },
-    "@time.ZonedDateTime!Error": {
+    "@ffi.XExternByteArray": {
       "id": 6
     },
-    "Array[Byte]": {
+    "@ffi.XExternString": {
       "id": 7
     },
-    "Array[Int]": {
+    "@ffi.XExternStringArray": {
       "id": 8
     },
-    "Array[Person]": {
-      "id": 9
+    "@testutils.CallStack[T]": {
+      "id": 9,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
     },
-    "Int": {
+    "@testutils.T": {
       "id": 10
     },
+    "@time.Duration": {
+      "id": 11
+    },
+    "@time.Duration!Error": {
+      "id": 12
+    },
+    "@time.Period": {
+      "id": 13
+    },
+    "@time.Period!Error": {
+      "id": 14
+    },
+    "@time.PlainDate": {
+      "id": 15
+    },
+    "@time.PlainDate!Error": {
+      "id": 16
+    },
+    "@time.PlainDateTime": {
+      "id": 17
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 18
+    },
+    "@time.PlainTime": {
+      "id": 19
+    },
+    "@time.PlainTime!Error": {
+      "id": 20
+    },
+    "@time.Weekday": {
+      "id": 21
+    },
+    "@time.Zone": {
+      "id": 22
+    },
+    "@time.Zone!Error": {
+      "id": 23
+    },
+    "@time.ZoneOffset": {
+      "id": 24
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 25
+    },
+    "@time.ZonedDateTime": {
+      "id": 26
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 27
+    },
+    "ArrayView[Byte]": {
+      "id": 28
+    },
+    "Array[@testutils.T]": {
+      "id": 29
+    },
+    "Array[Byte]": {
+      "id": 30
+    },
+    "Array[Int]": {
+      "id": 31
+    },
+    "Array[Person]": {
+      "id": 32
+    },
+    "Array[String]": {
+      "id": 33
+    },
+    "Bool": {
+      "id": 34
+    },
+    "Byte": {
+      "id": 35
+    },
+    "Bytes": {
+      "id": 36
+    },
+    "Bytes!Error": {
+      "id": 37
+    },
+    "FixedArray[Byte]": {
+      "id": 38
+    },
+    "Int": {
+      "id": 39
+    },
+    "Int64": {
+      "id": 40
+    },
+    "Iter[Byte]": {
+      "id": 41
+    },
+    "Iter[Char]": {
+      "id": 42
+    },
+    "Map[String, String]": {
+      "id": 43
+    },
     "Person": {
-      "id": 11,
+      "id": 44,
       "fields": [
         {
           "name": "firstName",
@@ -339,11 +428,23 @@
         }
       ]
     },
+    "Result[UInt64, UInt]": {
+      "id": 45
+    },
+    "Result[Unit, UInt]": {
+      "id": 46
+    },
     "String": {
-      "id": 12
+      "id": 47
     },
     "String!Error": {
-      "id": 13
+      "id": 48
+    },
+    "UInt": {
+      "id": 49
+    },
+    "UInt64": {
+      "id": 50
     }
   }
 }

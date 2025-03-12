@@ -2,10 +2,10 @@
   "plugin": "test-suite",
   "module": "@test-suite",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv6gc2vrack3t03p9khg",
-  "buildTs": "2025-03-09T03:07:55.216Z",
+  "buildId": "cv8mrhvrackaht3o9cjg",
+  "buildTs": "2025-03-12T11:19:35.688Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "1a18ff0d4845b2e59b8c9bf7bda08b7320fb7003",
+  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
   "fnExports": {
     "add": {
       "parameters": [
@@ -957,8 +957,25 @@
         }
       ]
     },
-    "(String)": {
+    "(Int, Int, Int)": {
       "id": 5,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Int"
+        },
+        {
+          "name": "2",
+          "type": "Int"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 6,
       "fields": [
         {
           "name": "0",
@@ -966,83 +983,173 @@
         }
       ]
     },
-    "@time.ZonedDateTime": {
-      "id": 6
-    },
-    "@time.ZonedDateTime!Error": {
+    "@ffi.XExternByteArray": {
       "id": 7
     },
-    "@time.ZonedDateTime?": {
+    "@ffi.XExternString": {
       "id": 8
     },
-    "Array[Byte]": {
+    "@ffi.XExternStringArray": {
       "id": 9
     },
-    "Array[Double]": {
-      "id": 10
+    "@testutils.CallStack[T]": {
+      "id": 10,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
     },
-    "Array[Float]": {
+    "@testutils.T": {
       "id": 11
     },
-    "Array[Int?]": {
+    "@time.Duration": {
       "id": 12
     },
-    "Array[Int]": {
+    "@time.Duration!Error": {
       "id": 13
     },
-    "Array[Int]?": {
+    "@time.Period": {
       "id": 14
     },
-    "Array[Person]": {
+    "@time.Period!Error": {
       "id": 15
     },
-    "Array[String?]": {
+    "@time.PlainDate": {
       "id": 16
     },
-    "Array[String]": {
+    "@time.PlainDate!Error": {
       "id": 17
     },
-    "Array[String]?": {
+    "@time.PlainDateTime": {
       "id": 18
     },
-    "Bool": {
+    "@time.PlainDateTime!Error": {
       "id": 19
     },
-    "Byte": {
+    "@time.PlainTime": {
       "id": 20
     },
-    "Char": {
+    "@time.PlainTime!Error": {
       "id": 21
     },
-    "Double": {
+    "@time.Weekday": {
       "id": 22
     },
-    "Float": {
+    "@time.Zone": {
       "id": 23
     },
-    "Int": {
+    "@time.Zone!Error": {
       "id": 24
     },
-    "Int16": {
+    "@time.ZoneOffset": {
       "id": 25
     },
-    "Int64": {
+    "@time.ZoneOffset!Error": {
       "id": 26
     },
-    "Map[Int, Double]": {
+    "@time.ZonedDateTime": {
       "id": 27
     },
-    "Map[Int, Float]": {
+    "@time.ZonedDateTime!Error": {
       "id": 28
     },
-    "Map[String, String]": {
+    "@time.ZonedDateTime?": {
       "id": 29
     },
-    "Map[String, String]?": {
+    "ArrayView[Byte]": {
       "id": 30
     },
+    "Array[@testutils.T]": {
+      "id": 31
+    },
+    "Array[Byte]": {
+      "id": 32
+    },
+    "Array[Double]": {
+      "id": 33
+    },
+    "Array[Float]": {
+      "id": 34
+    },
+    "Array[Int?]": {
+      "id": 35
+    },
+    "Array[Int]": {
+      "id": 36
+    },
+    "Array[Int]?": {
+      "id": 37
+    },
+    "Array[Person]": {
+      "id": 38
+    },
+    "Array[String?]": {
+      "id": 39
+    },
+    "Array[String]": {
+      "id": 40
+    },
+    "Array[String]?": {
+      "id": 41
+    },
+    "Bool": {
+      "id": 42
+    },
+    "Byte": {
+      "id": 43
+    },
+    "Bytes": {
+      "id": 44
+    },
+    "Bytes!Error": {
+      "id": 45
+    },
+    "Char": {
+      "id": 46
+    },
+    "Double": {
+      "id": 47
+    },
+    "FixedArray[Byte]": {
+      "id": 48
+    },
+    "Float": {
+      "id": 49
+    },
+    "Int": {
+      "id": 50
+    },
+    "Int16": {
+      "id": 51
+    },
+    "Int64": {
+      "id": 52
+    },
+    "Int?": {
+      "id": 53
+    },
+    "Iter[Byte]": {
+      "id": 54
+    },
+    "Iter[Char]": {
+      "id": 55
+    },
+    "Map[Int, Double]": {
+      "id": 56
+    },
+    "Map[Int, Float]": {
+      "id": 57
+    },
+    "Map[String, String]": {
+      "id": 58
+    },
+    "Map[String, String]?": {
+      "id": 59
+    },
     "Person": {
-      "id": 31,
+      "id": 60,
       "fields": [
         {
           "name": "firstName",
@@ -1058,17 +1165,23 @@
         }
       ]
     },
+    "Result[UInt64, UInt]": {
+      "id": 61
+    },
+    "Result[Unit, UInt]": {
+      "id": 62
+    },
     "String": {
-      "id": 32
+      "id": 63
     },
     "String!Error": {
-      "id": 33
+      "id": 64
     },
     "String?": {
-      "id": 34
+      "id": 65
     },
     "TestStructWithMap": {
-      "id": 35,
+      "id": 66,
       "fields": [
         {
           "name": "m",
@@ -1077,7 +1190,7 @@
       ]
     },
     "TimeZoneInfo": {
-      "id": 36,
+      "id": 67,
       "fields": [
         {
           "name": "standard_name",
@@ -1098,7 +1211,7 @@
       ]
     },
     "TimeZoneInfo!Error": {
-      "id": 37,
+      "id": 68,
       "fields": [
         {
           "name": "standard_name",
@@ -1119,7 +1232,7 @@
       ]
     },
     "TupleSimulator": {
-      "id": 38,
+      "id": 69,
       "fields": [
         {
           "name": "t0",
@@ -1136,19 +1249,19 @@
       ]
     },
     "UInt": {
-      "id": 39
+      "id": 70
     },
     "UInt16": {
-      "id": 40
+      "id": 71
     },
     "UInt64": {
-      "id": 41
+      "id": 72
     },
     "Unit": {
-      "id": 42
+      "id": 73
     },
     "Unit!Error": {
-      "id": 43
+      "id": 74
     }
   }
 }
