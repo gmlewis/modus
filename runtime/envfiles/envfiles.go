@@ -11,6 +11,7 @@ package envfiles
 
 import (
 	"context"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -72,11 +73,20 @@ func LoadEnvFiles(ctx context.Context) error {
 	for _, file := range files {
 		path := filepath.Join(app.Config().AppPath(), file)
 		if _, err := os.Stat(path); err == nil {
+			log.Printf("GML: envfiles.go: LoadEnvFiles: Loading env file: %v", path)
 			if err := godotenv.Load(path); err != nil {
 				logger.Warn(ctx).Err(err).Msgf("Failed to load %s file.", file)
 			}
 			envVarsUpdated = true
 		}
+	}
+
+	for _, envVar := range os.Environ() {
+		if !strings.HasPrefix(envVar, "MODUS_") {
+			continue
+		}
+		parts := strings.Split(envVar, "=")
+		log.Printf("GML: envfiles.go: LoadEnvFiles: %v=(%v bytes)", parts[0], len(parts[1]))
 	}
 
 	return triggerEnvFilesLoaded(ctx)

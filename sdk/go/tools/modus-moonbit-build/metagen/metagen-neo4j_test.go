@@ -64,9 +64,9 @@ var wantNeo4jFnImports = metadata.FunctionMap{
 			{Name: "host_name", Type: "String"},
 			{Name: "db_name", Type: "String"},
 			{Name: "query", Type: "String"},
-			{Name: "parameters_json", Type: "Map[String, Json]"},
+			{Name: "parameters_json", Type: "String"},
 		},
-		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?!Error"}},
+		Results: []*metadata.Result{{Type: "@neo4j.EagerResult?"}},
 	},
 	"modus_system.logMessage": {
 		Name:       "modus_system.logMessage",
