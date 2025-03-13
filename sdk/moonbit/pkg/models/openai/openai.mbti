@@ -8,6 +8,8 @@ const ENCODING_FORMAT_BASE64 : String = "base64"
 
 const ENCODING_FORMAT_FLOAT : String = "float"
 
+fn create_input(ChatModel, Array[Message]) -> ChatModelInput
+
 let response_format_json : ResponseFormat
 
 fn response_format_json_schema(Json) -> ResponseFormat

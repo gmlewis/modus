@@ -4,7 +4,23 @@ alias @gmlewis/modus/wit/interface/httpClient as @httpClient
 alias @moonbitlang/core/json as @json
 
 // Values
+fn append(Headers, String, String) -> Unit
+
+fn clone(Request, Array[RequestOptions]) -> Request
+
+fn entries(Headers) -> Array[(String, String)]
+
+fn fetch(Request) -> Response!
+
 fn fetch_url(String, options~ : Array[RequestOptions] = ..) -> Response!
+
+fn get(Headers, String) -> String
+
+fn json[T : @json.FromJson](Content) -> T!
+
+fn ok(Response) -> Bool
+
+fn text(Content) -> String
 
 // Types and methods
 pub(all) struct Content {

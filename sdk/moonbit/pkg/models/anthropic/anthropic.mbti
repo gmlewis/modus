@@ -4,6 +4,8 @@ alias @gmlewis/modus/pkg/models as @models
 alias @moonbitlang/core/json as @json
 
 // Values
+fn create_input(MessagesModel, Array[Message]) -> MessagesModelInput
+
 fn text_content_block(String) -> ContentBlock
 
 fn tool_result_content_block(String, String, Bool) -> ContentBlock

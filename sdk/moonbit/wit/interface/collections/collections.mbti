@@ -19,6 +19,8 @@ fn get_text(String, String, String) -> String?
 
 fn get_vector(String, String, String, String) -> FixedArray[Float]?
 
+fn ordinal(CollectionStatus) -> Int
+
 fn recompute_index(String, String, String) -> SearchMethodMutationResult?
 
 fn search(String, Array[String], String, String, Int, Bool) -> CollectionSearchResult?

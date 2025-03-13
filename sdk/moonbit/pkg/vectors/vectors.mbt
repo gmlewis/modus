@@ -6,10 +6,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///| add adds two vectors together and returns the result.
-pub impl[T : Addable] Addable for Array[T] with op_add(a, b) {
+/// This no longer works as of "moonc v0.1.20250310+a7a1e9804".
+// pub impl[T : Addable] Addable for Array[T] with op_add(a, b) {
+//   let len = a.length()
+//   guard len == b.length()
+//   Array::makei(len, fn(i) { a[i] + b[i] })
+// }
+
+///| add adds two vectors together and returns the result.
+pub fn add[T : Addable](a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
   guard len == b.length()
-  Array::makei(len, fn(i) { a[i] + b[i] })
+  Array::makei(len, fn(i) { T::add(a[i], b[i]) })
 }
 
 ///| add_in_place adds two vectors together and stores the result in the first vector.
@@ -17,69 +25,59 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
   let len = a.length()
   guard len == b.length()
   for i in 0..<len {
-    a[i] += b[i]
+    a[i] = T::add(a[i], b[i])
   }
 }
 
-///| WHY DOESN'T THIS WORK?
 ///| subtract subtracts one vector from another and returns the result.
-// pub fn op_sub[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
+/// This no longer works as of "moonc v0.1.20250310+a7a1e9804".
+// pub impl[T : Subtractable] Subtractable for Array[T] with sub(a, b) {
 //   let len = a.length()
 //   guard len == b.length()
-//   Array::makei(len, fn(i) { a[i] - b[i] })
+//   Array::makei(len, fn(i) { a[i].sub(b[i]) })
 // }
 
-///| WHY DOESN'T THIS WORK?
-// pub impl[T : Subtractable] Subtractable for Array[T] with op_sub(a, b) {
-//   a.op_sub(b)
-// }
-
-///| WHY DOESN'T THIS WORK?
-// pub impl Subtractable for Array[Int] with op_sub(a, b) {
-//   a.op_sub(b)
-// }
-
-///| WHY DOESN'T THIS WORK?
-// pub fn op_sub(a : Array[Int], b : Array[Int]) -> Array[Int] {
-//   let len = a.length()
-//   guard len == b.length()
-//   Array::makei(len, fn(i) { a[i] - b[i] })
-// }
+///| subtract subtracts one vector from another and returns the result.
+pub fn sub[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
+  let len = a.length()
+  guard len == b.length()
+  Array::makei(len, fn(i) { a[i].sub(b[i]) })
+}
 
 ///| subtract_in_place subtracts one vector from another and stores the result in the first vector.
 pub fn subtract_in_place[T : Subtractable](a : Array[T], b : Array[T]) -> Unit {
   let len = a.length()
   guard len == b.length()
   for i in 0..<len {
-    a[i] -= b[i]
+    a[i] = a[i].sub(b[i])
   }
 }
 
 ///| add_number adds a number to each element of a vector and returns the result.
 pub fn add_number[T : Addable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  Array::makei(len, fn(i) { a[i] + b })
+  Array::makei(len, fn(i) { T::add(a[i], b) })
 }
 
 ///| add_number_in_place adds a number to each element of a vector and stores the result in the vector.
 pub fn add_number_in_place[T : Addable](a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
-    a[i] += b
+    a[i] = T::add(a[i], b)
   }
 }
 
 ///| subtract_number subtracts a number from each element of a vector and returns the result.
 pub fn subtract_number[T : Subtractable](a : Array[T], b : T) -> Array[T] {
   let len = a.length()
-  Array::makei(len, fn(i) { a[i] - b })
+  Array::makei(len, fn(i) { a[i].sub(b) })
 }
 
 ///| subtract_number_in_place subtracts a number from each element of a vector and stores the result in the vector.
 pub fn subtract_number_in_place[T : Subtractable](a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
-    a[i] -= b
+    a[i] = a[i].sub(b)
   }
 }
 
@@ -120,7 +118,7 @@ pub fn dot[T : Multipliable + Addable + FromInt](
   guard len == b.length()
   let mut result = T::from_int(0)
   for i in 0..<len {
-    result += a[i] * b[i]
+    result = T::add(result, a[i] * b[i])
   }
   result
 }
@@ -145,7 +143,7 @@ pub fn sum[T : Addable + FromInt](a : Array[T]) -> T {
   let len = a.length()
   let mut result = T::from_int(0)
   for i in 0..<len {
-    result += a[i]
+    result = T::add(result, a[i])
   }
   result
 }
@@ -216,7 +214,7 @@ pub fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtract
   guard len == b.length()
   let mut result = T::from_int(0)
   for i in 0..<len {
-    result += (a[i] - b[i]) * (a[i] - b[i])
+    result = T::add(result, a[i].sub(b[i]) * a[i].sub(b[i]))
   }
   result.sqrt()
 }

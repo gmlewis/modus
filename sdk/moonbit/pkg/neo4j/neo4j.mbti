@@ -3,7 +3,15 @@ package gmlewis/modus/pkg/neo4j
 alias @moonbitlang/core/json as @json
 
 // Values
+fn as_map(Record) -> Map[String, String]
+
 fn execute_query(String, String, Map[String, Json], opts~ : Array[Neo4jOption] = ..) -> EagerResult!
+
+fn get(Record, String) -> (String, Bool)
+
+fn get_property[T : @json.FromJson](&Entity, String) -> T!
+
+fn get_record_value[T : @json.FromJson](Record, String) -> T!
 
 fn host_execute_query(String, String, String, Map[String, Json]) -> EagerResult?!
 

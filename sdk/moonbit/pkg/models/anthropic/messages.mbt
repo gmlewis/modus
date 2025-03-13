@@ -112,16 +112,17 @@ pub(all) enum ToolChoice {
 ///|
 impl @json.FromJson for ToolChoice with from_json(json, path) {
   match json {
-    Object({ "type": String("auto") }) => Auto
-    Object({ "type": String("any") }) => Any
+    Object({ "type": String("auto"), .. }) => Auto
+    Object({ "type": String("any"), .. }) => Any
     Object(
       {
         "type": String("tool"),
         "name": String(name),
         "disable_parallel_tool_use": True,
+        ..
       }
     ) => Tool(name, true)
-    Object({ "type": String("tool"), "name": String(name) }) =>
+    Object({ "type": String("tool"), "name": String(name), .. }) =>
       Tool(name, false)
     _ => raise @json.JsonDecodeError((path, "ToolChoice: expected object"))
   }

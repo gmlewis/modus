@@ -54,9 +54,6 @@ fn is_valid_time_zone(String) -> Bool
 fn now(timezone~ : String = ..) -> @time.ZonedDateTime!
 
 // Types and methods
-type LocaltimeError
-impl Eq for LocaltimeError
-impl Show for LocaltimeError
 
 // Type aliases
 

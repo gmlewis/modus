@@ -9,6 +9,8 @@ fn query[T : @json.FromJson](String, String, Json?) -> (Array[T], UInt)!
 
 fn query_scalar[T : @json.FromJson](String, String, Json?) -> (T, UInt)!
 
+fn to_string(Point) -> String
+
 // Types and methods
 pub(all) struct Location {
   longitude : Double
@@ -17,7 +19,6 @@ pub(all) struct Location {
 impl Location {
   new(Double, Double) -> Self
   parse(String) -> Self!
-  to_string(Self) -> String
 }
 impl Eq for Location
 impl Show for Location

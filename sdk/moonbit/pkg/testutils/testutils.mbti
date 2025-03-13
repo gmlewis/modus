@@ -3,6 +3,9 @@ package gmlewis/modus/pkg/testutils
 alias @moonbitlang/core/json as @json
 
 // Values
+fn pop[T](CallStack[T]) -> Array[T]
+
+fn push[T](CallStack[T], Array[T]) -> Unit
 
 // Types and methods
 pub(all) struct CallStack[T] {

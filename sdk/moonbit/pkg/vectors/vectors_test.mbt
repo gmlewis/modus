@@ -6,59 +6,80 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-test "add" {
+test "add for Int" {
   // Int
   let a = [1, 2, 3]
   let b = [4, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for UInt" {
   // UInt
   let a = [1U, 2, 3]
   let b = [4U, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for Int64" {
   // Int64
   let a = [1L, 2, 3]
   let b = [4L, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for UInt64" {
   // UInt64
   let a = [1UL, 2, 3]
   let b = [4UL, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(a, content="[1, 2, 3]")
   inspect!(b, content="[4, 5, 6]")
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for Float" {
   // Float
   let a : Array[Float] = [1.0, 2, 3]
   let b : Array[Float] = [4.0, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for Double" {
   // Double
   let a = [1.0, 2, 3]
   let b = [4.0, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(got, content="[5, 7, 9]")
+}
 
+///|
+test "add for Byte" {
   // Byte
   let a = [b'\x01', 2, 3]
   let b = [b'\x04', 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(got, content="[b'\\x05', b'\\x07', b'\\x09']")
+}
 
+///|
+test "add for BigInt" {
   // BigInt
   let a = [1N, 2, 3]
   let b = [4N, 5, 6]
-  let got = a + b
+  let got = add(a, b)
   inspect!(got, content="[5, 7, 9]")
 }
 
@@ -76,7 +97,7 @@ test "subtract" {
   // Int
   let a = [4, 5, 6]
   let b = [1, 2, 3]
-  let got = a.op_sub(b)
+  let got = sub(a, b)
   inspect!(a, content="[4, 5, 6]")
   inspect!(b, content="[1, 2, 3]")
   inspect!(got, content="[3, 3, 3]")
