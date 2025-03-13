@@ -70,8 +70,14 @@ func LogToConsole(meta *metadata.Metadata) {
 	}
 
 	if len(types) > 0 {
+		alreadyWritten := map[string]bool{}
 		writeHeader(w, "Custom Types:")
 		for _, t := range types {
+			typ, _, _ := utils.StripErrorAndOption(t)
+			if alreadyWritten[typ] {
+				continue
+			}
+			alreadyWritten[typ] = true
 			s := meta.Types[t].String(meta)
 			if strings.HasPrefix(s, "(") {
 				continue // skip tuples
