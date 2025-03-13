@@ -78,40 +78,30 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 
 	// Remove unused types (they might not be needed now, due to removing functions)
 	var keptTypes = make(metadata.TypeMap, len(meta.Types))
+	keepType := func(typeToKeep string) {
+		if _, ok := meta.Types[typeToKeep]; ok {
+			keptTypes[typeToKeep] = meta.Types[typeToKeep]
+			// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[typeToKeep='%v']", typeToKeep)
+			delete(meta.Types, typeToKeep)
+			// } else {
+			// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING typeToKeep: '%v'", typeToKeep)
+		}
+	}
+	keepTypeVariations := func(typeToKeep string) {
+		keepType(typeToKeep)
+		typ, _, hasOption := utils.StripErrorAndOption(typeToKeep)
+		keepType(typ)
+		if hasOption {
+			keepType(typ + "?")
+		}
+	}
+
 	for _, fn := range append(utils.MapValues(meta.FnImports), utils.MapValues(meta.FnExports)...) {
 		for _, param := range fn.Parameters {
-			if _, ok := meta.Types[param.Type]; ok {
-				keptTypes[param.Type] = meta.Types[param.Type]
-				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[param.Type='%v']", param.Type)
-				delete(meta.Types, param.Type)
-				// } else {
-				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING param.Type: '%v'", param.Type)
-			}
-			paramType, _, _ := utils.StripErrorAndOption(param.Type)
-			if _, ok := meta.Types[paramType]; ok {
-				keptTypes[paramType] = meta.Types[paramType]
-				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[paramType='%v']", paramType)
-				delete(meta.Types, paramType)
-				// } else {
-				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING paramType: '%v'", paramType)
-			}
+			keepTypeVariations(param.Type)
 		}
 		for _, result := range fn.Results {
-			if _, ok := meta.Types[result.Type]; ok {
-				keptTypes[result.Type] = meta.Types[result.Type]
-				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[result.Type='%v']", result.Type)
-				delete(meta.Types, result.Type)
-				// } else {
-				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING result.Type: '%v'", result.Type)
-			}
-			resultType, _, _ := utils.StripErrorAndOption(result.Type)
-			if _, ok := meta.Types[resultType]; ok {
-				keptTypes[resultType] = meta.Types[resultType]
-				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[resultType='%v']", resultType)
-				delete(meta.Types, resultType)
-				// } else {
-				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING resultType: '%v'", resultType)
-			}
+			keepTypeVariations(result.Type)
 		}
 	}
 

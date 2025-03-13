@@ -317,6 +317,13 @@ var wantNeo4jAfterFilter = &metadata.Metadata{
 				{Name: "records", Type: "Array[@neo4j.Record]"},
 			},
 		},
+		"@neo4j.EagerResult?": {
+			Name: "@neo4j.EagerResult?",
+			Fields: []*metadata.Field{
+				{Name: "keys", Type: "Array[String]"},
+				{Name: "records", Type: "Array[@neo4j.Record]"},
+			},
+		},
 		"@neo4j.Record": {
 			Name:   "@neo4j.Record",
 			Fields: []*metadata.Field{{Name: "values", Type: "Array[String]"}, {Name: "keys", Type: "Array[String]"}},
