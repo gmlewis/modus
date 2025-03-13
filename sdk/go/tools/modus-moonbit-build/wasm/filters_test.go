@@ -10,9 +10,11 @@
 package wasm
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/codegen"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/compiler"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metagen"
@@ -23,6 +25,7 @@ import (
 
 func testFilterMetadataHelper(t *testing.T, config *config.Config, wantBeforeFilter, wantAfterFilter *metadata.Metadata) {
 	t.Helper()
+	config.CompilerPath = "moon"
 
 	mod, err := modinfo.CollectModuleInfo(config)
 	if err != nil {
@@ -36,6 +39,9 @@ func testFilterMetadataHelper(t *testing.T, config *config.Config, wantBeforeFil
 	if config.WasmFileName != "testdata.wasm" {
 		// Need to build the wasm file
 		if err := codegen.PostProcess(config, meta); err != nil {
+			t.Fatal(err)
+		}
+		if err := compiler.Compile(config); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -63,4 +69,26 @@ func testFilterMetadataHelper(t *testing.T, config *config.Config, wantBeforeFil
 	if diff := cmp.Diff(wantAfterFilter, meta); diff != "" {
 		t.Fatalf("GenerateMetadata meta AFTER filter mismatch (-want +got):\n%v", diff)
 	}
+}
+
+func deepCopyMetadata(t *testing.T, m *metadata.Metadata) *metadata.Metadata {
+	t.Helper()
+	buf, err := json.Marshal(m)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var deepCopy *metadata.Metadata
+	if err := json.Unmarshal(buf, &deepCopy); err != nil {
+		t.Fatal(err)
+	}
+	for name, v := range deepCopy.FnExports {
+		v.Name = name
+	}
+	for name, v := range deepCopy.FnImports {
+		v.Name = name
+	}
+	for name, v := range deepCopy.Types {
+		v.Name = name
+	}
+	return deepCopy
 }

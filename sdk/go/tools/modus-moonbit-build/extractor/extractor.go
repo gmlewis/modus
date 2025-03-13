@@ -14,7 +14,6 @@ import (
 	"go/types"
 	"log"
 	"os"
-	"sort"
 	"strings"
 	"sync"
 
@@ -22,7 +21,6 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
-	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 // TODO: Remove debugging
@@ -82,7 +80,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		}
 	}
 
-	// This is a hack, but now that all the packages have been processed, see if any underlying
+	// Now that all the packages have been processed, see if any underlying
 	// types have not been added to the `requiredTypes`.
 	for _, pkg := range pkgs {
 		for typ := range pkg.PossiblyMissingUnderlyingTypes {
@@ -93,12 +91,8 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		}
 	}
 
-	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String
-	keys := utils.MapKeys(requiredTypes)
-	sort.Strings(keys)
-	for _, name := range keys {
-		t := requiredTypes[name]
-
+	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String - WHY?!? Where is this used?
+	for name, t := range requiredTypes {
 		resolvedName := name
 		if n, ok := t.(*types.Named); ok {
 			resolvedName = n.String()
@@ -116,10 +110,18 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			t.Id = id
 			meta.Types[name] = t
 			gmlPrintf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
-		} else {
-			if name == "Person" || strings.HasPrefix(name, "TimeZoneInfo") {
-				gmlPrintf("GML: extractor.go: CollectProgramInfo: B: t: %T, meta.Types[%q] = {ID:%q,Name:%q}\n", t, name, id, name)
+			// now that this struct has resolved all its fields, make sure
+			// that the fields are also added to the meta.Types.
+			for _, field := range t.Fields {
+				if _, ok := meta.Types[field.Type]; !ok {
+					id++
+					meta.Types[field.Type] = &metadata.TypeDefinition{
+						Id:   id,
+						Name: field.Type,
+					}
+				}
 			}
+		} else {
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,
 				Name: name,

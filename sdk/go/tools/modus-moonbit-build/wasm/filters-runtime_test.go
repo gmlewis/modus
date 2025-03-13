@@ -6868,6 +6868,7 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		"@time.ZonedDateTime!Error":        {Name: "@time.ZonedDateTime!Error"},
 		"@time.ZonedDateTime?":             {Name: "@time.ZonedDateTime?"},
 		"Array[@testutils.T]":              {Name: "Array[@testutils.T]"},
+		"Array[Array[@testutils.T]]":       {Name: "Array[Array[@testutils.T]]"},
 		"Array[Array[String]?]":            {Name: "Array[Array[String]?]"},
 		"Array[Array[String]]":             {Name: "Array[Array[String]]"},
 		"Array[Array[String]]?":            {Name: "Array[Array[String]]?"},

@@ -46,7 +46,9 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.Metadata) {
 	// Remove unused imports (can easily happen when user code doesn't use all imports from a package)
 	imports := make(map[string]bool, len(info.Imports))
+	fmt.Printf("IMPORTS:\n")
 	for _, i := range info.Imports {
+		fmt.Printf("{Name: %q},\n", i.Name)
 		imports[i.Name] = true
 	}
 	for name := range meta.FnImports {
@@ -58,7 +60,9 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 
 	// Remove unused exports (less likely to happen, but still check)
 	exports := make(map[string]bool, len(info.Exports))
+	fmt.Printf("EXPORTS:\n")
 	for _, e := range info.Exports {
+		fmt.Printf("{Name: %q},\n", e.Name)
 		exports[e.Name] = true
 	}
 	for name := range meta.FnExports {
@@ -78,10 +82,18 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 		for _, param := range fn.Parameters {
 			if _, ok := meta.Types[param.Type]; ok {
 				keptTypes[param.Type] = meta.Types[param.Type]
-				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[paramType='%v']", param.Type)
+				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[param.Type='%v']", param.Type)
 				delete(meta.Types, param.Type)
 				// } else {
 				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING param.Type: '%v'", param.Type)
+			}
+			paramType, _, _ := utils.StripErrorAndOption(param.Type)
+			if _, ok := meta.Types[paramType]; ok {
+				keptTypes[paramType] = meta.Types[paramType]
+				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[paramType='%v']", paramType)
+				delete(meta.Types, paramType)
+				// } else {
+				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING paramType: '%v'", paramType)
 			}
 		}
 		for _, result := range fn.Results {
@@ -91,6 +103,14 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 				delete(meta.Types, result.Type)
 				// } else {
 				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING result.Type: '%v'", result.Type)
+			}
+			resultType, _, _ := utils.StripErrorAndOption(result.Type)
+			if _, ok := meta.Types[resultType]; ok {
+				keptTypes[resultType] = meta.Types[resultType]
+				// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[resultType='%v']", resultType)
+				delete(meta.Types, resultType)
+				// } else {
+				// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING resultType: '%v'", resultType)
 			}
 		}
 	}
@@ -103,6 +123,8 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 
 		keep := func(t string) {
 			if t == "Unit" {
+				delete(meta.Types, t)
+				delete(keptTypes, t)
 				return // no need to keep 'Unit'.
 			}
 			if _, ok := meta.Types[t]; ok {
@@ -119,19 +141,19 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 
 		for _, t := range keptTypes {
 			// types should not have default values at this point.
-			tName := utils.StripDefaultValue(t.Name) // TODO: verify and remove if true.
-			typ, hasError, _ := utils.StripErrorAndOption(tName)
+			// tName := utils.StripDefaultValue(t.Name) // TODO: verify and remove if true.
+			typ, hasError, _ := utils.StripErrorAndOption(t.Name)
 			if hasError {
 				keep("(String)") // needed for all !Error processing
 			}
 			keep(typ)
 
-			if utils.IsOptionType(tName) {
-				keep(utils.GetUnderlyingType(tName))
-			} else if utils.IsListType(tName) {
-				keep(utils.GetListSubtype(tName))
-			} else if utils.IsMapType(tName) {
-				kt, vt := utils.GetMapSubtypes(tName)
+			if utils.IsOptionType(t.Name) {
+				keep(utils.GetUnderlyingType(t.Name))
+			} else if utils.IsListType(t.Name) {
+				keep(utils.GetListSubtype(t.Name))
+			} else if utils.IsMapType(t.Name) {
+				kt, vt := utils.GetMapSubtypes(t.Name)
 				keep(kt)
 				keep(vt)
 				keep(fmt.Sprintf("Array[%v]", kt))
