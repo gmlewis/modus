@@ -19,7 +19,7 @@ require (
 	github.com/buger/jsonparser v1.1.1
 	github.com/chewxy/math32 v1.11.1
 	github.com/dgraph-io/dgo/v240 v240.1.0
-	github.com/docker/docker v28.0.0+incompatible
+	github.com/docker/docker v28.0.1+incompatible
 	github.com/docker/go-connections v0.5.0
 	github.com/fatih/color v1.18.0
 	github.com/getsentry/sentry-go v0.31.1
@@ -234,7 +234,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.32.0 // indirect
-	golang.org/x/net v0.34.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/term v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
