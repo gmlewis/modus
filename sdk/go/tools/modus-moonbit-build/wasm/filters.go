@@ -72,17 +72,6 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 		}
 	}
 
-	// // At this stage, it is safe to remove all default values from meta.Types
-	// // because the metadata parameters have already been generated in
-	// // metagen.GenerateMetadata.
-	// for k, v := range meta.Types {
-	// 	key := strings.Split(k, " = ")[0]
-	// 	if key != k {
-	// 		meta.Types[key] = v
-	// 		delete(meta.Types, k)
-	// 	}
-	// }
-
 	// Remove unused types (they might not be needed now, due to removing functions)
 	var keptTypes = make(metadata.TypeMap, len(meta.Types))
 	for _, fn := range append(utils.MapValues(meta.FnImports), utils.MapValues(meta.FnExports)...) {
