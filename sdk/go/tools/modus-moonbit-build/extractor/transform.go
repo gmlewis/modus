@@ -22,11 +22,6 @@ import (
 )
 
 func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Package) *metadata.TypeDefinition {
-	// if s == nil {
-	// 	gmlPrintf("GML: extractor/transform.go: transformStruct(name=%q, s=nil)", name)
-	// 	return nil
-	// }
-
 	structDecl, structType, typesStruct := getStructDeclarationAndType(name, pkgs)
 	if typesStruct != nil {
 		s = typesStruct // yeah, confusing variable names. This is the *types.Struct to get the fields.
@@ -91,11 +86,16 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 			p := params.At(i)
 			paramType := p.Type().String()
 			paramType = utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, paramType)
+			paramTypeParts := strings.Split(paramType, " = ")
+			paramType = paramTypeParts[0]
 			param := &metadata.Parameter{
 				Name: p.Name(),
 				Type: paramType,
-				// TODO: Add default value here if it is a constant literal
-				// Default:
+			}
+			if len(paramTypeParts) > 1 {
+				if defaultValue, ok := utils.GetDefaultValue(paramType, paramTypeParts[1]); ok {
+					param.Default = &defaultValue
+				}
 			}
 			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', param[%v]: {Name: %q, Type: %q}", name, sig.String(), i, param.Name, param.Type)
 			ret.Parameters[i] = param

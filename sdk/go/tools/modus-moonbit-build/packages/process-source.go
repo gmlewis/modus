@@ -102,26 +102,7 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		// This is the new `types.Struct` with the new fields added.
 		decls = append(decls, decl)
 		underlying := types.NewStruct(fieldVars, nil)
-		// namedType := types.NewTypeName(0, nil, name, underlying) // Do NOT add typesPkg.
-		newNamedTypeName, namedType := fullyQualifiedNewTypeName(typesPkg, name, underlying) // Do NOT add typesPkg.
-
-		// // In Go, the `types.Struct` type is immutable, meaning that all old references
-		// // to an underlying `*types.Struct` need to be replaced with a pointer to a
-		// // new `*types.Struct` that has the new fields added.
-		// if emptyTypeSpec, ok := p.StructLookup[typeSpec.Name.Name]; ok {
-		// 	if emptyNamedType, ok := p.TypesInfo.Defs[emptyTypeSpec.Name].(*types.TypeName); ok {
-		// 		emptyStruct, ok := emptyNamedType.Type().Underlying().(*types.Struct)
-		// 		if ok {
-		// 			gmlPrintf("GML: processPubStructs: updating existing struct: emptyNamedType: %p, emptyStruct: %p, emptyTypeSpec: %p, namedType: %p, typeSpec: %p", emptyNamedType, emptyStruct, emptyTypeSpec, namedType, typeSpec)
-		// 			// Now we have found the old, empty struct. Find all references to it and replace them.
-		// 			p.replaceEmptyStructReferences(emptyNamedType, emptyTypeSpec, emptyStruct, namedType, typeSpec)
-		// 		} else {
-		// 			log.Fatalf("PROGRAMMING ERROR: expected *types.Struct, got %T", emptyNamedType.Type().Underlying())
-		// 		}
-		// 	} else {
-		// 		log.Fatalf("PROGRAMMING ERROR: expected *types.TypeName, got %T", p.TypesInfo.Defs[emptyTypeSpec.Name])
-		// 	}
-		// }
+		newNamedTypeName, namedType := fullyQualifiedNewTypeName(typesPkg, name, underlying)
 
 		gmlPrintf("GML: packages/process-source.go: processPubStructs: CREATING OFFICIAL Struct type: p.StructLookup[%q]=%p, underlying: %+v", newNamedTypeName, typeSpec, underlying)
 		p.replaceForwardReferences(newNamedTypeName, namedType)
@@ -131,19 +112,6 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 
 	return decls
 }
-
-// func (p *Package) replaceEmptyStructReferences(emptyNamedType *types.TypeName, emptyTypeSpec *ast.TypeSpec, emptyStruct *types.Struct, namedType *types.TypeName, typeSpec *ast.TypeSpec) {
-// 	for typeSpecName, nt := range p.TypesInfo.Defs {
-// 		if oldStruct, ok := nt.Type().Underlying().(*types.Struct); ok {
-// 			if oldStruct != emptyStruct {
-// 				continue
-// 			}
-// 			gmlPrintf("GML: packages/process-source.go: replaceEmptyStructReferences: typeSpecName: %v, typeSpecName: %p, nt: %p, oldStruct: %p", typeSpecName.Name, typeSpecName, nt, oldStruct)
-// 			p.TypesInfo.Defs[typeSpecName] = namedType
-// 			p.StructLookup[typeSpecName.Name] = typeSpec
-// 		}
-// 	}
-// }
 
 func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
@@ -225,7 +193,11 @@ func (p *Package) stripDefaultValues(typesPkg *types.Package, paramsList []*ast.
 		if strings.Contains(paramTypeName, "=") {
 			switch paramType := param.Type().(type) {
 			case *types.Named:
-				paramTypeName = strings.Split(paramType.Obj().Name(), " = ")[0]
+				// In Go, a function parameter cannot have a default value
+				// so there is no way in the Go AST to represent this.
+				// Therefore, pass the default value as part of the type
+				// of this parameter, then convert it later in extractor/transform.go.
+				paramTypeName = paramType.Obj().Name()
 			default:
 				log.Fatalf("PROGRAMMING ERROR: expected *types.Named, got %T", paramType)
 			}
@@ -297,7 +269,7 @@ func (p *Package) addExportedFunctionDecls(typesPkg *types.Package, decls []ast.
 		paramsTuple = types.NewTuple(paramsVars...)
 	}
 	p.TypesInfo.Defs[decl.Name] = types.NewFunc(0, typesPkg, methodName,
-		types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false)) // TODO
+		types.NewSignatureType(nil, nil, nil, paramsTuple, resultsTuple, false))
 
 	return decls
 }
@@ -329,18 +301,6 @@ func (p *Package) processReturnSignature(typesPkg *types.Package, returnSig stri
 		return nil, nil
 	}
 
-	// fullyQualifiedReturnSig := returnSig
-	// if !strings.Contains(returnSig, ".") {
-	// 	typ, _, _ := utils.StripErrorAndOption(returnSig)
-	// 	if utils.IsStructType(typ) {
-	// 		pkgName := typesPkg.Path()
-	// 		baseTypeName := pkgName + "." + typ
-	// 		if _, ok := p.StructLookup[baseTypeName]; ok {
-	// 			fullyQualifiedReturnSig = pkgName + "." + returnSig
-	// 		}
-	// 	}
-	// }
-
 	resultType := p.getMoonBitNamedType(typesPkg, returnSig)
 	fullyQualifiedReturnSig := resultType.String()
 
@@ -366,7 +326,6 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 			if typ == typeSignature {
 				return types.NewNamed(customType, underlying, nil)
 			}
-			// fullCustomType := types.NewTypeName(0, nil, typeSignature, nil) // do NOT add typesPkg to custom types!
 			_, fullCustomType := fullyQualifiedNewTypeName(typesPkg, typeSignature, nil)
 			gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: FOUND FULLY-SPECIFIED Struct DEFINITION for p.StructLookup[%q]=%p: underlying: %+v", typ, typeSpec, underlying)
 			return types.NewNamed(fullCustomType, underlying, nil)
@@ -380,7 +339,6 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 		// Its fields will be filled in later.
 		underlying := types.NewStruct(nil, nil)
 		{
-			// customType := types.NewTypeName(0, nil, typ, underlying) // do NOT add typesPkg to custom types!
 			newCustomTypeName, customType := fullyQualifiedNewTypeName(typesPkg, typ, underlying)
 			if v, ok := p.StructLookup[newCustomTypeName]; ok {
 				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: REUSING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newCustomTypeName, v)
@@ -389,7 +347,6 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 					log.Fatalf("PROGRAMMING ERROR! p.StructLookup and p.TypesInfo.Def out-of-sync!")
 				}
 			} else {
-				// typeSpec := &ast.TypeSpec{Name: &ast.Ident{Name: typ}}
 				typeSpec := &ast.TypeSpec{Name: &ast.Ident{Name: newCustomTypeName}}
 				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: CREATING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newCustomTypeName, typeSpec)
 				p.StructLookup[newCustomTypeName] = typeSpec
@@ -400,7 +357,6 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 			}
 		}
 		{
-			// fullCustomType := types.NewTypeName(0, nil, typeSignature, underlying)
 			newFullCustomTypeName, fullCustomType := fullyQualifiedNewTypeName(typesPkg, typeSignature, underlying)
 			if v, ok := p.StructLookup[newFullCustomTypeName]; ok {
 				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: REUSING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newFullCustomTypeName, v)
@@ -421,35 +377,11 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 	return nil
 }
 
-func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) { // (resultType *types.Named) {
-	// gmlPrintf("GML: getMoonBitNamedType(typeSignature=%q)", typeSignature)
-	// TODO: write a parser that can handle any MoonBit type.
-	// if utils.IsListType(typeSignature) {
-	// 	innerTypeSignature := utils.GetListSubtype(typeSignature)
-	// 	resultType = p.checkCustomMoonBitType(typesPkg, innerTypeSignature)
-	// 	if resultType != nil {
-	// 		arrayTypeName := typeSignature[:strings.Index(typeSignature, "[")]
-	// 		tmpSignature := fmt.Sprintf("%v[%v.%v]", arrayTypeName, typesPkg.Path(), innerTypeSignature)
-	// 		return types.NewNamed(types.NewTypeName(0, nil, tmpSignature, nil), nil, nil)
-	// 	}
-	// }
-
-	// if utils.IsMapType(typeSignature) {
-	// 	ktSig, vtSig := utils.GetMapSubtypes(typeSignature)
-	// 	// TODO: For now, assume that the Map key is a primitive type.
-	// 	// kt := p.getMoonBitNamedType(typesPkg, ktSig)
-	// 	vt := p.checkCustomMoonBitType(typesPkg, vtSig)
-	// 	if vt != nil {
-	// 		mapSignature := fmt.Sprintf("Map[%v, %v.%v]", ktSig, typesPkg.Path(), vtSig)
-	// 		return types.NewNamed(types.NewTypeName(0, nil, mapSignature, nil), nil, nil)
-	// 	}
-	// }
-
+func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) {
 	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
 	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
 		allArgs := typeSignature[1 : len(typeSignature)-1]
 		allTupleParts := utils.SplitParamsWithBrackets(allArgs)
-		// var fields []*ast.Field
 		var fieldVars []*types.Var
 		for i, field := range allTupleParts {
 			fieldType := strings.TrimSpace(commentRE.ReplaceAllString(field, ""))
@@ -457,16 +389,12 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 				continue
 			}
 			fieldName := fmt.Sprintf("%v", i)
-			// fields = append(fields, &ast.Field{
-			// 	Names: []*ast.Ident{{Name: fieldName}},
-			// 	Type:  &ast.Ident{Name: fieldType},
-			// })
 			underlying := p.getMoonBitNamedType(typesPkg, fieldType)
-			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, underlying)) // &moonType{typeName: fieldType}))
+			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, underlying))
 		}
 
 		tupleStruct := types.NewStruct(fieldVars, nil)
-		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, tupleStruct), nil, nil) // &moonType{typeName: typeSignature}
+		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, tupleStruct), nil, nil)
 	}
 
 	if v := utils.FullyQualifyTypeName(typesPkg.Path(), typeSignature); !strings.HasPrefix(v, "@") {
@@ -478,7 +406,7 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 
 	resultType = p.checkCustomMoonBitType(typesPkg, typeSignature)
 	if resultType == nil {
-		resultType = types.NewNamed(types.NewTypeName(0, nil, typeSignature, nil), nil, nil) // &moonType{typeName: typeSignature}
+		resultType = types.NewNamed(types.NewTypeName(0, nil, typeSignature, nil), nil, nil)
 	}
 	return resultType
 }
@@ -488,7 +416,7 @@ type moonType struct {
 }
 
 func (t *moonType) Underlying() types.Type {
-	return t // TODO
+	return t
 }
 
 func (t *moonType) String() string {

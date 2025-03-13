@@ -49,9 +49,13 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 		Docs:       &metadata.Docs{Lines: []string{"Adds two integers together and returns the result."}},
 	},
 	"add3": {
-		Name:       "add3",
-		Parameters: []*metadata.Parameter{{Name: "a", Type: "Int"}, {Name: "b", Type: "Int"}, {Name: "c~", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Name: "add3",
+		Parameters: []*metadata.Parameter{
+			{Name: "a", Type: "Int"},
+			{Name: "b", Type: "Int"},
+			{Name: "c~", Type: "Int", Default: AnyPtr(int32(0))},
+		},
+		Results: []*metadata.Result{{Type: "Int"}},
 		Docs: &metadata.Docs{
 			Lines: []string{"Adds three integers together and returns the result.", "The third integer is optional."},
 		},
@@ -128,7 +132,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_array_of_ints": {
 		Name:       "hello_array_of_ints",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Array[Int]"}},
 	},
 	"hello_array_of_ints_WithDefaults": {
@@ -137,7 +141,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_array_of_ints_option": {
 		Name:       "hello_array_of_ints_option",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Array[Int]?"}},
 	},
 	"hello_array_of_ints_option_WithDefaults": {
@@ -146,7 +150,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_array_of_strings": {
 		Name:       "hello_array_of_strings",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Array[String]"}},
 	},
 	"hello_array_of_strings_WithDefaults": {
@@ -155,7 +159,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_array_of_strings_option": {
 		Name:       "hello_array_of_strings_option",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Array[String]?"}},
 	},
 	"hello_array_of_strings_option_WithDefaults": {
@@ -164,7 +168,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_maps_n_items": {
 		Name:       "hello_maps_n_items",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Map[String, String]"}},
 	},
 	"hello_maps_n_items_WithDefaults": {
@@ -173,7 +177,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_maps_n_items_option": {
 		Name:       "hello_maps_n_items_option",
-		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int"}},
+		Parameters: []*metadata.Parameter{{Name: "n~", Type: "Int", Default: AnyPtr(int32(3))}},
 		Results:    []*metadata.Result{{Type: "Map[String, String]?"}},
 	},
 	"hello_maps_n_items_option_WithDefaults": {

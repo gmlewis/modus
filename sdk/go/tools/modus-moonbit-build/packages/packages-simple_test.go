@@ -406,7 +406,7 @@ var wantPackageSimple = &Package{
 			{Name: "add3"}: types.NewFunc(0, nil, "add3", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 				types.NewVar(0, nil, "a", &moonType{typeName: "Int"}),
 				types.NewVar(0, nil, "b", &moonType{typeName: "Int"}),
-				types.NewVar(0, nil, "c~", &moonType{typeName: "Int"}),
+				types.NewVar(0, nil, "c~", &moonType{typeName: "Int = 0"}),
 			), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
 			{Name: "add3_WithDefaults"}: types.NewFunc(0, nil, "add3_WithDefaults", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 				types.NewVar(0, nil, "a", &moonType{typeName: "Int"}),

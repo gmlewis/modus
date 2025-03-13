@@ -49,9 +49,13 @@ var wantSimpleFnExports = metadata.FunctionMap{
 		Docs:       &metadata.Docs{Lines: []string{"Adds two integers together and returns the result."}},
 	},
 	"add3": {
-		Name:       "add3",
-		Parameters: []*metadata.Parameter{{Name: "a", Type: "Int"}, {Name: "b", Type: "Int"}, {Name: "c~", Type: "Int"}},
-		Results:    []*metadata.Result{{Type: "Int"}},
+		Name: "add3",
+		Parameters: []*metadata.Parameter{
+			{Name: "a", Type: "Int"},
+			{Name: "b", Type: "Int"},
+			{Name: "c~", Type: "Int", Default: AnyPtr(int32(0))},
+		},
+		Results: []*metadata.Result{{Type: "Int"}},
 		Docs: &metadata.Docs{Lines: []string{
 			"Adds three integers together and returns the result.",
 			"The third integer is optional.",

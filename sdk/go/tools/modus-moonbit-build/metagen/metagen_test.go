@@ -24,6 +24,12 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
+// AnyPtr is a helper routine that allocates a new T value
+// to store v and returns a pointer to it.
+func AnyPtr(v any) *any {
+	return &v
+}
+
 func setupTestConfig(t *testing.T, sourceDir string) *metadata.Metadata {
 	t.Helper()
 	log.SetFlags(0)

@@ -174,7 +174,7 @@ func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
 }
 
 func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Package) bool {
-	name := t.String()
+	name := strings.Split(t.String(), " = ")[0] // strip default values
 
 	// prevent infinite recursion
 	if _, ok := m[name]; ok {

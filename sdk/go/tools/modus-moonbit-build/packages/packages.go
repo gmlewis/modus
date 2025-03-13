@@ -441,9 +441,6 @@ func (err Error) Error() string {
 
 // flatPackage is the JSON form of Package
 // It drops all the type and syntax fields, and transforms the Imports
-//
-// TODO(adonovan): identify this struct with Package, effectively
-// publishing the JSON protocol.
 type flatPackage struct {
 	ID                   string
 	Name                 string            `json:",omitempty"`
