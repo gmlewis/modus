@@ -76,7 +76,7 @@ test "subtract" {
   // Int
   let a = [4, 5, 6]
   let b = [1, 2, 3]
-  let got = a - b
+  let got = a.op_sub(b)
   inspect!(a, content="[4, 5, 6]")
   inspect!(b, content="[1, 2, 3]")
   inspect!(got, content="[3, 3, 3]")

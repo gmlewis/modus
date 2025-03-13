@@ -12,7 +12,7 @@ pub(all) struct Location {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub fn to_string(self : Location) -> String {
+pub impl Show for Location with to_string(self) {
   "(\{self.longitude},\{self.latitude})"
 }
 

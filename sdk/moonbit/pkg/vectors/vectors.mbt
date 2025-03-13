@@ -21,12 +21,30 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
   }
 }
 
+///| WHY DOESN'T THIS WORK?
 ///| subtract subtracts one vector from another and returns the result.
-pub impl[T : Subtractable] Subtractable for Array[T] with op_sub(a, b) {
-  let len = a.length()
-  guard len == b.length()
-  Array::makei(len, fn(i) { a[i] - b[i] })
-}
+// pub fn op_sub[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
+//   let len = a.length()
+//   guard len == b.length()
+//   Array::makei(len, fn(i) { a[i] - b[i] })
+// }
+
+///| WHY DOESN'T THIS WORK?
+// pub impl[T : Subtractable] Subtractable for Array[T] with op_sub(a, b) {
+//   a.op_sub(b)
+// }
+
+///| WHY DOESN'T THIS WORK?
+// pub impl Subtractable for Array[Int] with op_sub(a, b) {
+//   a.op_sub(b)
+// }
+
+///| WHY DOESN'T THIS WORK?
+// pub fn op_sub(a : Array[Int], b : Array[Int]) -> Array[Int] {
+//   let len = a.length()
+//   guard len == b.length()
+//   Array::makei(len, fn(i) { a[i] - b[i] })
+// }
 
 ///| subtract_in_place subtracts one vector from another and stores the result in the first vector.
 pub fn subtract_in_place[T : Subtractable](a : Array[T], b : Array[T]) -> Unit {
