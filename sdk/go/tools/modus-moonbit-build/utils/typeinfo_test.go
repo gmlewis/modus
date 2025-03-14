@@ -20,6 +20,14 @@ func TestFullyQualifyTypeName(t *testing.T) {
 			name: "Array[Person]",
 			want: "Array[@pkg.Person]",
 		},
+		{
+			name: "Array[(String, String)]",
+			want: "Array[(String, String)]",
+		},
+		{
+			name: "Array[(String, (Byte, Person?))]",
+			want: "Array[(String, (Byte, @pkg.Person?))]",
+		},
 	}
 
 	for _, tt := range tests {

@@ -408,6 +408,14 @@ func FullyQualifyTypeName(pkgName, typeName string) string {
 		if wellKnownTypes[typ] {
 			return typeName // known type
 		}
+		if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
+			// Tuple type, recurse on each type.
+			fields := SplitParamsWithBrackets(typ[1 : len(typ)-1])
+			for i, f := range fields {
+				fields[i] = FullyQualifyTypeName(pkgName, f)
+			}
+			return "(" + strings.Join(fields, ", ") + ")"
+		}
 		return pkgName + "." + typeName // unknown type.
 	}
 

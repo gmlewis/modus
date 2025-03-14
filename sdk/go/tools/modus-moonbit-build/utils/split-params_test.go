@@ -37,6 +37,16 @@ func TestSplitFunctionParameters(t *testing.T) {
 			input: "a : Map[String, Map[Int, Bool]?], b : Map[Char, Array[Int, Map[String, Bool]]]",
 			want:  []string{"a : Map[String, Map[Int, Bool]?]", "b : Map[Char, Array[Int, Map[String, Bool]]]"},
 		},
+		{
+			name:  "params with tuples",
+			input: "a : (Int, Bool), b : (String, (Int, Bool)), c : (String, (Int, Bool), (String, (Int, Bool)))",
+			want:  []string{"a : (Int, Bool)", "b : (String, (Int, Bool))", "c : (String, (Int, Bool), (String, (Int, Bool)))"},
+		},
+		{
+			name:  "just embedded tuples",
+			input: "String, (Int, Bool), (String, (Int, Bool))",
+			want:  []string{"String", "(Int, Bool)", "(String, (Int, Bool))"},
+		},
 	}
 
 	for _, tt := range tests {

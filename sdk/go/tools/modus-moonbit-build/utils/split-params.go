@@ -17,9 +17,9 @@ func SplitParamsWithBrackets(allArgs string) []string {
 	var start int // start of current arg
 	for i := 0; i < len(allArgs); i++ {
 		switch allArgs[i] {
-		case '[':
+		case '[', '(':
 			n++
-		case ']':
+		case ']', ')':
 			n--
 		case ',':
 			if n == 0 {
