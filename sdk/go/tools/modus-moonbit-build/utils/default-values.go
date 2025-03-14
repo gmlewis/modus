@@ -21,6 +21,8 @@ func GetDefaultValue(paramType, paramValue string) (any, bool) {
 		if v, err := strconv.Atoi(paramValue); err == nil {
 			return int32(v), true
 		}
+	case "String":
+		return paramValue, true
 	}
 	log.Printf("WARNING: GetDefaultValue: type %v = %v not yet supported", paramType, paramValue)
 	return nil, false
