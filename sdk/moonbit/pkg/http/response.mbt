@@ -5,8 +5,13 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-///|
-pub(all) type Response @host.Response
+///| HTTP Response record
+pub(all) struct Response {
+  status : UInt16
+  status_text : String
+  headers : Headers?
+  body : Array[Byte]
+} derive(Show, Eq)
 
 ///|
 pub fn ok(self : Response) -> Bool {

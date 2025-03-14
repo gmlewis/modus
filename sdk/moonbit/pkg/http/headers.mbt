@@ -11,14 +11,25 @@ pub(all) struct Header {
   values : Array[String]
 } derive(Show, Eq, FromJson, ToJson)
 
-///|
+///| Headers type representation
 pub(all) struct Headers {
-  data : Map[String, Header]
+  data : Map[String, Header?]
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub fn Headers::new() -> Headers {
   { data: {} }
+}
+
+///|
+pub fn Headers::clone(self : Headers) -> Headers {
+  let headers = Headers::new()
+  for kv in self.data {
+    let key = kv.0
+    let header = kv.1.unwrap()
+    headers.data[key] = Some(header)
+  }
+  headers
 }
 
 ///|
@@ -65,11 +76,11 @@ pub fn Headers::from_map_array(value : Map[String, Array[String]]) -> Headers {
 pub fn append(self : Headers, name : String, value : String) -> Unit {
   let key = name.to_lower()
   if self.data.contains(key) {
-    let header = self.data[key].unwrap()
+    let header = self.data[key].unwrap().unwrap()
     header.values.push(value)
-    self.data[key] = header
+    self.data[key] = Some(header)
   } else {
-    self.data[key] = { name, values: [value] }
+    self.data[key] = Some({ name, values: [value] })
   }
 }
 
@@ -80,6 +91,7 @@ pub fn entries(self : Headers) -> Array[(String, String)] {
   // the most common case.
   let entries = Array::new(capacity=values.length())
   for header in values {
+    let header = header.unwrap()
     for value in header.values {
       entries.push((header.name, value))
     }
@@ -91,7 +103,7 @@ pub fn entries(self : Headers) -> Array[(String, String)] {
 pub fn get(self : Headers, name : String) -> String {
   let key = name.to_lower()
   if self.data.contains(key) {
-    let header = self.data[key].unwrap()
+    let header = self.data[key].unwrap().unwrap()
     // header.values.join(",")
     // YUCK! https://github.com/moonbitlang/core/pull/993
     String::concat(header.values, separator=",")

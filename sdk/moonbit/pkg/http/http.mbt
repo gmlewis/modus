@@ -19,9 +19,5 @@ pub fn fetch_url(
 
 ///|
 pub fn fetch(self : Request) -> Response!Error {
-  match @host.fetch(self._) {
-    Some(response) => response
-    None =>
-      raise HttpError("HTTP fetch failed. Check the logs for more information.")
-  }
+  host_fetch!(self)
 }

@@ -5,8 +5,13 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
-///|
-pub(all) type Request @host.Request
+///| HTTP Request record
+pub(all) struct Request {
+  url : String
+  method_ : String
+  headers : Headers?
+  body : Array[Byte]
+} derive(Show, Eq)
 
 ///|
 pub(all) enum RequestOptions {
@@ -24,15 +29,18 @@ pub fn Request::new(
   url : String,
   options~ : Array[RequestOptions] = []
 ) -> Request {
-  let req = Request({ url, method_: "GET", headers: None, body: [] })
+  let req = { url, method_: "GET", headers: None, body: [] }
   req.clone(options)
 }
 
 ///|
-pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
+pub fn Request::clone(
+  self : Request,
+  options : Array[RequestOptions]
+) -> Request {
   let mut method_ = self.method_
   let mut headers = match self.headers {
-    Some(value) => Headers::from_tuples(value.data)
+    Some(value) => value.clone()
     None => Headers::new()
   }
   let mut body = self.body
@@ -46,20 +54,14 @@ pub fn clone(self : Request, options : Array[RequestOptions]) -> Request {
       RequestOptions::HeaderTuples(value) =>
         headers = Headers::from_tuples(value)
       RequestOptions::BodyString(value) =>
-        body = FixedArray::from_array(@string.to_bytes(value).to_array())
+        body = @string.to_bytes(value).to_array() // TODO: utf8/utf16
       RequestOptions::BodyJson(value) =>
-        body = FixedArray::from_array(
-          @string.to_bytes(@json.stringify(value)).to_array(),
-        )
+        body = @string.to_bytes(@json.stringify(value)).to_array()
     }
   }
   let data = headers.entries()
-  let headers = if data.length() > 0 {
-    Some(@host.Headers::{ data, })
-  } else {
-    None
-  }
-  Request({ url: self.url, method_, headers, body })
+  let headers = if data.length() > 0 { Some(headers) } else { None }
+  { url: self.url, method_, headers, body }
 }
 
 ///|

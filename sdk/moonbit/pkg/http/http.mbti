@@ -1,12 +1,9 @@
 package gmlewis/modus/pkg/http
 
-alias @gmlewis/modus/wit/interface/httpClient as @httpClient
 alias @moonbitlang/core/json as @json
 
 // Values
 fn append(Headers, String, String) -> Unit
-
-fn clone(Request, Array[RequestOptions]) -> Request
 
 fn entries(Headers) -> Array[(String, String)]
 
@@ -15,6 +12,8 @@ fn fetch(Request) -> Response!
 fn fetch_url(String, options~ : Array[RequestOptions] = ..) -> Response!
 
 fn get(Headers, String) -> String
+
+fn host_fetch(Request) -> Response!
 
 fn json[T : @json.FromJson](Content) -> T!
 
@@ -46,10 +45,11 @@ impl ToJson for Header
 impl @json.FromJson for Header
 
 pub(all) struct Headers {
-  data : Map[String, Header]
+  data : Map[String, Header?]
 }
 impl Headers {
   append(Self, String, String) -> Unit
+  clone(Self) -> Self
   entries(Self) -> Array[(String, String)]
   from_array(Array[Array[String]]) -> Self
   from_map(Map[String, String]) -> Self
@@ -67,7 +67,12 @@ pub(all) type! HttpError String
 impl Eq for HttpError
 impl Show for HttpError
 
-pub(all) type Request @httpClient.Request
+pub(all) struct Request {
+  url : String
+  method_ : String
+  headers : Headers?
+  body : FixedArray[Byte]
+}
 impl Request {
   clone(Self, Array[RequestOptions]) -> Self
   fetch(Self) -> Response!
@@ -75,6 +80,8 @@ impl Request {
   new(String, options~ : Array[RequestOptions] = ..) -> Self
   text(Self) -> String
 }
+impl Eq for Request
+impl Show for Request
 
 pub(all) enum RequestOptions {
   Method(String)
@@ -86,12 +93,19 @@ pub(all) enum RequestOptions {
   BodyJson(Json)
 }
 
-pub(all) type Response @httpClient.Response
+pub(all) struct Response {
+  status : UInt16
+  status_text : String
+  headers : Headers?
+  body : FixedArray[Byte]
+}
 impl Response {
   json[T : @json.FromJson](Self) -> T!
   ok(Self) -> Bool
   text(Self) -> String
 }
+impl Eq for Response
+impl Show for Response
 
 // Type aliases
 
