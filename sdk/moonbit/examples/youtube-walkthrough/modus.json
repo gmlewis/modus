@@ -12,5 +12,12 @@
       "type": "http",
       "baseUrl": "https://zenquotes.io/"
     }
+  },
+  "models": {
+    "text-generator": {
+      "sourceModel": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "provider": "hugging-face",
+      "connection": "hypermode"
+    }
   }
 }

@@ -1,7 +1,9 @@
 {
   "import": [
+    "gmlewis/modus/pkg/console",
     "gmlewis/modus/pkg/http",
-    "gmlewis/modus/pkg/console"
+    "gmlewis/modus/pkg/models",
+    "gmlewis/modus/pkg/models/openai"
   ],
   "targets": {
     "modus_post_generated.mbt": [
@@ -14,6 +16,7 @@
   "link": {
     "wasm": {
       "exports": [
+        "__modus_generate_text:generate_text",
         "__modus_get_random_quote:get_random_quote",
         "__modus_say_hello:say_hello",
         "__modus_say_hello_WithDefaults:say_hello_WithDefaults",

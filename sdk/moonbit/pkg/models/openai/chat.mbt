@@ -11,6 +11,22 @@
 /// [API Reference]: https://platform.openai.com/docs/api-reference/chat
 pub(all) type ChatModel @models.ModelBase derive(Show, Eq, FromJson, ToJson)
 
+///|
+pub impl @models.Model for ChatModel with info(self) {
+  self.info()
+}
+
+///|
+pub fn invoke(
+  self : ChatModel,
+  input : ChatModelInput
+) -> ChatModelOutput!Error {
+  let input_json = input.to_json()
+  let output_json = self._.invoke!(input_json)
+  // println("got output_json=\{output_json}")
+  @json.from_json!(output_json)
+}
+
 // type ChatModel struct {
 // 	chatModelBase
 // }
@@ -26,7 +42,7 @@ pub(all) struct ChatModelInput {
   model : String
 
   // The list of messages to send to the chat model.
-  messages : Array[Message]
+  messages : Array[&RequestMessage]
 
   // Number between -2.0 and 2.0.
   //
@@ -104,7 +120,7 @@ pub(all) struct ChatModelInput {
   // We generally recommend altering this or TopP but not both.
   //
   // The default value is 1.0.
-  temperature : Double?
+  mut temperature : Double
 
   // An alternative to sampling with temperature, called nucleus sampling, where the model
   // considers the results of the tokens with TopP probability mass.
@@ -140,7 +156,7 @@ pub(all) struct ChatModelInput {
   //
   // [documentation]: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   user : String?
-} derive(Show, Eq, FromJson, ToJson)
+} derive(ToJson)
 
 ///| An object specifying which tool the model should call.
 pub(all) struct ToolChoice {
@@ -149,7 +165,18 @@ pub(all) struct ToolChoice {
 
   // The function to call.
   function : Function?
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, FromJson)
+
+///|
+pub impl ToJson for ToolChoice with to_json(_self) {
+  // let type_ = self.type_.to_json()
+  // match self.function {
+  //   None => { "type": type_, "function": None.to_json() }
+  //   Some(func) => { "type": type_, "function": func.to_json() }
+  // }
+  // TODO: Fix this
+  "auto".to_json()
+}
 
 ///|
 pub(all) struct Function {
@@ -196,13 +223,13 @@ pub(all) struct ChatModelOutput {
   // The service tier used for processing the request.
   //
   // This field is only included if the ServiceTier parameter is specified in the request.
-  service_tier : ServiceTier
+  service_tier : ServiceTier?
 
   // This fingerprint represents the OpenAI backend configuration that the model runs with.
   //
   // Can be used in conjunction with the Seed request parameter to understand when backend changes
   // have been made that might impact determinism.
-  system_fingerprint : String
+  // system_fingerprint : String  // TODO: got `"system_fingerprint": null` in the response.
 
   // The usage statistics for the request.
   usage : Usage
@@ -212,12 +239,9 @@ pub(all) struct ChatModelOutput {
 // }
 
 ///| An interface to any message object.
-pub(all) enum Message {
-  System(SystemMessage)
-  User(UserMessage)
-  Assistant(AssistantMessage)
-  Tool(ToolMessage)
-} derive(Show, Eq, FromJson, ToJson)
+pub trait RequestMessage: ToJson {
+  role(Self) -> String
+}
 
 ///| A system message object.
 pub(all) struct SystemMessage {
@@ -231,6 +255,11 @@ pub(all) struct SystemMessage {
   /// Provides the model information to differentiate between participants of the same role.
   name : String?
 } derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub impl RequestMessage for SystemMessage with role(self) {
+  self.role
+}
 
 ///| Creates a new system message object.
 pub fn SystemMessage::new(content : String) -> SystemMessage {
@@ -249,6 +278,11 @@ pub(all) struct UserMessage {
   /// Provides the model information to differentiate between participants of the same role.
   name : String?
 } derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub impl RequestMessage for UserMessage with role(self) {
+  self.role
+}
 
 ///| Creates a new user message object.
 pub fn UserMessage::new(content : String) -> UserMessage {
@@ -271,6 +305,11 @@ pub(all) struct AssistantMessage {
   tool_calls : Array[ToolCall]
 } derive(Show, Eq, FromJson, ToJson)
 
+///|
+pub impl RequestMessage for AssistantMessage with role(self) {
+  self.role
+}
+
 ///| Creates a new assistant message object.
 pub fn AssistantMessage::new(
   content : String,
@@ -291,6 +330,11 @@ pub(all) struct ToolMessage {
   tool_call_id : String
 } derive(Show, Eq, FromJson, ToJson)
 
+///|
+pub impl RequestMessage for ToolMessage with role(self) {
+  self.role
+}
+
 ///| Creates a new tool message object.
 pub fn ToolMessage::new(content : String, tool_call_id : String) -> ToolMessage {
   { role: "tool", content, tool_call_id }
@@ -308,6 +352,11 @@ pub(all) struct CompletionMessage {
   refusal : String?
 } derive(Show, Eq, FromJson, ToJson)
 
+///|
+pub impl RequestMessage for CompletionMessage with role(self) {
+  self.role
+}
+
 ///| A tool call object that the model may generate.
 pub(all) struct ToolCall {
   /// The ID of the tool call.
@@ -318,7 +367,16 @@ pub(all) struct ToolCall {
 
   /// The function that the model called.
   function : FunctionCall
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, FromJson)
+
+///|
+pub impl ToJson for ToolCall with to_json(self) {
+  {
+    "id": self.id.to_json(),
+    "type": self.type_.to_json(),
+    "function": self.function.to_json(),
+  }
+}
 
 ///| Creates a new tool call object.
 pub fn ToolCall::new(
@@ -350,7 +408,16 @@ pub(all) struct ResponseFormat {
 
   /// The JSON schema to use for the response format.
   json_schema : Json?
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, FromJson)
+
+///|
+pub impl ToJson for ResponseFormat with to_json(self) {
+  let type_ = self.type_.to_json()
+  match self.json_schema {
+    None => { "type": type_, "json_schema": None.to_json() }
+    Some(json_schema) => { "type": type_, "json_schema": json_schema.to_json() }
+  }
+}
 
 ///| Instructs the model to output the response as a plain text string.
 /// This is the default response format.
@@ -402,7 +469,7 @@ pub(all) struct Choice {
   message : CompletionMessage
 
   /// Log probability information for the choice.
-  logprobs : Logprobs
+  // logprobs : Logprobs  // TODO - found `"logprobs": null` in the response.
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Log probability information for a choice.
@@ -502,7 +569,7 @@ pub fn FunctionDefinition::new(name : String) -> FunctionDefinition {
 ///| Creates an input object for the OpenAI Chat API.
 pub fn create_input(
   self : ChatModel,
-  messages : Array[Message]
+  messages : Array[&RequestMessage]
 ) -> ChatModelInput {
   let info = self._.info()
   let model = info.full_name
@@ -520,7 +587,7 @@ pub fn create_input(
     seed: None,
     service_tier: Some(ServiceTier::Auto),
     stop: [],
-    temperature: None,
+    temperature: 1.0,
     top_p: None,
     tools: [],
     tool_choice: tool_choice_auto,

@@ -1,4 +1,16 @@
 ///|
+pub fn generate_text(instruction : String, prompt : String) -> String!Error {
+  let model : @openai.ChatModel = @models.get_model!("text-generator")
+  let input = model.create_input([
+    @openai.SystemMessage::new(instruction),
+    @openai.UserMessage::new(prompt),
+  ])
+  input.temperature = 0.7
+  let output = model.invoke!(input)
+  output.choices[0].message.content
+}
+
+///|
 pub struct Quote {
   // plaintext quote
   q : String
