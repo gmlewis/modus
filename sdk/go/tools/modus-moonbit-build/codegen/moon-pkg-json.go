@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"slices"
 	"strings"
 
@@ -33,7 +34,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		case string:
 			currentImports[v] = true
 		default:
-			gmlPrintf("WARNING: updateMoonPkgJSON: unexpected import type: %T, ignored.", value)
+			log.Printf("WARNING: updateMoonPkgJSON: unexpected import type: %T, ignored.", value)
 		}
 	}
 	for k := range imports {
@@ -42,7 +43,6 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 			continue
 		}
 		if _, ok := currentImports[k]; !ok {
-			gmlPrintf("adding import %q to moon.pkg.json", k)
 			pkg.MoonPkgJSON.Imports = append(pkg.MoonPkgJSON.Imports, json.RawMessage(`"`+k+`"`))
 		}
 	}
@@ -53,7 +53,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 	pkg.MoonPkgJSON.Targets["modus_post_generated.mbt"] = []string{"wasm"}
 	pkg.MoonPkgJSON.Targets["modus_pre_generated.mbt"] = []string{"wasm"}
 
-	// currentExports := map[string]bool{}  // no need to preserve current exports
+	// no need to preserve current exports.
 	if pkg.MoonPkgJSON.LinkTargets == nil {
 		pkg.MoonPkgJSON.LinkTargets = map[string]*packages.LinkTarget{
 			"wasm": {ExportMemoryName: "memory"},
@@ -66,55 +66,21 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		wasmLinkTarget = &packages.LinkTarget{ExportMemoryName: "memory"}
 		pkg.MoonPkgJSON.LinkTargets["wasm"] = wasmLinkTarget
 	}
-	// for _, export := range wasmLinkTarget.Exports {
-	// 	currentExports[export] = true
-	// }
 
 	// TODO: Only include the exports that are actually needed.
 	overrides := []string{ // clear out existing exports
 		"cabi_realloc",
-		// "extend16",
-		// "extend8",
 		"store8",
-		// "load8_u",
-		// "load8",
-		// "store16",
-		// "load16",
-		// "load16_u",
 		"store32",
 		"load32",
-		// "store64",
-		// "load64",
-		// "storef32",
-		// "loadf32",
-		// "storef64",
-		// "loadf64",
-		// "f32_to_i32",
-		// "f32_to_i64",
 		"malloc",
 		"free",
 		"copy",
-		// "str2ptr",
 		"ptr2str",
-		// "bytes2ptr",
-		// "ptr2bytes",
-		// "uint_array2ptr",
-		// "uint64_array2ptr",
-		// "int_array2ptr",
-		// "int64_array2ptr",
-		// "float_array2ptr",
-		// "double_array2ptr",
-		// "ptr2uint_array",
-		// "ptr2int_array",
-		// "ptr2float_array",
-		// "ptr2uint64_array",
-		// "ptr2int64_array",
-		// "ptr2double_array",
 		"read_map",
 		"write_map",
 		"ptr_to_none",
 	}
-	gmlPrintf("GML: codegen/moon-pkg-json.go: updateMoonPkgJSON: imports=%+v", imports)
 	for _, v := range imports {
 		if v == "@time" {
 			overrides = append(overrides,
@@ -128,10 +94,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 
 	for _, fn := range functions {
 		modusName := fmt.Sprintf("__modus_%v:%[1]v", fn.function.Name.Name)
-		// if _, ok := currentExports[modusName]; !ok {
-		gmlPrintf("adding link.wasm.export %q to moon.pkg.json", modusName)
 		pkg.MoonPkgJSON.LinkTargets["wasm"].Exports = append(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports, modusName)
-		// }
 	}
 	slices.Sort(pkg.MoonPkgJSON.LinkTargets["wasm"].Exports)
 

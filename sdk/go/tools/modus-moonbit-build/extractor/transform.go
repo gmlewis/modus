@@ -61,7 +61,6 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Package, requiredTypes requiredTypesMap) *metadata.Function {
 	f := fpkg.fn
 	if f == nil {
-		gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q, f=nil)", name)
 		return nil
 	}
 
@@ -71,7 +70,6 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 
 	funcDecl := getFuncDeclaration(f, pkgs)
 	if funcDecl == nil {
-		gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', funcDecl=nil", sig.String(), name)
 		return nil
 	}
 
@@ -96,13 +94,11 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 					param.Default = &defaultValue
 				}
 			}
-			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', param[%v]: {Name: %q, Type: %q}", name, sig.String(), i, param.Name, param.Type)
 			ret.Parameters[i] = param
 			// Now make empty types for all underlying types needed by this parameter.
 			delete(acc, paramType)
 			for k := range acc {
 				if _, ok := requiredTypes[k]; !ok {
-					gmlPrintf("GML: extractor/transform.go: A: paramType ADDING m['%v']=nil", k)
 					requiredTypes[k] = &typeWithPkgT{pkg: fpkg.pkg}
 				}
 			}
@@ -118,13 +114,11 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 				Name: r.Name(),
 				Type: resultType,
 			}
-			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', result[%v]: {Name: %q, Type: %q}", name, sig.String(), i, result.Name, result.Type)
 			ret.Results[i] = result
 			// Now make empty types for all underlying types needed by this parameter.
 			delete(acc, resultType)
 			for k := range acc {
 				if _, ok := requiredTypes[k]; !ok {
-					gmlPrintf("GML: extractor/transform.go: B: resultType ADDING m['%v']=nil", k)
 					requiredTypes[k] = &typeWithPkgT{pkg: fpkg.pkg}
 				}
 			}
@@ -135,7 +129,6 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 }
 
 func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package) (*ast.GenDecl, *ast.StructType, *types.Struct) {
-	gmlPrintf("GML: extractor/transform.go: ENTER getStructDeclarationAndType(name=%q)", name)
 	if utils.IsTupleType(name) {
 		return nil, nil, nil
 	}
@@ -146,11 +139,9 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 	if len(pkgNames) == 0 {
 		// This struct does not have a package name, therefore it should be in the main package. Find it.
 		typ, _, _ := utils.StripErrorAndOption(objName)
-		for pkgName, pkg := range pkgs {
-			gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): looking at pkgs[%q]", name, pkgName)
+		for _, pkg := range pkgs {
 			if typeSpec, ok := pkg.StructLookup[typ]; ok {
 				if structType, ok := typeSpec.Type.(*ast.StructType); ok {
-					gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): FOUND: p.StructLookup[%q]=%p", name, typ, typeSpec)
 					customType, ok := pkg.TypesInfo.Defs[typeSpec.Name]
 					if !ok {
 						log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
@@ -174,10 +165,6 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 	pkg := pkgs[pkgName]
 	if pkg == nil {
 		log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): pkg[%q] is nil", name, pkgName)
-		for pkgName := range pkgs {
-			gmlPrintf("GML: extractor/transform.go: getStructDeclarationAndType(name=%q): found pkgs[%q]", name, pkgName)
-		}
-		return nil, nil, nil
 	}
 
 	// Yes, the following is still necessary even with the advent of p.StructLookup
@@ -195,7 +182,6 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 								// Make sure we use the complete struct definition with all its fields and not an empty forward reference.
 								if fullTypeSpec, ok := pkg.StructLookup[typeSpec.Name.Name]; ok {
 									if fullStructType, ok := fullTypeSpec.Type.(*ast.StructType); ok {
-										gmlPrintf("GML: extractor/transform.go: FOUND AND USING FULL DEFINITION getStructDeclarationAndType(name=%q): Z: fullStructType=%#v", name, fullStructType)
 										customType, ok := pkg.TypesInfo.Defs[fullTypeSpec.Name]
 										if !ok {
 											log.Fatalf("PROGRAMMING ERROR: transform.go: getStructDeclarationAndType(name=%q): customType not found!", name)
@@ -209,20 +195,16 @@ func getStructDeclarationAndType(name string, pkgs map[string]*packages.Package)
 										return genDecl, fullStructType, typesStruct
 									}
 								}
-								gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): A", name)
 								return genDecl, structType, nil
 							} else if ident, ok := typeSpec.Type.(*ast.Ident); ok {
 								typePath := pkgName + "." + ident.Name
-								gmlPrintf("GML: IS THIS RECURSION NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): B: typePath=%q", name, typePath)
 								return getStructDeclarationAndType(typePath, pkgs)
 							} else if selExp, ok := typeSpec.Type.(*ast.SelectorExpr); ok {
 								if pkgIdent, ok := selExp.X.(*ast.Ident); !ok {
-									gmlPrintf("GML: IS THIS NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): C", name)
 									return nil, nil, nil
 								} else {
 									pkgPath := getFullImportPath(file, pkgIdent.Name)
 									typePath := pkgPath + "." + selExp.Sel.Name
-									gmlPrintf("GML: IS THIS RECURSION NECESSARY?!? extractor/transform.go: getStructDeclarationAndType(name=%q): D: pkgPath=%q, typePath=%q", name, pkgPath, typePath)
 									return getStructDeclarationAndType(typePath, pkgs)
 								}
 							}
@@ -258,20 +240,13 @@ func getFullImportPath(file *ast.File, pkgName string) string {
 		path := strings.Trim(imp.Path.Value, `"`)
 		if imp.Name == nil {
 			parts := strings.Split(path, "/")
-			// if len(parts) == 0 { // huh?!? is this even possible?!?  No.
-			// 	gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): A: path=%q", pkgName, path)
-			// 	return ""
-			// }
 			if parts[len(parts)-1] == pkgName {
-				gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): B: path=%q", pkgName, path)
 				return path
 			}
 		} else if imp.Name.Name == pkgName {
-			gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): C: path=%q", pkgName, path)
 			return path
 		}
 	}
-	gmlPrintf("GML: extractor/transform.go: getFullImportPath(pkgName=%q): D: ''", pkgName)
 	return ""
 }
 

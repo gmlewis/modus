@@ -14,33 +14,15 @@ import (
 	"cmp"
 	"context"
 	"fmt"
-	"log"
-	"os"
 	"slices"
 	"sort"
 	"strings"
-	"sync"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/languages"
 	"github.com/gmlewis/modus/runtime/utils"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 type GraphQLSchema struct {
 	Schema            string
@@ -591,7 +573,6 @@ func convertFields(fields []*metadata.Field, lti langsupport.LanguageTypeInfo, t
 }
 
 func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[string]*TypeDefinition, firstPass, forInput bool) (string, error) {
-	gmlPrintf("GML: schemagen.go: ENTER convertType: typ='%v'", typ)
 	if underlyingType, ok := lti.IsErrorType(typ); ok {
 		typ = underlyingType
 	}
@@ -624,7 +605,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 	// TODO: How do we want to provide GraphQL "ID" scalar types? Maybe they're annotated? or maybe by naming convention?
 
 	if lti.IsStringType(typ) {
-		gmlPrintf("GML: schemagen.go: convertType: A: typ='%v'", typ)
 		return "String" + n, nil
 	}
 
@@ -632,17 +612,14 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		// Note: If the bytes represent valid UTF-8 strings, Go will serialize them as actual strings.
 		// Otherwise, the data will be base64 encoded.
 		// TODO: We may want to ensure that the results are _always_ base64 encoded.
-		gmlPrintf("GML: schemagen.go: convertType: B: typ='%v'", typ)
 		return "String" + n, nil
 	}
 
 	if lti.IsBooleanType(typ) {
-		gmlPrintf("GML: schemagen.go: convertType: C: typ='%v'", typ)
 		return "Boolean" + n, nil
 	}
 
 	if lti.IsFloatType(typ) {
-		gmlPrintf("GML: schemagen.go: convertType: D: typ='%v'", typ)
 		return "Float" + n, nil
 	}
 
@@ -657,25 +634,20 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		switch size {
 		case 8:
 			if signed {
-				gmlPrintf("GML: schemagen.go: convertType: E: typ='%v'", typ)
 				return newScalar("Int64", typeDefs) + n, nil
 			} else {
-				gmlPrintf("GML: schemagen.go: convertType: F: typ='%v'", typ)
 				return newScalar("UInt64", typeDefs) + n, nil
 			}
 		case 4:
 			if !signed {
-				gmlPrintf("GML: schemagen.go: convertType: G: typ='%v'", typ)
 				return newScalar("UInt", typeDefs) + n, nil
 			}
 		}
 
-		gmlPrintf("GML: schemagen.go: convertType: H: typ='%v'", typ)
 		return "Int" + n, nil
 	}
 
 	if lti.IsTimestampType(typ) {
-		gmlPrintf("GML: schemagen.go: convertType: I: typ='%v'", typ)
 		return newScalar("Timestamp", typeDefs) + n, nil
 	}
 
@@ -686,7 +658,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		if err != nil {
 			return "", err
 		}
-		gmlPrintf("GML: schemagen.go: convertType: J: typ='%v'", typ)
 		return "[" + t + "]" + n, nil
 	}
 
@@ -732,7 +703,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 
 		// The tuple is represented as a map.
 		// e.g. IntBoolStringTuple! or IntBoolStringTupleInput!
-		gmlPrintf("GML: schemagen.go: convertType: K: typ='%v'", typ)
 		return typeName + n, nil
 	}
 
@@ -797,7 +767,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 		// The map is represented as a list of the pair type.
 		// The list might be nullable, but the pair type within the list is always non-nullable.
 		// ex: [StringStringPair!] or [StringStringPair!]!
-		gmlPrintf("GML: schemagen.go: convertType: K: typ='%v'", typ)
 		return "[" + typeName + "!]" + n, nil
 	}
 
@@ -812,13 +781,11 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 
 	// in the first pass, we convert input custom type definitions
 	if firstPass {
-		gmlPrintf("GML: schemagen.go: convertType: L: typ='%v'", typ)
 		return name + n, nil
 	}
 
 	// going forward, convert custom types only if they have a type definition
 	if _, ok := typeDefs[name]; ok {
-		gmlPrintf("GML: schemagen.go: convertType: M: typ='%v'", typ)
 		return name + n, nil
 	}
 
@@ -826,7 +793,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 	if forInput {
 		name = strings.TrimSuffix(name, "Input")
 		if _, ok := typeDefs[name]; ok {
-			gmlPrintf("GML: schemagen.go: convertType: N: typ='%v'", typ)
 			return name + n, nil
 		}
 	}

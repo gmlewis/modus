@@ -32,8 +32,7 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 		}
 	}()
 
-	typ, hasError, hasOption := stripErrorAndOption(ti.Name())
-	gmlPrintf("GML: handler_primitives.go: NewPrimitiveHandler('%v'): '%v', hasError=%v, hasOption=%v", ti.Name(), typ, hasError, hasOption)
+	typ, _, _ := stripErrorAndOption(ti.Name())
 
 	switch typ {
 	case "Bool":
@@ -81,8 +80,6 @@ type primitiveHandler[T primitive] struct {
 }
 
 func (h *primitiveHandler[T]) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	gmlPrintf("GML: handler_primitives.go: primitiveHandler[%T].Read(offset: %v)", []T{}, debugShowOffset(offset))
-
 	val, ok := h.converter.Read(wa.Memory(), offset)
 	if !ok {
 		return 0, fmt.Errorf("failed to read %s from memory", h.typeInfo.Name())
@@ -136,7 +133,6 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wasmadapter langsupport
 				wa.Memory().Write(noneBlock-8, []byte{255, 255, 255, 255, 0, 0, 0, 0}) // None in memBlock header
 				res = []uint64{uint64(noneBlock - 8)}
 			}
-			gmlPrintf("GML: handler_primitives.go: primitiveHandler.Write: ptr_to_none() -> res=%+v", res)
 			if ok := wa.Memory().WriteUint32Le(offset, uint32(res[0])); !ok {
 				return nil, fmt.Errorf("failed to write %v 'None' to memory offset %v", h.typeInfo.Name(), offset)
 			}
@@ -221,8 +217,6 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 		return nil, fmt.Errorf("expected a wasmMemoryReader, got %T", wasmAdapter)
 	}
 
-	gmlPrintf("GML: handler_primitives.go: primitiveHandler.Decode(vals: %+v)", vals)
-
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value, got %v", len(vals))
 	}
@@ -249,7 +243,6 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			return nil, nil
 		case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 			h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
-			memoryBlockAtOffset(wa, uint32(vals[0]), 0, true) //nolint:errcheck
 			memBlockHeader, ok := wa.Memory().ReadUint64Le(uint32(vals[0]))
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)

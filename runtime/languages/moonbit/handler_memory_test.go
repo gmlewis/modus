@@ -48,7 +48,7 @@ func TestMyWasmMock(t *testing.T) {
 	m.Memory().WriteUint32Le(block3, 81)
 	m.Memory().WriteUint32Le(block3+4, 82)
 
-	memBlock1, classID1, _, _ := memoryBlockAtOffset(m, block1-8, 0, true)
+	memBlock1, classID1, _, _ := memoryBlockAtOffset(m, block1-8, 0)
 	if classID1 != 241 {
 		t.Errorf("classID1 expected 241, got %v", classID1)
 	}
@@ -57,7 +57,7 @@ func TestMyWasmMock(t *testing.T) {
 		t.Errorf("block1 expected %v, got %v", wantBlock1, memBlock1)
 	}
 
-	memBlock2, classID2, _, _ := memoryBlockAtOffset(m, block2-8, 0, true)
+	memBlock2, classID2, _, _ := memoryBlockAtOffset(m, block2-8, 0)
 	if classID2 != 242 {
 		t.Errorf("classID2 expected 242, got %v", classID2)
 	}
@@ -66,7 +66,7 @@ func TestMyWasmMock(t *testing.T) {
 		t.Errorf("block2 expected %v, got %v", wantBlock2, memBlock2)
 	}
 
-	memBlock3, classID3, _, _ := memoryBlockAtOffset(m, block3-8, 0, true)
+	memBlock3, classID3, _, _ := memoryBlockAtOffset(m, block3-8, 0)
 	if classID3 != 243 {
 		t.Errorf("classID3 expected 243, got %v", classID3)
 	}

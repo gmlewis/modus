@@ -22,8 +22,6 @@ import (
 	"github.com/gmlewis/modus/runtime/utils"
 )
 
-// const maxDepth = 5 // TODO: make this based on the depth requested in the query
-
 func (p *planner) NewStructHandler(ctx context.Context, ti langsupport.TypeInfo) (langsupport.TypeHandler, error) {
 	handler := &structHandler{
 		typeHandler: *NewTypeHandler(ti),
@@ -64,10 +62,8 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	gmlPrintf("GML: handler_structs.go: structHandler.Read(offset: %v)", debugShowOffset(offset))
 
 	if v, ok := h.seenOffsets[offset]; ok {
-		gmlPrintf("GML: structHandler.Read: RECURSION DETECTED for offset=%v", offset)
 		return v, nil
 	}
 
@@ -82,28 +78,11 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 	default:
 		h.seenOffsets[offset] = objPtr
 	}
-	gmlPrintf("GML: structHandler.Read: h.seenOffsets[%v]=%v=0x%[2]x", offset, reflect.ValueOf(h.seenOffsets[offset]).Pointer())
 	defer func() {
 		delete(h.seenOffsets, offset)
 	}()
 
-	// // Check for recursion
-	// visitedPtrs := wa.(*wasmAdapter).visitedPtrs
-	// if visitedPtrs[offset] >= maxDepth {
-	// 	logger.Warn(ctx).Bool("user_visible", true).Msgf("Excessive recursion detected in %s. Stopping at depth %d.", h.typeInfo.Name(), maxDepth)
-	// 	return nil, nil
-	// }
-	// visitedPtrs[offset]++
-	// defer func() {
-	// 	n := visitedPtrs[offset]
-	// 	if n == 1 {
-	// 		delete(visitedPtrs, offset)
-	// 	} else {
-	// 		visitedPtrs[offset] = n - 1
-	// 	}
-	// }()
-
-	memBlock, _, _, err := memoryBlockAtOffset(wa, offset, 0, true)
+	memBlock, _, _, err := memoryBlockAtOffset(wa, offset, 0)
 	if err != nil {
 		return nil, fmt.Errorf("structHandler failed to read memory block at offset %v: %w", debugShowOffset(offset), err)
 	}
@@ -135,15 +114,11 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 		switch elementSize {
 		case 8:
 			ptr = binary.LittleEndian.Uint64(memBlock[8+fieldOffset:])
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint64 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, ptr)
 		default:
-			// gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v", fieldName, handler.TypeInfo().Name(), fieldOffset)
-			// return nil, fmt.Errorf("unsupported size for type '%v': %v", handler.TypeInfo().Name(), handler.TypeInfo().Size())
 			// case 4:
 			// Go primitive types (e.g. "uint16", "int16") return a size of 2, but all MoonBit sizes in structs
 			// are either 4 or 8, so make the default be case 4.
 			ptr = uint64(binary.LittleEndian.Uint32(memBlock[8+fieldOffset:]))
-			gmlPrintf("GML: handler_structs.go: structHandler.Read: fieldName: '%v', type: '%v', fieldOffset: %v, uint32 ptr: %v", fieldName, handler.TypeInfo().Name(), fieldOffset, debugShowOffset(uint32(ptr)))
 		}
 
 		v, ok := h.seenOffsets[uint32(ptr)]
@@ -185,7 +160,6 @@ func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, of
 
 	// Handle map output
 	if rt.Kind() == reflect.Map {
-		gmlPrintf("GML: structHandler.Read: rt.Kind() == reflect.Map: m=%v=0x%[1]x", reflect.ValueOf(m).Pointer())
 		return m, nil
 	}
 
@@ -230,7 +204,6 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 
 	if m, ok := obj.(map[string]any); ok {
 		mapObj = m
-		gmlPrintf("GML: handler_structs.go: structHandler.Encode: obj=%v=0x%[1]x, m=%[2]v=0x%[2]x, mapObj=%[3]v=0x%[3]x", reflect.ValueOf(obj).Pointer(), reflect.ValueOf(m).Pointer(), reflect.ValueOf(mapObj).Pointer())
 		thisObjPtr = reflect.ValueOf(obj).Pointer()
 	} else {
 		rvObj = reflect.ValueOf(obj)
@@ -247,7 +220,6 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 	}
 
 	if v, ok := h.seenPtrs[thisObjPtr]; ok {
-		gmlPrintf("GML: structHandler: RECURSION DETECTED for uintptr=%v: returning %v", thisObjPtr, v)
 		return []uint64{uint64(v)}, nil, nil
 	}
 
@@ -272,7 +244,6 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 		fieldOffsets = append(fieldOffsets, totalSize)
 		totalSize += elementSize
 	}
-	gmlPrintf("GML: handler_structs.go: structHandler.Encode: totalSize=%v", totalSize)
 
 	offset, cln, err := wa.allocateAndPinMemory(ctx, totalSize, TupleBlockType)
 	if err != nil {
@@ -290,88 +261,35 @@ func (h *structHandler) Encode(ctx context.Context, wasmAdapter langsupport.Wasm
 	for i, field := range h.typeDef.Fields {
 		var fieldObj any
 		fieldName := strings.TrimPrefix(field.Name, "mut ")
-		// var isRecursiveRef bool
 		if mapObj != nil {
 			// case sensitive when reading from map
 			fieldObj = mapObj[fieldName]
-			// if reflect.TypeOf(fieldObj).Kind() == reflect.Map {
-			// 	fieldObjAddr := int64(reflect.ValueOf(fieldObj).Pointer())
-			// 	mapObjAddr := int64(reflect.ValueOf(mapObj).Pointer())
-			// 	if fieldObjAddr == mapObjAddr {
-			// 		isRecursiveRef = true
-			// 	}
-			// }
 		} else {
 			fieldObj = rvObj.FieldByIndex([]int{i}).Interface()
-			// case insensitive when reading from struct
-			// fieldObj = rvObj.FieldByNameFunc(func(s string) bool { return strings.EqualFold(s, fieldName) }).Interface()
-			// if reflect.TypeOf(fieldObj).Kind() == reflect.Ptr && reflect.TypeOf(obj).Kind() == reflect.Ptr {
-			// 	fieldObjAddr := int64(reflect.ValueOf(fieldObj).Pointer())
-			// 	objAddr := int64(reflect.ValueOf(obj).Pointer())
-			// 	if fieldObjAddr == objAddr {
-			// 		isRecursiveRef = true
-			// 	}
-			// }
 		}
 
-		// In MoonBit, Nones/nils need to be written, so don't skip them.
-		// if utils.HasNil(fieldObj) {
-		// 	continue
-		// }
+		// In MoonBit, 'None's/nils need to be written, so don't skip them.
 
 		handler := h.fieldHandlers[i]
-		// if isRecursiveRef {
-		// 	// This is a self-referencing field. We need to write the pointer to the struct itself.
-		// 	wa.Memory().WriteUint32Le(offset+fieldOffset, offset-8)
-		// } else {
 		cln, err := handler.Write(ctx, wasmAdapter, offset+fieldOffsets[i], fieldObj)
 		cleaner.AddCleaner(cln)
 		if err != nil {
 			return nil, cleaner, err
 		}
-		// }
 	}
 
 	return []uint64{uint64(offset - 8)}, cleaner, nil
 }
 
 func (h *structHandler) getStructOutput(rv reflect.Value, data map[string]any, recursionOnFields map[int]any) (any, error) {
-	// rt := h.typeInfo.ReflectedType()
-	// if rt.Kind() == reflect.Map {
-	// 	// for name := range recursionOnFields {
-	// 	// 	data[name] = data
-	// 	// }
-	// 	return data, nil
-	// }
-
-	// rv := reflect.New(rt)
 	if err := utils.MapToStruct(data, rv.Interface()); err != nil {
 		return nil, err
 	}
 
 	for index, v := range recursionOnFields {
 		fieldObj := rv.Elem().FieldByIndex([]int{index})
-		// ptrValue := rv // .Elem()
-		// s := ptrValue.Interface()
-		// log.Printf("GML1: TypeOf(s)=%v, s=%p=%[2]T", reflect.TypeOf(s), s)
-		// log.Printf("GML1: TypeOf(&s)=%v, &s=%p=%[2]T", reflect.TypeOf(&s), &s)
-		// fieldObj.Set(reflect.ValueOf(s))
 		fieldObj.Set(reflect.ValueOf(v))
 	}
 
-	result := rv.Elem().Interface()
-	// if len(recursionOnFields) > 0 {
-	// 	// We need to return a pointer to the struct itself or the return-struct-by-value
-	// 	// will have an invalid self-reference.
-	// 	// ptrValue := rv.Elem()
-	// 	// return ptrValue.Pointer(), nil
-	// 	// return rv.Pointer(), nil
-	// 	// s := rv.Elem()
-	// 	// return &s, nil
-	// 	ptrValue := rv // .Elem()
-	// 	s := ptrValue.Interface()
-	// 	log.Printf("GML2: s=%p=%[1]T", s)
-	// 	return s, nil
-	// }
-	return result, nil
+	return rv.Elem().Interface(), nil
 }

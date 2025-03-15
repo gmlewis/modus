@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+	"log"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -204,7 +205,7 @@ func getImportNames(e ast.Expr) []string {
 			return []string{parts[0]}
 		}
 	default:
-		gmlPrintf("WARNING: getImportNames: unhandled type %T", t)
+		log.Printf("WARNING: getImportNames: unhandled type %T", t)
 	}
 	return nil
 }

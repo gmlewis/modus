@@ -11,31 +11,13 @@ package languages
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"strings"
-	"sync"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/languages/assemblyscript"
 	"github.com/gmlewis/modus/runtime/languages/golang"
 	"github.com/gmlewis/modus/runtime/languages/moonbit"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 var lang_AssemblyScript = langsupport.NewLanguage(
 	"AssemblyScript",
@@ -77,7 +59,6 @@ func GetLanguageForSDK(sdk string) (langsupport.Language, error) {
 		sdkName = sdkName[:i]
 	}
 
-	gmlPrintf("GML: languages.go: GetLanguageForSDK(sdk=%q), sdkName=%q", sdk, sdkName)
 	// each SDK has a corresponding language implementation
 	switch sdkName {
 	case "modus-sdk-as":

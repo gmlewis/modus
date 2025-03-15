@@ -69,8 +69,6 @@ func moonTestWasmGC(config *config.Config) error {
 }
 
 func Compile(config *config.Config) error {
-	log.SetFlags(0)
-
 	if err := moonFmt(config); err != nil {
 		return err
 	}

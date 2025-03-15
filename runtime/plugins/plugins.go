@@ -11,11 +11,7 @@ package plugins
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
-	"sync"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -27,21 +23,6 @@ import (
 	wasm "github.com/tetratelabs/wazero/api"
 )
 
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
-
 type Plugin struct {
 	Id             string
 	Module         wazero.CompiledModule
@@ -52,8 +33,6 @@ type Plugin struct {
 }
 
 func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, md *metadata.Metadata) (*Plugin, error) {
-	buf, _ := json.MarshalIndent(md, "", "  ")
-	gmlPrintf("GML: plugins.go: NewPlugin: filename='%v', metadata:\n%s", filename, buf)
 	span, ctx := utils.NewSentrySpanForCurrentFunc(ctx)
 	defer span.Finish()
 
@@ -75,7 +54,6 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			return nil, fmt.Errorf("no wasm function definition found for %s", fnName)
 		}
 
-		gmlPrintf("GML: plugins.go: NewPlugin: FnExports: fnName='%v': calling planner.GetPlan ...", fnName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get execution plan for %v: %w", fnName, err)
@@ -98,7 +76,6 @@ func NewPlugin(ctx context.Context, cm wazero.CompiledModule, filename string, m
 			continue
 		}
 
-		gmlPrintf("GML: plugins.go: NewPlugin: FnImports: importName='%v': calling planner.GetPlan ...", importName)
 		plan, err := planner.GetPlan(ctx, fnMeta, fnDef)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get execution plan for %s: %w", importName, err)

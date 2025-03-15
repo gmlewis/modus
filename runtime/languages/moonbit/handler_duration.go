@@ -31,8 +31,6 @@ type durationHandler struct {
 }
 
 func (h *durationHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	gmlPrintf("GML: handler_duration.go: durationHandler.Read(offset: %v)", offset)
-
 	if offset == 0 {
 		return nil, nil
 	}
@@ -41,7 +39,6 @@ func (h *durationHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, 
 }
 
 func (h *durationHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
-	gmlPrintf("GML: handler_duration.go: durationHandler.Write(offset: %v, obj: %v)", offset, obj)
 	res, _, err := h.Encode(ctx, wa, obj)
 	if err != nil || len(res) != 1 {
 		return nil, err
@@ -56,8 +53,6 @@ func (h *durationHandler) Write(ctx context.Context, wa langsupport.WasmAdapter,
 
 // Decode should always be passed an address to a @time.Duration in memory.
 func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	gmlPrintf("GML: handler_duration.go: durationHandler.Decode(vals: %+v)", vals)
-
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding duration but got %v: %+v", len(vals), vals)
 	}
@@ -67,7 +62,7 @@ func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter
 	//   secs : Int64
 	//   nanos : Int
 	// } derive(Eq, Compare)
-	memBlock, _, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0, true)
+	memBlock, _, _, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
 	if err != nil {
 		return nil, err
 	}
@@ -97,12 +92,10 @@ func (h *durationHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter
 	}
 
 	nanos := d.Nanoseconds()
-	gmlPrintf("GML: handler_duration.go: durationHandler.Encode(obj: %v): nanos=%v", obj, nanos)
 	res, err := wa.(*wasmAdapter).fnDurationFromNanos.Call(ctx, uint64(nanos))
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to convert time.Duration to Duration: %w", err)
 	}
-	gmlPrintf("GML: handler_duration.go: durationHandler.Encode: res=%+v", res)
 	if len(res) != 2 || res[0] == 0 {
 		return nil, nil, fmt.Errorf("failed to convert time.Duration to Duration: %+v", res)
 	}

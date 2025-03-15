@@ -54,7 +54,6 @@ func (p *Package) processSourceFile(typesPkg *types.Package, filename string, bu
 
 func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m [][]string) []ast.Decl {
 	for _, match := range m {
-		gmlPrintf("GML: processPubStructs: processing '%v': %v", typesPkg.Name(), match[0])
 		name := match[1]
 		var fields []*ast.Field
 		var fieldVars []*types.Var
@@ -70,14 +69,12 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 			}
 			fieldParts := strings.Split(field, ":")
 			if len(fieldParts) != 2 {
-				gmlPrintf("Warning: invalid field: '%v'; skipping", field)
 				continue
 			}
 			fieldName := strings.TrimSpace(fieldParts[0])
 			fieldTypeName := strings.TrimSpace(fieldParts[1])
 			fieldType := p.getMoonBitNamedType(typesPkg, fieldTypeName) // resolve forward references later.
 			fullyQualifiedFieldSig := fieldType.String()
-			gmlPrintf("Adding fully qualified field signature: %q", fullyQualifiedFieldSig)
 			fields = append(fields, &ast.Field{
 				Names: []*ast.Ident{{Name: fieldName}},
 				Type:  &ast.Ident{Name: fullyQualifiedFieldSig},
@@ -86,7 +83,6 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 			// Add types for all field subtypes:
 			_, acc := utils.FullyQualifyTypeName(typesPkg.Path(), fieldTypeName)
 			for k := range acc {
-				gmlPrintf("GML: packages/process-source.go: ADDING '%v' as possibly missing underlying type", k)
 				p.AddPossiblyMissingUnderlyingType(k)
 			}
 		}
@@ -110,7 +106,6 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 		underlying := types.NewStruct(fieldVars, nil)
 		newNamedTypeName, namedType := fullyQualifiedNewTypeName(typesPkg, name, underlying)
 
-		gmlPrintf("GML: packages/process-source.go: processPubStructs: CREATING OFFICIAL Struct type: p.StructLookup[%q]=%p, underlying: %+v", newNamedTypeName, typeSpec, underlying)
 		p.replaceForwardReferences(newNamedTypeName, namedType)
 		p.StructLookup[newNamedTypeName] = typeSpec
 		p.TypesInfo.Defs[typeSpec.Name] = namedType
@@ -125,19 +120,16 @@ func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][
 		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
 		parts := strings.Split(fnSig, " -> ")
 		if len(parts) != 2 {
-			gmlPrintf("Warning: invalid function signature: '%v'; skipping", fnSig)
 			continue
 		}
 		fnSig = strings.TrimSpace(parts[0])
 		returnSig := strings.TrimSpace(parts[1])
 		ma := argsRE.FindStringSubmatch(fnSig)
 		if len(ma) != 3 {
-			gmlPrintf("Warning: invalid function signature: '%v'; skipping", fnSig)
 			continue
 		}
 		methodName := strings.TrimSpace(ma[1])
 		allArgs := strings.TrimSpace(ma[2])
-		gmlPrintf("GML: %v(%v) -> %v", methodName, allArgs, returnSig)
 
 		resultsList, resultsTuple := p.processReturnSignature(typesPkg, returnSig)
 		paramsList, paramsVars := p.processParameters(typesPkg, allArgs)
@@ -285,7 +277,6 @@ func (p *Package) processParameters(typesPkg *types.Package, allArgs string) (pa
 	for _, arg := range allArgParts {
 		argParts := strings.Split(arg, ":")
 		if len(argParts) != 2 {
-			gmlPrintf("Warning: invalid argument: '%v'; skipping", arg)
 			continue
 		}
 		argName := strings.TrimSpace(argParts[0])
@@ -333,7 +324,6 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 				return types.NewNamed(customType, underlying, nil)
 			}
 			_, fullCustomType := fullyQualifiedNewTypeName(typesPkg, typeSignature, nil)
-			gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: FOUND FULLY-SPECIFIED Struct DEFINITION for p.StructLookup[%q]=%p: underlying: %+v", typ, typeSpec, underlying)
 			return types.NewNamed(fullCustomType, underlying, nil)
 		}
 		log.Fatalf("PROGRAMMING ERROR: checkCustomMoonBitType(typeSignature='%v'): typ '%v' missing from p.TypesInfo.Defs", typeSignature, typ)
@@ -347,14 +337,12 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 		{
 			newCustomTypeName, customType := fullyQualifiedNewTypeName(typesPkg, typ, underlying)
 			if v, ok := p.StructLookup[newCustomTypeName]; ok {
-				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: REUSING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newCustomTypeName, v)
 				customType, ok = p.TypesInfo.Defs[v.Name].(*types.TypeName)
 				if !ok {
 					log.Fatalf("PROGRAMMING ERROR! p.StructLookup and p.TypesInfo.Def out-of-sync!")
 				}
 			} else {
 				typeSpec := &ast.TypeSpec{Name: &ast.Ident{Name: newCustomTypeName}}
-				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: CREATING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newCustomTypeName, typeSpec)
 				p.StructLookup[newCustomTypeName] = typeSpec
 				p.TypesInfo.Defs[typeSpec.Name] = customType
 			}
@@ -365,14 +353,12 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 		{
 			newFullCustomTypeName, fullCustomType := fullyQualifiedNewTypeName(typesPkg, typeSignature, underlying)
 			if v, ok := p.StructLookup[newFullCustomTypeName]; ok {
-				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: REUSING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newFullCustomTypeName, v)
 				fullCustomType, ok = p.TypesInfo.Defs[v.Name].(*types.TypeName)
 				if !ok {
 					log.Fatalf("PROGRAMMING ERROR! p.StructLookup and p.TypesInfo.Def out-of-sync!")
 				}
 			} else {
 				fullTypeSpec := &ast.TypeSpec{Name: &ast.Ident{Name: newFullCustomTypeName}}
-				gmlPrintf("GML: packages/process-source.go: checkCustomMoonBitType: CREATING EMPTY FORWARD REFERENCE for Struct type: p.StructLookup[%q]=%p", newFullCustomTypeName, fullTypeSpec)
 				p.StructLookup[newFullCustomTypeName] = fullTypeSpec
 				p.TypesInfo.Defs[fullTypeSpec.Name] = fullCustomType
 			}
@@ -435,12 +421,10 @@ func (t *moonType) String() string {
 }
 
 func (p *Package) replaceForwardReferences(newNamedTypeName string, namedType *types.TypeName) {
-	gmlPrintf("GML: packages/process-source: replaceForwardReferences(%q)", newNamedTypeName)
 	for k, v := range p.StructLookup {
 		if k != newNamedTypeName {
 			continue
 		}
-		gmlPrintf("GML: REPLACING p.StructLookup[%q]=%p, old=%p, new=%p", k, v, p.TypesInfo.Defs[v.Name], namedType)
 		// Update the old references to the new namedType.
 		p.TypesInfo.Defs[v.Name] = namedType
 	}

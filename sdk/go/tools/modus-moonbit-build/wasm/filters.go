@@ -10,7 +10,6 @@
 package wasm
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -34,10 +33,6 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 		return err
 	}
 
-	// for debugging purposes:
-	buf, _ := json.MarshalIndent(info, "", "  ")
-	gmlPrintf("GML: wasm/filters.go: FilterMetadata: wasm info:\n%s", buf)
-
 	filterExportsImportsAndTypes(info, meta)
 
 	return nil
@@ -46,33 +41,23 @@ func FilterMetadata(config *config.Config, meta *metadata.Metadata) error {
 func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.Metadata) {
 	// Remove unused imports (can easily happen when user code doesn't use all imports from a package)
 	imports := make(map[string]bool, len(info.Imports))
-	fmt.Printf("IMPORTS:\n")
 	for _, i := range info.Imports {
-		fmt.Printf("{Name: %q},\n", i.Name)
 		imports[i.Name] = true
 	}
 	for name := range meta.FnImports {
 		if _, ok := imports[name]; !ok {
-			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnImports['%v']", name)
 			delete(meta.FnImports, name)
 		}
 	}
 
 	// Remove unused exports (less likely to happen, but still check)
 	exports := make(map[string]bool, len(info.Exports))
-	fmt.Printf("EXPORTS:\n")
 	for _, e := range info.Exports {
-		fmt.Printf("{Name: %q},\n", e.Name)
 		exports[e.Name] = true
 	}
 	for name := range meta.FnExports {
 		if _, ok := exports[name]; !ok {
-			gmlPrintf("GML: WARNING: wasm/filters.go: FilterMetadata: removing unused meta.FnExports['%v']", name)
 			delete(meta.FnExports, name)
-			// if strings.HasPrefix(name, "__modus_") {
-			// 	log.Printf("GML: wasm/filters.go: FilterMetadata: removing special modus export: %v", name)
-			// 	delete(meta.FnExports, name)
-			// }
 		}
 	}
 
@@ -81,10 +66,7 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 	keepType := func(typeToKeep string) {
 		if _, ok := meta.Types[typeToKeep]; ok {
 			keptTypes[typeToKeep] = meta.Types[typeToKeep]
-			// gmlPrintf("GML: wasm/filters.go: FilterMetadata: keeping meta.Types[typeToKeep='%v']", typeToKeep)
 			delete(meta.Types, typeToKeep)
-			// } else {
-			// 	log.Printf("GML: WARNING: wasm/filters.go: FilterMetadata: NOT KEEPING typeToKeep: '%v'", typeToKeep)
 		}
 	}
 	keepTypeVariations := func(typeToKeep string) {
@@ -120,18 +102,16 @@ func filterExportsImportsAndTypes(info *wasmextractor.WasmInfo, meta *metadata.M
 			if _, ok := meta.Types[t]; ok {
 				if _, ok := keptTypes[t]; !ok {
 					keptTypes[t] = meta.Types[t]
-					// gmlPrintf("GML: SECOND PASS: wasm/filters.go: FilterMetadata: keeping meta.Types['%v']", t)
 					delete(meta.Types, t)
 					dirty = true
 				}
 			} else if _, ok := keptTypes[t]; !ok {
-				log.Printf("PROGRAMMING ERROR!!! wasm/filters.go: UNABLE TO KEEP type '%v' since it is missing from meta.Types!!!", t)
+				log.Fatalf("PROGRAMMING ERROR!!! wasm/filters.go: UNABLE TO KEEP type '%v' since it is missing from meta.Types!!!", t)
 			}
 		}
 
 		for _, t := range keptTypes {
 			// types should not have default values at this point.
-			// tName := utils.StripDefaultValue(t.Name) // TODO: verify and remove if true.
 			typ, hasError, _ := utils.StripErrorAndOption(t.Name)
 			if hasError {
 				keep("(String)") // needed for all !Error processing

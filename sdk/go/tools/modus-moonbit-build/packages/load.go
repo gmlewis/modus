@@ -72,7 +72,6 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	// process imports
 	var imports []*ast.ImportSpec
 	var subPackages []*Package
-	gmlPrintf("GML: packages/load.go: Parsing '%v/moon.pkg.json'", cfg.Dir)
 	buf, err := os.ReadFile(filepath.Join(cfg.Dir, "moon.pkg.json"))
 	if err != nil {
 		return nil, err
@@ -132,7 +131,7 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 			}
 			subPackages = append(subPackages, subPkgs...)
 		default:
-			gmlPrintf("Warning: unexpected import type: %T; skipping", jsonMsg)
+			log.Printf("WARNING: unexpected import type: %T; skipping", jsonMsg)
 		}
 	}
 
@@ -145,7 +144,6 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 	}
 
 	pkgPath := "@" + filepath.Base(cfg.Dir)
-	gmlPrintf("\n\n*** GML: cfg.PackageName=%q ***\n\n", cfg.PackageName)
 	if cfg.PackageName == "" {
 		// The top-level package must be "main" for the runtime to load it properly.
 		cfg.PackageName = "main"
@@ -170,7 +168,6 @@ func Load(cfg *Config, mod *modinfo.ModuleInfo, patterns ...string) ([]*Package,
 			continue
 		}
 		result.MoonBitFiles = append(result.MoonBitFiles, sourceFile)
-		gmlPrintf("GML: packages/load.go: Parsing '%v'", sourceFile)
 		buf, err := os.ReadFile(sourceFile)
 		if err != nil {
 			return nil, err

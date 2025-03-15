@@ -11,26 +11,9 @@ package codegen
 
 import (
 	"bytes"
-	"log"
 	"os"
 	"path/filepath"
-	"sync"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 func cleanup(dir string) error {
 	globs := []string{"modus*_generated.mbt", "hyp*_generated.mbt"}

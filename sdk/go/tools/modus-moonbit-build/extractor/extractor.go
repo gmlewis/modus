@@ -13,9 +13,7 @@ import (
 	"fmt"
 	"go/types"
 	"log"
-	"os"
 	"strings"
-	"sync"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/config"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
@@ -23,21 +21,6 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 func CollectProgramInfo(config *config.Config, meta *metadata.Metadata, mod *modinfo.ModuleInfo) error {
 	pkgs, err := loadPackages(config.SourceDir, mod)
@@ -99,8 +82,6 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			_, acc := utils.FullyQualifyTypeName(pkg.PkgPath, typ)
 			for k := range acc {
 				if _, ok := requiredTypes[k]; !ok {
-					// gmlPrintf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", k, pkg.PkgPath)
-					// requiredTypes[k] = nil // make an empty entry for it.
 					requiredTypes[k] = &typeWithPkgT{
 						t:   pkg.GetMoonBitNamedType(k),
 						pkg: pkg,
@@ -160,22 +141,6 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			}
 			t.Id = id
 			meta.Types[name] = t
-			gmlPrintf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
-			// // now that this struct has resolved all its fields, make sure
-			// // that the fields are also added to the meta.Types.
-			// for _, field := range t.Fields {
-			// 	_, acc := utils.FullyQualifyTypeName(t.Name, field.Type)
-			// 	for k := range acc {
-			// 		if _, ok := meta.Types[k]; !ok {
-			// 			id++
-			// 			log.Printf("GML: Adding id=%v Name='%v' to metadata.TypeDefinition", id, k)
-			// 			meta.Types[k] = &metadata.TypeDefinition{
-			// 				Id:   id,
-			// 				Name: k,
-			// 			}
-			// 		}
-			// 	}
-			// }
 		} else {
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,
@@ -185,48 +150,5 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 		id++
 	}
 
-	// resolveForwardTypeRefs(meta)
-
 	return nil
 }
-
-// func resolveForwardTypeRefs(meta *metadata.Metadata) {
-// 	processed := map[string]bool{}
-// 	for key, origTyp := range meta.Types {
-// 		if processed[key] {
-// 			continue
-// 		}
-// 		baseTypeName, _, hasOption := utils.StripErrorAndOption(key)
-// 		if hasOption {
-// 			gmlPrintf("GML: extractor.go: resolveForwardTypeRefs: key=%q, origTyp=%#v, baseTypeName=%q, hasOption=%v\n", key, origTyp, baseTypeName, hasOption)
-// 			if baseTyp, ok := meta.Types[baseTypeName]; ok {
-// 				if len(baseTyp.Fields) == 0 {
-// 					baseTyp.Fields = origTyp.Fields
-// 					processed[baseTypeName] = true
-// 					processed[key] = true
-// 					continue
-// 				}
-// 				if len(origTyp.Fields) == 0 {
-// 					origTyp.Fields = baseTyp.Fields
-// 					processed[baseTypeName] = true
-// 					processed[key] = true
-// 				}
-// 			}
-// 			continue
-// 		}
-// 		optionTypeName := key + "?"
-// 		if optionTyp, ok := meta.Types[optionTypeName]; ok {
-// 			if len(optionTyp.Fields) == 0 {
-// 				optionTyp.Fields = origTyp.Fields
-// 				processed[optionTypeName] = true
-// 				processed[key] = true
-// 				continue
-// 			}
-// 			if len(origTyp.Fields) == 0 {
-// 				origTyp.Fields = optionTyp.Fields
-// 				processed[optionTypeName] = true
-// 				processed[key] = true
-// 			}
-// 		}
-// 	}
-// }

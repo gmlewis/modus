@@ -15,29 +15,12 @@ import (
 	"fmt"
 	"go/token"
 	"log"
-	"os"
 	"sort"
 	"strings"
-	"sync"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 	"github.com/rs/xid"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 const MetadataVersion = 2
 
@@ -104,8 +87,6 @@ func NewMetadata() *Metadata {
 }
 
 func (f *Function) String(m *Metadata) string {
-	imports := m.GetImports()
-
 	b := strings.Builder{}
 	b.WriteString(f.Name)
 	b.WriteString("(")
@@ -134,23 +115,8 @@ func (f *Function) String(m *Metadata) string {
 		}
 	}
 
-	gmlPrintf("programming error - this should not happen for MoonBit.")
-
-	b.WriteString(" -> (")
-	for i, r := range f.Results {
-		if i > 0 {
-			b.WriteString(", ")
-		}
-		if r.Name != "" {
-			b.WriteString(r.Name)
-			b.WriteString(" ")
-		}
-
-		b.WriteString(utils.GetNameForType(r.Type, imports))
-	}
-	b.WriteString(")")
-
-	return b.String()
+	log.Fatalf("PROGRAMMING ERROR: metadata.go - this should not happen for MoonBit.")
+	return ""
 }
 
 func (t *TypeDefinition) String(m *Metadata) string {

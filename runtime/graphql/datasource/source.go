@@ -15,9 +15,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
-	"os"
-	"sync"
 
 	"github.com/gmlewis/modus/runtime/logger"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -27,21 +24,6 @@ import (
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/engine/datasource/httpclient"
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/engine/resolve"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 const DataSourceName = "ModusDataSource"
 
@@ -115,7 +97,6 @@ func (ds *ModusDataSource) callFunction(ctx context.Context, callInfo *callInfo)
 	// If we have multiple results, unpack them into a map that matches the schema generated type.
 	if results, ok := result.([]any); ok && len(fnInfo.ExecutionPlan().ResultHandlers()) > 1 {
 		fnMeta := fnInfo.Metadata()
-		gmlPrintf("GML: graphql/datasource/source.go: callFunction: results=%+v, fnMeta=%+v", results, fnMeta)
 		m := make(map[string]any, len(results))
 		for i, r := range results {
 			name := fnMeta.Results[i].Name
@@ -206,8 +187,6 @@ func writeGraphQLResponse(ctx context.Context, out *bytes.Buffer, result any, gq
 var nullWord = []byte("null")
 
 func transformValue(data []byte, tf *fieldInfo) (result []byte, err error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformValue: data='%s'", data)
-
 	if len(tf.Fields) == 0 || len(data) == 0 || bytes.Equal(data, nullWord) {
 		return data, nil
 	}
@@ -229,7 +208,6 @@ func transformValue(data []byte, tf *fieldInfo) (result []byte, err error) {
 }
 
 func transformArray(data []byte, tf *fieldInfo) ([]byte, error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformArray: data='%s'", data)
 	buf := bytes.Buffer{}
 	buf.WriteByte('[')
 
@@ -256,12 +234,10 @@ func transformArray(data []byte, tf *fieldInfo) ([]byte, error) {
 	}
 
 	buf.WriteByte(']')
-	gmlPrintf("GML: graphql/datasource/source.go: transformArray: buf='%v'", buf.String())
 	return buf.Bytes(), nil
 }
 
 func transformTuple(data []byte, tf *fieldInfo) ([]byte, error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformTuple: data='%s'", data)
 	buf := bytes.Buffer{}
 	buf.WriteByte('{')
 
@@ -320,12 +296,10 @@ func transformTuple(data []byte, tf *fieldInfo) ([]byte, error) {
 	}
 
 	buf.WriteByte('}')
-	gmlPrintf("GML: graphql/datasource/source.go: transformTuple: buf='%v'", buf.String())
 	return buf.Bytes(), nil
 }
 
 func transformObject(data []byte, tf *fieldInfo) ([]byte, error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformObject: data='%s'", data)
 	buf := bytes.Buffer{}
 	buf.WriteByte('{')
 	for i, f := range tf.Fields {
@@ -356,13 +330,10 @@ func transformObject(data []byte, tf *fieldInfo) ([]byte, error) {
 		buf.Write(val)
 	}
 	buf.WriteByte('}')
-	gmlPrintf("GML: graphql/datasource/source.go: transformObject: buf='%v'", buf.String())
 	return buf.Bytes(), nil
 }
 
 func transformMap(data []byte, tf *fieldInfo) ([]byte, error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformMap: data='%s'", data)
-
 	// check for pseudo map
 	md, dt, _, err := jsonparser.Get(data, "$mapdata")
 	if err == nil && dt == jsonparser.Array {
@@ -401,7 +372,6 @@ func transformMap(data []byte, tf *fieldInfo) ([]byte, error) {
 	}
 
 	buf.WriteByte(']')
-	gmlPrintf("GML: graphql/datasource/source.go: transformMap: buf='%v'", buf.String())
 	return buf.Bytes(), nil
 }
 
@@ -427,12 +397,10 @@ func writeKeyValuePair(key, value []byte, keyType string, dataType jsonparser.Va
 		b.Write(value)
 	}
 	b.WriteByte('}')
-	gmlPrintf("GML: graphql/datasource/source.go: writeKeyValuePair: buf='%v'", b.String())
 	return b.Bytes(), nil
 }
 
 func transformPseudoMap(data []byte, tf *fieldInfo) ([]byte, error) {
-	gmlPrintf("GML: graphql/datasource/source.go: transformPseudoMap: data='%s'", data)
 	buf := bytes.Buffer{}
 	buf.WriteByte('[')
 
@@ -497,7 +465,6 @@ func transformPseudoMap(data []byte, tf *fieldInfo) ([]byte, error) {
 }
 
 func transformErrors(messages []utils.LogMessage, ci *callInfo) []resolve.GraphQLError {
-	gmlPrintf("GML: graphql/datasource/source.go: transformErrors: messages=%+v", messages)
 	errors := make([]resolve.GraphQLError, 0, len(messages))
 	for _, msg := range messages {
 		// Only include errors.  Other messages will be captured later and

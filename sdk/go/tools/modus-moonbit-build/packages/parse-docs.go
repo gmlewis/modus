@@ -21,7 +21,6 @@ var (
 )
 
 func getDocsForFunction(fnSignature, fullSrc string) *ast.CommentGroup {
-	// gmlPrintf("GML: packages/parse-docs.go: getDocsForFunction: fnSignature=%v", fnSignature)
 	fnIndex := strings.Index(fullSrc, fnSignature)
 	if fnIndex < 0 {
 		m := pubFnPrefixRE.FindStringSubmatch(fnSignature)
@@ -41,7 +40,6 @@ func getDocsForFunction(fnSignature, fullSrc string) *ast.CommentGroup {
 		log.Fatalf("PROGRAMMING ERROR: doubleBlankIndex < 0 for fnSignature=%v", fnSignature)
 	}
 	fnSrcLines := strings.Split(fullSrc[doubleBlankIndex+2:fnIndex], "\n")
-	// gmlPrintf("GML: packages/parse-docs.go: getDocsForFunction: fnSrcLines=\n%v", fnSrcLines)
 	docs := &ast.CommentGroup{}
 	stripLeadingBlankLines := true
 	for _, line := range fnSrcLines {

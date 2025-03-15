@@ -12,29 +12,10 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
-	"log"
-	"os"
-	"sync"
 	"time"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	// gmlDebugEnv = true
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 // A LoadMode controls the amount of detail to return when loading.
 // The bits below can be combined to specify which fields should be
@@ -153,7 +134,7 @@ type Config struct {
 	// // Logf is the logger for the config.
 	// // If the user provides a logger, debug logging is enabled.
 	// // If the GOPACKAGESDEBUG environment variable is set to true,
-	// // but the logger is nil, default to gmlPrintf.
+	// // but the logger is nil, default to log.Printf.
 	// Logf func(format string, args ...interface{})
 
 	// RootAbsPath is the absolute path to the root directory of the initial user program.

@@ -114,9 +114,6 @@ type mapHandler struct {
 }
 
 func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
-	gmlPrintf("GML: handler_maps.go: mapHandler.Read(offset: %v)", offset)
-	// return h.Decode(ctx, wa, []uint64{uint64(offset)})
-
 	if offset == 0 {
 		return nil, nil
 	}
@@ -160,25 +157,11 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 	size := rvKeys.Len()
 
 	// A MoonBit Map must always use comparable keys (as defined by Go), right?
-	// rtKey := h.keysHandler.TypeInfo().ReflectedType().Elem()
-	// if rtKey.Comparable() {
-	// return a map
 	m := reflect.MakeMapWithSize(h.typeInfo.ReflectedType(), size)
 	for i := 0; i < size; i++ {
 		m.SetMapIndex(rvKeys.Index(i), rvVals.Index(i))
 	}
 	return m.Interface(), nil
-	// }
-
-	// s := reflect.MakeSlice(h.rtPseudoMapSlice, size, size)
-	// for i := 0; i < size; i++ {
-	// s.Index(i).Field(0).Set(rvKeys.Index(i))
-	// s.Index(i).Field(1).Set(rvVals.Index(i))
-	// }
-
-	// m := reflect.New(h.rtPseudoMap).Elem()
-	// m.Field(0).Set(s)
-	// return m.Interface(), nil
 }
 
 func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offset uint32, obj any) (utils.Cleaner, error) {
@@ -186,11 +169,6 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 	if err != nil {
 		return cln, err
 	}
-
-	// mapPtr, ok := wa.Memory().ReadUint32Le(ptr)
-	// if !ok {
-	// 	return cln, errors.New("failed to read map internal pointer from memory")
-	// }
 
 	if ok := wa.Memory().WriteUint32Le(offset, ptr); !ok {
 		return cln, errors.New("failed to write map pointer to memory")
@@ -201,8 +179,6 @@ func (h *mapHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, offs
 
 // Decode should always be passed an address to a Map[] in memory.
 func (h *mapHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
-	gmlPrintf("GML: handler_maps.go: mapHandler.Decode(vals: %+v)", vals)
-
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a map but got %v: %+v", len(vals), vals)
 	}
@@ -220,7 +196,6 @@ func (h *mapHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, obj
 }
 
 func (h *mapHandler) doWriteMap(ctx context.Context, wa langsupport.WasmAdapter, obj any) (pMap uint32, cln utils.Cleaner, err error) {
-	gmlPrintf("GML: handler_maps.go: mapHandler.doWriteMap is not yet implemented for MoonBit")
 	if utils.HasNil(obj) {
 		return 0, nil, nil
 	}

@@ -11,11 +11,9 @@ package metagen
 
 import (
 	"fmt"
-	"log"
 	"path"
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"os"
 
@@ -25,21 +23,6 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 const sdkName = "modus-sdk-mbt"
 

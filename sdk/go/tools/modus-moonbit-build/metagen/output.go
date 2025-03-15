@@ -59,12 +59,8 @@ func LogToConsole(meta *metadata.Metadata) {
 	types := make([]string, 0, len(meta.Types))
 	for _, k := range meta.Types.SortedKeys(meta.Module) {
 		t := meta.Types[k]
-		// if i := strings.Index(k, "!"); i >= 0 {
-		// 	k = k[:i]
-		// }
-		// gmlPrintf("GML: metagen/output.go: LogToConsole: type k: %v", k)
 		// Local custom types no longer have the module prefix.
-		if len(t.Fields) > 0 { // && strings.HasPrefix(k, meta.Module) {
+		if len(t.Fields) > 0 {
 			types = append(types, k)
 		}
 	}
@@ -82,7 +78,6 @@ func LogToConsole(meta *metadata.Metadata) {
 			if strings.HasPrefix(s, "(") {
 				continue // skip tuples
 			}
-			gmlPrintf("GML: metagen/output.go: LogToConsole: custom type s: %v", s)
 			writeItem(w, s)
 		}
 		fmt.Fprintln(w)

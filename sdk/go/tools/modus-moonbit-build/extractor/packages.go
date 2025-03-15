@@ -55,7 +55,6 @@ func loadPackages(dir string, mod *modinfo.ModuleInfo) (map[string]*packages.Pac
 func expandPackages(pkg *packages.Package, pkgMap map[string]*packages.Package) {
 	for _, imp := range pkg.Imports {
 		if _, ok := pkgMap[imp.PkgPath]; ok {
-			gmlPrintf("GML: extractor/package.go: skipping import %q as already processed.", imp.PkgPath)
 			continue
 		}
 		expandPackages(imp, pkgMap)

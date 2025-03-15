@@ -85,7 +85,6 @@ func instantiateEnvHostFunctions(ctx context.Context, r wazero.Runtime) error {
 				printBuffer += decodedString
 				highSurrogate = 0 // Reset the high surrogate
 			} else {
-				gmlPrintf("WARNING: Invalid UTF-16 low surrogate without a high surrogate: %v", utf16CodeUnit)
 				printBuffer += string(rune(utf16CodeUnit))
 			}
 			return

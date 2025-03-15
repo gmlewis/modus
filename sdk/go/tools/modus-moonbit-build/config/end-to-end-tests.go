@@ -88,7 +88,6 @@ func (c *Config) loadEndToEndTests(filename string, pluginsFlag string) error {
 		pluginsToTest[pluginName] = true
 		// A common mistake is to copy-paste the endpoint name instead of the plugin name.
 		pluginName = strings.ReplaceAll(pluginName, "_", "-")
-		gmlPrintf("Testing plugin %q", pluginName)
 		pluginsToTest[pluginName] = true
 	}
 
@@ -97,7 +96,6 @@ func (c *Config) loadEndToEndTests(filename string, pluginsFlag string) error {
 	end2endTests := make([]*Plugin, 0, len(tests.Plugins))
 	for _, plugin := range tests.Plugins {
 		if pluginsFlag != "" && !pluginsToTest[plugin.Name] {
-			gmlPrintf("Skipping plugin %q", plugin.Name)
 			continue
 		}
 		end2endTests = append(end2endTests, plugin)

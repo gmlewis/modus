@@ -12,12 +12,8 @@ package moonbit
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
 	"strings"
-	"sync"
 
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -26,24 +22,7 @@ import (
 	wasm "github.com/tetratelabs/wazero/api"
 )
 
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
-
 func NewPlanner(metadata *metadata.Metadata) langsupport.Planner {
-	buf, _ := json.MarshalIndent(metadata, "", "  ")
-	gmlPrintf("GML: planner.go: NewPlanner:\n%s", buf)
 	return &planner{
 		typeCache:    make(map[string]langsupport.TypeInfo),
 		typeHandlers: make(map[string]langsupport.TypeHandler),
@@ -59,7 +38,6 @@ type planner struct {
 
 func (p *planner) AddHandler(h langsupport.TypeHandler) {
 	name := h.TypeInfo().Name()
-	gmlPrintf("GML: planner.go: AddHandler: '%v'", name)
 	p.typeHandlers[name] = h
 }
 
@@ -88,7 +66,6 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	}
 
 	if handler, ok := p.typeHandlers[typeName]; ok {
-		// gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): returning cached handler", typeName)
 		return handler, nil
 	}
 
@@ -99,25 +76,19 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 		}
 		return nil, fmt.Errorf("failed to get type info for %v: %w", typeName, err)
 	}
-	gmlPrintf("GML: planner.go: GetTypeInfo: %#v", ti)
 
 	if ti.IsPrimitive() {
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveHandler", typeName)
 		return p.NewPrimitiveHandler(ti)
 	} else if ti.IsString() {
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStringHandler", typeName)
 		return p.NewStringHandler(ti)
 	} else if ti.IsPointer() {
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPointerHandler", typeName)
 		return p.NewPointerHandler(ctx, ti)
 	} else if ti.IsList() {
 		if _langTypeInfo.IsSliceType(typeName) { // A MoonBit `Array[]` is a Go slice type.
 			elemType := ti.ListElementType()
 			if !elemType.IsNullable() && elemType.IsPrimitive() {
-				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewPrimitiveSliceHandler", typeName)
 				return p.NewPrimitiveSliceHandler(ti)
 			} else {
-				gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewSliceHandler", typeName)
 				return p.NewSliceHandler(ctx, ti)
 			}
 			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
@@ -125,17 +96,13 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 			// its length is not encoded as part of its type.
 		}
 	} else if ti.IsMap() {
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewMapHandler", typeName)
 		return p.NewMapHandler(ctx, ti)
 	} else if ti.IsTimestamp() {
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewTimeHandler", typeName)
 		return p.NewTimeHandler(ti)
 	} else if ti.IsObject() {
 		if strings.HasPrefix(typeName, "@time.Duration") {
-			gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewDurationHandler", typeName)
 			return p.NewDurationHandler(ti)
 		}
-		gmlPrintf("GML: moonbit/planner.go: GetHandler(typeName='%v'): CALLING NewStructHandler", typeName)
 		return p.NewStructHandler(ctx, ti)
 	}
 
@@ -192,7 +159,6 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 }
 
 func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Function, fnDef wasm.FunctionDefinition) (uint32, error) {
-	gmlPrintf("GML: planner.go: getIndirectResultSize: fnMeta.Name: '%v', len(fnMeta.Results): %v, len(fnDef.ResultTypes): %v", fnMeta.Name, len(fnMeta.Results), len(fnDef.ResultTypes()))
 	// If no results are expected, then we don't need to use indirection.
 	if len(fnMeta.Results) == 0 {
 		return 0, nil
@@ -202,19 +168,6 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 	if len(fnDef.ResultTypes()) > 0 {
 		return 0, nil
 	}
-	// If the function definition has exactly one result, then we don't need to use indirection.
-	// if len(fnDef.ResultTypes()) == 1 {
-	// 	return 0, nil
-	// }
-
-	// We expect results but the function signature doesn't have any.
-	// Thus, TinyGo expects to be passed a pointer in the first parameter,
-	// which indicates where the results should be stored.
-	//
-	// However, if totalSize is zero, then we have an edge case where there is no result value.
-	// For example, a function that returns a struct with no fields, or a zero-length array.
-	//
-	// We need the total size either way, because we will need to allocate memory for the results.
 
 	totalSize := uint32(0)
 	for _, r := range fnMeta.Results {
@@ -224,6 +177,5 @@ func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Fu
 		}
 		totalSize += size
 	}
-	gmlPrintf("GML: planner.go: getIndirectResultSize: len(fnMeta.Results)=%v, len(fnDefResultTypes)=%v, totalSize=%v", len(fnMeta.Results), len(fnDef.ResultTypes()), totalSize)
 	return totalSize, nil
 }

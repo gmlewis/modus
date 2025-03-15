@@ -14,9 +14,6 @@ import (
 	"crypto/rand"
 	"fmt"
 	"io"
-	"log"
-	"os"
-	"sync"
 
 	"github.com/gmlewis/modus/runtime/functions"
 	"github.com/gmlewis/modus/runtime/logger"
@@ -30,22 +27,6 @@ import (
 	wasm "github.com/tetratelabs/wazero/api"
 	wasi "github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )
-
-// TODO: Remove debugging
-var gmlDebugEnv bool
-
-func gmlPrintf(fmtStr string, args ...any) {
-	// gmlDebugEnv = true
-	sync.OnceFunc(func() {
-		log.SetFlags(0)
-		if os.Getenv("GML_DEBUG") == "true" {
-			gmlDebugEnv = true
-		}
-	})
-	if gmlDebugEnv {
-		log.Printf(fmtStr, args...)
-	}
-}
 
 type WasmHost interface {
 	RegisterHostFunction(modName, funcName string, fn any, opts ...HostFunctionOption) error
