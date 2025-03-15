@@ -1,0 +1,22 @@
+package gmlewis/modus/pkg/db
+
+alias @moonbitlang/core/json as @json
+
+// Values
+fn do_query(String, String, String, Json?) -> (Json?, UInt)!
+
+fn execute(String, String, String, Json?) -> UInt!
+
+fn query[T : @json.FromJson](String, String, String, Json?) -> (Array[T], UInt)!
+
+fn query_scalar[T : @json.FromJson](String, String, String, Json?) -> (T, UInt)!
+
+// Types and methods
+pub(all) type! DbError String
+impl Eq for DbError
+impl Show for DbError
+
+// Type aliases
+
+// Traits
+

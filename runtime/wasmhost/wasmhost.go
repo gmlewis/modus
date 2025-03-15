@@ -14,19 +14,38 @@ import (
 	"crypto/rand"
 	"fmt"
 	"io"
+	"log"
+	"os"
+	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/functions"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/middleware"
-	"github.com/hypermodeinc/modus/runtime/plugins"
-	"github.com/hypermodeinc/modus/runtime/timezones"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/functions"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/middleware"
+	"github.com/gmlewis/modus/runtime/plugins"
+	"github.com/gmlewis/modus/runtime/timezones"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/rs/zerolog"
 	"github.com/tetratelabs/wazero"
 	wasm "github.com/tetratelabs/wazero/api"
 	wasi "github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	// gmlDebugEnv = true
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 type WasmHost interface {
 	RegisterHostFunction(modName, funcName string, fn any, opts ...HostFunctionOption) error

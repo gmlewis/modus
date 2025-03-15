@@ -7,7 +7,7 @@
 package main
 
 import (
-	"github.com/hypermodeinc/modus/sdk/go/pkg/graphql"
+	"github.com/gmlewis/modus/sdk/go/pkg/graphql"
 )
 
 /*

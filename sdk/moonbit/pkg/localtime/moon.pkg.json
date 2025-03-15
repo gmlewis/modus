@@ -1,0 +1,10 @@
+{
+  "import": [
+    "gmlewis/modus/wit/interface/wasi",
+    {
+      "path": "gmlewis/modus/wit/interface/localtime",
+      "alias": "host"
+    },
+    "moonbitlang/x/time"
+  ]
+}

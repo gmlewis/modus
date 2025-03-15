@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/httpserver"
-	"github.com/hypermodeinc/modus/runtime/services"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/httpserver"
+	"github.com/gmlewis/modus/runtime/services"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
@@ -296,7 +296,7 @@ type postgresqlSuite struct {
 }
 
 func (ps *postgresqlSuite) setupPostgresContainer() error {
-	ctx, cancel := context.WithTimeout(ps.T().Context(), requestTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	defer cancel()
 
 	imagePullResp, err := ps.dcli.ImagePull(ctx, "docker.io/postgres:16-alpine", image.PullOptions{})
@@ -382,7 +382,7 @@ func (ps *postgresqlSuite) SetupSuite() {
 	}
 	ps.dcli = dcli
 
-	ctx, cancel := context.WithTimeout(ps.T().Context(), requestTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	defer cancel()
 	if _, err := dcli.Ping(ctx); err != nil {
 		panic(err)
@@ -394,7 +394,7 @@ func (ps *postgresqlSuite) SetupSuite() {
 }
 
 func (ps *postgresqlSuite) TearDownSuite() {
-	ctx, cancel := context.WithTimeout(ps.T().Context(), requestTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	defer cancel()
 
 	ro := container.RemoveOptions{RemoveVolumes: true, Force: true}

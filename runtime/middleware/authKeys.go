@@ -16,7 +16,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/logger"
 )
 
 var (

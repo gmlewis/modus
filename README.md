@@ -1,12 +1,12 @@
 <!-- markdownlint-disable first-line-heading -->
 <div align="center">
 
-[![modus](https://github.com/user-attachments/assets/1a6020bd-d041-4dd0-b4a9-ce01dc015b65)](https://github.com/hypermodeinc/modus)
+[![modus](https://github.com/user-attachments/assets/1a6020bd-d041-4dd0-b4a9-ce01dc015b65)](https://github.com/gmlewis/modus)
 
-[![GitHub License](https://img.shields.io/github/license/hypermodeinc/modus)](https://github.com/hypermodeinc/modus?tab=Apache-2.0-1-ov-file#readme)
+[![GitHub License](https://img.shields.io/github/license/hypermodeinc/modus)](https://github.com/gmlewis/modus?tab=Apache-2.0-1-ov-file#readme)
 [![chat](https://img.shields.io/discord/1267579648657850441)](https://discord.gg/NJQ4bJpffF)
-[![GitHub Repo stars](https://img.shields.io/github/stars/hypermodeinc/modus)](https://github.com/hypermodeinc/modus/stargazers)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/hypermodeinc/modus)](https://github.com/hypermodeinc/modus/commits/main/)
+[![GitHub Repo stars](https://img.shields.io/github/stars/hypermodeinc/modus)](https://github.com/gmlewis/modus/stargazers)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/hypermodeinc/modus)](https://github.com/gmlewis/modus/commits/main/)
 
 </div>
 
@@ -19,7 +19,7 @@
 <p>
 
 **Modus is an open-source, serverless framework for building agentic systems and AI apps in
-Go and AssemblyScript**
+Go, AssemblyScript, and MoonBit**
 
 It simplifies the integration of models, context, and data. We're continuing to add additional
 capabilities to better support the construction and calling of tools.
@@ -106,6 +106,11 @@ Currently, the supported languages you may choose from are:
 - [Go](https://go.dev/) - A general-purpose programming language originally designed by Google.
 - [AssemblyScript](https://www.assemblyscript.org/) - A TypeScript-like language designed for
   WebAssembly.
+- [MoonBit](https://moonbitlang.com/) - A Rust-like programming language (but without pointers,
+  lifetimes, or borrow checking — _FTW_) designed for WebAssembly (that creates tiny `.wasm` files �).
+  - If you are interested in learning a new programming language with excellent tooling
+    and a fantastic developer experience, make sure to check out MoonBit. (It additionally has `js`,
+    `wasm-gc`, _and_ `native` compile-time targets!)
 
 Additional programming languages will be supported in the future.
 
@@ -116,7 +121,7 @@ or on any hosting platform that meets your needs.
 
 However, over at [Hypermode](https://hypermode.com/) we have built additional tooling and
 infrastructure to make constructing and deploying your agents and AI apps easy. Hypermode
-includes models, observability, debugging, and function hosting. Just push your code to Github and
+includes models, observability, debugging, and function hosting. Just push your code to GitHub and
 Hypermode will automatically build and deploy it on global infrastructure.
 
 ## Open Source
@@ -145,6 +150,7 @@ to the authors and teams of our core dependencies:
 - The [Go language](https://go.dev/) team, and also the maintainers of
   [TinyGo](https://tinygo.org/). The Modus Runtime is written in Go, and the Modus Go SDK uses
   TinyGo.
+- The [MoonBit language](https://moonbitlang.com/) team. The Modus MoonBit SDK uses Go and MoonBit.
 
 ## License
 

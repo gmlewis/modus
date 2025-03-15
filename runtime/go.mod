@@ -1,11 +1,13 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
-go 1.24.0
+go 1.23.1
+
+toolchain go1.24.0
 
 require (
+	github.com/gmlewis/modus/lib/metadata v0.15.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
 	github.com/hypermodeinc/modus/lib/manifest v0.17.0
-	github.com/hypermodeinc/modus/lib/metadata v0.15.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 // indirect
 )
 
 require (
@@ -26,6 +28,7 @@ require (
 	github.com/goccy/go-json v0.10.5
 	github.com/gofrs/flock v0.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/google/go-cmp v0.6.0
 	github.com/google/renameio/v2 v2.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hypermodeinc/modusdb v0.0.0-20250226135816-4a202fbbe013
@@ -64,6 +67,7 @@ require (
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 )
 
 require (
@@ -229,11 +233,11 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.35.0 // indirect
+	golang.org/x/crypto v0.32.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
-	golang.org/x/term v0.29.0 // indirect
-	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/term v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.9.0 // indirect
 	google.golang.org/api v0.196.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f // indirect

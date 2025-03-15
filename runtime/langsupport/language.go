@@ -10,10 +10,29 @@
 package langsupport
 
 import (
-	"github.com/hypermodeinc/modus/lib/metadata"
+	"log"
+	"os"
+	"sync"
+
+	"github.com/gmlewis/modus/lib/metadata"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
+
+// TODO: Remove debugging
+var gmlDebugEnv bool
+
+func gmlPrintf(fmtStr string, args ...any) {
+	sync.OnceFunc(func() {
+		log.SetFlags(0)
+		if os.Getenv("GML_DEBUG") == "true" {
+			gmlDebugEnv = true
+		}
+	})
+	if gmlDebugEnv {
+		log.Printf(fmtStr, args...)
+	}
+}
 
 type Language interface {
 	Name() string

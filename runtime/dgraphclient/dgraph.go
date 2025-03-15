@@ -13,7 +13,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/logger"
 
 	"github.com/dgraph-io/dgo/v240"
 	"github.com/dgraph-io/dgo/v240/protos/api"
