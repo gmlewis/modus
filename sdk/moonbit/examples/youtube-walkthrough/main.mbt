@@ -1,3 +1,7 @@
+///| This example is a result of following the YouTube Modus Walkthrough (for AssemblyScript)
+///  here: https://www.youtube.com/watch?v=3CcJTXTmz88
+///  but has been adapted for the MoonBit programming language.
+
 ///|
 pub fn generate_text(instruction : String, prompt : String) -> String!Error {
   let model : @openai.ChatModel = @models.get_model!("text-generator")
