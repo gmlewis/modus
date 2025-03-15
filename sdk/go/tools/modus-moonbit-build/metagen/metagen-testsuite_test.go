@@ -186,7 +186,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_option_empty_string": {
 		Name:       "hello_option_empty_string",
-		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool"}},
+		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool", Default: AnyPtr(true)}},
 		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"hello_option_empty_string_WithDefaults": {
@@ -195,7 +195,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_option_none": {
 		Name:       "hello_option_none",
-		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool"}},
+		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool", Default: AnyPtr(false)}},
 		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"hello_option_none_WithDefaults": {
@@ -204,7 +204,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_option_some_string": {
 		Name:       "hello_option_some_string",
-		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool"}},
+		Parameters: []*metadata.Parameter{{Name: "some~", Type: "Bool", Default: AnyPtr(true)}},
 		Results:    []*metadata.Result{{Type: "String?"}},
 	},
 	"hello_option_some_string_WithDefaults": {
@@ -259,7 +259,7 @@ var wantTestsuiteFnExports = metadata.FunctionMap{
 	},
 	"hello_world_with_optional_arg": {
 		Name:       "hello_world_with_optional_arg",
-		Parameters: []*metadata.Parameter{{Name: "name~", Type: "String"}},
+		Parameters: []*metadata.Parameter{{Name: "name~", Type: "String", Default: AnyPtr(`"世界 🌍 from MoonBit"`)}},
 		Results:    []*metadata.Result{{Type: "String"}},
 	},
 	"hello_world_with_optional_arg_WithDefaults": {

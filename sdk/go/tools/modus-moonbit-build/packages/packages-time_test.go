@@ -82,6 +82,9 @@ var wantPackageTime = &Package{
 			},
 		}},
 	},
+	PossiblyMissingUnderlyingTypes: map[string]struct{}{
+		"String": {},
+	},
 	Syntax: []*ast.File{
 		{
 			Name: &ast.Ident{Name: "../testdata/time-example/main.mbt"},

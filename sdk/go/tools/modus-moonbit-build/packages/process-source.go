@@ -83,6 +83,12 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 				Type:  &ast.Ident{Name: fullyQualifiedFieldSig},
 			})
 			fieldVars = append(fieldVars, types.NewVar(0, nil, fieldName, fieldType))
+			// Add types for all field subtypes:
+			_, acc := utils.FullyQualifyTypeName(typesPkg.Path(), fieldTypeName)
+			for k := range acc {
+				gmlPrintf("GML: packages/process-source.go: ADDING '%v' as possibly missing underlying type", k)
+				p.AddPossiblyMissingUnderlyingType(k)
+			}
 		}
 
 		typeSpec := &ast.TypeSpec{
@@ -377,6 +383,11 @@ func (p *Package) checkCustomMoonBitType(typesPkg *types.Package, typeSignature 
 	return nil
 }
 
+func (p *Package) GetMoonBitNamedType(typeSignature string) (resultType types.Type) {
+	typesPkg := types.NewPackage(p.PkgPath, p.Name)
+	return p.getMoonBitNamedType(typesPkg, typeSignature)
+}
+
 func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) {
 	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
 	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
@@ -394,10 +405,10 @@ func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature str
 		}
 
 		tupleStruct := types.NewStruct(fieldVars, nil)
-		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, tupleStruct), nil, nil)
+		return types.NewNamed(types.NewTypeName(0, nil, typeSignature, nil), tupleStruct, nil)
 	}
 
-	if v := utils.FullyQualifyTypeName(typesPkg.Path(), typeSignature); !strings.HasPrefix(v, "@") {
+	if v, _ := utils.FullyQualifyTypeName(typesPkg.Path(), typeSignature); !strings.HasPrefix(v, "@") {
 		// Do not use the generated name if it is a package-level struct, as the next line will add
 		// the full typesPkg qualified name to the prefix. However, if it is something like `Array[@pkg.T]`
 		// then go ahead and use it.

@@ -193,6 +193,12 @@ var wantPackageTestsuite = &Package{
 			}}},
 		},
 	},
+	PossiblyMissingUnderlyingTypes: map[string]struct{}{
+		"Bool":                {},
+		"Int":                 {},
+		"Map[String, String]": {},
+		"String":              {},
+	},
 	Syntax: []*ast.File{
 		{
 			Name: &ast.Ident{Name: "../testdata/test-suite/arrays.mbt"},

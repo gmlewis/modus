@@ -190,6 +190,7 @@ var wantSimpleTypes = metadata.TypeMap{
 	"Byte":                       {Name: "Byte"},
 	"Bytes":                      {Name: "Bytes"},
 	"Bytes!Error":                {Name: "Bytes!Error"},
+	"Char":                       {Name: "Char"},
 	"FixedArray[Byte]":           {Name: "FixedArray[Byte]"},
 	"Int":                        {Name: "Int"},
 	"Int64":                      {Name: "Int64"},

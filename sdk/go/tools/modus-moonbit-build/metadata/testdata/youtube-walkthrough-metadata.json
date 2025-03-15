@@ -1,0 +1,334 @@
+{
+  "plugin": "youtube-walkthrough",
+  "module": "@youtube-walkthrough",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv9qpd7rack45r008rlg",
+  "buildTs": "2025-03-14T04:12:36.543Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
+  "fnExports": {
+    "get_random_quote": {
+      "results": [
+        {
+          "type": "Quote!Error"
+        }
+      ]
+    },
+    "say_hello": {
+      "parameters": [
+        {
+          "name": "name~",
+          "type": "String",
+          "default": "\"World\""
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "say_hello_WithDefaults": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "fnImports": {
+    "modus_http_client.fetch": {
+      "parameters": [
+        {
+          "name": "request",
+          "type": "@http.Request?"
+        }
+      ],
+      "results": [
+        {
+          "type": "@http.Response?"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(String)": {
+      "id": 40,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "(String, String)": {
+      "id": 46
+    },
+    "@http.Content": {
+      "id": 11,
+      "fields": [
+        {
+          "name": "data",
+          "type": "String"
+        }
+      ]
+    },
+    "@http.Headers": {
+      "id": 24,
+      "fields": [
+        {
+          "name": "data",
+          "type": "Map[String, @http.Header?]"
+        }
+      ]
+    },
+    "@http.Headers?": {
+      "id": 7
+    },
+    "@http.Request": {
+      "id": 20,
+      "fields": [
+        {
+          "name": "url",
+          "type": "String"
+        },
+        {
+          "name": "method_",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "@http.Headers?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "@http.Request?": {
+      "id": 30,
+      "fields": [
+        {
+          "name": "url",
+          "type": "String"
+        },
+        {
+          "name": "method_",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "@http.Headers?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "@http.RequestOptions": {
+      "id": 45
+    },
+    "@http.Response": {
+      "id": 14,
+      "fields": [
+        {
+          "name": "status",
+          "type": "UInt16"
+        },
+        {
+          "name": "status_text",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "@http.Headers?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "@http.Response!Error": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "status",
+          "type": "UInt16"
+        },
+        {
+          "name": "status_text",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "@http.Headers?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "@http.Response?": {
+      "id": 13,
+      "fields": [
+        {
+          "name": "status",
+          "type": "UInt16"
+        },
+        {
+          "name": "status_text",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "@http.Headers?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "@http.T": {
+      "id": 16
+    },
+    "@http.T!Error": {
+      "id": 37
+    },
+    "@testutils.CallStack[T]": {
+      "id": 17,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
+    },
+    "@testutils.T": {
+      "id": 36
+    },
+    "Array[(String, String)]": {
+      "id": 41
+    },
+    "Array[@http.RequestOptions]": {
+      "id": 21
+    },
+    "Array[@testutils.T]": {
+      "id": 29
+    },
+    "Array[Array[@testutils.T]]": {
+      "id": 18
+    },
+    "Array[Array[String]]": {
+      "id": 26
+    },
+    "Array[Byte]": {
+      "id": 9
+    },
+    "Array[String]": {
+      "id": 15
+    },
+    "Bool": {
+      "id": 27
+    },
+    "Byte": {
+      "id": 8
+    },
+    "Double": {
+      "id": 35
+    },
+    "FixedArray[Double]": {
+      "id": 12
+    },
+    "FixedArray[Float]": {
+      "id": 44
+    },
+    "FixedArray[Int64]": {
+      "id": 19
+    },
+    "FixedArray[Int]": {
+      "id": 43
+    },
+    "FixedArray[UInt64]": {
+      "id": 39
+    },
+    "FixedArray[UInt]": {
+      "id": 28
+    },
+    "Float": {
+      "id": 34
+    },
+    "Int": {
+      "id": 10
+    },
+    "Int64": {
+      "id": 47
+    },
+    "Json": {
+      "id": 23
+    },
+    "Map[String, @http.Header?]": {
+      "id": 25
+    },
+    "Map[String, Array[String]]": {
+      "id": 22
+    },
+    "Map[String, String]": {
+      "id": 42
+    },
+    "Quote": {
+      "id": 38,
+      "fields": [
+        {
+          "name": "quote",
+          "type": "String"
+        },
+        {
+          "name": "author",
+          "type": "String"
+        }
+      ]
+    },
+    "Quote!Error": {
+      "id": 32,
+      "fields": [
+        {
+          "name": "quote",
+          "type": "String"
+        },
+        {
+          "name": "author",
+          "type": "String"
+        }
+      ]
+    },
+    "String": {
+      "id": 6
+    },
+    "UInt": {
+      "id": 33
+    },
+    "UInt16": {
+      "id": 5
+    },
+    "UInt64": {
+      "id": 31
+    }
+  }
+}

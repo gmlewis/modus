@@ -58,7 +58,7 @@ func transformStruct(name string, s *types.Struct, pkgs map[string]*packages.Pac
 	}
 }
 
-func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Package) *metadata.Function {
+func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Package, requiredTypes requiredTypesMap) *metadata.Function {
 	f := fpkg.fn
 	if f == nil {
 		gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q, f=nil)", name)
@@ -84,8 +84,7 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 		ret.Parameters = make([]*metadata.Parameter, params.Len())
 		for i := 0; i < params.Len(); i++ {
 			p := params.At(i)
-			paramType := p.Type().String()
-			paramType = utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, paramType)
+			paramType, acc := utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, p.Type().String())
 			paramTypeParts := strings.Split(paramType, " = ")
 			paramType = paramTypeParts[0]
 			param := &metadata.Parameter{
@@ -99,6 +98,14 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 			}
 			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', param[%v]: {Name: %q, Type: %q}", name, sig.String(), i, param.Name, param.Type)
 			ret.Parameters[i] = param
+			// Now make empty types for all underlying types needed by this parameter.
+			delete(acc, paramType)
+			for k := range acc {
+				if _, ok := requiredTypes[k]; !ok {
+					gmlPrintf("GML: extractor/transform.go: A: paramType ADDING m['%v']=nil", k)
+					requiredTypes[k] = &typeWithPkgT{pkg: fpkg.pkg}
+				}
+			}
 		}
 	}
 
@@ -106,14 +113,21 @@ func transformFunc(name string, fpkg *funcWithPkg, pkgs map[string]*packages.Pac
 		ret.Results = make([]*metadata.Result, results.Len())
 		for i := 0; i < results.Len(); i++ {
 			r := results.At(i)
-			resultType := r.Type().String()
-			resultType = utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, resultType)
+			resultType, acc := utils.FullyQualifyTypeName(fpkg.pkg.PkgPath, r.Type().String())
 			result := &metadata.Result{
 				Name: r.Name(),
 				Type: resultType,
 			}
 			gmlPrintf("GML: extractor/transform.go: transformFunc(name=%q): sig: '%v', result[%v]: {Name: %q, Type: %q}", name, sig.String(), i, result.Name, result.Type)
 			ret.Results[i] = result
+			// Now make empty types for all underlying types needed by this parameter.
+			delete(acc, resultType)
+			for k := range acc {
+				if _, ok := requiredTypes[k]; !ok {
+					gmlPrintf("GML: extractor/transform.go: B: resultType ADDING m['%v']=nil", k)
+					requiredTypes[k] = &typeWithPkgT{pkg: fpkg.pkg}
+				}
+			}
 		}
 	}
 

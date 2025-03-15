@@ -39,6 +39,7 @@ var (
 		"simple-example",
 		"test-suite",
 		"time-example",
+		"youtube-walkthrough",
 	}
 )
 

@@ -71,7 +71,7 @@ pub(all) struct Request {
   url : String
   method_ : String
   headers : Headers?
-  body : FixedArray[Byte]
+  body : Array[Byte]
 }
 impl Request {
   clone(Self, Array[RequestOptions]) -> Self
@@ -97,7 +97,7 @@ pub(all) struct Response {
   status : UInt16
   status_text : String
   headers : Headers?
-  body : FixedArray[Byte]
+  body : Array[Byte]
 }
 impl Response {
   json[T : @json.FromJson](Self) -> T!

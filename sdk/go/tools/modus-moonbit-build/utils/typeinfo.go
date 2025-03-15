@@ -385,13 +385,29 @@ var wellKnownTypes = map[string]bool{
 // to a fully-qualifyed type name (e.g. "Array[Record]" => "Array[@neo4j.Record]")
 // by attempting to naively parse the MoonBit type and prefix any unknown
 // type names with the package name.
-func FullyQualifyTypeName(pkgName, typeName string) string {
+// `accumulator` recursively builds up a map of all type names found
+// (including `fqTypeName`).
+func FullyQualifyTypeName(pkgName, typeName string) (fqTypeName string, accumulator map[string]struct{}) {
+	accumulator = map[string]struct{}{}
+	fqTypeName = fullyQualifyTypeNameWithAcc(pkgName, typeName, accumulator)
+	return fqTypeName, accumulator
+}
+
+func fullyQualifyTypeNameWithAcc(pkgName, typeName string, accumulator map[string]struct{}) string {
 	gmlPrintf("GML: ENTER: FullyQualifyTypeName(pkgName='%v', typeName='%v')", pkgName, typeName)
+	eqSignIndex := strings.Index(typeName, "=")
 	if pkgName == "" {
+		if typeName != "Unit" {
+			typ := typeName
+			// Don't include default values in the accumulator.
+			if eqSignIndex >= 0 {
+				typ = strings.TrimSpace(typeName[:eqSignIndex])
+			}
+			accumulator[typ] = struct{}{}
+		}
 		return typeName // no package to fully qualify
 	}
 
-	eqSignIndex := strings.Index(typeName, "=")
 	var defaultValue string
 	if eqSignIndex >= 0 {
 		defaultValue = strings.TrimSpace(typeName[eqSignIndex+1:])
@@ -399,29 +415,47 @@ func FullyQualifyTypeName(pkgName, typeName string) string {
 	}
 
 	typ, hasError, hasOption := StripErrorAndOption(typeName)
-	if strings.Contains(typ, ".") { // already fully qualified
-		return typeName
-	}
 
 	bracketIdx := strings.Index(typ, "[")
 	if bracketIdx < 0 {
 		if wellKnownTypes[typ] {
+			if typeName != "Unit" {
+				accumulator[typeName] = struct{}{}
+			}
 			return typeName // known type
 		}
+
 		if strings.HasPrefix(typ, "(") && strings.HasSuffix(typ, ")") {
 			// Tuple type, recurse on each type.
 			fields := SplitParamsWithBrackets(typ[1 : len(typ)-1])
 			for i, f := range fields {
-				fields[i] = FullyQualifyTypeName(pkgName, f)
+				fields[i] = fullyQualifyTypeNameWithAcc(pkgName, f, accumulator)
 			}
-			return "(" + strings.Join(fields, ", ") + ")"
+			result := "(" + strings.Join(fields, ", ") + ")"
+			accumulator[result] = struct{}{}
+			return result
 		}
-		return pkgName + "." + typeName // unknown type.
+
+		if strings.Contains(typ, ".") { // already fully qualified
+			if typeName != "Unit" {
+				accumulator[typeName] = struct{}{}
+			}
+			return typeName
+		}
+
+		result := pkgName + "." + typeName // unknown type.
+		accumulator[result] = struct{}{}
+		return result
 	}
 
 	restoreDefaultValue := func(s string) string {
 		if defaultValue != "" {
-			return fmt.Sprintf("%v = %v", s, defaultValue)
+			result := fmt.Sprintf("%v = %v", s, defaultValue)
+			accumulator[s] = struct{}{}
+			return result
+		}
+		if s != "Unit" {
+			accumulator[s] = struct{}{}
 		}
 		return s
 	}
@@ -454,7 +488,7 @@ func FullyQualifyTypeName(pkgName, typeName string) string {
 		"ArrayView[",
 		"FixedArray[",
 		"Iter[":
-		fqInner := FullyQualifyTypeName(pkgName, inner)
+		fqInner := fullyQualifyTypeNameWithAcc(pkgName, inner, accumulator)
 		return restoreSuffix(prefix + fqInner + "]")
 		// double inner type
 	case "Iter2[",
@@ -464,11 +498,17 @@ func FullyQualifyTypeName(pkgName, typeName string) string {
 		if len(innerFields) != 2 {
 			log.Fatalf("PROGRAMMING ERROR: FullyQualifyTypeName unhandled split of typeName='%v'", typeName)
 		}
-		fqInner1 := FullyQualifyTypeName(pkgName, innerFields[0])
-		fqInner2 := FullyQualifyTypeName(pkgName, innerFields[1])
+		fqInner1 := fullyQualifyTypeNameWithAcc(pkgName, innerFields[0], accumulator)
+		fqInner2 := fullyQualifyTypeNameWithAcc(pkgName, innerFields[1], accumulator)
+		if prefix == "Map[" {
+			accumulator[fmt.Sprintf("Array[%v]", fqInner1)] = struct{}{}
+			accumulator[fmt.Sprintf("Array[%v]", fqInner2)] = struct{}{}
+		}
 		return restoreSuffix(fmt.Sprintf("%v%v, %v]", prefix, fqInner1, fqInner2))
 	default:
 		// This is possibly using generics, e.g. "CallStack[T]". Just return it prefixed with pkgName.
-		return pkgName + "." + typeName // unknown type.
+		result := pkgName + "." + typeName // unknown type.
+		accumulator[result] = struct{}{}
+		return result
 	}
 }

@@ -16,6 +16,8 @@ import (
 	"os"
 	"sync"
 	"time"
+
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 // TODO: Remove debugging
@@ -369,11 +371,20 @@ type Package struct {
 	// ForTest string
 }
 
-func (p *Package) AddPossiblyMissingUnderlyingType(typ string) {
+func (p *Package) AddPossiblyMissingUnderlyingType(typeName string) {
 	if p.PossiblyMissingUnderlyingTypes == nil {
 		p.PossiblyMissingUnderlyingTypes = map[string]struct{}{}
 	}
+	typ, hasError, hasOption := utils.StripErrorAndOption(typeName)
 	p.PossiblyMissingUnderlyingTypes[typ] = struct{}{}
+	if hasOption {
+		p.PossiblyMissingUnderlyingTypes[typ+"?"] = struct{}{}
+		if hasError {
+			p.PossiblyMissingUnderlyingTypes[typ+"?!Error"] = struct{}{}
+		}
+	} else if hasError {
+		p.PossiblyMissingUnderlyingTypes[typ+"!Error"] = struct{}{}
+	}
 }
 
 // Module provides module information for a package.

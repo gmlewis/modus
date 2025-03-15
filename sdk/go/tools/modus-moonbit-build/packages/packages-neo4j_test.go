@@ -73,6 +73,10 @@ var wantPackageNeo4j = &Package{
 			},
 		}},
 	},
+	PossiblyMissingUnderlyingTypes: map[string]struct{}{
+		"Int":    {},
+		"String": {},
+	},
 	Syntax: []*ast.File{
 		{
 			Name: &ast.Ident{Name: "../testdata/neo4j-example/main.mbt"},

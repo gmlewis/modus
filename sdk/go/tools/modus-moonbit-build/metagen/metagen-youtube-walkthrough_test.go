@@ -73,7 +73,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 	}},
 	"@http.Header?":  {Name: "@http.Header?"},
 	"@http.Headers":  {Name: "@http.Headers", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
-	"@http.Headers?": {Name: "@http.Headers?"},
+	"@http.Headers?": {Name: "@http.Headers?", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
 	"@http.Request": {Name: "@http.Request", Fields: []*metadata.Field{
 		{Name: "url", Type: "String"},
 		{Name: "method_", Type: "String"},
@@ -121,6 +121,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 	"@http.T!Error":               {Name: "@http.T!Error"},
 	"@testutils.CallStack[T]":     {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
 	"@testutils.T":                {Name: "@testutils.T"},
+	"Array[(String, String)]":     {Name: "Array[(String, String)]"},
 	"Array[@http.Header?]":        {Name: "Array[@http.Header?]"},
 	"Array[@http.RequestOptions]": {Name: "Array[@http.RequestOptions]"},
 	"Array[@testutils.T]":         {Name: "Array[@testutils.T]"},

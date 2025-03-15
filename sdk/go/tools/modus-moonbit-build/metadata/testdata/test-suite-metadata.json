@@ -2,10 +2,10 @@
   "plugin": "test-suite",
   "module": "@test-suite",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv8mrhvrackaht3o9cjg",
-  "buildTs": "2025-03-12T11:19:35.688Z",
+  "buildId": "cv9qpd7rack45r008rkg",
+  "buildTs": "2025-03-14T04:12:36.423Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
   "fnExports": {
     "add": {
       "parameters": [
@@ -41,7 +41,8 @@
         },
         {
           "name": "c~",
-          "type": "Int"
+          "type": "Int",
+          "default": 0
         }
       ],
       "results": [
@@ -244,7 +245,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -264,7 +266,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -284,7 +287,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -304,7 +308,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -324,7 +329,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -344,7 +350,8 @@
       "parameters": [
         {
           "name": "n~",
-          "type": "Int"
+          "type": "Int",
+          "default": 3
         }
       ],
       "results": [
@@ -364,7 +371,8 @@
       "parameters": [
         {
           "name": "some~",
-          "type": "Bool"
+          "type": "Bool",
+          "default": true
         }
       ],
       "results": [
@@ -384,7 +392,8 @@
       "parameters": [
         {
           "name": "some~",
-          "type": "Bool"
+          "type": "Bool",
+          "default": false
         }
       ],
       "results": [
@@ -404,7 +413,8 @@
       "parameters": [
         {
           "name": "some~",
-          "type": "Bool"
+          "type": "Bool",
+          "default": true
         }
       ],
       "results": [
@@ -598,7 +608,8 @@
       "parameters": [
         {
           "name": "name~",
-          "type": "String"
+          "type": "String",
+          "default": "\"世界 🌍 from MoonBit\""
         }
       ],
       "results": [
@@ -958,7 +969,7 @@
       ]
     },
     "(Int, Int, Int)": {
-      "id": 5,
+      "id": 69,
       "fields": [
         {
           "name": "0",
@@ -975,7 +986,7 @@
       ]
     },
     "(String)": {
-      "id": 6,
+      "id": 22,
       "fields": [
         {
           "name": "0",
@@ -984,16 +995,16 @@
       ]
     },
     "@ffi.XExternByteArray": {
-      "id": 7
+      "id": 51
     },
     "@ffi.XExternString": {
-      "id": 8
+      "id": 54
     },
     "@ffi.XExternStringArray": {
-      "id": 9
+      "id": 16
     },
     "@testutils.CallStack[T]": {
-      "id": 10,
+      "id": 42,
       "fields": [
         {
           "name": "items",
@@ -1002,151 +1013,154 @@
       ]
     },
     "@testutils.T": {
-      "id": 11
+      "id": 10
     },
     "@time.Duration": {
-      "id": 12
-    },
-    "@time.Duration!Error": {
-      "id": 13
-    },
-    "@time.Period": {
-      "id": 14
-    },
-    "@time.Period!Error": {
-      "id": 15
-    },
-    "@time.PlainDate": {
-      "id": 16
-    },
-    "@time.PlainDate!Error": {
-      "id": 17
-    },
-    "@time.PlainDateTime": {
       "id": 18
     },
-    "@time.PlainDateTime!Error": {
-      "id": 19
-    },
-    "@time.PlainTime": {
-      "id": 20
-    },
-    "@time.PlainTime!Error": {
-      "id": 21
-    },
-    "@time.Weekday": {
-      "id": 22
-    },
-    "@time.Zone": {
-      "id": 23
-    },
-    "@time.Zone!Error": {
-      "id": 24
-    },
-    "@time.ZoneOffset": {
-      "id": 25
-    },
-    "@time.ZoneOffset!Error": {
-      "id": 26
-    },
-    "@time.ZonedDateTime": {
-      "id": 27
-    },
-    "@time.ZonedDateTime!Error": {
-      "id": 28
-    },
-    "@time.ZonedDateTime?": {
-      "id": 29
-    },
-    "ArrayView[Byte]": {
-      "id": 30
-    },
-    "Array[@testutils.T]": {
-      "id": 31
-    },
-    "Array[Byte]": {
-      "id": 32
-    },
-    "Array[Double]": {
-      "id": 33
-    },
-    "Array[Float]": {
-      "id": 34
-    },
-    "Array[Int?]": {
+    "@time.Duration!Error": {
       "id": 35
     },
-    "Array[Int]": {
+    "@time.Period": {
       "id": 36
     },
-    "Array[Int]?": {
-      "id": 37
+    "@time.Period!Error": {
+      "id": 23
     },
-    "Array[Person]": {
-      "id": 38
-    },
-    "Array[String?]": {
-      "id": 39
-    },
-    "Array[String]": {
+    "@time.PlainDate": {
       "id": 40
     },
-    "Array[String]?": {
+    "@time.PlainDate!Error": {
       "id": 41
     },
-    "Bool": {
-      "id": 42
+    "@time.PlainDateTime": {
+      "id": 77
     },
-    "Byte": {
+    "@time.PlainDateTime!Error": {
+      "id": 11
+    },
+    "@time.PlainTime": {
+      "id": 62
+    },
+    "@time.PlainTime!Error": {
+      "id": 12
+    },
+    "@time.Weekday": {
+      "id": 55
+    },
+    "@time.Zone": {
+      "id": 24
+    },
+    "@time.Zone!Error": {
+      "id": 63
+    },
+    "@time.ZoneOffset": {
+      "id": 33
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 13
+    },
+    "@time.ZonedDateTime": {
+      "id": 70
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 9
+    },
+    "@time.ZonedDateTime?": {
+      "id": 57
+    },
+    "ArrayView[Byte]": {
+      "id": 78
+    },
+    "Array[@testutils.T]": {
+      "id": 25
+    },
+    "Array[Array[@testutils.T]]": {
       "id": 43
     },
+    "Array[Byte]": {
+      "id": 52
+    },
+    "Array[Double]": {
+      "id": 37
+    },
+    "Array[Float]": {
+      "id": 45
+    },
+    "Array[Int?]": {
+      "id": 61
+    },
+    "Array[Int]": {
+      "id": 17
+    },
+    "Array[Int]?": {
+      "id": 66
+    },
+    "Array[Person]": {
+      "id": 30
+    },
+    "Array[String?]": {
+      "id": 56
+    },
+    "Array[String]": {
+      "id": 21
+    },
+    "Array[String]?": {
+      "id": 74
+    },
+    "Bool": {
+      "id": 71
+    },
+    "Byte": {
+      "id": 15
+    },
     "Bytes": {
-      "id": 44
+      "id": 68
     },
     "Bytes!Error": {
-      "id": 45
+      "id": 26
     },
     "Char": {
       "id": 46
     },
     "Double": {
-      "id": 47
+      "id": 20
     },
     "FixedArray[Byte]": {
-      "id": 48
+      "id": 39
     },
     "Float": {
-      "id": 49
+      "id": 31
     },
     "Int": {
-      "id": 50
+      "id": 29
     },
     "Int16": {
-      "id": 51
+      "id": 64
     },
     "Int64": {
-      "id": 52
+      "id": 67
     },
     "Int?": {
       "id": 53
     },
     "Iter[Byte]": {
-      "id": 54
-    },
-    "Iter[Char]": {
-      "id": 55
-    },
-    "Map[Int, Double]": {
-      "id": 56
-    },
-    "Map[Int, Float]": {
-      "id": 57
-    },
-    "Map[String, String]": {
       "id": 58
     },
+    "Iter[Char]": {
+      "id": 49
+    },
+    "Map[Int, Double]": {
+      "id": 73
+    },
+    "Map[Int, Float]": {
+      "id": 44
+    },
+    "Map[String, String]": {
+      "id": 8
+    },
     "Map[String, String]?": {
-      "id": 59
+      "id": 76
     },
     "Person": {
       "id": 60,
@@ -1166,22 +1180,22 @@
       ]
     },
     "Result[UInt64, UInt]": {
-      "id": 61
+      "id": 47
     },
     "Result[Unit, UInt]": {
-      "id": 62
+      "id": 28
     },
     "String": {
-      "id": 63
+      "id": 72
     },
     "String!Error": {
-      "id": 64
+      "id": 48
     },
     "String?": {
-      "id": 65
+      "id": 14
     },
     "TestStructWithMap": {
-      "id": 66,
+      "id": 19,
       "fields": [
         {
           "name": "m",
@@ -1190,7 +1204,7 @@
       ]
     },
     "TimeZoneInfo": {
-      "id": 67,
+      "id": 38,
       "fields": [
         {
           "name": "standard_name",
@@ -1211,7 +1225,7 @@
       ]
     },
     "TimeZoneInfo!Error": {
-      "id": 68,
+      "id": 75,
       "fields": [
         {
           "name": "standard_name",
@@ -1232,7 +1246,7 @@
       ]
     },
     "TupleSimulator": {
-      "id": 69,
+      "id": 34,
       "fields": [
         {
           "name": "t0",
@@ -1249,19 +1263,19 @@
       ]
     },
     "UInt": {
-      "id": 70
+      "id": 65
     },
     "UInt16": {
-      "id": 71
+      "id": 27
     },
     "UInt64": {
-      "id": 72
+      "id": 32
     },
     "Unit": {
-      "id": 73
+      "id": 50
     },
     "Unit!Error": {
-      "id": 74
+      "id": 59
     }
   }
 }

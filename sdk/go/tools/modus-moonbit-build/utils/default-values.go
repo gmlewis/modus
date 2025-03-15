@@ -17,6 +17,13 @@ import (
 // GetDefaultValue returns the default value for a given type.
 func GetDefaultValue(paramType, paramValue string) (any, bool) {
 	switch paramType {
+	case "Bool":
+		if paramValue == "true" {
+			return true, true
+		}
+		if paramValue == "false" {
+			return false, true
+		}
 	case "Int":
 		if v, err := strconv.Atoi(paramValue); err == nil {
 			return int32(v), true

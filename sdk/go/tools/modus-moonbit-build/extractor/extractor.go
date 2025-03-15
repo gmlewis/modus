@@ -21,6 +21,7 @@ import (
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/metadata"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/modinfo"
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/packages"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
 )
 
 // TODO: Remove debugging
@@ -47,11 +48,18 @@ func CollectProgramInfo(config *config.Config, meta *metadata.Metadata, mod *mod
 	return collectProgramInfoFromPkgs(pkgs, meta)
 }
 
+type typeWithPkgT struct {
+	t   types.Type
+	pkg *packages.Package
+}
+
+type requiredTypesMap map[string]*typeWithPkgT
+
 func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadata.Metadata) error {
-	requiredTypes := make(map[string]types.Type)
+	requiredTypes := requiredTypesMap{}
 
 	for name, f := range getExportedFunctions(pkgs) {
-		meta.FnExports[name] = transformFunc(name, f, pkgs)
+		meta.FnExports[name] = transformFunc(name, f, pkgs, requiredTypes)
 		findRequiredTypes(f, requiredTypes)
 	}
 
@@ -60,7 +68,11 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	for _, export := range meta.FnExports {
 		returnType := moonBitReturnType(export)
 		if strings.Contains(returnType, "@time.") {
-			requiredTypes["Array[Byte]"] = types.NewNamed(types.NewTypeName(0, nil, "Array[Byte]", nil), nil, nil)
+			// TODO: See if this can be added by the parsing phase.
+			requiredTypes["Array[Byte]"] = &typeWithPkgT{
+				t:   types.NewNamed(types.NewTypeName(0, nil, "Array[Byte]", nil), nil, nil),
+				pkg: pkgs["@time"],
+			}
 		}
 		if strings.Contains(returnType, "!") {
 			meta.FnImports["modus_system.logMessage"] = moonBitFnImports["modus_system.logMessage"]
@@ -68,14 +80,14 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	}
 
 	for name, f := range getImportedFunctions(pkgs) {
-		meta.FnImports[name] = transformFunc(name, f, pkgs)
+		meta.FnImports[name] = transformFunc(name, f, pkgs, requiredTypes)
 		findRequiredTypes(f, requiredTypes)
 	}
 
 	// proxy imports overwrite regular imports
 	for name, f := range getProxyImportFunctions(pkgs) {
 		if _, ok := meta.FnImports[name]; ok {
-			meta.FnImports[name] = transformFunc(name, f, pkgs)
+			meta.FnImports[name] = transformFunc(name, f, pkgs, requiredTypes)
 			findRequiredTypes(f, requiredTypes)
 		}
 	}
@@ -84,21 +96,60 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	// types have not been added to the `requiredTypes`.
 	for _, pkg := range pkgs {
 		for typ := range pkg.PossiblyMissingUnderlyingTypes {
-			if _, ok := requiredTypes[typ]; !ok {
-				// log.Printf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", typ, pkg.PkgPath)
-				requiredTypes[typ] = nil // make an empty entry for it.
+			_, acc := utils.FullyQualifyTypeName(pkg.PkgPath, typ)
+			for k := range acc {
+				if _, ok := requiredTypes[k]; !ok {
+					// gmlPrintf("GML: Adding PossiblyMissingUnderlyingType '%v' to requiredTypes from pkg '%v'", k, pkg.PkgPath)
+					// requiredTypes[k] = nil // make an empty entry for it.
+					requiredTypes[k] = &typeWithPkgT{
+						t:   pkg.GetMoonBitNamedType(k),
+						pkg: pkg,
+					}
+				}
 			}
 		}
 	}
 
 	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String - WHY?!? Where is this used?
-	for name, t := range requiredTypes {
+	for name, typeWithPkg := range requiredTypes {
 		resolvedName := name
+		if typeWithPkg == nil {
+			log.Fatalf("PROGRAMMING ERROR: extractor.go requiredTypes['%v'] = nil", name)
+		}
+		t := typeWithPkg.t
+
+		if name == "(String, String)" || name == "@http.Header" {
+			log.Printf("GML: DEBUGGER")
+		}
+
+		if t == nil {
+			// See if this can be found in pkgs.StructLookup map.
+			pkg := typeWithPkg.pkg
+			if typeSpec, ok := pkg.StructLookup[name]; ok {
+				if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+					t = customType.Type()
+				} else {
+					log.Fatalf("PROGRAMMING ERROR: extractor.go: missing entry for name='%v' in pkg.TypesInfo.Defs", name)
+				}
+			} else {
+				t = pkg.GetMoonBitNamedType(name)
+			}
+		}
+
 		if n, ok := t.(*types.Named); ok {
 			resolvedName = n.String()
 			underlying := n.Underlying()
 			if underlying != nil {
 				t = underlying
+			} else {
+				// This appears to be a forward reference.
+				// See if this can be found in pkg.StructLookup map.
+				pkg := typeWithPkg.pkg
+				if typeSpec, ok := pkg.StructLookup[resolvedName]; ok {
+					if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
+						t = customType.Type() // .Underlying()
+					}
+				}
 			}
 		}
 
@@ -110,17 +161,21 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 			t.Id = id
 			meta.Types[name] = t
 			gmlPrintf("GML: extractor.go: CollectProgramInfo: A: meta.Types[%q] = %+v\n", name, meta.Types[name])
-			// now that this struct has resolved all its fields, make sure
-			// that the fields are also added to the meta.Types.
-			for _, field := range t.Fields {
-				if _, ok := meta.Types[field.Type]; !ok {
-					id++
-					meta.Types[field.Type] = &metadata.TypeDefinition{
-						Id:   id,
-						Name: field.Type,
-					}
-				}
-			}
+			// // now that this struct has resolved all its fields, make sure
+			// // that the fields are also added to the meta.Types.
+			// for _, field := range t.Fields {
+			// 	_, acc := utils.FullyQualifyTypeName(t.Name, field.Type)
+			// 	for k := range acc {
+			// 		if _, ok := meta.Types[k]; !ok {
+			// 			id++
+			// 			log.Printf("GML: Adding id=%v Name='%v' to metadata.TypeDefinition", id, k)
+			// 			meta.Types[k] = &metadata.TypeDefinition{
+			// 				Id:   id,
+			// 				Name: k,
+			// 			}
+			// 		}
+			// 	}
+			// }
 		} else {
 			meta.Types[name] = &metadata.TypeDefinition{
 				Id:   id,

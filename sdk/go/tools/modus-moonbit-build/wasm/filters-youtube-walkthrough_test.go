@@ -88,7 +88,7 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		},
 		"say_hello": {
 			Name:       "say_hello",
-			Parameters: []*metadata.Parameter{{Name: "name~", Type: "String"}},
+			Parameters: []*metadata.Parameter{{Name: "name~", Type: "String", Default: AnyPtr(`"World"`)}},
 			Results:    []*metadata.Result{{Type: "String"}},
 		},
 		"say_hello_WithDefaults": {Name: "say_hello_WithDefaults", Results: []*metadata.Result{{Type: "String"}}},
@@ -123,7 +123,7 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		}},
 		"@http.Header?":  {Name: "@http.Header?"},
 		"@http.Headers":  {Name: "@http.Headers", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
-		"@http.Headers?": {Name: "@http.Headers?"},
+		"@http.Headers?": {Name: "@http.Headers?", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
 		"@http.Request": {Name: "@http.Request", Fields: []*metadata.Field{
 			{Name: "url", Type: "String"},
 			{Name: "method_", Type: "String"},
@@ -171,6 +171,7 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		"@http.T!Error":               {Name: "@http.T!Error"},
 		"@testutils.CallStack[T]":     {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
 		"@testutils.T":                {Name: "@testutils.T"},
+		"Array[(String, String)]":     {Name: "Array[(String, String)]"},
 		"Array[@http.Header?]":        {Name: "Array[@http.Header?]"},
 		"Array[@http.RequestOptions]": {Name: "Array[@http.RequestOptions]"},
 		"Array[@testutils.T]":         {Name: "Array[@testutils.T]"},
@@ -210,11 +211,158 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 }
 
 var wantYoutubeWalkthroughAfterFilter = &metadata.Metadata{
-	Plugin:    "youtube-walkthrough",
-	Module:    "@youtube-walkthrough",
-	FnExports: metadata.FunctionMap{},
-	FnImports: metadata.FunctionMap{},
-	Types:     metadata.TypeMap{},
+	Plugin: "youtube-walkthrough",
+	Module: "@youtube-walkthrough",
+	FnExports: metadata.FunctionMap{
+		"cabi_realloc": {
+			Name: "cabi_realloc",
+			Parameters: []*metadata.Parameter{
+				{Name: "src_offset", Type: "Int"}, {Name: "src_size", Type: "Int"},
+				{Name: "_dst_alignment", Type: "Int"}, {Name: "dst_size", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int"}},
+		},
+		"copy": {
+			Name:       "copy",
+			Parameters: []*metadata.Parameter{{Name: "dest", Type: "Int"}, {Name: "src", Type: "Int"}},
+		},
+		"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote!Error"}}},
+		"malloc": {
+			Name:       "malloc",
+			Parameters: []*metadata.Parameter{{Name: "size", Type: "Int"}},
+			Results:    []*metadata.Result{{Type: "Int"}},
+		},
+		"ptr_to_none": {Name: "ptr_to_none", Results: []*metadata.Result{{Type: "Int"}}},
+		"read_map": {
+			Name: "read_map",
+			Parameters: []*metadata.Parameter{
+				{Name: "key_type_name_ptr", Type: "Int"},
+				{Name: "value_type_name_ptr", Type: "Int"}, {Name: "map_ptr", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int64"}},
+		},
+		"say_hello": {
+			Name:       "say_hello",
+			Parameters: []*metadata.Parameter{{Name: "name~", Type: "String", Default: AnyPtr(`"World"`)}},
+			Results:    []*metadata.Result{{Type: "String"}},
+		},
+		"say_hello_WithDefaults": {Name: "say_hello_WithDefaults", Results: []*metadata.Result{{Type: "String"}}},
+		"write_map": {
+			Name: "write_map",
+			Parameters: []*metadata.Parameter{
+				{Name: "key_type_name_ptr", Type: "Int"},
+				{Name: "value_type_name_ptr", Type: "Int"}, {Name: "keys_ptr", Type: "Int"},
+				{Name: "values_ptr", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int"}},
+		},
+	},
+	FnImports: metadata.FunctionMap{
+		"modus_http_client.fetch": {
+			Name:       "modus_http_client.fetch",
+			Parameters: []*metadata.Parameter{{Name: "request", Type: "@http.Request?"}},
+			Results:    []*metadata.Result{{Type: "@http.Response?"}},
+		},
+		"modus_system.logMessage": {
+			Name:       "modus_system.logMessage",
+			Parameters: []*metadata.Parameter{{Name: "level", Type: "String"}, {Name: "message", Type: "String"}},
+		},
+	},
+	Types: metadata.TypeMap{
+		"(String)": {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
+		// "(String, String)": {Name: "(String, String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "String"}}},
+		// "@http.Content":    {Name: "@http.Content", Fields: []*metadata.Field{{Name: "data", Type: "String"}}},
+		"@http.Header": {Name: "@http.Header", Fields: []*metadata.Field{
+			{Name: "name", Type: "String"},
+			{Name: "values", Type: "Array[String]"},
+		}},
+		"@http.Header?":  {Name: "@http.Header?"},
+		"@http.Headers":  {Name: "@http.Headers", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
+		"@http.Headers?": {Name: "@http.Headers?", Fields: []*metadata.Field{{Name: "data", Type: "Map[String, @http.Header?]"}}},
+		"@http.Request": {Name: "@http.Request", Fields: []*metadata.Field{
+			{Name: "url", Type: "String"},
+			{Name: "method_", Type: "String"},
+			{Name: "headers", Type: "@http.Headers?"},
+			{Name: "body", Type: "Array[Byte]"},
+		}},
+		"@http.Request?": {
+			Name: "@http.Request?",
+			Fields: []*metadata.Field{
+				{Name: "url", Type: "String"},
+				{Name: "method_", Type: "String"},
+				{Name: "headers", Type: "@http.Headers?"},
+				{Name: "body", Type: "Array[Byte]"},
+			},
+		},
+		// "@http.RequestOptions": {Name: "@http.RequestOptions"},
+		"@http.Response": {
+			Name: "@http.Response",
+			Fields: []*metadata.Field{
+				{Name: "status", Type: "UInt16"},
+				{Name: "status_text", Type: "String"},
+				{Name: "headers", Type: "@http.Headers?"},
+				{Name: "body", Type: "Array[Byte]"},
+			},
+		},
+		// "@http.Response!Error": {
+		// 	Name: "@http.Response!Error",
+		// 	Fields: []*metadata.Field{
+		// 		{Name: "status", Type: "UInt16"},
+		// 		{Name: "status_text", Type: "String"},
+		// 		{Name: "headers", Type: "@http.Headers?"},
+		// 		{Name: "body", Type: "Array[Byte]"},
+		// 	},
+		// },
+		"@http.Response?": {
+			Name: "@http.Response?",
+			Fields: []*metadata.Field{
+				{Name: "status", Type: "UInt16"},
+				{Name: "status_text", Type: "String"},
+				{Name: "headers", Type: "@http.Headers?"},
+				{Name: "body", Type: "Array[Byte]"},
+			},
+		},
+		// "@http.T":                     {Name: "@http.T"},
+		// "@http.T!Error":               {Name: "@http.T!Error"},
+		// "@testutils.CallStack[T]":     {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
+		// "@testutils.T":                {Name: "@testutils.T"},
+		// "Array[(String, String)]":     {Name: "Array[(String, String)]"},
+		"Array[@http.Header?]": {Name: "Array[@http.Header?]"},
+		// "Array[@http.RequestOptions]": {Name: "Array[@http.RequestOptions]"},
+		// "Array[@testutils.T]":         {Name: "Array[@testutils.T]"},
+		// "Array[Array[@testutils.T]]":  {Name: "Array[Array[@testutils.T]]"},
+		// "Array[Array[String]]":        {Name: "Array[Array[String]]"},
+		"Array[Byte]":   {Name: "Array[Byte]"},
+		"Array[String]": {Name: "Array[String]"},
+		// "Bool":                        {Name: "Bool"},
+		"Byte": {Name: "Byte"},
+		// "FixedArray[Double]":          {Name: "FixedArray[Double]"},
+		// "FixedArray[Float]":           {Name: "FixedArray[Float]"},
+		// "FixedArray[Int64]":           {Name: "FixedArray[Int64]"},
+		// "FixedArray[Int]":             {Name: "FixedArray[Int]"},
+		// "FixedArray[UInt64]":          {Name: "FixedArray[UInt64]"},
+		// "FixedArray[UInt]":            {Name: "FixedArray[UInt]"},
+		// "Float":                       {Name: "Float"},
+		// "Double":                      {Name: "Double"},
+		"Int":   {Name: "Int"},
+		"Int64": {Name: "Int64"},
+		// "Json":                       {Name: "Json"},
+		"Map[String, @http.Header?]": {Name: "Map[String, @http.Header?]"},
+		// "Map[String, Array[String]]": {Name: "Map[String, Array[String]]"},
+		// "Map[String, String]":        {Name: "Map[String, String]"},
+		"Quote": {
+			Name:   "Quote",
+			Fields: []*metadata.Field{{Name: "quote", Type: "String"}, {Name: "author", Type: "String"}},
+		},
+		"Quote!Error": {
+			Name:   "Quote!Error",
+			Fields: []*metadata.Field{{Name: "quote", Type: "String"}, {Name: "author", Type: "String"}},
+		},
+		"String": {Name: "String"},
+		// "UInt":   {Name: "UInt"},
+		"UInt16": {Name: "UInt16"},
+		// "UInt64": {Name: "UInt64"},
+	},
 }
 
 var youtubeWasmInfo = &wasmextractor.WasmInfo{

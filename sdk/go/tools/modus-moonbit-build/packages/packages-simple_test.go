@@ -91,6 +91,10 @@ var wantPackageSimple = &Package{
 			},
 		}},
 	},
+	PossiblyMissingUnderlyingTypes: map[string]struct{}{
+		"Int":    {},
+		"String": {},
+	},
 	Syntax: []*ast.File{
 		{
 			Name: &ast.Ident{Name: "../testdata/simple-example/main.mbt"},

@@ -153,7 +153,7 @@ func getProxyImportFuncName(fn *ast.FuncDecl) string {
 	return ""
 }
 
-func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
+func findRequiredTypes(fpkg *funcWithPkg, requiredTypes requiredTypesMap) {
 	f := fpkg.fn
 	pkg := fpkg.pkg
 	sig := f.Type().(*types.Signature)
@@ -161,23 +161,23 @@ func findRequiredTypes(fpkg *funcWithPkg, m map[string]types.Type) {
 	if params := sig.Params(); params != nil {
 		for i := 0; i < params.Len(); i++ {
 			t := params.At(i).Type()
-			addRequiredTypes(t, m, pkg)
+			addRequiredTypes(t, requiredTypes, pkg)
 		}
 	}
 
 	if results := sig.Results(); results != nil {
 		for i := 0; i < results.Len(); i++ {
 			t := results.At(i).Type()
-			addRequiredTypes(t, m, pkg)
+			addRequiredTypes(t, requiredTypes, pkg)
 		}
 	}
 }
 
-func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Package) bool {
+func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *packages.Package) bool {
 	name := strings.Split(t.String(), " = ")[0] // strip default values
 
 	// prevent infinite recursion
-	if _, ok := m[name]; ok {
+	if _, ok := requiredTypes[name]; ok {
 		return true
 	}
 
@@ -203,16 +203,16 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			fullName := fmt.Sprintf("%v!Error", typ)
 			tmpType := types.NewNamed(types.NewTypeName(0, nil, fullName, nil), t.Underlying(), nil) // do NOT add typesPkg to named types.
 			// Do not recurse here as it would cause an infinite loop.
-			m[fullName] = tmpType
+			requiredTypes[fullName] = &typeWithPkgT{t: tmpType, pkg: pkg}
 			// Handle MoonBit error types as a tuple: `(String)`
 			fullName = "(String)"
-			if _, ok := m[fullName]; !ok {
+			if _, ok := requiredTypes[fullName]; !ok {
 				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: adding type '%v' to metadata", fullName)
 				underlying := types.NewNamed(types.NewTypeName(0, nil, "String", nil), nil, nil)
 				fieldVars := []*types.Var{types.NewVar(0, nil, "0", underlying)}
 				tupleStruct := types.NewStruct(fieldVars, nil)
 				tmpType = types.NewNamed(types.NewTypeName(0, nil, fullName, nil), tupleStruct, nil)
-				m[fullName] = tmpType
+				requiredTypes[fullName] = &typeWithPkgT{t: tmpType, pkg: pkg}
 			}
 		}
 
@@ -223,16 +223,16 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 
 		u := t.Underlying()
 		if u == nil {
-			u = resolveMissingUnderlyingType(name, t, m, pkg)
+			u = resolveMissingUnderlyingType(name, t, requiredTypes, pkg)
 		}
-		m[name] = u
-		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+		requiredTypes[name] = &typeWithPkgT{t: u, pkg: pkg}
+		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: requiredTypes[%q]=%T", name, u)
 		// Make sure that the underlying type is also added to the required types.
 		if hasOption {
-			m[typ] = u
+			requiredTypes[typ] = &typeWithPkgT{t: u, pkg: pkg}
 		}
 		// if hasError {
-		// 	m[name] = u
+		// 	requiredTypes[name] = u
 		// }
 
 		// Because the MoonBit SDK is currently using *types.Named for _ALL_ types, more processing needs to happen here.
@@ -241,26 +241,26 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 			// t := strings.TrimSuffix(strings.TrimSuffix(name[4:], "?"), "]")
 			// parts := strings.Split(t, ",")
 			// if len(parts) != 2 {
-			// 	log.Fatalf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=%T", name, u)
+			// 	log.Fatalf("PROGRAMMING ERROR: GML: extractor/functions.go: addRequiredTypes: *types.Named: requiredTypes[%q]=%T", name, u)
 			// 	return false
 			// }
 			// Force the planner to make a plan for slices of the keys and values of the map.
 			// keyType := strings.TrimSpace(parts[0])
 			keyName := fmt.Sprintf("Array[%v]", keyType)
-			m[keyName] = nil
-			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", keyName)
+			requiredTypes[keyName] = &typeWithPkgT{pkg: pkg}
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: requiredTypes[%q]=nil", keyName)
 			// valueType := strings.TrimSpace(parts[1])
 			valueName := fmt.Sprintf("Array[%v]", valueType)
-			m[valueName] = nil
-			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+			requiredTypes[valueName] = &typeWithPkgT{pkg: pkg}
+			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: requiredTypes[%q]=nil", valueName)
 			_, _, hasOption = utils.StripErrorAndOption(valueType)
 			if hasOption {
-				m[valueName] = nil
-				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: m[%q]=nil", valueName)
+				requiredTypes[valueName] = &typeWithPkgT{pkg: pkg}
+				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Named: requiredTypes[%q]=nil", valueName)
 			}
 			// TODO: This is not correct. May have to rethink how the MoonBit source code is parsed.
 			// if utils.IsStructType(valueType) {
-			// 	if _, ok := m[valueType]; !ok {
+			// 	if _, ok := requiredTypes[valueType]; !ok {
 			// 		for k := range m {
 			// 			if strings.Contains(k, valueType) {
 			// 				gmlPrintf("GML: known type: %q", k)
@@ -278,40 +278,40 @@ func addRequiredTypes(t types.Type, m map[string]types.Type, pkg *packages.Packa
 
 		if s, ok := u.(*types.Struct); ok {
 			for i := 0; i < s.NumFields(); i++ {
-				addRequiredTypes(s.Field(i).Type(), m, pkg)
+				addRequiredTypes(s.Field(i).Type(), requiredTypes, pkg)
 			}
 		}
 
 		return true
 
 	case *types.Pointer:
-		if addRequiredTypes(t.Elem(), m, pkg) {
-			m[name] = t
+		if addRequiredTypes(t.Elem(), requiredTypes, pkg) {
+			requiredTypes[name] = &typeWithPkgT{t: t, pkg: pkg}
 			return true
 		}
 	case *types.Struct:
 		// TODO: handle unnamed structs
 	case *types.Slice:
-		if addRequiredTypes(t.Elem(), m, pkg) {
-			m[name] = t
+		if addRequiredTypes(t.Elem(), requiredTypes, pkg) {
+			requiredTypes[name] = &typeWithPkgT{t: t, pkg: pkg}
 			return true
 		}
 	case *types.Array:
-		if addRequiredTypes(t.Elem(), m, pkg) {
-			m[name] = t
+		if addRequiredTypes(t.Elem(), requiredTypes, pkg) {
+			requiredTypes[name] = &typeWithPkgT{t: t, pkg: pkg}
 			return true
 		}
 	case *types.Map:
 		gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: A")
-		if addRequiredTypes(t.Key(), m, pkg) {
+		if addRequiredTypes(t.Key(), requiredTypes, pkg) {
 			gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: B")
-			if addRequiredTypes(t.Elem(), m, pkg) {
+			if addRequiredTypes(t.Elem(), requiredTypes, pkg) {
 				gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: C")
-				if addRequiredTypes(types.NewSlice(t.Key()), m, pkg) {
+				if addRequiredTypes(types.NewSlice(t.Key()), requiredTypes, pkg) {
 					gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: D")
-					if addRequiredTypes(types.NewSlice(t.Elem()), m, pkg) {
-						gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: m[%q]=%T", name, t)
-						m[name] = t
+					if addRequiredTypes(types.NewSlice(t.Elem()), requiredTypes, pkg) {
+						gmlPrintf("GML: extractor/functions.go: addRequiredTypes: *types.Map: E: requiredTypes[%q]=%T", name, t)
+						requiredTypes[name] = &typeWithPkgT{t: t, pkg: pkg}
 						return true
 					}
 				}
@@ -362,7 +362,7 @@ func GetMapSubtypes(typ string) (string, string) {
 // Due to simulating the MoonBit source code AST as Go AST nodes without fully parsing all source files
 // that the MoonBit compiler reads, it is currently necessary to provide workarounds as bugs are found.
 // This is one such workaround.
-func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]types.Type, pkg *packages.Package) types.Type {
+func resolveMissingUnderlyingType(name string, t *types.Named, requiredTypes requiredTypesMap, pkg *packages.Package) types.Type {
 	// Hack to make a tuple appear to have an underlying struct type for the metadata:
 	gmlPrintf("GML: extractor/functions.go: resolveMissingUnderlyingType: t.Obj().Type: %T=%+v", t.Obj().Type(), t.Obj().Type())
 	if s, ok := t.Obj().Type().(*types.Struct); ok {
@@ -387,8 +387,8 @@ func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]type
 		typ = strings.TrimSuffix(strings.TrimPrefix(typ, "Array["), "]")
 		// This is an ugly workaround - find a better solution
 		pkg.AddPossiblyMissingUnderlyingType(typ)
-		if u := lookupStruct(typ, m, pkg); u != nil {
-			m[typ] = u
+		if _, ok := requiredTypes[typ]; !ok {
+			requiredTypes[typ] = lookupStruct(typ, requiredTypes, pkg)
 		}
 		return nil
 	}
@@ -400,8 +400,8 @@ func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]type
 		typ = strings.TrimSuffix(strings.TrimPrefix(typ, "FixedArray["), "]")
 		// This is an ugly workaround - find a better solution
 		pkg.AddPossiblyMissingUnderlyingType(typ)
-		if u := lookupStruct(typ, m, pkg); u != nil {
-			m[typ] = u
+		if _, ok := requiredTypes[typ]; !ok {
+			requiredTypes[typ] = lookupStruct(typ, requiredTypes, pkg)
 		}
 		return nil
 	}
@@ -409,15 +409,15 @@ func resolveMissingUnderlyingType(name string, t *types.Named, m map[string]type
 	return nil
 }
 
-func lookupStruct(name string, m map[string]types.Type, pkg *packages.Package) types.Type {
-	if u, ok := m[name]; ok {
+func lookupStruct(name string, requiredTypes requiredTypesMap, pkg *packages.Package) *typeWithPkgT {
+	if u, ok := requiredTypes[name]; ok {
 		return u
 	}
 	if typeSpec, ok := pkg.StructLookup[name]; ok {
 		if customType, ok := pkg.TypesInfo.Defs[typeSpec.Name].(*types.TypeName); ok {
 			u := customType.Type().Underlying()
-			return u
+			return &typeWithPkgT{t: u, pkg: pkg}
 		}
 	}
-	return nil
+	return &typeWithPkgT{t: nil, pkg: pkg}
 }

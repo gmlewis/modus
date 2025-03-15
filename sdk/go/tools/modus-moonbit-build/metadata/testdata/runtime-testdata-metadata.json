@@ -2,10 +2,10 @@
   "plugin": "testdata",
   "module": "@runtime-testdata",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv8mrhvrackaht3o9cig",
-  "buildTs": "2025-03-12T11:19:35.605Z",
+  "buildId": "cv9qpd7rack45r008rjg",
+  "buildTs": "2025-03-14T04:12:36.292Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
   "fnExports": {
     "add": {
       "parameters": [
@@ -7509,7 +7509,7 @@
   },
   "types": {
     "(Int, Bool, String)": {
-      "id": 4,
+      "id": 130,
       "fields": [
         {
           "name": "0",
@@ -7526,7 +7526,7 @@
       ]
     },
     "(String)": {
-      "id": 5,
+      "id": 69,
       "fields": [
         {
           "name": "0",
@@ -7535,16 +7535,16 @@
       ]
     },
     "@ffi.XExternByteArray": {
-      "id": 6
+      "id": 141
     },
     "@ffi.XExternString": {
-      "id": 7
+      "id": 98
     },
     "@ffi.XExternStringArray": {
-      "id": 8
+      "id": 143
     },
     "@testutils.CallStack[T]": {
-      "id": 9,
+      "id": 177,
       "fields": [
         {
           "name": "items",
@@ -7553,280 +7553,283 @@
       ]
     },
     "@testutils.T": {
-      "id": 10
+      "id": 107
     },
     "@time.Duration": {
-      "id": 11
+      "id": 93
     },
     "@time.Duration!Error": {
-      "id": 12
+      "id": 114
     },
     "@time.Duration?": {
-      "id": 13
-    },
-    "@time.Period": {
-      "id": 14
-    },
-    "@time.Period!Error": {
-      "id": 15
-    },
-    "@time.PlainDate": {
-      "id": 16
-    },
-    "@time.PlainDate!Error": {
-      "id": 17
-    },
-    "@time.PlainDateTime": {
-      "id": 18
-    },
-    "@time.PlainDateTime!Error": {
-      "id": 19
-    },
-    "@time.PlainTime": {
-      "id": 20
-    },
-    "@time.PlainTime!Error": {
-      "id": 21
-    },
-    "@time.Weekday": {
-      "id": 22
-    },
-    "@time.Zone": {
-      "id": 23
-    },
-    "@time.Zone!Error": {
-      "id": 24
-    },
-    "@time.ZoneOffset": {
-      "id": 25
-    },
-    "@time.ZoneOffset!Error": {
-      "id": 26
-    },
-    "@time.ZonedDateTime": {
-      "id": 27
-    },
-    "@time.ZonedDateTime!Error": {
-      "id": 28
-    },
-    "@time.ZonedDateTime?": {
-      "id": 29
-    },
-    "Array[@testutils.T]": {
-      "id": 30
-    },
-    "Array[Array[String]?]": {
-      "id": 31
-    },
-    "Array[Array[String]]": {
-      "id": 32
-    },
-    "Array[Array[String]]?": {
-      "id": 33
-    },
-    "Array[Bool?]": {
-      "id": 34
-    },
-    "Array[Bool]": {
-      "id": 35
-    },
-    "Array[Byte?]": {
-      "id": 36
-    },
-    "Array[Byte]": {
-      "id": 37
-    },
-    "Array[Char?]": {
-      "id": 38
-    },
-    "Array[Char]": {
-      "id": 39
-    },
-    "Array[Double?]": {
-      "id": 40
-    },
-    "Array[Double]": {
-      "id": 41
-    },
-    "Array[Float?]": {
-      "id": 42
-    },
-    "Array[Float]": {
-      "id": 43
-    },
-    "Array[HttpHeader?]": {
-      "id": 44
-    },
-    "Array[Int16?]": {
-      "id": 45
-    },
-    "Array[Int16]": {
-      "id": 46
-    },
-    "Array[Int64?]": {
-      "id": 47
-    },
-    "Array[Int64]": {
-      "id": 48
-    },
-    "Array[Int?]": {
-      "id": 49
-    },
-    "Array[Int]": {
-      "id": 50
-    },
-    "Array[String?]": {
       "id": 51
     },
-    "Array[String?]?": {
-      "id": 52
+    "@time.Period": {
+      "id": 185
     },
-    "Array[String]": {
-      "id": 53
+    "@time.Period!Error": {
+      "id": 179
     },
-    "Array[String]?": {
-      "id": 54
-    },
-    "Array[UInt16?]": {
-      "id": 55
-    },
-    "Array[UInt16]": {
-      "id": 56
-    },
-    "Array[UInt64?]": {
-      "id": 57
-    },
-    "Array[UInt64]": {
+    "@time.PlainDate": {
       "id": 58
     },
-    "Array[UInt?]": {
-      "id": 59
+    "@time.PlainDate!Error": {
+      "id": 15
     },
-    "Array[UInt]": {
-      "id": 60
+    "@time.PlainDateTime": {
+      "id": 89
     },
-    "Bool": {
-      "id": 61
-    },
-    "Bool?": {
-      "id": 62
-    },
-    "Byte": {
-      "id": 63
-    },
-    "Byte?": {
+    "@time.PlainDateTime!Error": {
       "id": 64
     },
-    "Char": {
-      "id": 65
+    "@time.PlainTime": {
+      "id": 186
     },
-    "Char?": {
+    "@time.PlainTime!Error": {
       "id": 66
     },
+    "@time.Weekday": {
+      "id": 182
+    },
+    "@time.Zone": {
+      "id": 84
+    },
+    "@time.Zone!Error": {
+      "id": 147
+    },
+    "@time.ZoneOffset": {
+      "id": 140
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 88
+    },
+    "@time.ZonedDateTime": {
+      "id": 61
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 63
+    },
+    "@time.ZonedDateTime?": {
+      "id": 76
+    },
+    "Array[@testutils.T]": {
+      "id": 116
+    },
+    "Array[Array[@testutils.T]]": {
+      "id": 178
+    },
+    "Array[Array[String]?]": {
+      "id": 145
+    },
+    "Array[Array[String]]": {
+      "id": 156
+    },
+    "Array[Array[String]]?": {
+      "id": 50
+    },
+    "Array[Bool?]": {
+      "id": 102
+    },
+    "Array[Bool]": {
+      "id": 148
+    },
+    "Array[Byte?]": {
+      "id": 83
+    },
+    "Array[Byte]": {
+      "id": 161
+    },
+    "Array[Char?]": {
+      "id": 138
+    },
+    "Array[Char]": {
+      "id": 55
+    },
+    "Array[Double?]": {
+      "id": 85
+    },
+    "Array[Double]": {
+      "id": 4
+    },
+    "Array[Float?]": {
+      "id": 183
+    },
+    "Array[Float]": {
+      "id": 65
+    },
+    "Array[HttpHeader?]": {
+      "id": 75
+    },
+    "Array[Int16?]": {
+      "id": 103
+    },
+    "Array[Int16]": {
+      "id": 49
+    },
+    "Array[Int64?]": {
+      "id": 73
+    },
+    "Array[Int64]": {
+      "id": 53
+    },
+    "Array[Int?]": {
+      "id": 7
+    },
+    "Array[Int]": {
+      "id": 44
+    },
+    "Array[String?]": {
+      "id": 74
+    },
+    "Array[String?]?": {
+      "id": 106
+    },
+    "Array[String]": {
+      "id": 113
+    },
+    "Array[String]?": {
+      "id": 81
+    },
+    "Array[UInt16?]": {
+      "id": 14
+    },
+    "Array[UInt16]": {
+      "id": 72
+    },
+    "Array[UInt64?]": {
+      "id": 80
+    },
+    "Array[UInt64]": {
+      "id": 160
+    },
+    "Array[UInt?]": {
+      "id": 164
+    },
+    "Array[UInt]": {
+      "id": 56
+    },
+    "Bool": {
+      "id": 162
+    },
+    "Bool?": {
+      "id": 135
+    },
+    "Byte": {
+      "id": 126
+    },
+    "Byte?": {
+      "id": 6
+    },
+    "Char": {
+      "id": 189
+    },
+    "Char?": {
+      "id": 128
+    },
     "Double": {
-      "id": 67
+      "id": 100
     },
     "Double?": {
-      "id": 68
+      "id": 95
     },
     "FixedArray[Bool?]": {
-      "id": 69
+      "id": 157
     },
     "FixedArray[Bool]": {
       "id": 70
     },
     "FixedArray[Byte?]": {
-      "id": 71
+      "id": 165
     },
     "FixedArray[Byte]": {
-      "id": 72
+      "id": 163
     },
     "FixedArray[Char?]": {
-      "id": 73
+      "id": 109
     },
     "FixedArray[Char]": {
-      "id": 74
+      "id": 134
     },
     "FixedArray[Double?]": {
-      "id": 75
+      "id": 21
     },
     "FixedArray[Double]": {
-      "id": 76
+      "id": 151
     },
     "FixedArray[Float?]": {
-      "id": 77
+      "id": 136
     },
     "FixedArray[Float]": {
-      "id": 78
-    },
-    "FixedArray[Int16?]": {
-      "id": 79
-    },
-    "FixedArray[Int16]": {
-      "id": 80
-    },
-    "FixedArray[Int64?]": {
-      "id": 81
-    },
-    "FixedArray[Int64]": {
-      "id": 82
-    },
-    "FixedArray[Int?]": {
-      "id": 83
-    },
-    "FixedArray[Int]": {
-      "id": 84
-    },
-    "FixedArray[Int]?": {
-      "id": 85
-    },
-    "FixedArray[Map[String, String]?]": {
-      "id": 86
-    },
-    "FixedArray[Map[String, String]]": {
-      "id": 87
-    },
-    "FixedArray[String?]": {
-      "id": 88
-    },
-    "FixedArray[String]": {
-      "id": 89
-    },
-    "FixedArray[String]?": {
-      "id": 90
-    },
-    "FixedArray[TestStruct2?]": {
-      "id": 91
-    },
-    "FixedArray[TestStruct2]": {
       "id": 92
     },
+    "FixedArray[Int16?]": {
+      "id": 187
+    },
+    "FixedArray[Int16]": {
+      "id": 121
+    },
+    "FixedArray[Int64?]": {
+      "id": 82
+    },
+    "FixedArray[Int64]": {
+      "id": 108
+    },
+    "FixedArray[Int?]": {
+      "id": 159
+    },
+    "FixedArray[Int]": {
+      "id": 60
+    },
+    "FixedArray[Int]?": {
+      "id": 131
+    },
+    "FixedArray[Map[String, String]?]": {
+      "id": 190
+    },
+    "FixedArray[Map[String, String]]": {
+      "id": 168
+    },
+    "FixedArray[String?]": {
+      "id": 139
+    },
+    "FixedArray[String]": {
+      "id": 5
+    },
+    "FixedArray[String]?": {
+      "id": 115
+    },
+    "FixedArray[TestStruct2?]": {
+      "id": 105
+    },
+    "FixedArray[TestStruct2]": {
+      "id": 171
+    },
     "FixedArray[UInt16?]": {
-      "id": 93
+      "id": 133
     },
     "FixedArray[UInt16]": {
-      "id": 94
+      "id": 180
     },
     "FixedArray[UInt64?]": {
-      "id": 95
+      "id": 146
     },
     "FixedArray[UInt64]": {
-      "id": 96
+      "id": 155
     },
     "FixedArray[UInt?]": {
-      "id": 97
+      "id": 170
     },
     "FixedArray[UInt]": {
-      "id": 98
+      "id": 174
     },
     "Float": {
-      "id": 99
+      "id": 87
     },
     "Float?": {
-      "id": 100
+      "id": 132
     },
     "HttpHeader": {
-      "id": 101,
+      "id": 169,
       "fields": [
         {
           "name": "name",
@@ -7839,7 +7842,7 @@
       ]
     },
     "HttpHeader?": {
-      "id": 102,
+      "id": 16,
       "fields": [
         {
           "name": "name",
@@ -7852,16 +7855,19 @@
       ]
     },
     "HttpHeaders": {
-      "id": 103,
+      "id": 11,
       "fields": [
         {
           "name": "data",
           "type": "Map[String, HttpHeader?]"
         }
       ]
+    },
+    "HttpHeaders.HttpHeader?": {
+      "id": 12
     },
     "HttpHeaders?": {
-      "id": 104,
+      "id": 46,
       "fields": [
         {
           "name": "data",
@@ -7869,8 +7875,11 @@
         }
       ]
     },
+    "HttpHeaders?.HttpHeader?": {
+      "id": 48
+    },
     "HttpResponse": {
-      "id": 105,
+      "id": 172,
       "fields": [
         {
           "name": "status",
@@ -7889,9 +7898,12 @@
           "type": "Array[Byte]"
         }
       ]
+    },
+    "HttpResponse.HttpHeaders?": {
+      "id": 173
     },
     "HttpResponse?": {
-      "id": 106,
+      "id": 118,
       "fields": [
         {
           "name": "status",
@@ -7911,47 +7923,56 @@
         }
       ]
     },
-    "Int": {
-      "id": 107
-    },
-    "Int16": {
-      "id": 108
-    },
-    "Int16?": {
-      "id": 109
-    },
-    "Int64": {
-      "id": 110
-    },
-    "Int64?": {
-      "id": 111
-    },
-    "Int?": {
-      "id": 112
-    },
-    "Map[Int, Double]": {
-      "id": 113
-    },
-    "Map[Int, Float]": {
-      "id": 114
-    },
-    "Map[String, HttpHeader?]": {
-      "id": 115
-    },
-    "Map[String, String]": {
-      "id": 116
-    },
-    "Map[String, String]?": {
-      "id": 117
-    },
-    "String": {
-      "id": 118
-    },
-    "String?": {
+    "HttpResponse?.HttpHeaders?": {
       "id": 119
     },
+    "Int": {
+      "id": 20
+    },
+    "Int16": {
+      "id": 62
+    },
+    "Int16?": {
+      "id": 123
+    },
+    "Int64": {
+      "id": 124
+    },
+    "Int64?": {
+      "id": 79
+    },
+    "Int?": {
+      "id": 122
+    },
+    "Map[Int, Double]": {
+      "id": 117
+    },
+    "Map[Int, Float]": {
+      "id": 158
+    },
+    "Map[String, HttpHeader?]": {
+      "id": 137
+    },
+    "Map[String, HttpHeaders.HttpHeader?]": {
+      "id": 13
+    },
+    "Map[String, HttpHeaders?.HttpHeader?]": {
+      "id": 47
+    },
+    "Map[String, String]": {
+      "id": 71
+    },
+    "Map[String, String]?": {
+      "id": 112
+    },
+    "String": {
+      "id": 22
+    },
+    "String?": {
+      "id": 144
+    },
     "TestRecursiveStruct": {
-      "id": 120,
+      "id": 96,
       "fields": [
         {
           "name": "a",
@@ -7962,9 +7983,12 @@
           "type": "TestRecursiveStruct?"
         }
       ]
+    },
+    "TestRecursiveStruct.TestRecursiveStruct?": {
+      "id": 97
     },
     "TestRecursiveStruct?": {
-      "id": 121,
+      "id": 153,
       "fields": [
         {
           "name": "a",
@@ -7976,8 +8000,11 @@
         }
       ]
     },
+    "TestRecursiveStruct?.TestRecursiveStruct?": {
+      "id": 154
+    },
     "TestRecursiveStruct_map": {
-      "id": 122,
+      "id": 166,
       "fields": [
         {
           "name": "a",
@@ -7988,9 +8015,12 @@
           "type": "TestRecursiveStruct_map?"
         }
       ]
+    },
+    "TestRecursiveStruct_map.TestRecursiveStruct_map?": {
+      "id": 167
     },
     "TestRecursiveStruct_map?": {
-      "id": 123,
+      "id": 67,
       "fields": [
         {
           "name": "a",
@@ -8002,8 +8032,11 @@
         }
       ]
     },
+    "TestRecursiveStruct_map?.TestRecursiveStruct_map?": {
+      "id": 68
+    },
     "TestSmorgasbordStruct": {
-      "id": 124,
+      "id": 101,
       "fields": [
         {
           "name": "bool",
@@ -8152,7 +8185,7 @@
       ]
     },
     "TestSmorgasbordStruct?": {
-      "id": 125,
+      "id": 129,
       "fields": [
         {
           "name": "bool",
@@ -8301,7 +8334,7 @@
       ]
     },
     "TestSmorgasbordStruct_map": {
-      "id": 126,
+      "id": 23,
       "fields": [
         {
           "name": "bool",
@@ -8450,7 +8483,7 @@
       ]
     },
     "TestSmorgasbordStruct_map?": {
-      "id": 127,
+      "id": 176,
       "fields": [
         {
           "name": "bool",
@@ -8599,7 +8632,7 @@
       ]
     },
     "TestStruct1": {
-      "id": 128,
+      "id": 59,
       "fields": [
         {
           "name": "a",
@@ -8608,7 +8641,7 @@
       ]
     },
     "TestStruct1?": {
-      "id": 129,
+      "id": 18,
       "fields": [
         {
           "name": "a",
@@ -8617,7 +8650,7 @@
       ]
     },
     "TestStruct1_map": {
-      "id": 130,
+      "id": 104,
       "fields": [
         {
           "name": "a",
@@ -8626,7 +8659,7 @@
       ]
     },
     "TestStruct1_map?": {
-      "id": 131,
+      "id": 149,
       "fields": [
         {
           "name": "a",
@@ -8635,7 +8668,7 @@
       ]
     },
     "TestStruct2": {
-      "id": 132,
+      "id": 181,
       "fields": [
         {
           "name": "a",
@@ -8648,7 +8681,7 @@
       ]
     },
     "TestStruct2?": {
-      "id": 133,
+      "id": 99,
       "fields": [
         {
           "name": "a",
@@ -8661,7 +8694,7 @@
       ]
     },
     "TestStruct2_map": {
-      "id": 134,
+      "id": 110,
       "fields": [
         {
           "name": "a",
@@ -8674,7 +8707,7 @@
       ]
     },
     "TestStruct2_map?": {
-      "id": 135,
+      "id": 111,
       "fields": [
         {
           "name": "a",
@@ -8687,7 +8720,7 @@
       ]
     },
     "TestStruct3": {
-      "id": 136,
+      "id": 86,
       "fields": [
         {
           "name": "a",
@@ -8704,7 +8737,7 @@
       ]
     },
     "TestStruct3?": {
-      "id": 137,
+      "id": 125,
       "fields": [
         {
           "name": "a",
@@ -8721,7 +8754,7 @@
       ]
     },
     "TestStruct3_map": {
-      "id": 138,
+      "id": 192,
       "fields": [
         {
           "name": "a",
@@ -8738,7 +8771,7 @@
       ]
     },
     "TestStruct3_map?": {
-      "id": 139,
+      "id": 191,
       "fields": [
         {
           "name": "a",
@@ -8755,7 +8788,7 @@
       ]
     },
     "TestStruct4": {
-      "id": 140,
+      "id": 94,
       "fields": [
         {
           "name": "a",
@@ -8772,7 +8805,7 @@
       ]
     },
     "TestStruct4?": {
-      "id": 141,
+      "id": 57,
       "fields": [
         {
           "name": "a",
@@ -8789,7 +8822,7 @@
       ]
     },
     "TestStruct4_map": {
-      "id": 142,
+      "id": 54,
       "fields": [
         {
           "name": "a",
@@ -8806,7 +8839,7 @@
       ]
     },
     "TestStruct4_map?": {
-      "id": 143,
+      "id": 78,
       "fields": [
         {
           "name": "a",
@@ -8823,7 +8856,7 @@
       ]
     },
     "TestStruct5": {
-      "id": 144,
+      "id": 152,
       "fields": [
         {
           "name": "a",
@@ -8852,7 +8885,7 @@
       ]
     },
     "TestStruct5?": {
-      "id": 145,
+      "id": 77,
       "fields": [
         {
           "name": "a",
@@ -8881,7 +8914,7 @@
       ]
     },
     "TestStruct5_map": {
-      "id": 146,
+      "id": 150,
       "fields": [
         {
           "name": "a",
@@ -8910,7 +8943,7 @@
       ]
     },
     "TestStruct5_map?": {
-      "id": 147,
+      "id": 142,
       "fields": [
         {
           "name": "a",
@@ -8939,7 +8972,7 @@
       ]
     },
     "TestStructWithMap": {
-      "id": 148,
+      "id": 8,
       "fields": [
         {
           "name": "m",
@@ -8948,28 +8981,28 @@
       ]
     },
     "UInt": {
-      "id": 149
+      "id": 90
     },
     "UInt16": {
-      "id": 150
+      "id": 45
     },
     "UInt16?": {
-      "id": 151
+      "id": 188
     },
     "UInt64": {
-      "id": 152
+      "id": 127
     },
     "UInt64?": {
-      "id": 153
+      "id": 175
     },
     "UInt?": {
-      "id": 154
+      "id": 52
     },
     "Unit": {
-      "id": 155
+      "id": 91
     },
     "Unit!Error": {
-      "id": 156
+      "id": 184
     }
   }
 }

@@ -2,10 +2,10 @@
   "plugin": "neo4j",
   "module": "@neo4j-example",
   "sdk": "modus-sdk-mbt@0.16.5",
-  "buildId": "cv8mrhvrackaht3o9ci0",
-  "buildTs": "2025-03-12T11:19:35.569Z",
+  "buildId": "cv9qpd7rack45r008rj0",
+  "buildTs": "2025-03-14T04:12:36.235Z",
   "gitRepo": "https://github.com/gmlewis/modus",
-  "gitCommit": "d912fcac5843aac02ea73c3317c3058a00ce358e",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
   "fnExports": {
     "create_people_and_relationships": {
       "results": [
@@ -53,12 +53,12 @@
         },
         {
           "name": "parameters_json",
-          "type": "Map[String, Json]"
+          "type": "String"
         }
       ],
       "results": [
         {
-          "type": "@neo4j.EagerResult?!Error"
+          "type": "@neo4j.EagerResult?"
         }
       ]
     },
@@ -77,7 +77,7 @@
   },
   "types": {
     "(String)": {
-      "id": 4,
+      "id": 56,
       "fields": [
         {
           "name": "0",
@@ -86,7 +86,7 @@
       ]
     },
     "(String, Bool)": {
-      "id": 5,
+      "id": 20,
       "fields": [
         {
           "name": "0",
@@ -99,10 +99,10 @@
       ]
     },
     "@neo4j.\u0026Entity": {
-      "id": 6
+      "id": 22
     },
     "@neo4j.EagerResult": {
-      "id": 7,
+      "id": 44,
       "fields": [
         {
           "name": "keys",
@@ -115,7 +115,7 @@
       ]
     },
     "@neo4j.EagerResult!Error": {
-      "id": 8,
+      "id": 37,
       "fields": [
         {
           "name": "keys",
@@ -128,7 +128,7 @@
       ]
     },
     "@neo4j.EagerResult?": {
-      "id": 9,
+      "id": 39,
       "fields": [
         {
           "name": "keys",
@@ -141,10 +141,10 @@
       ]
     },
     "@neo4j.Neo4jOption": {
-      "id": 10
+      "id": 28
     },
     "@neo4j.Node": {
-      "id": 11,
+      "id": 7,
       "fields": [
         {
           "name": "element_id",
@@ -161,7 +161,7 @@
       ]
     },
     "@neo4j.Point2D": {
-      "id": 12,
+      "id": 10,
       "fields": [
         {
           "name": "x",
@@ -178,7 +178,7 @@
       ]
     },
     "@neo4j.Point3D": {
-      "id": 13,
+      "id": 14,
       "fields": [
         {
           "name": "x",
@@ -199,7 +199,7 @@
       ]
     },
     "@neo4j.Record": {
-      "id": 14,
+      "id": 18,
       "fields": [
         {
           "name": "values",
@@ -212,7 +212,7 @@
       ]
     },
     "@neo4j.Relationship": {
-      "id": 15,
+      "id": 4,
       "fields": [
         {
           "name": "element_id",
@@ -237,13 +237,13 @@
       ]
     },
     "@neo4j.T": {
-      "id": 16
+      "id": 53
     },
     "@neo4j.T!Error": {
-      "id": 17
+      "id": 19
     },
     "@testutils.CallStack[T]": {
-      "id": 18,
+      "id": 35,
       "fields": [
         {
           "name": "items",
@@ -252,76 +252,82 @@
       ]
     },
     "@testutils.T": {
-      "id": 19
+      "id": 31
     },
     "Array[@neo4j.Neo4jOption]": {
-      "id": 20
+      "id": 40
+    },
+    "Array[@neo4j.Record]": {
+      "id": 38
     },
     "Array[@testutils.T]": {
-      "id": 21
-    },
-    "Array[Int]": {
-      "id": 22
-    },
-    "Array[Int]!Error": {
-      "id": 23
-    },
-    "Array[Json]": {
-      "id": 24
-    },
-    "Array[Person]": {
-      "id": 25
-    },
-    "Array[Person]!Error": {
       "id": 26
     },
-    "Array[String]": {
+    "Array[Array[@testutils.T]]": {
+      "id": 36
+    },
+    "Array[Int]": {
+      "id": 17
+    },
+    "Array[Int]!Error": {
       "id": 27
     },
+    "Array[Json]": {
+      "id": 43
+    },
+    "Array[Person]": {
+      "id": 15
+    },
+    "Array[Person]!Error": {
+      "id": 48
+    },
+    "Array[String]": {
+      "id": 25
+    },
     "Bool": {
-      "id": 28
+      "id": 32
     },
     "Double": {
-      "id": 29
+      "id": 42
     },
     "FixedArray[Double]": {
       "id": 30
     },
     "FixedArray[Float]": {
-      "id": 31
-    },
-    "FixedArray[Int64]": {
-      "id": 32
-    },
-    "FixedArray[Int]": {
-      "id": 33
-    },
-    "FixedArray[UInt64]": {
       "id": 34
     },
+    "FixedArray[Int64]": {
+      "id": 46
+    },
+    "FixedArray[Int]": {
+      "id": 29
+    },
+    "FixedArray[UInt64]": {
+      "id": 45
+    },
     "FixedArray[UInt]": {
-      "id": 35
+      "id": 13
     },
     "Float": {
-      "id": 36
+      "id": 24
     },
     "Int": {
-      "id": 37
+      "id": 51
     },
     "Int64": {
-      "id": 38
+      "id": 54
     },
     "Json": {
-      "id": 39
+      "id": 47
     },
     "Map[String, Json]": {
-      "id": 40
+      "id": 55
     },
     "Map[String, String]": {
-      "id": 41
+      "id": 33
     },
     "Person": {
-      "id": 42,
+      "id": 49,
       "fields": [
         {
           "name": "name",
@@ -334,16 +340,16 @@
       ]
     },
     "String": {
-      "id": 43
+      "id": 16
     },
     "String!Error": {
-      "id": 44
+      "id": 52
     },
     "UInt": {
-      "id": 45
+      "id": 23
     },
     "UInt64": {
-      "id": 46
+      "id": 41
     }
   }
 }
