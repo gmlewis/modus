@@ -262,6 +262,10 @@
         {
           "label": "Vectors API Example",
           "value": "vectors"
+        },
+        {
+          "label": "YouTube Walkthrough Example",
+          "value": "youtube-walkthrough"
         }
       ]
     },

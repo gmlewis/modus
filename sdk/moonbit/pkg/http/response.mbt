@@ -10,7 +10,7 @@ pub(all) struct Response {
   status : UInt16
   status_text : String
   headers : Headers?
-  body : Array[Byte]
+  body : String
 } derive(Show, Eq)
 
 ///|
@@ -20,10 +20,10 @@ pub fn ok(self : Response) -> Bool {
 
 ///|
 pub fn Response::text(self : Response) -> String {
-  self.body.to_string() // TODO
+  self.body
 }
 
 ///|
 pub fn Response::json[T : @json.FromJson](self : Response) -> T!Error {
-  @json.from_json!(@json.parse!(self.body.to_string())) // TODO
+  @json.from_json!(@json.parse!(self.body))
 }

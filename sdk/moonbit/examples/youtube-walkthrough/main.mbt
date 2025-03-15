@@ -1,7 +1,11 @@
 ///|
 pub struct Quote {
-  quote : String
-  author : String
+  // plaintext quote
+  q : String
+  // author of the quote
+  a : String
+  // html version of the quote
+  h : String
 } derive(Show, Eq, ToJson, FromJson)
 
 ///|
@@ -9,7 +13,7 @@ priv type! QuoteError String derive(Show, Eq)
 
 ///|
 pub fn get_random_quote() -> Quote!Error {
-  let request = @http.Request::new("https://api.quotable.io/random")
+  let request = @http.Request::new("https://zenquotes.io/api/random")
   let response = @http.fetch!(request)
   guard response.ok() else { raise QuoteError("Failed to fetch quote") }
   let quotes : Array[Quote] = response.json!()

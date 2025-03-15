@@ -52,6 +52,7 @@ The following MoonBit examples work:
 - [x] `sdk/moonbit/examples/simple`
 - [x] `sdk/moonbit/examples/test-suite`
 - [x] `sdk/moonbit/examples/time-example`
+- [x] `sdk/moonbit/examples/youtube-walkthrough`
 
 The code has been updated to support compiler:
 
