@@ -9,9 +9,7 @@
 
 package hostfunctions
 
-import (
-	"github.com/gmlewis/modus/runtime/wasmhost"
-)
+import "github.com/gmlewis/modus/runtime/wasmhost"
 
 var registrations []func(wasmhost.WasmHost) error
 
