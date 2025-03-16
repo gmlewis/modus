@@ -323,6 +323,9 @@ export default class DevCommand extends BaseCommand {
 
       try {
         runtimeOutput.pause();
+        // Note that this event fires multiple times during the compilation
+        // process itself. Therefore, this event is guarded by the `building`
+        // bool that keeps track if a build is already in progress.
         await BuildCommand.run([appPath, "--no-logo"]);
       } catch {
         this.log(chalk.magenta("Waiting for more changes..."));
