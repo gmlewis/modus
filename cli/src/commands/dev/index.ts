@@ -78,7 +78,6 @@ export default class DevCommand extends BaseCommand {
     }
 
     const app = await getAppInfo(appPath);
-    // console.log(`GML: dev/index.ts: run: app=${JSON.stringify(app)}`); // TODO(gmlewis): remove
     const { sdk, sdkVersion } = app;
 
     if (!flags["no-logo"]) {
@@ -324,9 +323,6 @@ export default class DevCommand extends BaseCommand {
 
       try {
         runtimeOutput.pause();
-        // this.log();
-        // this.log(chalk.magentaBright("Detected source code change. Rebuilding..."));
-        // this.log();
         await BuildCommand.run([appPath, "--no-logo"]);
       } catch {
         this.log(chalk.magenta("Waiting for more changes..."));
