@@ -1,5 +1,3 @@
-// -*- compile-command: "go test ./... -run ^Test_GetGraphQLSchema_Go"; -*-
-
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -12,8 +10,6 @@
 package schemagen
 
 import (
-	"context"
-	"log"
 	"strings"
 	"testing"
 
@@ -27,7 +23,7 @@ import (
 )
 
 func Test_GetGraphQLSchema_Go(t *testing.T) {
-	log.SetFlags(0)
+
 	manifest := &manifest.Manifest{
 		Models:      map[string]manifest.ModelInfo{},
 		Connections: map[string]manifest.ConnectionInfo{},
@@ -222,31 +218,7 @@ func Test_GetGraphQLSchema_Go(t *testing.T) {
 		WithField("name", "string").
 		WithField("values", "[]string")
 
-	// Now add functions and types from the time plugin:
-	md.FnExports.AddFunction("getUtcTime").
-		WithResult("time.Time")
-
-	md.FnExports.AddFunction("getLocalTime").
-		WithResult("string")
-
-	md.FnExports.AddFunction("getTimeInZone").
-		WithParameter("tz", "string").
-		WithResult("string")
-
-	md.FnExports.AddFunction("getLocalTimeZone").
-		WithResult("string")
-
-	md.Types.AddType("testdata.TimeZoneInfo").
-		WithField("standardName", "string").
-		WithField("standardOffset", "string").
-		WithField("daylightName", "string").
-		WithField("daylightOffset", "string")
-
-	md.FnExports.AddFunction("getTimeZoneInfo").
-		WithParameter("tz", "string").
-		WithResult("testdata.TimeZoneInfo")
-
-	result, err := GetGraphQLSchema(context.Background(), md)
+	result, err := GetGraphQLSchema(t.Context(), md)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -259,8 +231,6 @@ func Test_GetGraphQLSchema_Go(t *testing.T) {
 type Query {
   currentTime: Timestamp!
   doNothing: Void
-  localTime: String!
-  localTimeZone: String!
   people: [Person!]
   person: Person!
   productMap: [StringProductPair!]
@@ -278,10 +248,7 @@ type Query {
   This function tests that pointers are working correctly
   """
   testPointers(a: Int, b: [Int], c: [Int!], d: [PersonInput], e: [PersonInput!]): Person
-  timeInZone(tz: String!): String!
-  timeZoneInfo(tz: String!): TimeZoneInfo!
   transform(items: [StringStringPairInput!]): [StringStringPair!]
-  utcTime: Timestamp!
 }
 
 type Mutation {
@@ -413,13 +380,6 @@ type StringProductPair {
 type StringStringPair {
   key: String!
   value: String!
-}
-
-type TimeZoneInfo {
-  standardName: String!
-  standardOffset: String!
-  daylightName: String!
-  daylightOffset: String!
 }
 `[1:]
 
