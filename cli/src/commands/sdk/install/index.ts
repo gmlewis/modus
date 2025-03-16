@@ -83,8 +83,6 @@ export default class SDKInstallCommand extends BaseCommand {
   }
 
   private async installSDK(sdk: SDK, sdkVersion: string, force: boolean, prerelease: boolean): Promise<string> {
-    console.log(`GML1: sdk/install/index.ts: installSDK: sdk=${sdk}, sdkVersion=${sdkVersion}, force=${force}, prerelease=${prerelease}`); // TODO(gmlewis): remove
-    this.log(`GML2: sdk/install/index.ts: installSDK: sdk=${sdk}, sdkVersion=${sdkVersion}, force=${force}, prerelease=${prerelease}`); // TODO(gmlewis): remove
     let installSDK = true;
     let sdkText: string;
     if (sdkVersion.toLowerCase() === "latest") {
