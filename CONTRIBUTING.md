@@ -2,14 +2,14 @@
 
 We're really glad you're here and would love for you to contribute to Modus! There are a variety of
 ways to make Modus better, including bug fixes, features, docs, and blog posts (among others). Every
-bit helps 
+bit helps 🙏
 
 Please help us keep the community safe while working on the project by upholding our
 [Code of Conduct](/CODE_OF_CONDUCT.md) at all times.
 
 Before jumping to a pull request, ensure you've looked at
-[PRs](https://github.com/gmlewis/modus/pulls) and
-[issues](https://github.com/gmlewis/modus/issues) (open and closed) for existing work related
+[PRs](https://github.com/hypermodeinc/modus/pulls) and
+[issues](https://github.com/hypermodeinc/modus/issues) (open and closed) for existing work related
 to your idea.
 
 If in doubt or contemplating a larger change, join the
@@ -45,7 +45,7 @@ Trunk as you save your files, reducing or removing the need to use the Trunk CLI
 ### Clone the Modus repository
 
 To contribute code, start by forking the Modus repository. In the top-right of the
-[repo](https://github.com/gmlewis/modus), click **Fork**. Follow the instructions to create a
+[repo](https://github.com/hypermodeinc/modus), click **Fork**. Follow the instructions to create a
 fork of the repo in your GitHub workspace.
 
 ### Building and running tests
