@@ -4,10 +4,10 @@
   "description": "The Modus CLI",
   "author": "Hypermode Inc.",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/gmlewis/modus",
-  "repository": "github:gmlewis/modus",
+  "homepage": "https://github.com/hypermodeinc/modus",
+  "repository": "github:hypermodeinc/modus",
   "bugs": {
-    "url": "https://github.com/gmlewis/modus/issues"
+    "url": "https://github.com/hypermodeinc/modus/issues"
   },
   "keywords": [
     "Hypermode",
