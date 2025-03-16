@@ -10,16 +10,15 @@
 package schemagen
 
 import (
-	"context"
 	"regexp"
 	"strings"
 	"testing"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/languages"
 	"github.com/gmlewis/modus/runtime/manifestdata"
 	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/hypermodeinc/modus/lib/manifest"
 
 	"github.com/stretchr/testify/require"
 )
@@ -188,7 +187,7 @@ func Test_GetGraphQLSchema_AssemblyScript(t *testing.T) {
 		WithField("name", "~lib/string/String").
 		WithField("values", "~lib/array/Array<~lib/string/String>")
 
-	result, err := GetGraphQLSchema(context.Background(), md)
+	result, err := GetGraphQLSchema(t.Context(), md)
 	if err != nil {
 		t.Fatal(err)
 	}
