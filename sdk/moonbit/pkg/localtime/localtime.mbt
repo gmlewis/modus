@@ -24,7 +24,7 @@ pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
   //
   if timezone == "" {
     // If still empty, let the host get the local time.
-    let s = @host.get_local_time_modus()
+    let s = host_get_local_time_modus()
     let pdt = @time.PlainDateTime::from_string!(s)
     return @time.ZonedDateTime::from_plain_datetime(pdt)
   }
@@ -51,7 +51,7 @@ pub fn get_time_zone(timezone~ : String = "") -> @time.Zone!Error {
   if timezone == "" {
     raise LocaltimeError("time zone is required")
   }
-  let result = @host.get_time_zone_data(timezone, "tzif")
+  let result = host_get_time_zone_data(timezone, "tzif")
   if result.length() == 0 {
     raise LocaltimeError("time zone '\{timezone}' not found")
   }
@@ -60,15 +60,15 @@ pub fn get_time_zone(timezone~ : String = "") -> @time.Zone!Error {
 
 ///| is_valid_time_zone returns true if the given time zone is valid.
 pub fn is_valid_time_zone(timezone : String) -> Bool {
-  @host.get_time_in_zone_modus(timezone) != ""
+  host_get_time_in_zone_modus(timezone) != ""
 }
 
 ///|
 pub fn get_local_time_modus() -> String {
-  @host.get_local_time_modus()
+  host_get_local_time_modus()
 }
 
 ///|
 pub fn get_time_in_zone_modus(timezone : String) -> String {
-  @host.get_time_in_zone_modus(timezone)
+  host_get_time_in_zone_modus(timezone)
 }

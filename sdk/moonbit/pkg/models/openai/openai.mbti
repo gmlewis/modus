@@ -8,7 +8,9 @@ const ENCODING_FORMAT_BASE64 : String = "base64"
 
 const ENCODING_FORMAT_FLOAT : String = "float"
 
-fn create_input(ChatModel, Array[Message]) -> ChatModelInput
+fn create_input(ChatModel, Array[&RequestMessage]) -> ChatModelInput
+
+fn invoke(ChatModel, ChatModelInput) -> ChatModelOutput!
 
 let response_format_json : ResponseFormat
 
@@ -34,6 +36,7 @@ pub(all) struct AssistantMessage {
 impl AssistantMessage {
   new(String, tool_calls~ : Array[ToolCall] = ..) -> Self
 }
+impl RequestMessage for AssistantMessage
 impl Eq for AssistantMessage
 impl Show for AssistantMessage
 impl ToJson for AssistantMessage
@@ -41,8 +44,10 @@ impl @json.FromJson for AssistantMessage
 
 pub(all) type ChatModel @models.ModelBase
 impl ChatModel {
-  create_input(Self, Array[Message]) -> ChatModelInput
+  create_input(Self, Array[&RequestMessage]) -> ChatModelInput
+  invoke(Self, ChatModelInput) -> ChatModelOutput!
 }
+impl @models.Model for ChatModel
 impl Eq for ChatModel
 impl Show for ChatModel
 impl ToJson for ChatModel
@@ -50,7 +55,7 @@ impl @json.FromJson for ChatModel
 
 pub(all) struct ChatModelInput {
   model : String
-  messages : Array[Message]
+  messages : Array[&RequestMessage]
   frequency_penalty : Double?
   logit_bias : Map[String, Double]?
   logprobs : Bool?
@@ -62,17 +67,14 @@ pub(all) struct ChatModelInput {
   seed : Int?
   service_tier : ServiceTier?
   stop : Array[String]
-  temperature : Double?
+  temperature : Double
   top_p : Double?
   tools : Array[Tool]
   tool_choice : ToolChoice
   parallel_tool_calls : Bool?
   user : String?
 }
-impl Eq for ChatModelInput
-impl Show for ChatModelInput
 impl ToJson for ChatModelInput
-impl @json.FromJson for ChatModelInput
 
 pub(all) struct ChatModelOutput {
   id : String
@@ -80,8 +82,7 @@ pub(all) struct ChatModelOutput {
   choices : Array[Choice]
   created : Int
   model : String
-  service_tier : ServiceTier
-  system_fingerprint : String
+  service_tier : ServiceTier?
   usage : Usage
 }
 impl Eq for ChatModelOutput
@@ -93,7 +94,6 @@ pub(all) struct Choice {
   finish_reason : String
   index : Int
   message : CompletionMessage
-  logprobs : Logprobs
 }
 impl Eq for Choice
 impl Show for Choice
@@ -105,6 +105,7 @@ pub(all) struct CompletionMessage {
   content : String
   refusal : String?
 }
+impl RequestMessage for CompletionMessage
 impl Eq for CompletionMessage
 impl Show for CompletionMessage
 impl ToJson for CompletionMessage
@@ -229,17 +230,6 @@ impl Show for LogprobsContentObject
 impl ToJson for LogprobsContentObject
 impl @json.FromJson for LogprobsContentObject
 
-pub(all) enum Message {
-  System(SystemMessage)
-  User(UserMessage)
-  Assistant(AssistantMessage)
-  Tool(ToolMessage)
-}
-impl Eq for Message
-impl Show for Message
-impl ToJson for Message
-impl @json.FromJson for Message
-
 pub(all) struct ResponseFormat {
   type_ : String
   json_schema : Json?
@@ -266,6 +256,7 @@ pub(all) struct SystemMessage {
 impl SystemMessage {
   new(String) -> Self
 }
+impl RequestMessage for SystemMessage
 impl Eq for SystemMessage
 impl Show for SystemMessage
 impl ToJson for SystemMessage
@@ -313,6 +304,7 @@ pub(all) struct ToolMessage {
 impl ToolMessage {
   new(String, String) -> Self
 }
+impl RequestMessage for ToolMessage
 impl Eq for ToolMessage
 impl Show for ToolMessage
 impl ToJson for ToolMessage
@@ -336,6 +328,7 @@ pub(all) struct UserMessage {
 impl UserMessage {
   new(String) -> Self
 }
+impl RequestMessage for UserMessage
 impl Eq for UserMessage
 impl Show for UserMessage
 impl ToJson for UserMessage
@@ -344,4 +337,7 @@ impl @json.FromJson for UserMessage
 // Type aliases
 
 // Traits
+pub trait RequestMessage : ToJson {
+  role(Self) -> String
+}
 

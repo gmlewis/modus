@@ -1,6 +1,9 @@
 ///|
-pub fn host_get_model_info(_model_name : String) -> ModelInfo!Error {
-  fail!("not wasm")
+pub fn host_get_model_info(model_name : String) -> ModelInfo!Error {
+  if model_name != "test" {
+    raise ModelsError("bad model name: '\{model_name}', want 'test'")
+  }
+  { name: model_name, full_name: model_name + "-mock-model" }
 }
 
 ///|

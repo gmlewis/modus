@@ -16,9 +16,7 @@ pub fn get_utc_time() -> @time.ZonedDateTime!Error {
   let seconds = now_nanos / 1_000_000_000
   let nanosecond = (now_nanos % 1_000_000_000).to_int()
   let result = @time.unix!(seconds, nanosecond~)
-  println(
-    "GML: main.mbt: get_utc_time: now_nanos=\{now_nanos}, result=\{result}",
-  )
+  // println("main.mbt: get_utc_time: now_nanos=\{now_nanos}, result=\{result}")
   result
 }
 

@@ -49,6 +49,12 @@ fn get_time_in_zone_modus(String) -> String
 
 fn get_time_zone(timezone~ : String = ..) -> @time.Zone!
 
+fn host_get_local_time_modus() -> String
+
+fn host_get_time_in_zone_modus(String) -> String
+
+fn host_get_time_zone_data(String, String) -> FixedArray[Byte]
+
 fn is_valid_time_zone(String) -> Bool
 
 fn now(timezone~ : String = ..) -> @time.ZonedDateTime!

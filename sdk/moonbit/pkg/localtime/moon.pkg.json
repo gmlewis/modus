@@ -1,10 +1,11 @@
 {
   "import": [
+    "gmlewis/modus/wit/ffi",
     "gmlewis/modus/wit/interface/wasi",
-    {
-      "path": "gmlewis/modus/wit/interface/localtime",
-      "alias": "host"
-    },
     "moonbitlang/x/time"
-  ]
+  ],
+  "targets": {
+    "top_notwasm.mbt": [ "not", "wasm" ],
+    "ffi_wasm.mbt": [ "wasm" ]
+  }
 }

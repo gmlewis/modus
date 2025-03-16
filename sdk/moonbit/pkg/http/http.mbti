@@ -97,7 +97,7 @@ pub(all) struct Response {
   status : UInt16
   status_text : String
   headers : Headers?
-  body : Array[Byte]
+  body : String
 }
 impl Response {
   json[T : @json.FromJson](Self) -> T!
