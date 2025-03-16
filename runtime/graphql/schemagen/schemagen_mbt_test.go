@@ -1,5 +1,3 @@
-// -*- compile-command: "go test ./... -run ^Test_GetGraphQLSchema_MoonBit$"; -*-
-
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -12,8 +10,6 @@
 package schemagen
 
 import (
-	"context"
-	"log"
 	"testing"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -24,7 +20,7 @@ import (
 )
 
 func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
-	log.SetFlags(0)
+
 	manifest := &manifest.Manifest{
 		Models:      map[string]manifest.ModelInfo{},
 		Connections: map[string]manifest.ConnectionInfo{},
@@ -259,7 +255,7 @@ func Test_GetGraphQLSchema_MoonBit(t *testing.T) {
 	md.FnExports.AddFunction("return_duration").
 		WithResult("@time.Duration")
 
-	result, err := GetGraphQLSchema(context.Background(), md)
+	result, err := GetGraphQLSchema(t.Context(), md)
 	if err != nil {
 		t.Fatal(err)
 	}
