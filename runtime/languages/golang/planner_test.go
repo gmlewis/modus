@@ -11,7 +11,6 @@ package golang
 
 import (
 	"context"
-	"log"
 	"testing"
 
 	"github.com/gmlewis/modus/lib/metadata"
@@ -24,8 +23,7 @@ import (
 )
 
 func TestGetPlan(t *testing.T) {
-	// Copied from runtime/graphql/schemagen/schemagen_go_test.go
-	log.SetFlags(0)
+
 	manifest := &manifest.Manifest{
 		Models:      map[string]manifest.ModelInfo{},
 		Connections: map[string]manifest.ConnectionInfo{},
@@ -226,13 +224,6 @@ func TestGetPlan(t *testing.T) {
 
 	planner := NewPlanner(md)
 
-	// importsMap := make(map[string]wasm.FunctionDefinition, len(imports))
-	// for _, fnDef := range imports {
-	// 	if modName, fnName, ok := fnDef.Import(); ok {
-	// 		importName := modName + "." + fnName
-	// 		importsMap[importName] = fnDef
-	// 	}
-	// }
 	exports := map[string]wasm.FunctionDefinition{
 		"addPerson":               &fakeWasmFunc{},
 		"add":                     &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI32}},
