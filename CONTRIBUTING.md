@@ -21,8 +21,8 @@ If in doubt or contemplating a larger change, join the
 The primary development language of Modus is Go. The **runtime** and supporting packages are all
 written in Go.
 
-**Modus SDKs** enable users to build apps in multiple languages, currently including Go, MoonBit, and
-AssemblyScript.
+**Modus SDKs** enable users to build apps in multiple languages, currently including Go,
+AssemblyScript, and MoonBit.
 
 The **Modus CLI** drives the local development experience and is written in TypeScript.
 
