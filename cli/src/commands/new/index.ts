@@ -194,7 +194,6 @@ export default class NewCommand extends BaseCommand {
           this.exit(1);
         }
         break;
-
       case SDK.Go: {
         const goVersion = await getGoVersion();
         const tinyGoVersion = await getTinyGoVersion();
@@ -270,7 +269,6 @@ export default class NewCommand extends BaseCommand {
         this.exit(1);
         break;  // to make VSCode linter happy.
       }
-
       case SDK.MoonBit: {
         const goVersion = await getGoVersion();
         const moonBitVersion = await getMoonBitVersion();
@@ -378,7 +376,6 @@ export default class NewCommand extends BaseCommand {
     }
 
     const sdkVersion = installedSdkVersion;
-    // this.log(`GML: commands/new/index.ts: createApp: sdkVersion=${sdkVersion}`); // TODO(gmlewis): remove
     const sdkPath = vi.getSdkPath(sdk, sdkVersion);
     const templatesArchive = path.join(sdkPath, "templates.tar.gz");
     if (!(await fs.exists(templatesArchive))) {
