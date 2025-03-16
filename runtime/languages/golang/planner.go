@@ -129,6 +129,7 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 }
 
 func (p *planner) getIndirectResultSize(ctx context.Context, fnMeta *metadata.Function, fnDef wasm.FunctionDefinition) (uint32, error) {
+
 	// If no results are expected, then we don't need to use indirection.
 	if len(fnMeta.Results) == 0 {
 		return 0, nil
