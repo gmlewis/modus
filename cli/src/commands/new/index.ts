@@ -402,7 +402,6 @@ export default class NewCommand extends BaseCommand {
           await execFile("npm", ["install"], execOpts);
           break;
         }
-
         case SDK.Go: {
           const goVersion = await getGoVersion();
           await execFile("go", ["mod", "edit", "-go", goVersion!], execOpts);
@@ -411,7 +410,6 @@ export default class NewCommand extends BaseCommand {
           await execFile("go", ["mod", "tidy"], execOpts);
           break;
         }
-
         case SDK.MoonBit: {
           const buildShFile = path.join(dir, "build.sh")
           await replaceAll(buildShFile, "say-hello", name);
