@@ -47,7 +47,6 @@ export default class BuildCommand extends BaseCommand {
     }
 
     const app = await getAppInfo(appPath);
-    // console.log(`GML: build/index.ts: run: app=${JSON.stringify(app)}`); // TODO(gmlewis): remove
 
     if (!flags["no-logo"]) {
       this.log(getHeader(this.config.version));
@@ -76,7 +75,6 @@ export default class BuildCommand extends BaseCommand {
             }
           }
           return await execFileWithExitCode("npx", ["modus-as-build"], execOpts);
-
         case SDK.Go: {
           const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
           if (!version) {
@@ -91,7 +89,6 @@ export default class BuildCommand extends BaseCommand {
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
         }
-
         case SDK.MoonBit: {
           const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
           if (!version) {
@@ -106,7 +103,6 @@ export default class BuildCommand extends BaseCommand {
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
         }
-
         default:
           this.logError("Unsupported SDK");
           this.exit(1);
