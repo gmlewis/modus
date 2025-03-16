@@ -31,11 +31,7 @@
         "MODUS_DEBUG": "true",
         "MODUS_DB": "postgresql://postgres:postgres@localhost:5433/my-runtime-db?sslmode=disable" // checkov:skip=CKV_SECRET_4
       },
-      "args": [
-        "--refresh=1s",
-        "--appPath",
-        "${input:appPath}"
-      ]
+      "args": ["--refresh=1s", "--appPath", "${input:appPath}"]
     },
     {
       "name": "Debug Modus Runtime (aws storage)",
@@ -77,9 +73,7 @@
       "request": "launch",
       "mode": "auto",
       "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
-      "args": [
-        "${workspaceFolder}/sdk/go/examples/${input:exampleApp}"
-      ],
+      "args": ["${workspaceFolder}/sdk/go/examples/${input:exampleApp}"],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -116,9 +110,7 @@
       "request": "launch",
       "mode": "auto",
       "program": "${workspaceFolder}/sdk/go/tools/modus-go-build",
-      "args": [
-        "${workspaceFolder}/runtime/languages/golang/testdata"
-      ],
+      "args": ["${workspaceFolder}/runtime/languages/golang/testdata"],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -224,10 +216,6 @@
           "value": "graphql"
         },
         {
-          "label": "Hello Primitives Example",
-          "value": "hello-primitives"
-        },
-        {
           "label": "HTTP Client Example",
           "value": "http"
         },
@@ -248,24 +236,16 @@
           "value": "simple"
         },
         {
-          "label": "Test Suite",
-          "value": "test-suite"
-        },
-        {
           "label": "Text Generation Model Example",
           "value": "textgeneration"
         },
         {
           "label": "Time Example",
-          "value": "time-example"
+          "value": "time"
         },
         {
           "label": "Vectors API Example",
           "value": "vectors"
-        },
-        {
-          "label": "YouTube Walkthrough Example",
-          "value": "youtube-walkthrough"
         }
       ]
     },

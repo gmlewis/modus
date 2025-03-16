@@ -1,6 +1,4 @@
-go 1.23.1
-
-toolchain go1.24.0
+go 1.24.0
 
 use (
 	./lib/manifest
@@ -16,13 +14,11 @@ use (
 	./sdk/go/examples/dgraph
 	./sdk/go/examples/embedding
 	./sdk/go/examples/graphql
-	./sdk/go/examples/hello-primitives
 	./sdk/go/examples/http
 	./sdk/go/examples/mysql
 	./sdk/go/examples/neo4j
 	./sdk/go/examples/postgresql
 	./sdk/go/examples/simple
-	./sdk/go/examples/test-suite
 	./sdk/go/examples/textgeneration
 	./sdk/go/examples/time
 	./sdk/go/examples/vectors
