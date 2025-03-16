@@ -1,8 +1,6 @@
 module github.com/gmlewis/modus/runtime
 
-go 1.23.1
-
-toolchain go1.24.0
+go 1.24.0
 
 require (
 	github.com/gmlewis/modus/lib/metadata v0.15.0

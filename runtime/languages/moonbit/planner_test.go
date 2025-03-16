@@ -285,7 +285,7 @@ func TestGetPlan(t *testing.T) {
 		"transform":                  &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	ctx = context.WithValue(ctx, utils.MetadataContextKey, md)
 
 	for fnName, fn := range md.FnExports {

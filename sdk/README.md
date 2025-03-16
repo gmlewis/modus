@@ -44,9 +44,3 @@ The `query` field is easy to fill in by opening the Chrome Devtools "Network"
 tab while running the Modus API Explorer and clicking on the most recent
 "graphql" request. Then under "Payload" click on "View Source" and copy
 the query string to paste into the JSON file directly.
-
-## Status
-
-The following MoonBit examples work:
-
-- [x] `sdk/moonbit/examples/test-suite`

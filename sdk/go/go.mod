@@ -8,7 +8,7 @@ toolchain go1.24.1
 
 require (
 	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
-	github.com/hypermodeinc/modus/lib/manifest v0.16.1
+	github.com/hypermodeinc/modus/lib/manifest v0.17.0
 )
 
 require (
@@ -24,6 +24,7 @@ require (
 )
 
 require (
+	github.com/dlclark/regexp2 v1.11.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.1 // indirect
@@ -32,5 +33,5 @@ require (
 	github.com/tidwall/pretty v1.2.1 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 )

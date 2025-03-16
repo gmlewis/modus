@@ -11,7 +11,6 @@ package moonbit
 
 import (
 	"bytes"
-	"context"
 	"encoding/binary"
 	"math"
 	"reflect"
@@ -119,7 +118,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -269,7 +268,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -419,7 +418,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -569,7 +568,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -719,7 +718,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -769,7 +768,7 @@ func TestPrimitiveSlicesDecodeIntExtraSpace(t *testing.T) {
 	// memBlock := []byte{1, 0, 0, 0, 0, 2, 0, 0, 224, 99, 0, 0, 2, 0, 0, 0}
 	// sliceMemBlock := []byte{1, 0, 0, 0, 241, 8, 0, 0, 30, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	wa := &myWasmMock{}
-	ctx := context.Background()
+	ctx := t.Context()
 	ptr, _, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
 	if err != nil {
 		t.Fatal(err)
@@ -922,7 +921,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -1086,7 +1085,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -1231,7 +1230,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -1374,7 +1373,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -1470,7 +1469,7 @@ func TestPrimitiveSlicesEncodeDecode_Float(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -1526,24 +1525,9 @@ func TestPrimitiveSlicesEncodeDecode_Double(t *testing.T) {
 			handler: doubleOptionSliceHandler,
 			value:   []*float64{nil},
 		},
-		// {
-		// 	name:    "Array[Double?]: Some(math.SmallestNonzeroFloat64)",
-		// 	handler: doubleOptionSliceHandler,
-		// 	value:   []*float64{Ptr(float64(math.SmallestNonzeroFloat64))},
-		// },
-		// {
-		// 	name:    "Array[Double?]: Some(0)",
-		// 	handler: doubleOptionSliceHandler,
-		// 	value:   []*float64{Ptr(float64(0))},
-		// },
-		// {
-		// 	name:    "Array[Double?]: Some(math.MaxFloat64)",
-		// 	handler: doubleOptionSliceHandler,
-		// 	value:   []*float64{Ptr(float64(math.MaxFloat64))},
-		// },
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()

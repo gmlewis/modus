@@ -32,7 +32,7 @@ type myWasmMockMemory struct {
 }
 
 func TestMyWasmMock(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	m := &myWasmMock{}
 	block1, _, _ := m.allocateAndPinMemory(ctx, 16, 241)
 	m.Memory().WriteUint32Le(block1, 41)

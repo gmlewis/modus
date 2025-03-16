@@ -10,7 +10,6 @@
 package moonbit
 
 import (
-	"context"
 	"math"
 	"reflect"
 	"testing"
@@ -53,7 +52,7 @@ func TestPrimitivesEncodeDecode_Bool(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -111,7 +110,7 @@ func TestPrimitivesEncodeDecode_Byte(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -179,7 +178,7 @@ func TestPrimitivesEncodeDecode_Char(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -247,7 +246,7 @@ func TestPrimitivesEncodeDecode_Int16(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -305,7 +304,7 @@ func TestPrimitivesEncodeDecode_UInt16(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -373,7 +372,7 @@ func TestPrimitivesEncodeDecode_Int(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -431,7 +430,7 @@ func TestPrimitivesEncodeDecode_UInt(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -499,7 +498,7 @@ func TestPrimitivesEncodeDecode_Int64(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -557,7 +556,7 @@ func TestPrimitivesEncodeDecode_UInt64(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -625,7 +624,7 @@ func TestPrimitivesEncodeDecode_Float(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()
@@ -693,7 +692,7 @@ func TestPrimitivesEncodeDecode_Double(t *testing.T) {
 		},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// t.Parallel()

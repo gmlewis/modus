@@ -14,10 +14,10 @@ import (
 	"log"
 	"testing"
 
-	"github.com/hypermodeinc/modus/lib/manifest"
 	"github.com/gmlewis/modus/lib/metadata"
 	"github.com/gmlewis/modus/runtime/manifestdata"
 	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/hypermodeinc/modus/lib/manifest"
 
 	"github.com/stretchr/testify/assert"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -258,7 +258,7 @@ func TestGetPlan(t *testing.T) {
 		"transform":               &fakeWasmFunc{resultTypes: []wasm.ValueType{wasm.ValueTypeI64}},
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	ctx = context.WithValue(ctx, utils.MetadataContextKey, md)
 
 	for fnName, fn := range md.FnExports {

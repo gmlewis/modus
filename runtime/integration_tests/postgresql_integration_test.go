@@ -115,7 +115,7 @@ func TestMain(m *testing.M) {
 	app.SetConfig(cfg)
 
 	// Create the main background context
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// setup runtime services
 	services.Start(ctx)
