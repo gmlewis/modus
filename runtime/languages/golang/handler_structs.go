@@ -12,7 +12,6 @@ package golang
 import (
 	"context"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 
@@ -57,6 +56,7 @@ type structHandler struct {
 }
 
 func (h *structHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offset uint32) (any, error) {
+
 	// Check for recursion
 	visitedPtrs := wa.(*wasmAdapter).visitedPtrs
 	if visitedPtrs[offset] >= maxDepth {
@@ -184,7 +184,6 @@ func (h *structHandler) Encode(ctx context.Context, wa langsupport.WasmAdapter, 
 
 func (h *structHandler) getStructOutput(data map[string]any) (any, error) {
 	rt := h.typeInfo.ReflectedType()
-	log.Printf("GML: handler_structs.go: getStructOutput: rt.Kind()=%v", rt.Kind())
 	if rt.Kind() == reflect.Map {
 		return data, nil
 	}
