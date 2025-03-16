@@ -21,6 +21,5 @@ export async function extract(archivePath: string, installDir: string, ...args: 
     tarCmd = path.join(process.env.SystemRoot!, "System32", "tar.exe");
   }
 
-  // console.log(`GML: tar.ts: running ${tarCmd} -xf ${archivePath} -C ${installDir} ${args.join(' ')}`);
   await execFile(tarCmd, ["-xf", archivePath, "-C", installDir, ...args]);
 }
