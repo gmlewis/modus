@@ -227,7 +227,7 @@ export async function getInstalledRuntimeVersions(): Promise<string[]> {
 
 async function getInstalledVersions(dir: string, includePrerelease: boolean): Promise<string[]> {
   if (await fs.exists(dir)) {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
+    const entries = await fs.readdir(dir, { withFileTypes: true });
     let versions = entries.filter((e) => e.isDirectory() && e.name.startsWith("v")).map((e) => e.name.slice(1));
 
     // If at least one stable release is found, only return stable releases.
