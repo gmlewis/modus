@@ -137,11 +137,9 @@ async function getGoAppInfo(appPath: string): Promise<ModusAppInfo> {
 
 async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
   const sdk = SDK.MoonBit;
-  // console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: appPath: ${appPath}`);
 
   const data = await fs.readFile(path.join(appPath, "moon.mod.json"), "utf8");
   const fields = JSON.parse(data);
-  // console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: fields: ${JSON.stringify(fields)}`);
 
   const moduleName = fields.name;
   if (!moduleName) {
@@ -150,7 +148,6 @@ async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
   const name = moduleName.split("/").pop();  // Return module name after last '/'.
 
   const versionField = fields.deps?.["gmlewis/modus"];
-  // console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: versionField: ${JSON.stringify(versionField)}`);
   let sdkVersion: string | undefined;
   try {
     if (versionField?.path) {
@@ -170,6 +167,5 @@ async function getMoonBitAppInfo(appPath: string): Promise<ModusAppInfo> {
     sdkVersion = "latest";
   }
 
-  // console.log(`GML: util/appinfo.ts: getMoonBitAppInfo: returning: ${JSON.stringify({ name, sdk, sdkVersion })}`);
   return { name, sdk, sdkVersion };
 }
