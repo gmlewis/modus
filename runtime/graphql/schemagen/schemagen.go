@@ -663,7 +663,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 
 	if lti.IsTupleType(typ) {
 		subTypes := lti.GetTupleSubtypes(typ)
-		// tts := make([]string, 0, len(subTypes))
 		ttns := make([]string, 0, len(subTypes))
 		fields := make([]*FieldDefinition, 0, len(subTypes))
 		for i, subType := range subTypes {
@@ -671,7 +670,6 @@ func convertType(typ string, lti langsupport.LanguageTypeInfo, typeDefs map[stri
 			if err != nil {
 				return "", err
 			}
-			// tts = append(tts, tt)
 
 			var ttn string
 			if strings.HasSuffix(tt, "!") {
