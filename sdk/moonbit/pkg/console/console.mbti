@@ -3,7 +3,7 @@ package gmlewis/modus/pkg/console
 alias @gmlewis/modus/pkg/testutils as @testutils
 
 // Values
-fn assert(Bool, String) -> Unit
+fn assert_(Bool, String) -> Unit
 
 fn debug(String) -> Unit
 

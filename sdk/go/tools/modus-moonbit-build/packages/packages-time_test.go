@@ -36,7 +36,6 @@ var wantPackageTime = &Package{
 		},
 		Targets: map[string][]string{
 			"modus_post_generated.mbt": []string{"wasm"},
-			"modus_pre_generated.mbt":  []string{"wasm"},
 		},
 		LinkTargets: map[string]*LinkTarget{
 			"wasm": {

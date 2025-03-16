@@ -1,9 +1,0 @@
-// GraphQL client interface
-interface graphql-client {
-    // Execute a GraphQL query with variables
-    execute-query: func(
-        host-name: string,
-        statement: string,
-        variables: string
-    ) -> option<string>;
-}

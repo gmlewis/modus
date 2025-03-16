@@ -140,9 +140,6 @@ var wantSimplePreProcessMoonPkgJSON = `{
   "targets": {
     "modus_post_generated.mbt": [
       "wasm"
-    ],
-    "modus_pre_generated.mbt": [
-      "wasm"
     ]
   },
   "link": {

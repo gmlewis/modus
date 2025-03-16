@@ -9,12 +9,7 @@
     "gmlewis/modus/pkg/testutils"
   ],
   "targets": {
-    "modus_post_generated.mbt": [
-      "wasm"
-    ],
-    "modus_pre_generated.mbt": [
-      "wasm"
-    ]
+    "modus_post_generated.mbt": [ "wasm" ]
   },
   "link": {
     "wasm": {

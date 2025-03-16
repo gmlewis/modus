@@ -11,7 +11,6 @@ package end2end
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"os/exec"
@@ -159,8 +158,6 @@ func getPIDUsingPortWindows(port int) (int, error) {
 
 func killAllPIDs(pids []int) {
 	for _, pid := range pids {
-		if err := killProcess(pid); err != nil {
-			log.Printf("WARNING: failed to kill process with pid %v: %v", pid, err)
-		}
+		killProcess(pid)
 	}
 }

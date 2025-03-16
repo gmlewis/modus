@@ -5,5 +5,6 @@ pub fn host_execute_query(
   _query : String,
   _parameters_json : Map[String, Json]
 ) -> EagerResult?!Error {
+  @ffi.silence_warning()
   fail!("not wasm")
 }

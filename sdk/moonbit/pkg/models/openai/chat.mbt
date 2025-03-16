@@ -171,7 +171,7 @@ pub(all) struct ToolChoice {
 pub impl ToJson for ToolChoice with to_json(_self) {
   // let type_ = self.type_.to_json()
   // match self.function {
-  //   None => { "type": type_, "function": None.to_json() }
+  //   None => { "type": type_, "function": Null }
   //   Some(func) => { "type": type_, "function": func.to_json() }
   // }
   // TODO: Fix this
@@ -414,7 +414,7 @@ pub(all) struct ResponseFormat {
 pub impl ToJson for ResponseFormat with to_json(self) {
   let type_ = self.type_.to_json()
   match self.json_schema {
-    None => { "type": type_, "json_schema": None.to_json() }
+    None => { "type": type_, "json_schema": Null }
     Some(json_schema) => { "type": type_, "json_schema": json_schema.to_json() }
   }
 }

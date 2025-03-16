@@ -1,22 +1,5 @@
 package modus:core;
 
-// Define the complete Modus world with all capabilities
 world modus {
-    // Database and storage
-    import collections;
-    import sql-client;
-    import dgraph-client;
-    import neo4j-client;
-
-    // API and communication
-    import http-client;
-    import graphql-client;
-
-    // AI and Models
-    import models;
-
-    // System utilities
-    import console;
-    import localtime;
     import wasi;
 }

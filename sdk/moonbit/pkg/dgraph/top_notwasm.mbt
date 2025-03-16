@@ -3,6 +3,7 @@ pub fn host_execute_query(
   _host_name : String,
   _request : Request
 ) -> Response?!Error {
+  @ffi.silence_warning()
   fail!("not wasm")
 }
 

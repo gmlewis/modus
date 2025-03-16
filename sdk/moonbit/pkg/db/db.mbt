@@ -5,6 +5,13 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
+///| Record type for query response
+pub(all) struct HostQueryResponse {
+  error : String?
+  result_json : String?
+  rows_affected : UInt
+} derive(Show, Eq, FromJson, ToJson)
+
 ///|
 pub(all) type! DbError String derive(Show, Eq)
 
@@ -77,7 +84,7 @@ pub fn do_query(
 
   //
   let statement = statement.trim_space()
-  let response = @host.execute_query(host_name, db_type, statement, params_json)
+  let response = host_execute_query(host_name, db_type, statement, params_json)
   if response.is_empty() {
     raise DbError("no response received from database query")
   }

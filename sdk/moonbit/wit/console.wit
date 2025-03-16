@@ -1,5 +1,0 @@
-// Interface for system logging
-interface console {
-    // Log a message with specified level
-    log-message: func(level: string, message: string);
-}

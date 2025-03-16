@@ -15,7 +15,7 @@ pub fn execute[T : @json.FromJson](
   variables : Map[String, Json]
 ) -> Response[T]!Error {
   let vars_str = @json.stringify(variables.to_json())
-  let response = @host.execute_query(host_name, statement, vars_str)
+  let response = host_execute_query(host_name, statement, vars_str)
   if response.is_empty() {
     raise GraphQLError("Failed to execute the GQL query")
   }

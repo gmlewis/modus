@@ -1,6 +1,7 @@
 package gmlewis/modus/wit/ffi
 
 // Values
+fn silence_warning() -> Unit
 
 // Types and methods
 

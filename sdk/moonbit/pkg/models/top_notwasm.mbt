@@ -8,5 +8,6 @@ pub fn host_get_model_info(model_name : String) -> ModelInfo!Error {
 
 ///|
 pub fn host_invoke_model(_model_name : String, _input : String) -> String!Error {
+  @ffi.silence_warning()
   fail!("not wasm")
 }

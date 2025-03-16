@@ -6,26 +6,11 @@
     "moonbitlang/x/time"
   ],
   "targets": {
-    "debug-memory_notwasm.mbt": [
-      "not",
-      "wasm"
-    ],
-    "debug-memory_wasm.mbt": [
-      "wasm"
-    ],
-    "imports_notwasm.mbt": [
-      "not",
-      "wasm"
-    ],
-    "imports_wasm.mbt": [
-      "wasm"
-    ],
-    "modus_post_generated.mbt": [
-      "wasm"
-    ],
-    "modus_pre_generated.mbt": [
-      "wasm"
-    ]
+    "debug-memory_notwasm.mbt": [ "not", "wasm" ],
+    "debug-memory_wasm.mbt": [ "wasm" ],
+    "imports_notwasm.mbt": [ "not", "wasm" ],
+    "imports_wasm.mbt": [ "wasm" ],
+    "modus_post_generated.mbt": [ "wasm" ]
   },
   "link": {
     "wasm": {

@@ -6,103 +6,79 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub typealias CollectionStatus = @host.CollectionStatus
-
-// ///|
-// pub(all) enum CollectionStatus {
-//   Success
-//   Error
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) enum CollectionStatus {
+  Success = 0
+  Error = 1
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionMutationResult = @host.CollectionMutationResult
-
-// ///|
-// pub(all) struct CollectionMutationResult {
-//   collection : String
-//   status : CollectionStatus
-//   error : String
-//   operation : String
-//   keys : Array[String]
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct CollectionMutationResult {
+  collection : String
+  status : CollectionStatus
+  error : String
+  operation : String
+  keys : Array[String]
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias SearchMethodMutationResult = @host.SearchMethodMutationResult
-
-// ///|
-// pub(all) struct SearchMethodMutationResult {
-//   collection : String
-//   status : CollectionStatus
-//   error : String
-//   operation : String
-//   search_method : String
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct SearchMethodMutationResult {
+  collection : String
+  status : CollectionStatus
+  error : String
+  operation : String
+  search_method : String
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionSearchResult = @host.CollectionSearchResult
-
-// ///|
-// pub(all) struct CollectionSearchResult {
-//   collection : String
-//   status : CollectionStatus
-//   error : String
-//   search_method : String
-//   objects : Array[CollectionSearchResultObject]
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct CollectionSearchResult {
+  collection : String
+  status : CollectionStatus
+  error : String
+  search_method : String
+  objects : Array[CollectionSearchResultObject]
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionSearchResultObject = @host.CollectionSearchResultObject
-
-// ///|
-// pub(all) struct CollectionSearchResultObject {
-//   namespace : String
-//   key : String
-//   text : String
-//   labels : Array[String]
-//   distance : Double
-//   score : Double
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct CollectionSearchResultObject {
+  namespace : String
+  key : String
+  text : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionClassificationResult = @host.CollectionClassificationResult
-
-// ///|
-// pub(all) struct CollectionClassificationResult {
-//   collection : String
-//   status : String
-//   error : String
-//   search_method : String
-//   labels_result : Array[CollectionClassificationLabelObject]
-//   cluster : Array[CollectionClassificationResultObject]
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct CollectionClassificationResult {
+  collection : String
+  status : String
+  error : String
+  search_method : String
+  labels_result : Array[CollectionClassificationLabelObject]
+  cluster : Array[CollectionClassificationResultObject]
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionClassificationLabelObject = @host.CollectionClassificationLabelObject
-
-// ///|
-// pub(all) struct CollectionClassificationLabelObject {
-//   label : String
-//   confidence : Double
-// } derive(Show, Eq, FromJson, ToJson)
+pub(all) struct CollectionClassificationLabelObject {
+  label : String
+  confidence : Double
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub typealias CollectionClassificationResultObject = @host.CollectionClassificationResultObject
-
-// ///|
-// pub(all) struct CollectionClassificationResultObject {
-//   key : String
-//   labels : Array[String]
-//   distance : Double
-//   score : Double
-// } derive(Show, Eq, FromJson, ToJson)
-
-///|
-pub(all) type NamespaceOption (NamespaceOptions) -> Unit
+pub(all) struct CollectionClassificationResultObject {
+  key : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+} derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub(all) struct NamespaceOptions {
   mut namespace : String
 }
+
+///|
+pub type NamespaceOption (NamespaceOptions) -> Unit
 
 ///|
 pub fn with_namespace(namespace : String) -> NamespaceOption {
@@ -134,7 +110,7 @@ pub fn upsert_batch(
   }
 
   //
-  let result = @host.upsert(
+  let result = host_upsert(
     collection,
     ns_opts.namespace,
     keys,
@@ -180,7 +156,7 @@ pub fn remove(
   }
 
   //
-  let result = @host.delete(collection, ns_opts.namespace, key)
+  let result = host_delete(collection, ns_opts.namespace, key)
   if result.is_empty() {
     raise CollectionError("Failed to delete")
   }
@@ -238,7 +214,7 @@ pub fn search(
   }
 
   //
-  let result = @host.search(
+  let result = host_search(
     collection,
     s_opts.namespaces,
     search_method,
@@ -278,7 +254,7 @@ pub fn search_by_vector(
   }
 
   //
-  let result = @host.search_by_vector(
+  let result = host_search_by_vector(
     collection,
     s_opts.namespaces,
     search_method,
@@ -318,7 +294,7 @@ pub fn nn_classify(
   }
 
   //
-  let result = @host.classify_text(
+  let result = host_classify_text(
     collection,
     ns_opts.namespace,
     search_method,
@@ -352,7 +328,7 @@ pub fn recompute_search_method(
   }
 
   //
-  let result = @host.recompute_index(
+  let result = host_recompute_index(
     collection,
     ns_opts.namespace,
     search_method,
@@ -393,7 +369,7 @@ pub fn compute_distance(
   }
 
   //
-  let result = @host.compute_distance(
+  let result = host_compute_distance(
     collection,
     ns_opts.namespace,
     search_method,
@@ -428,7 +404,7 @@ pub fn get_text(
   }
 
   //
-  let result = @host.get_text(collection, ns_opts.namespace, key)
+  let result = host_get_text(collection, ns_opts.namespace, key)
   if result.is_empty() {
     raise CollectionError("Failed to get text")
   }
@@ -453,7 +429,7 @@ pub fn get_texts(
   }
 
   //
-  let result = @host.dump_texts(collection, ns_opts.namespace)
+  let result = host_dump_texts(collection, ns_opts.namespace)
   if result.is_empty() {
     raise CollectionError("Failed to get texts")
   }
@@ -470,7 +446,7 @@ pub fn get_namespaces(collection : String) -> Array[String]!Error {
   }
 
   //
-  let result = @host.get_namespaces(collection)
+  let result = host_get_namespaces(collection)
   if result.is_empty() {
     raise CollectionError("Failed to get namespaces")
   }
@@ -503,7 +479,7 @@ pub fn get_vector(
   }
 
   //
-  let result = @host.get_vector(
+  let result = host_get_vector(
     collection,
     ns_opts.namespace,
     search_method,
@@ -537,7 +513,7 @@ pub fn get_labels(
   }
 
   //
-  let result = @host.get_labels(collection, ns_opts.namespace, key)
+  let result = host_get_labels(collection, ns_opts.namespace, key)
   if result.is_empty() {
     raise CollectionError("Failed to get labels")
   }

@@ -5,6 +5,8 @@ alias @moonbitlang/core/json as @json
 // Values
 fn execute[T : @json.FromJson](String, String, Map[String, Json]) -> Response[T]!
 
+fn host_execute_query(String, String, String) -> String?
+
 // Types and methods
 pub(all) struct CodeLocation {
   line : Int

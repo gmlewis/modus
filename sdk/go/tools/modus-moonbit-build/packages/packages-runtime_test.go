@@ -40,7 +40,6 @@ var wantPackageRuntime = &Package{
 			"imports_notwasm.mbt":      {"not", "wasm"},
 			"imports_wasm.mbt":         {"wasm"},
 			"modus_post_generated.mbt": {"wasm"},
-			"modus_pre_generated.mbt":  {"wasm"},
 		},
 		LinkTargets: map[string]*LinkTarget{
 			"wasm": {

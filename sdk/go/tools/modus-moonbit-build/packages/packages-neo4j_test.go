@@ -34,7 +34,6 @@ var wantPackageNeo4j = &Package{
 		},
 		Targets: map[string][]string{
 			"modus_post_generated.mbt": {"wasm"},
-			"modus_pre_generated.mbt":  {"wasm"},
 		},
 		LinkTargets: map[string]*LinkTarget{
 			"wasm": {

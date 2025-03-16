@@ -1,1 +1,0 @@
-GraphQL client interface

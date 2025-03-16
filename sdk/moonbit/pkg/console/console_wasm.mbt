@@ -16,7 +16,7 @@ pub fn log_message(level : String, message : String) -> Unit {
 }
 
 ///|
-pub fn assert(condition : Bool, message : String) -> Unit {
+pub fn assert_(condition : Bool, message : String) -> Unit {
   if not(condition) {
     error("Assertion failed: \{message}")
   }

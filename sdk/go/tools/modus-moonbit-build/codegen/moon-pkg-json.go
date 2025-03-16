@@ -51,7 +51,6 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		pkg.MoonPkgJSON.Targets = map[string][]string{}
 	}
 	pkg.MoonPkgJSON.Targets["modus_post_generated.mbt"] = []string{"wasm"}
-	pkg.MoonPkgJSON.Targets["modus_pre_generated.mbt"] = []string{"wasm"}
 
 	// no need to preserve current exports.
 	if pkg.MoonPkgJSON.LinkTargets == nil {

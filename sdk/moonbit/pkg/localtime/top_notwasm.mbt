@@ -1,5 +1,6 @@
 ///|
 pub fn host_get_time_in_zone_modus(_timezone : String) -> String {
+  @ffi.silence_warning()
   abort("not wasm")
 }
 

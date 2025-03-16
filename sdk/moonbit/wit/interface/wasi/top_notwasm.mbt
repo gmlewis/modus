@@ -2,6 +2,8 @@
 ///| Timekeeping
 /// Get the resolution of a clock.
 pub fn clock_res_get(_clockid : UInt) -> Result[UInt64, UInt] {
+  @ffi.silence_warning()
+  ignore(@base64.str2bytes(""))
   Ok(0)
 }
 

@@ -40,12 +40,8 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 		return err
 	}
 
-	if pid, err := getPIDUsingPort(graphqlPort); err != nil {
-		log.Printf("Error getting PID using port %v: %v", graphqlPort, err)
-	} else {
-		if err := killProcess(pid); err != nil {
-			log.Printf("Failed to kill process with pid %v: %v", pid, err)
-		}
+	if pid, err := getPIDUsingPort(graphqlPort); err == nil {
+		killProcess(pid)
 	}
 
 	if !waitForPortToBeFree(graphqlPort, 20*time.Second) {
@@ -82,11 +78,7 @@ func RunTest(config *config.Config, repoAbsPath string, start time.Time, trace b
 	allPIDs := append([]int{pid}, childPIDs...)
 	defer killAllPIDs(allPIDs)
 
-	go func() {
-		if err := cmd.Wait(); err != nil {
-			log.Printf("cmd.Wait: %v", err)
-		}
-	}()
+	go cmd.Wait()
 
 	// Test each endpoint
 	for _, endpoint := range plugin.Endpoints {
