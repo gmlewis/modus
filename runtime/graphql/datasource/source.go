@@ -203,7 +203,7 @@ func transformValue(data []byte, tf *fieldInfo) (result []byte, err error) {
 		}
 		return transformArray(data, tf)
 	default:
-		return nil, fmt.Errorf("expected object or array, got: '%s'", data)
+		return nil, fmt.Errorf("expected object or array, got: '%v'", data)
 	}
 }
 
@@ -261,22 +261,6 @@ func transformTuple(data []byte, tf *fieldInfo) ([]byte, error) {
 		if buf.Len() > 1 {
 			buf.WriteByte(',')
 		}
-
-		// key := []byte(fmt.Sprintf("t%v", argCount))
-		// b, err := writeKeyValuePair(key, value, "String", valueType)
-		// if err != nil {
-		// 	loopErr = err
-		// 	return
-		// }
-
-		// f := &tf.Fields[argCount]
-		// val, err := transformObject(b, f)
-		// if err != nil {
-		// 	loopErr = err
-		// 	return
-		// }
-		// buf.Write(val)
-		// buf.Write(b)
 
 		buf.WriteString(fmt.Sprintf(`"t%v":`, argCount))
 		if valueType == jsonparser.String {
