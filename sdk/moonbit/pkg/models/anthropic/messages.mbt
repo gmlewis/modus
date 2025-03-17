@@ -11,6 +11,17 @@
 /// [API Reference]: https://docs.anthropic.com/en/api/messages
 pub(all) type MessagesModel @models.ModelBase derive(Show, Eq, FromJson, ToJson)
 
+///|
+pub fn invoke(
+  self : MessagesModel,
+  input : MessagesModelInput
+) -> MessagesModelOutput!Error {
+  let input_json = input.to_json()
+  let output_json = self._.invoke!(input_json)
+  // println("got output_json=\{output_json}")
+  @json.from_json!(output_json)
+}
+
 // type MessagesModel struct {
 // 	messagesModelBase
 // }
@@ -38,7 +49,7 @@ pub(all) struct MessagesModelInput {
   //
   // Different models have different maximum values for this parameter. See
   // [models](https://docs.anthropic.com/en/docs/models-overview) for details.
-  max_tokens : Int?
+  mut max_tokens : Int
 
   // A `Metadata` object describing the request.
   metadata : Metadata?
@@ -50,7 +61,7 @@ pub(all) struct MessagesModelInput {
   //
   // A system prompt is a way of providing context and instructions to Claude, such as
   // specifying a particular goal or role. See [guide to system prompts](https://docs.anthropic.com/en/docs/system-prompts).
-  system : String
+  mut system : String
 
   // A number between `0.0` and `1.0` that controls the randomness injected into the response.
   //
@@ -60,12 +71,12 @@ pub(all) struct MessagesModelInput {
   // Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
   //
   // The default value is 1.0.
-  temperature : Double
+  mut temperature : Double
 
   // How the model should use the provided tools.
   //
   // Use either `tool_choice_auto`, `tool_choice_any`, or `ToolChoiceTool(name: string)`.
-  tool_choice : ToolChoice?
+  mut tool_choice : ToolChoice?
 
   // Definitions of tools that the model may use.
   //
@@ -73,19 +84,19 @@ pub(all) struct MessagesModelInput {
   // or more generally whenever you want the model to produce a particular JSON structure of output.
   //
   // See Anthropic's [guide](https://docs.anthropic.com/en/docs/tool-use) for more details.
-  tools : Array[Tool]
+  mut tools : Array[Tool]
 
   // Only sample from the top K options for each subsequent token.
   //
   // Recommended for advanced use cases only. You usually only need to use `temperature`.
-  top_k : Int?
+  mut top_k : Int
 
   // Use nucleus sampling.
   //
   // You should either alter `temperature` or `top_p`, but not both.
   //
   // Recommended for advanced use cases only. You usually only need to use `temperature`.
-  top_p : Double?
+  mut top_p : Double
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
@@ -108,6 +119,14 @@ pub(all) enum ToolChoice {
   /// If set to true, the model will output at most one tool use.
   Tool(String, Bool)
 } derive(Show, Eq)
+
+///|
+pub fn tool_choice_tool(
+  name : String,
+  disable_parallel_tool_use~ : Bool = false
+) -> ToolChoice? {
+  Some(Tool(name, disable_parallel_tool_use))
+}
 
 ///|
 impl @json.FromJson for ToolChoice with from_json(json, path) {
@@ -168,11 +187,74 @@ pub(all) struct MessagesModelOutput {
   stop_reason : String
 
   // Which custom stop sequence was generated, if any.
-  stop_sequence : String?
+  stop_sequence : String
 
   // The usage statistics for the request.
   usage : Usage
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq)
+
+///|
+pub impl ToJson for MessagesModelOutput with to_json(self) {
+  {
+    "id": self.id.to_json(),
+    "type": self.type_.to_json(), // "message"
+    "role": self.role.to_json(),
+    "content": self.content.to_json(),
+    "model": self.model.to_json(),
+    "stop_reason": self.stop_reason.to_json(),
+    "stop_sequence": self.stop_sequence.to_json(),
+    "usage": self.usage.to_json(),
+  }.to_json()
+}
+
+///|
+pub impl @json.FromJson for MessagesModelOutput with from_json(self, path) {
+  let obj = match self {
+    Object(obj) => obj
+    _ =>
+      raise @json.JsonDecodeError(
+        (path, "MessagesModelOutput: expected object"),
+      )
+  }
+  let id = match obj.get("id") {
+    Some(String(id)) => id
+    _ => raise @json.JsonDecodeError((path, "MessagesModelOutput: missing id"))
+  }
+  let type_ = match obj.get("type") {
+    Some(String(type_)) => type_
+    _ =>
+      raise @json.JsonDecodeError((path, "MessagesModelOutput: missing type"))
+  }
+  let role = match obj.get("role") {
+    Some(String(role)) => role
+    _ =>
+      raise @json.JsonDecodeError((path, "MessagesModelOutput: missing role"))
+  }
+  let model = match obj.get("model") {
+    Some(String(model)) => model
+    _ =>
+      raise @json.JsonDecodeError((path, "MessagesModelOutput: missing model"))
+  }
+  let stop_reason = match obj.get("stop_reason") {
+    Some(String(stop_reason)) => stop_reason
+    _ =>
+      raise @json.JsonDecodeError(
+        (path, "MessagesModelOutput: missing stop_reason"),
+      )
+  }
+  let stop_sequence = match obj.get("stop_sequence") {
+    Some(String(stop_sequence)) => stop_sequence
+    _ =>
+      raise @json.JsonDecodeError(
+        (path, "MessagesModelOutput: missing stop_sequence"),
+      )
+  }
+  let content : Array[ContentBlock] = @json.from_json!(
+    obj.get("content").unwrap(),
+  )
+  let usage : Usage = @json.from_json!(obj.get("usage").unwrap())
+  { id, type_, role, content, model, stop_reason, stop_sequence, usage }
+}
 
 ///|
 pub(all) struct Usage {
@@ -197,18 +279,14 @@ pub fn Message::new_user(content : Content) -> Message {
   { role: "user", content }
 }
 
-///|
+///| Content may be either a single string or an array of content blocks,
+// where each block has a specific type.
 pub(all) enum Content {
   // A string of text.
-  String(StringContent)
+  String(String)
   // An array of content blocks.
   Contents(Contents)
 } derive(Show, Eq, FromJson, ToJson)
-
-// Content may be either a single string or an array of content blocks,
-// where each block has a specific type.
-///|
-pub(all) type StringContent String derive(Show, Eq, FromJson, ToJson)
 
 ///|
 pub(all) type Contents Array[ContentBlock] derive(Show, Eq, FromJson, ToJson)
@@ -223,7 +301,83 @@ pub(all) struct ContentBlock {
   tool_use_id : String?
   is_error : Bool?
   content : String?
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq)
+
+///|
+pub impl @json.FromJson for ContentBlock with from_json(self, path) {
+  let obj = match self {
+    Object(obj) => obj
+    _ => raise @json.JsonDecodeError((path, "ContentBlock: expected object"))
+  }
+  let type_ = match obj.get("type") {
+    Some(String(type_)) => type_
+    _ => raise @json.JsonDecodeError((path, "ContentBlock: missing type"))
+  }
+  let text = match obj.get("text") {
+    Some(String(text)) => Some(text)
+    _ => None
+  }
+  let id = match obj.get("id") {
+    Some(String(id)) => Some(id)
+    _ => None
+  }
+  let name = match obj.get("name") {
+    Some(String(name)) => Some(name)
+    _ => None
+  }
+  let input = match obj.get("input") {
+    Some(input) => Some(input)
+    _ => None
+  }
+  let tool_use_id = match obj.get("tool_use_id") {
+    Some(String(tool_use_id)) => Some(tool_use_id)
+    _ => None
+  }
+  let is_error = match obj.get("is_error") {
+    Some(is_error) => Some(is_error.as_bool().unwrap())
+    _ => None
+  }
+  let content = match obj.get("content") {
+    Some(String(content)) => Some(content)
+    _ => None
+  }
+  { type_, text, id, name, input, tool_use_id, is_error, content }
+}
+
+///|
+pub impl ToJson for ContentBlock with to_json(self) {
+  {
+    "type": self.type_.to_json(),
+    "text": match self.text {
+      Some(text) => text.to_json()
+      None => Null.to_json()
+    },
+    "id": match self.id {
+      Some(id) => id.to_json()
+      None => Null.to_json()
+    },
+    "name": match self.name {
+      Some(name) => name.to_json()
+      None => Null.to_json()
+    },
+    "input": match self.input {
+      Some(input) => input
+      None => Null.to_json()
+    },
+    "tool_use_id": match self.tool_use_id {
+      Some(tool_use_id) => tool_use_id.to_json()
+      None => Null.to_json()
+    },
+    "is_error": match self.is_error {
+      Some(is_error) => is_error.to_json()
+      None => Null.to_json()
+    },
+    "content": match self.content {
+      Some(content) => content.to_json()
+      None => Null.to_json()
+    },
+  }.to_json()
+}
 
 ///|
 pub fn ContentBlock::new(type_ : String) -> ContentBlock {
@@ -296,14 +450,14 @@ pub fn create_input(
   {
     model,
     messages,
-    max_tokens: None,
+    max_tokens: 0,
     metadata: None,
     stop_sequences: [],
     system: "",
     temperature: 1.0,
     tool_choice: Some(ToolChoice::Auto),
     tools: [],
-    top_k: None,
-    top_p: None,
+    top_k: 0,
+    top_p: 0,
   }
 }
