@@ -6,7 +6,11 @@ alias @moonbitlang/core/json as @json
 // Values
 fn create_input(MessagesModel, Array[Message]) -> MessagesModelInput
 
+fn invoke(MessagesModel, MessagesModelInput) -> MessagesModelOutput!
+
 fn text_content_block(String) -> ContentBlock
+
+fn tool_choice_tool(String, disable_parallel_tool_use~ : Bool = ..) -> ToolChoice?
 
 fn tool_result_content_block(String, String, Bool) -> ContentBlock
 
@@ -14,7 +18,7 @@ fn tool_use_content_block(String, String, Json) -> ContentBlock
 
 // Types and methods
 pub(all) enum Content {
-  String(StringContent)
+  String(String)
   Contents(Contents)
 }
 impl Eq for Content
@@ -61,6 +65,7 @@ impl @json.FromJson for Message
 pub(all) type MessagesModel @models.ModelBase
 impl MessagesModel {
   create_input(Self, Array[Message]) -> MessagesModelInput
+  invoke(Self, MessagesModelInput) -> MessagesModelOutput!
 }
 impl Eq for MessagesModel
 impl Show for MessagesModel
@@ -70,7 +75,7 @@ impl @json.FromJson for MessagesModel
 pub(all) struct MessagesModelInput {
   model : String
   messages : Array[Message]
-  max_tokens : Int?
+  max_tokens : Int
   metadata : Metadata?
   stop_sequences : Array[String]
   system : String
@@ -92,7 +97,7 @@ pub(all) struct MessagesModelOutput {
   content : Array[ContentBlock]
   model : String
   stop_reason : String
-  stop_sequence : String?
+  stop_sequence : String
   usage : Usage
 }
 impl Eq for MessagesModelOutput
@@ -107,12 +112,6 @@ impl Eq for Metadata
 impl Show for Metadata
 impl ToJson for Metadata
 impl @json.FromJson for Metadata
-
-pub(all) type StringContent String
-impl Eq for StringContent
-impl Show for StringContent
-impl ToJson for StringContent
-impl @json.FromJson for StringContent
 
 pub(all) struct Tool {
   name : String

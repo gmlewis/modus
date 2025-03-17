@@ -5,12 +5,13 @@
 // SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
 // SPDX-License-Identifier: Apache-2.0
 
+///|
+priv type! AuthError String derive(Show, Eq)
+
 ///| get_jwt_claims returns the JWT claims from the environment.
 pub fn get_jwt_claims[T : @json.FromJson]() -> T!Error {
-  let claims_str = match @sys.get_env_vars()["CLAIMS"] {
-    None => raise @json.InvalidEof
-    Some(s) => s
-  }
+  let claims_str = @wasi.environ_get("CLAIMS")
+  guard claims_str != "" else { raise AuthError("JWT claims not found") }
   get_jwt_claims_from_string!(claims_str)
 }
 

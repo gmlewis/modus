@@ -1,6 +1,30 @@
 {
-  "is-main": true,
   "import": [
-    "gmlewis/modus/pkg/vectors"
-  ]
+    "gmlewis/modus/pkg/auth",
+    "gmlewis/modus/pkg/console"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_get_jwt_claims:get_jwt_claims",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }

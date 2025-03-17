@@ -1,5 +1,6 @@
 {
   "import": [
-    "moonbitlang/x/sys"
+    "gmlewis/modus/wit/ffi",
+    "gmlewis/modus/wit/interface/wasi"
   ]
 }
