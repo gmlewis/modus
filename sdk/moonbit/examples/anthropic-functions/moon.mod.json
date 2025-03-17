@@ -1,5 +1,5 @@
 {
-  "name": "gmlewis/modus/examples/anthropic",
+  "name": "gmlewis/modus/examples/anthropic-functions",
   "version": "0.1.0",
   "deps": {
     "gmlewis/modus": {
