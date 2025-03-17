@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"context"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 
@@ -25,6 +26,8 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("Fetch: %v %v\n%s", request.Method, request.Url, request.Body)
 
 	body := bytes.NewBuffer(request.Body)
 	req, err := http.NewRequestWithContext(ctx, request.Method, request.Url, body)
@@ -70,6 +73,8 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 		Headers:    &HttpHeaders{Data: headers},
 		Body:       content,
 	}
+
+	log.Printf("Response: %v %v\n%s", response.Status, response.StatusText, response.Body)
 
 	return response, nil
 }

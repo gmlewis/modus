@@ -47,6 +47,7 @@ the query string to paste into the JSON file directly.
 
 The following MoonBit examples work:
 
+- [x] `sdk/moonbit/examples/anthropic-functions`
 - [x] `sdk/moonbit/examples/hello-tuples`
 - [x] `sdk/moonbit/examples/neo4j`
 - [x] `sdk/moonbit/examples/simple`

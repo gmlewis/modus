@@ -89,15 +89,45 @@ pub(all) struct MessagesModelInput {
   // Only sample from the top K options for each subsequent token.
   //
   // Recommended for advanced use cases only. You usually only need to use `temperature`.
-  mut top_k : Int
+  mut top_k : Int?
 
   // Use nucleus sampling.
   //
   // You should either alter `temperature` or `top_p`, but not both.
   //
   // Recommended for advanced use cases only. You usually only need to use `temperature`.
-  mut top_p : Double
-} derive(Show, Eq, FromJson, ToJson)
+  mut top_p : Double?
+} derive(Show, Eq, FromJson)
+
+///|
+pub impl ToJson for MessagesModelInput with to_json(self) {
+  let obj = {
+    "model": self.model.to_json(),
+    "messages": self.messages.to_json(),
+    "max_tokens": self.max_tokens.to_json(),
+    "system": self.system.to_json(),
+  }
+  if self.metadata is Some(metadata) {
+    obj["metadata"] = metadata.to_json()
+  }
+  if self.stop_sequences.length() > 0 {
+    obj["stop_sequences"] = self.stop_sequences.to_json()
+  }
+  if self.temperature != 1 {
+    obj["temperature"] = self.temperature.to_json()
+  }
+  if self.tool_choice is Some(tool_choice) && self.tools.length() > 0 {
+    obj["tool_choice"] = tool_choice.to_json()
+    obj["tools"] = self.tools.to_json()
+  }
+  if self.top_k is Some(top_k) {
+    obj["top_k"] = top_k.to_json()
+  }
+  if self.top_p is Some(top_p) {
+    obj["top_p"] = top_p.to_json()
+  }
+  obj.to_json()
+}
 
 ///|
 pub(all) struct Metadata {
@@ -244,10 +274,7 @@ pub impl @json.FromJson for MessagesModelOutput with from_json(self, path) {
   }
   let stop_sequence = match obj.get("stop_sequence") {
     Some(String(stop_sequence)) => stop_sequence
-    _ =>
-      raise @json.JsonDecodeError(
-        (path, "MessagesModelOutput: missing stop_sequence"),
-      )
+    _ => ""
   }
   let content : Array[ContentBlock] = @json.from_json!(
     obj.get("content").unwrap(),
@@ -286,7 +313,15 @@ pub(all) enum Content {
   String(String)
   // An array of content blocks.
   Contents(Contents)
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, FromJson)
+
+///|
+pub impl ToJson for Content with to_json(self) {
+  match self {
+    String(s) => s.to_json()
+    Contents(contents) => contents.to_json()
+  }
+}
 
 ///|
 pub(all) type Contents Array[ContentBlock] derive(Show, Eq, FromJson, ToJson)
@@ -454,10 +489,10 @@ pub fn create_input(
     metadata: None,
     stop_sequences: [],
     system: "",
-    temperature: 1.0,
+    temperature: 1,
     tool_choice: Some(ToolChoice::Auto),
     tools: [],
-    top_k: 0,
-    top_p: 0,
+    top_k: None,
+    top_p: None,
   }
 }

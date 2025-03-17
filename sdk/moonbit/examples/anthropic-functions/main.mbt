@@ -96,20 +96,19 @@ pub struct GlobalQuote {
 pub impl @json.FromJson for GlobalQuote with from_json(self, _path) {
   let obj = self.as_object().unwrap()
   let symbol : String = @json.from_json!(obj.get("01. symbol").unwrap())
-  let price : String = @json.from_json!(obj.get("05.price").unwrap())
+  let price : String = @json.from_json!(obj.get("05. price").unwrap())
   { symbol, price }
 }
+
+///|
+priv type! QuoteError String derive(Show, Eq)
 
 ///|
 fn call_stock_price_api(symbol : String) -> String!Error {
   let url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=\{symbol}"
   let req = @http.Request::new(url)
   let resp = @http.fetch!(req)
-  if not(resp.ok()) {
-    raise @models.ModelsError(
-      "HTTP request failed with status code \{resp.status}",
-    )
-  }
-  let data : StockPriceAPIResponse = @json.from_json!(resp.json!())
+  guard resp.ok() else { raise QuoteError("Failed to fetch quote") }
+  let data : StockPriceAPIResponse = resp.json!()
   data.global_quote.price
 }
