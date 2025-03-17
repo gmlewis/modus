@@ -10,7 +10,6 @@ test "model input serialization" {
     input.to_json(),
     content=
       #|Object({"model": String("test-mock-model"), "messages": Array([Object({"role": String("user"), "content": String("what is the stock price of MSFT?")})]), "max_tokens": Number(0), "system": String("")})
-
     ,
   )
 }

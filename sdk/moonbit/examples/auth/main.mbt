@@ -3,7 +3,7 @@
 // See the LICENSE file that accompanied this code for further details.
 
 ///| This is a sample struct that represents the claims in a JWT token.
-pub struct ExampleClaims {
+pub(all) struct ExampleClaims {
   exp : Int64
   iat : Int64
   iss : String

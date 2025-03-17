@@ -78,7 +78,7 @@ pub struct StockPriceAPIResponse {
 }
 
 ///|
-pub impl @json.FromJson for StockPriceAPIResponse with from_json(self, path) {
+pub impl @json.FromJson for StockPriceAPIResponse with from_json(self, _path) {
   let obj = self.as_object().unwrap()
   let global_quote : GlobalQuote = @json.from_json!(
     obj.get("Global Quote").unwrap(),
