@@ -19,6 +19,17 @@ pub(all) type ClassificationModel @models.ModelBase derive (
   ToJson,
 )
 
+///|
+pub fn invoke(
+  self : ClassificationModel,
+  input : ClassificationModelInput
+) -> ClassificationModelOutput!Error {
+  let input_json = input.to_json()
+  let output_json = self._.invoke!(input_json)
+  // println("got output_json=\{output_json}")
+  @json.from_json!(output_json)
+}
+
 // type ClassificationModel struct {
 // 	classificationModelBase
 // }
@@ -43,7 +54,7 @@ pub(all) struct ClassifierResult {
   label : String
 
   // The confidence score for the classification label.
-  confidence : Double
+  confidence : Float
 
   // The list of all classification labels with their corresponding probabilities.
   probabilities : Array[ClassifierLabel]
@@ -55,7 +66,7 @@ pub(all) struct ClassifierLabel {
   label : String
 
   // The probability value.
-  probability : Double
+  probability : Float
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Creates an input object for the classification model.

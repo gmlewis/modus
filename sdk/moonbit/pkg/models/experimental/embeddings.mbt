@@ -16,6 +16,17 @@ pub(all) type EmbeddingsModel @models.ModelBase derive (
   ToJson,
 )
 
+///|
+pub fn invoke(
+  self : EmbeddingsModel,
+  input : EmbeddingsModelInput
+) -> EmbeddingsModelOutput!Error {
+  let input_json = input.to_json()
+  let output_json = self._.invoke!(input_json)
+  // println("got output_json=\{output_json}")
+  @json.from_json!(output_json)
+}
+
 // type EmbeddingsModel struct {
 // 	embeddingsModelBase
 // }
@@ -31,7 +42,7 @@ pub(all) struct EmbeddingsModelInput {
 ///| The output object for the embeddings model.
 pub(all) struct EmbeddingsModelOutput {
   // A list of vector embeddings that correspond to each input text string.
-  predictions : Array[Array[Double]]
+  predictions : Array[Array[Float]]
 } derive(Show, Eq, FromJson, ToJson)
 
 ///| Creates an input object for the embeddings model.

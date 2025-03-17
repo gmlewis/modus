@@ -2,112 +2,117 @@
 // You may modify and use this example in accordance with the license.
 // See the LICENSE file that accompanied this code for further details.
 
-// package main
-// 
-// import (
-// 	"github.com/gmlewis/modus/sdk/go/pkg/collections"
-// 	"github.com/gmlewis/modus/sdk/go/pkg/models"
-// 	"github.com/gmlewis/modus/sdk/go/pkg/models/experimental"
-// )
-// 
-// const (
-// 	modelName  = "minilm"
-// 	myProducts = "myProducts"
-// )
-// 
-// var searchMethods = []string{"searchMethod1", "searchMethod2"}
-// 
-// func Embed(text []string) ([][]float32, error) {
-// 	model, err := models.GetModel[experimental.EmbeddingsModel](modelName)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	input, err := model.CreateInput(text...)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	output, err := model.Invoke(input)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return output.Predictions, nil
-// 
-// }
-// 
-// func AddProduct(description string) ([]string, error) {
-// 	res, err := collections.Upsert(myProducts, nil, description, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return res.Keys, nil
-// }
-// 
-// func AddProducts(descriptions []string) ([]string, error) {
-// 	res, err := collections.UpsertBatch(myProducts, nil, descriptions, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return res.Keys, nil
-// }
-// 
-// func DeleteProduct(key string) (string, error) {
-// 	res, err := collections.Remove(myProducts, key)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	return res.Status, nil
-// }
-// 
-// func GetProduct(key string) (string, error) {
-// 	return collections.GetText(myProducts, key)
-// }
-// 
-// func GetProducts() (map[string]string, error) {
-// 	return collections.GetTexts(myProducts)
-// }
-// 
-// func GetProductVector(key string) ([]float32, error) {
-// 	return collections.GetVector(myProducts, searchMethods[0], key)
-// }
-// 
-// func GetNamespaces() ([]string, error) {
-// 	return collections.GetNamespaces(myProducts)
-// }
-// 
-// func GetLabels(key string) ([]string, error) {
-// 	return collections.GetLabels(myProducts, key)
-// }
-// 
-// func RecomputeSearchMethods() (string, error) {
-// 	for _, method := range searchMethods {
-// 		_, err := collections.RecomputeSearchMethod(myProducts, method)
-// 		if err != nil {
-// 			return "", err
-// 		}
-// 	}
-// 	return "success", nil
-// }
-// 
-// func ComputeDistanceBetweenProducts(key1, key2 string) (float64, error) {
-// 	res, err := collections.ComputeDistance(myProducts, searchMethods[0], key1, key2)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-// 	return res.Distance, nil
-// }
-// 
-// func SearchProducts(productDescription string, maxItems int) (*collections.CollectionSearchResult, error) {
-// 	return collections.Search(myProducts, searchMethods[0], productDescription, collections.WithLimit(maxItems), collections.WithReturnText(true))
-// }
-// 
-// func SearchProductsWithKey(productKey string, maxItems int) (*collections.CollectionSearchResult, error) {
-// 	vec, err := GetProductVector(productKey)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return collections.SearchByVector(myProducts, searchMethods[0], vec, collections.WithLimit(maxItems), collections.WithReturnText(true))
-// }
-//
+///|
+const MODEL_NAME = "minilm"
+
+///|
+const MY_PRODUCTS = "myProducts"
+
+///|
+let search_methods : Array[String] = ["searchMethod1", "searchMethod2"]
+
+///|
+pub fn embed(text : Array[String]) -> Array[Array[Float]]!Error {
+  let model : @experimental.EmbeddingsModel = @models.get_model!(MODEL_NAME)
+  let input = model.create_input!(text)
+  let output = model.invoke!(input)
+  output.predictions
+}
+
+///|
+pub fn add_product(description : String) -> Array[String]!Error {
+  let res = @collections.upsert!(MY_PRODUCTS, None, description, None)
+  res.keys
+}
+
+///|
+pub fn add_products(descriptions : Array[String]) -> Array[String]!Error {
+  let res = @collections.upsert_batch!(MY_PRODUCTS, None, descriptions, None)
+  res.keys
+}
+
+///|
+pub fn delete_product(key : String) -> String!Error {
+  let res = @collections.remove!(MY_PRODUCTS, key)
+  res.status
+}
+
+///|
+pub fn get_product(key : String) -> String!Error {
+  let res = @collections.get_text!(MY_PRODUCTS, key)
+  res.value
+}
+
+///|
+pub fn get_products() -> Map[String, String]!Error {
+  @collections.get_texts!(MY_PRODUCTS)
+}
+
+///|
+pub fn get_product_vector(key : String) -> Array[Float]!Error {
+  @collections.get_vector!(MY_PRODUCTS, search_methods[0], key)
+}
+
+///|
+pub fn get_namespaces() -> Array[String]!Error {
+  @collections.get_namespaces!(MY_PRODUCTS)
+}
+
+///|
+pub fn get_labels(key : String) -> Array[String]!Error {
+  @collections.get_labels!(MY_PRODUCTS, key)
+}
+
+///|
+pub fn recompute_search_methods() -> String!Error {
+  for method in search_methods {
+    let res = @collections.recompute_search_method!(MY_PRODUCTS, method)
+    if res.status != "success" {
+      return res.status
+    }
+  }
+  "success"
+}
+
+///|
+pub fn compute_distance_between_products(
+  key1 : String,
+  key2 : String
+) -> Double!Error {
+  let res = @collections.compute_distance!(
+    MY_PRODUCTS,
+    search_methods[0],
+    key1,
+    key2,
+  )
+  res.distance
+}
+
+///|
+pub fn search_products(
+  product_description : String,
+  max_items : Int
+) -> @collections.CollectionSearchResult!Error {
+  @collections.search!(
+    MY_PRODUCTS,
+    search_methods[0],
+    product_description,
+    @collections.WithLimit(max_items),
+    @collections.WithReturnText(true),
+  )
+}
+
+///|
+pub fn search_products_with_key(
+  product_key : String,
+  max_items : Int
+) -> @collections.CollectionSearchResult!Error {
+  let vec = get_product_vector(product_key)
+  @collections.search_by_vector!(
+    MY_PRODUCTS,
+    search_methods[0],
+    vec,
+    @collections.WithLimit(max_items),
+    @collections.WithReturnText(true),
+  )
+}
