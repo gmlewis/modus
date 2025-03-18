@@ -2,7 +2,8 @@
   "import": [
     "gmlewis/modus/pkg/collections",
     "gmlewis/modus/pkg/models",
-    "gmlewis/modus/pkg/models/experimental"
+    "gmlewis/modus/pkg/models/experimental",
+    "gmlewis/modus/pkg/console"
   ],
   "targets": {
     "modus_post_generated.mbt": [
@@ -12,6 +13,19 @@
   "link": {
     "wasm": {
       "exports": [
+        "__modus_add_product:add_product",
+        "__modus_add_products:add_products",
+        "__modus_compute_distance_between_products:compute_distance_between_products",
+        "__modus_delete_product:delete_product",
+        "__modus_embed:embed",
+        "__modus_get_labels:get_labels",
+        "__modus_get_namespaces:get_namespaces",
+        "__modus_get_product:get_product",
+        "__modus_get_product_vector:get_product_vector",
+        "__modus_get_products:get_products",
+        "__modus_recompute_search_methods:recompute_search_methods",
+        "__modus_search_products:search_products",
+        "__modus_search_products_with_key:search_products_with_key",
         "cabi_realloc",
         "copy",
         "free",

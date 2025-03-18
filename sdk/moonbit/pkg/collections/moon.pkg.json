@@ -1,6 +1,5 @@
 {
   "import": [
-    "gmlewis/modus/wit/ffi"
   ],
   "targets": {
     "top_notwasm.mbt": [ "not", "wasm" ],

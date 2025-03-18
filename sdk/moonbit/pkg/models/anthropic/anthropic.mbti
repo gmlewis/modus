@@ -130,6 +130,8 @@ pub(all) enum ToolChoice {
 }
 impl Eq for ToolChoice
 impl Show for ToolChoice
+impl ToJson for ToolChoice
+impl @json.FromJson for ToolChoice
 
 pub(all) struct Usage {
   input_tokens : Int

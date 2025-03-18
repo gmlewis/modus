@@ -4,11 +4,13 @@ alias @gmlewis/modus/pkg/models as @models
 alias @moonbitlang/core/json as @json
 
 // Values
+fn invoke(ClassificationModel, ClassificationModelInput) -> ClassificationModelOutput!
 
 // Types and methods
 pub(all) type ClassificationModel @models.ModelBase
 impl ClassificationModel {
   create_input(Self, Array[String]) -> ClassificationModelInput!
+  invoke(Self, ClassificationModelInput) -> ClassificationModelOutput!
 }
 impl Eq for ClassificationModel
 impl Show for ClassificationModel
@@ -33,7 +35,7 @@ impl @json.FromJson for ClassificationModelOutput
 
 pub(all) struct ClassifierLabel {
   label : String
-  probability : Double
+  probability : Float
 }
 impl Eq for ClassifierLabel
 impl Show for ClassifierLabel
@@ -42,7 +44,7 @@ impl @json.FromJson for ClassifierLabel
 
 pub(all) struct ClassifierResult {
   label : String
-  confidence : Double
+  confidence : Float
   probabilities : Array[ClassifierLabel]
 }
 impl Eq for ClassifierResult
@@ -53,6 +55,7 @@ impl @json.FromJson for ClassifierResult
 pub(all) type EmbeddingsModel @models.ModelBase
 impl EmbeddingsModel {
   create_input(Self, Array[String]) -> EmbeddingsModelInput!
+  invoke(Self, EmbeddingsModelInput) -> EmbeddingsModelOutput!
 }
 impl Eq for EmbeddingsModel
 impl Show for EmbeddingsModel
@@ -68,7 +71,7 @@ impl ToJson for EmbeddingsModelInput
 impl @json.FromJson for EmbeddingsModelInput
 
 pub(all) struct EmbeddingsModelOutput {
-  predictions : Array[Array[Double]]
+  predictions : Array[Array[Float]]
 }
 impl Eq for EmbeddingsModelOutput
 impl Show for EmbeddingsModelOutput

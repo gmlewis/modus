@@ -58,7 +58,16 @@ pub(all) struct ClassifierResult {
 
   // The list of all classification labels with their corresponding probabilities.
   probabilities : Array[ClassifierLabel]
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, ToJson) // Float does not implement @json.FromJson
+
+///|
+pub impl @json.FromJson for ClassifierResult with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let label = @json.from_json!(json.get("label").unwrap())
+  let confidence : Double = @json.from_json!(json.get("confidence").unwrap())
+  let probabilities = @json.from_json!(json.get("probabilities").unwrap())
+  { label, confidence: confidence.to_float(), probabilities }
+}
 
 ///| A classification label with its corresponding probability.
 pub(all) struct ClassifierLabel {
@@ -67,7 +76,15 @@ pub(all) struct ClassifierLabel {
 
   // The probability value.
   probability : Float
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, ToJson) // Float does not implement @json.FromJson
+
+///|
+pub impl @json.FromJson for ClassifierLabel with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let label = @json.from_json!(json.get("label").unwrap())
+  let probability : Double = @json.from_json!(json.get("probability").unwrap())
+  { label, probability: probability.to_float() }
+}
 
 ///| Creates an input object for the classification model.
 ///

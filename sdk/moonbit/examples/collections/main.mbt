@@ -21,13 +21,13 @@ pub fn embed(text : Array[String]) -> Array[Array[Float]]!Error {
 
 ///|
 pub fn add_product(description : String) -> Array[String]!Error {
-  let res = @collections.upsert!(MY_PRODUCTS, None, description, None)
+  let res = @collections.upsert!(MY_PRODUCTS, description)
   res.keys
 }
 
 ///|
 pub fn add_products(descriptions : Array[String]) -> Array[String]!Error {
-  let res = @collections.upsert_batch!(MY_PRODUCTS, None, descriptions, None)
+  let res = @collections.upsert_batch!(MY_PRODUCTS, descriptions)
   res.keys
 }
 
@@ -39,8 +39,7 @@ pub fn delete_product(key : String) -> String!Error {
 
 ///|
 pub fn get_product(key : String) -> String!Error {
-  let res = @collections.get_text!(MY_PRODUCTS, key)
-  res.value
+  @collections.get_text!(MY_PRODUCTS, key)
 }
 
 ///|
@@ -65,8 +64,8 @@ pub fn get_labels(key : String) -> Array[String]!Error {
 
 ///|
 pub fn recompute_search_methods() -> String!Error {
-  for method in search_methods {
-    let res = @collections.recompute_search_method!(MY_PRODUCTS, method)
+  for method_ in search_methods {
+    let res = @collections.recompute_search_method!(MY_PRODUCTS, method_)
     if res.status != "success" {
       return res.status
     }
@@ -93,13 +92,10 @@ pub fn search_products(
   product_description : String,
   max_items : Int
 ) -> @collections.CollectionSearchResult!Error {
-  @collections.search!(
-    MY_PRODUCTS,
-    search_methods[0],
-    product_description,
-    @collections.WithLimit(max_items),
-    @collections.WithReturnText(true),
-  )
+  @collections.search!(MY_PRODUCTS, search_methods[0], product_description, opts=[
+    @collections.with_limit(max_items),
+    @collections.with_return_text(true),
+  ])
 }
 
 ///|
@@ -107,12 +103,9 @@ pub fn search_products_with_key(
   product_key : String,
   max_items : Int
 ) -> @collections.CollectionSearchResult!Error {
-  let vec = get_product_vector(product_key)
-  @collections.search_by_vector!(
-    MY_PRODUCTS,
-    search_methods[0],
-    vec,
-    @collections.WithLimit(max_items),
-    @collections.WithReturnText(true),
-  )
+  let vec = get_product_vector!(product_key)
+  @collections.search_by_vector!(MY_PRODUCTS, search_methods[0], vec, opts=[
+    @collections.with_limit(max_items),
+    @collections.with_return_text(true),
+  ])
 }

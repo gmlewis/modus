@@ -159,7 +159,7 @@ pub fn tool_choice_tool(
 }
 
 ///|
-impl @json.FromJson for ToolChoice with from_json(json, path) {
+pub impl @json.FromJson for ToolChoice with from_json(json, path) {
   match json {
     Object({ "type": String("auto"), .. }) => Auto
     Object({ "type": String("any"), .. }) => Any
@@ -178,7 +178,7 @@ impl @json.FromJson for ToolChoice with from_json(json, path) {
 }
 
 ///|
-impl ToJson for ToolChoice with to_json(self) {
+pub impl ToJson for ToolChoice with to_json(self) {
   match self {
     Auto => Object({ "type": "auto" })
     Any => Object({ "type": "any" })

@@ -17,7 +17,7 @@ pub(all) type EmbeddingsModel @models.ModelBase derive (
 )
 
 ///|
-pub fn invoke(
+pub fn EmbeddingsModel::invoke(
   self : EmbeddingsModel,
   input : EmbeddingsModelInput
 ) -> EmbeddingsModelOutput!Error {
@@ -43,7 +43,23 @@ pub(all) struct EmbeddingsModelInput {
 pub(all) struct EmbeddingsModelOutput {
   // A list of vector embeddings that correspond to each input text string.
   predictions : Array[Array[Float]]
-} derive(Show, Eq, FromJson, ToJson)
+} derive(Show, Eq, ToJson) // Float does not implement trait @json.FromJson
+
+///|
+pub impl @json.FromJson for EmbeddingsModelOutput with from_json(json, _path) {
+  let json : Map[String, Json] = json.as_object().unwrap()
+  let predictions : Array[Array[Double]] = @json.from_json!(
+    json.get("predictions").unwrap(),
+  )
+  // TODO: There must be a better way to do this.
+  let predictions = Array::makei(predictions.length(), fn(i) {
+    let prediction = predictions.get(i).unwrap()
+    Array::makei(prediction.length(), fn(j) {
+      prediction.get(j).unwrap().to_float()
+    })
+  })
+  { predictions, }
+}
 
 ///| Creates an input object for the embeddings model.
 ///
