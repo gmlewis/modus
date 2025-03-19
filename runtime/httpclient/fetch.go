@@ -27,7 +27,7 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 		return nil, err
 	}
 
-	log.Printf("Fetch: %v %v\n%s", request.Method, request.Url, request.Body)
+	log.Printf("GML: Fetch: %v %v\n%s", request.Method, request.Url, request.Body)
 
 	body := bytes.NewBuffer(request.Body)
 	req, err := http.NewRequestWithContext(ctx, request.Method, request.Url, body)
@@ -74,7 +74,7 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 		Body:       content,
 	}
 
-	log.Printf("Response: %v %v\n%s", response.Status, response.StatusText, response.Body)
+	log.Printf("GML: Response: %v %v (%v bytes)\n%+v", response.Status, response.StatusText, len(response.Body), response.Body)
 
 	return response, nil
 }

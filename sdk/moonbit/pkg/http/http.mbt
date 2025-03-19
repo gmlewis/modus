@@ -19,5 +19,7 @@ pub fn fetch_url(
 
 ///|
 pub fn fetch(self : Request) -> Response!Error {
-  host_fetch!(self)
+  let response = host_fetch!(self)
+  println("fetch: got \{response.body.length()} body bytes:\n\{response.body}")
+  response
 }
