@@ -6903,6 +6903,7 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		"Bool?":                            {Name: "Bool?"},
 		"Byte":                             {Name: "Byte"},
 		"Byte?":                            {Name: "Byte?"},
+		"Bytes":                            {Name: "Bytes"},
 		"Char":                             {Name: "Char"},
 		"Char?":                            {Name: "Char?"},
 		"Double":                           {Name: "Double"},

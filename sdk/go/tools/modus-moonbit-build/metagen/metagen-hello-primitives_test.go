@@ -84,4 +84,5 @@ var wantHelloPrimitivesTypes = metadata.TypeMap{
 	"FixedArray[Byte]":          {Name: "FixedArray[Byte]"},
 	"Int":                       {Name: "Int"},
 	"Int64":                     {Name: "Int64"},
+	"String":                    {Name: "String"},
 }
