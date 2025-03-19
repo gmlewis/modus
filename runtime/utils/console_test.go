@@ -13,7 +13,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 	"github.com/stretchr/testify/assert"
 )
 

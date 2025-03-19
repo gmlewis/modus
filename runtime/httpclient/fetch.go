@@ -13,11 +13,12 @@ import (
 	"bytes"
 	"context"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 
-	"github.com/hypermodeinc/modus/runtime/secrets"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
@@ -25,6 +26,8 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("GML: Fetch: %v %v\n%s", request.Method, request.Url, request.Body)
 
 	body := bytes.NewBuffer(request.Body)
 	req, err := http.NewRequestWithContext(ctx, request.Method, request.Url, body)
@@ -70,6 +73,8 @@ func Fetch(ctx context.Context, request *HttpRequest) (*HttpResponse, error) {
 		Headers:    &HttpHeaders{Data: headers},
 		Body:       content,
 	}
+
+	log.Printf("GML: Response: %v %v (%v bytes)\n%+v", response.Status, response.StatusText, len(response.Body), response.Body)
 
 	return response, nil
 }

@@ -22,7 +22,7 @@ export default class SDKRemoveCommand extends BaseCommand {
   static args = {
     name: Args.string({
       description: "SDK name to remove",
-      options: ["all", "go", "golang", "assemblyscript", "as"],
+      options: ["all", "go", "golang", "mbt", "moonbit", "assemblyscript", "as"],
     }),
     version: Args.string({
       description: "SDK version to remove, if removing a specific SDK. Leave blank to remove all versions of the SDK.",
@@ -52,17 +52,27 @@ export default class SDKRemoveCommand extends BaseCommand {
 
       if (!args.name) {
         const goSdkVersions = await vi.getInstalledSdkVersions(SDK.Go);
+        const mbtSdkVersions = await vi.getInstalledSdkVersions(SDK.MoonBit);
         const asSdkVersions = await vi.getInstalledSdkVersions(SDK.AssemblyScript);
 
-        if (goSdkVersions.length === 0 && asSdkVersions.length === 0) {
+        if (goSdkVersions.length === 0 && mbtSdkVersions.length === 0 && asSdkVersions.length === 0) {
           this.log(chalk.yellow("No Modus SDKs are installed."));
           this.exit(1);
         }
 
-        const sdkVersions: { sdk: SDK; version: string }[] = [...goSdkVersions.map((version) => ({ sdk: SDK.Go, version })), ...asSdkVersions.map((version) => ({ sdk: SDK.AssemblyScript, version }))];
+        const sdkVersions: { sdk: SDK; version: string }[] = [
+	  ...goSdkVersions.map((version) => ({ sdk: SDK.Go, version })),
+	  ...mbtSdkVersions.map((version) => ({ sdk: SDK.MoonBit, version })),
+	  ...asSdkVersions.map((version) => ({ sdk: SDK.AssemblyScript, version }))];
         if (goSdkVersions.length > 0) {
           sdkVersions.push({
             sdk: SDK.Go,
+            version: "all",
+          });
+        }
+        if (mbtSdkVersions.length > 0) {
+          sdkVersions.push({
+            sdk: SDK.MoonBit,
             version: "all",
           });
         }

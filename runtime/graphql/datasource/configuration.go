@@ -10,11 +10,12 @@
 package datasource
 
 import (
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 )
 
 type HypDSConfig struct {
 	WasmHost          wasmhost.WasmHost
 	FieldsToFunctions map[string]string
 	MapTypes          []string
+	TupleTypes        []string
 }

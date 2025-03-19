@@ -16,9 +16,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/config"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/metadata"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/utils"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/utils"
 )
 
 func PostProcess(config *config.Config, meta *metadata.Metadata) error {
@@ -54,8 +54,12 @@ func writePostProcessHeader(b *bytes.Buffer, meta *metadata.Metadata, imports ma
 	for pkg, name := range imports {
 		if pkg != "" && pkg != "unsafe" && pkg != meta.Module {
 			if pkg == name || strings.HasSuffix(pkg, "/"+name) {
+				// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+				pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 				b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
 			} else {
+				// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+				pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 				b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
 			}
 		}

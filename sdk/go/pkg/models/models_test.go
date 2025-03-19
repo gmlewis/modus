@@ -15,7 +15,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
 )
 
 // NOTE:

@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/collections/index/interfaces"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/collections/index/interfaces"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/logger"
 	"github.com/puzpuzpuz/xsync/v3"
 )
 
