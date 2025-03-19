@@ -1,6 +1,35 @@
 {
-  "is-main": true,
   "import": [
-    "gmlewis/modus/pkg/vectors"
-  ]
+    "gmlewis/modus/pkg/models",
+    "gmlewis/modus/pkg/models/experimental",
+    "gmlewis/modus/pkg/console"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_classify:classify",
+        "__modus_classify_text:classify_text",
+        "__modus_get_classification_labels:get_classification_labels",
+        "__modus_get_labels:get_labels",
+        "__modus_get_multiple_classification_labels:get_multiple_classification_labels",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
 }
