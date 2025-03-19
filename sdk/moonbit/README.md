@@ -48,18 +48,30 @@ the query string to paste into the JSON file directly.
 The following MoonBit examples work:
 
 - [x] `sdk/moonbit/examples/anthropic-functions`
+- [ ] `sdk/moonbit/examples/auth`
+- [ ] `sdk/moonbit/examples/classification`
+- [ ] `sdk/moonbit/examples/collections`
+- [x] `sdk/moonbit/examples/dgraph`
+- [ ] `sdk/moonbit/examples/embedding`
+- [x] `sdk/moonbit/examples/graphql`
+- [ ] `sdk/moonbit/examples/hello-primitives`
 - [x] `sdk/moonbit/examples/hello-tuples`
+- [ ] `sdk/moonbit/examples/http`
+- [ ] `sdk/moonbit/examples/mysql`
 - [x] `sdk/moonbit/examples/neo4j`
+- [ ] `sdk/moonbit/examples/postgresql`
 - [x] `sdk/moonbit/examples/simple`
 - [x] `sdk/moonbit/examples/test-suite`
+- [ ] `sdk/moonbit/examples/textgeneration`
 - [x] `sdk/moonbit/examples/time-example`
+- [ ] `sdk/moonbit/examples/vectors`
 - [x] `sdk/moonbit/examples/youtube-walkthrough`
 
 The code has been updated to support compiler:
 
 ```bash
 $ moon version --all
-moon 0.1.20250310 (df3bb14 2025-03-10) ~/.moon/bin/moon
-moonc v0.1.20250310+a7a1e9804 ~/.moon/bin/moonc
-moonrun 0.1.20250310 (df3bb14 2025-03-10) ~/.moon/bin/moonrun
+moon 0.1.20250318 (eddbe38 2025-03-18) ~/.moon/bin/moon
+moonc v0.1.20250318+35770a65e ~/.moon/bin/moonc
+moonrun 0.1.20250318 (eddbe38 2025-03-18) ~/.moon/bin/moonrun
 ```

@@ -1,3 +1,5 @@
+// TODO: Why is the runtime failing on these functions?
+
 ///|
 pub fn hello_primitive_time_duration_min() -> @time.Duration {
   let result = @time.Duration::zero()

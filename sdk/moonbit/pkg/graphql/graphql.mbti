@@ -5,7 +5,7 @@ alias @moonbitlang/core/json as @json
 // Values
 fn execute[T : @json.FromJson](String, String, vars~ : Map[String, Json] = ..) -> Response[T]!
 
-fn host_execute_query(String, String, String) -> String?
+fn host_execute_query(String, String, String) -> String!
 
 // Types and methods
 pub(all) struct CodeLocation {
@@ -32,7 +32,7 @@ impl Eq for GraphQLError
 impl Show for GraphQLError
 
 pub(all) struct Response[T] {
-  errors : Array[ErrorResult]
+  errors : Array[ErrorResult]?
   data : T?
 }
 impl[T : Eq] Eq for Response[T]
