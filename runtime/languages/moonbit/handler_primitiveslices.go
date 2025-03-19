@@ -96,8 +96,8 @@ func (h *primitiveSliceHandler[T]) Write(ctx context.Context, wa langsupport.Was
 		return cln, err
 	}
 
-	if ok := utils.CopyMemory(wa.Memory(), ptr, offset, 12); !ok {
-		return cln, errors.New("failed to copy slice header")
+	if ok := wa.Memory().WriteUint32Le(offset, ptr); !ok {
+		return cln, errors.New("failed to write struct pointer to memory")
 	}
 
 	return cln, nil

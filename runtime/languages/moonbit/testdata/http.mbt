@@ -25,18 +25,18 @@ pub struct HttpHeader {
 } derive(Show, Eq)
 
 ///|
-pub fn test_http_response_headers(r : HttpResponse?) -> Unit {
-  println("test_http_response_headers")
-  guard r is Some(r) else { fail("Response is None") }
+pub fn test_http_response(r : HttpResponse?) -> Unit!Error {
+  println("test_http_response")
+  guard r is Some(r) else { raise TestError("Response is None") }
   println("Status: \{r.status}")
   println("StatusText: \{r.statusText}")
-  guard r.headers is Some(h) else { fail("Headers is None") }
-  dump_header_map(h.data)
+  guard r.headers is Some(h) else { raise TestError("Headers is None") }
+  dump_header_map!(h.data)
   println("Body: \{r.body}")
 }
 
 ///|
-pub fn test_http_response_headers_output() -> HttpResponse? {
+pub fn test_http_response_output() -> HttpResponse? {
   Some({
     status: 200,
     statusText: "OK",
@@ -50,35 +50,49 @@ pub fn test_http_response_headers_output() -> HttpResponse? {
 }
 
 ///|
-fn dump_header_map(m : Map[String, HttpHeader?]) -> Unit {
+pub fn test_http_response_input(response : HttpResponse) -> Unit!Error {
+  guard test_http_response_output() is Some(expected) else {
+    raise TestError("invalid response")
+  }
+  assert_eq!(expected, response)
+}
+
+///|
+fn dump_header_map(m : Map[String, HttpHeader?]) -> Unit!Error {
   if m.size() == 0 {
-    fail("expected headers > 0, but got none")
+    raise TestError("expected headers > 0, but got none")
   }
   println("Headers:")
   for k, v in m {
     println("  \{k}: \{v}")
-    test_http_header(v)
+    test_http_header!(v)
   }
+  let expected = {
+    "content-type": Some({ name: "Content-Type", values: ["text/plain"] }),
+  }
+  assert_eq!(expected, m)
 }
 
 ///|
-pub fn test_http_headers(h : HttpHeaders) -> Unit {
-  dump_header_map(h.data)
+pub fn test_http_headers(h : HttpHeaders) -> Unit!Error {
+  dump_header_map!(h.data)
 }
 
 ///|
-pub fn test_http_header_map(m : Map[String, HttpHeader?]) -> Unit {
-  dump_header_map(m)
+pub fn test_http_header_map(m : Map[String, HttpHeader?]) -> Unit!Error {
+  dump_header_map!(m)
 }
 
 ///|
-pub fn test_http_header(h : HttpHeader?) -> Unit {
-  guard h is Some(h) else { fail("Header is None") }
+pub fn test_http_header(h : HttpHeader?) -> Unit!Error {
+  guard h is Some(h) else { raise TestError("Header is None") }
   if h.name == "" {
-    fail("Header.Name is empty")
+    raise TestError("Header.Name is empty")
   }
   if h.values.is_empty() {
-    fail("Header.Values is None")
+    raise TestError("Header.Values is None")
   }
   println("Header: \{h}\n")
+  let expected = { name: "Content-Type", values: ["text/plain"] }
+  assert_eq!(expected, h)
 }

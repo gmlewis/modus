@@ -2717,21 +2717,30 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		"__modus_test_http_header": {
 			Name:       "__modus_test_http_header",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeader?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"__modus_test_http_header_map": {
 			Name:       "__modus_test_http_header_map",
 			Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[String, HttpHeader?]"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"__modus_test_http_headers": {
 			Name:       "__modus_test_http_headers",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeaders"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"__modus_test_http_response_headers": {
-			Name:       "__modus_test_http_response_headers",
+		"__modus_test_http_response": {
+			Name:       "__modus_test_http_response",
 			Parameters: []*metadata.Parameter{{Name: "r", Type: "HttpResponse?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"__modus_test_http_response_headers_output": {
-			Name:    "__modus_test_http_response_headers_output",
+		"__modus_test_http_response_input": {
+			Name:       "__modus_test_http_response_input",
+			Parameters: []*metadata.Parameter{{Name: "response", Type: "HttpResponse"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
+		},
+		"__modus_test_http_response_output": {
+			Name:    "__modus_test_http_response_output",
 			Results: []*metadata.Result{{Type: "HttpResponse?"}},
 		},
 		"__modus_test_int16_input_max": {
@@ -2952,7 +2961,7 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		},
 		"__modus_test_recursive_struct_output": {
 			Name:    "__modus_test_recursive_struct_output",
-			Results: []*metadata.Result{{Type: "TestRecursiveStruct"}},
+			Results: []*metadata.Result{{Type: "TestRecursiveStruct!Error"}},
 		},
 		"__modus_test_recursive_struct_output_map": {
 			Name:    "__modus_test_recursive_struct_output_map",
@@ -6103,21 +6112,30 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		"test_http_header": {
 			Name:       "test_http_header",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeader?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"test_http_header_map": {
 			Name:       "test_http_header_map",
 			Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[String, HttpHeader?]"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"test_http_headers": {
 			Name:       "test_http_headers",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeaders"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"test_http_response_headers": {
-			Name:       "test_http_response_headers",
+		"test_http_response": {
+			Name:       "test_http_response",
 			Parameters: []*metadata.Parameter{{Name: "r", Type: "HttpResponse?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"test_http_response_headers_output": {
-			Name:    "test_http_response_headers_output",
+		"test_http_response_input": {
+			Name:       "test_http_response_input",
+			Parameters: []*metadata.Parameter{{Name: "response", Type: "HttpResponse"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
+		},
+		"test_http_response_output": {
+			Name:    "test_http_response_output",
 			Results: []*metadata.Result{{Type: "HttpResponse?"}},
 		},
 		"test_int16_input_max": {
@@ -6338,7 +6356,7 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		},
 		"test_recursive_struct_output": {
 			Name:    "test_recursive_struct_output",
-			Results: []*metadata.Result{{Type: "TestRecursiveStruct"}},
+			Results: []*metadata.Result{{Type: "TestRecursiveStruct!Error"}},
 		},
 		"test_recursive_struct_output_map": {
 			Name:    "test_recursive_struct_output_map",
@@ -6985,6 +7003,10 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		"String?":                  {Name: "String?"},
 		"TestRecursiveStruct": {
 			Name:   "TestRecursiveStruct",
+			Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
+		},
+		"TestRecursiveStruct!Error": {
+			Name:   "TestRecursiveStruct!Error",
 			Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
 		},
 		"TestRecursiveStruct?": {
@@ -10004,21 +10026,30 @@ var wantRuntimeAfterFilter = &metadata.Metadata{
 		"test_http_header": {
 			Name:       "test_http_header",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeader?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"test_http_header_map": {
 			Name:       "test_http_header_map",
 			Parameters: []*metadata.Parameter{{Name: "m", Type: "Map[String, HttpHeader?]"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
 		"test_http_headers": {
 			Name:       "test_http_headers",
 			Parameters: []*metadata.Parameter{{Name: "h", Type: "HttpHeaders"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"test_http_response_headers": {
-			Name:       "test_http_response_headers",
+		"test_http_response": {
+			Name:       "test_http_response",
 			Parameters: []*metadata.Parameter{{Name: "r", Type: "HttpResponse?"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
 		},
-		"test_http_response_headers_output": {
-			Name:    "test_http_response_headers_output",
+		"test_http_response_input": {
+			Name:       "test_http_response_input",
+			Parameters: []*metadata.Parameter{{Name: "response", Type: "HttpResponse"}},
+			Results:    []*metadata.Result{{Type: "Unit!Error"}},
+		},
+		"test_http_response_output": {
+			Name:    "test_http_response_output",
 			Results: []*metadata.Result{{Type: "HttpResponse?"}},
 		},
 		"test_int16_input_max": {
@@ -10239,7 +10270,7 @@ var wantRuntimeAfterFilter = &metadata.Metadata{
 		},
 		"test_recursive_struct_output": {
 			Name:    "test_recursive_struct_output",
-			Results: []*metadata.Result{{Type: "TestRecursiveStruct"}},
+			Results: []*metadata.Result{{Type: "TestRecursiveStruct!Error"}},
 		},
 		"test_recursive_struct_output_map": {
 			Name:    "test_recursive_struct_output_map",
@@ -10862,6 +10893,10 @@ var wantRuntimeAfterFilter = &metadata.Metadata{
 		"String?":                  {Name: "String?"},
 		"TestRecursiveStruct": {
 			Name:   "TestRecursiveStruct",
+			Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
+		},
+		"TestRecursiveStruct!Error": {
+			Name:   "TestRecursiveStruct!Error",
 			Fields: []*metadata.Field{{Name: "a", Type: "Bool"}, {Name: "mut b", Type: "TestRecursiveStruct?"}},
 		},
 		"TestRecursiveStruct?": {

@@ -16,8 +16,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestHttpResponseHeaders(t *testing.T) {
-	fnName := "test_http_response_headers"
+func TestHttpResponse(t *testing.T) {
+	fnName := "test_http_response"
 	r := getTestHttpResponse()
 
 	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
@@ -25,8 +25,8 @@ func TestHttpResponseHeaders(t *testing.T) {
 	}
 }
 
-func TestHttpResponseHeadersOutput(t *testing.T) {
-	fnName := "test_http_response_headers_output"
+func TestHttpResponseOutput(t *testing.T) {
+	fnName := "test_http_response_output"
 
 	got, err := fixture.CallFunction(t, fnName)
 	if err != nil {
@@ -36,6 +36,14 @@ func TestHttpResponseHeadersOutput(t *testing.T) {
 	want := getTestHttpResponse()
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Errorf("%v: unexpected response (-want +got):\n%v", fnName, diff)
+	}
+}
+
+func TestHttpResponseInput(t *testing.T) {
+	fnName := "test_http_response_input"
+	r := getTestHttpResponse()
+	if _, err := fixture.CallFunction(t, fnName, r); err != nil {
+		t.Error(err)
 	}
 }
 
