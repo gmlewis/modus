@@ -1,31 +1,28 @@
+///|modus:import modus_graphql_client executeQuery(host_name: String, statement: String, variables: String) -> String?
+fn wasmImportExecuteQuery(
+  host_name : Int,
+  statement : Int,
+  variables : Int
+) -> Int = "modus_graphql_client" "executeQuery"
+
+///|
+fn cast[A, B](a : A) -> B = "%identity"
+
 ///| Execute a GraphQL query with variables
 pub fn host_execute_query(
   host_name : String,
   statement : String,
   variables : String
-) -> String? {
-  let return_area = @ffi.malloc(12)
-  wasmImportExecuteQuery(
-    @ffi.str2ptr(host_name),
-    host_name.iter().count(),
-    @ffi.str2ptr(statement),
-    statement.iter().count(),
-    @ffi.str2ptr(variables),
-    variables.iter().count(),
-    return_area,
-  )
-  let lifted : String? = match @ffi.load8_u(return_area + 0) {
-    0 => Option::None
-    1 => {
-      ignore(@ffi.load32(return_area + 8))
-      let result = @ffi.ptr2str(@ffi.load32(return_area + 4))
-      Option::Some(result)
-    }
-    _ => panic()
+) -> String!Error {
+  let host_name : Int = cast(host_name)
+  let statement : Int = cast(statement)
+  let variables : Int = cast(variables)
+  let response : Int = wasmImportExecuteQuery(host_name, statement, variables)
+  if response == 0 {
+    raise GraphQLError(
+      "Failed to execute the query. Check logs for more information.",
+    )
   }
-  ignore(host_name)
-  ignore(statement)
-  ignore(variables)
-  @ffi.free(return_area)
-  return lifted
+  let response_str : String? = cast(response)
+  response_str.unwrap()
 }

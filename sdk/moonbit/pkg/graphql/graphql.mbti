@@ -3,14 +3,14 @@ package gmlewis/modus/pkg/graphql
 alias @moonbitlang/core/json as @json
 
 // Values
-fn execute[T : @json.FromJson](String, String, Map[String, Json]) -> Response[T]!
+fn execute[T : @json.FromJson](String, String, vars~ : Map[String, Json] = ..) -> Response[T]!
 
 fn host_execute_query(String, String, String) -> String?
 
 // Types and methods
 pub(all) struct CodeLocation {
-  line : Int
-  column : Int
+  line : UInt
+  column : UInt
 }
 impl Eq for CodeLocation
 impl Show for CodeLocation

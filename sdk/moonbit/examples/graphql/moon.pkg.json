@@ -1,6 +1,7 @@
 {
   "import": [
-    "gmlewis/modus/pkg/vectors"
+    "gmlewis/modus/pkg/graphql",
+    "gmlewis/modus/pkg/console"
   ],
   "targets": {
     "modus_post_generated.mbt": [
@@ -10,6 +11,8 @@
   "link": {
     "wasm": {
       "exports": [
+        "__modus_countries:countries",
+        "__modus_get_country_by_code:get_country_by_code",
         "cabi_realloc",
         "copy",
         "free",

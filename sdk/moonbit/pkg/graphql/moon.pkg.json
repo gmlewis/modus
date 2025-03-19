@@ -1,7 +1,6 @@
 {
   "import": [
-    "gmlewis/modus/pkg/console",
-    "gmlewis/modus/wit/ffi"
+    "gmlewis/modus/pkg/console"
   ],
   "targets": {
     "top_notwasm.mbt": [ "not", "wasm" ],
