@@ -2,43 +2,20 @@
 // You may modify and use this example in accordance with the license.
 // See the LICENSE file that accompanied this code for further details.
 
-// package main
-// 
-// import (
-// 	"github.com/gmlewis/modus/sdk/go/pkg/models"
-// 	"github.com/gmlewis/modus/sdk/go/pkg/models/openai"
-// )
-// 
-// func GetEmbeddingsForTextWithOpenAI(text string) ([]float32, error) {
-// 	results, err := GetEmbeddingsForTextsWithOpenAI(text)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	return results[0], nil
-// }
-// 
-// func GetEmbeddingsForTextsWithOpenAI(texts ...string) ([][]float32, error) {
-// 	model, err := models.GetModel[openai.EmbeddingsModel]("openai-embeddings")
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	input, err := model.CreateInput(texts)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	output, err := model.Invoke(input)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 
-// 	results := make([][]float32, len(output.Data))
-// 	for i, d := range output.Data {
-// 		results[i] = d.Embedding
-// 	}
-// 
-// 	return results, nil
-// }
-//
+///|
+pub fn get_embeddings_for_text_with_openai(text : String) -> Array[Float]!Error {
+  let results = get_embeddings_for_texts_with_openai!([text])
+  results[0]
+}
+
+///|
+pub fn get_embeddings_for_texts_with_openai(
+  texts : Array[String]
+) -> Array[Array[Float]]!Error {
+  let model : @experimental.EmbeddingsModel = @models.get_model!(
+    "openai-embeddings",
+  )
+  let input = model.create_input!(texts)
+  let output = model.invoke!(input)
+  output.predictions
+}
