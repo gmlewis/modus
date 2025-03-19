@@ -2,24 +2,21 @@
 // You may modify and use this example in accordance with the license.
 // See the LICENSE file that accompanied this code for further details.
 
-// 
-// package main
-// 
-// // These types are used by the example functions in the main.go file.
-// 
-// type Quote struct {
-// 	Quote  string `json:"q"`
-// 	Author string `json:"a"`
-// }
-// 
-// type Image struct {
-// 	ContentType string `json:"contentType"`
-// 	Data        []byte `json:"data"`
-// }
-// 
-// type Issue struct {
-// 	Title string  `json:"title"`
-// 	Body  string  `json:"body"`
-// 	URL   *string `json:"html_url"`
-// }
-//
+///| These types are used by the example functions in the main.go file.
+pub struct Quote {
+  q : String
+  a : String
+} derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub struct Image {
+  contentType : String
+  data : Array[Int]
+} derive(Show, Eq, FromJson, ToJson)
+
+///|
+pub struct Issue {
+  title : String
+  body : String
+  html_url : String?
+} derive(Show, Eq, FromJson, ToJson)

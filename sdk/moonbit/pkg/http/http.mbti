@@ -100,6 +100,7 @@ pub(all) struct Response {
   body : String
 }
 impl Response {
+  bytes(Self) -> Array[Int]
   json[T : @json.FromJson](Self) -> T!
   ok(Self) -> Bool
   text(Self) -> String

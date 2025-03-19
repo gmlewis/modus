@@ -27,3 +27,9 @@ pub fn Response::text(self : Response) -> String {
 pub fn Response::json[T : @json.FromJson](self : Response) -> T!Error {
   @json.from_json!(@json.parse!(self.body))
 }
+
+///| This returns the body as raw bytes.
+/// Array[Int] is used instead of Array[Byte] since MoonBit supports FromJson for Array[Int].
+pub fn Response::bytes(self : Response) -> Array[Int] {
+  self.body.to_array().map(fn(c) { c.to_int() })
+}
