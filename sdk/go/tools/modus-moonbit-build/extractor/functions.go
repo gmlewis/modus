@@ -182,10 +182,10 @@ func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *package
 	}
 
 	// skip Bytes, Arary[Byte], and String, because they're hardcoded as type id 1, 2, and 3
-	switch name {
-	case "Bytes", "Array[Byte]", "String":
-		return true
-	}
+	// switch name {
+	// case "Bytes", "Array[Byte]", "String":
+	// 	return true
+	// }
 
 	switch t := t.(type) {
 	case *types.Basic:
