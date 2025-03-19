@@ -37,7 +37,7 @@ pub fn get_random_image(width : Int, height : Int) -> Image!Error {
   }
   {
     contentType: response.headers.unwrap().get("Content-Type"),
-    data: response.bytes(),
+    data: response.to_ints(),
   }
 }
 

@@ -11,7 +11,7 @@ pub struct Quote {
 ///|
 pub struct Image {
   contentType : String
-  data : Array[Int]
+  data : Array[Int] // Array[Byte] is not supported by FromJson
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|

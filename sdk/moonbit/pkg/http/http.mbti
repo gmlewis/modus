@@ -97,13 +97,13 @@ pub(all) struct Response {
   status : UInt16
   status_text : String
   headers : Headers?
-  body : String
+  body : Array[Byte]
 }
 impl Response {
-  bytes(Self) -> Array[Int]
   json[T : @json.FromJson](Self) -> T!
   ok(Self) -> Bool
   text(Self) -> String
+  to_ints(Self) -> Array[Int]
 }
 impl Eq for Response
 impl Show for Response

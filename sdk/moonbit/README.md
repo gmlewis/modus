@@ -56,7 +56,7 @@ The following MoonBit examples work:
 - [x] `sdk/moonbit/examples/graphql`
 - [ ] `sdk/moonbit/examples/hello-primitives`
 - [x] `sdk/moonbit/examples/hello-tuples`
-- [ ] `sdk/moonbit/examples/http`
+- [x] `sdk/moonbit/examples/http`
 - [ ] `sdk/moonbit/examples/mysql`
 - [x] `sdk/moonbit/examples/neo4j`
 - [ ] `sdk/moonbit/examples/postgresql`
