@@ -104,9 +104,7 @@ pub fn get(self : Headers, name : String) -> String {
   let key = name.to_lower()
   if self.data.contains(key) {
     let header = self.data[key].unwrap().unwrap()
-    // header.values.join(",")
-    // YUCK! https://github.com/moonbitlang/core/pull/993
-    String::concat(header.values, separator=",")
+    header.values.join(",")
   } else {
     ""
   }

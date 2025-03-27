@@ -96,7 +96,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 			{Name: "status", Type: "UInt16"},
 			{Name: "status_text", Type: "String"},
 			{Name: "headers", Type: "@http.Headers?"},
-			{Name: "body", Type: "String"},
+			{Name: "body", Type: "Array[Byte]"},
 		},
 	},
 	"@http.Response!Error": {
@@ -105,7 +105,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 			{Name: "status", Type: "UInt16"},
 			{Name: "status_text", Type: "String"},
 			{Name: "headers", Type: "@http.Headers?"},
-			{Name: "body", Type: "String"},
+			{Name: "body", Type: "Array[Byte]"},
 		},
 	},
 	"@http.Response?": {
@@ -114,7 +114,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 			{Name: "status", Type: "UInt16"},
 			{Name: "status_text", Type: "String"},
 			{Name: "headers", Type: "@http.Headers?"},
-			{Name: "body", Type: "String"},
+			{Name: "body", Type: "Array[Byte]"},
 		},
 	},
 	"@http.T":                     {Name: "@http.T"},
