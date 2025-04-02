@@ -1,4 +1,4 @@
-package gmlewis/modus/wit/interface/wasi
+package "gmlewis/modus/wit/interface/wasi"
 
 // Values
 fn clock_res_get(UInt) -> Result[UInt64, UInt]

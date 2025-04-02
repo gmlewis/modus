@@ -1,4 +1,4 @@
-package gmlewis/modus/pkg
+package "gmlewis/modus/pkg"
 
 // Values
 

@@ -1,7 +1,9 @@
-package gmlewis/modus/pkg/models/openai
+package "gmlewis/modus/pkg/models/openai"
 
-alias @gmlewis/modus/pkg/models as @models
-alias @moonbitlang/core/json as @json
+import(
+  "gmlewis/modus/pkg/models"
+  "moonbitlang/core/json"
+)
 
 // Values
 const ENCODING_FORMAT_BASE64 : String = "base64"
@@ -67,7 +69,7 @@ pub(all) struct ChatModelInput {
   seed : Int?
   service_tier : ServiceTier?
   stop : Array[String]
-  temperature : Double
+  mut temperature : Double
   top_p : Double?
   tools : Array[Tool]
   tool_choice : ToolChoice

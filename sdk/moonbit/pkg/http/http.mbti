@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/http
+package "gmlewis/modus/pkg/http"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn append(Headers, String, String) -> Unit

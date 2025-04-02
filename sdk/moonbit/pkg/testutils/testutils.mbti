@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/testutils
+package "gmlewis/modus/pkg/testutils"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn pop[T](CallStack[T]) -> Array[T]

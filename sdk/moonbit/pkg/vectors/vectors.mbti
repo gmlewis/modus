@@ -1,4 +1,4 @@
-package gmlewis/modus/pkg/vectors
+package "gmlewis/modus/pkg/vectors"
 
 // Values
 fn abs[T : Absoluteable](Array[T]) -> Array[T]

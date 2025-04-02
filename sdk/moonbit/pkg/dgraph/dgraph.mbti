@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/dgraph
+package "gmlewis/modus/pkg/dgraph"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn alter_schema(String, String) -> Unit!

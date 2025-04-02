@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/console
+package "gmlewis/modus/pkg/console"
 
-alias @gmlewis/modus/pkg/testutils as @testutils
+import(
+  "gmlewis/modus/pkg/testutils"
+)
 
 // Values
 fn assert_(Bool, String) -> Unit

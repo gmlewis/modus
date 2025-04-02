@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/postgresql
+package "gmlewis/modus/pkg/postgresql"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn execute(String, String, Json?) -> UInt!

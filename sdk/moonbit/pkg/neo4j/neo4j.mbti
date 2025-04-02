@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/neo4j
+package "gmlewis/modus/pkg/neo4j"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn as_map(Record) -> Map[String, String]
@@ -32,7 +34,7 @@ impl Show for Neo4jError
 pub(all) type Neo4jOption (Neo4jOptions) -> Unit
 
 pub struct Neo4jOptions {
-  db_name : String
+  mut db_name : String
 }
 
 pub(all) struct Node {
@@ -40,10 +42,7 @@ pub(all) struct Node {
   labels : Array[String]
   props : Map[String, Json]
 }
-impl Node {
-  get_element_id(Self) -> String
-  get_properties(Self) -> Map[String, Json]
-}
+impl Entity for Node
 impl Eq for Node
 impl Show for Node
 impl ToJson for Node

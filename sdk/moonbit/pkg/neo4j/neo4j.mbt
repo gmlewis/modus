@@ -65,12 +65,12 @@ pub impl ToJson for Node with to_json(self) {
 }
 
 ///|
-pub fn Node::get_element_id(self : Node) -> String {
+pub impl Entity for Node with get_element_id(self) {
   self.element_id
 }
 
 ///|
-pub fn Node::get_properties(self : Node) -> Map[String, Json] {
+pub impl Entity for Node with get_properties(self) {
   self.props
 }
 

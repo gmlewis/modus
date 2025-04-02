@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/models
+package "gmlewis/modus/pkg/models"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn get_model(String) -> ModelBase!
@@ -11,7 +13,7 @@ fn host_invoke_model(String, String) -> String!
 
 // Types and methods
 pub(all) struct ModelBase {
-  info : ModelInfo?
+  mut info : ModelInfo?
   debug : Bool
 }
 impl ModelBase {

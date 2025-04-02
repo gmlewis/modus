@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/auth
+package "gmlewis/modus/pkg/auth"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn get_jwt_claims[T : @json.FromJson]() -> T!

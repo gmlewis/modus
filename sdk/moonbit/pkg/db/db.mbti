@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/db
+package "gmlewis/modus/pkg/db"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn do_query(String, String, String, Json?) -> (Json?, UInt)!

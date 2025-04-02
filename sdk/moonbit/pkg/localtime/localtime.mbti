@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/localtime
+package "gmlewis/modus/pkg/localtime"
 
-alias @moonbitlang/x/time as @time
+import(
+  "moonbitlang/x/time"
+)
 
 // Values
 const ANSIC : String = "Mon Jan _2 15:04:05 2006"

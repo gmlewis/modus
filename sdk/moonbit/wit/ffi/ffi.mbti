@@ -1,4 +1,4 @@
-package gmlewis/modus/wit/ffi
+package "gmlewis/modus/wit/ffi"
 
 // Values
 fn silence_warning() -> Unit

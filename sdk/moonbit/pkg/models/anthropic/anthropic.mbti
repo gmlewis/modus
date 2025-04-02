@@ -1,7 +1,9 @@
-package gmlewis/modus/pkg/models/anthropic
+package "gmlewis/modus/pkg/models/anthropic"
 
-alias @gmlewis/modus/pkg/models as @models
-alias @moonbitlang/core/json as @json
+import(
+  "gmlewis/modus/pkg/models"
+  "moonbitlang/core/json"
+)
 
 // Values
 fn create_input(MessagesModel, Array[Message]) -> MessagesModelInput
@@ -75,15 +77,15 @@ impl @json.FromJson for MessagesModel
 pub(all) struct MessagesModelInput {
   model : String
   messages : Array[Message]
-  max_tokens : Int
+  mut max_tokens : Int
   metadata : Metadata?
   stop_sequences : Array[String]
-  system : String
-  temperature : Double
-  tool_choice : ToolChoice?
-  tools : Array[Tool]
-  top_k : Int?
-  top_p : Double?
+  mut system : String
+  mut temperature : Double
+  mut tool_choice : ToolChoice?
+  mut tools : Array[Tool]
+  mut top_k : Int?
+  mut top_p : Double?
 }
 impl Eq for MessagesModelInput
 impl Show for MessagesModelInput

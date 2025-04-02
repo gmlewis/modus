@@ -1,6 +1,8 @@
-package gmlewis/modus/pkg/graphql
+package "gmlewis/modus/pkg/graphql"
 
-alias @moonbitlang/core/json as @json
+import(
+  "moonbitlang/core/json"
+)
 
 // Values
 fn execute[T : @json.FromJson](String, String, vars~ : Map[String, Json] = ..) -> Response[T]!
