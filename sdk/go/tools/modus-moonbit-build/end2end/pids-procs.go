@@ -158,6 +158,6 @@ func getPIDUsingPortWindows(port int) (int, error) {
 
 func killAllPIDs(pids []int) {
 	for _, pid := range pids {
-		killProcess(pid)
+		killProcess(pid) //nolint:errcheck
 	}
 }

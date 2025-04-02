@@ -8,7 +8,7 @@ toolchain go1.24.1
 
 require (
 	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
-	github.com/hypermodeinc/modus/lib/manifest v0.17.0
+	github.com/hypermodeinc/modus/lib/manifest v0.17.1
 )
 
 require (
