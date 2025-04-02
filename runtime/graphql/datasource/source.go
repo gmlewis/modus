@@ -16,9 +16,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 
 	"github.com/buger/jsonparser"
 	"github.com/wundergraph/graphql-go-tools/v2/pkg/engine/datasource/httpclient"
@@ -195,13 +195,15 @@ func transformValue(data []byte, tf *fieldInfo) (result []byte, err error) {
 	case '{':
 		if tf.IsMapType {
 			return transformMap(data, tf)
-		} else {
-			return transformObject(data, tf)
 		}
+		return transformObject(data, tf)
 	case '[':
+		if tf.IsTupleType {
+			return transformTuple(data, tf)
+		}
 		return transformArray(data, tf)
 	default:
-		return nil, fmt.Errorf("expected object or array")
+		return nil, fmt.Errorf("expected object or array, got: '%v'", data)
 	}
 }
 
@@ -232,6 +234,52 @@ func transformArray(data []byte, tf *fieldInfo) ([]byte, error) {
 	}
 
 	buf.WriteByte(']')
+	return buf.Bytes(), nil
+}
+
+func transformTuple(data []byte, tf *fieldInfo) ([]byte, error) {
+	buf := bytes.Buffer{}
+	buf.WriteByte('{')
+
+	var loopErr error
+	var argCount int
+	_, err := jsonparser.ArrayEach(data, func(value []byte, valueType jsonparser.ValueType, _ int, _ error) {
+		if loopErr != nil {
+			return
+		}
+		if argCount >= len(tf.Fields) {
+			loopErr = fmt.Errorf("transformTuple: parsing field[%v] but len(Fields)=%v", argCount, len(tf.Fields))
+			return
+		}
+		f := &tf.Fields[argCount]
+		value, err := transformValue(value, f)
+		if err != nil {
+			loopErr = err
+			return
+		}
+
+		if buf.Len() > 1 {
+			buf.WriteByte(',')
+		}
+
+		buf.WriteString(fmt.Sprintf(`"t%v":`, argCount))
+		if valueType == jsonparser.String {
+			buf.WriteByte('"')
+		}
+		buf.Write(value)
+		if valueType == jsonparser.String {
+			buf.WriteByte('"')
+		}
+		argCount++
+	})
+	if err != nil {
+		return nil, err
+	}
+	if loopErr != nil {
+		return nil, loopErr
+	}
+
+	buf.WriteByte('}')
 	return buf.Bytes(), nil
 }
 
@@ -270,7 +318,6 @@ func transformObject(data []byte, tf *fieldInfo) ([]byte, error) {
 }
 
 func transformMap(data []byte, tf *fieldInfo) ([]byte, error) {
-
 	// check for pseudo map
 	md, dt, _, err := jsonparser.Get(data, "$mapdata")
 	if err == nil && dt == jsonparser.Array {
@@ -292,29 +339,12 @@ func transformMap(data []byte, tf *fieldInfo) ([]byte, error) {
 			buf.WriteByte(',')
 		}
 
-		b := bytes.Buffer{}
-		b.WriteByte('{')
-		b.WriteString(`"key":`)
-		if keyType == "String" {
-			k, err := utils.JsonSerialize(string(key))
-			if err != nil {
-				return err
-			}
-			b.Write(k)
-		} else {
-			b.Write(key)
+		b, err := writeKeyValuePair(key, value, keyType, dataType)
+		if err != nil {
+			return err
 		}
-		b.WriteString(`,"value":`)
-		if dataType == jsonparser.String {
-			b.WriteString(`"`)
-			b.Write(value)
-			b.WriteString(`"`)
-		} else {
-			b.Write(value)
-		}
-		b.WriteByte('}')
 
-		val, err := transformObject(b.Bytes(), tf)
+		val, err := transformObject(b, tf)
 		if err != nil {
 			return err
 		}
@@ -327,6 +357,31 @@ func transformMap(data []byte, tf *fieldInfo) ([]byte, error) {
 
 	buf.WriteByte(']')
 	return buf.Bytes(), nil
+}
+
+func writeKeyValuePair(key, value []byte, keyType string, dataType jsonparser.ValueType) ([]byte, error) {
+	b := bytes.Buffer{}
+	b.WriteByte('{')
+	b.WriteString(`"key":`)
+	if keyType == "String" {
+		k, err := utils.JsonSerialize(string(key))
+		if err != nil {
+			return nil, err
+		}
+		b.Write(k)
+	} else {
+		b.Write(key)
+	}
+	b.WriteString(`,"value":`)
+	if dataType == jsonparser.String {
+		b.WriteByte('"')
+		b.Write(value)
+		b.WriteByte('"')
+	} else {
+		b.Write(value)
+	}
+	b.WriteByte('}')
+	return b.Bytes(), nil
 }
 
 func transformPseudoMap(data []byte, tf *fieldInfo) ([]byte, error) {

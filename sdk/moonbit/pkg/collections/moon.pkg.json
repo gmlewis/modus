@@ -1,0 +1,8 @@
+{
+  "import": [
+  ],
+  "targets": {
+    "top_notwasm.mbt": [ "not", "wasm" ],
+    "ffi_wasm.mbt": [ "wasm" ]
+  }
+}

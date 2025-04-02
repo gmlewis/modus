@@ -16,7 +16,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func TestMapInput_u8_string(t *testing.T) {

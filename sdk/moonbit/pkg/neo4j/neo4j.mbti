@@ -1,0 +1,128 @@
+package "gmlewis/modus/pkg/neo4j"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+fn as_map(Record) -> Map[String, String]
+
+fn execute_query(String, String, Map[String, Json], opts~ : Array[Neo4jOption] = ..) -> EagerResult!
+
+fn get(Record, String) -> (String, Bool)
+
+fn get_property[T : @json.FromJson](&Entity, String) -> T!
+
+fn get_record_value[T : @json.FromJson](Record, String) -> T!
+
+fn host_execute_query(String, String, String, Map[String, Json]) -> EagerResult?!
+
+fn with_db_name(String) -> Neo4jOption
+
+// Types and methods
+pub(all) struct EagerResult {
+  keys : Array[String]
+  records : Array[Record]
+}
+impl Eq for EagerResult
+impl Show for EagerResult
+
+pub(all) type! Neo4jError String
+impl Eq for Neo4jError
+impl Show for Neo4jError
+
+pub(all) type Neo4jOption (Neo4jOptions) -> Unit
+
+pub struct Neo4jOptions {
+  mut db_name : String
+}
+
+pub(all) struct Node {
+  element_id : String
+  labels : Array[String]
+  props : Map[String, Json]
+}
+impl Entity for Node
+impl Eq for Node
+impl Show for Node
+impl ToJson for Node
+impl @json.FromJson for Node
+
+pub(all) struct Path {
+  nodes : Array[Node]
+  relationships : Array[Relationship]
+}
+impl Eq for Path
+impl Show for Path
+impl ToJson for Path
+impl @json.FromJson for Path
+
+pub(all) struct Point2D {
+  x : Double
+  y : Double
+  spatial_ref_id : UInt
+}
+impl Point2D {
+  to_string(Self) -> String
+}
+impl Eq for Point2D
+impl Show for Point2D
+impl ToJson for Point2D
+impl @json.FromJson for Point2D
+
+pub(all) struct Point3D {
+  x : Double
+  y : Double
+  z : Double
+  spatial_ref_id : UInt
+}
+impl Point3D {
+  to_string(Self) -> String
+}
+impl Eq for Point3D
+impl Show for Point3D
+impl ToJson for Point3D
+impl @json.FromJson for Point3D
+
+pub(all) struct Record {
+  values : Array[String]
+  keys : Array[String]
+}
+impl Record {
+  as_map(Self) -> Map[String, String]
+  get(Self, String) -> (String, Bool)
+  get_record_value[T : @json.FromJson](Self, String) -> T!
+}
+impl Eq for Record
+impl Show for Record
+impl ToJson for Record
+impl @json.FromJson for Record
+
+pub(all) struct Relationship {
+  element_id : String
+  start_element_id : String
+  end_element_id : String
+  type_ : String
+  props : Json
+}
+impl Relationship {
+  get_element_id(Self) -> String
+  get_properties(Self) -> Json
+}
+impl Eq for Relationship
+impl Show for Relationship
+impl ToJson for Relationship
+impl @json.FromJson for Relationship
+
+impl Entity {
+  get_property[T : @json.FromJson](&Self, String) -> T!
+}
+
+// Type aliases
+
+// Traits
+pub(open) trait Entity {
+  get_element_id(Self) -> String
+  get_properties(Self) -> Map[String, Json]
+}
+

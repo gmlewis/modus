@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/app"
 )
 
 func TestIsDevEnvironment(t *testing.T) {

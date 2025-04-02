@@ -10,7 +10,7 @@
 package langsupport
 
 import (
-	"github.com/hypermodeinc/modus/lib/metadata"
+	"github.com/gmlewis/modus/lib/metadata"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
