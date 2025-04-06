@@ -16,8 +16,9 @@ export const ModusHomeDir = process.env.MODUS_HOME || path.join(os.homedir(), ".
 export const MinNodeVersion = "22.0.0";
 export const MinGoVersion = "1.23.1";
 export const MinTinyGoVersion = "0.33.0";
+export const MinMoonBitVersion = "0.1.20250310";
 
-export const GitHubOwner = "hypermodeinc";
+export const GitHubOwner = "gmlewis"; // TODO(gmlewis): revert before merge: "hypermodeinc";
 export const GitHubRepo = "modus";
 export const GitHubRuntimeTagPrefix = "runtime/";
 
@@ -28,6 +29,7 @@ export function GetSdkTagPrefix(sdk: SDK): string {
 export enum SDK {
   AssemblyScript = "AssemblyScript",
   Go = "Go",
+  MoonBit = "MoonBit",
 }
 
 export function parseSDK(sdk: string): SDK {
@@ -38,6 +40,10 @@ export function parseSDK(sdk: string): SDK {
     case "go":
     case "golang":
       return SDK.Go;
+    case "mbt":
+    case "moonbit":
+    case "moon":
+      return SDK.MoonBit;
     default:
       throw new Error(`Unknown SDK: ${sdk}`);
   }

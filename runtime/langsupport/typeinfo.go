@@ -14,8 +14,8 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 type TypeInfo interface {

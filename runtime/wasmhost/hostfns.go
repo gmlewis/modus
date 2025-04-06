@@ -17,10 +17,10 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/plugins"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/plugins"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
@@ -273,7 +273,6 @@ func (host *wasmHost) newHostFunction(modName, funcName string, fn any, opts ...
 		// Prepare to call the host function
 		results := make([]any, 0, numResults)
 		wrappedFn := func() error {
-
 			// invoke the function
 			out := rvFunc.Call(inputs)
 
@@ -349,7 +348,6 @@ func (host *wasmHost) instantiateHostFunctions(ctx context.Context) error {
 }
 
 func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupport.ExecutionPlan, stack []uint64, params []any) error {
-
 	// regardless of the outcome, ensure parameter values are cleared from the stack before returning
 	indirect := false
 	defer func() {
@@ -423,7 +421,6 @@ func decodeParams(ctx context.Context, wa langsupport.WasmAdapter, plan langsupp
 }
 
 func encodeResults(ctx context.Context, wa langsupport.WasmAdapter, plan langsupport.ExecutionPlan, stack []uint64, results []any) error {
-
 	expected := len(plan.ResultHandlers())
 	if len(results) != expected {
 		return fmt.Errorf("expected %d results, but got %d", expected, len(results))

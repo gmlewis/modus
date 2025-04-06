@@ -1,11 +1,11 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
 go 1.24.0
 
 require (
+	github.com/gmlewis/modus/lib/metadata v0.15.0
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
 	github.com/hypermodeinc/modus/lib/manifest v0.17.1
-	github.com/hypermodeinc/modus/lib/metadata v0.15.0
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 // indirect
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/goccy/go-json v0.10.5
 	github.com/gofrs/flock v0.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.2
+	github.com/google/go-cmp v0.7.0
 	github.com/google/renameio/v2 v2.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hypermodeinc/modusdb v0.0.0-20250329174417-e6824fbde334
@@ -200,6 +201,7 @@ require (
 	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.19.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tidwall/jsonc v0.3.2 // indirect
 	github.com/tidwall/match v1.1.1 // indirect

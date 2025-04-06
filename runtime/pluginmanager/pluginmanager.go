@@ -12,8 +12,8 @@ package pluginmanager
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/plugins"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/plugins"
 
 	"github.com/rs/zerolog"
 )

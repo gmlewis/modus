@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	_ "github.com/hypermodeinc/modus/sdk/go"
+	_ "github.com/gmlewis/modus/sdk/go"
 )
 
 func SayHello(name *string) string {
