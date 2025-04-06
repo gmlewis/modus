@@ -232,11 +232,11 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 		if pkg == name || strings.HasSuffix(pkg, "/"+name) {
 			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
 			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
-			b.WriteString(fmt.Sprintf("\t\"%s\"\n", pkg))
+			fmt.Fprintf(b, "\t\"%s\"\n", pkg)
 		} else {
 			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
 			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
-			b.WriteString(fmt.Sprintf("\t%s \"%s\"\n", name, pkg))
+			fmt.Fprintf(b, "\t%s \"%s\"\n", name, pkg)
 		}
 	}
 	b.WriteString(")\n\n")
