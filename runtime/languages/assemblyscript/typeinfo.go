@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 var _langTypeInfo = &langTypeInfo{}
@@ -191,6 +191,10 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 		return false
 	}
 }
+
+func (lti *langTypeInfo) IsErrorType(typ string) (string, bool) { return typ, false }
+func (lti *langTypeInfo) IsTupleType(typ string) bool           { return false }
+func (lti *langTypeInfo) GetTupleSubtypes(typ string) []string  { return nil }
 
 func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32, error) {
 	switch typ {

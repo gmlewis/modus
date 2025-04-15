@@ -1,0 +1,17 @@
+package "gmlewis/modus/pkg/auth"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+fn get_jwt_claims[T : @json.FromJson]() -> T!
+
+fn get_jwt_claims_from_string[T : @json.FromJson](String) -> T!
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

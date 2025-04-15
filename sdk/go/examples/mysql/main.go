@@ -9,7 +9,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/mysql"
+	"github.com/gmlewis/modus/sdk/go/pkg/mysql"
 )
 
 // The name of the MySQL connection, as specified in the modus.json manifest

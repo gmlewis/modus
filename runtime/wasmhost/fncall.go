@@ -16,10 +16,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/functions"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/metrics"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/functions"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/metrics"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/rs/xid"
 	"github.com/tetratelabs/wazero/sys"

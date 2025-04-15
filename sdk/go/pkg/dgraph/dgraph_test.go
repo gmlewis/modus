@@ -15,7 +15,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/dgraph"
+	"github.com/gmlewis/modus/sdk/go/pkg/dgraph"
 )
 
 var (

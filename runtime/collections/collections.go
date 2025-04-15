@@ -17,14 +17,14 @@ import (
 	"sort"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/collections/in_mem"
-	"github.com/hypermodeinc/modus/runtime/collections/index"
-	"github.com/hypermodeinc/modus/runtime/collections/index/interfaces"
-	collection_utils "github.com/hypermodeinc/modus/runtime/collections/utils"
-	"github.com/hypermodeinc/modus/runtime/functions"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/runtime/collections/in_mem"
+	"github.com/gmlewis/modus/runtime/collections/index"
+	"github.com/gmlewis/modus/runtime/collections/index/interfaces"
+	collection_utils "github.com/gmlewis/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/functions"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 )
 
 var errInvalidEmbedderSignature = errors.New("invalid embedder function signature")

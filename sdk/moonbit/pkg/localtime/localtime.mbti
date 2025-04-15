@@ -1,0 +1,69 @@
+package "gmlewis/modus/pkg/localtime"
+
+import(
+  "moonbitlang/x/time"
+)
+
+// Values
+const ANSIC : String = "Mon Jan _2 15:04:05 2006"
+
+const DateOnly : String = "2006-01-02"
+
+const DateTime : String = "2006-01-02 15:04:05"
+
+const Kitchen : String = "3:04PM"
+
+const Layout : String = "01/02 03:04:05PM '06 -0700"
+
+const RFC1123 : String = "Mon, 02 Jan 2006 15:04:05 MST"
+
+const RFC1123Z : String = "Mon, 02 Jan 2006 15:04:05 -0700"
+
+const RFC3339 : String = "2006-01-02T15:04:05Z07:00"
+
+const RFC3339Nano : String = "2006-01-02T15:04:05.999999999Z07:00"
+
+const RFC822 : String = "02 Jan 06 15:04 MST"
+
+const RFC822Z : String = "02 Jan 06 15:04 -0700"
+
+const RFC850 : String = "Monday, 02-Jan-06 15:04:05 MST"
+
+const RubyDate : String = "Mon Jan 02 15:04:05 -0700 2006"
+
+const Stamp : String = "Jan _2 15:04:05"
+
+const StampMicro : String = "Jan _2 15:04:05.000000"
+
+const StampMilli : String = "Jan _2 15:04:05.000"
+
+const StampNano : String = "Jan _2 15:04:05.000000000"
+
+const TimeOnly : String = "15:04:05"
+
+const UnixDate : String = "Mon Jan _2 15:04:05 MST 2006"
+
+fn get_local_time_modus() -> String
+
+fn get_local_time_zone_id() -> String
+
+fn get_time_in_zone_modus(String) -> String
+
+fn get_time_zone(timezone~ : String = ..) -> @time.Zone!
+
+fn host_get_local_time_modus() -> String
+
+fn host_get_time_in_zone_modus(String) -> String
+
+fn host_get_time_zone_data(String, String) -> FixedArray[Byte]
+
+fn is_valid_time_zone(String) -> Bool
+
+fn now(timezone~ : String = ..) -> @time.ZonedDateTime!
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
