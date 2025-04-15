@@ -2,6 +2,23 @@
 
 # Change Log
 
+## 2025-04-09 - AssemblyScript SDK 0.17.5
+
+- chore: convert model name to lowercase in OpenAI Models SDK [#818](https://github.com/hypermodeinc/modus/pull/818)
+
+## 2025-04-09 - Go SDK 0.17.3
+
+- fix: validate manifest with new dgraph connection string format [#817](https://github.com/hypermodeinc/modus/pull/817)
+- chore: convert model name to lowercase in OpenAI Models SDK [#818](https://github.com/hypermodeinc/modus/pull/818)
+
+## 2025-04-09 - Runtime 0.17.9
+
+- fix: initialize the main HTTP handler before starting background services [#812](https://github.com/hypermodeinc/modus/pull/812)
+
+## 2025-04-08 - CLI 0.17.3
+
+- feat: Add update prompt on CLI usage [#811](https://github.com/hypermodeinc/modus/pull/811)
+
 ## 2025-04-01 - Runtime 0.17.8
 
 - fix: Update Hypermode api key reading for modus local dev [#805](https://github.com/hypermodeinc/modus/pull/805)
