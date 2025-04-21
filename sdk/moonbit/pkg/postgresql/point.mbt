@@ -26,8 +26,8 @@ pub fn Point::parse(s : String) -> Point!Error {
   let s = s.trim_space()
   let parts = s.split(",").collect()
   if parts.length() != 2 ||
-    not(parts[0].starts_with("(")) ||
-    not(parts[1].ends_with(")")) {
+    not(parts[0].has_prefix("(")) ||
+    not(parts[1].has_suffix(")")) {
     raise PostgreSqlError("invalid point")
   }
   let s0 = parts[0].trim_start("(").trim_space()

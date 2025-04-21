@@ -120,7 +120,7 @@ pub impl Subtractable for BigInt with sub(a, b) {
 }
 
 ///|
-pub(open) trait Multipliable {
+pub(open) trait Multipliable: Mul {
   op_mul(Self, Self) -> Self
 }
 
@@ -175,7 +175,7 @@ pub impl Multipliable for BigInt with op_mul(a, b) {
 }
 
 ///|
-pub(open) trait Divideable {
+pub(open) trait Divideable: Div {
   op_div(Self, Self) -> Self
 }
 

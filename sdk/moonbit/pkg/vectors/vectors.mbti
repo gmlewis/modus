@@ -74,7 +74,7 @@ impl Addable for Float
 impl Addable for Double
 impl Addable for BigInt
 
-pub(open) trait Divideable {
+pub(open) trait Divideable : Div {
   op_div(Self, Self) -> Self
 }
 impl Divideable for Byte
@@ -95,7 +95,7 @@ impl FromInt for Int
 impl FromInt for Float
 impl FromInt for Double
 
-pub(open) trait Multipliable {
+pub(open) trait Multipliable : Mul {
   op_mul(Self, Self) -> Self
 }
 impl Multipliable for Byte

@@ -2,8 +2,8 @@
   "name": "gmlewis/modus",
   "version": "0.16.5",
   "deps": {
-    "moonbitlang/x": "0.4.23",
-    "gmlewis/base64": "0.14.2"
+    "moonbitlang/x": "0.4.25",
+    "gmlewis/base64": "0.14.3"
   },
   "readme": "README.md",
   "repository": "https://github.com/gmlewis/modus/sdk/moonbit",
