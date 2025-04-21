@@ -4,7 +4,7 @@ module github.com/gmlewis/modus/sdk/go
 
 go 1.23.1
 
-toolchain go1.23.8
+toolchain go1.24.2
 
 require (
 	github.com/gmlewis/modus/lib/wasmextractor v0.13.0
@@ -18,9 +18,9 @@ require (
 	github.com/rs/xid v1.6.0
 	github.com/tidwall/gjson v1.18.0
 	github.com/tidwall/sjson v1.2.5
-	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
+	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
 	golang.org/x/mod v0.24.0
-	golang.org/x/tools v0.31.0
+	golang.org/x/tools v0.32.0
 )
 
 require (

@@ -11,10 +11,7 @@ package middleware
 
 import (
 	"context"
-	"crypto/x509"
 	"encoding/json"
-	"encoding/pem"
-	"errors"
 	"net/http"
 	"os"
 	"strings"
@@ -25,7 +22,7 @@ import (
 	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v3/jwk"
 )
 
 type jwtClaimsKey string
@@ -84,7 +81,6 @@ func HandleJWT(next http.Handler) http.Handler {
 			if s, found := strings.CutPrefix(tokenStr, "Bearer "); found {
 				tokenStr = s
 			} else {
-				logger.Error(ctx).Msg("Invalid JWT token format, Bearer required")
 				http.Error(w, "Invalid JWT token format, Bearer required", http.StatusBadRequest)
 				return
 			}
@@ -115,7 +111,6 @@ func HandleJWT(next http.Handler) http.Handler {
 		}
 
 		if tokenStr == "" {
-			logger.Error(ctx).Msg("JWT token not found")
 			http.Error(w, "Access Denied", http.StatusUnauthorized)
 			return
 		}
@@ -151,8 +146,8 @@ func HandleJWT(next http.Handler) http.Handler {
 			}
 		}
 		if !found {
-			logger.Error(ctx).Err(err).Msg("JWT parse error")
 			http.Error(w, "Access Denied", http.StatusUnauthorized)
+			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
@@ -183,14 +178,11 @@ func publicPemKeysJsonToKeys(publicPemKeysJson string) (map[string]any, error) {
 	if err := json.Unmarshal([]byte(publicPemKeysJson), &publicKeyStrings); err != nil {
 		return nil, err
 	}
+
+	decoder := jwk.NewPEMDecoder()
 	keys := make(map[string]any)
 	for key, value := range publicKeyStrings {
-		block, _ := pem.Decode([]byte(value))
-		if block == nil {
-			return nil, errors.New("Invalid PEM block for key: " + key)
-		}
-
-		pubKey, err := x509.ParsePKIXPublicKey(block.Bytes)
+		pubKey, _, err := decoder.Decode([]byte(value))
 		if err != nil {
 			return nil, err
 		}
@@ -211,28 +203,19 @@ func jwksEndpointsJsonToKeys(ctx context.Context, jwksEndpointsJson string) (map
 			return nil, err
 		}
 
-		for it := jwks.Keys(ctx); it.Next(ctx); {
-			jwkKey := it.Pair().Value.(jwk.Key)
-			var rawKey any
-			if err := jwkKey.Raw(&rawKey); err != nil {
-				return nil, err
-			}
+		for i := range jwks.Len() {
+			jwkKey, _ := jwks.Key(i)
 
-			// Marshal the raw key into DER-encoded PKIX format
-			derBytes, err := x509.MarshalPKIXPublicKey(rawKey)
-			if err != nil {
-				return nil, err
-			}
-
-			pubKey, err := x509.ParsePKIXPublicKey(derBytes)
+			// Get the public key from the JWK
+			pubKey, err := jwkKey.PublicKey()
 			if err != nil {
 				return nil, err
 			}
 
 			// Use a combination of endpoint key and key ID (if available) as the map key
 			keyID := endpointKey
-			if kid, exists := jwkKey.Get("kid"); exists {
-				keyID = endpointKey + "_" + kid.(string)
+			if kid, exists := jwkKey.KeyID(); exists {
+				keyID = endpointKey + "_" + kid
 			}
 			keys[keyID] = pubKey
 		}
