@@ -2,7 +2,6 @@
   "import": [
     "gmlewis/modus/pkg/console",
     "gmlewis/modus/wit/ffi",
-    "moonbitlang/x/sys",
     "moonbitlang/x/time"
   ],
   "targets": {

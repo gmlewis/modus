@@ -30,8 +30,8 @@ pub fn Location::parse(s : String) -> Location!Error {
     not(parts[1].has_suffix(")")) {
     raise PostgreSqlError("invalid location")
   }
-  let s0 = parts[0].trim_start("(").trim_space()
-  let s1 = parts[1].trim_end(")").trim_space()
+  let s0 = parts[0].trim_start("(").trim_space().to_string()
+  let s1 = parts[1].trim_end(")").trim_space().to_string()
   let longitude = @strconv.parse_double!(s0)
   let latitude = @strconv.parse_double!(s1)
   { longitude, latitude }

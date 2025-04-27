@@ -137,11 +137,11 @@ pub(all) struct Metadata {
 
 ///|
 pub(all) enum ToolChoice {
-  ///| Auto means that the model will automatically decide whether to use tools.
+  /// Auto means that the model will automatically decide whether to use tools.
   Auto
-  ///| Any means that the model will use any available tools.
+  /// Any means that the model will use any available tools.
   Any
-  ///| Tool means that the model will use the specified tool.
+  /// Tool means that the model will use the specified tool.
   /// Tool(name, disable_parallel_tool_use)
   /// `name` is the name of the tool to use.
   /// `disable_parallel_tool_use` determines whether to disable parallel tool use
@@ -180,15 +180,15 @@ pub impl @json.FromJson for ToolChoice with from_json(json, path) {
 ///|
 pub impl ToJson for ToolChoice with to_json(self) {
   match self {
-    Auto => Object({ "type": "auto" })
-    Any => Object({ "type": "any" })
+    Auto => { "type": "auto" }
+    Any => { "type": "any" }
     Tool(name, true) =>
-      Object({
+      {
         "type": "tool",
         "name": name.to_json(),
-        "disable_parallel_tool_use": True,
-      })
-    Tool(name, false) => Object({ "type": "tool", "name": name.to_json() })
+        "disable_parallel_tool_use": true,
+      }
+    Tool(name, false) => { "type": "tool", "name": name.to_json() }
   }
 }
 
@@ -385,31 +385,31 @@ pub impl ToJson for ContentBlock with to_json(self) {
     "type": self.type_.to_json(),
     "text": match self.text {
       Some(text) => text.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
     "id": match self.id {
       Some(id) => id.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
     "name": match self.name {
       Some(name) => name.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
     "input": match self.input {
       Some(input) => input
-      None => Null.to_json()
+      None => Json::null()
     },
     "tool_use_id": match self.tool_use_id {
       Some(tool_use_id) => tool_use_id.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
     "is_error": match self.is_error {
       Some(is_error) => is_error.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
     "content": match self.content {
       Some(content) => content.to_json()
-      None => Null.to_json()
+      None => Json::null()
     },
   }.to_json()
 }

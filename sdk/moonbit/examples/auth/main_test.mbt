@@ -30,9 +30,6 @@ test "parse JSON claims" {
     #|  "sub": "test-sub",
     #|  "user-id": "test-user-id"
     #|}
-  // The following line fails with this error message:
-  // test gmlewis/modus/examples/auth_example/main_test.mbt::parse JSON claims failed: JsonDecodeError(($.exp, "Int64::from_json: expected number in string representation"))
-  // See: https://github.com/moonbitlang/core/pull/1417
   let json = @json.parse!(response)
   let decoded : ExampleClaims = @json.from_json!(json)
   inspect!(

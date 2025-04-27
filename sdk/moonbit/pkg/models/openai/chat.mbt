@@ -414,7 +414,7 @@ pub(all) struct ResponseFormat {
 pub impl ToJson for ResponseFormat with to_json(self) {
   let type_ = self.type_.to_json()
   match self.json_schema {
-    None => { "type": type_, "json_schema": Null }
+    None => { "type": type_, "json_schema": Json::null() }
     Some(json_schema) => { "type": type_, "json_schema": json_schema.to_json() }
   }
 }

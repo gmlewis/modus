@@ -75,7 +75,7 @@ fn _host_encode_strings1(items : Int) -> Int = "modus_test" "encodeStrings1"
 fn host_encode_strings1(items : Array[String]?) -> String? {
   let result = match items {
     None => _host_encode_strings1(0)
-    Some(m) => {
+    Some(_) => {
       let ptr : Int = cast(items)
       _host_encode_strings1(ptr)
     }
@@ -93,7 +93,7 @@ fn _host_encode_strings2(items : Int) -> Int = "modus_test" "encodeStrings2"
 fn host_encode_strings2(items : Array[String?]?) -> String? {
   let result = match items {
     None => _host_encode_strings2(0)
-    Some(m) => {
+    Some(_) => {
       let ptr : Int = cast(items)
       _host_encode_strings2(ptr)
     }

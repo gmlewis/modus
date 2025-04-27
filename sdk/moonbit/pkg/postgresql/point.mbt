@@ -30,8 +30,8 @@ pub fn Point::parse(s : String) -> Point!Error {
     not(parts[1].has_suffix(")")) {
     raise PostgreSqlError("invalid point")
   }
-  let s0 = parts[0].trim_start("(").trim_space()
-  let s1 = parts[1].trim_end(")").trim_space()
+  let s0 = parts[0].trim_start("(").trim_space().to_string()
+  let s1 = parts[1].trim_end(")").trim_space().to_string()
   let x = @strconv.parse_double!(s0)
   let y = @strconv.parse_double!(s1)
   { x, y }

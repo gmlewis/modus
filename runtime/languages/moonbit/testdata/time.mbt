@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-type! TestError String derive(Show, Eq)
+priv type! TestError String derive(Show, Eq)
 
 ///|
 let test_time : Ref[@time.ZonedDateTime?] = { val: None }

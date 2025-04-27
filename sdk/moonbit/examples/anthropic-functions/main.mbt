@@ -56,7 +56,7 @@ pub fn get_stock_price(company : String, use_tools : Bool) -> String!Error {
   }
   // If tools are not used, the output will be a text block
   match output.content[0].type_ {
-    "text" => return output.content[0].text.unwrap().trim_space()
+    "text" => return output.content[0].text.unwrap().trim_space().to_string()
     "tool_use" => ()
     t => raise @models.ModelsError("unexpected content type: \{t}")
   }

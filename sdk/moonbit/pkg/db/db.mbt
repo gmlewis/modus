@@ -83,7 +83,7 @@ pub fn do_query(
   }
 
   //
-  let statement = statement.trim_space()
+  let statement = statement.trim_space().to_string()
   let response = host_execute_query(host_name, db_type, statement, params_json)
   if response.is_empty() {
     raise DbError("no response received from database query")
