@@ -13,8 +13,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/app"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/app"
 )
 
 type PluginLoadedCallback = func(ctx context.Context, md *metadata.Metadata) error

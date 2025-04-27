@@ -15,10 +15,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/langsupport"
-	"github.com/hypermodeinc/modus/runtime/langsupport/primitives"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/langsupport"
+	"github.com/gmlewis/modus/runtime/langsupport/primitives"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"golang.org/x/exp/constraints"
 )

@@ -18,8 +18,8 @@
    <a href="https://discord.com/invite/MAZgkhP6C6">Discord</a>
 <p>
 
-**Modus is an open-source, serverless framework for building agentic systems and AI apps in Go and
-AssemblyScript**
+**Modus is an open-source, serverless framework for building agentic systems and AI apps in
+Go, AssemblyScript, and MoonBit**
 
 It simplifies the integration of models, context, and data. We're continuing to add additional
 capabilities to better support the construction and calling of tools.
@@ -106,6 +106,11 @@ Currently, the supported languages you may choose from are:
 - [Go](https://go.dev/) - A general-purpose programming language originally designed by Google.
 - [AssemblyScript](https://www.assemblyscript.org/) - A TypeScript-like language designed for
   WebAssembly.
+- [MoonBit](https://moonbitlang.com/) - A Rust-like programming language (but without pointers,
+  lifetimes, or borrow checking — _FTW_) designed for WebAssembly (that creates tiny `.wasm` files 🎉).
+  - If you are interested in learning a new programming language with excellent tooling
+    and a fantastic developer experience, make sure to check out [MoonBit](https://tour.moonbitlang.com/).
+    (In addition to `--target wasm`, MoonBit has: `wasm-gc`, `js`, `native`, `llvm`, and `all`.)
 
 Additional programming languages will be supported in the future.
 
@@ -116,7 +121,7 @@ or on any hosting platform that meets your needs.
 
 However, over at [Hypermode](https://hypermode.com/) we have built additional tooling and
 infrastructure to make constructing and deploying your agents and AI apps easy. Hypermode includes
-models, observability, debugging, and function hosting. Just push your code to Github and Hypermode
+models, observability, debugging, and function hosting. Just push your code to GitHub and Hypermode
 will automatically build and deploy it on global infrastructure.
 
 ## Open Source
@@ -145,6 +150,7 @@ to the authors and teams of our core dependencies:
 - The [Go language](https://go.dev/) team, and also the maintainers of
   [TinyGo](https://tinygo.org/). The Modus Runtime is written in Go, and the Modus Go SDK uses
   TinyGo.
+- The [MoonBit language](https://moonbitlang.com/) team. The Modus MoonBit SDK uses Go and MoonBit.
 
 ## License
 

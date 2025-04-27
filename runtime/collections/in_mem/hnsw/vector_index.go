@@ -16,10 +16,10 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/collections/index"
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/hnsw"
+	"github.com/gmlewis/modus/runtime/collections/index"
+	"github.com/gmlewis/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/hnsw"
 )
 
 const (

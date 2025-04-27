@@ -1,4 +1,4 @@
-module github.com/hypermodeinc/modus/runtime
+module github.com/gmlewis/modus/runtime
 
 go 1.24.2
 
@@ -17,15 +17,17 @@ require (
 	github.com/docker/go-connections v0.5.0
 	github.com/fatih/color v1.18.0
 	github.com/getsentry/sentry-go v0.32.0
+	github.com/gmlewis/modus/lib/metadata v0.15.0
 	github.com/go-sql-driver/mysql v1.9.2
+	github.com/gmlewis/modus/lib/wasmextractor v0.13.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.2.1
 	github.com/goccy/go-json v0.10.5
 	github.com/gofrs/flock v0.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.2
+	github.com/google/go-cmp v0.7.0
 	github.com/google/renameio/v2 v2.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hypermodeinc/modus/lib/manifest v0.17.1
-	github.com/hypermodeinc/modus/lib/metadata v0.15.0
 	github.com/hypermodeinc/modusdb v0.0.0-20250416120035-6d80353c1351
 	github.com/jackc/pgx/v5 v5.7.4
 	github.com/jensneuse/abstractlogger v0.0.4
@@ -139,7 +141,6 @@ require (
 	github.com/hashicorp/hcl v1.0.1-vault-7 // indirect
 	github.com/hashicorp/vault/api v1.15.0 // indirect
 	github.com/hypermodeinc/dgraph/v24 v24.1.2 // indirect
-	github.com/hypermodeinc/modus/lib/wasmextractor v0.13.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
@@ -197,6 +198,7 @@ require (
 	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.19.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tidwall/jsonc v0.3.2 // indirect
 	github.com/tidwall/match v1.1.1 // indirect

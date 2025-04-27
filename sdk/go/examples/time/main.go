@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/localtime"
+	"github.com/gmlewis/modus/sdk/go/pkg/localtime"
 )
 
 /*

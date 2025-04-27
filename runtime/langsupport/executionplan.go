@@ -11,11 +11,12 @@ package langsupport
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"runtime/debug"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	wasm "github.com/tetratelabs/wazero/api"
 )
@@ -168,6 +169,7 @@ func (plan *executionPlan) getWasmParameters(ctx context.Context, wa WasmAdapter
 }
 
 func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdapter, vals []uint64, indirectPtr uint32) (any, error) {
+	// TODO: Make this function language-specific!
 
 	handlers := plan.ResultHandlers()
 	switch len(handlers) {
@@ -185,6 +187,33 @@ func (plan *executionPlan) interpretWasmResults(ctx context.Context, wa WasmAdap
 			// no actual result value, but we need to return a zero value of the expected type
 			return handler.TypeInfo().ZeroValue(), nil
 		}
+	case 2:
+		// two results are expected - the first is the actual result, the second is an error code
+		resultHandler := handlers[0]
+		errorHandler := handlers[1]
+		if len(vals) != 2 {
+			return nil, fmt.Errorf("expected 2 values but got %v: %+v", len(vals), vals)
+		}
+		// This is the case in MoonBit when a function returns a single value and an error code.
+		// The error code is the first value and the actual result is the second value.
+		if vals[0] == 0 && vals[1] != 0 {
+			// An error occurred. Return the zero value and an error string.
+			errVal, err := errorHandler.Decode(ctx, wa, vals[1:])
+			if err != nil {
+				return nil, fmt.Errorf("failed to decode error value: %w", err)
+			}
+			errTuple, ok := errVal.([]any)
+			if !ok || len(errTuple) != 1 {
+				return nil, fmt.Errorf("expected error tuple but got %T: %+[1]v", errVal)
+			}
+			errString, ok := errTuple[0].(string)
+			if !ok {
+				return nil, fmt.Errorf("expected error string but got %T: %+[1]v", errTuple[0])
+			}
+			return resultHandler.TypeInfo().ZeroValue(), errors.New(errString)
+		}
+		// Now strip off the error code and decode the actual result.
+		return resultHandler.Decode(ctx, wa, vals[1:])
 	}
 
 	// multiple results are expected (indirect)

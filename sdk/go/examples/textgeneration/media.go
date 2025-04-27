@@ -11,9 +11,9 @@ import (
 	"math/rand/v2"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/http"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models/openai"
+	"github.com/gmlewis/modus/sdk/go/pkg/http"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models/openai"
 )
 
 // These examples demonstrate how to use audio or image data with OpenAI chat models.

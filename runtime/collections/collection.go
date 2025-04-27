@@ -12,7 +12,7 @@ package collections
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/collections/index/interfaces"
+	"github.com/gmlewis/modus/runtime/collections/index/interfaces"
 	"github.com/puzpuzpuz/xsync/v4"
 )
 

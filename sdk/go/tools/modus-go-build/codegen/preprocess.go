@@ -11,6 +11,7 @@ package codegen
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"go/ast"
 	"go/printer"
@@ -20,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -71,6 +72,14 @@ func getMainPackage(dir string) (*packages.Package, error) {
 	}
 
 	pkg := pkgs[0]
+
+	if len(pkg.Errors) > 0 {
+		errs := make([]error, len(pkg.Errors))
+		for i, e := range pkg.Errors {
+			errs[i] = e
+		}
+		return nil, fmt.Errorf("errors loading packages: %w", errors.Join(errs...))
+	}
 
 	if pkg.Name != "main" {
 		return nil, fmt.Errorf("expected root package name to be 'main', got %s", pkg.Name)
@@ -221,8 +230,12 @@ func writePreProcessHeader(b *bytes.Buffer, imports map[string]string) {
 	b.WriteString("import (\n")
 	for pkg, name := range imports {
 		if pkg == name || strings.HasSuffix(pkg, "/"+name) {
+			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 			fmt.Fprintf(b, "\t\"%s\"\n", pkg)
 		} else {
+			// TODO(gmlewis): Remove: Hack needed to bootstrap MoonBit SDK:
+			pkg = strings.ReplaceAll(pkg, "hypermodeinc", "gmlewis")
 			fmt.Fprintf(b, "\t%s \"%s\"\n", name, pkg)
 		}
 	}
@@ -251,7 +264,7 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		}
 
 		if hasErrorReturn {
-			imports["github.com/hypermodeinc/modus/sdk/go/pkg/console"] = "console"
+			imports["github.com/gmlewis/modus/sdk/go/pkg/console"] = "console"
 
 			// remove the error return value from the function signature
 			results.List = results.List[:len(results.List)-1]

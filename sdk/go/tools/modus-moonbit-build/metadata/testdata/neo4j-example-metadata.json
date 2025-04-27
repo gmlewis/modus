@@ -1,0 +1,355 @@
+{
+  "plugin": "neo4j",
+  "module": "@neo4j-example",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv9qpd7rack45r008rj0",
+  "buildTs": "2025-03-14T04:12:36.235Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
+  "fnExports": {
+    "create_people_and_relationships": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "delete_all_nodes": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ]
+    },
+    "get_alice_friends_under_40": {
+      "results": [
+        {
+          "type": "Array[Person]!Error"
+        }
+      ]
+    },
+    "get_alice_friends_under_40_ages": {
+      "results": [
+        {
+          "type": "Array[Int]!Error"
+        }
+      ]
+    }
+  },
+  "fnImports": {
+    "modus_neo4j_client.executeQuery": {
+      "parameters": [
+        {
+          "name": "host_name",
+          "type": "String"
+        },
+        {
+          "name": "db_name",
+          "type": "String"
+        },
+        {
+          "name": "query",
+          "type": "String"
+        },
+        {
+          "name": "parameters_json",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "@neo4j.EagerResult?"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(String)": {
+      "id": 56,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "(String, Bool)": {
+      "id": 20,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        },
+        {
+          "name": "1",
+          "type": "Bool"
+        }
+      ]
+    },
+    "@neo4j.\u0026Entity": {
+      "id": 22
+    },
+    "@neo4j.EagerResult": {
+      "id": 44,
+      "fields": [
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        },
+        {
+          "name": "records",
+          "type": "Array[@neo4j.Record]"
+        }
+      ]
+    },
+    "@neo4j.EagerResult!Error": {
+      "id": 37,
+      "fields": [
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        },
+        {
+          "name": "records",
+          "type": "Array[@neo4j.Record]"
+        }
+      ]
+    },
+    "@neo4j.EagerResult?": {
+      "id": 39,
+      "fields": [
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        },
+        {
+          "name": "records",
+          "type": "Array[@neo4j.Record]"
+        }
+      ]
+    },
+    "@neo4j.Neo4jOption": {
+      "id": 28
+    },
+    "@neo4j.Node": {
+      "id": 7,
+      "fields": [
+        {
+          "name": "element_id",
+          "type": "String"
+        },
+        {
+          "name": "labels",
+          "type": "Array[String]"
+        },
+        {
+          "name": "props",
+          "type": "Map[String, Json]"
+        }
+      ]
+    },
+    "@neo4j.Point2D": {
+      "id": 10,
+      "fields": [
+        {
+          "name": "x",
+          "type": "Double"
+        },
+        {
+          "name": "y",
+          "type": "Double"
+        },
+        {
+          "name": "spatial_ref_id",
+          "type": "UInt"
+        }
+      ]
+    },
+    "@neo4j.Point3D": {
+      "id": 14,
+      "fields": [
+        {
+          "name": "x",
+          "type": "Double"
+        },
+        {
+          "name": "y",
+          "type": "Double"
+        },
+        {
+          "name": "z",
+          "type": "Double"
+        },
+        {
+          "name": "spatial_ref_id",
+          "type": "UInt"
+        }
+      ]
+    },
+    "@neo4j.Record": {
+      "id": 18,
+      "fields": [
+        {
+          "name": "values",
+          "type": "Array[String]"
+        },
+        {
+          "name": "keys",
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "@neo4j.Relationship": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "element_id",
+          "type": "String"
+        },
+        {
+          "name": "start_element_id",
+          "type": "String"
+        },
+        {
+          "name": "end_element_id",
+          "type": "String"
+        },
+        {
+          "name": "type_",
+          "type": "String"
+        },
+        {
+          "name": "props",
+          "type": "Json"
+        }
+      ]
+    },
+    "@neo4j.T": {
+      "id": 53
+    },
+    "@neo4j.T!Error": {
+      "id": 19
+    },
+    "@testutils.CallStack[T]": {
+      "id": 35,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
+    },
+    "@testutils.T": {
+      "id": 31
+    },
+    "Array[@neo4j.Neo4jOption]": {
+      "id": 40
+    },
+    "Array[@neo4j.Record]": {
+      "id": 38
+    },
+    "Array[@testutils.T]": {
+      "id": 26
+    },
+    "Array[Array[@testutils.T]]": {
+      "id": 36
+    },
+    "Array[Int]": {
+      "id": 17
+    },
+    "Array[Int]!Error": {
+      "id": 27
+    },
+    "Array[Json]": {
+      "id": 43
+    },
+    "Array[Person]": {
+      "id": 15
+    },
+    "Array[Person]!Error": {
+      "id": 48
+    },
+    "Array[String]": {
+      "id": 25
+    },
+    "Bool": {
+      "id": 32
+    },
+    "Double": {
+      "id": 42
+    },
+    "FixedArray[Double]": {
+      "id": 30
+    },
+    "FixedArray[Float]": {
+      "id": 34
+    },
+    "FixedArray[Int64]": {
+      "id": 46
+    },
+    "FixedArray[Int]": {
+      "id": 29
+    },
+    "FixedArray[UInt64]": {
+      "id": 45
+    },
+    "FixedArray[UInt]": {
+      "id": 13
+    },
+    "Float": {
+      "id": 24
+    },
+    "Int": {
+      "id": 51
+    },
+    "Int64": {
+      "id": 54
+    },
+    "Json": {
+      "id": 47
+    },
+    "Map[String, Json]": {
+      "id": 55
+    },
+    "Map[String, String]": {
+      "id": 33
+    },
+    "Person": {
+      "id": 49,
+      "fields": [
+        {
+          "name": "name",
+          "type": "String"
+        },
+        {
+          "name": "age",
+          "type": "Int"
+        }
+      ]
+    },
+    "String": {
+      "id": 16
+    },
+    "String!Error": {
+      "id": 52
+    },
+    "UInt": {
+      "id": 23
+    },
+    "UInt64": {
+      "id": 41
+    }
+  }
+}

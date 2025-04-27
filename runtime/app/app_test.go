@@ -15,7 +15,7 @@ import (
 	"testing"
 
 	"github.com/fatih/color"
-	"github.com/hypermodeinc/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/app"
 )
 
 func TestGetRootSourcePath(t *testing.T) {

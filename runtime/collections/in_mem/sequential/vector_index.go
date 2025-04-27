@@ -15,9 +15,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/collections/index"
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
-	"github.com/hypermodeinc/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/collections/index"
+	"github.com/gmlewis/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/db"
 )
 
 const (

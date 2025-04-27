@@ -15,7 +15,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/collections/utils"
 )
 
 func TestMultipleSequentialVectorIndexes(t *testing.T) {

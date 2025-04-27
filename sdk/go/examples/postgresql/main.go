@@ -9,7 +9,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/postgresql"
+	"github.com/gmlewis/modus/sdk/go/pkg/postgresql"
 )
 
 // The name of the PostgreSQL connection, as specified in the modus.json manifest

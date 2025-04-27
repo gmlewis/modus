@@ -1,0 +1,92 @@
+package "gmlewis/modus/pkg/models/experimental"
+
+import(
+  "gmlewis/modus/pkg/models"
+  "moonbitlang/core/json"
+)
+
+// Values
+fn invoke(ClassificationModel, ClassificationModelInput) -> ClassificationModelOutput!
+
+// Types and methods
+pub(all) type ClassificationModel @models.ModelBase
+impl ClassificationModel {
+  create_input(Self, Array[String]) -> ClassificationModelInput!
+  invoke(Self, ClassificationModelInput) -> ClassificationModelOutput!
+}
+impl Eq for ClassificationModel
+impl Show for ClassificationModel
+impl ToJson for ClassificationModel
+impl @json.FromJson for ClassificationModel
+
+pub(all) struct ClassificationModelInput {
+  instances : Array[String]
+}
+impl Eq for ClassificationModelInput
+impl Show for ClassificationModelInput
+impl ToJson for ClassificationModelInput
+impl @json.FromJson for ClassificationModelInput
+
+pub(all) struct ClassificationModelOutput {
+  predictions : Array[ClassifierResult]
+}
+impl Eq for ClassificationModelOutput
+impl Show for ClassificationModelOutput
+impl ToJson for ClassificationModelOutput
+impl @json.FromJson for ClassificationModelOutput
+
+pub(all) struct ClassifierLabel {
+  label : String
+  probability : Float
+}
+impl Eq for ClassifierLabel
+impl Show for ClassifierLabel
+impl ToJson for ClassifierLabel
+impl @json.FromJson for ClassifierLabel
+
+pub(all) struct ClassifierResult {
+  label : String
+  confidence : Float
+  probabilities : Array[ClassifierLabel]
+}
+impl Eq for ClassifierResult
+impl Show for ClassifierResult
+impl ToJson for ClassifierResult
+impl @json.FromJson for ClassifierResult
+
+pub(all) type EmbeddingsModel @models.ModelBase
+impl EmbeddingsModel {
+  create_input(Self, Array[String]) -> EmbeddingsModelInput!
+  invoke(Self, EmbeddingsModelInput) -> EmbeddingsModelOutput!
+}
+impl Eq for EmbeddingsModel
+impl Show for EmbeddingsModel
+impl ToJson for EmbeddingsModel
+impl @json.FromJson for EmbeddingsModel
+
+pub(all) struct EmbeddingsModelInput {
+  instances : Array[String]
+}
+impl Eq for EmbeddingsModelInput
+impl Show for EmbeddingsModelInput
+impl ToJson for EmbeddingsModelInput
+impl @json.FromJson for EmbeddingsModelInput
+
+pub(all) struct EmbeddingsModelOutput {
+  predictions : Array[Array[Float]]
+}
+impl Eq for EmbeddingsModelOutput
+impl Show for EmbeddingsModelOutput
+impl ToJson for EmbeddingsModelOutput
+impl @json.FromJson for EmbeddingsModelOutput
+
+pub(all) type! ExperimentalError String
+impl Eq for ExperimentalError
+impl Show for ExperimentalError
+impl ToJson for ExperimentalError
+impl @json.FromJson for ExperimentalError
+
+// Type aliases
+
+// Traits
+

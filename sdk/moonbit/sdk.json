@@ -1,0 +1,9 @@
+{
+  "sdk": {
+    "language": "MoonBit",
+    "version": "dev"
+  },
+  "runtime": {
+    "version": "^0.16.5"
+  }
+}

@@ -1,0 +1,133 @@
+package "gmlewis/modus/pkg/vectors"
+
+// Values
+fn abs[T : Absoluteable](Array[T]) -> Array[T]
+
+fn abs_in_place[T : Absoluteable](Array[T]) -> Unit
+
+fn add[T : Addable](Array[T], Array[T]) -> Array[T]
+
+fn add_in_place[T : Addable](Array[T], Array[T]) -> Unit
+
+fn add_number[T : Addable](Array[T], T) -> Array[T]
+
+fn add_number_in_place[T : Addable](Array[T], T) -> Unit
+
+fn divide_number[T : Divideable](Array[T], T) -> Array[T]
+
+fn divide_number_in_place[T : Divideable](Array[T], T) -> Unit
+
+fn dot[T : Multipliable + Addable + FromInt](Array[T], Array[T]) -> T
+
+fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt](Array[T], Array[T]) -> T
+
+fn magnitude[T : Multipliable + Addable + SquareRootable + FromInt](Array[T]) -> T
+
+fn max[T : Compare](Array[T]) -> T
+
+fn mean[T : Addable + Divideable + FromInt](Array[T]) -> T
+
+fn min[T : Compare](Array[T]) -> T
+
+fn multiply_number[T : Multipliable](Array[T], T) -> Array[T]
+
+fn multiply_number_in_place[T : Multipliable](Array[T], T) -> Unit
+
+fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + FromInt](Array[T]) -> Array[T]
+
+fn product[T : Multipliable + FromInt](Array[T]) -> T
+
+fn sub[T : Subtractable](Array[T], Array[T]) -> Array[T]
+
+fn subtract_in_place[T : Subtractable](Array[T], Array[T]) -> Unit
+
+fn subtract_number[T : Subtractable](Array[T], T) -> Array[T]
+
+fn subtract_number_in_place[T : Subtractable](Array[T], T) -> Unit
+
+fn sum[T : Addable + FromInt](Array[T]) -> T
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+pub(open) trait Absoluteable {
+  abs(Self) -> Self
+}
+impl Absoluteable for Int
+impl Absoluteable for Int64
+impl Absoluteable for Float
+impl Absoluteable for Double
+
+pub(open) trait Addable {
+  add(Self, Self) -> Self
+}
+impl Addable for Byte
+impl Addable for Int
+impl Addable for Int16
+impl Addable for Int64
+impl Addable for UInt
+impl Addable for UInt16
+impl Addable for UInt64
+impl Addable for Float
+impl Addable for Double
+impl Addable for BigInt
+
+pub(open) trait Divideable : Div {
+  op_div(Self, Self) -> Self
+}
+impl Divideable for Byte
+impl Divideable for Int
+impl Divideable for Int16
+impl Divideable for Int64
+impl Divideable for UInt
+impl Divideable for UInt16
+impl Divideable for UInt64
+impl Divideable for Float
+impl Divideable for Double
+impl Divideable for BigInt
+
+pub(open) trait FromInt {
+  from_int(Int) -> Self
+}
+impl FromInt for Int
+impl FromInt for Float
+impl FromInt for Double
+
+pub(open) trait Multipliable : Mul {
+  op_mul(Self, Self) -> Self
+}
+impl Multipliable for Byte
+impl Multipliable for Int
+impl Multipliable for Int16
+impl Multipliable for Int64
+impl Multipliable for UInt
+impl Multipliable for UInt16
+impl Multipliable for UInt64
+impl Multipliable for Float
+impl Multipliable for Double
+impl Multipliable for BigInt
+
+pub(open) trait SquareRootable {
+  sqrt(Self) -> Self
+}
+impl SquareRootable for Int
+impl SquareRootable for Int64
+impl SquareRootable for Float
+impl SquareRootable for Double
+
+pub(open) trait Subtractable {
+  sub(Self, Self) -> Self
+}
+impl Subtractable for Byte
+impl Subtractable for Int
+impl Subtractable for Int16
+impl Subtractable for Int64
+impl Subtractable for UInt
+impl Subtractable for UInt16
+impl Subtractable for UInt64
+impl Subtractable for Float
+impl Subtractable for Double
+impl Subtractable for BigInt
+

@@ -18,13 +18,13 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/graphql/datasource"
-	"github.com/hypermodeinc/modus/runtime/graphql/schemagen"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/graphql/datasource"
+	"github.com/gmlewis/modus/runtime/graphql/schemagen"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 
 	"github.com/wundergraph/graphql-go-tools/execution/engine"
 	gql "github.com/wundergraph/graphql-go-tools/execution/graphql"
@@ -97,6 +97,7 @@ func generateSchema(ctx context.Context, md *metadata.Metadata) (*gql.Schema, *d
 		WasmHost:          wasmhost.GetWasmHost(ctx),
 		FieldsToFunctions: generated.FieldsToFunctions,
 		MapTypes:          generated.MapTypes,
+		TupleTypes:        generated.TupleTypes,
 	}
 
 	return schema, cfg, nil

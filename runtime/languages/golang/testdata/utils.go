@@ -16,7 +16,7 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/console"
+	"github.com/gmlewis/modus/sdk/go/pkg/console"
 )
 
 func fail(msg string) {

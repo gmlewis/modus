@@ -12,8 +12,8 @@ package httpserver
 import (
 	"net/http"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 var healthHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

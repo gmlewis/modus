@@ -12,7 +12,7 @@ package hostfunctions
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/sqlclient"
+	"github.com/gmlewis/modus/runtime/sqlclient"
 )
 
 func init() {

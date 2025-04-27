@@ -1,0 +1,19 @@
+package "gmlewis/modus/wit/interface/wasi"
+
+// Values
+fn clock_res_get(UInt) -> Result[UInt64, UInt]
+
+fn clock_time_get(UInt, UInt64) -> Result[UInt64, UInt]
+
+fn environ_get(String) -> String
+
+fn now() -> Int64
+
+fn random_get(String, UInt) -> Result[Unit, UInt]
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

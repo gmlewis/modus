@@ -16,8 +16,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/logger"
 
 	"github.com/joho/godotenv"
 )

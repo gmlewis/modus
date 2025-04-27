@@ -19,8 +19,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/hnsw/heap"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/hnsw/heap"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 type Vector = []float32

@@ -1,0 +1,30 @@
+package "gmlewis/modus/pkg/testutils"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+fn pop[T](CallStack[T]) -> Array[T]
+
+fn push[T](CallStack[T], Array[T]) -> Unit
+
+// Types and methods
+pub(all) struct CallStack[T] {
+  items : Array[Array[T]]
+}
+impl CallStack {
+  new[T]() -> Self[T]
+  pop[T](Self[T]) -> Array[T]
+  push[T](Self[T], Array[T]) -> Unit
+  size[T](Self[T]) -> Int
+}
+impl[T : Eq] Eq for CallStack[T]
+impl[T : Show] Show for CallStack[T]
+impl[T : ToJson] ToJson for CallStack[T]
+impl[T : @json.FromJson] @json.FromJson for CallStack[T]
+
+// Type aliases
+
+// Traits
+

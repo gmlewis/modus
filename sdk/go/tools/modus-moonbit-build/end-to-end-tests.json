@@ -1,0 +1,472 @@
+{
+  "plugins": [
+    {
+      "name": "test-suite",
+      "path": "sdk/moonbit/examples/test-suite",
+      "endpoints": [
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_empty_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_empty_string(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_empty_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_empty_string_WithDefaults\n}","variables":{}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_none",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_none(some: $some)\n}","variables":{"some":true}},
+          "expect": ""
+        },
+        {
+          "name": "hello_option_none_WithDefaults",
+          "query": {"query":"query {\n  hello_option_none_WithDefaults\n}","variables":{}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":false}},
+          "expect": null
+        },
+        {
+          "name": "hello_option_some_string",
+          "query": {"query":"query($some: Boolean!) {\n  hello_option_some_string(some: $some)\n}","variables":{"some":true}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_option_some_string_WithDefaults",
+          "query": {"query":"query {\n  hello_option_some_string_WithDefaults\n}","variables":{}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_world",
+          "query": {"query":"query {\n  hello_world\n}","variables":{}},
+          "expect": "Hello, World!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":""}},
+          "expect": "Hello, !"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"MoonBit"}},
+          "expect": "Hello, MoonBit!"
+        },
+        {
+          "name": "hello_world_with_optional_arg",
+          "query": {"query":"query($name: String!) {\n  hello_world_with_optional_arg(name: $name)\n}","variables":{"name":"世界 🌍"}},
+          "expect": "Hello, 世界 🌍!"
+        },
+        {
+          "name": "hello_world_with_optional_arg_WithDefaults",
+          "query": {"query":"query {\n  hello_world_with_optional_arg_WithDefaults\n}","variables":{}},
+          "expect": "Hello, 世界 🌍 from MoonBit!"
+        },
+        {
+          "name": "hello_array_of_ints_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_ints_WithDefaults\n}","variables":{}},
+          "expect": [1,2,3]
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints(n: $n)\n}","variables":{"n":6}},
+          "expect": [1,2,3,4,5,6]
+        },
+        {
+          "name": "hello_array_of_ints_option_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_ints_option_WithDefaults\n}","variables":{}},
+          "expect": [1,2,3]
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_ints_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_ints_option(n: $n)\n}","variables":{"n":6}},
+          "expect": [1,2,3,4,5,6]
+        },
+        {
+          "name": "hello_array_of_strings_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_strings_WithDefaults\n}","variables":{}},
+          "expect": ["1","2","3"]
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings(n: $n)\n}","variables":{"n":6}},
+          "expect": ["1","2","3","4","5","6"]
+        },
+        {
+          "name": "hello_array_of_strings_option_WithDefaults",
+          "query": {"query":"query {\n  hello_array_of_strings_option_WithDefaults\n}","variables":{}},
+          "expect": ["1","2","3"]
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_array_of_strings_option",
+          "query": {"query":"query($n: Int!) {\n  hello_array_of_strings_option(n: $n)\n}","variables":{"n":6}},
+          "expect": ["1","2","3","4","5","6"]
+        },
+        {
+          "name": "hello_primitive_bool_min",
+          "query": {"query":"query {\n  hello_primitive_bool_min\n}","variables":{}},
+          "expect": false
+        },
+        {
+          "name": "hello_primitive_bool_max",
+          "query": {"query":"query {\n  hello_primitive_bool_max\n}","variables":{}},
+          "expect": true
+        },
+        {
+          "name": "hello_primitive_byte_min",
+          "query": {"query":"query {\n  hello_primitive_byte_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_byte_max",
+          "query": {"query":"query {\n  hello_primitive_byte_max\n}","variables":{}},
+          "expect": 255
+        },
+        {
+          "name": "hello_primitive_char_min",
+          "query": {"query":"query {\n  hello_primitive_char_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_char_max",
+          "query": {"query":"query {\n  hello_primitive_char_max\n}","variables":{}},
+          "expect": -1
+        },
+        {
+          "name": "hello_primitive_double_min",
+          "query": {"query":"query {\n  hello_primitive_double_min\n}","variables":{}},
+          "expect": -1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_double_max",
+          "query": {"query":"query {\n  hello_primitive_double_max\n}","variables":{}},
+          "expect": 1.7976931348623157e+308
+        },
+        {
+          "name": "hello_primitive_float_min",
+          "query": {"query":"query {\n  hello_primitive_float_min\n}","variables":{}},
+          "expect": -3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_float_max",
+          "query": {"query":"query {\n  hello_primitive_float_max\n}","variables":{}},
+          "expect": 3.4028235e+38
+        },
+        {
+          "name": "hello_primitive_int_min",
+          "query": {"query":"query {\n  hello_primitive_int_min\n}","variables":{}},
+          "expect": -2147483648
+        },
+        {
+          "name": "hello_primitive_int_max",
+          "query": {"query":"query {\n  hello_primitive_int_max\n}","variables":{}},
+          "expect": 2147483647
+        },
+        {
+          "name": "hello_primitive_int16_min",
+          "query": {"query":"query {\n  hello_primitive_int16_min\n}","variables":{}},
+          "expect": -32768
+        },
+        {
+          "name": "hello_primitive_int16_max",
+          "query": {"query":"query {\n  hello_primitive_int16_max\n}","variables":{}},
+          "expect": 32767
+        },
+        {
+          "name": "hello_primitive_int64_min",
+          "query": {"query":"query {\n  hello_primitive_int64_min\n}","variables":{}},
+          "expect": -9223372036854776000
+        },
+        {
+          "name": "hello_primitive_int64_max",
+          "query": {"query":"query {\n  hello_primitive_int64_max\n}","variables":{}},
+          "expect": 9223372036854776000
+        },
+        {
+          "name": "hello_primitive_uint_min",
+          "query": {"query":"query {\n  hello_primitive_uint_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint_max",
+          "query": {"query":"query {\n  hello_primitive_uint_max\n}","variables":{}},
+          "expect": 4294967295
+        },
+        {
+          "name": "hello_primitive_uint16_min",
+          "query": {"query":"query {\n  hello_primitive_uint16_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint16_max",
+          "query": {"query":"query {\n  hello_primitive_uint16_max\n}","variables":{}},
+          "expect": 65535
+        },
+        {
+          "name": "hello_primitive_uint64_min",
+          "query": {"query":"query {\n  hello_primitive_uint64_min\n}","variables":{}},
+          "expect": 0
+        },
+        {
+          "name": "hello_primitive_uint64_max",
+          "query": {"query":"query {\n  hello_primitive_uint64_max\n}","variables":{}},
+          "expect": 18446744073709552000
+        },
+        {
+          "name": "hello_maps_n_items_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
+        },
+        {
+          "name": "hello_maps_n_items_option_WithDefaults",
+          "query": {"query":"query {\n  hello_maps_n_items_option_WithDefaults {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"},{"key":"key3","value":"value3"}]
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":-1}},
+          "expect": null
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":0}},
+          "expect": []
+        },
+        {
+          "name": "hello_maps_n_items_option",
+          "query": {"query":"query($n: Int!) {\n  hello_maps_n_items_option(n: $n) {\n    key\n    value\n  }\n}","variables":{"n":2}},
+          "expect": [{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]
+        },
+        {
+          "name": "local_time",
+          "query": {"query":"query {\n  local_time\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[-+]\\d{2}:\\d{2}\\[.*\\]\"$"
+        },
+        {
+          "name": "local_time_zone_id",
+          "query": {"query":"query {\n  local_time_zone_id\n}","variables":{}},
+          "regexp": "^\"[a-zA-Z_]+/[a-zA-Z_]+\"$"
+        },
+        {
+          "name": "time_in_zone",
+          "query": {"query":"query($tz: String!) {\n  time_in_zone(tz: $tz)\n}","variables":{"tz":"America/Los_Angeles"}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[-+]\\d{2}:\\d{2}\\[.*\\]\"$"
+        },
+        {
+          "name": "time_zone_info",
+          "query": {"query":"query($tz: String!) {\n  time_zone_info(tz: $tz) {\n    standard_name\n    standard_offset\n    daylight_name\n    daylight_offset\n  }\n}","variables":{"tz":"America/Los_Angeles"}},
+          "expect": {"daylight_name":"PDT","daylight_offset":"-07:00","standard_name":"PST","standard_offset":"-08:00"}
+        },
+        {
+          "name": "utc_time",
+          "query": {"query":"query {\n  utc_time\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z\"$"
+        },
+        {
+          "name": "log_message",
+          "query": {"query":"query($message: String!) {\n  log_message(message: $message)\n}","variables":{"message":"test message"}},
+          "expect": null
+        },
+        {
+          "name": "add",
+          "query": {"query":"mutation($x: Int!, $y: Int!) {\n  add(x: $x, y: $y)\n}","variables":{"x":1,"y":2}},
+          "expect": 3
+        },
+        {
+          "name": "add3",
+          "query": {"query":"mutation($a: Int!, $b: Int!, $c: Int!) {\n  add3(a: $a, b: $b, c: $c)\n}","variables":{"a":1,"b":2,"c":3}},
+          "expect": 6
+        },
+        {
+          "name": "current_time",
+          "query": {"query":"query {\n  current_time\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z\"$"
+        },
+        {
+          "name": "current_time_formatted",
+          "query": {"query":"query {\n  current_time_formatted\n}","variables":{}},
+          "regexp": "^\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z\"$"
+        },
+        {
+          "name": "full_name",
+          "query": {"query":"query($first_name: String!, $last_name: String!) {\n  full_name(first_name: $first_name, last_name: $last_name)\n}","variables":{"first_name":"Joe","last_name":"Rocket"}},
+          "expect": "Joe Rocket"
+        },
+        {
+          "name": "person",
+          "query": {"query":"query {\n  person {\n    firstName\n    lastName\n    age\n  }\n}","variables":{}},
+          "expect": {"age":42,"firstName":"John","lastName":"Doe"}
+        },
+        {
+          "name": "random_person",
+          "query": {"query":"query {\n  random_person {\n    firstName\n    lastName\n    age\n  }\n}","variables":{}},
+          "expect": {"age":8,"firstName":"Charlie","lastName":"Brown"}
+        },
+        {
+          "name": "test_normal_error",
+          "query": {"query":"query($input: String!) {\n  test_normal_error(input: $input)\n}","variables":{"input":"error message"}},
+          "expect": "You said: error message"
+        },
+        {
+          "name": "test_alternative_error",
+          "query": {"query":"query($input: String!) {\n  test_alternative_error(input: $input)\n}","variables":{"input":"error message"}},
+          "expect": "You said: error message"
+        },
+        {
+          "name": "test_abort",
+          "query": {"query":"query {\n  test_abort\n}","variables":{}},
+          "expect": null,
+          "errors": [{"message":"error calling function","path":["test_abort"]}]
+        },
+        {
+          "name": "test_exit",
+          "query": {"query":"query {\n  test_exit\n}","variables":{}},
+          "expect": null,
+          "errors": [{"message":"error calling function","path":["test_exit"]}]
+        },
+        {
+          "name": "test_logging",
+          "query": {"query":"query {\n  test_logging\n}","variables":{}},
+          "expect": null,
+          "errors": [
+            {
+              "message": "This is an error message.",
+              "path": ["test_logging"]
+            },
+            {
+              "message": "This is line 1 of a multi-line error message.\nThis is line 2 of a multi-line error message.\nThis is line 3 of a multi-line error message.",
+              "path": ["test_logging"]
+            }
+          ]
+        },
+        {
+          "name": "test_tuple_output",
+          "query": {"query":"query {\n  test_tuple_output {\n    t0\n    t1\n    t2\n  }\n}","variables":{}},
+          "expect": {"t0":123,"t1":true,"t2":"hello"}
+        },
+        {
+          "name": "test_tuple_simulator",
+          "query": {"query":"query {\n  test_tuple_simulator {\n    t0\n    t1\n    t2\n  }\n}","variables":{}},
+          "expect": {"t0":123,"t1":true,"t2":"hello"}
+        },
+        {
+          "name": "make_test_map",
+          "query": {"query":"query($size: Int!) {\n  make_test_map(size: $size) {\n    key\n    value\n  }\n}","variables":{"size":3}},
+          "expect": [{"key":"key_000","value":"val_000"},{"key":"key_001","value":"val_001"},{"key":"key_002","value":"val_002"}]
+        },
+        {
+          "name": "test_map_option_output_string_string",
+          "query": {"query":"query {\n  test_map_option_output_string_string {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"a","value":"1"},{"key":"b","value":"2"},{"key":"c","value":"3"}]
+        },
+        {
+          "name": "test_map_output_string_string",
+          "query": {"query":"query {\n  test_map_output_string_string {\n    key\n    value\n  }\n}","variables":{}},
+          "expect": [{"key":"a","value":"1"},{"key":"b","value":"2"},{"key":"c","value":"3"}]
+        },
+        {
+          "name": "test_struct_containing_map_output_string_string",
+          "query": {"query":"query {\n  test_struct_containing_map_output_string_string {\n    m {\n      key\n      value\n    }\n  }\n}","variables":{}},
+          "expect": {"m": [{"key": "a","value": "1"},{"key": "b","value": "2"},{"key": "c","value": "3"}]}
+        },
+        {
+          "name": "test_array_output_int_option",
+          "query": {"query":"query {\n  test_array_output_int_option\n}","variables":{}},
+          "expect": [11,null,33]
+        },
+        {
+          "name": "test_array_output_string_option",
+          "query": {"query":"query {\n  test_array_output_string_option\n}","variables":{}},
+          "expect": ["abc",null,"ghi"]
+        },
+        {
+          "name": "test_array_input_string",
+          "query": {"query":"query($val: [String!]!) {\n  test_array_input_string(val: $val)\n}","variables":{"val":["abc","def","ghi"]}},
+          "expect": 0
+        }
+      ]
+    }
+  ]
+}

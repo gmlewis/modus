@@ -11,7 +11,7 @@
 
 package dgraph
 
-import "github.com/hypermodeinc/modus/sdk/go/pkg/testutils"
+import "github.com/gmlewis/modus/sdk/go/pkg/testutils"
 
 var DgraphQueryCallStack = testutils.NewCallStack()
 var DgraphAlterSchemaCallStack = testutils.NewCallStack()

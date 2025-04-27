@@ -1,6 +1,6 @@
 EXECUTABLE := modus_runtime
 VERSION := $(shell git describe --tags --always --match 'runtime/*' | sed 's/^runtime\///')
-LDFLAGS := -s -w -X github.com/hypermodeinc/modus/runtime/app.version=$(VERSION)
+LDFLAGS := -s -w -X github.com/gmlewis/modus/runtime/app.version=$(VERSION)
 
 ifneq ($(OS), Windows_NT)
 	OS := $(shell uname -s)
@@ -38,7 +38,7 @@ runapp:
 	MODUS_ENV=dev go run . -appPath $$ARGS
 
 .PHONY: build-testdata
-build-testdata: build-testdata-assemblyscript build-testdata-golang
+build-testdata: build-testdata-assemblyscript build-testdata-golang build-testdata-moonbit
 
 .PHONY: build-testdata-assemblyscript
 build-testdata-assemblyscript:
@@ -47,6 +47,10 @@ build-testdata-assemblyscript:
 .PHONY: build-testdata-golang
 build-testdata-golang:
 	cd languages/golang/testdata && ./build.sh
+
+.PHONY: build-testdata-moonbit
+build-testdata-moonbit:
+	cd languages/moonbit/testdata && ./build.sh
 
 .PHONY: test
 test:

@@ -9,7 +9,7 @@
 
 package mysql
 
-import "github.com/hypermodeinc/modus/sdk/go/pkg/db"
+import "github.com/gmlewis/modus/sdk/go/pkg/db"
 
 const dbType = "mysql"
 

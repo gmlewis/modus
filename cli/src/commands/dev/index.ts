@@ -272,7 +272,7 @@ export default class DevCommand extends BaseCommand {
       try {
         runtimeOutput.pause();
         this.log();
-        this.log(chalk.magentaBright("Detected manifest change. Applying..."));
+        this.log(chalk.magentaBright(`Detected manifest change. Copying '${sourcePath}' to '${outputPath}'...`));
         await fs.copyFile(sourcePath, outputPath);
       } catch (e) {
         this.log(chalk.red(`Failed to copy ${MANIFEST_FILE} to build directory.`), e);
@@ -293,7 +293,7 @@ export default class DevCommand extends BaseCommand {
         try {
           runtimeOutput.pause();
           this.log();
-          this.log(chalk.magentaBright("Detected manifest deleted. Applying..."));
+          this.log(chalk.magentaBright(`Detected manifest deleted. Deleting '${outputPath}'...`));
           await fs.unlink(outputPath);
         } catch (e) {
           this.log(chalk.red(`Failed to delete ${MANIFEST_FILE} from build directory.`), e);
@@ -308,8 +308,9 @@ export default class DevCommand extends BaseCommand {
     let lastModified = 0;
     let lastBuild = 0;
     let paused = true;
+    let building = false;
     setInterval(async () => {
-      if (paused) {
+      if (paused || building) {
         return;
       }
       paused = true;
@@ -317,19 +318,21 @@ export default class DevCommand extends BaseCommand {
       if (lastBuild > lastModified) {
         return;
       }
+      building = true;
       lastBuild = Date.now();
 
       try {
         runtimeOutput.pause();
-        this.log();
-        this.log(chalk.magentaBright("Detected source code change. Rebuilding..."));
-        this.log();
+        // Note that this event fires multiple times during the compilation
+        // process itself. Therefore, this event is guarded by the `building`
+        // bool that keeps track if a build is already in progress.
         await BuildCommand.run([appPath, "--no-logo"]);
       } catch {
         this.log(chalk.magenta("Waiting for more changes..."));
         this.log(chalk.dim("Press Ctrl+C at any time to stop the server."));
       } finally {
         runtimeOutput.resume();
+        building = false;
       }
     }, delay);
 
@@ -359,7 +362,11 @@ export default class DevCommand extends BaseCommand {
         ignoreInitial: true,
         persistent: true,
       })
-      .on("all", () => {
+      .on("all", (event, sourcePath) => {
+        if (building) { return; }
+        this.log()
+        this.log(chalk.magentaBright(`Detected source code event '${event}' to '${sourcePath}'. Rebuilding...`));
+        this.log()
         lastModified = Date.now();
         paused = false;
       });
@@ -372,7 +379,7 @@ export default class DevCommand extends BaseCommand {
 
 function getGlobsToWatch(sdk: SDK) {
   const included: string[] = [];
-  const excluded: string[] = [".git/**", "build/**"];
+  const excluded: string[] = [".git/**", ".modusdb/**", "build/**"];
 
   switch (sdk) {
     case SDK.AssemblyScript:
@@ -383,6 +390,11 @@ function getGlobsToWatch(sdk: SDK) {
     case SDK.Go:
       included.push("**/*.go", "**/go.mod");
       excluded.push("**/*_generated.go", "**/*.generated.go", "**/*_test.go");
+      break;
+
+    case SDK.MoonBit:
+      included.push("**/*.mbt", "**/moon.mod.json", "**/moon.pkg.json");
+      excluded.push(".mooncakes", "target", "**/*_generated.mbt", "**/*.generated.mbt", "**/*_test.mbt", "**/*_wbtest.mbt", "**/*_bbtest.mbt");
       break;
 
     default:

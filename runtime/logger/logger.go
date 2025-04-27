@@ -16,8 +16,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	zls "github.com/archdx/zerolog-sentry"
 	"github.com/getsentry/sentry-go"

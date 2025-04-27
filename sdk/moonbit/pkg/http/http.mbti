@@ -1,0 +1,116 @@
+package "gmlewis/modus/pkg/http"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+fn append(Headers, String, String) -> Unit
+
+fn entries(Headers) -> Array[(String, String)]
+
+fn fetch(Request) -> Response!
+
+fn fetch_url(String, options~ : Array[RequestOptions] = ..) -> Response!
+
+fn get(Headers, String) -> String
+
+fn host_fetch(Request) -> Response!
+
+fn json[T : @json.FromJson](Content) -> T!
+
+fn ok(Response) -> Bool
+
+fn text(Content) -> String
+
+// Types and methods
+pub(all) struct Content {
+  data : String
+}
+impl Content {
+  json[T : @json.FromJson](Self) -> T!
+  new(Json) -> Self
+  text(Self) -> String
+}
+impl Eq for Content
+impl Show for Content
+impl ToJson for Content
+impl @json.FromJson for Content
+
+pub(all) struct Header {
+  name : String
+  values : Array[String]
+}
+impl Eq for Header
+impl Show for Header
+impl ToJson for Header
+impl @json.FromJson for Header
+
+pub(all) struct Headers {
+  data : Map[String, Header?]
+}
+impl Headers {
+  append(Self, String, String) -> Unit
+  clone(Self) -> Self
+  entries(Self) -> Array[(String, String)]
+  from_array(Array[Array[String]]) -> Self
+  from_map(Map[String, String]) -> Self
+  from_map_array(Map[String, Array[String]]) -> Self
+  from_tuples(Array[(String, String)]) -> Self
+  get(Self, String) -> String
+  new() -> Self
+}
+impl Eq for Headers
+impl Show for Headers
+impl ToJson for Headers
+impl @json.FromJson for Headers
+
+pub(all) type! HttpError String
+impl Eq for HttpError
+impl Show for HttpError
+
+pub(all) struct Request {
+  url : String
+  method_ : String
+  headers : Headers?
+  body : Array[Byte]
+}
+impl Request {
+  clone(Self, Array[RequestOptions]) -> Self
+  fetch(Self) -> Response!
+  json[T : @json.FromJson](Self) -> T!
+  new(String, options~ : Array[RequestOptions] = ..) -> Self
+  text(Self) -> String
+}
+impl Eq for Request
+impl Show for Request
+
+pub(all) enum RequestOptions {
+  Method(String)
+  HeaderArray(Array[Array[String]])
+  HeaderMap(Map[String, String])
+  HeaderMapArray(Map[String, Array[String]])
+  HeaderTuples(Array[(String, String)])
+  BodyString(String)
+  BodyJson(Json)
+}
+
+pub(all) struct Response {
+  status : UInt16
+  status_text : String
+  headers : Headers?
+  body : Array[Byte]
+}
+impl Response {
+  json[T : @json.FromJson](Self) -> T!
+  ok(Self) -> Bool
+  text(Self) -> String
+  to_ints(Self) -> Array[Int]
+}
+impl Eq for Response
+impl Show for Response
+
+// Type aliases
+
+// Traits
+

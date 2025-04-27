@@ -12,8 +12,8 @@ package envfiles
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/storage"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/storage"
 )
 
 func MonitorEnvFiles(ctx context.Context) {

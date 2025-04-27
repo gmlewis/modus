@@ -48,6 +48,10 @@ export async function fetchModusLatest() {
     throw new Error(`Error fetching latest SDK versions: response was empty`);
   }
 
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = "v0.16.5"
+  data["runtime"] = "v0.16.5"
+
   versionData.latest = data;
   return data;
 }
@@ -64,6 +68,10 @@ export async function fetchModusPreview() {
   if (!data) {
     throw new Error(`Error fetching latest preview SDK versions: response was empty`);
   }
+
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = "v0.16.5"
+  data["runtime"] = "v0.16.5"
 
   versionData.preview = data;
   return data;
@@ -82,6 +90,10 @@ export async function fetchModusAll() {
     throw new Error(`Error fetching all SDK versions: response was empty`);
   }
 
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = ["v0.16.5"]
+  data["runtime"] = ["v0.16.5"]
+
   versionData.all = data;
   return data;
 }
@@ -98,6 +110,10 @@ export async function fetchModusPreviewAll() {
   if (!data) {
     throw new Error(`Error fetching all preview SDK versions: response was empty`);
   }
+
+  // TODO(gmlewis): temporary hack to be removed upon official release
+  data["sdk/moonbit"] = ["v0.16.5"]
+  data["runtime"] = ["v0.16.5"]
 
   versionData.allPreview = data;
   return data;
@@ -135,7 +151,8 @@ export async function fetchItemVersionsFromModusPreviewAll(item: string): Promis
 
 export async function getLatestSdkVersion(sdk: globals.SDK, includePrerelease: boolean): Promise<string | undefined> {
   const data = includePrerelease ? await fetchModusPreview() : await fetchModusLatest();
-  const version = data["sdk/" + sdk.toLowerCase()];
+  const name = globals.parseSDK(sdk);
+  const version = data["sdk/" + name.toLowerCase()];
   return version ? version : undefined;
 }
 

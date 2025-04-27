@@ -11,7 +11,10 @@ package wasmhost
 
 import (
 	"context"
+	"fmt"
+	"os"
 	"time"
+	"unicode/utf16"
 
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
@@ -36,6 +39,68 @@ func instantiateEnvHostFunctions(ctx context.Context, r wazero.Runtime) error {
 	_, err := r.NewHostModuleBuilder("env").
 		NewFunctionBuilder().WithGoFunction(
 		api.GoFunc(dateNow), nil, []api.ValueType{api.ValueTypeF64}).Export("Date.now").
+		Instantiate(ctx)
+	if err != nil {
+		return err
+	}
+
+	// MoonBit has a package "moonbitlang/x/sys" that has "@sys.exit" but relies on
+	// a host function "__moonbit_sys_unstable" "exit" to implement it.
+	sysExit := func(ctx context.Context, stack []uint64) {
+		code := stack[0]
+		// Cause wazero to stop executing the plugin immediately.
+		panic(fmt.Sprintf("sysExit called with code: %v", code))
+	}
+	_, err = r.NewHostModuleBuilder("__moonbit_sys_unstable").
+		NewFunctionBuilder().WithGoFunction(
+		api.GoFunc(sysExit), []api.ValueType{api.ValueTypeI32}, nil).Export("exit").
+		Instantiate(ctx)
+	if err != nil {
+		return err
+	}
+
+	// MoonBit has a function `println` that is used to print to the console.
+	// It is implemented in the host environment with a function called `spectest.print_char`
+	// that prints a single character at a time to stderr. However, we buffer it until
+	// a newline is encountered, at which point we print the entire line to stderr
+	// (along with an extra newline just for visibility).
+	var printBuffer string
+	var highSurrogate uint16 // Temporary storage for a high surrogate
+	printChar := func(ctx context.Context, stack []uint64) {
+		utf16CodeUnit := uint16(stack[0])
+
+		// Check if the code unit is a high surrogate
+		if utf16CodeUnit >= 0xD800 && utf16CodeUnit <= 0xDBFF {
+			// Store the high surrogate and wait for the low surrogate
+			highSurrogate = utf16CodeUnit
+			return
+		}
+
+		// Check if the code unit is a low surrogate
+		if utf16CodeUnit >= 0xDC00 && utf16CodeUnit <= 0xDFFF {
+			// If we have a stored high surrogate, decode the surrogate pair
+			if highSurrogate != 0 {
+				// Decode the surrogate pair into a UTF-8 string
+				decodedString := string(utf16.Decode([]uint16{highSurrogate, utf16CodeUnit}))
+				printBuffer += decodedString
+				highSurrogate = 0 // Reset the high surrogate
+			} else {
+				printBuffer += string(rune(utf16CodeUnit))
+			}
+			return
+		}
+		// Regular UTF-16 code unit (not part of a surrogate pair)
+		printBuffer += string(rune(utf16CodeUnit))
+
+		if utf16CodeUnit == '\n' {
+			fmt.Fprintf(os.Stderr, "println: %v\n", printBuffer) // yes, two newlines here for visibility.
+			printBuffer = ""
+		}
+	}
+
+	_, err = r.NewHostModuleBuilder("spectest").
+		NewFunctionBuilder().WithGoFunction(
+		api.GoFunc(printChar), []api.ValueType{api.ValueTypeI32}, nil).Export("print_char").
 		Instantiate(ctx)
 
 	return err
