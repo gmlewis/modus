@@ -25,11 +25,17 @@ func StripError(typeSignature string) (string, bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
 		return typeSignature[:i], true
 	}
+	if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+		return typeSignature[:i], true
+	}
 	return typeSignature, false
 }
 
 func StripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		hasError = true
+		typeSignature = typeSignature[:i]
+	} else if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
 		hasError = true
 		typeSignature = typeSignature[:i]
 	}
@@ -407,7 +413,10 @@ func fullyQualifyTypeNameWithAcc(pkgName, typeName string, accumulator map[strin
 		}
 		i := strings.Index(typeName, "!")
 		if i < 0 {
-			log.Fatalf("PROGRAMMING ERROR: FullyQualifyTypeName not handling error for typeName='%v'", typeName)
+			i = strings.Index(typeName, " raise ")
+			if i < 0 {
+				log.Fatalf("PROGRAMMING ERROR: FullyQualifyTypeName not handling error for typeName='%v'", typeName)
+			}
 		}
 		return restoreDefaultValue(s + typeName[i:])
 	}

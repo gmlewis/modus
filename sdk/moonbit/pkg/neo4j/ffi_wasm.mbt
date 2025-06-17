@@ -14,7 +14,7 @@ pub fn host_execute_query(
   db_name : String,
   query : String,
   parameters_json : Map[String, Json]
-) -> EagerResult?!Error {
+) -> EagerResult? raise Error {
   let json_str = @json.stringify(parameters_json.to_json())
   println(
     "GML: neo4j/ffi_wasm.mbt: host_execute_query: host_name=\{host_name}, db_name=\{db_name}, query=\{query}, parameters_json=\{json_str}",
@@ -41,4 +41,4 @@ pub fn host_execute_query(
 }
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"

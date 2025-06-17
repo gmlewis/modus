@@ -53,10 +53,9 @@ pub fn Request::clone(
         headers = Headers::from_map_array(value)
       RequestOptions::HeaderTuples(value) =>
         headers = Headers::from_tuples(value)
-      RequestOptions::BodyString(value) =>
-        body = @string.to_bytes(value).to_array() // TODO: utf8/utf16
+      RequestOptions::BodyString(value) => body = value.to_bytes().to_array() // TODO: utf8/utf16
       RequestOptions::BodyJson(value) =>
-        body = @string.to_bytes(@json.stringify(value)).to_array()
+        body = value.stringify().to_bytes().to_array()
     }
   }
   let data = headers.entries()
@@ -70,6 +69,6 @@ pub fn Request::text(self : Request) -> String {
 }
 
 ///|
-pub fn Request::json[T : @json.FromJson](self : Request) -> T!Error {
-  @json.from_json!(@json.parse!(self.body.to_string())) // TODO
+pub fn[T : @json.FromJson] Request::json(self : Request) -> T raise Error {
+  @json.from_json(@json.parse(self.body.to_string())) // TODO
 }

@@ -20,11 +20,11 @@ pub(all) type EmbeddingsModel @models.ModelBase derive (
 pub fn EmbeddingsModel::invoke(
   self : EmbeddingsModel,
   input : EmbeddingsModelInput
-) -> EmbeddingsModelOutput!Error {
+) -> EmbeddingsModelOutput raise Error {
   let input_json = input.to_json()
-  let output_json = self._.invoke!(input_json)
+  let output_json = self.inner().invoke(input_json)
   // println("got output_json=\{output_json}")
-  @json.from_json!(output_json)
+  @json.from_json(output_json)
 }
 
 // type EmbeddingsModel struct {
@@ -48,7 +48,7 @@ pub(all) struct EmbeddingsModelOutput {
 ///|
 pub impl @json.FromJson for EmbeddingsModelOutput with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let predictions : Array[Array[Double]] = @json.from_json!(
+  let predictions : Array[Array[Double]] = @json.from_json(
     json.get("predictions").unwrap(),
   )
   // TODO: There must be a better way to do this.
@@ -67,7 +67,7 @@ pub impl @json.FromJson for EmbeddingsModelOutput with from_json(json, _path) {
 pub fn EmbeddingsModel::create_input(
   _self : EmbeddingsModel,
   content : Array[String]
-) -> EmbeddingsModelInput!Error {
+) -> EmbeddingsModelInput raise Error {
   if content.is_empty() {
     raise ExperimentalError("at least one text string must be provided")
   }

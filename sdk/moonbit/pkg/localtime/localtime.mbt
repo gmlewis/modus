@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-priv type! LocaltimeError String derive(Show, Eq)
+priv suberror LocaltimeError String derive(Show, Eq)
 
 ///| now returns the current time in the given time zone (or the local time zone if none is provided).
 ///
@@ -14,7 +14,7 @@ priv type! LocaltimeError String derive(Show, Eq)
 /// - If the X-Time-Zone header is present in the request, the time zone is set to the value of the header.
 /// - If the TZ environment variable is set on the host, the time zone is set to the value of the variable.
 /// - Otherwise, the time zone is set to the host's local time zone.
-pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
+pub fn now(timezone~ : String = "") -> @time.ZonedDateTime raise Error {
   let timezone = if timezone == "" {
     get_local_time_zone_id()
   } else {
@@ -25,12 +25,12 @@ pub fn now(timezone~ : String = "") -> @time.ZonedDateTime!Error {
   if timezone == "" {
     // If still empty, let the host get the local time.
     let s = host_get_local_time_modus()
-    let pdt = @time.PlainDateTime::from_string!(s)
+    let pdt = @time.PlainDateTime::from_string(s)
     return @time.ZonedDateTime::from_plain_datetime(pdt)
   }
   let now = @wasi.now() / 1_000_000_000
-  let zone = get_time_zone!(timezone~)
-  @time.unix!(now, zone~)
+  let zone = get_time_zone(timezone~)
+  @time.unix(now, zone~)
 }
 
 ///| get_local_time_zone_id returns the local time zone identifier, in IANA format
@@ -42,7 +42,7 @@ pub fn get_local_time_zone_id() -> String {
 ///| get_time_zone returns the @time.Zone for the given time zone (or the local
 /// time zone if none is provided).
 /// `timezone` should be a valid IANA time zone identifier, such as "America/New_York".
-pub fn get_time_zone(timezone~ : String = "") -> @time.Zone!Error {
+pub fn get_time_zone(timezone~ : String = "") -> @time.Zone raise Error {
   let timezone = if timezone == "" {
     get_local_time_zone_id()
   } else {
@@ -55,7 +55,7 @@ pub fn get_time_zone(timezone~ : String = "") -> @time.Zone!Error {
   if result.length() == 0 {
     raise LocaltimeError("time zone '\{timezone}' not found")
   }
-  @time.Zone::from_tzif2!(timezone, result)
+  @time.Zone::from_tzif2(timezone, result)
 }
 
 ///| is_valid_time_zone returns true if the given time zone is valid.

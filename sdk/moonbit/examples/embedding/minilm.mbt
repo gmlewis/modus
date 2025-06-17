@@ -5,17 +5,17 @@
 ///|
 pub fn get_embeddings_for_text_with_mini_lm(
   text : String
-) -> Array[Float]!Error {
-  let results = get_embeddings_for_texts_with_mini_lm!([text])
+) -> Array[Float] raise Error {
+  let results = get_embeddings_for_texts_with_mini_lm([text])
   results[0]
 }
 
 ///|
 pub fn get_embeddings_for_texts_with_mini_lm(
   texts : Array[String]
-) -> Array[Array[Float]]!Error {
-  let model : @experimental.EmbeddingsModel = @models.get_model!("minilm")
-  let input = model.create_input!(texts)
-  let output = model.invoke!(input)
+) -> Array[Array[Float]] raise Error {
+  let model : @experimental.EmbeddingsModel = @models.get_model("minilm")
+  let input = model.create_input(texts)
+  let output = model.invoke(input)
   output.predictions
 }

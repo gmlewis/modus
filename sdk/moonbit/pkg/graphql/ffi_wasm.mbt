@@ -6,14 +6,14 @@ fn wasmImportExecuteQuery(
 ) -> Int = "modus_graphql_client" "executeQuery"
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"
 
 ///| Execute a GraphQL query with variables
 pub fn host_execute_query(
   host_name : String,
   statement : String,
   variables : String
-) -> String!Error {
+) -> String raise Error {
   let host_name : Int = cast(host_name)
   let statement : Int = cast(statement)
   let variables : Int = cast(variables)

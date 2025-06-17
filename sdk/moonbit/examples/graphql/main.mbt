@@ -13,7 +13,7 @@ const HOST_NAME = "countries-api"
 /// Must match one of the http connections defined in the modus.json manifest file.
 
 ///| Function to list all countries returned by the API
-pub fn countries() -> Array[Country]!Error {
+pub fn countries() -> Array[Country] raise Error {
   let statement =
     #|query {
     #|  countries{
@@ -24,7 +24,7 @@ pub fn countries() -> Array[Country]!Error {
     #|}
   // Execute the GraphQL query using the host name and query statement
   // The API returns a response of type `CountriesResponse` containing an array of `Country` objects
-  let response : @graphql.Response[CountriesResponse] = @graphql.execute!(
+  let response : @graphql.Response[CountriesResponse] = @graphql.execute(
     HOST_NAME,
     statement,
   )
@@ -35,7 +35,7 @@ pub fn countries() -> Array[Country]!Error {
 }
 
 ///| Function to retrieve a specific country by its unique code
-pub fn get_country_by_code(code : String) -> Country?!Error {
+pub fn get_country_by_code(code : String) -> Country? raise Error {
   let statement =
     #|query ($code: ID!){
     #|  country(code: $code){
@@ -48,7 +48,7 @@ pub fn get_country_by_code(code : String) -> Country?!Error {
   let vars = { "code": code.to_json() }
   // Execute the GraphQL query using the host name, statement, and vars map
   // The API returns a response of type `CountryResponse` containing a single `Country` object
-  let response : @graphql.Response[CountryResponse] = @graphql.execute!(
+  let response : @graphql.Response[CountryResponse] = @graphql.execute(
     HOST_NAME,
     statement,
     vars~,

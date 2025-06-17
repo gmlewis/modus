@@ -76,61 +76,61 @@ pub fn test_array_output_byte_option_4() -> Array[Byte?] {
 }
 
 ///|
-pub fn test_array_input_byte_0(val : Array[Byte]) -> Unit!Error {
+pub fn test_array_input_byte_0(val : Array[Byte]) -> Unit raise Error {
   let expected = test_array_output_byte_0()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_1(val : Array[Byte]) -> Unit!Error {
+pub fn test_array_input_byte_1(val : Array[Byte]) -> Unit raise Error {
   let expected = test_array_output_byte_1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_2(val : Array[Byte]) -> Unit!Error {
+pub fn test_array_input_byte_2(val : Array[Byte]) -> Unit raise Error {
   let expected = test_array_output_byte_2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_3(val : Array[Byte]) -> Unit!Error {
+pub fn test_array_input_byte_3(val : Array[Byte]) -> Unit raise Error {
   let expected = test_array_output_byte_3()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_4(val : Array[Byte]) -> Unit!Error {
+pub fn test_array_input_byte_4(val : Array[Byte]) -> Unit raise Error {
   let expected = test_array_output_byte_4()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_option_0(val : Array[Byte?]) -> Unit!Error {
+pub fn test_array_input_byte_option_0(val : Array[Byte?]) -> Unit raise Error {
   let expected = test_array_output_byte_option_0()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_option_1(val : Array[Byte?]) -> Unit!Error {
+pub fn test_array_input_byte_option_1(val : Array[Byte?]) -> Unit raise Error {
   let expected = test_array_output_byte_option_1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_option_2(val : Array[Byte?]) -> Unit!Error {
+pub fn test_array_input_byte_option_2(val : Array[Byte?]) -> Unit raise Error {
   let expected = test_array_output_byte_option_2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_option_3(val : Array[Byte?]) -> Unit!Error {
+pub fn test_array_input_byte_option_3(val : Array[Byte?]) -> Unit raise Error {
   let expected = test_array_output_byte_option_3()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_input_byte_option_4(val : Array[Byte?]) -> Unit!Error {
+pub fn test_array_input_byte_option_4(val : Array[Byte?]) -> Unit raise Error {
   let expected = test_array_output_byte_option_4()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }

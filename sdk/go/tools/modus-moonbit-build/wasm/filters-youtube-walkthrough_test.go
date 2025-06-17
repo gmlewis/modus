@@ -40,9 +40,9 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		"__modus_generate_text": {
 			Name:       "__modus_generate_text",
 			Parameters: []*metadata.Parameter{{Name: "instruction", Type: "String"}, {Name: "prompt", Type: "String"}},
-			Results:    []*metadata.Result{{Type: "String!Error"}},
+			Results:    []*metadata.Result{{Type: "String raise Error"}},
 		},
-		"__modus_get_random_quote": {Name: "__modus_get_random_quote", Results: []*metadata.Result{{Type: "Quote!Error"}}},
+		"__modus_get_random_quote": {Name: "__modus_get_random_quote", Results: []*metadata.Result{{Type: "Quote raise Error"}}},
 		"__modus_say_hello": {
 			Name:       "__modus_say_hello",
 			Parameters: []*metadata.Parameter{{Name: "name", Type: "String"}},
@@ -64,9 +64,9 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		"generate_text": {
 			Name:       "generate_text",
 			Parameters: []*metadata.Parameter{{Name: "instruction", Type: "String"}, {Name: "prompt", Type: "String"}},
-			Results:    []*metadata.Result{{Type: "String!Error"}},
+			Results:    []*metadata.Result{{Type: "String raise Error"}},
 		},
-		"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote!Error"}}},
+		"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote raise Error"}}},
 		"malloc": {
 			Name:       "malloc",
 			Parameters: []*metadata.Parameter{{Name: "size", Type: "Int"}},
@@ -154,8 +154,8 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 				{Name: "body", Type: "Array[Byte]"},
 			},
 		},
-		"@http.Response!Error": {
-			Name: "@http.Response!Error",
+		"@http.Response raise Error": {
+			Name: "@http.Response raise Error",
 			Fields: []*metadata.Field{
 				{Name: "status", Type: "UInt16"},
 				{Name: "status_text", Type: "String"},
@@ -172,22 +172,22 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 				{Name: "body", Type: "Array[Byte]"},
 			},
 		},
-		"@http.T":       {Name: "@http.T"},
-		"@http.T!Error": {Name: "@http.T!Error"},
+		// "@http.T":             {Name: "@http.T"},
+		// "@http.T raise Error": {Name: "@http.T raise Error"},
 		"@models.ModelBase": {
 			Name:   "@models.ModelBase",
 			Fields: []*metadata.Field{{Name: "mut info", Type: "@models.ModelInfo?"}, {Name: "debug", Type: "Bool"}},
 		},
-		"@models.ModelBase!Error": {
-			Name:   "@models.ModelBase!Error",
+		"@models.ModelBase raise Error": {
+			Name:   "@models.ModelBase raise Error",
 			Fields: []*metadata.Field{{Name: "mut info", Type: "@models.ModelInfo?"}, {Name: "debug", Type: "Bool"}},
 		},
 		"@models.ModelInfo": {
 			Name:   "@models.ModelInfo",
 			Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "full_name", Type: "String"}},
 		},
-		"@models.ModelInfo!Error": {
-			Name:   "@models.ModelInfo!Error",
+		"@models.ModelInfo raise Error": {
+			Name:   "@models.ModelInfo raise Error",
 			Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "full_name", Type: "String"}},
 		},
 		"@models.ModelInfo?": {
@@ -236,8 +236,8 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 				{Name: "usage", Type: "@openai.Usage"},
 			},
 		},
-		"@openai.ChatModelOutput!Error": {
-			Name: "@openai.ChatModelOutput!Error",
+		"@openai.ChatModelOutput raise Error": {
+			Name: "@openai.ChatModelOutput raise Error",
 			Fields: []*metadata.Field{
 				{Name: "id", Type: "String"}, {Name: "object", Type: "String"},
 				{Name: "choices", Type: "Array[@openai.Choice]"},
@@ -365,7 +365,7 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 				{Name: "name", Type: "String?"},
 			},
 		},
-		"@testutils.CallStack[T]":              {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
+		// "@testutils.CallStack[T]":              {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
 		"@testutils.T":                         {Name: "@testutils.T"},
 		"ArrayView[Byte]":                      {Name: "ArrayView[Byte]"},
 		"Array[(String, String)]":              {Name: "Array[(String, String)]"},
@@ -389,31 +389,32 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 		"Bool?":                                {Name: "Bool?"},
 		"Byte":                                 {Name: "Byte"},
 		"Bytes":                                {Name: "Bytes"},
-		"Bytes!Error":                          {Name: "Bytes!Error"},
-		"Char":                                 {Name: "Char"},
-		"Double":                               {Name: "Double"},
-		"Double?":                              {Name: "Double?"},
-		"FixedArray[Byte]":                     {Name: "FixedArray[Byte]"},
-		"FixedArray[Double]":                   {Name: "FixedArray[Double]"},
-		"FixedArray[Float]":                    {Name: "FixedArray[Float]"},
-		"FixedArray[Int64]":                    {Name: "FixedArray[Int64]"},
-		"FixedArray[Int]":                      {Name: "FixedArray[Int]"},
-		"FixedArray[UInt64]":                   {Name: "FixedArray[UInt64]"},
-		"FixedArray[UInt]":                     {Name: "FixedArray[UInt]"},
-		"Float":                                {Name: "Float"},
-		"Int":                                  {Name: "Int"},
-		"Int64":                                {Name: "Int64"},
-		"Int?":                                 {Name: "Int?"},
-		"Iter[Byte]":                           {Name: "Iter[Byte]"},
-		"Iter[Char]":                           {Name: "Iter[Char]"},
-		"Json":                                 {Name: "Json"},
-		"Json!Error":                           {Name: "Json!Error"},
-		"Json?":                                {Name: "Json?"},
-		"Map[String, @http.Header?]":           {Name: "Map[String, @http.Header?]"},
-		"Map[String, Array[String]]":           {Name: "Map[String, Array[String]]"},
-		"Map[String, Double]":                  {Name: "Map[String, Double]"},
-		"Map[String, Double]?":                 {Name: "Map[String, Double]?"},
-		"Map[String, String]":                  {Name: "Map[String, String]"},
+		// "Bytes raise CorruptInputError":        {Name: "Bytes raise CorruptInputError"},
+		"Bytes raise Error":          {Name: "Bytes raise Error"},
+		"Char":                       {Name: "Char"},
+		"Double":                     {Name: "Double"},
+		"Double?":                    {Name: "Double?"},
+		"FixedArray[Byte]":           {Name: "FixedArray[Byte]"},
+		"FixedArray[Double]":         {Name: "FixedArray[Double]"},
+		"FixedArray[Float]":          {Name: "FixedArray[Float]"},
+		"FixedArray[Int64]":          {Name: "FixedArray[Int64]"},
+		"FixedArray[Int]":            {Name: "FixedArray[Int]"},
+		"FixedArray[UInt64]":         {Name: "FixedArray[UInt64]"},
+		"FixedArray[UInt]":           {Name: "FixedArray[UInt]"},
+		"Float":                      {Name: "Float"},
+		"Int":                        {Name: "Int"},
+		"Int64":                      {Name: "Int64"},
+		"Int?":                       {Name: "Int?"},
+		"Iter[Byte]":                 {Name: "Iter[Byte]"},
+		"Iter[Char]":                 {Name: "Iter[Char]"},
+		"Json":                       {Name: "Json"},
+		"Json raise Error":           {Name: "Json raise Error"},
+		"Json?":                      {Name: "Json?"},
+		"Map[String, @http.Header?]": {Name: "Map[String, @http.Header?]"},
+		"Map[String, Array[String]]": {Name: "Map[String, Array[String]]"},
+		"Map[String, Double]":        {Name: "Map[String, Double]"},
+		"Map[String, Double]?":       {Name: "Map[String, Double]?"},
+		"Map[String, String]":        {Name: "Map[String, String]"},
 		"Quote": {
 			Name: "Quote",
 			Fields: []*metadata.Field{
@@ -421,19 +422,20 @@ var wantYoutubeWalkthroughBeforeFilter = &metadata.Metadata{
 				{Name: "h", Type: "String"},
 			},
 		},
-		"Quote!Error": {
-			Name: "Quote!Error",
+		"Quote raise Error": {
+			Name: "Quote raise Error",
 			Fields: []*metadata.Field{
 				{Name: "q", Type: "String"}, {Name: "a", Type: "String"},
 				{Name: "h", Type: "String"},
 			},
 		},
-		"String":       {Name: "String"},
-		"String!Error": {Name: "String!Error"},
-		"String?":      {Name: "String?"},
-		"UInt":         {Name: "UInt"},
-		"UInt16":       {Name: "UInt16"},
-		"UInt64":       {Name: "UInt64"},
+		"String": {Name: "String"},
+		// "String raise CorruptInputError": {Name: "String raise CorruptInputError"},
+		"String raise Error": {Name: "String raise Error"},
+		"String?":            {Name: "String?"},
+		"UInt":               {Name: "UInt"},
+		"UInt16":             {Name: "UInt16"},
+		"UInt64":             {Name: "UInt64"},
 	},
 }
 
@@ -456,9 +458,9 @@ var wantYoutubeWalkthroughAfterFilter = &metadata.Metadata{
 		"generate_text": {
 			Name:       "generate_text",
 			Parameters: []*metadata.Parameter{{Name: "instruction", Type: "String"}, {Name: "prompt", Type: "String"}},
-			Results:    []*metadata.Result{{Type: "String!Error"}},
+			Results:    []*metadata.Result{{Type: "String raise Error"}},
 		},
-		"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote!Error"}}},
+		"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote raise Error"}}},
 		"malloc": {
 			Name:       "malloc",
 			Parameters: []*metadata.Parameter{{Name: "size", Type: "Int"}},
@@ -546,8 +548,8 @@ var wantYoutubeWalkthroughAfterFilter = &metadata.Metadata{
 				{Name: "body", Type: "Array[Byte]"},
 			},
 		},
-		// "@http.Response!Error": {
-		// 	Name: "@http.Response!Error",
+		// "@http.Response raise Error": {
+		// 	Name: "@http.Response raise Error",
 		// 	Fields: []*metadata.Field{
 		// 		{Name: "status", Type: "UInt16"},
 		// 		{Name: "status_text", Type: "String"},
@@ -565,7 +567,7 @@ var wantYoutubeWalkthroughAfterFilter = &metadata.Metadata{
 			},
 		},
 		// "@http.T":                     {Name: "@http.T"},
-		// "@http.T!Error":               {Name: "@http.T!Error"},
+		// "@http.T raise Error":               {Name: "@http.T raise Error"},
 		"@models.ModelInfo": {
 			Name:   "@models.ModelInfo",
 			Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "full_name", Type: "String"}},
@@ -604,12 +606,12 @@ var wantYoutubeWalkthroughAfterFilter = &metadata.Metadata{
 			Name:   "Quote",
 			Fields: []*metadata.Field{{Name: "q", Type: "String"}, {Name: "a", Type: "String"}, {Name: "h", Type: "String"}},
 		},
-		"Quote!Error": {
-			Name:   "Quote!Error",
+		"Quote raise Error": {
+			Name:   "Quote raise Error",
 			Fields: []*metadata.Field{{Name: "q", Type: "String"}, {Name: "a", Type: "String"}, {Name: "h", Type: "String"}},
 		},
-		"String":       {Name: "String"},
-		"String!Error": {Name: "String!Error"},
+		"String":             {Name: "String"},
+		"String raise Error": {Name: "String raise Error"},
 		// "UInt":   {Name: "UInt"},
 		"UInt16": {Name: "UInt16"},
 		// "UInt64": {Name: "UInt64"},

@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_uint64_input_min(n : UInt64) -> Unit!Error {
-  assert_eq!(n, 0)
+pub fn test_uint64_input_min(n : UInt64) -> Unit raise Error {
+  assert_eq(n, 0)
 }
 
 ///|
-pub fn test_uint64_input_max(n : UInt64) -> Unit!Error {
-  assert_eq!(n, @uint64.max_value)
+pub fn test_uint64_input_max(n : UInt64) -> Unit raise Error {
+  assert_eq(n, @uint64.max_value)
 }
 
 ///|
@@ -26,18 +26,18 @@ pub fn test_uint64_output_max() -> UInt64 {
 }
 
 ///|
-pub fn test_uint64_option_input_min(n : UInt64?) -> Unit!Error {
-  assert_eq!(n, Some(0))
+pub fn test_uint64_option_input_min(n : UInt64?) -> Unit raise Error {
+  assert_eq(n, Some(0))
 }
 
 ///|
-pub fn test_uint64_option_input_max(n : UInt64?) -> Unit!Error {
-  assert_eq!(n, Some(@uint64.max_value))
+pub fn test_uint64_option_input_max(n : UInt64?) -> Unit raise Error {
+  assert_eq(n, Some(@uint64.max_value))
 }
 
 ///|
-pub fn test_uint64_option_input_none(n : UInt64?) -> Unit!Error {
-  assert_eq!(n, None)
+pub fn test_uint64_option_input_none(n : UInt64?) -> Unit raise Error {
+  assert_eq(n, None)
 }
 
 ///|

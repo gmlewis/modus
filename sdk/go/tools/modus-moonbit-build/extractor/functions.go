@@ -200,7 +200,7 @@ func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *package
 
 		typ, hasError, hasOption := utils.StripErrorAndOption(name)
 		if hasError {
-			fullName := fmt.Sprintf("%v!Error", typ)
+			fullName := fmt.Sprintf("%v raise Error", typ)
 			tmpType := types.NewNamed(types.NewTypeName(0, nil, fullName, nil), t.Underlying(), nil) // do NOT add typesPkg to named types.
 			// Do not recurse here as it would cause an infinite loop.
 			requiredTypes[fullName] = &typeWithPkgT{t: tmpType, pkg: pkg}
@@ -217,6 +217,8 @@ func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *package
 
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
 		if i := strings.Index(name, "!"); i >= 0 {
+			name = name[:i]
+		} else if i := strings.Index(name, " raise "); i >= 0 {
 			name = name[:i]
 		}
 

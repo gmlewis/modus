@@ -14,14 +14,14 @@
 // }
 
 ///| add adds two vectors together and returns the result.
-pub fn add[T : Addable](a : Array[T], b : Array[T]) -> Array[T] {
+pub fn[T : Addable] add(a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
   guard len == b.length()
   Array::makei(len, fn(i) { T::add(a[i], b[i]) })
 }
 
 ///| add_in_place adds two vectors together and stores the result in the first vector.
-pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
+pub fn[T : Addable] add_in_place(a : Array[T], b : Array[T]) -> Unit {
   let len = a.length()
   guard len == b.length()
   for i in 0..<len {
@@ -38,14 +38,14 @@ pub fn add_in_place[T : Addable](a : Array[T], b : Array[T]) -> Unit {
 // }
 
 ///| subtract subtracts one vector from another and returns the result.
-pub fn sub[T : Subtractable](a : Array[T], b : Array[T]) -> Array[T] {
+pub fn[T : Subtractable] sub(a : Array[T], b : Array[T]) -> Array[T] {
   let len = a.length()
   guard len == b.length()
   Array::makei(len, fn(i) { a[i].sub(b[i]) })
 }
 
 ///| subtract_in_place subtracts one vector from another and stores the result in the first vector.
-pub fn subtract_in_place[T : Subtractable](a : Array[T], b : Array[T]) -> Unit {
+pub fn[T : Subtractable] subtract_in_place(a : Array[T], b : Array[T]) -> Unit {
   let len = a.length()
   guard len == b.length()
   for i in 0..<len {
@@ -54,13 +54,13 @@ pub fn subtract_in_place[T : Subtractable](a : Array[T], b : Array[T]) -> Unit {
 }
 
 ///| add_number adds a number to each element of a vector and returns the result.
-pub fn add_number[T : Addable](a : Array[T], b : T) -> Array[T] {
+pub fn[T : Addable] add_number(a : Array[T], b : T) -> Array[T] {
   let len = a.length()
   Array::makei(len, fn(i) { T::add(a[i], b) })
 }
 
 ///| add_number_in_place adds a number to each element of a vector and stores the result in the vector.
-pub fn add_number_in_place[T : Addable](a : Array[T], b : T) -> Unit {
+pub fn[T : Addable] add_number_in_place(a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
     a[i] = T::add(a[i], b)
@@ -68,13 +68,13 @@ pub fn add_number_in_place[T : Addable](a : Array[T], b : T) -> Unit {
 }
 
 ///| subtract_number subtracts a number from each element of a vector and returns the result.
-pub fn subtract_number[T : Subtractable](a : Array[T], b : T) -> Array[T] {
+pub fn[T : Subtractable] subtract_number(a : Array[T], b : T) -> Array[T] {
   let len = a.length()
   Array::makei(len, fn(i) { a[i].sub(b) })
 }
 
 ///| subtract_number_in_place subtracts a number from each element of a vector and stores the result in the vector.
-pub fn subtract_number_in_place[T : Subtractable](a : Array[T], b : T) -> Unit {
+pub fn[T : Subtractable] subtract_number_in_place(a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
     a[i] = a[i].sub(b)
@@ -82,13 +82,13 @@ pub fn subtract_number_in_place[T : Subtractable](a : Array[T], b : T) -> Unit {
 }
 
 ///| multiply_number Multiplys a number to each element of a vector and returns the result.
-pub fn multiply_number[T : Multipliable](a : Array[T], b : T) -> Array[T] {
+pub fn[T : Multipliable] multiply_number(a : Array[T], b : T) -> Array[T] {
   let len = a.length()
   Array::makei(len, fn(i) { a[i] * b })
 }
 
 ///| multiply_number_in_place multiplies each element of a vector by a number and stores the result in the vector.
-pub fn multiply_number_in_place[T : Multipliable](a : Array[T], b : T) -> Unit {
+pub fn[T : Multipliable] multiply_number_in_place(a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
     a[i] *= b
@@ -96,13 +96,13 @@ pub fn multiply_number_in_place[T : Multipliable](a : Array[T], b : T) -> Unit {
 }
 
 ///| divide_number divides each element of a vector by a number and returns the result.
-pub fn divide_number[T : Divideable](a : Array[T], b : T) -> Array[T] {
+pub fn[T : Divideable] divide_number(a : Array[T], b : T) -> Array[T] {
   let len = a.length()
   Array::makei(len, fn(i) { a[i] / b })
 }
 
 ///| divide_number_in_place divides each element of a vector by a number and stores the result in the vector.
-pub fn divide_number_in_place[T : Divideable](a : Array[T], b : T) -> Unit {
+pub fn[T : Divideable] divide_number_in_place(a : Array[T], b : T) -> Unit {
   let len = a.length()
   for i in 0..<len {
     a[i] /= b
@@ -110,7 +110,7 @@ pub fn divide_number_in_place[T : Divideable](a : Array[T], b : T) -> Unit {
 }
 
 ///| dot computes the dot product of two vectors.
-pub fn dot[T : Multipliable + Addable + FromInt](
+pub fn[T : Multipliable + Addable + FromInt] dot(
   a : Array[T],
   b : Array[T]
 ) -> T {
@@ -124,14 +124,14 @@ pub fn dot[T : Multipliable + Addable + FromInt](
 }
 
 ///| magnitude computes the magnitude of a vector.
-pub fn magnitude[T : Multipliable + Addable + SquareRootable + FromInt](
+pub fn[T : Multipliable + Addable + SquareRootable + FromInt] magnitude(
   a : Array[T]
 ) -> T {
   dot(a, a).sqrt()
 }
 
 ///| normalize normalizes a vector to have a magnitude of 1.
-pub fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + FromInt](
+pub fn[T : Multipliable + Divideable + Addable + SquareRootable + FromInt] normalize(
   a : Array[T]
 ) -> Array[T] {
   let mag = magnitude(a)
@@ -139,7 +139,7 @@ pub fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + From
 }
 
 ///| sum computes the sum of all elements in a vector.
-pub fn sum[T : Addable + FromInt](a : Array[T]) -> T {
+pub fn[T : Addable + FromInt] sum(a : Array[T]) -> T {
   let len = a.length()
   let mut result = T::from_int(0)
   for i in 0..<len {
@@ -149,7 +149,7 @@ pub fn sum[T : Addable + FromInt](a : Array[T]) -> T {
 }
 
 ///| product computes the product of all elements in a vector.
-pub fn product[T : Multipliable + FromInt](a : Array[T]) -> T {
+pub fn[T : Multipliable + FromInt] product(a : Array[T]) -> T {
   let len = a.length()
   let mut result = T::from_int(1)
   for i in 0..<len {
@@ -159,13 +159,13 @@ pub fn product[T : Multipliable + FromInt](a : Array[T]) -> T {
 }
 
 ///| mean computes the mean of a vector.
-pub fn mean[T : Addable + Divideable + FromInt](a : Array[T]) -> T {
+pub fn[T : Addable + Divideable + FromInt] mean(a : Array[T]) -> T {
   let len = T::from_int(a.length())
   sum(a) / len
 }
 
 ///| min computes the minimum element in a vector.
-pub fn min[T : Compare](a : Array[T]) -> T {
+pub fn[T : Compare] min(a : Array[T]) -> T {
   let len = a.length()
   guard len > 0
   let mut result = a[0]
@@ -178,7 +178,7 @@ pub fn min[T : Compare](a : Array[T]) -> T {
 }
 
 ///| max computes the maximum element in a vector.
-pub fn max[T : Compare](a : Array[T]) -> T {
+pub fn[T : Compare] max(a : Array[T]) -> T {
   let len = a.length()
   guard len > 0
   let mut result = a[0]
@@ -191,14 +191,14 @@ pub fn max[T : Compare](a : Array[T]) -> T {
 }
 
 ///| abs computes the absolute value of each element in a vector.
-pub fn abs[T : Absoluteable](a : Array[T]) -> Array[T] {
+pub fn[T : Absoluteable] abs(a : Array[T]) -> Array[T] {
   let len = a.length()
   Array::makei(len, fn(i) { a[i].abs() })
 }
 
 ///| abs_in_place computes the absolute value of each element in a vector and
 /// stores the result in the vector.
-pub fn abs_in_place[T : Absoluteable](a : Array[T]) -> Unit {
+pub fn[T : Absoluteable] abs_in_place(a : Array[T]) -> Unit {
   let len = a.length()
   for i in 0..<len {
     a[i] = a[i].abs()
@@ -206,7 +206,7 @@ pub fn abs_in_place[T : Absoluteable](a : Array[T]) -> Unit {
 }
 
 ///| euclidian_distance computes the Euclidian distance between two vectors.
-pub fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt](
+pub fn[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt] euclidian_distance(
   a : Array[T],
   b : Array[T]
 ) -> T {

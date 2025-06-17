@@ -6,10 +6,6 @@ import(
 )
 
 // Values
-fn create_input(MessagesModel, Array[Message]) -> MessagesModelInput
-
-fn invoke(MessagesModel, MessagesModelInput) -> MessagesModelOutput!
-
 fn text_content_block(String) -> ContentBlock
 
 fn tool_choice_tool(String, disable_parallel_tool_use~ : Bool = ..) -> ToolChoice?
@@ -38,15 +34,14 @@ pub(all) struct ContentBlock {
   is_error : Bool?
   content : String?
 }
-impl ContentBlock {
-  new(String) -> Self
-}
+fn ContentBlock::new(String) -> Self
 impl Eq for ContentBlock
 impl Show for ContentBlock
 impl ToJson for ContentBlock
 impl @json.FromJson for ContentBlock
 
 pub(all) type Contents Array[ContentBlock]
+fn Contents::inner(Self) -> Array[ContentBlock]
 impl Eq for Contents
 impl Show for Contents
 impl ToJson for Contents
@@ -56,19 +51,16 @@ pub(all) struct Message {
   role : String
   content : Content
 }
-impl Message {
-  new_user(Content) -> Self
-}
+fn Message::new_user(Content) -> Self
 impl Eq for Message
 impl Show for Message
 impl ToJson for Message
 impl @json.FromJson for Message
 
 pub(all) type MessagesModel @models.ModelBase
-impl MessagesModel {
-  create_input(Self, Array[Message]) -> MessagesModelInput
-  invoke(Self, MessagesModelInput) -> MessagesModelOutput!
-}
+fn MessagesModel::create_input(Self, Array[Message]) -> MessagesModelInput
+fn MessagesModel::inner(Self) -> @models.ModelBase
+fn MessagesModel::invoke(Self, MessagesModelInput) -> MessagesModelOutput raise
 impl Eq for MessagesModel
 impl Show for MessagesModel
 impl ToJson for MessagesModel

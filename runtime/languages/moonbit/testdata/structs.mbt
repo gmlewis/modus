@@ -354,146 +354,152 @@ let test_smorgasbord_struct_map : TestSmorgasbordStruct_map = {
 }
 
 ///|
-pub fn test_struct_input1(o : TestStruct1) -> Unit!Error {
-  assert_eq!(test_struct1, o)
+pub fn test_struct_input1(o : TestStruct1) -> Unit raise Error {
+  assert_eq(test_struct1, o)
 }
 
 ///|
-pub fn test_struct_input2(o : TestStruct2) -> Unit!Error {
-  assert_eq!(test_struct2, o)
+pub fn test_struct_input2(o : TestStruct2) -> Unit raise Error {
+  assert_eq(test_struct2, o)
 }
 
 ///|
-pub fn test_struct_input3(o : TestStruct3) -> Unit!Error {
-  assert_eq!(test_struct3, o)
+pub fn test_struct_input3(o : TestStruct3) -> Unit raise Error {
+  assert_eq(test_struct3, o)
 }
 
 ///|
-pub fn test_struct_input4(o : TestStruct4) -> Unit!Error {
-  assert_eq!(test_struct4, o)
+pub fn test_struct_input4(o : TestStruct4) -> Unit raise Error {
+  assert_eq(test_struct4, o)
 }
 
 ///|
-pub fn test_struct_input5(o : TestStruct5) -> Unit!Error {
-  assert_eq!(test_struct5, o)
+pub fn test_struct_input5(o : TestStruct5) -> Unit raise Error {
+  assert_eq(test_struct5, o)
 }
 
 ///|
-pub fn test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
-  assert_eq!(test_struct4_with_none, o)
+pub fn test_struct_input4_with_none(o : TestStruct4) -> Unit raise Error {
+  assert_eq(test_struct4_with_none, o)
 }
 
 ///|
-pub fn test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit!Error {
-  assert_eq!(test_smorgasbord_struct, o)
+pub fn test_smorgasbord_struct_input(
+  o : TestSmorgasbordStruct
+) -> Unit raise Error {
+  assert_eq(test_smorgasbord_struct, o)
 }
 
 ///|
-fn cast_struct_to_ptr[A](a : A) -> Int = "%identity"
+fn[A] cast_struct_to_ptr(a : A) -> Int = "%identity"
 
 ///|
-pub fn test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Error {
+pub fn test_recursive_struct_input(
+  r1 : TestRecursiveStruct
+) -> Unit raise Error {
   let r1_ptr = cast_struct_to_ptr(r1)
   println("test_recursive_struct_input: r1_ptr=\{r1_ptr}, r1.a=\{r1.a}")
-  assert_true!(r1.a)
+  assert_true(r1.a)
   guard r1.b is Some(r2) else { raise TestError("Expected Some, got None") }
   let r2_ptr = cast_struct_to_ptr(r2)
   println("test_recursive_struct_input: r2_ptr=\{r2_ptr}, r2.a=\{r2.a}")
-  assert_false!(r2.a)
+  assert_false(r2.a)
   guard r2.b is Some(r3) else { raise TestError("Expected Some, got None") }
   let r3_ptr = cast_struct_to_ptr(r3)
   println("test_recursive_struct_input: r3_ptr=\{r3_ptr}, r3.a=\{r3.a}")
-  assert_eq!(r1_ptr, r3_ptr)
+  assert_eq(r1_ptr, r3_ptr)
 }
 
 ///|
-pub fn test_struct_option_input1(o : TestStruct1?) -> Unit!Error {
-  assert_eq!(Some(test_struct1), o)
+pub fn test_struct_option_input1(o : TestStruct1?) -> Unit raise Error {
+  assert_eq(Some(test_struct1), o)
 }
 
 ///|
-pub fn test_struct_option_input2(o : TestStruct2?) -> Unit!Error {
-  assert_eq!(Some(test_struct2), o)
+pub fn test_struct_option_input2(o : TestStruct2?) -> Unit raise Error {
+  assert_eq(Some(test_struct2), o)
 }
 
 ///|
-pub fn test_struct_option_input3(o : TestStruct3?) -> Unit!Error {
-  assert_eq!(Some(test_struct3), o)
+pub fn test_struct_option_input3(o : TestStruct3?) -> Unit raise Error {
+  assert_eq(Some(test_struct3), o)
 }
 
 ///|
-pub fn test_struct_option_input4(o : TestStruct4?) -> Unit!Error {
-  assert_eq!(Some(test_struct4), o)
+pub fn test_struct_option_input4(o : TestStruct4?) -> Unit raise Error {
+  assert_eq(Some(test_struct4), o)
 }
 
 ///|
-pub fn test_struct_option_input5(o : TestStruct5?) -> Unit!Error {
-  assert_eq!(Some(test_struct5), o)
+pub fn test_struct_option_input5(o : TestStruct5?) -> Unit raise Error {
+  assert_eq(Some(test_struct5), o)
 }
 
 ///|
-pub fn test_struct_option_input4_with_none(o : TestStruct4?) -> Unit!Error {
-  assert_eq!(Some(test_struct4_with_none), o)
+pub fn test_struct_option_input4_with_none(
+  o : TestStruct4?
+) -> Unit raise Error {
+  assert_eq(Some(test_struct4_with_none), o)
 }
 
 ///|
 pub fn test_recursive_struct_option_input(
   o : TestRecursiveStruct?
-) -> Unit!Error {
+) -> Unit raise Error {
   guard o is Some(r1) else { raise TestError("Expected Some, got None") }
-  assert_true!(r1.a)
+  assert_true(r1.a)
   guard r1.b is Some(r2) else { raise TestError("Expected Some, got None") }
-  assert_false!(r2.a)
+  assert_false(r2.a)
   guard r2.b is Some(r3) else { raise TestError("Expected Some, got None") }
   let r1_ptr = cast_struct_to_ptr(r1)
   let r3_ptr = cast_struct_to_ptr(r3)
-  assert_eq!(r1_ptr, r3_ptr)
+  assert_eq(r1_ptr, r3_ptr)
 }
 
 ///|
 pub fn test_smorgasbord_struct_option_input(
   o : TestSmorgasbordStruct?
-) -> Unit!Error {
-  assert_eq!(Some(test_smorgasbord_struct), o)
+) -> Unit raise Error {
+  assert_eq(Some(test_smorgasbord_struct), o)
 }
 
 ///|
-pub fn test_struct_option_input1_none(o : TestStruct1?) -> Unit!Error {
-  assert_eq!(o, None)
+pub fn test_struct_option_input1_none(o : TestStruct1?) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
-pub fn test_struct_option_input2_none(o : TestStruct2?) -> Unit!Error {
-  assert_eq!(o, None)
+pub fn test_struct_option_input2_none(o : TestStruct2?) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
-pub fn test_struct_option_input3_none(o : TestStruct3?) -> Unit!Error {
-  assert_eq!(o, None)
+pub fn test_struct_option_input3_none(o : TestStruct3?) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
-pub fn test_struct_option_input4_none(o : TestStruct4?) -> Unit!Error {
-  assert_eq!(o, None)
+pub fn test_struct_option_input4_none(o : TestStruct4?) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
-pub fn test_struct_option_input5_none(o : TestStruct5?) -> Unit!Error {
-  assert_eq!(o, None)
+pub fn test_struct_option_input5_none(o : TestStruct5?) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
 pub fn test_recursive_struct_option_input_none(
   o : TestRecursiveStruct?
-) -> Unit!Error {
-  assert_eq!(o, None)
+) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
 pub fn test_smorgasbord_struct_option_input_none(
   o : TestSmorgasbordStruct?
-) -> Unit!Error {
-  assert_eq!(o, None)
+) -> Unit raise Error {
+  assert_eq(o, None)
 }
 
 ///|
@@ -557,7 +563,7 @@ pub fn test_struct_output4_map_with_none() -> TestStruct4_map {
 }
 
 ///|
-pub fn test_recursive_struct_output() -> TestRecursiveStruct!Error {
+pub fn test_recursive_struct_output() -> TestRecursiveStruct raise Error {
   let r1 = test_recursive_struct
   println("test_recursive_struct_output: r1.a=\{r1.a}")
   match r1.b {
@@ -712,7 +718,6 @@ pub fn test_smorgasbord_struct_option_output_none() -> TestSmorgasbordStruct? {
 }
 
 ///|
-pub fn test_smorgasbord_struct_option_output_map_none() ->
-     TestSmorgasbordStruct_map? {
+pub fn test_smorgasbord_struct_option_output_map_none() -> TestSmorgasbordStruct_map? {
   None
 }

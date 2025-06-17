@@ -5,20 +5,18 @@ import(
 )
 
 // Values
-fn get_model(String) -> ModelBase!
+fn get_model(String) -> ModelBase raise
 
-fn host_get_model_info(String) -> ModelInfo!
+fn host_get_model_info(String) -> ModelInfo raise
 
-fn host_invoke_model(String, String) -> String!
+fn host_invoke_model(String, String) -> String raise
 
 // Types and methods
 pub(all) struct ModelBase {
   mut info : ModelInfo?
   debug : Bool
 }
-impl ModelBase {
-  invoke(Self, Json) -> Json!
-}
+fn ModelBase::invoke(Self, Json) -> Json raise
 impl Model for ModelBase
 impl Eq for ModelBase
 impl Show for ModelBase
@@ -34,7 +32,7 @@ impl Show for ModelInfo
 impl ToJson for ModelInfo
 impl @json.FromJson for ModelInfo
 
-pub(all) type! ModelsError String
+pub(all) suberror ModelsError String
 impl Eq for ModelsError
 impl Show for ModelsError
 

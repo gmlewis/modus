@@ -6,20 +6,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub(all) type! HttpError String derive(Show, Eq)
+pub(all) suberror HttpError String derive(Show, Eq)
 
 ///|
 pub fn fetch_url(
   url : String,
   options~ : Array[RequestOptions] = []
-) -> Response!Error {
+) -> Response raise Error {
   let request = Request::new(url, options~)
-  request.fetch!()
+  request.fetch()
 }
 
 ///|
-pub fn fetch(self : Request) -> Response!Error {
-  let response = host_fetch!(self)
+pub fn fetch(self : Request) -> Response raise Error {
+  let response = host_fetch(self)
   println("fetch: got \{response.body.length()} body bytes:\n\{response.body}")
   response
 }

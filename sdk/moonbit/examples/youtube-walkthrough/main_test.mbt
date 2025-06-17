@@ -8,7 +8,7 @@
 ///|
 test "say_hello" {
   let got = say_hello(name="MoonBit")
-  inspect!(got, content="Hello, MoonBit!")
+  inspect(got, content="Hello, MoonBit!")
   let got = say_hello()
-  inspect!(got, content="Hello, World!")
+  inspect(got, content="Hello, World!")
 }

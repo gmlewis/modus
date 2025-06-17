@@ -31,13 +31,16 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
 	// DO NOT STRIP THE ERROR TYPE HERE! Strip it later.
-	// When an "...!Error" is the return type, two values are returned.
+	// When an "...!Error" (now "... raise Error" as of 'moonc v0.6.18+8382ed77e') is the return type, two values are returned.
 	// The first value is 0 on failure, and the second value is the actual return type.
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
 
 func stripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		hasError = true
+		typeSignature = typeSignature[:i]
+	} else if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
 		hasError = true
 		typeSignature = typeSignature[:i]
 	}
@@ -105,7 +108,7 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 	typ, hasError, _ = stripErrorAndOption(typ)
 
 	if typ == "Unit" && hasError {
-		return "Unit!Error" // Special case - used internally and not by GraphQL.
+		return "Unit raise Error" // (was "Unit!Error) Special case - used internally and not by GraphQL.
 	} else if typ == "Unit" {
 		return "Unit"
 	}

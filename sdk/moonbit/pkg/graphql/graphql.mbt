@@ -6,20 +6,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub(all) type! GraphQLError String derive(Show, Eq)
+pub(all) suberror GraphQLError String derive(Show, Eq)
 
 ///|
-pub fn execute[T : @json.FromJson](
+pub fn[T : @json.FromJson] execute(
   host_name : String,
   statement : String,
   vars~ : Map[String, Json] = {}
-) -> Response[T]!Error {
-  let vars_str = @json.stringify(vars.to_json())
-  let response = host_execute_query!(host_name, statement, vars_str)
+) -> Response[T] raise Error {
+  let vars_str = vars.to_json().stringify()
+  let response = host_execute_query(host_name, statement, vars_str)
   //
-  let result : Response[T] = @json.from_json!(@json.parse!(response))
+  let result : Response[T] = @json.from_json(@json.parse(response))
   if result.errors is Some(errors) && errors.length() > 0 {
-    let err_str = @json.stringify(result.errors.to_json())
+    let err_str = result.errors.to_json().stringify()
     @console.error("GraphQL API Errors: \{err_str}")
   }
 

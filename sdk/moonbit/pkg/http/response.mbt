@@ -24,8 +24,8 @@ pub fn Response::text(self : Response) -> String {
 }
 
 ///| This converts the JSON response body to a MoonBit struct of type `T`.
-pub fn Response::json[T : @json.FromJson](self : Response) -> T!Error {
-  @json.from_json!(@json.parse!(self.text()))
+pub fn[T : @json.FromJson] Response::json(self : Response) -> T raise Error {
+  @json.from_json(@json.parse(self.text()))
 }
 
 ///| This returns the body as an array of Ints.

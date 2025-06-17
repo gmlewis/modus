@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_float_input_min(n : Float) -> Unit!Error {
-  assert_eq!(n, @float.min_value)
+pub fn test_float_input_min(n : Float) -> Unit raise Error {
+  assert_eq(n, @float.min_value)
 }
 
 ///|
-pub fn test_float_input_max(n : Float) -> Unit!Error {
-  assert_eq!(n, @float.max_value)
+pub fn test_float_input_max(n : Float) -> Unit raise Error {
+  assert_eq(n, @float.max_value)
 }
 
 ///|
@@ -28,18 +28,18 @@ pub fn test_float_output_max() -> Float {
 }
 
 ///|
-pub fn test_float_option_input_min(n : Float?) -> Unit!Error {
-  assert_eq!(n, Some(@float.min_value))
+pub fn test_float_option_input_min(n : Float?) -> Unit raise Error {
+  assert_eq(n, Some(@float.min_value))
 }
 
 ///|
-pub fn test_float_option_input_max(n : Float?) -> Unit!Error {
-  assert_eq!(n, Some(@float.max_value))
+pub fn test_float_option_input_max(n : Float?) -> Unit raise Error {
+  assert_eq(n, Some(@float.max_value))
 }
 
 ///|
-pub fn test_float_option_input_none(n : Float?) -> Unit!Error {
-  assert_eq!(n, None)
+pub fn test_float_option_input_none(n : Float?) -> Unit raise Error {
+  assert_eq(n, None)
 }
 
 ///|

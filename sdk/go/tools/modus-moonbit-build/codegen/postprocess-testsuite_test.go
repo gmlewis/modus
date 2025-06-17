@@ -370,13 +370,13 @@ pub fn ptr_to_none() -> Int {
 fn cast[A, B](a : A) -> B = "%identity"
 
 ///|
-pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64) -> @time.ZonedDateTime!Error {
+pub fn zoned_date_time_from_unix_seconds_and_nanos(second : Int64, nanos : Int64) -> @time.ZonedDateTime raise Error {
   let nanosecond = (nanos % 1_000_000_000).to_int()
   @time.unix!(second, nanosecond~)
 }
 
 ///|
-pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error {
+pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration raise Error {
   @time.Duration::of!(nanoseconds~)
 }
 `

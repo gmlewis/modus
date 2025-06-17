@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_double_input_min(n : Double) -> Unit!Error {
-  assert_eq!(n, @double.min_value)
+pub fn test_double_input_min(n : Double) -> Unit raise Error {
+  assert_eq(n, @double.min_value)
 }
 
 ///|
-pub fn test_double_input_max(n : Double) -> Unit!Error {
-  assert_eq!(n, @double.max_value)
+pub fn test_double_input_max(n : Double) -> Unit raise Error {
+  assert_eq(n, @double.max_value)
 }
 
 ///|
@@ -28,18 +28,18 @@ pub fn test_double_output_max() -> Double {
 }
 
 ///|
-pub fn test_double_option_input_min(n : Double?) -> Unit!Error {
-  assert_eq!(n, Some(@double.min_value))
+pub fn test_double_option_input_min(n : Double?) -> Unit raise Error {
+  assert_eq(n, Some(@double.min_value))
 }
 
 ///|
-pub fn test_double_option_input_max(n : Double?) -> Unit!Error {
-  assert_eq!(n, Some(@double.max_value))
+pub fn test_double_option_input_max(n : Double?) -> Unit raise Error {
+  assert_eq(n, Some(@double.max_value))
 }
 
 ///|
-pub fn test_double_option_input_none(n : Double?) -> Unit!Error {
-  assert_eq!(n, None)
+pub fn test_double_option_input_none(n : Double?) -> Unit raise Error {
+  assert_eq(n, None)
 }
 
 ///|

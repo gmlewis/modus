@@ -27,18 +27,18 @@ pub fn add_n(args : Array[Int]) -> Int {
 pub fn get_current_time(
 // TODO:  /// now is optional so we can mock time in tests
 // now~ : Int64 = @wasi.now() / 1_000_000_000
-) -> @time.ZonedDateTime!Error {
+) -> @time.ZonedDateTime raise Error {
   let now = @wasi.now() / 1_000_000_000
-  @time.unix!(now)
+  @time.unix(now)
 }
 
 ///| Returns the current time formatted as a string.
 pub fn get_current_time_formatted(
 // TODO:  /// now is optional so we can mock time in tests
 // now~ : Int64 = @wasi.now()
-) -> String!Error {
+) -> String raise Error {
   // get_current_time!(now).to_string()
-  get_current_time!().to_string()
+  get_current_time().to_string()
 }
 
 ///| Combines the first and last name of a person, and returns the full name.
@@ -73,9 +73,10 @@ pub fn get_person() -> Person {
 
 ///| This gets the same seed every time, so the result is deterministic.
 // let rand : @random.Rand = @random.new()
+
 ///| This SHOULD allow a loaded plugin to generate new random numbers on successive calls
 /// but currently doesn't.  TODO: Fix this.
-let rand : Ref[@random.Rand] = { val: @random.new() }
+let rand : Ref[@random.Rand] = { val: @random.Rand::new() }
 
 ///| Gets a random person object from a list of people.
 pub fn get_random_person() -> Person {
@@ -101,10 +102,10 @@ pub fn get_people() -> Array[Person] {
 // }
 
 ///|
-pub(all) type! SimpleError String derive(Show, Eq)
+pub(all) suberror SimpleError String derive(Show, Eq)
 
 ///| Tests returning an error.
-pub fn test_normal_error(input : String) -> String!Error {
+pub fn test_normal_error(input : String) -> String raise Error {
   // This is the preferred way to handle errors in functions.
   // Simply declare an !Error as part of the return value.
 

@@ -12,7 +12,7 @@ test "log_message" {
 
   //
   let values = @console.log_call_stack.pop()
-  inspect!(
+  inspect(
     values,
     content=
       #|["", "Hello, World!"]
@@ -23,7 +23,7 @@ test "log_message" {
 ///|
 test "add" {
   let result = add(1, 2)
-  inspect!(result, content="3")
+  inspect(result, content="3")
 }
 
 ///|
@@ -32,26 +32,26 @@ test "add3" {
   let b = 2
   let c = 3
   let result = add3(a, b, c~)
-  inspect!(result, content="6")
+  inspect(result, content="6")
 }
 
 ///|
 test "add_n" {
   // Test case 1: Empty arguments
   let result = add_n([])
-  inspect!(result, content="0")
+  inspect(result, content="0")
 
   // Test case 2: Single argument
   let result = add_n([5])
-  inspect!(result, content="5")
+  inspect(result, content="5")
 
   // Test case 3: Multiple arguments
   let result = add_n([1, 2, 3, 4, 5])
-  inspect!(result, content="15")
+  inspect(result, content="15")
 
   // Test case 4: Negative numbers
   let result = add_n([-1, -2, -3])
-  inspect!(result, content="-6")
+  inspect(result, content="-6")
 }
 
 // TODO:
@@ -70,7 +70,7 @@ test "get_full_name" {
   let first_name = "John"
   let last_name = "Doe"
   let result = get_full_name(first_name, last_name)
-  inspect!(result, content="John Doe")
+  inspect(result, content="John Doe")
 }
 
 // TODO:
@@ -86,14 +86,14 @@ test "get_full_name" {
 ///|
 test "get_person" {
   let result = get_person()
-  inspect!(result, content="{firstName: \"John\", lastName: \"Doe\", age: 42}")
+  inspect(result, content="{firstName: \"John\", lastName: \"Doe\", age: 42}")
 }
 
 ///|
 test "get_random_person" {
   // The same seed is always used, so the result is deterministic.
   let result = get_random_person()
-  inspect!(
+  inspect(
     result,
     content="{firstName: \"Charlie\", lastName: \"Brown\", age: 8}",
   )
@@ -102,7 +102,7 @@ test "get_random_person" {
 ///|
 test "get_people" {
   let result = get_people()
-  inspect!(
+  inspect(
     result,
     content="[{firstName: \"Bob\", lastName: \"Smith\", age: 42}, {firstName: \"Alice\", lastName: \"Jones\", age: 35}, {firstName: \"Charlie\", lastName: \"Brown\", age: 8}]",
   )

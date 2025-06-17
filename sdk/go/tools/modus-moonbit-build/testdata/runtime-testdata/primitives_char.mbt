@@ -6,49 +6,49 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_char_input_min(c : Char) -> Unit!Error {
+pub fn test_char_input_min(c : Char) -> Unit raise Error {
   // can't seem to pass in a char with a value of -32768
-  assert_eq!(c, Char::from_int(0))
+  assert_eq(c, Int::unsafe_to_char(0))
 }
 
 ///|
-pub fn test_char_input_max(c : Char) -> Unit!Error {
-  assert_eq!(c, Char::from_int(32767))
+pub fn test_char_input_max(c : Char) -> Unit raise Error {
+  assert_eq(c, Int::unsafe_to_char(32767))
 }
 
 ///|
 pub fn test_char_output_min() -> Char {
-  Char::from_int(-32768)
+  Int::unsafe_to_char(-32768)
 }
 
 ///|
 pub fn test_char_output_max() -> Char {
-  Char::from_int(32767) // TODO: @int16.max_value))
+  Int::unsafe_to_char(32767) // TODO: @int16.max_value))
 }
 
 ///|
-pub fn test_char_option_input_min(c : Char?) -> Unit!Error {
-  assert_eq!(c, Some(Char::from_int(-32768))) // TODO: @int16.min_value)))
+pub fn test_char_option_input_min(c : Char?) -> Unit raise Error {
+  assert_eq(c, Some(Int::unsafe_to_char(-32768))) // TODO: @int16.min_value)))
 }
 
 ///|
-pub fn test_char_option_input_max(c : Char?) -> Unit!Error {
-  assert_eq!(c, Some(Char::from_int(32767))) // TODO: @int16.max_value)))
+pub fn test_char_option_input_max(c : Char?) -> Unit raise Error {
+  assert_eq(c, Some(Int::unsafe_to_char(32767))) // TODO: @int16.max_value)))
 }
 
 ///|
-pub fn test_char_option_input_none(c : Char?) -> Unit!Error {
-  assert_eq!(c, None)
+pub fn test_char_option_input_none(c : Char?) -> Unit raise Error {
+  assert_eq(c, None)
 }
 
 ///|
 pub fn test_char_option_output_min() -> Char? {
-  Some(Char::from_int(-32768)) // TODO: @int16.min_value))
+  Some(Int::unsafe_to_char(-32768)) // TODO: @int16.min_value))
 }
 
 ///|
 pub fn test_char_option_output_max() -> Char? {
-  Some(Char::from_int(32767)) // TODO: @int16.max_value))
+  Some(Int::unsafe_to_char(32767)) // TODO: @int16.max_value))
 }
 
 ///|

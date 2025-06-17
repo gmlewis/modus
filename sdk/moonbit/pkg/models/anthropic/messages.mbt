@@ -15,11 +15,11 @@ pub(all) type MessagesModel @models.ModelBase derive(Show, Eq, FromJson, ToJson)
 pub fn invoke(
   self : MessagesModel,
   input : MessagesModelInput
-) -> MessagesModelOutput!Error {
+) -> MessagesModelOutput raise Error {
   let input_json = input.to_json()
-  let output_json = self._.invoke!(input_json)
+  let output_json = self.inner().invoke(input_json)
   // println("got output_json=\{output_json}")
-  @json.from_json!(output_json)
+  @json.from_json(output_json)
 }
 
 // type MessagesModel struct {
@@ -276,10 +276,10 @@ pub impl @json.FromJson for MessagesModelOutput with from_json(self, path) {
     Some(String(stop_sequence)) => stop_sequence
     _ => ""
   }
-  let content : Array[ContentBlock] = @json.from_json!(
+  let content : Array[ContentBlock] = @json.from_json(
     obj.get("content").unwrap(),
   )
-  let usage : Usage = @json.from_json!(obj.get("usage").unwrap())
+  let usage : Usage = @json.from_json(obj.get("usage").unwrap())
   { id, type_, role, content, model, stop_reason, stop_sequence, usage }
 }
 
@@ -460,6 +460,7 @@ pub fn tool_result_content_block(
 }
 
 // A tool object that the model may call.
+
 ///|
 pub(all) struct Tool {
   // Name of the tool.
@@ -475,12 +476,13 @@ pub(all) struct Tool {
 } derive(Show, Eq, FromJson, ToJson)
 
 // Creates an input object for the Anthropic Messages API.
+
 ///|
 pub fn create_input(
   self : MessagesModel,
   messages : Array[Message]
 ) -> MessagesModelInput {
-  let info = self._.info()
+  let info = self.inner().info()
   let model = info.full_name
   {
     model,

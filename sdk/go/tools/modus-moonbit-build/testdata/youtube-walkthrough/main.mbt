@@ -5,14 +5,14 @@ pub struct Quote {
 } derive(Show, Eq, ToJson, FromJson)
 
 ///|
-priv type! QuoteError String derive(Show, Eq)
+priv suberror QuoteError String derive(Show, Eq)
 
 ///|
-pub fn get_random_quote() -> Quote!Error {
+pub fn get_random_quote() -> Quote raise Error {
   let request = @http.Request::new("https://api.quotable.io/random")
-  let response = @http.fetch!(request)
+  let response = request.fetch()
   guard response.ok() else { raise QuoteError("Failed to fetch quote") }
-  let quotes : Array[Quote] = response.json!()
+  let quotes : Array[Quote] = response.json()
   quotes[0]
 }
 

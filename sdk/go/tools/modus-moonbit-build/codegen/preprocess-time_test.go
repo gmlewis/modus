@@ -42,8 +42,8 @@ func TestTestablePreProcess_Time(t *testing.T) {
 	reportPreProcessDiffs(t, "time", wg)
 }
 
-var wantTimePreProcessBody = `pub fn __modus_get_utc_time() -> @time.ZonedDateTime!Error {
-  try get_utc_time!() {
+var wantTimePreProcessBody = `pub fn __modus_get_utc_time() -> @time.ZonedDateTime raise Error {
+  try get_utc_time() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -51,8 +51,8 @@ var wantTimePreProcessBody = `pub fn __modus_get_utc_time() -> @time.ZonedDateTi
   }
 }
 
-pub fn __modus_get_local_time_moonbit() -> String!Error {
-  try get_local_time_moonbit!() {
+pub fn __modus_get_local_time_moonbit() -> String raise Error {
+  try get_local_time_moonbit() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -64,8 +64,8 @@ pub fn __modus_get_local_time_modus() -> String {
   get_local_time_modus()
 }
 
-pub fn __modus_get_time_in_zone_moonbit(tz : String) -> String!Error {
-  try get_time_in_zone_moonbit!(tz) {
+pub fn __modus_get_time_in_zone_moonbit(tz : String) -> String raise Error {
+  try get_time_in_zone_moonbit(tz) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -81,8 +81,8 @@ pub fn __modus_get_local_time_zone_id() -> String {
   get_local_time_zone_id()
 }
 
-pub fn __modus_get_time_zone_info(tz : String) -> TimeZoneInfo!Error {
-  try get_time_zone_info!(tz) {
+pub fn __modus_get_time_zone_info(tz : String) -> TimeZoneInfo raise Error {
+  try get_time_zone_info(tz) catch {
     e => {
       @console.error(e.to_string())
       raise e

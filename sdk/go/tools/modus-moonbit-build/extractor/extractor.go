@@ -47,7 +47,7 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	}
 
 	// * If a function returns any `@time.*`, the time-related types will be added.
-	// * If a function returns any `!Error`, the `logMessage` import will be added.
+	// * If a function returns any `!Error` or ` raise Error`, the `logMessage` import will be added.
 	for _, export := range meta.FnExports {
 		returnType := moonBitReturnType(export)
 		if strings.Contains(returnType, "@time.") {

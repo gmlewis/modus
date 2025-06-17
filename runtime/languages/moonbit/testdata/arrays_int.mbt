@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_int_empty(val : Array[Int]) -> Unit!Error {
+pub fn test_array_input_int_empty(val : Array[Int]) -> Unit raise Error {
   let expected = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -114,14 +114,14 @@ pub fn test_array_output_int_option_4() -> Array[Int?] {
 }
 
 ///|
-pub fn test_array_input_int_option(val : Array[Int?]) -> Unit!Error {
+pub fn test_array_input_int_option(val : Array[Int?]) -> Unit raise Error {
   let expected = get_int_option_array()
   // println("expected: \{expected}")
   // println("val: \{val}")
   // println: val: [Some(11), None, Some(33)]
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 32=8+words*4), moonBitType=241(FixedArray[Int]), words=6, memBlock=[1 0 0 0 241 6 0 0 11 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 33 0 0 0 0 0 0 0]
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 32 191 0 0 3 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|

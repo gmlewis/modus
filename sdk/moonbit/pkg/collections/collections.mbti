@@ -9,55 +9,55 @@ const ERROR : String = "error"
 
 const SUCCESS : String = "success"
 
-fn compute_distance(String, String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionSearchResultObject!
+fn compute_distance(String, String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionSearchResultObject raise
 
-fn get_labels(String, String, opts~ : Array[NamespaceOption] = ..) -> Array[String]!
+fn get_labels(String, String, opts~ : Array[NamespaceOption] = ..) -> Array[String] raise
 
-fn get_namespaces(String) -> Array[String]!
+fn get_namespaces(String) -> Array[String] raise
 
-fn get_text(String, String, opts~ : Array[NamespaceOption] = ..) -> String!
+fn get_text(String, String, opts~ : Array[NamespaceOption] = ..) -> String raise
 
-fn get_texts(String, opts~ : Array[NamespaceOption] = ..) -> Map[String, String]!
+fn get_texts(String, opts~ : Array[NamespaceOption] = ..) -> Map[String, String] raise
 
-fn get_vector(String, String, String, opts~ : Array[NamespaceOption] = ..) -> Array[Float]!
+fn get_vector(String, String, String, opts~ : Array[NamespaceOption] = ..) -> Array[Float] raise
 
-fn host_classify_text(String, String, String, String) -> CollectionClassificationResult!
+fn host_classify_text(String, String, String, String) -> CollectionClassificationResult raise
 
-fn host_compute_distance(String, String, String, String, String) -> CollectionSearchResultObject!
+fn host_compute_distance(String, String, String, String, String) -> CollectionSearchResultObject raise
 
-fn host_delete(String, String, String) -> CollectionMutationResult!
+fn host_delete(String, String, String) -> CollectionMutationResult raise
 
-fn host_dump_texts(String, String) -> Map[String, String]!
+fn host_dump_texts(String, String) -> Map[String, String] raise
 
-fn host_get_labels(String, String, String) -> Array[String]!
+fn host_get_labels(String, String, String) -> Array[String] raise
 
-fn host_get_namespaces(String) -> Array[String]!
+fn host_get_namespaces(String) -> Array[String] raise
 
-fn host_get_text(String, String, String) -> String!
+fn host_get_text(String, String, String) -> String raise
 
-fn host_get_vector(String, String, String, String) -> Array[Float]!
+fn host_get_vector(String, String, String, String) -> Array[Float] raise
 
-fn host_recompute_index(String, String, String) -> SearchMethodMutationResult!
+fn host_recompute_index(String, String, String) -> SearchMethodMutationResult raise
 
-fn host_search(String, Array[String], String, String, Int, Bool) -> CollectionSearchResult!
+fn host_search(String, Array[String], String, String, Int, Bool) -> CollectionSearchResult raise
 
-fn host_search_by_vector(String, Array[String], String, Array[Float], Int, Bool) -> CollectionSearchResult!
+fn host_search_by_vector(String, Array[String], String, Array[Float], Int, Bool) -> CollectionSearchResult raise
 
-fn host_upsert(String, String, Array[String], Array[String], Array[Array[String]]) -> CollectionMutationResult!
+fn host_upsert(String, String, Array[String], Array[String], Array[Array[String]]) -> CollectionMutationResult raise
 
-fn nn_classify(String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionClassificationResult!
+fn nn_classify(String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionClassificationResult raise
 
-fn recompute_search_method(String, String, opts~ : Array[NamespaceOption] = ..) -> SearchMethodMutationResult!
+fn recompute_search_method(String, String, opts~ : Array[NamespaceOption] = ..) -> SearchMethodMutationResult raise
 
-fn remove(String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+fn remove(String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult raise
 
-fn search(String, String, String, opts~ : Array[SearchOption] = ..) -> CollectionSearchResult!
+fn search(String, String, String, opts~ : Array[SearchOption] = ..) -> CollectionSearchResult raise
 
-fn search_by_vector(String, String, Array[Float], opts~ : Array[SearchOption] = ..) -> CollectionSearchResult!
+fn search_by_vector(String, String, Array[Float], opts~ : Array[SearchOption] = ..) -> CollectionSearchResult raise
 
-fn upsert(String, String, key~ : String = .., labels~ : Array[String] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+fn upsert(String, String, key~ : String = .., labels~ : Array[String] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult raise
 
-fn upsert_batch(String, Array[String], keys~ : Array[String] = .., labels_arr~ : Array[Array[String]] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+fn upsert_batch(String, Array[String], keys~ : Array[String] = .., labels_arr~ : Array[Array[String]] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult raise
 
 fn with_limit(Int) -> SearchOption
 
@@ -101,7 +101,7 @@ impl Show for CollectionClassificationResultObject
 impl ToJson for CollectionClassificationResultObject
 impl @json.FromJson for CollectionClassificationResultObject
 
-pub(all) type! CollectionError String
+pub(all) suberror CollectionError String
 impl Eq for CollectionError
 impl Show for CollectionError
 
@@ -130,7 +130,7 @@ impl ToJson for CollectionSearchResult
 impl @json.FromJson for CollectionSearchResult
 
 pub(all) struct CollectionSearchResultObject {
-  namespace : String
+  namespace_ : String
   key : String
   text : String
   labels : Array[String]
@@ -143,9 +143,10 @@ impl ToJson for CollectionSearchResultObject
 impl @json.FromJson for CollectionSearchResultObject
 
 pub type NamespaceOption (NamespaceOptions) -> Unit
+fn NamespaceOption::inner(Self) -> (NamespaceOptions) -> Unit
 
 pub(all) struct NamespaceOptions {
-  mut namespace : String
+  mut namespace_ : String
 }
 
 pub(all) struct SearchMethodMutationResult {
@@ -161,6 +162,7 @@ impl ToJson for SearchMethodMutationResult
 impl @json.FromJson for SearchMethodMutationResult
 
 pub(all) type SearchOption (SearchOptions) -> Unit
+fn SearchOption::inner(Self) -> (SearchOptions) -> Unit
 
 pub(all) struct SearchOptions {
   mut namespaces : Array[String]

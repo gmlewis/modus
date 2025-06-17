@@ -31,7 +31,7 @@ fn host_get_time_zone_data(
 }
 
 ///|
-fn cast_from_ptr[A](a : Int) -> A = "%identity"
+fn[A] cast_from_ptr(a : Int) -> A = "%identity"
 
 ///|
 fn host_get_local_time_modus() -> String {

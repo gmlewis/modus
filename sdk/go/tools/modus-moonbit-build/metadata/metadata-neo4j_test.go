@@ -23,10 +23,10 @@ func TestFunction_String_Neo4j(t *testing.T) {
 	t.Parallel()
 
 	tests := []functionStringTest{
-		{name: "create_people_and_relationships", want: "() -> String!Error"},
-		{name: "delete_all_nodes", want: "() -> String!Error"},
-		{name: "get_alice_friends_under_40", want: "() -> Array[Person]!Error"},
-		{name: "get_alice_friends_under_40_ages", want: "() -> Array[Int]!Error"},
+		{name: "create_people_and_relationships", want: "() -> String raise Error"},
+		{name: "delete_all_nodes", want: "() -> String raise Error"},
+		{name: "get_alice_friends_under_40", want: "() -> Array[Person] raise Error"},
+		{name: "get_alice_friends_under_40_ages", want: "() -> Array[Int] raise Error"},
 	}
 
 	testFunctionStringHelper(t, "neo4j", neo4jExampleMetadataJSON, tests)

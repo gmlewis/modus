@@ -90,8 +90,8 @@ pub fn __modus_test_array_output_bool_option_4() -> Array[Bool?] {
   test_array_output_bool_option_4()
 }
 
-pub fn __modus_test_array_input_bool_0(val : Array[Bool]) -> Unit!Error {
-  try test_array_input_bool_0!(val) {
+pub fn __modus_test_array_input_bool_0(val : Array[Bool]) -> Unit raise Error {
+  try test_array_input_bool_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -99,8 +99,8 @@ pub fn __modus_test_array_input_bool_0(val : Array[Bool]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_bool_1(val : Array[Bool]) -> Unit!Error {
-  try test_array_input_bool_1!(val) {
+pub fn __modus_test_array_input_bool_1(val : Array[Bool]) -> Unit raise Error {
+  try test_array_input_bool_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -108,8 +108,8 @@ pub fn __modus_test_array_input_bool_1(val : Array[Bool]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_bool_2(val : Array[Bool]) -> Unit!Error {
-  try test_array_input_bool_2!(val) {
+pub fn __modus_test_array_input_bool_2(val : Array[Bool]) -> Unit raise Error {
+  try test_array_input_bool_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -117,8 +117,8 @@ pub fn __modus_test_array_input_bool_2(val : Array[Bool]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_bool_3(val : Array[Bool]) -> Unit!Error {
-  try test_array_input_bool_3!(val) {
+pub fn __modus_test_array_input_bool_3(val : Array[Bool]) -> Unit raise Error {
+  try test_array_input_bool_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -126,8 +126,8 @@ pub fn __modus_test_array_input_bool_3(val : Array[Bool]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_bool_4(val : Array[Bool]) -> Unit!Error {
-  try test_array_input_bool_4!(val) {
+pub fn __modus_test_array_input_bool_4(val : Array[Bool]) -> Unit raise Error {
+  try test_array_input_bool_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -135,8 +135,8 @@ pub fn __modus_test_array_input_bool_4(val : Array[Bool]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_bool_option_0(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_0!(val) {
+pub fn __modus_test_array_input_bool_option_0(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -144,8 +144,8 @@ pub fn __modus_test_array_input_bool_option_0(val : Array[Bool?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_bool_option_1_none(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_1_none!(val) {
+pub fn __modus_test_array_input_bool_option_1_none(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -153,8 +153,8 @@ pub fn __modus_test_array_input_bool_option_1_none(val : Array[Bool?]) -> Unit!E
   }
 }
 
-pub fn __modus_test_array_input_bool_option_1_false(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_1_false!(val) {
+pub fn __modus_test_array_input_bool_option_1_false(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_1_false(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -162,8 +162,8 @@ pub fn __modus_test_array_input_bool_option_1_false(val : Array[Bool?]) -> Unit!
   }
 }
 
-pub fn __modus_test_array_input_bool_option_1_true(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_1_true!(val) {
+pub fn __modus_test_array_input_bool_option_1_true(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_1_true(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -171,8 +171,8 @@ pub fn __modus_test_array_input_bool_option_1_true(val : Array[Bool?]) -> Unit!E
   }
 }
 
-pub fn __modus_test_array_input_bool_option_2(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_2!(val) {
+pub fn __modus_test_array_input_bool_option_2(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -180,8 +180,8 @@ pub fn __modus_test_array_input_bool_option_2(val : Array[Bool?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_bool_option_3(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_3!(val) {
+pub fn __modus_test_array_input_bool_option_3(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -189,8 +189,8 @@ pub fn __modus_test_array_input_bool_option_3(val : Array[Bool?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_bool_option_4(val : Array[Bool?]) -> Unit!Error {
-  try test_array_input_bool_option_4!(val) {
+pub fn __modus_test_array_input_bool_option_4(val : Array[Bool?]) -> Unit raise Error {
+  try test_array_input_bool_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -238,8 +238,8 @@ pub fn __modus_test_array_output_byte_option_4() -> Array[Byte?] {
   test_array_output_byte_option_4()
 }
 
-pub fn __modus_test_array_input_byte_0(val : Array[Byte]) -> Unit!Error {
-  try test_array_input_byte_0!(val) {
+pub fn __modus_test_array_input_byte_0(val : Array[Byte]) -> Unit raise Error {
+  try test_array_input_byte_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -247,8 +247,8 @@ pub fn __modus_test_array_input_byte_0(val : Array[Byte]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_byte_1(val : Array[Byte]) -> Unit!Error {
-  try test_array_input_byte_1!(val) {
+pub fn __modus_test_array_input_byte_1(val : Array[Byte]) -> Unit raise Error {
+  try test_array_input_byte_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -256,8 +256,8 @@ pub fn __modus_test_array_input_byte_1(val : Array[Byte]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_byte_2(val : Array[Byte]) -> Unit!Error {
-  try test_array_input_byte_2!(val) {
+pub fn __modus_test_array_input_byte_2(val : Array[Byte]) -> Unit raise Error {
+  try test_array_input_byte_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -265,8 +265,8 @@ pub fn __modus_test_array_input_byte_2(val : Array[Byte]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_byte_3(val : Array[Byte]) -> Unit!Error {
-  try test_array_input_byte_3!(val) {
+pub fn __modus_test_array_input_byte_3(val : Array[Byte]) -> Unit raise Error {
+  try test_array_input_byte_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -274,8 +274,8 @@ pub fn __modus_test_array_input_byte_3(val : Array[Byte]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_byte_4(val : Array[Byte]) -> Unit!Error {
-  try test_array_input_byte_4!(val) {
+pub fn __modus_test_array_input_byte_4(val : Array[Byte]) -> Unit raise Error {
+  try test_array_input_byte_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -283,8 +283,8 @@ pub fn __modus_test_array_input_byte_4(val : Array[Byte]) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_array_input_byte_option_0(val : Array[Byte?]) -> Unit!Error {
-  try test_array_input_byte_option_0!(val) {
+pub fn __modus_test_array_input_byte_option_0(val : Array[Byte?]) -> Unit raise Error {
+  try test_array_input_byte_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -292,8 +292,8 @@ pub fn __modus_test_array_input_byte_option_0(val : Array[Byte?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_byte_option_1(val : Array[Byte?]) -> Unit!Error {
-  try test_array_input_byte_option_1!(val) {
+pub fn __modus_test_array_input_byte_option_1(val : Array[Byte?]) -> Unit raise Error {
+  try test_array_input_byte_option_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -301,8 +301,8 @@ pub fn __modus_test_array_input_byte_option_1(val : Array[Byte?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_byte_option_2(val : Array[Byte?]) -> Unit!Error {
-  try test_array_input_byte_option_2!(val) {
+pub fn __modus_test_array_input_byte_option_2(val : Array[Byte?]) -> Unit raise Error {
+  try test_array_input_byte_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -310,8 +310,8 @@ pub fn __modus_test_array_input_byte_option_2(val : Array[Byte?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_byte_option_3(val : Array[Byte?]) -> Unit!Error {
-  try test_array_input_byte_option_3!(val) {
+pub fn __modus_test_array_input_byte_option_3(val : Array[Byte?]) -> Unit raise Error {
+  try test_array_input_byte_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -319,8 +319,8 @@ pub fn __modus_test_array_input_byte_option_3(val : Array[Byte?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_byte_option_4(val : Array[Byte?]) -> Unit!Error {
-  try test_array_input_byte_option_4!(val) {
+pub fn __modus_test_array_input_byte_option_4(val : Array[Byte?]) -> Unit raise Error {
+  try test_array_input_byte_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -328,8 +328,8 @@ pub fn __modus_test_array_input_byte_option_4(val : Array[Byte?]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_array_input_char_empty(val : Array[Char]) -> Unit!Error {
-  try test_array_input_char_empty!(val) {
+pub fn __modus_test_array_input_char_empty(val : Array[Char]) -> Unit raise Error {
+  try test_array_input_char_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -381,8 +381,8 @@ pub fn __modus_test_array_output_char_option_4() -> Array[Char?] {
   test_array_output_char_option_4()
 }
 
-pub fn __modus_test_array_input_char_option(val : Array[Char?]) -> Unit!Error {
-  try test_array_input_char_option!(val) {
+pub fn __modus_test_array_input_char_option(val : Array[Char?]) -> Unit raise Error {
+  try test_array_input_char_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -394,8 +394,8 @@ pub fn __modus_test_array_output_char_option() -> Array[Char?] {
   test_array_output_char_option()
 }
 
-pub fn __modus_test_array_input_double_empty(val : Array[Double]) -> Unit!Error {
-  try test_array_input_double_empty!(val) {
+pub fn __modus_test_array_input_double_empty(val : Array[Double]) -> Unit raise Error {
+  try test_array_input_double_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -447,8 +447,8 @@ pub fn __modus_test_array_output_double_option_4() -> Array[Double?] {
   test_array_output_double_option_4()
 }
 
-pub fn __modus_test_array_input_double_option(val : Array[Double?]) -> Unit!Error {
-  try test_array_input_double_option!(val) {
+pub fn __modus_test_array_input_double_option(val : Array[Double?]) -> Unit raise Error {
+  try test_array_input_double_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -460,8 +460,8 @@ pub fn __modus_test_array_output_double_option() -> Array[Double?] {
   test_array_output_double_option()
 }
 
-pub fn __modus_test_array_input_float_empty(val : Array[Float]) -> Unit!Error {
-  try test_array_input_float_empty!(val) {
+pub fn __modus_test_array_input_float_empty(val : Array[Float]) -> Unit raise Error {
+  try test_array_input_float_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -513,8 +513,8 @@ pub fn __modus_test_array_output_float_option_4() -> Array[Float?] {
   test_array_output_float_option_4()
 }
 
-pub fn __modus_test_array_input_float_option(val : Array[Float?]) -> Unit!Error {
-  try test_array_input_float_option!(val) {
+pub fn __modus_test_array_input_float_option(val : Array[Float?]) -> Unit raise Error {
+  try test_array_input_float_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -526,8 +526,8 @@ pub fn __modus_test_array_output_float_option() -> Array[Float?] {
   test_array_output_float_option()
 }
 
-pub fn __modus_test_array_input_int_empty(val : Array[Int]) -> Unit!Error {
-  try test_array_input_int_empty!(val) {
+pub fn __modus_test_array_input_int_empty(val : Array[Int]) -> Unit raise Error {
+  try test_array_input_int_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -591,8 +591,8 @@ pub fn __modus_test_array_output_int_option_4() -> Array[Int?] {
   test_array_output_int_option_4()
 }
 
-pub fn __modus_test_array_input_int_option(val : Array[Int?]) -> Unit!Error {
-  try test_array_input_int_option!(val) {
+pub fn __modus_test_array_input_int_option(val : Array[Int?]) -> Unit raise Error {
+  try test_array_input_int_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -604,8 +604,8 @@ pub fn __modus_test_array_output_int_option() -> Array[Int?] {
   test_array_output_int_option()
 }
 
-pub fn __modus_test_array_input_int16_empty(val : Array[Int16]) -> Unit!Error {
-  try test_array_input_int16_empty!(val) {
+pub fn __modus_test_array_input_int16_empty(val : Array[Int16]) -> Unit raise Error {
+  try test_array_input_int16_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -669,8 +669,8 @@ pub fn __modus_test_array_output_int16_option_4() -> Array[Int16?] {
   test_array_output_int16_option_4()
 }
 
-pub fn __modus_test_array_input_int16_option(val : Array[Int16?]) -> Unit!Error {
-  try test_array_input_int16_option!(val) {
+pub fn __modus_test_array_input_int16_option(val : Array[Int16?]) -> Unit raise Error {
+  try test_array_input_int16_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -738,8 +738,8 @@ pub fn __modus_test_array_output_int64_option_4() -> Array[Int64?] {
   test_array_output_int64_option_4()
 }
 
-pub fn __modus_test_array_input_string(val : Array[String]) -> Unit!Error {
-  try test_array_input_string!(val) {
+pub fn __modus_test_array_input_string(val : Array[String]) -> Unit raise Error {
+  try test_array_input_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -751,8 +751,8 @@ pub fn __modus_test_array_output_string() -> Array[String] {
   test_array_output_string()
 }
 
-pub fn __modus_test_array_input_string_none(val : Array[String]?) -> Unit!Error {
-  try test_array_input_string_none!(val) {
+pub fn __modus_test_array_input_string_none(val : Array[String]?) -> Unit raise Error {
+  try test_array_input_string_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -764,8 +764,8 @@ pub fn __modus_test_array_output_string_none() -> Array[String]? {
   test_array_output_string_none()
 }
 
-pub fn __modus_test_array_input_string_empty(val : Array[String]) -> Unit!Error {
-  try test_array_input_string_empty!(val) {
+pub fn __modus_test_array_input_string_empty(val : Array[String]) -> Unit raise Error {
+  try test_array_input_string_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -777,8 +777,8 @@ pub fn __modus_test_array_output_string_empty() -> Array[String] {
   test_array_output_string_empty()
 }
 
-pub fn __modus_test_array_input_string_option(val : Array[String?]) -> Unit!Error {
-  try test_array_input_string_option!(val) {
+pub fn __modus_test_array_input_string_option(val : Array[String?]) -> Unit raise Error {
+  try test_array_input_string_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -790,8 +790,8 @@ pub fn __modus_test_array_output_string_option() -> Array[String?] {
   test_array_output_string_option()
 }
 
-pub fn __modus_test2d_array_input_string(val : Array[Array[String]]) -> Unit!Error {
-  try test2d_array_input_string!(val) {
+pub fn __modus_test2d_array_input_string(val : Array[Array[String]]) -> Unit raise Error {
+  try test2d_array_input_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -803,8 +803,8 @@ pub fn __modus_test2d_array_output_string() -> Array[Array[String]] {
   test2d_array_output_string()
 }
 
-pub fn __modus_test2d_array_input_string_none(val : Array[Array[String]]?) -> Unit!Error {
-  try test2d_array_input_string_none!(val) {
+pub fn __modus_test2d_array_input_string_none(val : Array[Array[String]]?) -> Unit raise Error {
+  try test2d_array_input_string_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -816,8 +816,8 @@ pub fn __modus_test2d_array_output_string_none() -> Array[Array[String]]? {
   test2d_array_output_string_none()
 }
 
-pub fn __modus_test2d_array_input_string_empty(val : Array[Array[String]]) -> Unit!Error {
-  try test2d_array_input_string_empty!(val) {
+pub fn __modus_test2d_array_input_string_empty(val : Array[Array[String]]) -> Unit raise Error {
+  try test2d_array_input_string_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -829,8 +829,8 @@ pub fn __modus_test2d_array_output_string_empty() -> Array[Array[String]] {
   test2d_array_output_string_empty()
 }
 
-pub fn __modus_test2d_array_input_string_inner_empty(val : Array[Array[String]]) -> Unit!Error {
-  try test2d_array_input_string_inner_empty!(val) {
+pub fn __modus_test2d_array_input_string_inner_empty(val : Array[Array[String]]) -> Unit raise Error {
+  try test2d_array_input_string_inner_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -842,8 +842,8 @@ pub fn __modus_test2d_array_output_string_inner_empty() -> Array[Array[String]] 
   test2d_array_output_string_inner_empty()
 }
 
-pub fn __modus_test2d_array_input_string_inner_none(val : Array[Array[String]?]) -> Unit!Error {
-  try test2d_array_input_string_inner_none!(val) {
+pub fn __modus_test2d_array_input_string_inner_none(val : Array[Array[String]?]) -> Unit raise Error {
+  try test2d_array_input_string_inner_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -855,8 +855,8 @@ pub fn __modus_test2d_array_output_string_inner_none() -> Array[Array[String]?] 
   test2d_array_output_string_inner_none()
 }
 
-pub fn __modus_test_array_input_uint_empty(val : Array[UInt]) -> Unit!Error {
-  try test_array_input_uint_empty!(val) {
+pub fn __modus_test_array_input_uint_empty(val : Array[UInt]) -> Unit raise Error {
+  try test_array_input_uint_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -920,8 +920,8 @@ pub fn __modus_test_array_output_uint_option_4() -> Array[UInt?] {
   test_array_output_uint_option_4()
 }
 
-pub fn __modus_test_array_input_uint_option(val : Array[UInt?]) -> Unit!Error {
-  try test_array_input_uint_option!(val) {
+pub fn __modus_test_array_input_uint_option(val : Array[UInt?]) -> Unit raise Error {
+  try test_array_input_uint_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -933,8 +933,8 @@ pub fn __modus_test_array_output_uint_option() -> Array[UInt?] {
   test_array_output_uint_option()
 }
 
-pub fn __modus_test_array_input_uint16_empty(val : Array[UInt16]) -> Unit!Error {
-  try test_array_input_uint16_empty!(val) {
+pub fn __modus_test_array_input_uint16_empty(val : Array[UInt16]) -> Unit raise Error {
+  try test_array_input_uint16_empty(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -998,8 +998,8 @@ pub fn __modus_test_array_output_uint16_option_4() -> Array[UInt16?] {
   test_array_output_uint16_option_4()
 }
 
-pub fn __modus_test_array_input_uint16_option(val : Array[UInt16?]) -> Unit!Error {
-  try test_array_input_uint16_option!(val) {
+pub fn __modus_test_array_input_uint16_option(val : Array[UInt16?]) -> Unit raise Error {
+  try test_array_input_uint16_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1067,8 +1067,8 @@ pub fn __modus_test_array_output_uint64_option_4() -> Array[UInt64?] {
   test_array_output_uint64_option_4()
 }
 
-pub fn __modus_test_fixedarray_input0_byte(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input0_byte!(val) {
+pub fn __modus_test_fixedarray_input0_byte(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input0_byte(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1080,8 +1080,8 @@ pub fn __modus_test_fixedarray_output0_byte() -> FixedArray[Byte] {
   test_fixedarray_output0_byte()
 }
 
-pub fn __modus_test_fixedarray_input0_string(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input0_string!(val) {
+pub fn __modus_test_fixedarray_input0_string(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input0_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1093,8 +1093,8 @@ pub fn __modus_test_fixedarray_output0_string() -> FixedArray[String] {
   test_fixedarray_output0_string()
 }
 
-pub fn __modus_test_fixedarray_input0_string_option(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input0_string_option!(val) {
+pub fn __modus_test_fixedarray_input0_string_option(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input0_string_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1106,8 +1106,8 @@ pub fn __modus_test_fixedarray_output0_string_option() -> FixedArray[String?] {
   test_fixedarray_output0_string_option()
 }
 
-pub fn __modus_test_fixedarray_input0_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input0_int_option!(val) {
+pub fn __modus_test_fixedarray_input0_int_option(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input0_int_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1119,8 +1119,8 @@ pub fn __modus_test_fixedarray_output0_int_option() -> FixedArray[Int?] {
   test_fixedarray_output0_int_option()
 }
 
-pub fn __modus_test_fixedarray_input1_byte(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input1_byte!(val) {
+pub fn __modus_test_fixedarray_input1_byte(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input1_byte(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1132,8 +1132,8 @@ pub fn __modus_test_fixedarray_output1_byte() -> FixedArray[Byte] {
   test_fixedarray_output1_byte()
 }
 
-pub fn __modus_test_fixedarray_input1_string(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input1_string!(val) {
+pub fn __modus_test_fixedarray_input1_string(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input1_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1145,8 +1145,8 @@ pub fn __modus_test_fixedarray_output1_string() -> FixedArray[String] {
   test_fixedarray_output1_string()
 }
 
-pub fn __modus_test_fixedarray_input1_string_option(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input1_string_option!(val) {
+pub fn __modus_test_fixedarray_input1_string_option(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input1_string_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1162,8 +1162,8 @@ pub fn __modus_get_string_option_fixedarray1() -> FixedArray[String?] {
   get_string_option_fixedarray1()
 }
 
-pub fn __modus_test_fixedarray_input1_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input1_int_option!(val) {
+pub fn __modus_test_fixedarray_input1_int_option(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input1_int_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1179,8 +1179,8 @@ pub fn __modus_get_int_option_fixedarray1() -> FixedArray[Int?] {
   get_int_option_fixedarray1()
 }
 
-pub fn __modus_test_fixedarray_input2_byte(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input2_byte!(val) {
+pub fn __modus_test_fixedarray_input2_byte(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input2_byte(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1192,8 +1192,8 @@ pub fn __modus_test_fixedarray_output2_byte() -> FixedArray[Byte] {
   test_fixedarray_output2_byte()
 }
 
-pub fn __modus_test_fixedarray_input2_string(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input2_string!(val) {
+pub fn __modus_test_fixedarray_input2_string(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input2_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1205,8 +1205,8 @@ pub fn __modus_test_fixedarray_output2_string() -> FixedArray[String] {
   test_fixedarray_output2_string()
 }
 
-pub fn __modus_test_fixedarray_input2_string_option(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input2_string_option!(val) {
+pub fn __modus_test_fixedarray_input2_string_option(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input2_string_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1222,8 +1222,8 @@ pub fn __modus_get_string_option_array2() -> FixedArray[String?] {
   get_string_option_array2()
 }
 
-pub fn __modus_test_fixedarray_input2_int_option(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input2_int_option!(val) {
+pub fn __modus_test_fixedarray_input2_int_option(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input2_int_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1239,8 +1239,8 @@ pub fn __modus_get_int_ptr_array2() -> FixedArray[Int?] {
   get_int_ptr_array2()
 }
 
-pub fn __modus_test_fixedarray_input2_struct(val : FixedArray[TestStruct2]) -> Unit!Error {
-  try test_fixedarray_input2_struct!(val) {
+pub fn __modus_test_fixedarray_input2_struct(val : FixedArray[TestStruct2]) -> Unit raise Error {
+  try test_fixedarray_input2_struct(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1252,8 +1252,8 @@ pub fn __modus_test_fixedarray_output2_struct() -> FixedArray[TestStruct2] {
   test_fixedarray_output2_struct()
 }
 
-pub fn __modus_test_fixedarray_input2_struct_option(val : FixedArray[TestStruct2?]) -> Unit!Error {
-  try test_fixedarray_input2_struct_option!(val) {
+pub fn __modus_test_fixedarray_input2_struct_option(val : FixedArray[TestStruct2?]) -> Unit raise Error {
+  try test_fixedarray_input2_struct_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1265,8 +1265,8 @@ pub fn __modus_test_fixedarray_output2_struct_option() -> FixedArray[TestStruct2
   test_fixedarray_output2_struct_option()
 }
 
-pub fn __modus_test_fixedarray_input2_map(val : FixedArray[Map[String, String]]) -> Unit!Error {
-  try test_fixedarray_input2_map!(val) {
+pub fn __modus_test_fixedarray_input2_map(val : FixedArray[Map[String, String]]) -> Unit raise Error {
+  try test_fixedarray_input2_map(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1278,8 +1278,8 @@ pub fn __modus_test_fixedarray_output2_map() -> FixedArray[Map[String, String]] 
   test_fixedarray_output2_map()
 }
 
-pub fn __modus_test_fixedarray_input2_map_option(val : FixedArray[Map[String, String]?]) -> Unit!Error {
-  try test_fixedarray_input2_map_option!(val) {
+pub fn __modus_test_fixedarray_input2_map_option(val : FixedArray[Map[String, String]?]) -> Unit raise Error {
+  try test_fixedarray_input2_map_option(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1299,8 +1299,8 @@ pub fn __modus_get_map_ptr_array2() -> FixedArray[Map[String, String]?] {
   get_map_ptr_array2()
 }
 
-pub fn __modus_test_option_fixedarray_input1_int(val : FixedArray[Int]?) -> Unit!Error {
-  try test_option_fixedarray_input1_int!(val) {
+pub fn __modus_test_option_fixedarray_input1_int(val : FixedArray[Int]?) -> Unit raise Error {
+  try test_option_fixedarray_input1_int(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1316,8 +1316,8 @@ pub fn __modus_get_option_int_fixedarray1() -> FixedArray[Int]? {
   get_option_int_fixedarray1()
 }
 
-pub fn __modus_test_option_fixedarray_input2_int(val : FixedArray[Int]?) -> Unit!Error {
-  try test_option_fixedarray_input2_int!(val) {
+pub fn __modus_test_option_fixedarray_input2_int(val : FixedArray[Int]?) -> Unit raise Error {
+  try test_option_fixedarray_input2_int(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1333,8 +1333,8 @@ pub fn __modus_get_option_int_fixedarray2() -> FixedArray[Int]? {
   get_option_int_fixedarray2()
 }
 
-pub fn __modus_test_option_fixedarray_input1_string(val : FixedArray[String]?) -> Unit!Error {
-  try test_option_fixedarray_input1_string!(val) {
+pub fn __modus_test_option_fixedarray_input1_string(val : FixedArray[String]?) -> Unit raise Error {
+  try test_option_fixedarray_input1_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1354,8 +1354,8 @@ pub fn __modus_get_option_string_fixedarray2() -> FixedArray[String]? {
   get_option_string_fixedarray2()
 }
 
-pub fn __modus_test_option_fixedarray_input2_string(val : FixedArray[String]?) -> Unit!Error {
-  try test_option_fixedarray_input2_string!(val) {
+pub fn __modus_test_option_fixedarray_input2_string(val : FixedArray[String]?) -> Unit raise Error {
+  try test_option_fixedarray_input2_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1415,8 +1415,8 @@ pub fn __modus_test_fixedarray_output_bool_option_4() -> FixedArray[Bool?] {
   test_fixedarray_output_bool_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_bool_0(val : FixedArray[Bool]) -> Unit!Error {
-  try test_fixedarray_input_bool_0!(val) {
+pub fn __modus_test_fixedarray_input_bool_0(val : FixedArray[Bool]) -> Unit raise Error {
+  try test_fixedarray_input_bool_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1424,8 +1424,8 @@ pub fn __modus_test_fixedarray_input_bool_0(val : FixedArray[Bool]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_1(val : FixedArray[Bool]) -> Unit!Error {
-  try test_fixedarray_input_bool_1!(val) {
+pub fn __modus_test_fixedarray_input_bool_1(val : FixedArray[Bool]) -> Unit raise Error {
+  try test_fixedarray_input_bool_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1433,8 +1433,8 @@ pub fn __modus_test_fixedarray_input_bool_1(val : FixedArray[Bool]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_2(val : FixedArray[Bool]) -> Unit!Error {
-  try test_fixedarray_input_bool_2!(val) {
+pub fn __modus_test_fixedarray_input_bool_2(val : FixedArray[Bool]) -> Unit raise Error {
+  try test_fixedarray_input_bool_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1442,8 +1442,8 @@ pub fn __modus_test_fixedarray_input_bool_2(val : FixedArray[Bool]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_3(val : FixedArray[Bool]) -> Unit!Error {
-  try test_fixedarray_input_bool_3!(val) {
+pub fn __modus_test_fixedarray_input_bool_3(val : FixedArray[Bool]) -> Unit raise Error {
+  try test_fixedarray_input_bool_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1451,8 +1451,8 @@ pub fn __modus_test_fixedarray_input_bool_3(val : FixedArray[Bool]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_4(val : FixedArray[Bool]) -> Unit!Error {
-  try test_fixedarray_input_bool_4!(val) {
+pub fn __modus_test_fixedarray_input_bool_4(val : FixedArray[Bool]) -> Unit raise Error {
+  try test_fixedarray_input_bool_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1460,8 +1460,8 @@ pub fn __modus_test_fixedarray_input_bool_4(val : FixedArray[Bool]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_0(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_0!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_0(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1469,8 +1469,8 @@ pub fn __modus_test_fixedarray_input_bool_option_0(val : FixedArray[Bool?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_1_none(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_1_none(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1478,8 +1478,8 @@ pub fn __modus_test_fixedarray_input_bool_option_1_none(val : FixedArray[Bool?])
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_1_false(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_1_false!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_1_false(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_1_false(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1487,8 +1487,8 @@ pub fn __modus_test_fixedarray_input_bool_option_1_false(val : FixedArray[Bool?]
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_1_true(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_1_true!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_1_true(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_1_true(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1496,8 +1496,8 @@ pub fn __modus_test_fixedarray_input_bool_option_1_true(val : FixedArray[Bool?])
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_2(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_2!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_2(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1505,8 +1505,8 @@ pub fn __modus_test_fixedarray_input_bool_option_2(val : FixedArray[Bool?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_3(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_3!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_3(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1514,8 +1514,8 @@ pub fn __modus_test_fixedarray_input_bool_option_3(val : FixedArray[Bool?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_bool_option_4(val : FixedArray[Bool?]) -> Unit!Error {
-  try test_fixedarray_input_bool_option_4!(val) {
+pub fn __modus_test_fixedarray_input_bool_option_4(val : FixedArray[Bool?]) -> Unit raise Error {
+  try test_fixedarray_input_bool_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1563,8 +1563,8 @@ pub fn __modus_test_fixedarray_output_byte_option_4() -> FixedArray[Byte?] {
   test_fixedarray_output_byte_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input_byte_0!(val) {
+pub fn __modus_test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input_byte_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1572,8 +1572,8 @@ pub fn __modus_test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input_byte_1!(val) {
+pub fn __modus_test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input_byte_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1581,8 +1581,8 @@ pub fn __modus_test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input_byte_2!(val) {
+pub fn __modus_test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input_byte_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1590,8 +1590,8 @@ pub fn __modus_test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input_byte_3!(val) {
+pub fn __modus_test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input_byte_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1599,8 +1599,8 @@ pub fn __modus_test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit!Error {
-  try test_fixedarray_input_byte_4!(val) {
+pub fn __modus_test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit raise Error {
+  try test_fixedarray_input_byte_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1608,8 +1608,8 @@ pub fn __modus_test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_option_0(val : FixedArray[Byte?]) -> Unit!Error {
-  try test_fixedarray_input_byte_option_0!(val) {
+pub fn __modus_test_fixedarray_input_byte_option_0(val : FixedArray[Byte?]) -> Unit raise Error {
+  try test_fixedarray_input_byte_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1617,8 +1617,8 @@ pub fn __modus_test_fixedarray_input_byte_option_0(val : FixedArray[Byte?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_option_1(val : FixedArray[Byte?]) -> Unit!Error {
-  try test_fixedarray_input_byte_option_1!(val) {
+pub fn __modus_test_fixedarray_input_byte_option_1(val : FixedArray[Byte?]) -> Unit raise Error {
+  try test_fixedarray_input_byte_option_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1626,8 +1626,8 @@ pub fn __modus_test_fixedarray_input_byte_option_1(val : FixedArray[Byte?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_option_2(val : FixedArray[Byte?]) -> Unit!Error {
-  try test_fixedarray_input_byte_option_2!(val) {
+pub fn __modus_test_fixedarray_input_byte_option_2(val : FixedArray[Byte?]) -> Unit raise Error {
+  try test_fixedarray_input_byte_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1635,8 +1635,8 @@ pub fn __modus_test_fixedarray_input_byte_option_2(val : FixedArray[Byte?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_option_3(val : FixedArray[Byte?]) -> Unit!Error {
-  try test_fixedarray_input_byte_option_3!(val) {
+pub fn __modus_test_fixedarray_input_byte_option_3(val : FixedArray[Byte?]) -> Unit raise Error {
+  try test_fixedarray_input_byte_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1644,8 +1644,8 @@ pub fn __modus_test_fixedarray_input_byte_option_3(val : FixedArray[Byte?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_byte_option_4(val : FixedArray[Byte?]) -> Unit!Error {
-  try test_fixedarray_input_byte_option_4!(val) {
+pub fn __modus_test_fixedarray_input_byte_option_4(val : FixedArray[Byte?]) -> Unit raise Error {
+  try test_fixedarray_input_byte_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1697,8 +1697,8 @@ pub fn __modus_test_fixedarray_output_char_option_4() -> FixedArray[Char?] {
   test_fixedarray_output_char_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_char_0(val : FixedArray[Char]) -> Unit!Error {
-  try test_fixedarray_input_char_0!(val) {
+pub fn __modus_test_fixedarray_input_char_0(val : FixedArray[Char]) -> Unit raise Error {
+  try test_fixedarray_input_char_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1706,8 +1706,8 @@ pub fn __modus_test_fixedarray_input_char_0(val : FixedArray[Char]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_1(val : FixedArray[Char]) -> Unit!Error {
-  try test_fixedarray_input_char_1!(val) {
+pub fn __modus_test_fixedarray_input_char_1(val : FixedArray[Char]) -> Unit raise Error {
+  try test_fixedarray_input_char_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1715,8 +1715,8 @@ pub fn __modus_test_fixedarray_input_char_1(val : FixedArray[Char]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_2(val : FixedArray[Char]) -> Unit!Error {
-  try test_fixedarray_input_char_2!(val) {
+pub fn __modus_test_fixedarray_input_char_2(val : FixedArray[Char]) -> Unit raise Error {
+  try test_fixedarray_input_char_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1724,8 +1724,8 @@ pub fn __modus_test_fixedarray_input_char_2(val : FixedArray[Char]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_3(val : FixedArray[Char]) -> Unit!Error {
-  try test_fixedarray_input_char_3!(val) {
+pub fn __modus_test_fixedarray_input_char_3(val : FixedArray[Char]) -> Unit raise Error {
+  try test_fixedarray_input_char_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1733,8 +1733,8 @@ pub fn __modus_test_fixedarray_input_char_3(val : FixedArray[Char]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_4(val : FixedArray[Char]) -> Unit!Error {
-  try test_fixedarray_input_char_4!(val) {
+pub fn __modus_test_fixedarray_input_char_4(val : FixedArray[Char]) -> Unit raise Error {
+  try test_fixedarray_input_char_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1742,8 +1742,8 @@ pub fn __modus_test_fixedarray_input_char_4(val : FixedArray[Char]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_0(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_0!(val) {
+pub fn __modus_test_fixedarray_input_char_option_0(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1751,8 +1751,8 @@ pub fn __modus_test_fixedarray_input_char_option_0(val : FixedArray[Char?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_1_none(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_char_option_1_none(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1760,8 +1760,8 @@ pub fn __modus_test_fixedarray_input_char_option_1_none(val : FixedArray[Char?])
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_1_some(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_1_some!(val) {
+pub fn __modus_test_fixedarray_input_char_option_1_some(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_1_some(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1769,8 +1769,8 @@ pub fn __modus_test_fixedarray_input_char_option_1_some(val : FixedArray[Char?])
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_2(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_2!(val) {
+pub fn __modus_test_fixedarray_input_char_option_2(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1778,8 +1778,8 @@ pub fn __modus_test_fixedarray_input_char_option_2(val : FixedArray[Char?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_3(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_3!(val) {
+pub fn __modus_test_fixedarray_input_char_option_3(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1787,8 +1787,8 @@ pub fn __modus_test_fixedarray_input_char_option_3(val : FixedArray[Char?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_char_option_4(val : FixedArray[Char?]) -> Unit!Error {
-  try test_fixedarray_input_char_option_4!(val) {
+pub fn __modus_test_fixedarray_input_char_option_4(val : FixedArray[Char?]) -> Unit raise Error {
+  try test_fixedarray_input_char_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1840,8 +1840,8 @@ pub fn __modus_test_fixedarray_output_double_option_4() -> FixedArray[Double?] {
   test_fixedarray_output_double_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_double_0(val : FixedArray[Double]) -> Unit!Error {
-  try test_fixedarray_input_double_0!(val) {
+pub fn __modus_test_fixedarray_input_double_0(val : FixedArray[Double]) -> Unit raise Error {
+  try test_fixedarray_input_double_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1849,8 +1849,8 @@ pub fn __modus_test_fixedarray_input_double_0(val : FixedArray[Double]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_1(val : FixedArray[Double]) -> Unit!Error {
-  try test_fixedarray_input_double_1!(val) {
+pub fn __modus_test_fixedarray_input_double_1(val : FixedArray[Double]) -> Unit raise Error {
+  try test_fixedarray_input_double_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1858,8 +1858,8 @@ pub fn __modus_test_fixedarray_input_double_1(val : FixedArray[Double]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_2(val : FixedArray[Double]) -> Unit!Error {
-  try test_fixedarray_input_double_2!(val) {
+pub fn __modus_test_fixedarray_input_double_2(val : FixedArray[Double]) -> Unit raise Error {
+  try test_fixedarray_input_double_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1867,8 +1867,8 @@ pub fn __modus_test_fixedarray_input_double_2(val : FixedArray[Double]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_3(val : FixedArray[Double]) -> Unit!Error {
-  try test_fixedarray_input_double_3!(val) {
+pub fn __modus_test_fixedarray_input_double_3(val : FixedArray[Double]) -> Unit raise Error {
+  try test_fixedarray_input_double_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1876,8 +1876,8 @@ pub fn __modus_test_fixedarray_input_double_3(val : FixedArray[Double]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_4(val : FixedArray[Double]) -> Unit!Error {
-  try test_fixedarray_input_double_4!(val) {
+pub fn __modus_test_fixedarray_input_double_4(val : FixedArray[Double]) -> Unit raise Error {
+  try test_fixedarray_input_double_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1885,8 +1885,8 @@ pub fn __modus_test_fixedarray_input_double_4(val : FixedArray[Double]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_0(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_0!(val) {
+pub fn __modus_test_fixedarray_input_double_option_0(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1894,8 +1894,8 @@ pub fn __modus_test_fixedarray_input_double_option_0(val : FixedArray[Double?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_1_none(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_double_option_1_none(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1903,8 +1903,8 @@ pub fn __modus_test_fixedarray_input_double_option_1_none(val : FixedArray[Doubl
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_1_some(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_1_some!(val) {
+pub fn __modus_test_fixedarray_input_double_option_1_some(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_1_some(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1912,8 +1912,8 @@ pub fn __modus_test_fixedarray_input_double_option_1_some(val : FixedArray[Doubl
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_2(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_2!(val) {
+pub fn __modus_test_fixedarray_input_double_option_2(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1921,8 +1921,8 @@ pub fn __modus_test_fixedarray_input_double_option_2(val : FixedArray[Double?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_3(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_3!(val) {
+pub fn __modus_test_fixedarray_input_double_option_3(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1930,8 +1930,8 @@ pub fn __modus_test_fixedarray_input_double_option_3(val : FixedArray[Double?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_double_option_4(val : FixedArray[Double?]) -> Unit!Error {
-  try test_fixedarray_input_double_option_4!(val) {
+pub fn __modus_test_fixedarray_input_double_option_4(val : FixedArray[Double?]) -> Unit raise Error {
+  try test_fixedarray_input_double_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1983,8 +1983,8 @@ pub fn __modus_test_fixedarray_output_float_option_4() -> FixedArray[Float?] {
   test_fixedarray_output_float_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_float_0(val : FixedArray[Float]) -> Unit!Error {
-  try test_fixedarray_input_float_0!(val) {
+pub fn __modus_test_fixedarray_input_float_0(val : FixedArray[Float]) -> Unit raise Error {
+  try test_fixedarray_input_float_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -1992,8 +1992,8 @@ pub fn __modus_test_fixedarray_input_float_0(val : FixedArray[Float]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_1(val : FixedArray[Float]) -> Unit!Error {
-  try test_fixedarray_input_float_1!(val) {
+pub fn __modus_test_fixedarray_input_float_1(val : FixedArray[Float]) -> Unit raise Error {
+  try test_fixedarray_input_float_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2001,8 +2001,8 @@ pub fn __modus_test_fixedarray_input_float_1(val : FixedArray[Float]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_2(val : FixedArray[Float]) -> Unit!Error {
-  try test_fixedarray_input_float_2!(val) {
+pub fn __modus_test_fixedarray_input_float_2(val : FixedArray[Float]) -> Unit raise Error {
+  try test_fixedarray_input_float_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2010,8 +2010,8 @@ pub fn __modus_test_fixedarray_input_float_2(val : FixedArray[Float]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_3(val : FixedArray[Float]) -> Unit!Error {
-  try test_fixedarray_input_float_3!(val) {
+pub fn __modus_test_fixedarray_input_float_3(val : FixedArray[Float]) -> Unit raise Error {
+  try test_fixedarray_input_float_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2019,8 +2019,8 @@ pub fn __modus_test_fixedarray_input_float_3(val : FixedArray[Float]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_4(val : FixedArray[Float]) -> Unit!Error {
-  try test_fixedarray_input_float_4!(val) {
+pub fn __modus_test_fixedarray_input_float_4(val : FixedArray[Float]) -> Unit raise Error {
+  try test_fixedarray_input_float_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2028,8 +2028,8 @@ pub fn __modus_test_fixedarray_input_float_4(val : FixedArray[Float]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_0(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_0!(val) {
+pub fn __modus_test_fixedarray_input_float_option_0(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2037,8 +2037,8 @@ pub fn __modus_test_fixedarray_input_float_option_0(val : FixedArray[Float?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_1_none(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_float_option_1_none(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2046,8 +2046,8 @@ pub fn __modus_test_fixedarray_input_float_option_1_none(val : FixedArray[Float?
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_1_some(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_1_some!(val) {
+pub fn __modus_test_fixedarray_input_float_option_1_some(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_1_some(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2055,8 +2055,8 @@ pub fn __modus_test_fixedarray_input_float_option_1_some(val : FixedArray[Float?
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_2(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_2!(val) {
+pub fn __modus_test_fixedarray_input_float_option_2(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2064,8 +2064,8 @@ pub fn __modus_test_fixedarray_input_float_option_2(val : FixedArray[Float?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_3(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_3!(val) {
+pub fn __modus_test_fixedarray_input_float_option_3(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2073,8 +2073,8 @@ pub fn __modus_test_fixedarray_input_float_option_3(val : FixedArray[Float?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_float_option_4(val : FixedArray[Float?]) -> Unit!Error {
-  try test_fixedarray_input_float_option_4!(val) {
+pub fn __modus_test_fixedarray_input_float_option_4(val : FixedArray[Float?]) -> Unit raise Error {
+  try test_fixedarray_input_float_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2138,8 +2138,8 @@ pub fn __modus_test_fixedarray_output_int_option_4() -> FixedArray[Int?] {
   test_fixedarray_output_int_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_int_0(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_0!(val) {
+pub fn __modus_test_fixedarray_input_int_0(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2147,8 +2147,8 @@ pub fn __modus_test_fixedarray_input_int_0(val : FixedArray[Int]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_1(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_1!(val) {
+pub fn __modus_test_fixedarray_input_int_1(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2156,8 +2156,8 @@ pub fn __modus_test_fixedarray_input_int_1(val : FixedArray[Int]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_1_min(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int_1_min(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2165,8 +2165,8 @@ pub fn __modus_test_fixedarray_input_int_1_min(val : FixedArray[Int]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_1_max(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int_1_max(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2174,8 +2174,8 @@ pub fn __modus_test_fixedarray_input_int_1_max(val : FixedArray[Int]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_2(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_2!(val) {
+pub fn __modus_test_fixedarray_input_int_2(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2183,8 +2183,8 @@ pub fn __modus_test_fixedarray_input_int_2(val : FixedArray[Int]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_3(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_3!(val) {
+pub fn __modus_test_fixedarray_input_int_3(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2192,8 +2192,8 @@ pub fn __modus_test_fixedarray_input_int_3(val : FixedArray[Int]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_4(val : FixedArray[Int]) -> Unit!Error {
-  try test_fixedarray_input_int_4!(val) {
+pub fn __modus_test_fixedarray_input_int_4(val : FixedArray[Int]) -> Unit raise Error {
+  try test_fixedarray_input_int_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2201,8 +2201,8 @@ pub fn __modus_test_fixedarray_input_int_4(val : FixedArray[Int]) -> Unit!Error 
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_0(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_0!(val) {
+pub fn __modus_test_fixedarray_input_int_option_0(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2210,8 +2210,8 @@ pub fn __modus_test_fixedarray_input_int_option_0(val : FixedArray[Int?]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_1_none(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_int_option_1_none(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2219,8 +2219,8 @@ pub fn __modus_test_fixedarray_input_int_option_1_none(val : FixedArray[Int?]) -
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_1_min(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int_option_1_min(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2228,8 +2228,8 @@ pub fn __modus_test_fixedarray_input_int_option_1_min(val : FixedArray[Int?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_1_max(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int_option_1_max(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2237,8 +2237,8 @@ pub fn __modus_test_fixedarray_input_int_option_1_max(val : FixedArray[Int?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_2(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_2!(val) {
+pub fn __modus_test_fixedarray_input_int_option_2(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2246,8 +2246,8 @@ pub fn __modus_test_fixedarray_input_int_option_2(val : FixedArray[Int?]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_3(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_3!(val) {
+pub fn __modus_test_fixedarray_input_int_option_3(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2255,8 +2255,8 @@ pub fn __modus_test_fixedarray_input_int_option_3(val : FixedArray[Int?]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int_option_4(val : FixedArray[Int?]) -> Unit!Error {
-  try test_fixedarray_input_int_option_4!(val) {
+pub fn __modus_test_fixedarray_input_int_option_4(val : FixedArray[Int?]) -> Unit raise Error {
+  try test_fixedarray_input_int_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2320,8 +2320,8 @@ pub fn __modus_test_fixedarray_output_int16_option_4() -> FixedArray[Int16?] {
   test_fixedarray_output_int16_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_int16_0(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_0!(val) {
+pub fn __modus_test_fixedarray_input_int16_0(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2329,8 +2329,8 @@ pub fn __modus_test_fixedarray_input_int16_0(val : FixedArray[Int16]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_1(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_1!(val) {
+pub fn __modus_test_fixedarray_input_int16_1(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2338,8 +2338,8 @@ pub fn __modus_test_fixedarray_input_int16_1(val : FixedArray[Int16]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_1_min(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int16_1_min(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2347,8 +2347,8 @@ pub fn __modus_test_fixedarray_input_int16_1_min(val : FixedArray[Int16]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_1_max(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int16_1_max(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2356,8 +2356,8 @@ pub fn __modus_test_fixedarray_input_int16_1_max(val : FixedArray[Int16]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_2(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_2!(val) {
+pub fn __modus_test_fixedarray_input_int16_2(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2365,8 +2365,8 @@ pub fn __modus_test_fixedarray_input_int16_2(val : FixedArray[Int16]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_3(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_3!(val) {
+pub fn __modus_test_fixedarray_input_int16_3(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2374,8 +2374,8 @@ pub fn __modus_test_fixedarray_input_int16_3(val : FixedArray[Int16]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_4(val : FixedArray[Int16]) -> Unit!Error {
-  try test_fixedarray_input_int16_4!(val) {
+pub fn __modus_test_fixedarray_input_int16_4(val : FixedArray[Int16]) -> Unit raise Error {
+  try test_fixedarray_input_int16_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2383,8 +2383,8 @@ pub fn __modus_test_fixedarray_input_int16_4(val : FixedArray[Int16]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_0(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_0!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_0(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2392,8 +2392,8 @@ pub fn __modus_test_fixedarray_input_int16_option_0(val : FixedArray[Int16?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_1_none(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_1_none(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2401,8 +2401,8 @@ pub fn __modus_test_fixedarray_input_int16_option_1_none(val : FixedArray[Int16?
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_1_min(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_1_min(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2410,8 +2410,8 @@ pub fn __modus_test_fixedarray_input_int16_option_1_min(val : FixedArray[Int16?]
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_1_max(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_1_max(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2419,8 +2419,8 @@ pub fn __modus_test_fixedarray_input_int16_option_1_max(val : FixedArray[Int16?]
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_2(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_2!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_2(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2428,8 +2428,8 @@ pub fn __modus_test_fixedarray_input_int16_option_2(val : FixedArray[Int16?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_3(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_3!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_3(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2437,8 +2437,8 @@ pub fn __modus_test_fixedarray_input_int16_option_3(val : FixedArray[Int16?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int16_option_4(val : FixedArray[Int16?]) -> Unit!Error {
-  try test_fixedarray_input_int16_option_4!(val) {
+pub fn __modus_test_fixedarray_input_int16_option_4(val : FixedArray[Int16?]) -> Unit raise Error {
+  try test_fixedarray_input_int16_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2502,8 +2502,8 @@ pub fn __modus_test_fixedarray_output_int64_option_4() -> FixedArray[Int64?] {
   test_fixedarray_output_int64_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_int64_0(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_0!(val) {
+pub fn __modus_test_fixedarray_input_int64_0(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2511,8 +2511,8 @@ pub fn __modus_test_fixedarray_input_int64_0(val : FixedArray[Int64]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_1(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_1!(val) {
+pub fn __modus_test_fixedarray_input_int64_1(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2520,8 +2520,8 @@ pub fn __modus_test_fixedarray_input_int64_1(val : FixedArray[Int64]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_1_min(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int64_1_min(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2529,8 +2529,8 @@ pub fn __modus_test_fixedarray_input_int64_1_min(val : FixedArray[Int64]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_1_max(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int64_1_max(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2538,8 +2538,8 @@ pub fn __modus_test_fixedarray_input_int64_1_max(val : FixedArray[Int64]) -> Uni
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_2(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_2!(val) {
+pub fn __modus_test_fixedarray_input_int64_2(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2547,8 +2547,8 @@ pub fn __modus_test_fixedarray_input_int64_2(val : FixedArray[Int64]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_3(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_3!(val) {
+pub fn __modus_test_fixedarray_input_int64_3(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2556,8 +2556,8 @@ pub fn __modus_test_fixedarray_input_int64_3(val : FixedArray[Int64]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_4(val : FixedArray[Int64]) -> Unit!Error {
-  try test_fixedarray_input_int64_4!(val) {
+pub fn __modus_test_fixedarray_input_int64_4(val : FixedArray[Int64]) -> Unit raise Error {
+  try test_fixedarray_input_int64_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2565,8 +2565,8 @@ pub fn __modus_test_fixedarray_input_int64_4(val : FixedArray[Int64]) -> Unit!Er
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_0(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_0!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_0(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2574,8 +2574,8 @@ pub fn __modus_test_fixedarray_input_int64_option_0(val : FixedArray[Int64?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_1_none(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_1_none(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2583,8 +2583,8 @@ pub fn __modus_test_fixedarray_input_int64_option_1_none(val : FixedArray[Int64?
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_1_min(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_1_min(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2592,8 +2592,8 @@ pub fn __modus_test_fixedarray_input_int64_option_1_min(val : FixedArray[Int64?]
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_1_max(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_1_max(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2601,8 +2601,8 @@ pub fn __modus_test_fixedarray_input_int64_option_1_max(val : FixedArray[Int64?]
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_2(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_2!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_2(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2610,8 +2610,8 @@ pub fn __modus_test_fixedarray_input_int64_option_2(val : FixedArray[Int64?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_3(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_3!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_3(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2619,8 +2619,8 @@ pub fn __modus_test_fixedarray_input_int64_option_3(val : FixedArray[Int64?]) ->
   }
 }
 
-pub fn __modus_test_fixedarray_input_int64_option_4(val : FixedArray[Int64?]) -> Unit!Error {
-  try test_fixedarray_input_int64_option_4!(val) {
+pub fn __modus_test_fixedarray_input_int64_option_4(val : FixedArray[Int64?]) -> Unit raise Error {
+  try test_fixedarray_input_int64_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2672,8 +2672,8 @@ pub fn __modus_test_fixedarray_output_string_option_4() -> FixedArray[String?] {
   test_fixedarray_output_string_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_string_0(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input_string_0!(val) {
+pub fn __modus_test_fixedarray_input_string_0(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input_string_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2681,8 +2681,8 @@ pub fn __modus_test_fixedarray_input_string_0(val : FixedArray[String]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_1(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input_string_1!(val) {
+pub fn __modus_test_fixedarray_input_string_1(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input_string_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2690,8 +2690,8 @@ pub fn __modus_test_fixedarray_input_string_1(val : FixedArray[String]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_2(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input_string_2!(val) {
+pub fn __modus_test_fixedarray_input_string_2(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input_string_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2699,8 +2699,8 @@ pub fn __modus_test_fixedarray_input_string_2(val : FixedArray[String]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_3(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input_string_3!(val) {
+pub fn __modus_test_fixedarray_input_string_3(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input_string_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2708,8 +2708,8 @@ pub fn __modus_test_fixedarray_input_string_3(val : FixedArray[String]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_4(val : FixedArray[String]) -> Unit!Error {
-  try test_fixedarray_input_string_4!(val) {
+pub fn __modus_test_fixedarray_input_string_4(val : FixedArray[String]) -> Unit raise Error {
+  try test_fixedarray_input_string_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2717,8 +2717,8 @@ pub fn __modus_test_fixedarray_input_string_4(val : FixedArray[String]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_0(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_0!(val) {
+pub fn __modus_test_fixedarray_input_string_option_0(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2726,8 +2726,8 @@ pub fn __modus_test_fixedarray_input_string_option_0(val : FixedArray[String?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_1_none(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_string_option_1_none(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2735,8 +2735,8 @@ pub fn __modus_test_fixedarray_input_string_option_1_none(val : FixedArray[Strin
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_1_some(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_1_some!(val) {
+pub fn __modus_test_fixedarray_input_string_option_1_some(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_1_some(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2744,8 +2744,8 @@ pub fn __modus_test_fixedarray_input_string_option_1_some(val : FixedArray[Strin
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_2(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_2!(val) {
+pub fn __modus_test_fixedarray_input_string_option_2(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2753,8 +2753,8 @@ pub fn __modus_test_fixedarray_input_string_option_2(val : FixedArray[String?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_3(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_3!(val) {
+pub fn __modus_test_fixedarray_input_string_option_3(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2762,8 +2762,8 @@ pub fn __modus_test_fixedarray_input_string_option_3(val : FixedArray[String?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_string_option_4(val : FixedArray[String?]) -> Unit!Error {
-  try test_fixedarray_input_string_option_4!(val) {
+pub fn __modus_test_fixedarray_input_string_option_4(val : FixedArray[String?]) -> Unit raise Error {
+  try test_fixedarray_input_string_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2827,8 +2827,8 @@ pub fn __modus_test_fixedarray_output_uint_option_4() -> FixedArray[UInt?] {
   test_fixedarray_output_uint_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_uint_0(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_0!(val) {
+pub fn __modus_test_fixedarray_input_uint_0(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2836,8 +2836,8 @@ pub fn __modus_test_fixedarray_input_uint_0(val : FixedArray[UInt]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_1(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_1!(val) {
+pub fn __modus_test_fixedarray_input_uint_1(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2845,8 +2845,8 @@ pub fn __modus_test_fixedarray_input_uint_1(val : FixedArray[UInt]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_1_min(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint_1_min(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2854,8 +2854,8 @@ pub fn __modus_test_fixedarray_input_uint_1_min(val : FixedArray[UInt]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_1_max(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint_1_max(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2863,8 +2863,8 @@ pub fn __modus_test_fixedarray_input_uint_1_max(val : FixedArray[UInt]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_2(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_2!(val) {
+pub fn __modus_test_fixedarray_input_uint_2(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2872,8 +2872,8 @@ pub fn __modus_test_fixedarray_input_uint_2(val : FixedArray[UInt]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_3(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_3!(val) {
+pub fn __modus_test_fixedarray_input_uint_3(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2881,8 +2881,8 @@ pub fn __modus_test_fixedarray_input_uint_3(val : FixedArray[UInt]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_4(val : FixedArray[UInt]) -> Unit!Error {
-  try test_fixedarray_input_uint_4!(val) {
+pub fn __modus_test_fixedarray_input_uint_4(val : FixedArray[UInt]) -> Unit raise Error {
+  try test_fixedarray_input_uint_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2890,8 +2890,8 @@ pub fn __modus_test_fixedarray_input_uint_4(val : FixedArray[UInt]) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_0(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_0!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_0(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2899,8 +2899,8 @@ pub fn __modus_test_fixedarray_input_uint_option_0(val : FixedArray[UInt?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_1_none(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_1_none(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2908,8 +2908,8 @@ pub fn __modus_test_fixedarray_input_uint_option_1_none(val : FixedArray[UInt?])
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_1_min(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_1_min(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2917,8 +2917,8 @@ pub fn __modus_test_fixedarray_input_uint_option_1_min(val : FixedArray[UInt?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_1_max(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_1_max(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2926,8 +2926,8 @@ pub fn __modus_test_fixedarray_input_uint_option_1_max(val : FixedArray[UInt?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_2(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_2!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_2(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2935,8 +2935,8 @@ pub fn __modus_test_fixedarray_input_uint_option_2(val : FixedArray[UInt?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_3(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_3!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_3(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -2944,8 +2944,8 @@ pub fn __modus_test_fixedarray_input_uint_option_3(val : FixedArray[UInt?]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint_option_4(val : FixedArray[UInt?]) -> Unit!Error {
-  try test_fixedarray_input_uint_option_4!(val) {
+pub fn __modus_test_fixedarray_input_uint_option_4(val : FixedArray[UInt?]) -> Unit raise Error {
+  try test_fixedarray_input_uint_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3009,8 +3009,8 @@ pub fn __modus_test_fixedarray_output_uint16_option_4() -> FixedArray[UInt16?] {
   test_fixedarray_output_uint16_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_uint16_0(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_0!(val) {
+pub fn __modus_test_fixedarray_input_uint16_0(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3018,8 +3018,8 @@ pub fn __modus_test_fixedarray_input_uint16_0(val : FixedArray[UInt16]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_1(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_1!(val) {
+pub fn __modus_test_fixedarray_input_uint16_1(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3027,8 +3027,8 @@ pub fn __modus_test_fixedarray_input_uint16_1(val : FixedArray[UInt16]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_1_min(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint16_1_min(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3036,8 +3036,8 @@ pub fn __modus_test_fixedarray_input_uint16_1_min(val : FixedArray[UInt16]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_1_max(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint16_1_max(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3045,8 +3045,8 @@ pub fn __modus_test_fixedarray_input_uint16_1_max(val : FixedArray[UInt16]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_2(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_2!(val) {
+pub fn __modus_test_fixedarray_input_uint16_2(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3054,8 +3054,8 @@ pub fn __modus_test_fixedarray_input_uint16_2(val : FixedArray[UInt16]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_3(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_3!(val) {
+pub fn __modus_test_fixedarray_input_uint16_3(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3063,8 +3063,8 @@ pub fn __modus_test_fixedarray_input_uint16_3(val : FixedArray[UInt16]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_4(val : FixedArray[UInt16]) -> Unit!Error {
-  try test_fixedarray_input_uint16_4!(val) {
+pub fn __modus_test_fixedarray_input_uint16_4(val : FixedArray[UInt16]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3072,8 +3072,8 @@ pub fn __modus_test_fixedarray_input_uint16_4(val : FixedArray[UInt16]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_0(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_0!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_0(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3081,8 +3081,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_0(val : FixedArray[UInt16?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_1_none(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_1_none(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3090,8 +3090,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_1_none(val : FixedArray[UInt1
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_1_min(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_1_min(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3099,8 +3099,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_1_min(val : FixedArray[UInt16
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_1_max(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_1_max(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3108,8 +3108,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_1_max(val : FixedArray[UInt16
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_2(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_2!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_2(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3117,8 +3117,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_2(val : FixedArray[UInt16?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_3(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_3!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_3(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3126,8 +3126,8 @@ pub fn __modus_test_fixedarray_input_uint16_option_3(val : FixedArray[UInt16?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint16_option_4(val : FixedArray[UInt16?]) -> Unit!Error {
-  try test_fixedarray_input_uint16_option_4!(val) {
+pub fn __modus_test_fixedarray_input_uint16_option_4(val : FixedArray[UInt16?]) -> Unit raise Error {
+  try test_fixedarray_input_uint16_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3191,8 +3191,8 @@ pub fn __modus_test_fixedarray_output_uint64_option_4() -> FixedArray[UInt64?] {
   test_fixedarray_output_uint64_option_4()
 }
 
-pub fn __modus_test_fixedarray_input_uint64_0(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_0!(val) {
+pub fn __modus_test_fixedarray_input_uint64_0(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3200,8 +3200,8 @@ pub fn __modus_test_fixedarray_input_uint64_0(val : FixedArray[UInt64]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_1(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_1!(val) {
+pub fn __modus_test_fixedarray_input_uint64_1(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_1(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3209,8 +3209,8 @@ pub fn __modus_test_fixedarray_input_uint64_1(val : FixedArray[UInt64]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_1_min(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint64_1_min(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3218,8 +3218,8 @@ pub fn __modus_test_fixedarray_input_uint64_1_min(val : FixedArray[UInt64]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_1_max(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint64_1_max(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3227,8 +3227,8 @@ pub fn __modus_test_fixedarray_input_uint64_1_max(val : FixedArray[UInt64]) -> U
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_2(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_2!(val) {
+pub fn __modus_test_fixedarray_input_uint64_2(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3236,8 +3236,8 @@ pub fn __modus_test_fixedarray_input_uint64_2(val : FixedArray[UInt64]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_3(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_3!(val) {
+pub fn __modus_test_fixedarray_input_uint64_3(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3245,8 +3245,8 @@ pub fn __modus_test_fixedarray_input_uint64_3(val : FixedArray[UInt64]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_4(val : FixedArray[UInt64]) -> Unit!Error {
-  try test_fixedarray_input_uint64_4!(val) {
+pub fn __modus_test_fixedarray_input_uint64_4(val : FixedArray[UInt64]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3254,8 +3254,8 @@ pub fn __modus_test_fixedarray_input_uint64_4(val : FixedArray[UInt64]) -> Unit!
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_0(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_0!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_0(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3263,8 +3263,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_0(val : FixedArray[UInt64?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_1_none(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_1_none!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_1_none(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_1_none(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3272,8 +3272,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_1_none(val : FixedArray[UInt6
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_1_min(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_1_min!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_1_min(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_1_min(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3281,8 +3281,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_1_min(val : FixedArray[UInt64
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_1_max(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_1_max!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_1_max(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_1_max(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3290,8 +3290,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_1_max(val : FixedArray[UInt64
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_2(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_2!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_2(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_2(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3299,8 +3299,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_2(val : FixedArray[UInt64?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_3(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_3!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_3(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_3(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3308,8 +3308,8 @@ pub fn __modus_test_fixedarray_input_uint64_option_3(val : FixedArray[UInt64?]) 
   }
 }
 
-pub fn __modus_test_fixedarray_input_uint64_option_4(val : FixedArray[UInt64?]) -> Unit!Error {
-  try test_fixedarray_input_uint64_option_4!(val) {
+pub fn __modus_test_fixedarray_input_uint64_option_4(val : FixedArray[UInt64?]) -> Unit raise Error {
+  try test_fixedarray_input_uint64_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3381,8 +3381,8 @@ pub fn __modus_host_echo4(message : String?) -> String? {
   host_echo4(message)
 }
 
-pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit!Error {
-  try test_map_input_string_string!(m) {
+pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit raise Error {
+  try test_map_input_string_string(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3390,8 +3390,8 @@ pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit!Err
   }
 }
 
-pub fn __modus_test_map_option_input_string_string(m : Map[String, String]?) -> Unit!Error {
-  try test_map_option_input_string_string!(m) {
+pub fn __modus_test_map_option_input_string_string(m : Map[String, String]?) -> Unit raise Error {
+  try test_map_option_input_string_string(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3415,8 +3415,8 @@ pub fn __modus_test_map_lookup_string_string(m : Map[String, String], key : Stri
   test_map_lookup_string_string(m, key)
 }
 
-pub fn __modus_test_struct_containing_map_input_string_string(s : TestStructWithMap) -> Unit!Error {
-  try test_struct_containing_map_input_string_string!(s) {
+pub fn __modus_test_struct_containing_map_input_string_string(s : TestStructWithMap) -> Unit raise Error {
+  try test_struct_containing_map_input_string_string(s) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3428,8 +3428,8 @@ pub fn __modus_test_struct_containing_map_output_string_string() -> TestStructWi
   test_struct_containing_map_output_string_string()
 }
 
-pub fn __modus_test_map_input_int_float(m : Map[Int, Float]) -> Unit!Error {
-  try test_map_input_int_float!(m) {
+pub fn __modus_test_map_input_int_float(m : Map[Int, Float]) -> Unit raise Error {
+  try test_map_input_int_float(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3441,8 +3441,8 @@ pub fn __modus_test_map_output_int_float() -> Map[Int, Float] {
   test_map_output_int_float()
 }
 
-pub fn __modus_test_map_input_int_double(m : Map[Int, Double]) -> Unit!Error {
-  try test_map_input_int_double!(m) {
+pub fn __modus_test_map_input_int_double(m : Map[Int, Double]) -> Unit raise Error {
+  try test_map_input_int_double(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3458,8 +3458,8 @@ pub fn __modus_test_generate_map_string_string_output() -> Map[String, String] {
   test_generate_map_string_string_output()
 }
 
-pub fn __modus_test_bool_input_false(b : Bool) -> Unit!Error {
-  try test_bool_input_false!(b) {
+pub fn __modus_test_bool_input_false(b : Bool) -> Unit raise Error {
+  try test_bool_input_false(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3467,8 +3467,8 @@ pub fn __modus_test_bool_input_false(b : Bool) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_bool_input_true(b : Bool) -> Unit!Error {
-  try test_bool_input_true!(b) {
+pub fn __modus_test_bool_input_true(b : Bool) -> Unit raise Error {
+  try test_bool_input_true(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3484,8 +3484,8 @@ pub fn __modus_test_bool_output_true() -> Bool {
   test_bool_output_true()
 }
 
-pub fn __modus_test_bool_option_input_false(b : Bool?) -> Unit!Error {
-  try test_bool_option_input_false!(b) {
+pub fn __modus_test_bool_option_input_false(b : Bool?) -> Unit raise Error {
+  try test_bool_option_input_false(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3493,8 +3493,8 @@ pub fn __modus_test_bool_option_input_false(b : Bool?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_bool_option_input_true(b : Bool?) -> Unit!Error {
-  try test_bool_option_input_true!(b) {
+pub fn __modus_test_bool_option_input_true(b : Bool?) -> Unit raise Error {
+  try test_bool_option_input_true(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3502,8 +3502,8 @@ pub fn __modus_test_bool_option_input_true(b : Bool?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_bool_option_input_none(b : Bool?) -> Unit!Error {
-  try test_bool_option_input_none!(b) {
+pub fn __modus_test_bool_option_input_none(b : Bool?) -> Unit raise Error {
+  try test_bool_option_input_none(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3523,8 +3523,8 @@ pub fn __modus_test_bool_option_output_none() -> Bool? {
   test_bool_option_output_none()
 }
 
-pub fn __modus_test_byte_input_min(b : Byte) -> Unit!Error {
-  try test_byte_input_min!(b) {
+pub fn __modus_test_byte_input_min(b : Byte) -> Unit raise Error {
+  try test_byte_input_min(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3532,8 +3532,8 @@ pub fn __modus_test_byte_input_min(b : Byte) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_byte_input_max(b : Byte) -> Unit!Error {
-  try test_byte_input_max!(b) {
+pub fn __modus_test_byte_input_max(b : Byte) -> Unit raise Error {
+  try test_byte_input_max(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3549,8 +3549,8 @@ pub fn __modus_test_byte_output_max() -> Byte {
   test_byte_output_max()
 }
 
-pub fn __modus_test_byte_option_input_min(b : Byte?) -> Unit!Error {
-  try test_byte_option_input_min!(b) {
+pub fn __modus_test_byte_option_input_min(b : Byte?) -> Unit raise Error {
+  try test_byte_option_input_min(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3558,8 +3558,8 @@ pub fn __modus_test_byte_option_input_min(b : Byte?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_byte_option_input_max(b : Byte?) -> Unit!Error {
-  try test_byte_option_input_max!(b) {
+pub fn __modus_test_byte_option_input_max(b : Byte?) -> Unit raise Error {
+  try test_byte_option_input_max(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3567,8 +3567,8 @@ pub fn __modus_test_byte_option_input_max(b : Byte?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_byte_option_input_none(b : Byte?) -> Unit!Error {
-  try test_byte_option_input_none!(b) {
+pub fn __modus_test_byte_option_input_none(b : Byte?) -> Unit raise Error {
+  try test_byte_option_input_none(b) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3588,8 +3588,8 @@ pub fn __modus_test_byte_option_output_none() -> Byte? {
   test_byte_option_output_none()
 }
 
-pub fn __modus_test_char_input_min(c : Char) -> Unit!Error {
-  try test_char_input_min!(c) {
+pub fn __modus_test_char_input_min(c : Char) -> Unit raise Error {
+  try test_char_input_min(c) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3597,8 +3597,8 @@ pub fn __modus_test_char_input_min(c : Char) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_char_input_max(c : Char) -> Unit!Error {
-  try test_char_input_max!(c) {
+pub fn __modus_test_char_input_max(c : Char) -> Unit raise Error {
+  try test_char_input_max(c) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3614,8 +3614,8 @@ pub fn __modus_test_char_output_max() -> Char {
   test_char_output_max()
 }
 
-pub fn __modus_test_char_option_input_min(c : Char?) -> Unit!Error {
-  try test_char_option_input_min!(c) {
+pub fn __modus_test_char_option_input_min(c : Char?) -> Unit raise Error {
+  try test_char_option_input_min(c) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3623,8 +3623,8 @@ pub fn __modus_test_char_option_input_min(c : Char?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_char_option_input_max(c : Char?) -> Unit!Error {
-  try test_char_option_input_max!(c) {
+pub fn __modus_test_char_option_input_max(c : Char?) -> Unit raise Error {
+  try test_char_option_input_max(c) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3632,8 +3632,8 @@ pub fn __modus_test_char_option_input_max(c : Char?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_char_option_input_none(c : Char?) -> Unit!Error {
-  try test_char_option_input_none!(c) {
+pub fn __modus_test_char_option_input_none(c : Char?) -> Unit raise Error {
+  try test_char_option_input_none(c) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3653,8 +3653,8 @@ pub fn __modus_test_char_option_output_none() -> Char? {
   test_char_option_output_none()
 }
 
-pub fn __modus_test_double_input_min(n : Double) -> Unit!Error {
-  try test_double_input_min!(n) {
+pub fn __modus_test_double_input_min(n : Double) -> Unit raise Error {
+  try test_double_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3662,8 +3662,8 @@ pub fn __modus_test_double_input_min(n : Double) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_double_input_max(n : Double) -> Unit!Error {
-  try test_double_input_max!(n) {
+pub fn __modus_test_double_input_max(n : Double) -> Unit raise Error {
+  try test_double_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3679,8 +3679,8 @@ pub fn __modus_test_double_output_max() -> Double {
   test_double_output_max()
 }
 
-pub fn __modus_test_double_option_input_min(n : Double?) -> Unit!Error {
-  try test_double_option_input_min!(n) {
+pub fn __modus_test_double_option_input_min(n : Double?) -> Unit raise Error {
+  try test_double_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3688,8 +3688,8 @@ pub fn __modus_test_double_option_input_min(n : Double?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_double_option_input_max(n : Double?) -> Unit!Error {
-  try test_double_option_input_max!(n) {
+pub fn __modus_test_double_option_input_max(n : Double?) -> Unit raise Error {
+  try test_double_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3697,8 +3697,8 @@ pub fn __modus_test_double_option_input_max(n : Double?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_double_option_input_none(n : Double?) -> Unit!Error {
-  try test_double_option_input_none!(n) {
+pub fn __modus_test_double_option_input_none(n : Double?) -> Unit raise Error {
+  try test_double_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3718,8 +3718,8 @@ pub fn __modus_test_double_option_output_none() -> Double? {
   test_double_option_output_none()
 }
 
-pub fn __modus_test_float_input_min(n : Float) -> Unit!Error {
-  try test_float_input_min!(n) {
+pub fn __modus_test_float_input_min(n : Float) -> Unit raise Error {
+  try test_float_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3727,8 +3727,8 @@ pub fn __modus_test_float_input_min(n : Float) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_float_input_max(n : Float) -> Unit!Error {
-  try test_float_input_max!(n) {
+pub fn __modus_test_float_input_max(n : Float) -> Unit raise Error {
+  try test_float_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3744,8 +3744,8 @@ pub fn __modus_test_float_output_max() -> Float {
   test_float_output_max()
 }
 
-pub fn __modus_test_float_option_input_min(n : Float?) -> Unit!Error {
-  try test_float_option_input_min!(n) {
+pub fn __modus_test_float_option_input_min(n : Float?) -> Unit raise Error {
+  try test_float_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3753,8 +3753,8 @@ pub fn __modus_test_float_option_input_min(n : Float?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_float_option_input_max(n : Float?) -> Unit!Error {
-  try test_float_option_input_max!(n) {
+pub fn __modus_test_float_option_input_max(n : Float?) -> Unit raise Error {
+  try test_float_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3762,8 +3762,8 @@ pub fn __modus_test_float_option_input_max(n : Float?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_float_option_input_none(n : Float?) -> Unit!Error {
-  try test_float_option_input_none!(n) {
+pub fn __modus_test_float_option_input_none(n : Float?) -> Unit raise Error {
+  try test_float_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3783,8 +3783,8 @@ pub fn __modus_test_float_option_output_none() -> Float? {
   test_float_option_output_none()
 }
 
-pub fn __modus_test_int_input_min(n : Int) -> Unit!Error {
-  try test_int_input_min!(n) {
+pub fn __modus_test_int_input_min(n : Int) -> Unit raise Error {
+  try test_int_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3792,8 +3792,8 @@ pub fn __modus_test_int_input_min(n : Int) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int_input_max(n : Int) -> Unit!Error {
-  try test_int_input_max!(n) {
+pub fn __modus_test_int_input_max(n : Int) -> Unit raise Error {
+  try test_int_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3809,8 +3809,8 @@ pub fn __modus_test_int_output_max() -> Int {
   test_int_output_max()
 }
 
-pub fn __modus_test_int_option_input_min(n : Int?) -> Unit!Error {
-  try test_int_option_input_min!(n) {
+pub fn __modus_test_int_option_input_min(n : Int?) -> Unit raise Error {
+  try test_int_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3818,8 +3818,8 @@ pub fn __modus_test_int_option_input_min(n : Int?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int_option_input_max(n : Int?) -> Unit!Error {
-  try test_int_option_input_max!(n) {
+pub fn __modus_test_int_option_input_max(n : Int?) -> Unit raise Error {
+  try test_int_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3827,8 +3827,8 @@ pub fn __modus_test_int_option_input_max(n : Int?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int_option_input_none(n : Int?) -> Unit!Error {
-  try test_int_option_input_none!(n) {
+pub fn __modus_test_int_option_input_none(n : Int?) -> Unit raise Error {
+  try test_int_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3848,8 +3848,8 @@ pub fn __modus_test_int_option_output_none() -> Int? {
   test_int_option_output_none()
 }
 
-pub fn __modus_test_int16_input_min(n : Int16) -> Unit!Error {
-  try test_int16_input_min!(n) {
+pub fn __modus_test_int16_input_min(n : Int16) -> Unit raise Error {
+  try test_int16_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3857,8 +3857,8 @@ pub fn __modus_test_int16_input_min(n : Int16) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int16_input_max(n : Int16) -> Unit!Error {
-  try test_int16_input_max!(n) {
+pub fn __modus_test_int16_input_max(n : Int16) -> Unit raise Error {
+  try test_int16_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3874,8 +3874,8 @@ pub fn __modus_test_int16_output_max() -> Int16 {
   test_int16_output_max()
 }
 
-pub fn __modus_test_int16_option_input_min(n : Int16?) -> Unit!Error {
-  try test_int16_option_input_min!(n) {
+pub fn __modus_test_int16_option_input_min(n : Int16?) -> Unit raise Error {
+  try test_int16_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3883,8 +3883,8 @@ pub fn __modus_test_int16_option_input_min(n : Int16?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int16_option_input_max(n : Int16?) -> Unit!Error {
-  try test_int16_option_input_max!(n) {
+pub fn __modus_test_int16_option_input_max(n : Int16?) -> Unit raise Error {
+  try test_int16_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3892,8 +3892,8 @@ pub fn __modus_test_int16_option_input_max(n : Int16?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int16_option_input_none(n : Int16?) -> Unit!Error {
-  try test_int16_option_input_none!(n) {
+pub fn __modus_test_int16_option_input_none(n : Int16?) -> Unit raise Error {
+  try test_int16_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3913,8 +3913,8 @@ pub fn __modus_test_int16_option_output_none() -> Int16? {
   test_int16_option_output_none()
 }
 
-pub fn __modus_test_int64_input_min(n : Int64) -> Unit!Error {
-  try test_int64_input_min!(n) {
+pub fn __modus_test_int64_input_min(n : Int64) -> Unit raise Error {
+  try test_int64_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3922,8 +3922,8 @@ pub fn __modus_test_int64_input_min(n : Int64) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int64_input_max(n : Int64) -> Unit!Error {
-  try test_int64_input_max!(n) {
+pub fn __modus_test_int64_input_max(n : Int64) -> Unit raise Error {
+  try test_int64_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3939,8 +3939,8 @@ pub fn __modus_test_int64_output_max() -> Int64 {
   test_int64_output_max()
 }
 
-pub fn __modus_test_int64_option_input_min(n : Int64?) -> Unit!Error {
-  try test_int64_option_input_min!(n) {
+pub fn __modus_test_int64_option_input_min(n : Int64?) -> Unit raise Error {
+  try test_int64_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3948,8 +3948,8 @@ pub fn __modus_test_int64_option_input_min(n : Int64?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int64_option_input_max(n : Int64?) -> Unit!Error {
-  try test_int64_option_input_max!(n) {
+pub fn __modus_test_int64_option_input_max(n : Int64?) -> Unit raise Error {
+  try test_int64_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3957,8 +3957,8 @@ pub fn __modus_test_int64_option_input_max(n : Int64?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_int64_option_input_none(n : Int64?) -> Unit!Error {
-  try test_int64_option_input_none!(n) {
+pub fn __modus_test_int64_option_input_none(n : Int64?) -> Unit raise Error {
+  try test_int64_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3978,8 +3978,8 @@ pub fn __modus_test_int64_option_output_none() -> Int64? {
   test_int64_option_output_none()
 }
 
-pub fn __modus_test_uint_input_min(n : UInt) -> Unit!Error {
-  try test_uint_input_min!(n) {
+pub fn __modus_test_uint_input_min(n : UInt) -> Unit raise Error {
+  try test_uint_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -3987,8 +3987,8 @@ pub fn __modus_test_uint_input_min(n : UInt) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint_input_max(n : UInt) -> Unit!Error {
-  try test_uint_input_max!(n) {
+pub fn __modus_test_uint_input_max(n : UInt) -> Unit raise Error {
+  try test_uint_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4004,8 +4004,8 @@ pub fn __modus_test_uint_output_max() -> UInt {
   test_uint_output_max()
 }
 
-pub fn __modus_test_uint_option_input_min(n : UInt?) -> Unit!Error {
-  try test_uint_option_input_min!(n) {
+pub fn __modus_test_uint_option_input_min(n : UInt?) -> Unit raise Error {
+  try test_uint_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4013,8 +4013,8 @@ pub fn __modus_test_uint_option_input_min(n : UInt?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint_option_input_max(n : UInt?) -> Unit!Error {
-  try test_uint_option_input_max!(n) {
+pub fn __modus_test_uint_option_input_max(n : UInt?) -> Unit raise Error {
+  try test_uint_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4022,8 +4022,8 @@ pub fn __modus_test_uint_option_input_max(n : UInt?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint_option_input_none(n : UInt?) -> Unit!Error {
-  try test_uint_option_input_none!(n) {
+pub fn __modus_test_uint_option_input_none(n : UInt?) -> Unit raise Error {
+  try test_uint_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4043,8 +4043,8 @@ pub fn __modus_test_uint_option_output_none() -> UInt? {
   test_uint_option_output_none()
 }
 
-pub fn __modus_test_uint16_input_min(n : UInt16) -> Unit!Error {
-  try test_uint16_input_min!(n) {
+pub fn __modus_test_uint16_input_min(n : UInt16) -> Unit raise Error {
+  try test_uint16_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4052,8 +4052,8 @@ pub fn __modus_test_uint16_input_min(n : UInt16) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint16_input_max(n : UInt16) -> Unit!Error {
-  try test_uint16_input_max!(n) {
+pub fn __modus_test_uint16_input_max(n : UInt16) -> Unit raise Error {
+  try test_uint16_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4069,8 +4069,8 @@ pub fn __modus_test_uint16_output_max() -> UInt16 {
   test_uint16_output_max()
 }
 
-pub fn __modus_test_uint16_option_input_min(n : UInt16?) -> Unit!Error {
-  try test_uint16_option_input_min!(n) {
+pub fn __modus_test_uint16_option_input_min(n : UInt16?) -> Unit raise Error {
+  try test_uint16_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4078,8 +4078,8 @@ pub fn __modus_test_uint16_option_input_min(n : UInt16?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint16_option_input_max(n : UInt16?) -> Unit!Error {
-  try test_uint16_option_input_max!(n) {
+pub fn __modus_test_uint16_option_input_max(n : UInt16?) -> Unit raise Error {
+  try test_uint16_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4087,8 +4087,8 @@ pub fn __modus_test_uint16_option_input_max(n : UInt16?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint16_option_input_none(n : UInt16?) -> Unit!Error {
-  try test_uint16_option_input_none!(n) {
+pub fn __modus_test_uint16_option_input_none(n : UInt16?) -> Unit raise Error {
+  try test_uint16_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4108,8 +4108,8 @@ pub fn __modus_test_uint16_option_output_none() -> UInt16? {
   test_uint16_option_output_none()
 }
 
-pub fn __modus_test_uint64_input_min(n : UInt64) -> Unit!Error {
-  try test_uint64_input_min!(n) {
+pub fn __modus_test_uint64_input_min(n : UInt64) -> Unit raise Error {
+  try test_uint64_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4117,8 +4117,8 @@ pub fn __modus_test_uint64_input_min(n : UInt64) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint64_input_max(n : UInt64) -> Unit!Error {
-  try test_uint64_input_max!(n) {
+pub fn __modus_test_uint64_input_max(n : UInt64) -> Unit raise Error {
+  try test_uint64_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4134,8 +4134,8 @@ pub fn __modus_test_uint64_output_max() -> UInt64 {
   test_uint64_output_max()
 }
 
-pub fn __modus_test_uint64_option_input_min(n : UInt64?) -> Unit!Error {
-  try test_uint64_option_input_min!(n) {
+pub fn __modus_test_uint64_option_input_min(n : UInt64?) -> Unit raise Error {
+  try test_uint64_option_input_min(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4143,8 +4143,8 @@ pub fn __modus_test_uint64_option_input_min(n : UInt64?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint64_option_input_max(n : UInt64?) -> Unit!Error {
-  try test_uint64_option_input_max!(n) {
+pub fn __modus_test_uint64_option_input_max(n : UInt64?) -> Unit raise Error {
+  try test_uint64_option_input_max(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4152,8 +4152,8 @@ pub fn __modus_test_uint64_option_input_max(n : UInt64?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_uint64_option_input_none(n : UInt64?) -> Unit!Error {
-  try test_uint64_option_input_none!(n) {
+pub fn __modus_test_uint64_option_input_none(n : UInt64?) -> Unit raise Error {
+  try test_uint64_option_input_none(n) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4173,8 +4173,8 @@ pub fn __modus_test_uint64_option_output_none() -> UInt64? {
   test_uint64_option_output_none()
 }
 
-pub fn __modus_test_string_input(s : String) -> Unit!Error {
-  try test_string_input!(s) {
+pub fn __modus_test_string_input(s : String) -> Unit raise Error {
+  try test_string_input(s) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4182,8 +4182,8 @@ pub fn __modus_test_string_input(s : String) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_string_option_input(s : String?) -> Unit!Error {
-  try test_string_option_input!(s) {
+pub fn __modus_test_string_option_input(s : String?) -> Unit raise Error {
+  try test_string_option_input(s) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4191,8 +4191,8 @@ pub fn __modus_test_string_option_input(s : String?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_string_option_input_none(s : String?) -> Unit!Error {
-  try test_string_option_input_none!(s) {
+pub fn __modus_test_string_option_input_none(s : String?) -> Unit raise Error {
+  try test_string_option_input_none(s) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4212,8 +4212,8 @@ pub fn __modus_test_string_option_output_none() -> String? {
   test_string_option_output_none()
 }
 
-pub fn __modus_test_struct_input1(o : TestStruct1) -> Unit!Error {
-  try test_struct_input1!(o) {
+pub fn __modus_test_struct_input1(o : TestStruct1) -> Unit raise Error {
+  try test_struct_input1(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4221,8 +4221,8 @@ pub fn __modus_test_struct_input1(o : TestStruct1) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_input2(o : TestStruct2) -> Unit!Error {
-  try test_struct_input2!(o) {
+pub fn __modus_test_struct_input2(o : TestStruct2) -> Unit raise Error {
+  try test_struct_input2(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4230,8 +4230,8 @@ pub fn __modus_test_struct_input2(o : TestStruct2) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_input3(o : TestStruct3) -> Unit!Error {
-  try test_struct_input3!(o) {
+pub fn __modus_test_struct_input3(o : TestStruct3) -> Unit raise Error {
+  try test_struct_input3(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4239,8 +4239,8 @@ pub fn __modus_test_struct_input3(o : TestStruct3) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_input4(o : TestStruct4) -> Unit!Error {
-  try test_struct_input4!(o) {
+pub fn __modus_test_struct_input4(o : TestStruct4) -> Unit raise Error {
+  try test_struct_input4(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4248,8 +4248,8 @@ pub fn __modus_test_struct_input4(o : TestStruct4) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_input5(o : TestStruct5) -> Unit!Error {
-  try test_struct_input5!(o) {
+pub fn __modus_test_struct_input5(o : TestStruct5) -> Unit raise Error {
+  try test_struct_input5(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4257,8 +4257,8 @@ pub fn __modus_test_struct_input5(o : TestStruct5) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
-  try test_struct_input4_with_none!(o) {
+pub fn __modus_test_struct_input4_with_none(o : TestStruct4) -> Unit raise Error {
+  try test_struct_input4_with_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4266,8 +4266,8 @@ pub fn __modus_test_struct_input4_with_none(o : TestStruct4) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit!Error {
-  try test_smorgasbord_struct_input!(o) {
+pub fn __modus_test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit raise Error {
+  try test_smorgasbord_struct_input(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4275,8 +4275,8 @@ pub fn __modus_test_smorgasbord_struct_input(o : TestSmorgasbordStruct) -> Unit!
   }
 }
 
-pub fn __modus_test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Error {
-  try test_recursive_struct_input!(r1) {
+pub fn __modus_test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit raise Error {
+  try test_recursive_struct_input(r1) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4284,8 +4284,8 @@ pub fn __modus_test_recursive_struct_input(r1 : TestRecursiveStruct) -> Unit!Err
   }
 }
 
-pub fn __modus_test_struct_option_input1(o : TestStruct1?) -> Unit!Error {
-  try test_struct_option_input1!(o) {
+pub fn __modus_test_struct_option_input1(o : TestStruct1?) -> Unit raise Error {
+  try test_struct_option_input1(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4293,8 +4293,8 @@ pub fn __modus_test_struct_option_input1(o : TestStruct1?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input2(o : TestStruct2?) -> Unit!Error {
-  try test_struct_option_input2!(o) {
+pub fn __modus_test_struct_option_input2(o : TestStruct2?) -> Unit raise Error {
+  try test_struct_option_input2(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4302,8 +4302,8 @@ pub fn __modus_test_struct_option_input2(o : TestStruct2?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input3(o : TestStruct3?) -> Unit!Error {
-  try test_struct_option_input3!(o) {
+pub fn __modus_test_struct_option_input3(o : TestStruct3?) -> Unit raise Error {
+  try test_struct_option_input3(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4311,8 +4311,8 @@ pub fn __modus_test_struct_option_input3(o : TestStruct3?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input4(o : TestStruct4?) -> Unit!Error {
-  try test_struct_option_input4!(o) {
+pub fn __modus_test_struct_option_input4(o : TestStruct4?) -> Unit raise Error {
+  try test_struct_option_input4(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4320,8 +4320,8 @@ pub fn __modus_test_struct_option_input4(o : TestStruct4?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input5(o : TestStruct5?) -> Unit!Error {
-  try test_struct_option_input5!(o) {
+pub fn __modus_test_struct_option_input5(o : TestStruct5?) -> Unit raise Error {
+  try test_struct_option_input5(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4329,8 +4329,8 @@ pub fn __modus_test_struct_option_input5(o : TestStruct5?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input4_with_none(o : TestStruct4?) -> Unit!Error {
-  try test_struct_option_input4_with_none!(o) {
+pub fn __modus_test_struct_option_input4_with_none(o : TestStruct4?) -> Unit raise Error {
+  try test_struct_option_input4_with_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4338,8 +4338,8 @@ pub fn __modus_test_struct_option_input4_with_none(o : TestStruct4?) -> Unit!Err
   }
 }
 
-pub fn __modus_test_recursive_struct_option_input(o : TestRecursiveStruct?) -> Unit!Error {
-  try test_recursive_struct_option_input!(o) {
+pub fn __modus_test_recursive_struct_option_input(o : TestRecursiveStruct?) -> Unit raise Error {
+  try test_recursive_struct_option_input(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4347,8 +4347,8 @@ pub fn __modus_test_recursive_struct_option_input(o : TestRecursiveStruct?) -> U
   }
 }
 
-pub fn __modus_test_smorgasbord_struct_option_input(o : TestSmorgasbordStruct?) -> Unit!Error {
-  try test_smorgasbord_struct_option_input!(o) {
+pub fn __modus_test_smorgasbord_struct_option_input(o : TestSmorgasbordStruct?) -> Unit raise Error {
+  try test_smorgasbord_struct_option_input(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4356,8 +4356,8 @@ pub fn __modus_test_smorgasbord_struct_option_input(o : TestSmorgasbordStruct?) 
   }
 }
 
-pub fn __modus_test_struct_option_input1_none(o : TestStruct1?) -> Unit!Error {
-  try test_struct_option_input1_none!(o) {
+pub fn __modus_test_struct_option_input1_none(o : TestStruct1?) -> Unit raise Error {
+  try test_struct_option_input1_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4365,8 +4365,8 @@ pub fn __modus_test_struct_option_input1_none(o : TestStruct1?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input2_none(o : TestStruct2?) -> Unit!Error {
-  try test_struct_option_input2_none!(o) {
+pub fn __modus_test_struct_option_input2_none(o : TestStruct2?) -> Unit raise Error {
+  try test_struct_option_input2_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4374,8 +4374,8 @@ pub fn __modus_test_struct_option_input2_none(o : TestStruct2?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input3_none(o : TestStruct3?) -> Unit!Error {
-  try test_struct_option_input3_none!(o) {
+pub fn __modus_test_struct_option_input3_none(o : TestStruct3?) -> Unit raise Error {
+  try test_struct_option_input3_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4383,8 +4383,8 @@ pub fn __modus_test_struct_option_input3_none(o : TestStruct3?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input4_none(o : TestStruct4?) -> Unit!Error {
-  try test_struct_option_input4_none!(o) {
+pub fn __modus_test_struct_option_input4_none(o : TestStruct4?) -> Unit raise Error {
+  try test_struct_option_input4_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4392,8 +4392,8 @@ pub fn __modus_test_struct_option_input4_none(o : TestStruct4?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_struct_option_input5_none(o : TestStruct5?) -> Unit!Error {
-  try test_struct_option_input5_none!(o) {
+pub fn __modus_test_struct_option_input5_none(o : TestStruct5?) -> Unit raise Error {
+  try test_struct_option_input5_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4401,8 +4401,8 @@ pub fn __modus_test_struct_option_input5_none(o : TestStruct5?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_recursive_struct_option_input_none(o : TestRecursiveStruct?) -> Unit!Error {
-  try test_recursive_struct_option_input_none!(o) {
+pub fn __modus_test_recursive_struct_option_input_none(o : TestRecursiveStruct?) -> Unit raise Error {
+  try test_recursive_struct_option_input_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4410,8 +4410,8 @@ pub fn __modus_test_recursive_struct_option_input_none(o : TestRecursiveStruct?)
   }
 }
 
-pub fn __modus_test_smorgasbord_struct_option_input_none(o : TestSmorgasbordStruct?) -> Unit!Error {
-  try test_smorgasbord_struct_option_input_none!(o) {
+pub fn __modus_test_smorgasbord_struct_option_input_none(o : TestSmorgasbordStruct?) -> Unit raise Error {
+  try test_smorgasbord_struct_option_input_none(o) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4579,8 +4579,8 @@ pub fn __modus_test_smorgasbord_struct_option_output_map_none() -> TestSmorgasbo
   test_smorgasbord_struct_option_output_map_none()
 }
 
-pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
-  try test_time_input!(t) {
+pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit raise Error {
+  try test_time_input(t) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4588,8 +4588,8 @@ pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
-  try test_time_option_input!(t) {
+pub fn __modus_test_time_option_input(t : @time.ZonedDateTime?) -> Unit raise Error {
+  try test_time_option_input(t) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4605,8 +4605,8 @@ pub fn __modus_call_test_time_option_input_none() -> @time.ZonedDateTime? {
   call_test_time_option_input_none()
 }
 
-pub fn __modus_test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!Error {
-  try test_time_option_input_style2!(t?) {
+pub fn __modus_test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit raise Error {
+  try test_time_option_input_style2(t?) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4614,8 +4614,8 @@ pub fn __modus_test_time_option_input_style2(t? : @time.ZonedDateTime) -> Unit!E
   }
 }
 
-pub fn __modus_test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Error {
-  try test_time_option_input_none!(t) {
+pub fn __modus_test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit raise Error {
+  try test_time_option_input_none(t) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4623,8 +4623,8 @@ pub fn __modus_test_time_option_input_none(t : @time.ZonedDateTime?) -> Unit!Err
   }
 }
 
-pub fn __modus_test_time_option_input_none_style2(t? : @time.ZonedDateTime) -> Unit!Error {
-  try test_time_option_input_none_style2!(t?) {
+pub fn __modus_test_time_option_input_none_style2(t? : @time.ZonedDateTime) -> Unit raise Error {
+  try test_time_option_input_none_style2(t?) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4644,8 +4644,8 @@ pub fn __modus_test_time_option_output_none() -> @time.ZonedDateTime? {
   test_time_option_output_none()
 }
 
-pub fn __modus_test_duration_input(d : @time.Duration) -> Unit!Error {
-  try test_duration_input!(d) {
+pub fn __modus_test_duration_input(d : @time.Duration) -> Unit raise Error {
+  try test_duration_input(d) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4653,8 +4653,8 @@ pub fn __modus_test_duration_input(d : @time.Duration) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_duration_option_input(d : @time.Duration?) -> Unit!Error {
-  try test_duration_option_input!(d) {
+pub fn __modus_test_duration_option_input(d : @time.Duration?) -> Unit raise Error {
+  try test_duration_option_input(d) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4662,8 +4662,8 @@ pub fn __modus_test_duration_option_input(d : @time.Duration?) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_duration_option_input_style2(d? : @time.Duration) -> Unit!Error {
-  try test_duration_option_input_style2!(d?) {
+pub fn __modus_test_duration_option_input_style2(d? : @time.Duration) -> Unit raise Error {
+  try test_duration_option_input_style2(d?) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4671,8 +4671,8 @@ pub fn __modus_test_duration_option_input_style2(d? : @time.Duration) -> Unit!Er
   }
 }
 
-pub fn __modus_test_duration_option_input_none(d : @time.Duration?) -> Unit!Error {
-  try test_duration_option_input_none!(d) {
+pub fn __modus_test_duration_option_input_none(d : @time.Duration?) -> Unit raise Error {
+  try test_duration_option_input_none(d) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -4680,8 +4680,8 @@ pub fn __modus_test_duration_option_input_none(d : @time.Duration?) -> Unit!Erro
   }
 }
 
-pub fn __modus_test_duration_option_input_none_style2(d? : @time.Duration) -> Unit!Error {
-  try test_duration_option_input_none_style2!(d?) {
+pub fn __modus_test_duration_option_input_none_style2(d? : @time.Duration) -> Unit raise Error {
+  try test_duration_option_input_none_style2(d?) catch {
     e => {
       @console.error(e.to_string())
       raise e
