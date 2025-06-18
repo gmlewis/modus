@@ -31,7 +31,8 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
 	// DO NOT STRIP THE ERROR TYPE HERE! Strip it later.
-	// When an "...!Error" (now "... raise Error" as of 'moonc v0.6.18+8382ed77e') is the return type, two values are returned.
+	// When an "...!Error" (now "... raise Error" as of 'moonc v0.6.18+8382ed77e')
+	// is the return type, two values are returned.
 	// The first value is 0 on failure, and the second value is the actual return type.
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
@@ -309,6 +310,9 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 
 func (lti *langTypeInfo) IsErrorType(typ string) (string, bool) {
 	if i := strings.Index(typ, "!"); i >= 0 {
+		return typ[:i], true
+	}
+	if i := strings.Index(typ, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
 		return typ[:i], true
 	}
 	return typ, false
