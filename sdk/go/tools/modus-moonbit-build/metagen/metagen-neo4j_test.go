@@ -80,7 +80,7 @@ var wantNeo4jTypes = metadata.TypeMap{
 		Name:   "(String, Bool)",
 		Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Bool"}},
 	},
-	"@neo4j.&Entity": {Name: "@neo4j.&Entity"},
+	// "@neo4j.&Entity": {Name: "@neo4j.&Entity"},
 	"@neo4j.EagerResult": {
 		Name:   "@neo4j.EagerResult",
 		Fields: []*metadata.Field{{Name: "keys", Type: "Array[String]"}, {Name: "records", Type: "Array[@neo4j.Record]"}},
@@ -132,12 +132,12 @@ var wantNeo4jTypes = metadata.TypeMap{
 			{Name: "props", Type: "Json"},
 		},
 	},
-	"@neo4j.T":             {Name: "@neo4j.T"},
-	"@neo4j.T raise Error": {Name: "@neo4j.T raise Error"},
-	"@testutils.CallStack[T]": {
-		Name:   "@testutils.CallStack[T]",
-		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
-	},
+	// "@neo4j.T":             {Name: "@neo4j.T"},
+	// "@neo4j.T raise Error": {Name: "@neo4j.T raise Error"},
+	// "@testutils.CallStack[T]": {
+	// 	Name:   "@testutils.CallStack[T]",
+	// 	Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	// },
 	"@testutils.T":               {Name: "@testutils.T"},
 	"Array[@neo4j.Neo4jOption]":  {Name: "Array[@neo4j.Neo4jOption]"},
 	"Array[@neo4j.Node]":         {Name: "Array[@neo4j.Node]"},

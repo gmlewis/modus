@@ -102,7 +102,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -114,7 +114,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Array[Person]!Error"}},
+								{Type: &ast.Ident{Name: "Array[Person] raise Error"}},
 							},
 						},
 					},
@@ -126,7 +126,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Array[Int]!Error"}},
+								{Type: &ast.Ident{Name: "Array[Int] raise Error"}},
 							},
 						},
 					},
@@ -138,7 +138,7 @@ var wantPackageNeo4j = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -154,10 +154,10 @@ var wantPackageNeo4j = &Package{
 		Defs: map[*ast.Ident]types.Object{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
 			{Name: "Person"}: types.NewTypeName(0, nil, "Person", &moonType{typeName: "struct{name String; age Int}"}),
-			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func create_people_and_relationships() String!Error"},
-			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func get_alice_friends_under_40() Array[Person]!Error"},
-			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func get_alice_friends_under_40_ages() Array[Int]!Error"},
-			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func delete_all_nodes() String!Error"},
+			{Name: "create_people_and_relationships"}: &moonFunc{funcName: "func create_people_and_relationships() String raise Error"},
+			{Name: "get_alice_friends_under_40"}:      &moonFunc{funcName: "func get_alice_friends_under_40() Array[Person] raise Error"},
+			{Name: "get_alice_friends_under_40_ages"}: &moonFunc{funcName: "func get_alice_friends_under_40_ages() Array[Int] raise Error"},
+			{Name: "delete_all_nodes"}:                &moonFunc{funcName: "func delete_all_nodes() String raise Error"},
 		},
 	},
 }

@@ -157,10 +157,10 @@ var wantSimpleTypes = metadata.TypeMap{
 	"@ffi.XExternByteArray":   {Name: "@ffi.XExternByteArray"},
 	"@ffi.XExternString":      {Name: "@ffi.XExternString"},
 	"@ffi.XExternStringArray": {Name: "@ffi.XExternStringArray"},
-	"@testutils.CallStack[T]": {
-		Name:   "@testutils.CallStack[T]",
-		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
-	},
+	// "@testutils.CallStack[T]": {
+	// 	Name:   "@testutils.CallStack[T]",
+	// 	Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	// },
 	"@testutils.T":                    {Name: "@testutils.T"},
 	"@time.Duration":                  {Name: "@time.Duration"},
 	"@time.Duration raise Error":      {Name: "@time.Duration raise Error"},

@@ -115,10 +115,10 @@ var wantTimeTypes = metadata.TypeMap{
 		Fields: []*metadata.Field{{Name: "0", Type: "Int"}, {Name: "1", Type: "Int"}, {Name: "2", Type: "Int"}},
 	},
 	"(String)": {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
-	"@testutils.CallStack[T]": {
-		Name:   "@testutils.CallStack[T]",
-		Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
-	},
+	// "@testutils.CallStack[T]": {
+	// 	Name:   "@testutils.CallStack[T]",
+	// 	Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+	// },
 	"@testutils.T":                    {Name: "@testutils.T"},
 	"@time.Duration":                  {Name: "@time.Duration"},
 	"@time.Duration raise Error":      {Name: "@time.Duration raise Error"},

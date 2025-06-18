@@ -349,7 +349,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -447,7 +447,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -463,7 +463,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -531,7 +531,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -559,7 +559,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -587,7 +587,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1020,7 +1020,7 @@ var wantPackageTestsuite = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime raise Error"}},
 							},
 						},
 					},
@@ -1036,7 +1036,7 @@ var wantPackageTestsuite = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -1125,7 +1125,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -1375,7 +1375,7 @@ var wantPackageTestsuite = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime raise Error"}},
 							},
 						},
 					},
@@ -1391,7 +1391,7 @@ var wantPackageTestsuite = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -1411,7 +1411,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -1447,7 +1447,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "TimeZoneInfo!Error"}},
+								{Type: &ast.Ident{Name: "TimeZoneInfo raise Error"}},
 							},
 						},
 					},
@@ -1475,7 +1475,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1491,7 +1491,7 @@ var wantPackageTestsuite = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1503,7 +1503,7 @@ var wantPackageTestsuite = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1575,7 +1575,7 @@ var wantPackageTestsuite = &Package{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
 			{Name: "hello_primitive_uint16_min"}:                      &moonFunc{funcName: "func hello_primitive_uint16_min() UInt16"},
 			{Name: "hello_primitive_uint16_max"}:                      &moonFunc{funcName: "func hello_primitive_uint16_max() UInt16"},
-			{Name: "get_time_in_zone"}:                                &moonFunc{funcName: "func get_time_in_zone(tz String) String!Error"},
+			{Name: "get_time_in_zone"}:                                &moonFunc{funcName: "func get_time_in_zone(tz String) String raise Error"},
 			{Name: "hello_array_of_ints_WithDefaults"}:                &moonFunc{funcName: "func hello_array_of_ints_WithDefaults() Array[Int]"},
 			{Name: "hello_primitive_int64_max"}:                       &moonFunc{funcName: "func hello_primitive_int64_max() Int64"},
 			{Name: "test_exit"}:                                       &moonFunc{funcName: "func test_exit()"},
@@ -1583,8 +1583,8 @@ var wantPackageTestsuite = &Package{
 			{Name: "test_array_output_int_option"}:                    &moonFunc{funcName: "func test_array_output_int_option() Array[Int?]"},
 			{Name: "make_test_map"}:                                   &moonFunc{funcName: "func make_test_map(size Int) Map[String, String]"},
 			{Name: "hello_primitive_uint64_min"}:                      &moonFunc{funcName: "func hello_primitive_uint64_min() UInt64"},
-			{Name: "get_current_time_formatted"}:                      &moonFunc{funcName: "func get_current_time_formatted() String!Error"},
-			{Name: "get_utc_time"}:                                    &moonFunc{funcName: "func get_utc_time() @time.ZonedDateTime!Error"},
+			{Name: "get_current_time_formatted"}:                      &moonFunc{funcName: "func get_current_time_formatted() String raise Error"},
+			{Name: "get_utc_time"}:                                    &moonFunc{funcName: "func get_utc_time() @time.ZonedDateTime raise Error"},
 			{Name: "test_tuple_simulator"}:                            &moonFunc{funcName: "func test_tuple_simulator() TupleSimulator"},
 			{Name: "hello_array_of_strings_option"}:                   &moonFunc{funcName: "func hello_array_of_strings_option(n~ Int = 3) Array[String]?"},
 			{Name: "hello_primitive_float_min"}:                       &moonFunc{funcName: "func hello_primitive_float_min() Float"},
@@ -1595,7 +1595,7 @@ var wantPackageTestsuite = &Package{
 			{Name: "hello_option_none"}:                               &moonFunc{funcName: "func hello_option_none(some~ Bool = false) String?"},
 			{Name: "hello_option_none_WithDefaults"}:                  &moonFunc{funcName: "func hello_option_none_WithDefaults() String?"},
 			{Name: "hello_primitive_char_min"}:                        &moonFunc{funcName: "func hello_primitive_char_min() Char"},
-			{Name: "test_time_option_input"}:                          &moonFunc{funcName: "func test_time_option_input(t @time.ZonedDateTime?) Unit!Error"},
+			{Name: "test_time_option_input"}:                          &moonFunc{funcName: "func test_time_option_input(t @time.ZonedDateTime?) Unit raise Error"},
 			{Name: "hello_array_of_ints_option"}:                      &moonFunc{funcName: "func hello_array_of_ints_option(n~ Int = 3) Array[Int]?"},
 			{Name: "test_array_output_string_option"}:                 &moonFunc{funcName: "func test_array_output_string_option() Array[String?]"},
 			{Name: "test_map_output_int_double"}:                      &moonFunc{funcName: "func test_map_output_int_double() Map[Int, Double]"},
@@ -1604,7 +1604,7 @@ var wantPackageTestsuite = &Package{
 			{Name: "get_person"}:                                      &moonFunc{funcName: "func get_person() Person"},
 			{Name: "TimeZoneInfo"}:                                    &moonFunc{funcName: "type TimeZoneInfo = struct{standard_name String; standard_offset String; daylight_name String; daylight_offset String}"},
 			{Name: "hello_array_of_strings"}:                          &moonFunc{funcName: "func hello_array_of_strings(n~ Int = 3) Array[String]"},
-			{Name: "test_map_input_string_string"}:                    &moonFunc{funcName: "func test_map_input_string_string(m Map[String, String]) Unit!Error"},
+			{Name: "test_map_input_string_string"}:                    &moonFunc{funcName: "func test_map_input_string_string(m Map[String, String]) Unit raise Error"},
 			{Name: "hello_primitive_bool_max"}:                        &moonFunc{funcName: "func hello_primitive_bool_max() Bool"},
 			{Name: "hello_primitive_byte_min"}:                        &moonFunc{funcName: "func hello_primitive_byte_min() Byte"},
 			{Name: "hello_primitive_char_max"}:                        &moonFunc{funcName: "func hello_primitive_char_max() Char"},
@@ -1619,35 +1619,35 @@ var wantPackageTestsuite = &Package{
 			{Name: "hello_world_with_optional_arg_WithDefaults"}:      &moonFunc{funcName: "func hello_world_with_optional_arg_WithDefaults() String"},
 			{Name: "hello_array_of_ints_option_WithDefaults"}:         &moonFunc{funcName: "func hello_array_of_ints_option_WithDefaults() Array[Int]?"},
 			{Name: "hello_array_of_strings_WithDefaults"}:             &moonFunc{funcName: "func hello_array_of_strings_WithDefaults() Array[String]"},
-			{Name: "test_time_input"}:                                 &moonFunc{funcName: "func test_time_input(t @time.ZonedDateTime) Unit!Error"},
+			{Name: "test_time_input"}:                                 &moonFunc{funcName: "func test_time_input(t @time.ZonedDateTime) Unit raise Error"},
 			{Name: "hello_maps_n_items_WithDefaults"}:                 &moonFunc{funcName: "func hello_maps_n_items_WithDefaults() Map[String, String]"},
 			{Name: "test_map_option_output_string_string"}:            &moonFunc{funcName: "func test_map_option_output_string_string() Map[String, String]?"},
-			{Name: "test_map_input_int_float"}:                        &moonFunc{funcName: "func test_map_input_int_float(m Map[Int, Float]) Unit!Error"},
+			{Name: "test_map_input_int_float"}:                        &moonFunc{funcName: "func test_map_input_int_float(m Map[Int, Float]) Unit raise Error"},
 			{Name: "hello_primitive_uint64_max"}:                      &moonFunc{funcName: "func hello_primitive_uint64_max() UInt64"},
-			{Name: "get_current_time"}:                                &moonFunc{funcName: "func get_current_time() @time.ZonedDateTime!Error"},
+			{Name: "get_current_time"}:                                &moonFunc{funcName: "func get_current_time() @time.ZonedDateTime raise Error"},
 			{Name: "hello_option_empty_string"}:                       &moonFunc{funcName: "func hello_option_empty_string(some~ Bool = true) String?"},
-			{Name: "get_local_time"}:                                  &moonFunc{funcName: "func get_local_time() String!Error"},
+			{Name: "get_local_time"}:                                  &moonFunc{funcName: "func get_local_time() String raise Error"},
 			{Name: "test_map_output_string_string"}:                   &moonFunc{funcName: "func test_map_output_string_string() Map[String, String]"},
 			{Name: "get_full_name"}:                                   &moonFunc{funcName: "func get_full_name(first_name String, last_name String) String"},
 			{Name: "test_abort"}:                                      &moonFunc{funcName: "func test_abort()"},
 			{Name: "hello_option_some_string_WithDefaults"}:           &moonFunc{funcName: "func hello_option_some_string_WithDefaults() String?"},
-			{Name: "get_time_zone_info"}:                              &moonFunc{funcName: "func get_time_zone_info(tz String) TimeZoneInfo!Error"},
+			{Name: "get_time_zone_info"}:                              &moonFunc{funcName: "func get_time_zone_info(tz String) TimeZoneInfo raise Error"},
 			{Name: "TupleSimulator"}:                                  &moonFunc{funcName: "type TupleSimulator = struct{t0 Int; t1 Bool; t2 String}"},
 			{Name: "test_tuple_output"}:                               &moonFunc{funcName: "func test_tuple_output() (Int, Bool, String)"},
-			{Name: "test_array_input_string"}:                         &moonFunc{funcName: "func test_array_input_string(val Array[String]) Unit!Error"},
+			{Name: "test_array_input_string"}:                         &moonFunc{funcName: "func test_array_input_string(val Array[String]) Unit raise Error"},
 			{Name: "test_map_lookup_string_string"}:                   &moonFunc{funcName: "func test_map_lookup_string_string(m Map[String, String], key String) String"},
-			{Name: "test_struct_containing_map_input_string_string"}:  &moonFunc{funcName: "func test_struct_containing_map_input_string_string(s TestStructWithMap) Unit!Error"},
+			{Name: "test_struct_containing_map_input_string_string"}:  &moonFunc{funcName: "func test_struct_containing_map_input_string_string(s TestStructWithMap) Unit raise Error"},
 			{Name: "hello_primitive_double_max"}:                      &moonFunc{funcName: "func hello_primitive_double_max() Double"},
 			{Name: "hello_primitive_int16_max"}:                       &moonFunc{funcName: "func hello_primitive_int16_max() Int16"},
 			{Name: "hello_primitive_uint_min"}:                        &moonFunc{funcName: "func hello_primitive_uint_min() UInt"},
-			{Name: "test_normal_error"}:                               &moonFunc{funcName: "func test_normal_error(input String) String!Error"},
+			{Name: "test_normal_error"}:                               &moonFunc{funcName: "func test_normal_error(input String) String raise Error"},
 			{Name: "hello_option_some_string"}:                        &moonFunc{funcName: "func hello_option_some_string(some~ Bool = true) String?"},
 			{Name: "test_iterate_map_string_string"}:                  &moonFunc{funcName: "func test_iterate_map_string_string(m Map[String, String])"},
 			{Name: "hello_primitive_int64_min"}:                       &moonFunc{funcName: "func hello_primitive_int64_min() Int64"},
 			{Name: "add"}:                                             &moonFunc{funcName: "func add(x Int, y Int) Int"},
 			{Name: "hello_world_with_optional_arg"}:                   &moonFunc{funcName: `func hello_world_with_optional_arg(name~ String = "世界 🌍 from MoonBit") String`},
 			{Name: "get_local_time_zone_id"}:                          &moonFunc{funcName: "func get_local_time_zone_id() String"},
-			{Name: "call_test_time_option_input_some"}:                &moonFunc{funcName: "func call_test_time_option_input_some() Unit!Error"},
+			{Name: "call_test_time_option_input_some"}:                &moonFunc{funcName: "func call_test_time_option_input_some() Unit raise Error"},
 			{Name: "hello_primitive_int16_min"}:                       &moonFunc{funcName: "func hello_primitive_int16_min() Int16"},
 			{Name: "hello_maps_n_items_option"}:                       &moonFunc{funcName: "func hello_maps_n_items_option(n~ Int = 3) Map[String, String]?"},
 			{Name: "hello_primitive_bool_min"}:                        &moonFunc{funcName: "func hello_primitive_bool_min() Bool"},
@@ -1659,9 +1659,9 @@ var wantPackageTestsuite = &Package{
 			{Name: "hello_world"}:                                     &moonFunc{funcName: "func hello_world() String"},
 			{Name: "hello_array_of_strings_option_WithDefaults"}:      &moonFunc{funcName: "func hello_array_of_strings_option_WithDefaults() Array[String]?"},
 			{Name: "TestStructWithMap"}:                               &moonFunc{funcName: "type TestStructWithMap = struct{m Map[String, String]}"},
-			{Name: "test_map_option_input_string_string"}:             &moonFunc{funcName: "func test_map_option_input_string_string(m Map[String, String]?) Unit!Error"},
+			{Name: "test_map_option_input_string_string"}:             &moonFunc{funcName: "func test_map_option_input_string_string(m Map[String, String]?) Unit raise Error"},
 			{Name: "test_map_output_int_float"}:                       &moonFunc{funcName: "func test_map_output_int_float() Map[Int, Float]"},
-			{Name: "test_map_input_int_double"}:                       &moonFunc{funcName: "func test_map_input_int_double(m Map[Int, Double]) Unit!Error"},
+			{Name: "test_map_input_int_double"}:                       &moonFunc{funcName: "func test_map_input_int_double(m Map[Int, Double]) Unit raise Error"},
 		},
 	},
 }

@@ -1303,7 +1303,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1319,7 +1319,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1335,7 +1335,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1351,7 +1351,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1367,7 +1367,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1383,7 +1383,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1399,7 +1399,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1415,7 +1415,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1431,7 +1431,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1447,7 +1447,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1463,7 +1463,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1479,7 +1479,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1626,7 +1626,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1642,7 +1642,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1658,7 +1658,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1674,7 +1674,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1690,7 +1690,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1706,7 +1706,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1722,7 +1722,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1738,7 +1738,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1754,7 +1754,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1770,7 +1770,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1797,7 +1797,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1945,7 +1945,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -1984,7 +1984,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2132,7 +2132,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2171,7 +2171,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2319,7 +2319,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2358,7 +2358,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2542,7 +2542,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2581,7 +2581,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2765,7 +2765,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -2983,7 +2983,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3011,7 +3011,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3039,7 +3039,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3067,7 +3067,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3095,7 +3095,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3123,7 +3123,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3151,7 +3151,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3179,7 +3179,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3207,7 +3207,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3246,7 +3246,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3430,7 +3430,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3469,7 +3469,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3653,7 +3653,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3889,7 +3889,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3917,7 +3917,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3945,7 +3945,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -3973,7 +3973,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4001,7 +4001,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4029,7 +4029,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4057,7 +4057,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4097,7 +4097,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4137,7 +4137,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4165,7 +4165,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4193,7 +4193,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4233,7 +4233,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4273,7 +4273,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4301,7 +4301,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4329,7 +4329,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4357,7 +4357,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4409,7 +4409,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4449,7 +4449,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4489,7 +4489,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4541,7 +4541,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4724,7 +4724,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4740,7 +4740,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4756,7 +4756,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4772,7 +4772,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4788,7 +4788,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4804,7 +4804,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4820,7 +4820,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4836,7 +4836,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4852,7 +4852,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4868,7 +4868,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4884,7 +4884,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -4900,7 +4900,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5047,7 +5047,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5063,7 +5063,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5079,7 +5079,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5095,7 +5095,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5111,7 +5111,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5127,7 +5127,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5143,7 +5143,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5159,7 +5159,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5175,7 +5175,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5191,7 +5191,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5350,7 +5350,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5366,7 +5366,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5382,7 +5382,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5398,7 +5398,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5414,7 +5414,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5430,7 +5430,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5446,7 +5446,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5462,7 +5462,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5478,7 +5478,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5494,7 +5494,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5510,7 +5510,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5669,7 +5669,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5685,7 +5685,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5701,7 +5701,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5717,7 +5717,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5733,7 +5733,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5749,7 +5749,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5765,7 +5765,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5781,7 +5781,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5797,7 +5797,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5813,7 +5813,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5829,7 +5829,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -5988,7 +5988,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6004,7 +6004,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6020,7 +6020,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6036,7 +6036,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6052,7 +6052,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6068,7 +6068,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6084,7 +6084,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6100,7 +6100,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6116,7 +6116,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6132,7 +6132,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6148,7 +6148,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6343,7 +6343,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6359,7 +6359,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6375,7 +6375,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6391,7 +6391,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6407,7 +6407,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6423,7 +6423,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6439,7 +6439,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6455,7 +6455,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6471,7 +6471,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6487,7 +6487,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6503,7 +6503,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6519,7 +6519,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6535,7 +6535,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6551,7 +6551,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6746,7 +6746,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6762,7 +6762,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6778,7 +6778,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6794,7 +6794,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6810,7 +6810,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6826,7 +6826,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6842,7 +6842,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6858,7 +6858,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6874,7 +6874,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6890,7 +6890,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6906,7 +6906,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6922,7 +6922,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6938,7 +6938,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -6954,7 +6954,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7149,7 +7149,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7165,7 +7165,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7181,7 +7181,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7197,7 +7197,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7213,7 +7213,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7229,7 +7229,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7245,7 +7245,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7261,7 +7261,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7277,7 +7277,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7293,7 +7293,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7309,7 +7309,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7325,7 +7325,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7341,7 +7341,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7357,7 +7357,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7516,7 +7516,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7532,7 +7532,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7548,7 +7548,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7564,7 +7564,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7580,7 +7580,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7596,7 +7596,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7612,7 +7612,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7628,7 +7628,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7644,7 +7644,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7660,7 +7660,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7676,7 +7676,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7871,7 +7871,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7887,7 +7887,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7903,7 +7903,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7919,7 +7919,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7935,7 +7935,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7951,7 +7951,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7967,7 +7967,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7983,7 +7983,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -7999,7 +7999,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8015,7 +8015,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8031,7 +8031,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8047,7 +8047,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8063,7 +8063,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8079,7 +8079,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8274,7 +8274,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8290,7 +8290,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8306,7 +8306,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8322,7 +8322,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8338,7 +8338,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8354,7 +8354,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8370,7 +8370,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8386,7 +8386,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8402,7 +8402,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8418,7 +8418,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8434,7 +8434,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8450,7 +8450,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8466,7 +8466,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8482,7 +8482,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8677,7 +8677,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8693,7 +8693,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8709,7 +8709,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8725,7 +8725,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8741,7 +8741,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8757,7 +8757,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8773,7 +8773,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8789,7 +8789,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8805,7 +8805,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8821,7 +8821,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8837,7 +8837,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8853,7 +8853,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8869,7 +8869,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -8885,7 +8885,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9388,7 +9388,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9404,7 +9404,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9472,7 +9472,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9500,7 +9500,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9528,7 +9528,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9579,7 +9579,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9595,7 +9595,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9635,7 +9635,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9651,7 +9651,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9667,7 +9667,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9730,7 +9730,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9746,7 +9746,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9786,7 +9786,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9802,7 +9802,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9818,7 +9818,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9881,7 +9881,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9897,7 +9897,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9937,7 +9937,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9953,7 +9953,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -9969,7 +9969,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10032,7 +10032,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10048,7 +10048,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10088,7 +10088,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10104,7 +10104,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10120,7 +10120,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10183,7 +10183,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10199,7 +10199,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10239,7 +10239,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10255,7 +10255,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10271,7 +10271,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10334,7 +10334,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10350,7 +10350,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10390,7 +10390,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10406,7 +10406,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10422,7 +10422,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10485,7 +10485,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10501,7 +10501,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10541,7 +10541,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10557,7 +10557,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10573,7 +10573,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10636,7 +10636,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10652,7 +10652,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10692,7 +10692,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10708,7 +10708,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10724,7 +10724,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10787,7 +10787,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10803,7 +10803,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10843,7 +10843,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10859,7 +10859,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10875,7 +10875,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10938,7 +10938,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10954,7 +10954,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -10994,7 +10994,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11010,7 +11010,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11026,7 +11026,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11089,7 +11089,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11105,7 +11105,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11145,7 +11145,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11161,7 +11161,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11177,7 +11177,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11240,7 +11240,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11256,7 +11256,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11272,7 +11272,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11623,7 +11623,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11639,7 +11639,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11655,7 +11655,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11671,7 +11671,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11687,7 +11687,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11703,7 +11703,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11719,7 +11719,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11735,7 +11735,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11751,7 +11751,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11767,7 +11767,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11783,7 +11783,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11799,7 +11799,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11815,7 +11815,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11831,7 +11831,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11847,7 +11847,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11863,7 +11863,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11879,7 +11879,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11895,7 +11895,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11911,7 +11911,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11927,7 +11927,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11943,7 +11943,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11959,7 +11959,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -11975,7 +11975,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12482,7 +12482,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12498,7 +12498,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12538,7 +12538,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12554,7 +12554,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12570,7 +12570,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12622,7 +12622,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12638,7 +12638,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12654,7 +12654,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12670,7 +12670,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12686,7 +12686,7 @@ var wantPackageRuntime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "Unit!Error"}},
+								{Type: &ast.Ident{Name: "Unit raise Error"}},
 							},
 						},
 					},
@@ -12825,56 +12825,56 @@ var wantPackageRuntime = &Package{
 			{Name: "modus_test.echo4"}:                                &moonFunc{funcName: "func modus_test.echo4(message String?) String?"},
 			{Name: "modus_test.encodeStrings1"}:                       &moonFunc{funcName: "func modus_test.encodeStrings1(items Array[String]?) String?"},
 			{Name: "modus_test.encodeStrings2"}:                       &moonFunc{funcName: "func modus_test.encodeStrings2(items Array[String?]?) String?"},
-			{Name: "test2d_array_input_string"}:                       &moonFunc{funcName: "func test2d_array_input_string(val Array[Array[String]]) Unit!Error"},
-			{Name: "test2d_array_input_string_empty"}:                 &moonFunc{funcName: "func test2d_array_input_string_empty(val Array[Array[String]]) Unit!Error"},
-			{Name: "test2d_array_input_string_inner_empty"}:           &moonFunc{funcName: "func test2d_array_input_string_inner_empty(val Array[Array[String]]) Unit!Error"},
-			{Name: "test2d_array_input_string_inner_none"}:            &moonFunc{funcName: "func test2d_array_input_string_inner_none(val Array[Array[String]?]) Unit!Error"},
-			{Name: "test2d_array_input_string_none"}:                  &moonFunc{funcName: "func test2d_array_input_string_none(val Array[Array[String]]?) Unit!Error"},
+			{Name: "test2d_array_input_string"}:                       &moonFunc{funcName: "func test2d_array_input_string(val Array[Array[String]]) Unit raise Error"},
+			{Name: "test2d_array_input_string_empty"}:                 &moonFunc{funcName: "func test2d_array_input_string_empty(val Array[Array[String]]) Unit raise Error"},
+			{Name: "test2d_array_input_string_inner_empty"}:           &moonFunc{funcName: "func test2d_array_input_string_inner_empty(val Array[Array[String]]) Unit raise Error"},
+			{Name: "test2d_array_input_string_inner_none"}:            &moonFunc{funcName: "func test2d_array_input_string_inner_none(val Array[Array[String]?]) Unit raise Error"},
+			{Name: "test2d_array_input_string_none"}:                  &moonFunc{funcName: "func test2d_array_input_string_none(val Array[Array[String]]?) Unit raise Error"},
 			{Name: "test2d_array_output_string"}:                      &moonFunc{funcName: "func test2d_array_output_string() Array[Array[String]]"},
 			{Name: "test2d_array_output_string_empty"}:                &moonFunc{funcName: "func test2d_array_output_string_empty() Array[Array[String]]"},
 			{Name: "test2d_array_output_string_inner_empty"}:          &moonFunc{funcName: "func test2d_array_output_string_inner_empty() Array[Array[String]]"},
 			{Name: "test2d_array_output_string_inner_none"}:           &moonFunc{funcName: "func test2d_array_output_string_inner_none() Array[Array[String]?]"},
 			{Name: "test2d_array_output_string_none"}:                 &moonFunc{funcName: "func test2d_array_output_string_none() Array[Array[String]]?"},
-			{Name: "test_array_input_bool_0"}:                         &moonFunc{funcName: "func test_array_input_bool_0(val Array[Bool]) Unit!Error"},
-			{Name: "test_array_input_bool_1"}:                         &moonFunc{funcName: "func test_array_input_bool_1(val Array[Bool]) Unit!Error"},
-			{Name: "test_array_input_bool_2"}:                         &moonFunc{funcName: "func test_array_input_bool_2(val Array[Bool]) Unit!Error"},
-			{Name: "test_array_input_bool_3"}:                         &moonFunc{funcName: "func test_array_input_bool_3(val Array[Bool]) Unit!Error"},
-			{Name: "test_array_input_bool_4"}:                         &moonFunc{funcName: "func test_array_input_bool_4(val Array[Bool]) Unit!Error"},
-			{Name: "test_array_input_bool_option_0"}:                  &moonFunc{funcName: "func test_array_input_bool_option_0(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_1_false"}:            &moonFunc{funcName: "func test_array_input_bool_option_1_false(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_1_none"}:             &moonFunc{funcName: "func test_array_input_bool_option_1_none(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_1_true"}:             &moonFunc{funcName: "func test_array_input_bool_option_1_true(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_2"}:                  &moonFunc{funcName: "func test_array_input_bool_option_2(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_3"}:                  &moonFunc{funcName: "func test_array_input_bool_option_3(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_bool_option_4"}:                  &moonFunc{funcName: "func test_array_input_bool_option_4(val Array[Bool?]) Unit!Error"},
-			{Name: "test_array_input_byte_0"}:                         &moonFunc{funcName: "func test_array_input_byte_0(val Array[Byte]) Unit!Error"},
-			{Name: "test_array_input_byte_1"}:                         &moonFunc{funcName: "func test_array_input_byte_1(val Array[Byte]) Unit!Error"},
-			{Name: "test_array_input_byte_2"}:                         &moonFunc{funcName: "func test_array_input_byte_2(val Array[Byte]) Unit!Error"},
-			{Name: "test_array_input_byte_3"}:                         &moonFunc{funcName: "func test_array_input_byte_3(val Array[Byte]) Unit!Error"},
-			{Name: "test_array_input_byte_4"}:                         &moonFunc{funcName: "func test_array_input_byte_4(val Array[Byte]) Unit!Error"},
-			{Name: "test_array_input_byte_option_0"}:                  &moonFunc{funcName: "func test_array_input_byte_option_0(val Array[Byte?]) Unit!Error"},
-			{Name: "test_array_input_byte_option_1"}:                  &moonFunc{funcName: "func test_array_input_byte_option_1(val Array[Byte?]) Unit!Error"},
-			{Name: "test_array_input_byte_option_2"}:                  &moonFunc{funcName: "func test_array_input_byte_option_2(val Array[Byte?]) Unit!Error"},
-			{Name: "test_array_input_byte_option_3"}:                  &moonFunc{funcName: "func test_array_input_byte_option_3(val Array[Byte?]) Unit!Error"},
-			{Name: "test_array_input_byte_option_4"}:                  &moonFunc{funcName: "func test_array_input_byte_option_4(val Array[Byte?]) Unit!Error"},
-			{Name: "test_array_input_char_empty"}:                     &moonFunc{funcName: "func test_array_input_char_empty(val Array[Char]) Unit!Error"},
-			{Name: "test_array_input_char_option"}:                    &moonFunc{funcName: "func test_array_input_char_option(val Array[Char?]) Unit!Error"},
-			{Name: "test_array_input_double_empty"}:                   &moonFunc{funcName: "func test_array_input_double_empty(val Array[Double]) Unit!Error"},
-			{Name: "test_array_input_double_option"}:                  &moonFunc{funcName: "func test_array_input_double_option(val Array[Double?]) Unit!Error"},
-			{Name: "test_array_input_float_empty"}:                    &moonFunc{funcName: "func test_array_input_float_empty(val Array[Float]) Unit!Error"},
-			{Name: "test_array_input_float_option"}:                   &moonFunc{funcName: "func test_array_input_float_option(val Array[Float?]) Unit!Error"},
-			{Name: "test_array_input_int16_empty"}:                    &moonFunc{funcName: "func test_array_input_int16_empty(val Array[Int16]) Unit!Error"},
-			{Name: "test_array_input_int16_option"}:                   &moonFunc{funcName: "func test_array_input_int16_option(val Array[Int16?]) Unit!Error"},
-			{Name: "test_array_input_int_empty"}:                      &moonFunc{funcName: "func test_array_input_int_empty(val Array[Int]) Unit!Error"},
-			{Name: "test_array_input_int_option"}:                     &moonFunc{funcName: "func test_array_input_int_option(val Array[Int?]) Unit!Error"},
-			{Name: "test_array_input_string"}:                         &moonFunc{funcName: "func test_array_input_string(val Array[String]) Unit!Error"},
-			{Name: "test_array_input_string_empty"}:                   &moonFunc{funcName: "func test_array_input_string_empty(val Array[String]) Unit!Error"},
-			{Name: "test_array_input_string_none"}:                    &moonFunc{funcName: "func test_array_input_string_none(val Array[String]?) Unit!Error"},
-			{Name: "test_array_input_string_option"}:                  &moonFunc{funcName: "func test_array_input_string_option(val Array[String?]) Unit!Error"},
-			{Name: "test_array_input_uint16_empty"}:                   &moonFunc{funcName: "func test_array_input_uint16_empty(val Array[UInt16]) Unit!Error"},
-			{Name: "test_array_input_uint16_option"}:                  &moonFunc{funcName: "func test_array_input_uint16_option(val Array[UInt16?]) Unit!Error"},
-			{Name: "test_array_input_uint_empty"}:                     &moonFunc{funcName: "func test_array_input_uint_empty(val Array[UInt]) Unit!Error"},
-			{Name: "test_array_input_uint_option"}:                    &moonFunc{funcName: "func test_array_input_uint_option(val Array[UInt?]) Unit!Error"},
+			{Name: "test_array_input_bool_0"}:                         &moonFunc{funcName: "func test_array_input_bool_0(val Array[Bool]) Unit raise Error"},
+			{Name: "test_array_input_bool_1"}:                         &moonFunc{funcName: "func test_array_input_bool_1(val Array[Bool]) Unit raise Error"},
+			{Name: "test_array_input_bool_2"}:                         &moonFunc{funcName: "func test_array_input_bool_2(val Array[Bool]) Unit raise Error"},
+			{Name: "test_array_input_bool_3"}:                         &moonFunc{funcName: "func test_array_input_bool_3(val Array[Bool]) Unit raise Error"},
+			{Name: "test_array_input_bool_4"}:                         &moonFunc{funcName: "func test_array_input_bool_4(val Array[Bool]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_0"}:                  &moonFunc{funcName: "func test_array_input_bool_option_0(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_1_false"}:            &moonFunc{funcName: "func test_array_input_bool_option_1_false(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_1_none"}:             &moonFunc{funcName: "func test_array_input_bool_option_1_none(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_1_true"}:             &moonFunc{funcName: "func test_array_input_bool_option_1_true(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_2"}:                  &moonFunc{funcName: "func test_array_input_bool_option_2(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_3"}:                  &moonFunc{funcName: "func test_array_input_bool_option_3(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_bool_option_4"}:                  &moonFunc{funcName: "func test_array_input_bool_option_4(val Array[Bool?]) Unit raise Error"},
+			{Name: "test_array_input_byte_0"}:                         &moonFunc{funcName: "func test_array_input_byte_0(val Array[Byte]) Unit raise Error"},
+			{Name: "test_array_input_byte_1"}:                         &moonFunc{funcName: "func test_array_input_byte_1(val Array[Byte]) Unit raise Error"},
+			{Name: "test_array_input_byte_2"}:                         &moonFunc{funcName: "func test_array_input_byte_2(val Array[Byte]) Unit raise Error"},
+			{Name: "test_array_input_byte_3"}:                         &moonFunc{funcName: "func test_array_input_byte_3(val Array[Byte]) Unit raise Error"},
+			{Name: "test_array_input_byte_4"}:                         &moonFunc{funcName: "func test_array_input_byte_4(val Array[Byte]) Unit raise Error"},
+			{Name: "test_array_input_byte_option_0"}:                  &moonFunc{funcName: "func test_array_input_byte_option_0(val Array[Byte?]) Unit raise Error"},
+			{Name: "test_array_input_byte_option_1"}:                  &moonFunc{funcName: "func test_array_input_byte_option_1(val Array[Byte?]) Unit raise Error"},
+			{Name: "test_array_input_byte_option_2"}:                  &moonFunc{funcName: "func test_array_input_byte_option_2(val Array[Byte?]) Unit raise Error"},
+			{Name: "test_array_input_byte_option_3"}:                  &moonFunc{funcName: "func test_array_input_byte_option_3(val Array[Byte?]) Unit raise Error"},
+			{Name: "test_array_input_byte_option_4"}:                  &moonFunc{funcName: "func test_array_input_byte_option_4(val Array[Byte?]) Unit raise Error"},
+			{Name: "test_array_input_char_empty"}:                     &moonFunc{funcName: "func test_array_input_char_empty(val Array[Char]) Unit raise Error"},
+			{Name: "test_array_input_char_option"}:                    &moonFunc{funcName: "func test_array_input_char_option(val Array[Char?]) Unit raise Error"},
+			{Name: "test_array_input_double_empty"}:                   &moonFunc{funcName: "func test_array_input_double_empty(val Array[Double]) Unit raise Error"},
+			{Name: "test_array_input_double_option"}:                  &moonFunc{funcName: "func test_array_input_double_option(val Array[Double?]) Unit raise Error"},
+			{Name: "test_array_input_float_empty"}:                    &moonFunc{funcName: "func test_array_input_float_empty(val Array[Float]) Unit raise Error"},
+			{Name: "test_array_input_float_option"}:                   &moonFunc{funcName: "func test_array_input_float_option(val Array[Float?]) Unit raise Error"},
+			{Name: "test_array_input_int16_empty"}:                    &moonFunc{funcName: "func test_array_input_int16_empty(val Array[Int16]) Unit raise Error"},
+			{Name: "test_array_input_int16_option"}:                   &moonFunc{funcName: "func test_array_input_int16_option(val Array[Int16?]) Unit raise Error"},
+			{Name: "test_array_input_int_empty"}:                      &moonFunc{funcName: "func test_array_input_int_empty(val Array[Int]) Unit raise Error"},
+			{Name: "test_array_input_int_option"}:                     &moonFunc{funcName: "func test_array_input_int_option(val Array[Int?]) Unit raise Error"},
+			{Name: "test_array_input_string"}:                         &moonFunc{funcName: "func test_array_input_string(val Array[String]) Unit raise Error"},
+			{Name: "test_array_input_string_empty"}:                   &moonFunc{funcName: "func test_array_input_string_empty(val Array[String]) Unit raise Error"},
+			{Name: "test_array_input_string_none"}:                    &moonFunc{funcName: "func test_array_input_string_none(val Array[String]?) Unit raise Error"},
+			{Name: "test_array_input_string_option"}:                  &moonFunc{funcName: "func test_array_input_string_option(val Array[String?]) Unit raise Error"},
+			{Name: "test_array_input_uint16_empty"}:                   &moonFunc{funcName: "func test_array_input_uint16_empty(val Array[UInt16]) Unit raise Error"},
+			{Name: "test_array_input_uint16_option"}:                  &moonFunc{funcName: "func test_array_input_uint16_option(val Array[UInt16?]) Unit raise Error"},
+			{Name: "test_array_input_uint_empty"}:                     &moonFunc{funcName: "func test_array_input_uint_empty(val Array[UInt]) Unit raise Error"},
+			{Name: "test_array_input_uint_option"}:                    &moonFunc{funcName: "func test_array_input_uint_option(val Array[UInt?]) Unit raise Error"},
 			{Name: "test_array_output_bool_0"}:                        &moonFunc{funcName: "func test_array_output_bool_0() Array[Bool]"},
 			{Name: "test_array_output_bool_1"}:                        &moonFunc{funcName: "func test_array_output_bool_1() Array[Bool]"},
 			{Name: "test_array_output_bool_2"}:                        &moonFunc{funcName: "func test_array_output_bool_2() Array[Bool]"},
@@ -13025,220 +13025,220 @@ var wantPackageRuntime = &Package{
 			{Name: "test_array_output_uint_option_2"}:                 &moonFunc{funcName: "func test_array_output_uint_option_2() Array[UInt?]"},
 			{Name: "test_array_output_uint_option_3"}:                 &moonFunc{funcName: "func test_array_output_uint_option_3() Array[UInt?]"},
 			{Name: "test_array_output_uint_option_4"}:                 &moonFunc{funcName: "func test_array_output_uint_option_4() Array[UInt?]"},
-			{Name: "test_bool_input_false"}:                           &moonFunc{funcName: "func test_bool_input_false(b Bool) Unit!Error"},
-			{Name: "test_bool_input_true"}:                            &moonFunc{funcName: "func test_bool_input_true(b Bool) Unit!Error"},
-			{Name: "test_bool_option_input_false"}:                    &moonFunc{funcName: "func test_bool_option_input_false(b Bool?) Unit!Error"},
-			{Name: "test_bool_option_input_none"}:                     &moonFunc{funcName: "func test_bool_option_input_none(b Bool?) Unit!Error"},
-			{Name: "test_bool_option_input_true"}:                     &moonFunc{funcName: "func test_bool_option_input_true(b Bool?) Unit!Error"},
+			{Name: "test_bool_input_false"}:                           &moonFunc{funcName: "func test_bool_input_false(b Bool) Unit raise Error"},
+			{Name: "test_bool_input_true"}:                            &moonFunc{funcName: "func test_bool_input_true(b Bool) Unit raise Error"},
+			{Name: "test_bool_option_input_false"}:                    &moonFunc{funcName: "func test_bool_option_input_false(b Bool?) Unit raise Error"},
+			{Name: "test_bool_option_input_none"}:                     &moonFunc{funcName: "func test_bool_option_input_none(b Bool?) Unit raise Error"},
+			{Name: "test_bool_option_input_true"}:                     &moonFunc{funcName: "func test_bool_option_input_true(b Bool?) Unit raise Error"},
 			{Name: "test_bool_option_output_false"}:                   &moonFunc{funcName: "func test_bool_option_output_false() Bool?"},
 			{Name: "test_bool_option_output_none"}:                    &moonFunc{funcName: "func test_bool_option_output_none() Bool?"},
 			{Name: "test_bool_option_output_true"}:                    &moonFunc{funcName: "func test_bool_option_output_true() Bool?"},
 			{Name: "test_bool_output_false"}:                          &moonFunc{funcName: "func test_bool_output_false() Bool"},
 			{Name: "test_bool_output_true"}:                           &moonFunc{funcName: "func test_bool_output_true() Bool"},
-			{Name: "test_byte_input_max"}:                             &moonFunc{funcName: "func test_byte_input_max(b Byte) Unit!Error"},
-			{Name: "test_byte_input_min"}:                             &moonFunc{funcName: "func test_byte_input_min(b Byte) Unit!Error"},
-			{Name: "test_byte_option_input_max"}:                      &moonFunc{funcName: "func test_byte_option_input_max(b Byte?) Unit!Error"},
-			{Name: "test_byte_option_input_min"}:                      &moonFunc{funcName: "func test_byte_option_input_min(b Byte?) Unit!Error"},
-			{Name: "test_byte_option_input_none"}:                     &moonFunc{funcName: "func test_byte_option_input_none(b Byte?) Unit!Error"},
+			{Name: "test_byte_input_max"}:                             &moonFunc{funcName: "func test_byte_input_max(b Byte) Unit raise Error"},
+			{Name: "test_byte_input_min"}:                             &moonFunc{funcName: "func test_byte_input_min(b Byte) Unit raise Error"},
+			{Name: "test_byte_option_input_max"}:                      &moonFunc{funcName: "func test_byte_option_input_max(b Byte?) Unit raise Error"},
+			{Name: "test_byte_option_input_min"}:                      &moonFunc{funcName: "func test_byte_option_input_min(b Byte?) Unit raise Error"},
+			{Name: "test_byte_option_input_none"}:                     &moonFunc{funcName: "func test_byte_option_input_none(b Byte?) Unit raise Error"},
 			{Name: "test_byte_option_output_max"}:                     &moonFunc{funcName: "func test_byte_option_output_max() Byte?"},
 			{Name: "test_byte_option_output_min"}:                     &moonFunc{funcName: "func test_byte_option_output_min() Byte?"},
 			{Name: "test_byte_option_output_none"}:                    &moonFunc{funcName: "func test_byte_option_output_none() Byte?"},
 			{Name: "test_byte_output_max"}:                            &moonFunc{funcName: "func test_byte_output_max() Byte"},
 			{Name: "test_byte_output_min"}:                            &moonFunc{funcName: "func test_byte_output_min() Byte"},
-			{Name: "test_char_input_max"}:                             &moonFunc{funcName: "func test_char_input_max(c Char) Unit!Error"},
-			{Name: "test_char_input_min"}:                             &moonFunc{funcName: "func test_char_input_min(c Char) Unit!Error"},
-			{Name: "test_char_option_input_max"}:                      &moonFunc{funcName: "func test_char_option_input_max(c Char?) Unit!Error"},
-			{Name: "test_char_option_input_min"}:                      &moonFunc{funcName: "func test_char_option_input_min(c Char?) Unit!Error"},
-			{Name: "test_char_option_input_none"}:                     &moonFunc{funcName: "func test_char_option_input_none(c Char?) Unit!Error"},
+			{Name: "test_char_input_max"}:                             &moonFunc{funcName: "func test_char_input_max(c Char) Unit raise Error"},
+			{Name: "test_char_input_min"}:                             &moonFunc{funcName: "func test_char_input_min(c Char) Unit raise Error"},
+			{Name: "test_char_option_input_max"}:                      &moonFunc{funcName: "func test_char_option_input_max(c Char?) Unit raise Error"},
+			{Name: "test_char_option_input_min"}:                      &moonFunc{funcName: "func test_char_option_input_min(c Char?) Unit raise Error"},
+			{Name: "test_char_option_input_none"}:                     &moonFunc{funcName: "func test_char_option_input_none(c Char?) Unit raise Error"},
 			{Name: "test_char_option_output_max"}:                     &moonFunc{funcName: "func test_char_option_output_max() Char?"},
 			{Name: "test_char_option_output_min"}:                     &moonFunc{funcName: "func test_char_option_output_min() Char?"},
 			{Name: "test_char_option_output_none"}:                    &moonFunc{funcName: "func test_char_option_output_none() Char?"},
 			{Name: "test_char_output_max"}:                            &moonFunc{funcName: "func test_char_output_max() Char"},
 			{Name: "test_char_output_min"}:                            &moonFunc{funcName: "func test_char_output_min() Char"},
-			{Name: "test_double_input_max"}:                           &moonFunc{funcName: "func test_double_input_max(n Double) Unit!Error"},
-			{Name: "test_double_input_min"}:                           &moonFunc{funcName: "func test_double_input_min(n Double) Unit!Error"},
-			{Name: "test_double_option_input_max"}:                    &moonFunc{funcName: "func test_double_option_input_max(n Double?) Unit!Error"},
-			{Name: "test_double_option_input_min"}:                    &moonFunc{funcName: "func test_double_option_input_min(n Double?) Unit!Error"},
-			{Name: "test_double_option_input_none"}:                   &moonFunc{funcName: "func test_double_option_input_none(n Double?) Unit!Error"},
+			{Name: "test_double_input_max"}:                           &moonFunc{funcName: "func test_double_input_max(n Double) Unit raise Error"},
+			{Name: "test_double_input_min"}:                           &moonFunc{funcName: "func test_double_input_min(n Double) Unit raise Error"},
+			{Name: "test_double_option_input_max"}:                    &moonFunc{funcName: "func test_double_option_input_max(n Double?) Unit raise Error"},
+			{Name: "test_double_option_input_min"}:                    &moonFunc{funcName: "func test_double_option_input_min(n Double?) Unit raise Error"},
+			{Name: "test_double_option_input_none"}:                   &moonFunc{funcName: "func test_double_option_input_none(n Double?) Unit raise Error"},
 			{Name: "test_double_option_output_max"}:                   &moonFunc{funcName: "func test_double_option_output_max() Double?"},
 			{Name: "test_double_option_output_min"}:                   &moonFunc{funcName: "func test_double_option_output_min() Double?"},
 			{Name: "test_double_option_output_none"}:                  &moonFunc{funcName: "func test_double_option_output_none() Double?"},
 			{Name: "test_double_output_max"}:                          &moonFunc{funcName: "func test_double_output_max() Double"},
 			{Name: "test_double_output_min"}:                          &moonFunc{funcName: "func test_double_output_min() Double"},
-			{Name: "test_duration_input"}:                             &moonFunc{funcName: "func test_duration_input(d @time.Duration) Unit!Error"},
-			{Name: "test_duration_option_input"}:                      &moonFunc{funcName: "func test_duration_option_input(d @time.Duration?) Unit!Error"},
-			{Name: "test_duration_option_input_none"}:                 &moonFunc{funcName: "func test_duration_option_input_none(d @time.Duration?) Unit!Error"},
-			{Name: "test_duration_option_input_none_style2"}:          &moonFunc{funcName: "func test_duration_option_input_none_style2(d? @time.Duration) Unit!Error"},
-			{Name: "test_duration_option_input_style2"}:               &moonFunc{funcName: "func test_duration_option_input_style2(d? @time.Duration) Unit!Error"},
+			{Name: "test_duration_input"}:                             &moonFunc{funcName: "func test_duration_input(d @time.Duration) Unit raise Error"},
+			{Name: "test_duration_option_input"}:                      &moonFunc{funcName: "func test_duration_option_input(d @time.Duration?) Unit raise Error"},
+			{Name: "test_duration_option_input_none"}:                 &moonFunc{funcName: "func test_duration_option_input_none(d @time.Duration?) Unit raise Error"},
+			{Name: "test_duration_option_input_none_style2"}:          &moonFunc{funcName: "func test_duration_option_input_none_style2(d? @time.Duration) Unit raise Error"},
+			{Name: "test_duration_option_input_style2"}:               &moonFunc{funcName: "func test_duration_option_input_style2(d? @time.Duration) Unit raise Error"},
 			{Name: "test_duration_option_output"}:                     &moonFunc{funcName: "func test_duration_option_output() @time.Duration?"},
 			{Name: "test_duration_option_output_none"}:                &moonFunc{funcName: "func test_duration_option_output_none() @time.Duration?"},
 			{Name: "test_duration_output"}:                            &moonFunc{funcName: "func test_duration_output() @time.Duration"},
-			{Name: "test_fixedarray_input0_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input0_byte(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input0_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input0_int_option(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input0_string"}:                   &moonFunc{funcName: "func test_fixedarray_input0_string(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input0_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input0_string_option(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input1_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input1_byte(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input1_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input1_int_option(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input1_string"}:                   &moonFunc{funcName: "func test_fixedarray_input1_string(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input1_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input1_string_option(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input2_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input2_byte(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input2_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input2_int_option(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input2_map"}:                      &moonFunc{funcName: "func test_fixedarray_input2_map(val FixedArray[Map[String, String]]) Unit!Error"},
-			{Name: "test_fixedarray_input2_map_option"}:               &moonFunc{funcName: "func test_fixedarray_input2_map_option(val FixedArray[Map[String, String]?]) Unit!Error"},
-			{Name: "test_fixedarray_input2_string"}:                   &moonFunc{funcName: "func test_fixedarray_input2_string(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input2_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input2_string_option(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input2_struct"}:                   &moonFunc{funcName: "func test_fixedarray_input2_struct(val FixedArray[TestStruct2]) Unit!Error"},
-			{Name: "test_fixedarray_input2_struct_option"}:            &moonFunc{funcName: "func test_fixedarray_input2_struct_option(val FixedArray[TestStruct2?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_0(val FixedArray[Bool]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_1(val FixedArray[Bool]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_2(val FixedArray[Bool]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_3(val FixedArray[Bool]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_4(val FixedArray[Bool]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_0(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_1_false"}:       &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_false(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_none(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_1_true"}:        &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_true(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_2(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_3(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_bool_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_4(val FixedArray[Bool?]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_0(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_1(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_2(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_3(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_4(val FixedArray[Byte]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_0(val FixedArray[Byte?]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_option_1"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_1(val FixedArray[Byte?]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_2(val FixedArray[Byte?]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_3(val FixedArray[Byte?]) Unit!Error"},
-			{Name: "test_fixedarray_input_byte_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_4(val FixedArray[Byte?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_0(val FixedArray[Char]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_1(val FixedArray[Char]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_2(val FixedArray[Char]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_3(val FixedArray[Char]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_4(val FixedArray[Char]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_0(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_char_option_1_none(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_1_some"}:        &moonFunc{funcName: "func test_fixedarray_input_char_option_1_some(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_2(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_3(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_char_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_4(val FixedArray[Char?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_0(val FixedArray[Double]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_1(val FixedArray[Double]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_2(val FixedArray[Double]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_3(val FixedArray[Double]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_4(val FixedArray[Double]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_0(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_double_option_1_none(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_1_some"}:      &moonFunc{funcName: "func test_fixedarray_input_double_option_1_some(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_2(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_3(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_double_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_4(val FixedArray[Double?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_0(val FixedArray[Float]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_1(val FixedArray[Float]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_2(val FixedArray[Float]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_3(val FixedArray[Float]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_4(val FixedArray[Float]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_0(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_float_option_1_none(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_1_some"}:       &moonFunc{funcName: "func test_fixedarray_input_float_option_1_some(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_2(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_3(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_float_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_4(val FixedArray[Float?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_0(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_1(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_1_max"}:               &moonFunc{funcName: "func test_fixedarray_input_int16_1_max(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_1_min"}:               &moonFunc{funcName: "func test_fixedarray_input_int16_1_min(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_2(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_3(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_4(val FixedArray[Int16]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_0(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_1_max"}:        &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_max(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_1_min"}:        &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_min(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_none(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_2(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_3(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int16_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_4(val FixedArray[Int16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_0(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_1(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_1_max"}:               &moonFunc{funcName: "func test_fixedarray_input_int64_1_max(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_1_min"}:               &moonFunc{funcName: "func test_fixedarray_input_int64_1_min(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_2(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_3(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_4(val FixedArray[Int64]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_0(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_1_max"}:        &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_max(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_1_min"}:        &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_min(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_none(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_2(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_3(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int64_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_4(val FixedArray[Int64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_0"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_0(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_1"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_1(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_1_max"}:                 &moonFunc{funcName: "func test_fixedarray_input_int_1_max(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_1_min"}:                 &moonFunc{funcName: "func test_fixedarray_input_int_1_min(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_2"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_2(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_3"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_3(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_4"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_4(val FixedArray[Int]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_0"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_0(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_1_max"}:          &moonFunc{funcName: "func test_fixedarray_input_int_option_1_max(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_1_min"}:          &moonFunc{funcName: "func test_fixedarray_input_int_option_1_min(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_1_none"}:         &moonFunc{funcName: "func test_fixedarray_input_int_option_1_none(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_2"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_2(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_3"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_3(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_int_option_4"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_4(val FixedArray[Int?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_0(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_1(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_2(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_3(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_4(val FixedArray[String]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_0(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_string_option_1_none(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_1_some"}:      &moonFunc{funcName: "func test_fixedarray_input_string_option_1_some(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_2(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_3(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_string_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_4(val FixedArray[String?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_0(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_1(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_1_max"}:              &moonFunc{funcName: "func test_fixedarray_input_uint16_1_max(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_1_min"}:              &moonFunc{funcName: "func test_fixedarray_input_uint16_1_min(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_2(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_3(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_4(val FixedArray[UInt16]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_0(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_1_max"}:       &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_max(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_1_min"}:       &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_min(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_none(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_2(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_3(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint16_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_4(val FixedArray[UInt16?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_0(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_1(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_1_max"}:              &moonFunc{funcName: "func test_fixedarray_input_uint64_1_max(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_1_min"}:              &moonFunc{funcName: "func test_fixedarray_input_uint64_1_min(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_2(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_3(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_4(val FixedArray[UInt64]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_0(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_1_max"}:       &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_max(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_1_min"}:       &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_min(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_none(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_2(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_3(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint64_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_4(val FixedArray[UInt64?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_0(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_1(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_1_max"}:                &moonFunc{funcName: "func test_fixedarray_input_uint_1_max(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_1_min"}:                &moonFunc{funcName: "func test_fixedarray_input_uint_1_min(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_2(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_3(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_4(val FixedArray[UInt]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_0(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_1_max"}:         &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_max(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_1_min"}:         &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_min(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_none(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_2(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_3(val FixedArray[UInt?]) Unit!Error"},
-			{Name: "test_fixedarray_input_uint_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_4(val FixedArray[UInt?]) Unit!Error"},
+			{Name: "test_fixedarray_input0_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input0_byte(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input0_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input0_int_option(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input0_string"}:                   &moonFunc{funcName: "func test_fixedarray_input0_string(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input0_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input0_string_option(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input1_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input1_byte(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input1_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input1_int_option(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input1_string"}:                   &moonFunc{funcName: "func test_fixedarray_input1_string(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input1_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input1_string_option(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_byte"}:                     &moonFunc{funcName: "func test_fixedarray_input2_byte(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_int_option"}:               &moonFunc{funcName: "func test_fixedarray_input2_int_option(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_map"}:                      &moonFunc{funcName: "func test_fixedarray_input2_map(val FixedArray[Map[String, String]]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_map_option"}:               &moonFunc{funcName: "func test_fixedarray_input2_map_option(val FixedArray[Map[String, String]?]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_string"}:                   &moonFunc{funcName: "func test_fixedarray_input2_string(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_string_option"}:            &moonFunc{funcName: "func test_fixedarray_input2_string_option(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_struct"}:                   &moonFunc{funcName: "func test_fixedarray_input2_struct(val FixedArray[TestStruct2]) Unit raise Error"},
+			{Name: "test_fixedarray_input2_struct_option"}:            &moonFunc{funcName: "func test_fixedarray_input2_struct_option(val FixedArray[TestStruct2?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_0(val FixedArray[Bool]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_1(val FixedArray[Bool]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_2(val FixedArray[Bool]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_3(val FixedArray[Bool]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_bool_4(val FixedArray[Bool]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_0(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_1_false"}:       &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_false(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_none(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_1_true"}:        &moonFunc{funcName: "func test_fixedarray_input_bool_option_1_true(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_2(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_3(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_bool_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_bool_option_4(val FixedArray[Bool?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_0(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_1(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_2(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_3(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_byte_4(val FixedArray[Byte]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_0(val FixedArray[Byte?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_option_1"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_1(val FixedArray[Byte?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_2(val FixedArray[Byte?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_3(val FixedArray[Byte?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_byte_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_byte_option_4(val FixedArray[Byte?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_0(val FixedArray[Char]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_1(val FixedArray[Char]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_2(val FixedArray[Char]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_3(val FixedArray[Char]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_char_4(val FixedArray[Char]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_0(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_char_option_1_none(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_1_some"}:        &moonFunc{funcName: "func test_fixedarray_input_char_option_1_some(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_2(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_3(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_char_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_char_option_4(val FixedArray[Char?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_0(val FixedArray[Double]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_1(val FixedArray[Double]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_2(val FixedArray[Double]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_3(val FixedArray[Double]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_double_4(val FixedArray[Double]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_0(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_double_option_1_none(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_1_some"}:      &moonFunc{funcName: "func test_fixedarray_input_double_option_1_some(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_2(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_3(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_double_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_double_option_4(val FixedArray[Double?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_0(val FixedArray[Float]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_1(val FixedArray[Float]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_2(val FixedArray[Float]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_3(val FixedArray[Float]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_float_4(val FixedArray[Float]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_0(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_float_option_1_none(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_1_some"}:       &moonFunc{funcName: "func test_fixedarray_input_float_option_1_some(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_2(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_3(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_float_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_float_option_4(val FixedArray[Float?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_0(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_1(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_1_max"}:               &moonFunc{funcName: "func test_fixedarray_input_int16_1_max(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_1_min"}:               &moonFunc{funcName: "func test_fixedarray_input_int16_1_min(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_2(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_3(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_int16_4(val FixedArray[Int16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_0(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_1_max"}:        &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_max(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_1_min"}:        &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_min(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_int16_option_1_none(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_2(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_3(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int16_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_int16_option_4(val FixedArray[Int16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_0"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_0(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_1"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_1(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_1_max"}:               &moonFunc{funcName: "func test_fixedarray_input_int64_1_max(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_1_min"}:               &moonFunc{funcName: "func test_fixedarray_input_int64_1_min(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_2"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_2(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_3"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_3(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_4"}:                   &moonFunc{funcName: "func test_fixedarray_input_int64_4(val FixedArray[Int64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_0"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_0(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_1_max"}:        &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_max(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_1_min"}:        &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_min(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_1_none"}:       &moonFunc{funcName: "func test_fixedarray_input_int64_option_1_none(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_2"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_2(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_3"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_3(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int64_option_4"}:            &moonFunc{funcName: "func test_fixedarray_input_int64_option_4(val FixedArray[Int64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_0"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_0(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_1"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_1(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_1_max"}:                 &moonFunc{funcName: "func test_fixedarray_input_int_1_max(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_1_min"}:                 &moonFunc{funcName: "func test_fixedarray_input_int_1_min(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_2"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_2(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_3"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_3(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_4"}:                     &moonFunc{funcName: "func test_fixedarray_input_int_4(val FixedArray[Int]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_0"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_0(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_1_max"}:          &moonFunc{funcName: "func test_fixedarray_input_int_option_1_max(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_1_min"}:          &moonFunc{funcName: "func test_fixedarray_input_int_option_1_min(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_1_none"}:         &moonFunc{funcName: "func test_fixedarray_input_int_option_1_none(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_2"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_2(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_3"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_3(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_int_option_4"}:              &moonFunc{funcName: "func test_fixedarray_input_int_option_4(val FixedArray[Int?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_0(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_1(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_2(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_3(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_string_4(val FixedArray[String]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_0(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_string_option_1_none(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_1_some"}:      &moonFunc{funcName: "func test_fixedarray_input_string_option_1_some(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_2(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_3(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_string_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_string_option_4(val FixedArray[String?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_0(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_1(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_1_max"}:              &moonFunc{funcName: "func test_fixedarray_input_uint16_1_max(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_1_min"}:              &moonFunc{funcName: "func test_fixedarray_input_uint16_1_min(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_2(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_3(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint16_4(val FixedArray[UInt16]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_0(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_1_max"}:       &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_max(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_1_min"}:       &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_min(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_uint16_option_1_none(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_2(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_3(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint16_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_uint16_option_4(val FixedArray[UInt16?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_0"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_0(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_1"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_1(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_1_max"}:              &moonFunc{funcName: "func test_fixedarray_input_uint64_1_max(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_1_min"}:              &moonFunc{funcName: "func test_fixedarray_input_uint64_1_min(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_2"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_2(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_3"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_3(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_4"}:                  &moonFunc{funcName: "func test_fixedarray_input_uint64_4(val FixedArray[UInt64]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_0"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_0(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_1_max"}:       &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_max(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_1_min"}:       &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_min(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_1_none"}:      &moonFunc{funcName: "func test_fixedarray_input_uint64_option_1_none(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_2"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_2(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_3"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_3(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint64_option_4"}:           &moonFunc{funcName: "func test_fixedarray_input_uint64_option_4(val FixedArray[UInt64?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_0"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_0(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_1"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_1(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_1_max"}:                &moonFunc{funcName: "func test_fixedarray_input_uint_1_max(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_1_min"}:                &moonFunc{funcName: "func test_fixedarray_input_uint_1_min(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_2"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_2(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_3"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_3(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_4"}:                    &moonFunc{funcName: "func test_fixedarray_input_uint_4(val FixedArray[UInt]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_0"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_0(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_1_max"}:         &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_max(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_1_min"}:         &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_min(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_1_none"}:        &moonFunc{funcName: "func test_fixedarray_input_uint_option_1_none(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_2"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_2(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_3"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_3(val FixedArray[UInt?]) Unit raise Error"},
+			{Name: "test_fixedarray_input_uint_option_4"}:             &moonFunc{funcName: "func test_fixedarray_input_uint_option_4(val FixedArray[UInt?]) Unit raise Error"},
 			{Name: "test_fixedarray_output0_byte"}:                    &moonFunc{funcName: "func test_fixedarray_output0_byte() FixedArray[Byte]"},
 			{Name: "test_fixedarray_output0_int_option"}:              &moonFunc{funcName: "func test_fixedarray_output0_int_option() FixedArray[Int?]"},
 			{Name: "test_fixedarray_output0_string"}:                  &moonFunc{funcName: "func test_fixedarray_output0_string() FixedArray[String]"},
@@ -13405,11 +13405,11 @@ var wantPackageRuntime = &Package{
 			{Name: "test_fixedarray_output_uint_option_2"}:            &moonFunc{funcName: "func test_fixedarray_output_uint_option_2() FixedArray[UInt?]"},
 			{Name: "test_fixedarray_output_uint_option_3"}:            &moonFunc{funcName: "func test_fixedarray_output_uint_option_3() FixedArray[UInt?]"},
 			{Name: "test_fixedarray_output_uint_option_4"}:            &moonFunc{funcName: "func test_fixedarray_output_uint_option_4() FixedArray[UInt?]"},
-			{Name: "test_float_input_max"}:                            &moonFunc{funcName: "func test_float_input_max(n Float) Unit!Error"},
-			{Name: "test_float_input_min"}:                            &moonFunc{funcName: "func test_float_input_min(n Float) Unit!Error"},
-			{Name: "test_float_option_input_max"}:                     &moonFunc{funcName: "func test_float_option_input_max(n Float?) Unit!Error"},
-			{Name: "test_float_option_input_min"}:                     &moonFunc{funcName: "func test_float_option_input_min(n Float?) Unit!Error"},
-			{Name: "test_float_option_input_none"}:                    &moonFunc{funcName: "func test_float_option_input_none(n Float?) Unit!Error"},
+			{Name: "test_float_input_max"}:                            &moonFunc{funcName: "func test_float_input_max(n Float) Unit raise Error"},
+			{Name: "test_float_input_min"}:                            &moonFunc{funcName: "func test_float_input_min(n Float) Unit raise Error"},
+			{Name: "test_float_option_input_max"}:                     &moonFunc{funcName: "func test_float_option_input_max(n Float?) Unit raise Error"},
+			{Name: "test_float_option_input_min"}:                     &moonFunc{funcName: "func test_float_option_input_min(n Float?) Unit raise Error"},
+			{Name: "test_float_option_input_none"}:                    &moonFunc{funcName: "func test_float_option_input_none(n Float?) Unit raise Error"},
 			{Name: "test_float_option_output_max"}:                    &moonFunc{funcName: "func test_float_option_output_max() Float?"},
 			{Name: "test_float_option_output_min"}:                    &moonFunc{funcName: "func test_float_option_output_min() Float?"},
 			{Name: "test_float_option_output_none"}:                   &moonFunc{funcName: "func test_float_option_output_none() Float?"},
@@ -13421,96 +13421,96 @@ var wantPackageRuntime = &Package{
 			{Name: "test_http_headers"}:                               &moonFunc{funcName: "func test_http_headers(h HttpHeaders)"},
 			{Name: "test_http_response_headers"}:                      &moonFunc{funcName: "func test_http_response_headers(r HttpResponse?)"},
 			{Name: "test_http_response_headers_output"}:               &moonFunc{funcName: "func test_http_response_headers_output() HttpResponse?"},
-			{Name: "test_int16_input_max"}:                            &moonFunc{funcName: "func test_int16_input_max(n Int16) Unit!Error"},
-			{Name: "test_int16_input_min"}:                            &moonFunc{funcName: "func test_int16_input_min(n Int16) Unit!Error"},
-			{Name: "test_int16_option_input_max"}:                     &moonFunc{funcName: "func test_int16_option_input_max(n Int16?) Unit!Error"},
-			{Name: "test_int16_option_input_min"}:                     &moonFunc{funcName: "func test_int16_option_input_min(n Int16?) Unit!Error"},
-			{Name: "test_int16_option_input_none"}:                    &moonFunc{funcName: "func test_int16_option_input_none(n Int16?) Unit!Error"},
+			{Name: "test_int16_input_max"}:                            &moonFunc{funcName: "func test_int16_input_max(n Int16) Unit raise Error"},
+			{Name: "test_int16_input_min"}:                            &moonFunc{funcName: "func test_int16_input_min(n Int16) Unit raise Error"},
+			{Name: "test_int16_option_input_max"}:                     &moonFunc{funcName: "func test_int16_option_input_max(n Int16?) Unit raise Error"},
+			{Name: "test_int16_option_input_min"}:                     &moonFunc{funcName: "func test_int16_option_input_min(n Int16?) Unit raise Error"},
+			{Name: "test_int16_option_input_none"}:                    &moonFunc{funcName: "func test_int16_option_input_none(n Int16?) Unit raise Error"},
 			{Name: "test_int16_option_output_max"}:                    &moonFunc{funcName: "func test_int16_option_output_max() Int16?"},
 			{Name: "test_int16_option_output_min"}:                    &moonFunc{funcName: "func test_int16_option_output_min() Int16?"},
 			{Name: "test_int16_option_output_none"}:                   &moonFunc{funcName: "func test_int16_option_output_none() Int16?"},
 			{Name: "test_int16_output_max"}:                           &moonFunc{funcName: "func test_int16_output_max() Int16"},
 			{Name: "test_int16_output_min"}:                           &moonFunc{funcName: "func test_int16_output_min() Int16"},
-			{Name: "test_int64_input_max"}:                            &moonFunc{funcName: "func test_int64_input_max(n Int64) Unit!Error"},
-			{Name: "test_int64_input_min"}:                            &moonFunc{funcName: "func test_int64_input_min(n Int64) Unit!Error"},
-			{Name: "test_int64_option_input_max"}:                     &moonFunc{funcName: "func test_int64_option_input_max(n Int64?) Unit!Error"},
-			{Name: "test_int64_option_input_min"}:                     &moonFunc{funcName: "func test_int64_option_input_min(n Int64?) Unit!Error"},
-			{Name: "test_int64_option_input_none"}:                    &moonFunc{funcName: "func test_int64_option_input_none(n Int64?) Unit!Error"},
+			{Name: "test_int64_input_max"}:                            &moonFunc{funcName: "func test_int64_input_max(n Int64) Unit raise Error"},
+			{Name: "test_int64_input_min"}:                            &moonFunc{funcName: "func test_int64_input_min(n Int64) Unit raise Error"},
+			{Name: "test_int64_option_input_max"}:                     &moonFunc{funcName: "func test_int64_option_input_max(n Int64?) Unit raise Error"},
+			{Name: "test_int64_option_input_min"}:                     &moonFunc{funcName: "func test_int64_option_input_min(n Int64?) Unit raise Error"},
+			{Name: "test_int64_option_input_none"}:                    &moonFunc{funcName: "func test_int64_option_input_none(n Int64?) Unit raise Error"},
 			{Name: "test_int64_option_output_max"}:                    &moonFunc{funcName: "func test_int64_option_output_max() Int64?"},
 			{Name: "test_int64_option_output_min"}:                    &moonFunc{funcName: "func test_int64_option_output_min() Int64?"},
 			{Name: "test_int64_option_output_none"}:                   &moonFunc{funcName: "func test_int64_option_output_none() Int64?"},
 			{Name: "test_int64_output_max"}:                           &moonFunc{funcName: "func test_int64_output_max() Int64"},
 			{Name: "test_int64_output_min"}:                           &moonFunc{funcName: "func test_int64_output_min() Int64"},
-			{Name: "test_int_input_max"}:                              &moonFunc{funcName: "func test_int_input_max(n Int) Unit!Error"},
-			{Name: "test_int_input_min"}:                              &moonFunc{funcName: "func test_int_input_min(n Int) Unit!Error"},
-			{Name: "test_int_option_input_max"}:                       &moonFunc{funcName: "func test_int_option_input_max(n Int?) Unit!Error"},
-			{Name: "test_int_option_input_min"}:                       &moonFunc{funcName: "func test_int_option_input_min(n Int?) Unit!Error"},
-			{Name: "test_int_option_input_none"}:                      &moonFunc{funcName: "func test_int_option_input_none(n Int?) Unit!Error"},
+			{Name: "test_int_input_max"}:                              &moonFunc{funcName: "func test_int_input_max(n Int) Unit raise Error"},
+			{Name: "test_int_input_min"}:                              &moonFunc{funcName: "func test_int_input_min(n Int) Unit raise Error"},
+			{Name: "test_int_option_input_max"}:                       &moonFunc{funcName: "func test_int_option_input_max(n Int?) Unit raise Error"},
+			{Name: "test_int_option_input_min"}:                       &moonFunc{funcName: "func test_int_option_input_min(n Int?) Unit raise Error"},
+			{Name: "test_int_option_input_none"}:                      &moonFunc{funcName: "func test_int_option_input_none(n Int?) Unit raise Error"},
 			{Name: "test_int_option_output_max"}:                      &moonFunc{funcName: "func test_int_option_output_max() Int?"},
 			{Name: "test_int_option_output_min"}:                      &moonFunc{funcName: "func test_int_option_output_min() Int?"},
 			{Name: "test_int_option_output_none"}:                     &moonFunc{funcName: "func test_int_option_output_none() Int?"},
 			{Name: "test_int_output_max"}:                             &moonFunc{funcName: "func test_int_output_max() Int"},
 			{Name: "test_int_output_min"}:                             &moonFunc{funcName: "func test_int_output_min() Int"},
 			{Name: "test_iterate_map_string_string"}:                  &moonFunc{funcName: "func test_iterate_map_string_string(m Map[String, String])"},
-			{Name: "test_map_input_int_double"}:                       &moonFunc{funcName: "func test_map_input_int_double(m Map[Int, Double]) Unit!Error"},
-			{Name: "test_map_input_int_float"}:                        &moonFunc{funcName: "func test_map_input_int_float(m Map[Int, Float]) Unit!Error"},
-			{Name: "test_map_input_string_string"}:                    &moonFunc{funcName: "func test_map_input_string_string(m Map[String, String]) Unit!Error"},
+			{Name: "test_map_input_int_double"}:                       &moonFunc{funcName: "func test_map_input_int_double(m Map[Int, Double]) Unit raise Error"},
+			{Name: "test_map_input_int_float"}:                        &moonFunc{funcName: "func test_map_input_int_float(m Map[Int, Float]) Unit raise Error"},
+			{Name: "test_map_input_string_string"}:                    &moonFunc{funcName: "func test_map_input_string_string(m Map[String, String]) Unit raise Error"},
 			{Name: "test_map_lookup_string_string"}:                   &moonFunc{funcName: "func test_map_lookup_string_string(m Map[String, String], key String) String"},
-			{Name: "test_map_option_input_string_string"}:             &moonFunc{funcName: "func test_map_option_input_string_string(m Map[String, String]?) Unit!Error"},
+			{Name: "test_map_option_input_string_string"}:             &moonFunc{funcName: "func test_map_option_input_string_string(m Map[String, String]?) Unit raise Error"},
 			{Name: "test_map_option_output_string_string"}:            &moonFunc{funcName: "func test_map_option_output_string_string() Map[String, String]?"},
 			{Name: "test_map_output_int_double"}:                      &moonFunc{funcName: "func test_map_output_int_double() Map[Int, Double]"},
 			{Name: "test_map_output_int_float"}:                       &moonFunc{funcName: "func test_map_output_int_float() Map[Int, Float]"},
 			{Name: "test_map_output_string_string"}:                   &moonFunc{funcName: "func test_map_output_string_string() Map[String, String]"},
-			{Name: "test_option_fixedarray_input1_int"}:               &moonFunc{funcName: "func test_option_fixedarray_input1_int(val FixedArray[Int]?) Unit!Error"},
-			{Name: "test_option_fixedarray_input1_string"}:            &moonFunc{funcName: "func test_option_fixedarray_input1_string(val FixedArray[String]?) Unit!Error"},
-			{Name: "test_option_fixedarray_input2_int"}:               &moonFunc{funcName: "func test_option_fixedarray_input2_int(val FixedArray[Int]?) Unit!Error"},
-			{Name: "test_option_fixedarray_input2_string"}:            &moonFunc{funcName: "func test_option_fixedarray_input2_string(val FixedArray[String]?) Unit!Error"},
+			{Name: "test_option_fixedarray_input1_int"}:               &moonFunc{funcName: "func test_option_fixedarray_input1_int(val FixedArray[Int]?) Unit raise Error"},
+			{Name: "test_option_fixedarray_input1_string"}:            &moonFunc{funcName: "func test_option_fixedarray_input1_string(val FixedArray[String]?) Unit raise Error"},
+			{Name: "test_option_fixedarray_input2_int"}:               &moonFunc{funcName: "func test_option_fixedarray_input2_int(val FixedArray[Int]?) Unit raise Error"},
+			{Name: "test_option_fixedarray_input2_string"}:            &moonFunc{funcName: "func test_option_fixedarray_input2_string(val FixedArray[String]?) Unit raise Error"},
 			{Name: "test_option_fixedarray_output1_int"}:              &moonFunc{funcName: "func test_option_fixedarray_output1_int() FixedArray[Int]?"},
 			{Name: "test_option_fixedarray_output1_string"}:           &moonFunc{funcName: "func test_option_fixedarray_output1_string() FixedArray[String]?"},
 			{Name: "test_option_fixedarray_output2_int"}:              &moonFunc{funcName: "func test_option_fixedarray_output2_int() FixedArray[Int]?"},
 			{Name: "test_option_fixedarray_output2_string"}:           &moonFunc{funcName: "func test_option_fixedarray_output2_string() FixedArray[String]?"},
-			{Name: "test_recursive_struct_input"}:                     &moonFunc{funcName: "func test_recursive_struct_input(r1 TestRecursiveStruct) Unit!Error"},
-			{Name: "test_recursive_struct_option_input"}:              &moonFunc{funcName: "func test_recursive_struct_option_input(o TestRecursiveStruct?) Unit!Error"},
-			{Name: "test_recursive_struct_option_input_none"}:         &moonFunc{funcName: "func test_recursive_struct_option_input_none(o TestRecursiveStruct?) Unit!Error"},
+			{Name: "test_recursive_struct_input"}:                     &moonFunc{funcName: "func test_recursive_struct_input(r1 TestRecursiveStruct) Unit raise Error"},
+			{Name: "test_recursive_struct_option_input"}:              &moonFunc{funcName: "func test_recursive_struct_option_input(o TestRecursiveStruct?) Unit raise Error"},
+			{Name: "test_recursive_struct_option_input_none"}:         &moonFunc{funcName: "func test_recursive_struct_option_input_none(o TestRecursiveStruct?) Unit raise Error"},
 			{Name: "test_recursive_struct_option_output"}:             &moonFunc{funcName: "func test_recursive_struct_option_output() TestRecursiveStruct?"},
 			{Name: "test_recursive_struct_option_output_map"}:         &moonFunc{funcName: "func test_recursive_struct_option_output_map() TestRecursiveStruct_map?"},
 			{Name: "test_recursive_struct_option_output_none"}:        &moonFunc{funcName: "func test_recursive_struct_option_output_none() TestRecursiveStruct?"},
 			{Name: "test_recursive_struct_output"}:                    &moonFunc{funcName: "func test_recursive_struct_output() TestRecursiveStruct"},
 			{Name: "test_recursive_struct_output_map"}:                &moonFunc{funcName: "func test_recursive_struct_output_map() TestRecursiveStruct_map"},
-			{Name: "test_smorgasbord_struct_input"}:                   &moonFunc{funcName: "func test_smorgasbord_struct_input(o TestSmorgasbordStruct) Unit!Error"},
-			{Name: "test_smorgasbord_struct_option_input"}:            &moonFunc{funcName: "func test_smorgasbord_struct_option_input(o TestSmorgasbordStruct?) Unit!Error"},
-			{Name: "test_smorgasbord_struct_option_input_none"}:       &moonFunc{funcName: "func test_smorgasbord_struct_option_input_none(o TestSmorgasbordStruct?) Unit!Error"},
+			{Name: "test_smorgasbord_struct_input"}:                   &moonFunc{funcName: "func test_smorgasbord_struct_input(o TestSmorgasbordStruct) Unit raise Error"},
+			{Name: "test_smorgasbord_struct_option_input"}:            &moonFunc{funcName: "func test_smorgasbord_struct_option_input(o TestSmorgasbordStruct?) Unit raise Error"},
+			{Name: "test_smorgasbord_struct_option_input_none"}:       &moonFunc{funcName: "func test_smorgasbord_struct_option_input_none(o TestSmorgasbordStruct?) Unit raise Error"},
 			{Name: "test_smorgasbord_struct_option_output"}:           &moonFunc{funcName: "func test_smorgasbord_struct_option_output() TestSmorgasbordStruct?"},
 			{Name: "test_smorgasbord_struct_option_output_map"}:       &moonFunc{funcName: "func test_smorgasbord_struct_option_output_map() TestSmorgasbordStruct_map?"},
 			{Name: "test_smorgasbord_struct_option_output_map_none"}:  &moonFunc{funcName: "func test_smorgasbord_struct_option_output_map_none() TestSmorgasbordStruct_map?"},
 			{Name: "test_smorgasbord_struct_option_output_none"}:      &moonFunc{funcName: "func test_smorgasbord_struct_option_output_none() TestSmorgasbordStruct?"},
 			{Name: "test_smorgasbord_struct_output"}:                  &moonFunc{funcName: "func test_smorgasbord_struct_output() TestSmorgasbordStruct"},
 			{Name: "test_smorgasbord_struct_output_map"}:              &moonFunc{funcName: "func test_smorgasbord_struct_output_map() TestSmorgasbordStruct_map"},
-			{Name: "test_string_input"}:                               &moonFunc{funcName: "func test_string_input(s String) Unit!Error"},
-			{Name: "test_string_option_input"}:                        &moonFunc{funcName: "func test_string_option_input(s String?) Unit!Error"},
-			{Name: "test_string_option_input_none"}:                   &moonFunc{funcName: "func test_string_option_input_none(s String?) Unit!Error"},
+			{Name: "test_string_input"}:                               &moonFunc{funcName: "func test_string_input(s String) Unit raise Error"},
+			{Name: "test_string_option_input"}:                        &moonFunc{funcName: "func test_string_option_input(s String?) Unit raise Error"},
+			{Name: "test_string_option_input_none"}:                   &moonFunc{funcName: "func test_string_option_input_none(s String?) Unit raise Error"},
 			{Name: "test_string_option_output"}:                       &moonFunc{funcName: "func test_string_option_output() String?"},
 			{Name: "test_string_option_output_none"}:                  &moonFunc{funcName: "func test_string_option_output_none() String?"},
 			{Name: "test_string_output"}:                              &moonFunc{funcName: "func test_string_output() String"},
-			{Name: "test_struct_containing_map_input_string_string"}:  &moonFunc{funcName: "func test_struct_containing_map_input_string_string(s TestStructWithMap) Unit!Error"},
+			{Name: "test_struct_containing_map_input_string_string"}:  &moonFunc{funcName: "func test_struct_containing_map_input_string_string(s TestStructWithMap) Unit raise Error"},
 			{Name: "test_struct_containing_map_output_string_string"}: &moonFunc{funcName: "func test_struct_containing_map_output_string_string() TestStructWithMap"},
-			{Name: "test_struct_input1"}:                              &moonFunc{funcName: "func test_struct_input1(o TestStruct1) Unit!Error"},
-			{Name: "test_struct_input2"}:                              &moonFunc{funcName: "func test_struct_input2(o TestStruct2) Unit!Error"},
-			{Name: "test_struct_input3"}:                              &moonFunc{funcName: "func test_struct_input3(o TestStruct3) Unit!Error"},
-			{Name: "test_struct_input4"}:                              &moonFunc{funcName: "func test_struct_input4(o TestStruct4) Unit!Error"},
-			{Name: "test_struct_input4_with_none"}:                    &moonFunc{funcName: "func test_struct_input4_with_none(o TestStruct4) Unit!Error"},
-			{Name: "test_struct_input5"}:                              &moonFunc{funcName: "func test_struct_input5(o TestStruct5) Unit!Error"},
-			{Name: "test_struct_option_input1"}:                       &moonFunc{funcName: "func test_struct_option_input1(o TestStruct1?) Unit!Error"},
-			{Name: "test_struct_option_input1_none"}:                  &moonFunc{funcName: "func test_struct_option_input1_none(o TestStruct1?) Unit!Error"},
-			{Name: "test_struct_option_input2"}:                       &moonFunc{funcName: "func test_struct_option_input2(o TestStruct2?) Unit!Error"},
-			{Name: "test_struct_option_input2_none"}:                  &moonFunc{funcName: "func test_struct_option_input2_none(o TestStruct2?) Unit!Error"},
-			{Name: "test_struct_option_input3"}:                       &moonFunc{funcName: "func test_struct_option_input3(o TestStruct3?) Unit!Error"},
-			{Name: "test_struct_option_input3_none"}:                  &moonFunc{funcName: "func test_struct_option_input3_none(o TestStruct3?) Unit!Error"},
-			{Name: "test_struct_option_input4"}:                       &moonFunc{funcName: "func test_struct_option_input4(o TestStruct4?) Unit!Error"},
-			{Name: "test_struct_option_input4_none"}:                  &moonFunc{funcName: "func test_struct_option_input4_none(o TestStruct4?) Unit!Error"},
-			{Name: "test_struct_option_input4_with_none"}:             &moonFunc{funcName: "func test_struct_option_input4_with_none(o TestStruct4?) Unit!Error"},
-			{Name: "test_struct_option_input5"}:                       &moonFunc{funcName: "func test_struct_option_input5(o TestStruct5?) Unit!Error"},
-			{Name: "test_struct_option_input5_none"}:                  &moonFunc{funcName: "func test_struct_option_input5_none(o TestStruct5?) Unit!Error"},
+			{Name: "test_struct_input1"}:                              &moonFunc{funcName: "func test_struct_input1(o TestStruct1) Unit raise Error"},
+			{Name: "test_struct_input2"}:                              &moonFunc{funcName: "func test_struct_input2(o TestStruct2) Unit raise Error"},
+			{Name: "test_struct_input3"}:                              &moonFunc{funcName: "func test_struct_input3(o TestStruct3) Unit raise Error"},
+			{Name: "test_struct_input4"}:                              &moonFunc{funcName: "func test_struct_input4(o TestStruct4) Unit raise Error"},
+			{Name: "test_struct_input4_with_none"}:                    &moonFunc{funcName: "func test_struct_input4_with_none(o TestStruct4) Unit raise Error"},
+			{Name: "test_struct_input5"}:                              &moonFunc{funcName: "func test_struct_input5(o TestStruct5) Unit raise Error"},
+			{Name: "test_struct_option_input1"}:                       &moonFunc{funcName: "func test_struct_option_input1(o TestStruct1?) Unit raise Error"},
+			{Name: "test_struct_option_input1_none"}:                  &moonFunc{funcName: "func test_struct_option_input1_none(o TestStruct1?) Unit raise Error"},
+			{Name: "test_struct_option_input2"}:                       &moonFunc{funcName: "func test_struct_option_input2(o TestStruct2?) Unit raise Error"},
+			{Name: "test_struct_option_input2_none"}:                  &moonFunc{funcName: "func test_struct_option_input2_none(o TestStruct2?) Unit raise Error"},
+			{Name: "test_struct_option_input3"}:                       &moonFunc{funcName: "func test_struct_option_input3(o TestStruct3?) Unit raise Error"},
+			{Name: "test_struct_option_input3_none"}:                  &moonFunc{funcName: "func test_struct_option_input3_none(o TestStruct3?) Unit raise Error"},
+			{Name: "test_struct_option_input4"}:                       &moonFunc{funcName: "func test_struct_option_input4(o TestStruct4?) Unit raise Error"},
+			{Name: "test_struct_option_input4_none"}:                  &moonFunc{funcName: "func test_struct_option_input4_none(o TestStruct4?) Unit raise Error"},
+			{Name: "test_struct_option_input4_with_none"}:             &moonFunc{funcName: "func test_struct_option_input4_with_none(o TestStruct4?) Unit raise Error"},
+			{Name: "test_struct_option_input5"}:                       &moonFunc{funcName: "func test_struct_option_input5(o TestStruct5?) Unit raise Error"},
+			{Name: "test_struct_option_input5_none"}:                  &moonFunc{funcName: "func test_struct_option_input5_none(o TestStruct5?) Unit raise Error"},
 			{Name: "test_struct_option_output1"}:                      &moonFunc{funcName: "func test_struct_option_output1() TestStruct1?"},
 			{Name: "test_struct_option_output1_map"}:                  &moonFunc{funcName: "func test_struct_option_output1_map() TestStruct1_map?"},
 			{Name: "test_struct_option_output1_none"}:                 &moonFunc{funcName: "func test_struct_option_output1_none() TestStruct1?"},
@@ -13540,40 +13540,40 @@ var wantPackageRuntime = &Package{
 			{Name: "test_struct_output4_with_none"}:                   &moonFunc{funcName: "func test_struct_output4_with_none() TestStruct4"},
 			{Name: "test_struct_output5"}:                             &moonFunc{funcName: "func test_struct_output5() TestStruct5"},
 			{Name: "test_struct_output5_map"}:                         &moonFunc{funcName: "func test_struct_output5_map() TestStruct5_map"},
-			{Name: "test_time_input"}:                                 &moonFunc{funcName: "func test_time_input(t @time.ZonedDateTime) Unit!Error"},
-			{Name: "test_time_option_input"}:                          &moonFunc{funcName: "func test_time_option_input(t @time.ZonedDateTime?) Unit!Error"},
-			{Name: "test_time_option_input_none"}:                     &moonFunc{funcName: "func test_time_option_input_none(t @time.ZonedDateTime?) Unit!Error"},
-			{Name: "test_time_option_input_none_style2"}:              &moonFunc{funcName: "func test_time_option_input_none_style2(t? @time.ZonedDateTime) Unit!Error"},
-			{Name: "test_time_option_input_style2"}:                   &moonFunc{funcName: "func test_time_option_input_style2(t? @time.ZonedDateTime) Unit!Error"},
+			{Name: "test_time_input"}:                                 &moonFunc{funcName: "func test_time_input(t @time.ZonedDateTime) Unit raise Error"},
+			{Name: "test_time_option_input"}:                          &moonFunc{funcName: "func test_time_option_input(t @time.ZonedDateTime?) Unit raise Error"},
+			{Name: "test_time_option_input_none"}:                     &moonFunc{funcName: "func test_time_option_input_none(t @time.ZonedDateTime?) Unit raise Error"},
+			{Name: "test_time_option_input_none_style2"}:              &moonFunc{funcName: "func test_time_option_input_none_style2(t? @time.ZonedDateTime) Unit raise Error"},
+			{Name: "test_time_option_input_style2"}:                   &moonFunc{funcName: "func test_time_option_input_style2(t? @time.ZonedDateTime) Unit raise Error"},
 			{Name: "test_time_option_output"}:                         &moonFunc{funcName: "func test_time_option_output() @time.ZonedDateTime?"},
 			{Name: "test_time_option_output_none"}:                    &moonFunc{funcName: "func test_time_option_output_none() @time.ZonedDateTime?"},
 			{Name: "test_time_output"}:                                &moonFunc{funcName: "func test_time_output() @time.ZonedDateTime"},
 			{Name: "test_tuple_output"}:                               &moonFunc{funcName: "func test_tuple_output() (Int, Bool, String)"},
-			{Name: "test_uint16_input_max"}:                           &moonFunc{funcName: "func test_uint16_input_max(n UInt16) Unit!Error"},
-			{Name: "test_uint16_input_min"}:                           &moonFunc{funcName: "func test_uint16_input_min(n UInt16) Unit!Error"},
-			{Name: "test_uint16_option_input_max"}:                    &moonFunc{funcName: "func test_uint16_option_input_max(n UInt16?) Unit!Error"},
-			{Name: "test_uint16_option_input_min"}:                    &moonFunc{funcName: "func test_uint16_option_input_min(n UInt16?) Unit!Error"},
-			{Name: "test_uint16_option_input_none"}:                   &moonFunc{funcName: "func test_uint16_option_input_none(n UInt16?) Unit!Error"},
+			{Name: "test_uint16_input_max"}:                           &moonFunc{funcName: "func test_uint16_input_max(n UInt16) Unit raise Error"},
+			{Name: "test_uint16_input_min"}:                           &moonFunc{funcName: "func test_uint16_input_min(n UInt16) Unit raise Error"},
+			{Name: "test_uint16_option_input_max"}:                    &moonFunc{funcName: "func test_uint16_option_input_max(n UInt16?) Unit raise Error"},
+			{Name: "test_uint16_option_input_min"}:                    &moonFunc{funcName: "func test_uint16_option_input_min(n UInt16?) Unit raise Error"},
+			{Name: "test_uint16_option_input_none"}:                   &moonFunc{funcName: "func test_uint16_option_input_none(n UInt16?) Unit raise Error"},
 			{Name: "test_uint16_option_output_max"}:                   &moonFunc{funcName: "func test_uint16_option_output_max() UInt16?"},
 			{Name: "test_uint16_option_output_min"}:                   &moonFunc{funcName: "func test_uint16_option_output_min() UInt16?"},
 			{Name: "test_uint16_option_output_none"}:                  &moonFunc{funcName: "func test_uint16_option_output_none() UInt16?"},
 			{Name: "test_uint16_output_max"}:                          &moonFunc{funcName: "func test_uint16_output_max() UInt16"},
 			{Name: "test_uint16_output_min"}:                          &moonFunc{funcName: "func test_uint16_output_min() UInt16"},
-			{Name: "test_uint64_input_max"}:                           &moonFunc{funcName: "func test_uint64_input_max(n UInt64) Unit!Error"},
-			{Name: "test_uint64_input_min"}:                           &moonFunc{funcName: "func test_uint64_input_min(n UInt64) Unit!Error"},
-			{Name: "test_uint64_option_input_max"}:                    &moonFunc{funcName: "func test_uint64_option_input_max(n UInt64?) Unit!Error"},
-			{Name: "test_uint64_option_input_min"}:                    &moonFunc{funcName: "func test_uint64_option_input_min(n UInt64?) Unit!Error"},
-			{Name: "test_uint64_option_input_none"}:                   &moonFunc{funcName: "func test_uint64_option_input_none(n UInt64?) Unit!Error"},
+			{Name: "test_uint64_input_max"}:                           &moonFunc{funcName: "func test_uint64_input_max(n UInt64) Unit raise Error"},
+			{Name: "test_uint64_input_min"}:                           &moonFunc{funcName: "func test_uint64_input_min(n UInt64) Unit raise Error"},
+			{Name: "test_uint64_option_input_max"}:                    &moonFunc{funcName: "func test_uint64_option_input_max(n UInt64?) Unit raise Error"},
+			{Name: "test_uint64_option_input_min"}:                    &moonFunc{funcName: "func test_uint64_option_input_min(n UInt64?) Unit raise Error"},
+			{Name: "test_uint64_option_input_none"}:                   &moonFunc{funcName: "func test_uint64_option_input_none(n UInt64?) Unit raise Error"},
 			{Name: "test_uint64_option_output_max"}:                   &moonFunc{funcName: "func test_uint64_option_output_max() UInt64?"},
 			{Name: "test_uint64_option_output_min"}:                   &moonFunc{funcName: "func test_uint64_option_output_min() UInt64?"},
 			{Name: "test_uint64_option_output_none"}:                  &moonFunc{funcName: "func test_uint64_option_output_none() UInt64?"},
 			{Name: "test_uint64_output_max"}:                          &moonFunc{funcName: "func test_uint64_output_max() UInt64"},
 			{Name: "test_uint64_output_min"}:                          &moonFunc{funcName: "func test_uint64_output_min() UInt64"},
-			{Name: "test_uint_input_max"}:                             &moonFunc{funcName: "func test_uint_input_max(n UInt) Unit!Error"},
-			{Name: "test_uint_input_min"}:                             &moonFunc{funcName: "func test_uint_input_min(n UInt) Unit!Error"},
-			{Name: "test_uint_option_input_max"}:                      &moonFunc{funcName: "func test_uint_option_input_max(n UInt?) Unit!Error"},
-			{Name: "test_uint_option_input_min"}:                      &moonFunc{funcName: "func test_uint_option_input_min(n UInt?) Unit!Error"},
-			{Name: "test_uint_option_input_none"}:                     &moonFunc{funcName: "func test_uint_option_input_none(n UInt?) Unit!Error"},
+			{Name: "test_uint_input_max"}:                             &moonFunc{funcName: "func test_uint_input_max(n UInt) Unit raise Error"},
+			{Name: "test_uint_input_min"}:                             &moonFunc{funcName: "func test_uint_input_min(n UInt) Unit raise Error"},
+			{Name: "test_uint_option_input_max"}:                      &moonFunc{funcName: "func test_uint_option_input_max(n UInt?) Unit raise Error"},
+			{Name: "test_uint_option_input_min"}:                      &moonFunc{funcName: "func test_uint_option_input_min(n UInt?) Unit raise Error"},
+			{Name: "test_uint_option_input_none"}:                     &moonFunc{funcName: "func test_uint_option_input_none(n UInt?) Unit raise Error"},
 			{Name: "test_uint_option_output_max"}:                     &moonFunc{funcName: "func test_uint_option_output_max() UInt?"},
 			{Name: "test_uint_option_output_min"}:                     &moonFunc{funcName: "func test_uint_option_output_min() UInt?"},
 			{Name: "test_uint_option_output_none"}:                    &moonFunc{funcName: "func test_uint_option_output_none() UInt?"},

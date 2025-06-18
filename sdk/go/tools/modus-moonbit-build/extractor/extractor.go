@@ -94,14 +94,17 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 	id := uint32(4) // 1-3 are reserved for Bytes, Array[Byte], and String - WHY?!? Where is this used?
 	for name, typeWithPkg := range requiredTypes {
 		resolvedName := name
+		if strings.HasSuffix(resolvedName, ",") {
+			log.Printf("GML3: DEBUG: resolvedName=%q", resolvedName)
+		}
 		if typeWithPkg == nil {
 			log.Fatalf("PROGRAMMING ERROR: extractor.go requiredTypes['%v'] = nil", name)
 		}
 		t := typeWithPkg.t
 
-		if name == "(String, String)" || name == "@http.Header" {
-			log.Printf("GML: DEBUGGER")
-		}
+		// if name == "(String, String)" || name == "@http.Header" {
+		// 	log.Printf("GML: DEBUG")
+		// }
 
 		if t == nil {
 			// See if this can be found in pkgs.StructLookup map.
@@ -119,6 +122,9 @@ func collectProgramInfoFromPkgs(pkgs map[string]*packages.Package, meta *metadat
 
 		if n, ok := t.(*types.Named); ok {
 			resolvedName = n.String()
+			if strings.HasSuffix(resolvedName, ",") {
+				log.Printf("GML4: DEBUG: resolvedName=%q", resolvedName)
+			}
 			underlying := n.Underlying()
 			if underlying != nil {
 				t = underlying

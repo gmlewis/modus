@@ -116,7 +116,7 @@ var wantPackageTime = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime raise Error"}},
 							},
 						},
 					},
@@ -132,7 +132,7 @@ var wantPackageTime = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -169,7 +169,7 @@ var wantPackageTime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -226,7 +226,7 @@ var wantPackageTime = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "TimeZoneInfo!Error"}},
+								{Type: &ast.Ident{Name: "TimeZoneInfo raise Error"}},
 							},
 						},
 					},
@@ -245,12 +245,12 @@ var wantPackageTime = &Package{
 			// Using &moonType{} and &moonFunc{} is a hack to fake a struct/func for testing purposes only:
 			{Name: "TimeZoneInfo"}:             &moonFunc{funcName: "type TimeZoneInfo = struct{standard_name String; standard_offset String; daylight_name String; daylight_offset String}"},
 			{Name: "get_local_time_modus"}:     &moonFunc{funcName: "func get_local_time_modus() String"},
-			{Name: "get_local_time_moonbit"}:   &moonFunc{funcName: "func get_local_time_moonbit() String!Error"},
+			{Name: "get_local_time_moonbit"}:   &moonFunc{funcName: "func get_local_time_moonbit() String raise Error"},
 			{Name: "get_local_time_zone_id"}:   &moonFunc{funcName: "func get_local_time_zone_id() String"},
 			{Name: "get_time_in_zone_modus"}:   &moonFunc{funcName: "func get_time_in_zone_modus(tz String) String"},
-			{Name: "get_time_in_zone_moonbit"}: &moonFunc{funcName: "func get_time_in_zone_moonbit(tz String) String!Error"},
-			{Name: "get_time_zone_info"}:       &moonFunc{funcName: "func get_time_zone_info(tz String) TimeZoneInfo!Error"},
-			{Name: "get_utc_time"}:             &moonFunc{funcName: "func get_utc_time() @time.ZonedDateTime!Error"},
+			{Name: "get_time_in_zone_moonbit"}: &moonFunc{funcName: "func get_time_in_zone_moonbit(tz String) String raise Error"},
+			{Name: "get_time_zone_info"}:       &moonFunc{funcName: "func get_time_zone_info(tz String) TimeZoneInfo raise Error"},
+			{Name: "get_utc_time"}:             &moonFunc{funcName: "func get_utc_time() @time.ZonedDateTime raise Error"},
 		},
 	},
 }

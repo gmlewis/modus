@@ -3403,16 +3403,16 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 			Parameters: []*metadata.Parameter{{Name: "a", Type: "Int"}, {Name: "b", Type: "Int"}},
 			Results:    []*metadata.Result{{Type: "Int"}},
 		},
-		// "cabi_realloc": {
-		// 	Name: "cabi_realloc",
-		// 	Parameters: []*metadata.Parameter{
-		// 		{Name: "src_offset", Type: "Int"},
-		// 		{Name: "src_size", Type: "Int"},
-		// 		{Name: "_dst_alignment", Type: "Int"},
-		// 		{Name: "dst_size", Type: "Int"},
-		// 	},
-		// 	Results: []*metadata.Result{{Type: "Int"}},
-		// },
+		"cabi_realloc": {
+			Name: "cabi_realloc",
+			Parameters: []*metadata.Parameter{
+				{Name: "src_offset", Type: "Int"},
+				{Name: "src_size", Type: "Int"},
+				{Name: "_dst_alignment", Type: "Int"},
+				{Name: "dst_size", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int"}},
+		},
 		"call_test_time_option_input_none": {
 			Name:    "call_test_time_option_input_none",
 			Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
@@ -3421,15 +3421,15 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 			Name:    "call_test_time_option_input_some",
 			Results: []*metadata.Result{{Type: "@time.ZonedDateTime?"}},
 		},
-		// "copy": {
-		// 	Name:       "copy",
-		// 	Parameters: []*metadata.Parameter{{Name: "dest", Type: "Int"}, {Name: "src", Type: "Int"}},
-		// },
-		// "duration_from_nanos": {
-		// 	Name:       "duration_from_nanos",
-		// 	Parameters: []*metadata.Parameter{{Name: "nanoseconds", Type: "Int64"}},
-		// 	Results:    []*metadata.Result{{Type: "@time.Duration raise Error"}},
-		// },
+		"copy": {
+			Name:       "copy",
+			Parameters: []*metadata.Parameter{{Name: "dest", Type: "Int"}, {Name: "src", Type: "Int"}},
+		},
+		"duration_from_nanos": {
+			Name:       "duration_from_nanos",
+			Parameters: []*metadata.Parameter{{Name: "nanoseconds", Type: "Int64"}},
+			Results:    []*metadata.Result{{Type: "@time.Duration raise Error"}},
+		},
 		"echo1": {
 			Name:       "echo1",
 			Parameters: []*metadata.Parameter{{Name: "message", Type: "String"}},
@@ -3520,20 +3520,20 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 			Parameters: []*metadata.Parameter{{Name: "message", Type: "String?"}},
 			Results:    []*metadata.Result{{Type: "String?"}},
 		},
-		// "malloc": {
-		// 	Name:       "malloc",
-		// 	Parameters: []*metadata.Parameter{{Name: "size", Type: "Int"}},
-		// 	Results:    []*metadata.Result{{Type: "Int"}},
-		// },
-		// "ptr_to_none": {Name: "ptr_to_none", Results: []*metadata.Result{{Type: "Int"}}},
-		// "read_map": {
-		// 	Name: "read_map",
-		// 	Parameters: []*metadata.Parameter{
-		// 		{Name: "key_type_name_ptr", Type: "Int"},
-		// 		{Name: "value_type_name_ptr", Type: "Int"}, {Name: "map_ptr", Type: "Int"},
-		// 	},
-		// 	Results: []*metadata.Result{{Type: "Int64"}},
-		// },
+		"malloc": {
+			Name:       "malloc",
+			Parameters: []*metadata.Parameter{{Name: "size", Type: "Int"}},
+			Results:    []*metadata.Result{{Type: "Int"}},
+		},
+		"ptr_to_none": {Name: "ptr_to_none", Results: []*metadata.Result{{Type: "Int"}}},
+		"read_map": {
+			Name: "read_map",
+			Parameters: []*metadata.Parameter{
+				{Name: "key_type_name_ptr", Type: "Int"},
+				{Name: "value_type_name_ptr", Type: "Int"}, {Name: "map_ptr", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int64"}},
+		},
 		"test2d_array_input_string": {
 			Name:       "test2d_array_input_string",
 			Parameters: []*metadata.Parameter{{Name: "val", Type: "Array[Array[String]]"}},
@@ -6793,20 +6793,20 @@ var wantRuntimeBeforeFilter = &metadata.Metadata{
 		},
 		"test_uint_output_max": {Name: "test_uint_output_max", Results: []*metadata.Result{{Type: "UInt"}}},
 		"test_uint_output_min": {Name: "test_uint_output_min", Results: []*metadata.Result{{Type: "UInt"}}},
-		// "write_map": {
-		// 	Name: "write_map",
-		// 	Parameters: []*metadata.Parameter{
-		// 		{Name: "key_type_name_ptr", Type: "Int"},
-		// 		{Name: "value_type_name_ptr", Type: "Int"}, {Name: "keys_ptr", Type: "Int"},
-		// 		{Name: "values_ptr", Type: "Int"},
-		// 	},
-		// 	Results: []*metadata.Result{{Type: "Int"}},
-		// },
-		// "zoned_date_time_from_unix_seconds_and_nanos": {
-		// 	Name:       "zoned_date_time_from_unix_seconds_and_nanos",
-		// 	Parameters: []*metadata.Parameter{{Name: "second", Type: "Int64"}, {Name: "nanos", Type: "Int64"}},
-		// 	Results:    []*metadata.Result{{Type: "@time.ZonedDateTime raise Error"}},
-		// },
+		"write_map": {
+			Name: "write_map",
+			Parameters: []*metadata.Parameter{
+				{Name: "key_type_name_ptr", Type: "Int"},
+				{Name: "value_type_name_ptr", Type: "Int"}, {Name: "keys_ptr", Type: "Int"},
+				{Name: "values_ptr", Type: "Int"},
+			},
+			Results: []*metadata.Result{{Type: "Int"}},
+		},
+		"zoned_date_time_from_unix_seconds_and_nanos": {
+			Name:       "zoned_date_time_from_unix_seconds_and_nanos",
+			Parameters: []*metadata.Parameter{{Name: "second", Type: "Int64"}, {Name: "nanos", Type: "Int64"}},
+			Results:    []*metadata.Result{{Type: "@time.ZonedDateTime raise Error"}},
+		},
 	},
 	FnImports: metadata.FunctionMap{
 		"modus_system.logMessage": {
