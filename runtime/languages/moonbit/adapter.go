@@ -28,7 +28,7 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnRealloc:                              mod.ExportedFunction("cabi_realloc"),
 		fnPtr2str:                              mod.ExportedFunction("ptr2str"), // pub fn ptr2str(ptr : Int) -> String
 		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
-		// pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration!Error
+		// pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration raise Error
 		fnDurationFromNanos: mod.ExportedFunction("duration_from_nanos"),
 		// pub fn read_map(key_type_name_ptr : Int, value_type_name_ptr : Int, map_ptr : Int) -> Int64
 		fnReadMap: mod.ExportedFunction("read_map"),

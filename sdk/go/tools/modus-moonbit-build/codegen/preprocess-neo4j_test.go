@@ -42,8 +42,8 @@ func TestTestablePreProcess_Neo4j(t *testing.T) {
 	reportPreProcessDiffs(t, "neo4j", wg)
 }
 
-var wantNeo4jPreProcessBody = `pub fn __modus_create_people_and_relationships() -> String!Error {
-  try create_people_and_relationships!() {
+var wantNeo4jPreProcessBody = `pub fn __modus_create_people_and_relationships() -> String raise Error {
+  try create_people_and_relationships() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -51,8 +51,8 @@ var wantNeo4jPreProcessBody = `pub fn __modus_create_people_and_relationships() 
   }
 }
 
-pub fn __modus_get_alice_friends_under_40() -> Array[Person]!Error {
-  try get_alice_friends_under_40!() {
+pub fn __modus_get_alice_friends_under_40() -> Array[Person] raise Error {
+  try get_alice_friends_under_40() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -60,8 +60,8 @@ pub fn __modus_get_alice_friends_under_40() -> Array[Person]!Error {
   }
 }
 
-pub fn __modus_get_alice_friends_under_40_ages() -> Array[Int]!Error {
-  try get_alice_friends_under_40_ages!() {
+pub fn __modus_get_alice_friends_under_40_ages() -> Array[Int] raise Error {
+  try get_alice_friends_under_40_ages() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -69,8 +69,8 @@ pub fn __modus_get_alice_friends_under_40_ages() -> Array[Int]!Error {
   }
 }
 
-pub fn __modus_delete_all_nodes() -> String!Error {
-  try delete_all_nodes!() {
+pub fn __modus_delete_all_nodes() -> String raise Error {
+  try delete_all_nodes() catch {
     e => {
       @console.error(e.to_string())
       raise e

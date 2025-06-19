@@ -83,14 +83,14 @@
     "call_test_time_option_input_some": {
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
     "get_current_time": {
       "results": [
         {
-          "type": "@time.ZonedDateTime!Error"
+          "type": "@time.ZonedDateTime raise Error"
         }
       ],
       "docs": {
@@ -102,7 +102,7 @@
     "get_current_time_formatted": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -136,7 +136,7 @@
     "get_local_time": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -202,7 +202,7 @@
       ],
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -220,7 +220,7 @@
       ],
       "results": [
         {
-          "type": "TimeZoneInfo!Error"
+          "type": "TimeZoneInfo raise Error"
         }
       ],
       "docs": {
@@ -232,7 +232,7 @@
     "get_utc_time": {
       "results": [
         {
-          "type": "@time.ZonedDateTime!Error"
+          "type": "@time.ZonedDateTime raise Error"
         }
       ],
       "docs": {
@@ -690,7 +690,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -739,7 +739,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -752,7 +752,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -765,7 +765,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -795,7 +795,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -836,7 +836,7 @@
       ],
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -854,7 +854,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -874,7 +874,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -887,7 +887,7 @@
       ],
       "results": [
         {
-          "type": "Unit!Error"
+          "type": "Unit raise Error"
         }
       ]
     },
@@ -1018,31 +1018,31 @@
     "@time.Duration": {
       "id": 18
     },
-    "@time.Duration!Error": {
+    "@time.Duration raise Error": {
       "id": 35
     },
     "@time.Period": {
       "id": 36
     },
-    "@time.Period!Error": {
+    "@time.Period raise Error": {
       "id": 23
     },
     "@time.PlainDate": {
       "id": 40
     },
-    "@time.PlainDate!Error": {
+    "@time.PlainDate raise Error": {
       "id": 41
     },
     "@time.PlainDateTime": {
       "id": 77
     },
-    "@time.PlainDateTime!Error": {
+    "@time.PlainDateTime raise Error": {
       "id": 11
     },
     "@time.PlainTime": {
       "id": 62
     },
-    "@time.PlainTime!Error": {
+    "@time.PlainTime raise Error": {
       "id": 12
     },
     "@time.Weekday": {
@@ -1051,19 +1051,19 @@
     "@time.Zone": {
       "id": 24
     },
-    "@time.Zone!Error": {
+    "@time.Zone raise Error": {
       "id": 63
     },
     "@time.ZoneOffset": {
       "id": 33
     },
-    "@time.ZoneOffset!Error": {
+    "@time.ZoneOffset raise Error": {
       "id": 13
     },
     "@time.ZonedDateTime": {
       "id": 70
     },
-    "@time.ZonedDateTime!Error": {
+    "@time.ZonedDateTime raise Error": {
       "id": 9
     },
     "@time.ZonedDateTime?": {
@@ -1117,7 +1117,7 @@
     "Bytes": {
       "id": 68
     },
-    "Bytes!Error": {
+    "Bytes raise Error": {
       "id": 26
     },
     "Char": {
@@ -1188,7 +1188,7 @@
     "String": {
       "id": 72
     },
-    "String!Error": {
+    "String raise Error": {
       "id": 48
     },
     "String?": {
@@ -1224,7 +1224,7 @@
         }
       ]
     },
-    "TimeZoneInfo!Error": {
+    "TimeZoneInfo raise Error": {
       "id": 75,
       "fields": [
         {
@@ -1274,7 +1274,7 @@
     "Unit": {
       "id": 50
     },
-    "Unit!Error": {
+    "Unit raise Error": {
       "id": 59
     }
   }

@@ -11,22 +11,22 @@ pub(all) struct CallStack[T] {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub fn CallStack::new[T]() -> CallStack[T] {
+pub fn[T] CallStack::new() -> CallStack[T] {
   { items: [] }
 }
 
 ///|
-pub fn CallStack::size[T](self : CallStack[T]) -> Int {
+pub fn[T] CallStack::size(self : CallStack[T]) -> Int {
   self.items.length()
 }
 
 ///|
-pub fn push[T](self : CallStack[T], values : Array[T]) -> Unit {
+pub fn[T] push(self : CallStack[T], values : Array[T]) -> Unit {
   self.items.push(values)
 }
 
 ///|
-pub fn pop[T](self : CallStack[T]) -> Array[T] {
+pub fn[T] pop(self : CallStack[T]) -> Array[T] {
   match self.items.pop() {
     Some(values) => values
     None => []

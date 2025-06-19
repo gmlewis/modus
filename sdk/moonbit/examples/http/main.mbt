@@ -3,8 +3,8 @@
 // See the LICENSE file that accompanied this code for further details.
 
 ///| This function makes a simple HTTP GET request to example.com, and returns the HTML text of the response.
-pub fn get_example_html() -> String!Error {
-  let response = @http.fetch_url!("https://example.com/")
+pub fn get_example_html() -> String raise Error {
+  let response = @http.fetch_url("https://example.com/")
   if not(response.ok()) {
     raise @http.HttpError(
       "Failed to fetch url. Received: \{response.status} \{response.status_text}",
@@ -15,21 +15,21 @@ pub fn get_example_html() -> String!Error {
 
 ///| This function makes a request to an API that returns data in JSON format, and returns an object representing the data.
 /// It also demonstrates how to check the HTTP response status.
-pub fn get_random_quote() -> Quote!Error {
-  let response = @http.fetch_url!("https://zenquotes.io/api/random")
+pub fn get_random_quote() -> Quote raise Error {
+  let response = @http.fetch_url("https://zenquotes.io/api/random")
   if not(response.ok()) {
     raise @http.HttpError(
       "Failed to fetch quote. Received: \{response.status} \{response.status_text}",
     )
   }
-  let quotes : Array[Quote] = response.json!()
+  let quotes : Array[Quote] = response.json()
   quotes[0]
 }
 
 ///| This function makes a request to an API that returns an image, and returns the image data.
-pub fn get_random_image(width : Int, height : Int) -> Image!Error {
+pub fn get_random_image(width : Int, height : Int) -> Image raise Error {
   let url = "https://picsum.photos/\{width}/\{height}"
-  let response = @http.fetch_url!(url)
+  let response = @http.fetch_url(url)
   if not(response.ok()) {
     raise @http.HttpError(
       "Failed to fetch image. Received: \{response.status} \{response.status_text}",
@@ -71,7 +71,7 @@ pub fn create_github_issue(
   repo : String,
   title : String,
   body : String
-) -> Issue!Error {
+) -> Issue raise Error {
   let url = "https://api.github.com/repos/\{owner}/\{repo}/issues"
   let request = @http.Request::new(url, options=[
     @http.Method("POST"),
@@ -84,11 +84,11 @@ pub fn create_github_issue(
       { "title": title.to_json(), "body": body.to_json() }.to_json(),
     ),
   ])
-  let response = request.fetch!()
+  let response = request.fetch()
   if not(response.ok()) {
     raise @http.HttpError(
       "Failed to create issue. Received: \{response.status} \{response.status_text}",
     )
   }
-  response.json!()
+  response.json()
 }

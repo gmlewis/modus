@@ -63,6 +63,8 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	// Strip MoonBit error type suffix.
 	if i := strings.Index(typeName, "!"); i >= 0 {
 		typeName = typeName[:i]
+	} else if i := strings.Index(typeName, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+		typeName = typeName[:i]
 	}
 
 	if handler, ok := p.typeHandlers[typeName]; ok {
@@ -128,6 +130,9 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 		typeName := result.Type
 		if i := strings.Index(typeName, "!"); i >= 0 {
 			errorType = typeName[i+1:]
+			typeName = typeName[:i]
+		} else if i := strings.Index(typeName, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+			errorType = typeName[i+len(" raise "):]
 			typeName = typeName[:i]
 		}
 

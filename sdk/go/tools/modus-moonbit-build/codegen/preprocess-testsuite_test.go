@@ -82,8 +82,8 @@ pub fn __modus_test_array_output_string_option() -> Array[String?] {
   test_array_output_string_option()
 }
 
-pub fn __modus_test_array_input_string(val : Array[String]) -> Unit!Error {
-  try test_array_input_string!(val) {
+pub fn __modus_test_array_input_string(val : Array[String]) -> Unit raise Error {
+  try test_array_input_string(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -107,8 +107,8 @@ pub fn __modus_hello_maps_n_items_option_WithDefaults() -> Map[String, String]? 
   hello_maps_n_items_option()
 }
 
-pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit!Error {
-  try test_map_input_string_string!(m) {
+pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit raise Error {
+  try test_map_input_string_string(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -116,8 +116,8 @@ pub fn __modus_test_map_input_string_string(m : Map[String, String]) -> Unit!Err
   }
 }
 
-pub fn __modus_test_map_option_input_string_string(m : Map[String, String]?) -> Unit!Error {
-  try test_map_option_input_string_string!(m) {
+pub fn __modus_test_map_option_input_string_string(m : Map[String, String]?) -> Unit raise Error {
+  try test_map_option_input_string_string(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -141,8 +141,8 @@ pub fn __modus_test_map_lookup_string_string(m : Map[String, String], key : Stri
   test_map_lookup_string_string(m, key)
 }
 
-pub fn __modus_test_struct_containing_map_input_string_string(s : TestStructWithMap) -> Unit!Error {
-  try test_struct_containing_map_input_string_string!(s) {
+pub fn __modus_test_struct_containing_map_input_string_string(s : TestStructWithMap) -> Unit raise Error {
+  try test_struct_containing_map_input_string_string(s) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -154,8 +154,8 @@ pub fn __modus_test_struct_containing_map_output_string_string() -> TestStructWi
   test_struct_containing_map_output_string_string()
 }
 
-pub fn __modus_test_map_input_int_float(m : Map[Int, Float]) -> Unit!Error {
-  try test_map_input_int_float!(m) {
+pub fn __modus_test_map_input_int_float(m : Map[Int, Float]) -> Unit raise Error {
+  try test_map_input_int_float(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -167,8 +167,8 @@ pub fn __modus_test_map_output_int_float() -> Map[Int, Float] {
   test_map_output_int_float()
 }
 
-pub fn __modus_test_map_input_int_double(m : Map[Int, Double]) -> Unit!Error {
-  try test_map_input_int_double!(m) {
+pub fn __modus_test_map_input_int_double(m : Map[Int, Double]) -> Unit raise Error {
+  try test_map_input_int_double(m) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -288,8 +288,8 @@ pub fn __modus_add3_WithDefaults(a : Int, b : Int) -> Int {
   add3(a, b)
 }
 
-pub fn __modus_get_current_time() -> @time.ZonedDateTime!Error {
-  try get_current_time!() {
+pub fn __modus_get_current_time() -> @time.ZonedDateTime raise Error {
+  try get_current_time() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -297,8 +297,8 @@ pub fn __modus_get_current_time() -> @time.ZonedDateTime!Error {
   }
 }
 
-pub fn __modus_get_current_time_formatted() -> String!Error {
-  try get_current_time_formatted!() {
+pub fn __modus_get_current_time_formatted() -> String raise Error {
+  try get_current_time_formatted() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -322,8 +322,8 @@ pub fn __modus_get_people() -> Array[Person] {
   get_people()
 }
 
-pub fn __modus_test_normal_error(input : String) -> String!Error {
-  try test_normal_error!(input) {
+pub fn __modus_test_normal_error(input : String) -> String raise Error {
+  try test_normal_error(input) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -387,8 +387,8 @@ pub fn __modus_hello_world() -> String {
   hello_world()
 }
 
-pub fn __modus_get_utc_time() -> @time.ZonedDateTime!Error {
-  try get_utc_time!() {
+pub fn __modus_get_utc_time() -> @time.ZonedDateTime raise Error {
+  try get_utc_time() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -396,8 +396,8 @@ pub fn __modus_get_utc_time() -> @time.ZonedDateTime!Error {
   }
 }
 
-pub fn __modus_get_local_time() -> String!Error {
-  try get_local_time!() {
+pub fn __modus_get_local_time() -> String raise Error {
+  try get_local_time() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -405,8 +405,8 @@ pub fn __modus_get_local_time() -> String!Error {
   }
 }
 
-pub fn __modus_get_time_in_zone(tz : String) -> String!Error {
-  try get_time_in_zone!(tz) {
+pub fn __modus_get_time_in_zone(tz : String) -> String raise Error {
+  try get_time_in_zone(tz) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -418,8 +418,8 @@ pub fn __modus_get_local_time_zone_id() -> String {
   get_local_time_zone_id()
 }
 
-pub fn __modus_get_time_zone_info(tz : String) -> TimeZoneInfo!Error {
-  try get_time_zone_info!(tz) {
+pub fn __modus_get_time_zone_info(tz : String) -> TimeZoneInfo raise Error {
+  try get_time_zone_info(tz) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -427,8 +427,8 @@ pub fn __modus_get_time_zone_info(tz : String) -> TimeZoneInfo!Error {
   }
 }
 
-pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
-  try test_time_input!(t) {
+pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit raise Error {
+  try test_time_input(t) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -436,8 +436,8 @@ pub fn __modus_test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
   }
 }
 
-pub fn __modus_test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
-  try test_time_option_input!(t) {
+pub fn __modus_test_time_option_input(t : @time.ZonedDateTime?) -> Unit raise Error {
+  try test_time_option_input(t) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -445,8 +445,8 @@ pub fn __modus_test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
   }
 }
 
-pub fn __modus_call_test_time_option_input_some() -> Unit!Error {
-  try call_test_time_option_input_some!() {
+pub fn __modus_call_test_time_option_input_some() -> Unit raise Error {
+  try call_test_time_option_input_some() catch {
     e => {
       @console.error(e.to_string())
       raise e

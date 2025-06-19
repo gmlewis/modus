@@ -19,8 +19,14 @@ pub fn hello_tuples_5_strings() -> (String, String, String, String, String) {
 }
 
 ///|
-pub fn hello_tuples_6_strings() ->
-     (String, String, String, String, String, String) {
+pub fn hello_tuples_6_strings() -> (
+  String,
+  String,
+  String,
+  String,
+  String,
+  String,
+) {
   ("papaya", "quince", "raspberry", "strawberry", "tangerine", "ugli")
 }
 

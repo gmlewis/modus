@@ -23,7 +23,21 @@ func StripDefaultValue(typeSignature string) string {
 
 func StripError(typeSignature string) (string, bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
-		return typeSignature[:i], true
+		typ := typeSignature[:i]
+		if strings.HasSuffix(strings.TrimSpace(typ), ",") {
+			log.Printf("GML1: DEBUG: StripError: typ='%v'", typ)
+		}
+		return typ, true
+	}
+	if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+		typ := typeSignature[:i]
+		if strings.HasSuffix(strings.TrimSpace(typ), ",") {
+			log.Printf("GML2: DEBUG: StripError: typ='%v'", typ)
+		}
+		return typ, true
+	}
+	if strings.HasSuffix(strings.TrimSpace(typeSignature), ",") {
+		log.Printf("GML3: DEBUG: StripError: typeSignature='%v'", typeSignature)
 	}
 	return typeSignature, false
 }
@@ -32,13 +46,23 @@ func StripErrorAndOption(typeSignature string) (typ string, hasError, hasOption 
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
 		hasError = true
 		typeSignature = typeSignature[:i]
+	} else if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+		hasError = true
+		typeSignature = typeSignature[:i]
 	}
 	hasOption = strings.HasSuffix(typeSignature, "?")
-	return strings.TrimSuffix(typeSignature, "?"), hasError, hasOption
+	typ = strings.TrimSuffix(typeSignature, "?")
+	if strings.HasSuffix(strings.TrimSpace(typ), ",") {
+		log.Printf("GML: DEBUG: StripErrorAndOption: typ='%v', hasError=%v, hasOption=%v", typ, hasError, hasOption)
+	}
+	return typ, hasError, hasOption
 }
 
 // TODO: This needs to be kept in sync with runtime/languages/moonbit/typeinfo.go GetNameForType()
 func GetNameForType(t string, imports map[string]string) string {
+	if strings.Contains(t, "?,") {
+		log.Printf("GML: DEBUG: GetNameForType: t='%v'", t)
+	}
 	t, _ = StripError(t)
 
 	sep := strings.LastIndex(t, ".")
@@ -84,6 +108,9 @@ func GetNameForType(t string, imports map[string]string) string {
 }
 
 func GetPackageNamesForType(t string) []string {
+	if strings.Contains(t, "?,") {
+		log.Printf("GML: DEBUG: GetPackageNamesForType: t='%v'", t)
+	}
 	var hasOption bool
 	t, _, hasOption = StripErrorAndOption(t)
 
@@ -129,6 +156,9 @@ func GetPackageNamesForType(t string) []string {
 // }
 
 func GetListSubtype(typ string) string {
+	if strings.Contains(typ, "?,") {
+		log.Printf("GML: DEBUG: GetListSubType: typ='%v'", typ)
+	}
 	typ, _ = StripError(typ)
 
 	if !strings.HasSuffix(typ, "]") && !strings.HasSuffix(typ, "]?") {
@@ -407,7 +437,10 @@ func fullyQualifyTypeNameWithAcc(pkgName, typeName string, accumulator map[strin
 		}
 		i := strings.Index(typeName, "!")
 		if i < 0 {
-			log.Fatalf("PROGRAMMING ERROR: FullyQualifyTypeName not handling error for typeName='%v'", typeName)
+			i = strings.Index(typeName, " raise ")
+			if i < 0 {
+				log.Fatalf("PROGRAMMING ERROR: FullyQualifyTypeName not handling error for typeName='%v'", typeName)
+			}
 		}
 		return restoreDefaultValue(s + typeName[i:])
 	}

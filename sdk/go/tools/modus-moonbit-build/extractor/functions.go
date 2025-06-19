@@ -175,11 +175,18 @@ func findRequiredTypes(fpkg *funcWithPkg, requiredTypes requiredTypesMap) {
 
 func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *packages.Package) bool {
 	name := strings.Split(t.String(), " = ")[0] // strip default values
+	if strings.Contains(name, "?,") {
+		log.Printf("GML: DEBUG: addRequiredTypes: name=%q, t=%T, pkg=%s", name, t, pkg.PkgPath)
+	}
 
 	// prevent infinite recursion
 	if _, ok := requiredTypes[name]; ok {
 		return true
 	}
+
+	// if strings.HasSuffix(name, ",") {
+	// 	log.Printf("GML1: DEBUG: addRequiredTypes: name=%q, t=%T, pkg=%s", name, t, pkg.PkgPath)
+	// }
 
 	// skip Bytes, Arary[Byte], and String, because they're hardcoded as type id 1, 2, and 3
 	// switch name {
@@ -200,7 +207,7 @@ func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *package
 
 		typ, hasError, hasOption := utils.StripErrorAndOption(name)
 		if hasError {
-			fullName := fmt.Sprintf("%v!Error", typ)
+			fullName := fmt.Sprintf("%v raise Error", typ)
 			tmpType := types.NewNamed(types.NewTypeName(0, nil, fullName, nil), t.Underlying(), nil) // do NOT add typesPkg to named types.
 			// Do not recurse here as it would cause an infinite loop.
 			requiredTypes[fullName] = &typeWithPkgT{t: tmpType, pkg: pkg}
@@ -217,6 +224,8 @@ func addRequiredTypes(t types.Type, requiredTypes requiredTypesMap, pkg *package
 
 		// Since the `modus_pre_generated.mbt` file handles all errors, strip error types here.
 		if i := strings.Index(name, "!"); i >= 0 {
+			name = name[:i]
+		} else if i := strings.Index(name, " raise "); i >= 0 {
 			name = name[:i]
 		}
 
@@ -326,6 +335,9 @@ func GetMapSubtypes(typ string) (string, string) {
 // that the MoonBit compiler reads, it is currently necessary to provide workarounds as bugs are found.
 // This is one such workaround.
 func resolveMissingUnderlyingType(name string, t *types.Named, requiredTypes requiredTypesMap, pkg *packages.Package) types.Type {
+	if strings.Contains(name, "?,") {
+		log.Printf("GML: DEBUG: resolveMissingUnderlyingType: name=%q, t=%T, pkg=%s", name, t, pkg.PkgPath)
+	}
 	// Hack to make a tuple appear to have an underlying struct type for the metadata:
 	if s, ok := t.Obj().Type().(*types.Struct); ok {
 		return s

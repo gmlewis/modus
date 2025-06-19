@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_double_empty(val : Array[Double]) -> Unit!Error {
+pub fn test_array_input_double_empty(val : Array[Double]) -> Unit raise Error {
   let expected = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -67,11 +67,11 @@ pub fn test_array_output_double_option_4() -> Array[Double?] {
 }
 
 ///|
-pub fn test_array_input_double_option(val : Array[Double?]) -> Unit!Error {
+pub fn test_array_input_double_option(val : Array[Double?]) -> Unit raise Error {
   let expected = get_double_option_array()
   // println("expected: \{expected}")
   // println("val: \{val}")
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|

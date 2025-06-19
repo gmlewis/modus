@@ -9,7 +9,9 @@
 
 package utils
 
-import "strings"
+import (
+	"strings"
+)
 
 func SplitParamsWithBrackets(allArgs string) []string {
 	var result []string
@@ -38,5 +40,6 @@ func SplitParamsWithBrackets(allArgs string) []string {
 		}
 	}
 
+	// log.Printf("GML: DEBUG: SplitParamsWithBrackets: allArgs: '%v': %#v", allArgs, result)
 	return result
 }

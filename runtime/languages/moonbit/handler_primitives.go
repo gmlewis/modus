@@ -40,7 +40,7 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number
 	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveHandler[int16](ti), nil
-	case "Int", "Unit": // 32-bit signed integer, e.g. `42` (or `Unit!Error`)
+	case "Int", "Unit": // 32-bit signed integer, e.g. `42` (or `Unit!Error` or `Unit raise Error`)
 		return newPrimitiveHandler[int32](ti), nil
 	case "Int64": // 64-bit signed integer, e.g. `1000L`
 		return newPrimitiveHandler[int64](ti), nil

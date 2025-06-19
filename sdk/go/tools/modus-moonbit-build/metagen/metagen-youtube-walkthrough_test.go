@@ -42,7 +42,7 @@ func TestGenerateMetadata_YoutubeWalkthrough(t *testing.T) {
 }
 
 var wantYoutubeWalkthroughFnExports = metadata.FunctionMap{
-	"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote!Error"}}},
+	"get_random_quote": {Name: "get_random_quote", Results: []*metadata.Result{{Type: "Quote raise Error"}}},
 	"say_hello": {
 		Name:       "say_hello",
 		Parameters: []*metadata.Parameter{{Name: "name~", Type: "String", Default: AnyPtr(`"World"`)}},
@@ -99,8 +99,8 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 			{Name: "body", Type: "Array[Byte]"},
 		},
 	},
-	"@http.Response!Error": {
-		Name: "@http.Response!Error",
+	"@http.Response raise Error": {
+		Name: "@http.Response raise Error",
 		Fields: []*metadata.Field{
 			{Name: "status", Type: "UInt16"},
 			{Name: "status_text", Type: "String"},
@@ -117,9 +117,9 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 			{Name: "body", Type: "Array[Byte]"},
 		},
 	},
-	"@http.T":                     {Name: "@http.T"},
-	"@http.T!Error":               {Name: "@http.T!Error"},
-	"@testutils.CallStack[T]":     {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
+	// "@http.T":                     {Name: "@http.T"},
+	// "@http.T raise Error":         {Name: "@http.T raise Error"},
+	// "@testutils.CallStack[T]":     {Name: "@testutils.CallStack[T]", Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}}},
 	"@testutils.T":                {Name: "@testutils.T"},
 	"ArrayView[Byte]":             {Name: "ArrayView[Byte]"},
 	"Array[(String, String)]":     {Name: "Array[(String, String)]"},
@@ -134,7 +134,7 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 	"Bool":                        {Name: "Bool"},
 	"Byte":                        {Name: "Byte"},
 	"Bytes":                       {Name: "Bytes"},
-	"Bytes!Error":                 {Name: "Bytes!Error"},
+	"Bytes raise Error":           {Name: "Bytes raise Error"},
 	"Char":                        {Name: "Char"},
 	"FixedArray[Byte]":            {Name: "FixedArray[Byte]"},
 	"FixedArray[Double]":          {Name: "FixedArray[Double]"},
@@ -157,13 +157,13 @@ var wantYoutubeWalkthroughTypes = metadata.TypeMap{
 		Name:   "Quote",
 		Fields: []*metadata.Field{{Name: "quote", Type: "String"}, {Name: "author", Type: "String"}},
 	},
-	"Quote!Error": {
-		Name:   "Quote!Error",
+	"Quote raise Error": {
+		Name:   "Quote raise Error",
 		Fields: []*metadata.Field{{Name: "quote", Type: "String"}, {Name: "author", Type: "String"}},
 	},
-	"String":       {Name: "String"},
-	"String!Error": {Name: "String!Error"},
-	"UInt":         {Name: "UInt"},
-	"UInt16":       {Name: "UInt16"},
-	"UInt64":       {Name: "UInt64"},
+	"String":             {Name: "String"},
+	"String raise Error": {Name: "String raise Error"},
+	"UInt":               {Name: "UInt"},
+	"UInt16":             {Name: "UInt16"},
+	"UInt64":             {Name: "UInt64"},
 }

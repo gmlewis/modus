@@ -226,7 +226,7 @@ var wantPackageSimple = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "@time.ZonedDateTime!Error"}},
+								{Type: &ast.Ident{Name: "@time.ZonedDateTime raise Error"}},
 							},
 						},
 					},
@@ -242,7 +242,7 @@ var wantPackageSimple = &Package{
 						Params: &ast.FieldList{},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -331,7 +331,7 @@ var wantPackageSimple = &Package{
 						},
 						Results: &ast.FieldList{
 							List: []*ast.Field{
-								{Type: &ast.Ident{Name: "String!Error"}},
+								{Type: &ast.Ident{Name: "String raise Error"}},
 							},
 						},
 					},
@@ -418,8 +418,8 @@ var wantPackageSimple = &Package{
 			{Name: "add_n"}: types.NewFunc(0, nil, "add_n", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 				types.NewVar(0, nil, "args", &moonType{typeName: "Array[Int]"}),
 			), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "Int"})), false)),
-			{Name: "get_current_time"}:           types.NewFunc(0, nil, "get_current_time", types.NewSignatureType(nil, nil, nil, nil, types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime!Error"})), false)),
-			{Name: "get_current_time_formatted"}: types.NewFunc(0, nil, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, nil, types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
+			{Name: "get_current_time"}:           types.NewFunc(0, nil, "get_current_time", types.NewSignatureType(nil, nil, nil, nil, types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "@time.ZonedDateTime raise Error"})), false)),
+			{Name: "get_current_time_formatted"}: types.NewFunc(0, nil, "get_current_time_formatted", types.NewSignatureType(nil, nil, nil, nil, types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String raise Error"})), false)),
 			{Name: "get_full_name"}: types.NewFunc(0, nil, "get_full_name", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 				types.NewVar(0, nil, "first_name", &moonType{typeName: "String"}),
 				types.NewVar(0, nil, "last_name", &moonType{typeName: "String"}),
@@ -441,7 +441,7 @@ var wantPackageSimple = &Package{
 			{Name: "test_logging"}: types.NewFunc(0, nil, "test_logging", types.NewSignatureType(nil, nil, nil, nil, nil, false)),
 			{Name: "test_normal_error"}: types.NewFunc(0, nil, "test_normal_error", types.NewSignatureType(nil, nil, nil, types.NewTuple(
 				types.NewVar(0, nil, "input", &moonType{typeName: "String"}),
-			), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String!Error"})), false)),
+			), types.NewTuple(types.NewVar(0, nil, "", &moonType{typeName: "String raise Error"})), false)),
 		},
 	},
 }

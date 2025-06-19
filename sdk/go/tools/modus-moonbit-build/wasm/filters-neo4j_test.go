@@ -54,19 +54,19 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 	FnExports: metadata.FunctionMap{
 		"__modus_create_people_and_relationships": {
 			Name:    "__modus_create_people_and_relationships",
-			Results: []*metadata.Result{{Type: "String!Error"}},
+			Results: []*metadata.Result{{Type: "String raise Error"}},
 		},
 		"__modus_delete_all_nodes": {
 			Name:    "__modus_delete_all_nodes",
-			Results: []*metadata.Result{{Type: "String!Error"}},
+			Results: []*metadata.Result{{Type: "String raise Error"}},
 		},
 		"__modus_get_alice_friends_under_40": {
 			Name:    "__modus_get_alice_friends_under_40",
-			Results: []*metadata.Result{{Type: "Array[Person]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Person] raise Error"}},
 		},
 		"__modus_get_alice_friends_under_40_ages": {
 			Name:    "__modus_get_alice_friends_under_40_ages",
-			Results: []*metadata.Result{{Type: "Array[Int]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Int] raise Error"}},
 		},
 		"cabi_realloc": {
 			Name: "cabi_realloc",
@@ -82,16 +82,16 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 		},
 		"create_people_and_relationships": {
 			Name:    "create_people_and_relationships",
-			Results: []*metadata.Result{{Type: "String!Error"}},
+			Results: []*metadata.Result{{Type: "String raise Error"}},
 		},
-		"delete_all_nodes": {Name: "delete_all_nodes", Results: []*metadata.Result{{Type: "String!Error"}}},
+		"delete_all_nodes": {Name: "delete_all_nodes", Results: []*metadata.Result{{Type: "String raise Error"}}},
 		"get_alice_friends_under_40": {
 			Name:    "get_alice_friends_under_40",
-			Results: []*metadata.Result{{Type: "Array[Person]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Person] raise Error"}},
 		},
 		"get_alice_friends_under_40_ages": {
 			Name:    "get_alice_friends_under_40_ages",
-			Results: []*metadata.Result{{Type: "Array[Int]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Int] raise Error"}},
 		},
 		"malloc": {
 			Name:       "malloc",
@@ -139,7 +139,7 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 			Name:   "(String, Bool)",
 			Fields: []*metadata.Field{{Name: "0", Type: "String"}, {Name: "1", Type: "Bool"}},
 		},
-		"@neo4j.&Entity": {Name: "@neo4j.&Entity"},
+		// "@neo4j.&Entity": {Name: "@neo4j.&Entity"},
 		"@neo4j.EagerResult": {
 			Name: "@neo4j.EagerResult",
 			Fields: []*metadata.Field{
@@ -147,8 +147,8 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 				{Name: "records", Type: "Array[@neo4j.Record]"},
 			},
 		},
-		"@neo4j.EagerResult!Error": {
-			Name: "@neo4j.EagerResult!Error",
+		"@neo4j.EagerResult raise Error": {
+			Name: "@neo4j.EagerResult raise Error",
 			Fields: []*metadata.Field{
 				{Name: "keys", Type: "Array[String]"},
 				{Name: "records", Type: "Array[@neo4j.Record]"},
@@ -161,6 +161,13 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 				{Name: "records", Type: "Array[@neo4j.Record]"},
 			},
 		},
+		// "@neo4j.EagerResult? raise Error": {
+		// 	Name: "@neo4j.EagerResult? raise Error",
+		// 	Fields: []*metadata.Field{
+		// 		{Name: "keys", Type: "Array[String]"},
+		// 		{Name: "records", Type: "Array[@neo4j.Record]"},
+		// 	},
+		// },
 		"@neo4j.Neo4jOption": {Name: "@neo4j.Neo4jOption"},
 		"@neo4j.Node": {
 			Name: "@neo4j.Node",
@@ -197,12 +204,12 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 				{Name: "props", Type: "Json"},
 			},
 		},
-		"@neo4j.T":       {Name: "@neo4j.T"},
-		"@neo4j.T!Error": {Name: "@neo4j.T!Error"},
-		"@testutils.CallStack[T]": {
-			Name:   "@testutils.CallStack[T]",
-			Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
-		},
+		// "@neo4j.T":             {Name: "@neo4j.T"},
+		// "@neo4j.T raise Error": {Name: "@neo4j.T raise Error"},
+		// "@testutils.CallStack[T]": {
+		// 	Name:   "@testutils.CallStack[T]",
+		// 	Fields: []*metadata.Field{{Name: "items", Type: "Array[Array[@testutils.T]]"}},
+		// },
 		"@testutils.T":               {Name: "@testutils.T"},
 		"Array[@neo4j.Neo4jOption]":  {Name: "Array[@neo4j.Neo4jOption]"},
 		"Array[@neo4j.Node]":         {Name: "Array[@neo4j.Node]"},
@@ -211,10 +218,10 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 		"Array[@testutils.T]":        {Name: "Array[@testutils.T]"},
 		"Array[Array[@testutils.T]]": {Name: "Array[Array[@testutils.T]]"},
 		"Array[Int]":                 {Name: "Array[Int]"},
-		"Array[Int]!Error":           {Name: "Array[Int]!Error"},
+		"Array[Int] raise Error":     {Name: "Array[Int] raise Error"},
 		"Array[Json]":                {Name: "Array[Json]"},
 		"Array[Person]":              {Name: "Array[Person]"},
-		"Array[Person]!Error":        {Name: "Array[Person]!Error"},
+		"Array[Person] raise Error":  {Name: "Array[Person] raise Error"},
 		"Array[String]":              {Name: "Array[String]"},
 		"Bool":                       {Name: "Bool"},
 		"Double":                     {Name: "Double"},
@@ -234,10 +241,10 @@ var wantNeo4jBeforeFilter = &metadata.Metadata{
 			Name:   "Person",
 			Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "age", Type: "Int"}},
 		},
-		"String":       {Name: "String"},
-		"String!Error": {Name: "String!Error"},
-		"UInt":         {Name: "UInt"},
-		"UInt64":       {Name: "UInt64"},
+		"String":             {Name: "String"},
+		"String raise Error": {Name: "String raise Error"},
+		"UInt":               {Name: "UInt"},
+		"UInt64":             {Name: "UInt64"},
 	},
 }
 
@@ -259,16 +266,16 @@ var wantNeo4jAfterFilter = &metadata.Metadata{
 		},
 		"create_people_and_relationships": {
 			Name:    "create_people_and_relationships",
-			Results: []*metadata.Result{{Type: "String!Error"}},
+			Results: []*metadata.Result{{Type: "String raise Error"}},
 		},
-		"delete_all_nodes": {Name: "delete_all_nodes", Results: []*metadata.Result{{Type: "String!Error"}}},
+		"delete_all_nodes": {Name: "delete_all_nodes", Results: []*metadata.Result{{Type: "String raise Error"}}},
 		"get_alice_friends_under_40": {
 			Name:    "get_alice_friends_under_40",
-			Results: []*metadata.Result{{Type: "Array[Person]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Person] raise Error"}},
 		},
 		"get_alice_friends_under_40_ages": {
 			Name:    "get_alice_friends_under_40_ages",
-			Results: []*metadata.Result{{Type: "Array[Int]!Error"}},
+			Results: []*metadata.Result{{Type: "Array[Int] raise Error"}},
 		},
 		"malloc": {
 			Name:       "malloc",
@@ -330,20 +337,20 @@ var wantNeo4jAfterFilter = &metadata.Metadata{
 			Name:   "@neo4j.Record",
 			Fields: []*metadata.Field{{Name: "values", Type: "Array[String]"}, {Name: "keys", Type: "Array[String]"}},
 		},
-		"Array[@neo4j.Record]": {Name: "Array[@neo4j.Record]"},
-		"Array[Int]":           {Name: "Array[Int]"},
-		"Array[Int]!Error":     {Name: "Array[Int]!Error"},
-		"Array[Person]":        {Name: "Array[Person]"},
-		"Array[Person]!Error":  {Name: "Array[Person]!Error"},
-		"Array[String]":        {Name: "Array[String]"},
-		"Int":                  {Name: "Int"},
-		"Int64":                {Name: "Int64"},
+		"Array[@neo4j.Record]":      {Name: "Array[@neo4j.Record]"},
+		"Array[Int]":                {Name: "Array[Int]"},
+		"Array[Int] raise Error":    {Name: "Array[Int] raise Error"},
+		"Array[Person]":             {Name: "Array[Person]"},
+		"Array[Person] raise Error": {Name: "Array[Person] raise Error"},
+		"Array[String]":             {Name: "Array[String]"},
+		"Int":                       {Name: "Int"},
+		"Int64":                     {Name: "Int64"},
 		"Person": {
 			Name:   "Person",
 			Fields: []*metadata.Field{{Name: "name", Type: "String"}, {Name: "age", Type: "Int"}},
 		},
-		"String":       {Name: "String"},
-		"String!Error": {Name: "String!Error"},
+		"String":             {Name: "String"},
+		"String raise Error": {Name: "String raise Error"},
 	},
 }
 

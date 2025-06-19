@@ -62,8 +62,8 @@ pub fn __modus_add_n(args : Array[Int]) -> Int {
   add_n(args)
 }
 
-pub fn __modus_get_current_time() -> @time.ZonedDateTime!Error {
-  try get_current_time!() {
+pub fn __modus_get_current_time() -> @time.ZonedDateTime raise Error {
+  try get_current_time() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -71,8 +71,8 @@ pub fn __modus_get_current_time() -> @time.ZonedDateTime!Error {
   }
 }
 
-pub fn __modus_get_current_time_formatted() -> String!Error {
-  try get_current_time_formatted!() {
+pub fn __modus_get_current_time_formatted() -> String raise Error {
+  try get_current_time_formatted() catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -96,8 +96,8 @@ pub fn __modus_get_people() -> Array[Person] {
   get_people()
 }
 
-pub fn __modus_test_normal_error(input : String) -> String!Error {
-  try test_normal_error!(input) {
+pub fn __modus_test_normal_error(input : String) -> String raise Error {
+  try test_normal_error(input) catch {
     e => {
       @console.error(e.to_string())
       raise e

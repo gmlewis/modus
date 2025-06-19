@@ -6,17 +6,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_map_input_string_string(m : Map[String, String]) -> Unit!Error {
+pub fn test_map_input_string_string(
+  m : Map[String, String]
+) -> Unit raise Error {
   let expected = { "a": "1", "b": "2", "c": "3" }
-  assert_eq!(expected, m)
+  assert_eq(expected, m)
 }
 
 ///|
 pub fn test_map_option_input_string_string(
   m : Map[String, String]?
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = Some({ "a": "1", "b": "2", "c": "3" })
-  assert_eq!(expected, m)
+  assert_eq(expected, m)
 }
 
 ///|
@@ -42,7 +44,7 @@ pub fn test_map_lookup_string_string(
   m : Map[String, String],
   key : String
 ) -> String {
-  m[key].or_default()
+  m.get(key).or_default()
 }
 
 ///|
@@ -53,9 +55,9 @@ pub struct TestStructWithMap {
 ///|
 pub fn test_struct_containing_map_input_string_string(
   s : TestStructWithMap
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = { "a": "1", "b": "2", "c": "3" }
-  assert_eq!(expected, s.m)
+  assert_eq(expected, s.m)
 }
 
 ///|
@@ -64,9 +66,9 @@ pub fn test_struct_containing_map_output_string_string() -> TestStructWithMap {
 }
 
 ///|
-pub fn test_map_input_int_float(m : Map[Int, Float]) -> Unit!Error {
+pub fn test_map_input_int_float(m : Map[Int, Float]) -> Unit raise Error {
   let expected : Map[Int, Float] = { 1: 1.1, 2: 2.2, 3: 3.3 }
-  assert_eq!(expected, m)
+  assert_eq(expected, m)
 }
 
 ///|
@@ -75,9 +77,9 @@ pub fn test_map_output_int_float() -> Map[Int, Float] {
 }
 
 ///|
-pub fn test_map_input_int_double(m : Map[Int, Double]) -> Unit!Error {
+pub fn test_map_input_int_double(m : Map[Int, Double]) -> Unit raise Error {
   let expected = { 1: 1.1, 2: 2.2, 3: 3.3 }
-  assert_eq!(expected, m)
+  assert_eq(expected, m)
 }
 
 ///|

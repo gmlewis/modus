@@ -87,7 +87,7 @@ fn get_string_option_array() -> Array[String?] {
 }
 
 ///|
-pub fn test_array_input_string(val : Array[String]) -> Unit!Error {
+pub fn test_array_input_string(val : Array[String]) -> Unit raise Error {
   let expected = ["abc", "def", "ghi"]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }

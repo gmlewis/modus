@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_uint16_input_min(n : UInt16) -> Unit!Error {
-  assert_eq!(n, 0)
+pub fn test_uint16_input_min(n : UInt16) -> Unit raise Error {
+  assert_eq(n, 0)
 }
 
 ///|
-pub fn test_uint16_input_max(n : UInt16) -> Unit!Error {
-  assert_eq!(n, 65535) // TODO: @uint16.max_value)
+pub fn test_uint16_input_max(n : UInt16) -> Unit raise Error {
+  assert_eq(n, 65535) // TODO: @uint16.max_value)
 }
 
 ///|
@@ -26,18 +26,18 @@ pub fn test_uint16_output_max() -> UInt16 {
 }
 
 ///|
-pub fn test_uint16_option_input_min(n : UInt16?) -> Unit!Error {
-  assert_eq!(n, Some(0))
+pub fn test_uint16_option_input_min(n : UInt16?) -> Unit raise Error {
+  assert_eq(n, Some(0))
 }
 
 ///|
-pub fn test_uint16_option_input_max(n : UInt16?) -> Unit!Error {
-  assert_eq!(n, Some(65535)) // TODO: @uint16.max_value)
+pub fn test_uint16_option_input_max(n : UInt16?) -> Unit raise Error {
+  assert_eq(n, Some(65535)) // TODO: @uint16.max_value)
 }
 
 ///|
-pub fn test_uint16_option_input_none(n : UInt16?) -> Unit!Error {
-  assert_eq!(n, None)
+pub fn test_uint16_option_input_none(n : UInt16?) -> Unit raise Error {
+  assert_eq(n, None)
 }
 
 ///|

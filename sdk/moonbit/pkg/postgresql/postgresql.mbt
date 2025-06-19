@@ -6,27 +6,27 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub(all) type! PostgreSqlError String derive(Show, Eq)
+pub(all) suberror PostgreSqlError String derive(Show, Eq)
 
 ///|
 const DB_TYPE = "postgresql"
 
 ///|
-pub fn query[T : @json.FromJson](
+pub fn[T : @json.FromJson] query(
   host_name : String,
   statement : String,
   params : Json?
-) -> (Array[T], UInt)!Error {
-  @db.query!(host_name, DB_TYPE, statement, params)
+) -> (Array[T], UInt) raise Error {
+  @db.query(host_name, DB_TYPE, statement, params)
 }
 
 ///|
-pub fn query_scalar[T : @json.FromJson](
+pub fn[T : @json.FromJson] query_scalar(
   host_name : String,
   statement : String,
   params : Json?
-) -> (T, UInt)!Error {
-  @db.query_scalar!(host_name, DB_TYPE, statement, params)
+) -> (T, UInt) raise Error {
+  @db.query_scalar(host_name, DB_TYPE, statement, params)
 }
 
 ///|
@@ -34,6 +34,6 @@ pub fn execute(
   host_name : String,
   statement : String,
   params : Json?
-) -> UInt!Error {
-  @db.execute!(host_name, DB_TYPE, statement, params)
+) -> UInt raise Error {
+  @db.execute(host_name, DB_TYPE, statement, params)
 }

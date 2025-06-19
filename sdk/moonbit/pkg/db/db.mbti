@@ -5,18 +5,18 @@ import(
 )
 
 // Values
-fn do_query(String, String, String, Json?) -> (Json?, UInt)!
+fn do_query(String, String, String, Json?) -> (Json?, UInt) raise
 
-fn execute(String, String, String, Json?) -> UInt!
+fn execute(String, String, String, Json?) -> UInt raise
 
 fn host_execute_query(String, String, String, String) -> HostQueryResponse?
 
-fn query[T : @json.FromJson](String, String, String, Json?) -> (Array[T], UInt)!
+fn[T : @json.FromJson] query(String, String, String, Json?) -> (Array[T], UInt) raise
 
-fn query_scalar[T : @json.FromJson](String, String, String, Json?) -> (T, UInt)!
+fn[T : @json.FromJson] query_scalar(String, String, String, Json?) -> (T, UInt) raise
 
 // Types and methods
-pub(all) type! DbError String
+pub(all) suberror DbError String
 impl Eq for DbError
 impl Show for DbError
 

@@ -13,7 +13,7 @@ pub(all) struct HostQueryResponse {
 } derive(Show, Eq, FromJson, ToJson)
 
 ///|
-pub(all) type! DbError String derive(Show, Eq)
+pub(all) suberror DbError String derive(Show, Eq)
 
 ///|
 pub fn execute(
@@ -21,28 +21,26 @@ pub fn execute(
   db_type : String,
   statement : String,
   params : Json?
-) -> UInt!Error {
-  let (_, affected) = do_query!(host_name, db_type, statement, params)
+) -> UInt raise Error {
+  let (_, affected) = do_query(host_name, db_type, statement, params)
   affected
 }
 
 ///|
-pub fn query[T : @json.FromJson](
+pub fn[T : @json.FromJson] query(
   host_name : String,
   db_type : String,
   statement : String,
   params : Json?
-) -> (Array[T], UInt)!Error {
-  let (result_json, affected) = do_query!(host_name, db_type, statement, params)
+) -> (Array[T], UInt) raise Error {
+  let (result_json, affected) = do_query(host_name, db_type, statement, params)
   if result_json.is_empty() {
     return ([], affected)
   }
   let result_json = result_json.unwrap()
 
   //
-  let rows : Array[T] = try {
-    @json.from_json!(result_json)
-  } catch {
+  let rows : Array[T] = @json.from_json(result_json) catch {
     e => raise DbError("could not JSON deserialize database response: \{e}")
   }
 
@@ -51,13 +49,13 @@ pub fn query[T : @json.FromJson](
 }
 
 ///|
-pub fn query_scalar[T : @json.FromJson](
+pub fn[T : @json.FromJson] query_scalar(
   host_name : String,
   db_type : String,
   statement : String,
   params : Json?
-) -> (T, UInt)!Error {
-  let (rows, affected) = query!(host_name, db_type, statement, params)
+) -> (T, UInt) raise Error {
+  let (rows, affected) = query(host_name, db_type, statement, params)
   if rows.length() == 0 {
     raise DbError("no result returned from database query")
   }
@@ -76,9 +74,9 @@ pub fn do_query(
   db_type : String,
   statement : String,
   params : Json?
-) -> (Json?, UInt)!Error {
+) -> (Json?, UInt) raise Error {
   let params_json = match params {
-    Some(p) => @json.stringify(p)
+    Some(p) => p.stringify()
     None => "[]"
   }
 
@@ -97,7 +95,7 @@ pub fn do_query(
     raise DbError("database returned an error: \{response.error.unwrap()}")
   }
   match response.result_json {
-    Some(e) => (Some(@json.parse!(e)), affected)
+    Some(e) => (Some(@json.parse(e)), affected)
     None => (None, affected)
   }
 }

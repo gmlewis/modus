@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_byte_input_min(b : Byte) -> Unit!Error {
-  assert_eq!(b, 0)
+pub fn test_byte_input_min(b : Byte) -> Unit raise Error {
+  assert_eq(b, 0)
 }
 
 ///|
-pub fn test_byte_input_max(b : Byte) -> Unit!Error {
-  assert_eq!(@byte.max_value, b)
+pub fn test_byte_input_max(b : Byte) -> Unit raise Error {
+  assert_eq(@byte.max_value, b)
 }
 
 ///|
@@ -28,18 +28,18 @@ pub fn test_byte_output_max() -> Byte {
 }
 
 ///|
-pub fn test_byte_option_input_min(b : Byte?) -> Unit!Error {
-  assert_eq!(b, Some(0))
+pub fn test_byte_option_input_min(b : Byte?) -> Unit raise Error {
+  assert_eq(b, Some(0))
 }
 
 ///|
-pub fn test_byte_option_input_max(b : Byte?) -> Unit!Error {
-  assert_eq!(b, Some(@byte.max_value))
+pub fn test_byte_option_input_max(b : Byte?) -> Unit raise Error {
+  assert_eq(b, Some(@byte.max_value))
 }
 
 ///|
-pub fn test_byte_option_input_none(b : Byte?) -> Unit!Error {
-  assert_eq!(None, b)
+pub fn test_byte_option_input_none(b : Byte?) -> Unit raise Error {
+  assert_eq(None, b)
 }
 
 ///|

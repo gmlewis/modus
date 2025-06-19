@@ -5,33 +5,17 @@ import(
 )
 
 // Values
-fn append(Headers, String, String) -> Unit
+fn fetch_url(String, options~ : Array[RequestOptions] = ..) -> Response raise
 
-fn entries(Headers) -> Array[(String, String)]
-
-fn fetch(Request) -> Response!
-
-fn fetch_url(String, options~ : Array[RequestOptions] = ..) -> Response!
-
-fn get(Headers, String) -> String
-
-fn host_fetch(Request) -> Response!
-
-fn json[T : @json.FromJson](Content) -> T!
-
-fn ok(Response) -> Bool
-
-fn text(Content) -> String
+fn host_fetch(Request) -> Response raise
 
 // Types and methods
 pub(all) struct Content {
   data : String
 }
-impl Content {
-  json[T : @json.FromJson](Self) -> T!
-  new(Json) -> Self
-  text(Self) -> String
-}
+fn[T : @json.FromJson] Content::json(Self) -> T raise
+fn Content::new(Json) -> Self
+fn Content::text(Self) -> String
 impl Eq for Content
 impl Show for Content
 impl ToJson for Content
@@ -49,23 +33,21 @@ impl @json.FromJson for Header
 pub(all) struct Headers {
   data : Map[String, Header?]
 }
-impl Headers {
-  append(Self, String, String) -> Unit
-  clone(Self) -> Self
-  entries(Self) -> Array[(String, String)]
-  from_array(Array[Array[String]]) -> Self
-  from_map(Map[String, String]) -> Self
-  from_map_array(Map[String, Array[String]]) -> Self
-  from_tuples(Array[(String, String)]) -> Self
-  get(Self, String) -> String
-  new() -> Self
-}
+fn Headers::append(Self, String, String) -> Unit
+fn Headers::clone(Self) -> Self
+fn Headers::entries(Self) -> Array[(String, String)]
+fn Headers::from_array(Array[Array[String]]) -> Self
+fn Headers::from_map(Map[String, String]) -> Self
+fn Headers::from_map_array(Map[String, Array[String]]) -> Self
+fn Headers::from_tuples(Array[(String, String)]) -> Self
+fn Headers::get(Self, String) -> String
+fn Headers::new() -> Self
 impl Eq for Headers
 impl Show for Headers
 impl ToJson for Headers
 impl @json.FromJson for Headers
 
-pub(all) type! HttpError String
+pub(all) suberror HttpError String
 impl Eq for HttpError
 impl Show for HttpError
 
@@ -75,13 +57,11 @@ pub(all) struct Request {
   headers : Headers?
   body : Array[Byte]
 }
-impl Request {
-  clone(Self, Array[RequestOptions]) -> Self
-  fetch(Self) -> Response!
-  json[T : @json.FromJson](Self) -> T!
-  new(String, options~ : Array[RequestOptions] = ..) -> Self
-  text(Self) -> String
-}
+fn Request::clone(Self, Array[RequestOptions]) -> Self
+fn Request::fetch(Self) -> Response raise
+fn[T : @json.FromJson] Request::json(Self) -> T raise
+fn Request::new(String, options~ : Array[RequestOptions] = ..) -> Self
+fn Request::text(Self) -> String
 impl Eq for Request
 impl Show for Request
 
@@ -101,12 +81,10 @@ pub(all) struct Response {
   headers : Headers?
   body : Array[Byte]
 }
-impl Response {
-  json[T : @json.FromJson](Self) -> T!
-  ok(Self) -> Bool
-  text(Self) -> String
-  to_ints(Self) -> Array[Int]
-}
+fn[T : @json.FromJson] Response::json(Self) -> T raise
+fn Response::ok(Self) -> Bool
+fn Response::text(Self) -> String
+fn Response::to_ints(Self) -> Array[Int]
 impl Eq for Response
 impl Show for Response
 

@@ -9,8 +9,8 @@ test "@auth.ExampleClaims/json_serialization" {
     sub: "test-subject",
     userId: "test-user-id",
   }
-  let decoded : ExampleClaims = @json.from_json!(claims.to_json())
-  inspect!(
+  let decoded : ExampleClaims = @json.from_json(claims.to_json())
+  inspect(
     decoded,
     content=
       #|{exp: 1735689600, iat: 1672531200, iss: "test-issuer", jti: "test-jti", nbf: 1672531200, sub: "test-subject", userId: "test-user-id"}
@@ -30,9 +30,9 @@ test "parse JSON claims" {
     #|  "sub": "test-sub",
     #|  "user-id": "test-user-id"
     #|}
-  let json = @json.parse!(response)
-  let decoded : ExampleClaims = @json.from_json!(json)
-  inspect!(
+  let json = @json.parse(response)
+  let decoded : ExampleClaims = @json.from_json(json)
+  inspect(
     decoded,
     content=
       #|{exp: 1742237709, iat: 1742235909, iss: "test-issuer", jti: "test-jti", nbf: 1672531200, sub: "test-sub", userId: "test-user-id"}

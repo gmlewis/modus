@@ -10,28 +10,28 @@
     "create_people_and_relationships": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ]
     },
     "delete_all_nodes": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ]
     },
     "get_alice_friends_under_40": {
       "results": [
         {
-          "type": "Array[Person]!Error"
+          "type": "Array[Person] raise Error"
         }
       ]
     },
     "get_alice_friends_under_40_ages": {
       "results": [
         {
-          "type": "Array[Int]!Error"
+          "type": "Array[Int] raise Error"
         }
       ]
     }
@@ -114,7 +114,7 @@
         }
       ]
     },
-    "@neo4j.EagerResult!Error": {
+    "@neo4j.EagerResult raise Error": {
       "id": 37,
       "fields": [
         {
@@ -239,7 +239,7 @@
     "@neo4j.T": {
       "id": 53
     },
-    "@neo4j.T!Error": {
+    "@neo4j.T raise Error": {
       "id": 19
     },
     "@testutils.CallStack[T]": {
@@ -269,7 +269,7 @@
     "Array[Int]": {
       "id": 17
     },
-    "Array[Int]!Error": {
+    "Array[Int] raise Error": {
       "id": 27
     },
     "Array[Json]": {
@@ -278,7 +278,7 @@
     "Array[Person]": {
       "id": 15
     },
-    "Array[Person]!Error": {
+    "Array[Person] raise Error": {
       "id": 48
     },
     "Array[String]": {
@@ -342,7 +342,7 @@
     "String": {
       "id": 16
     },
-    "String!Error": {
+    "String raise Error": {
       "id": 52
     },
     "UInt": {

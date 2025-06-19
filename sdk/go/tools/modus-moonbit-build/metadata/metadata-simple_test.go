@@ -27,8 +27,8 @@ func TestFunction_String_Simple(t *testing.T) {
 		{name: "add3", want: "(a : Int, b : Int, c~ : Int) -> Int"},
 		{name: "add3_WithDefaults", want: "(a : Int, b : Int) -> Int"},
 		{name: "add_n", want: "(args : Array[Int]) -> Int"},
-		{name: "get_current_time", want: "() -> @time.ZonedDateTime!Error"},
-		{name: "get_current_time_formatted", want: "() -> String!Error"},
+		{name: "get_current_time", want: "() -> @time.ZonedDateTime raise Error"},
+		{name: "get_current_time_formatted", want: "() -> String raise Error"},
 		{name: "get_full_name", want: "(first_name : String, last_name : String) -> String"},
 		{name: "get_people", want: "() -> Array[Person]"},
 		{name: "get_person", want: "() -> Person"},
@@ -38,7 +38,7 @@ func TestFunction_String_Simple(t *testing.T) {
 		{name: "test_alternative_error", want: "(input : String) -> String"},
 		{name: "test_exit", want: "() -> Unit"},
 		{name: "test_logging", want: "() -> Unit"},
-		{name: "test_normal_error", want: "(input : String) -> String!Error"},
+		{name: "test_normal_error", want: "(input : String) -> String raise Error"},
 	}
 
 	testFunctionStringHelper(t, "simple", simpleExampleMetadataJSON, tests)
