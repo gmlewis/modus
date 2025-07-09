@@ -98,10 +98,12 @@ var wantHelloPrimitivesBeforeFilter = &metadata.Metadata{
 		},
 	},
 	FnImports: metadata.FunctionMap{
-		"modus_system.logMessage": {
-			Name:       "modus_system.logMessage",
-			Parameters: []*metadata.Parameter{{Name: "level", Type: "String"}, {Name: "message", Type: "String"}},
-		},
+		// The "hello-primitives" example does not generate errors,
+		// therefore the MoonBit compiler removed the unused `logMessage` function.
+		//	"modus_system.logMessage": {
+		//		Name:       "modus_system.logMessage",
+		//		Parameters: []*metadata.Parameter{{Name: "level", Type: "String"}, {Name: "message", Type: "String"}},
+		//	},
 	},
 	Types: metadata.TypeMap{
 		"(String)":                        {Name: "(String)", Fields: []*metadata.Field{{Name: "0", Type: "String"}}},
