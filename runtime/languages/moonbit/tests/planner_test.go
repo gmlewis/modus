@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run '^TestGetHandler' ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -7,7 +9,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Tests pass with moonc v0.6.18+8382ed77e
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 

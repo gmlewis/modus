@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run '^TestMap' ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -7,7 +9,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Tests FAIL with moonc v0.6.18+8382ed77e
+// Tests FAIL with moonc v0.6.20
 
 package moonbit_test
 
@@ -106,7 +108,7 @@ func TestMapOptionOutput_string_string(t *testing.T) {
 	}
 }
 
-func TestIterateMap_string_string(t *testing.T) {
+func TestMapIterateMap_string_string(t *testing.T) {
 	fnName := "test_iterate_map_string_string"
 	m := makeTestMap(100)
 
@@ -115,7 +117,7 @@ func TestIterateMap_string_string(t *testing.T) {
 	}
 }
 
-func TestGenerateMap_string_string_output(t *testing.T) {
+func TestMapGenerateMap_string_string_output(t *testing.T) {
 	fnName := "test_generate_map_string_string_output"
 	want := makeTestMap(100)
 	got, err := fixture.CallFunction(t, fnName)
@@ -160,7 +162,7 @@ type TestStructWithMap2 struct {
 	M map[string]any
 }
 
-func TestStructContainingMapInput_string_string(t *testing.T) {
+func TestMapStructContainingMapInput_string_string(t *testing.T) {
 	fnName := "test_struct_containing_map_input_string_string"
 	s1 := TestStructWithMap1{M: map[string]string{
 		"a": "1",
@@ -182,7 +184,7 @@ func TestStructContainingMapInput_string_string(t *testing.T) {
 	}
 }
 
-func TestStructContainingMapOutput_string_string(t *testing.T) {
+func TestMapStructContainingMapOutput_string_string(t *testing.T) {
 	fnName := "test_struct_containing_map_output_string_string"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {

@@ -1,4 +1,4 @@
-// -*- compile-command: "go generate ./..."; -*-
+// -*- compile-command: "NO_COLOR=1 go generate ./..."; -*-
 //go:build ignore
 
 /*

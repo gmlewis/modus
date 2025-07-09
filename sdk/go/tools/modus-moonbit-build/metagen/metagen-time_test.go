@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestGenerateMetadata_Time$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestGenerateMetadata_Time$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestTestablePreProcess_Runtime ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestTestablePreProcess_Runtime ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

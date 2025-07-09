@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestFunction_String_Runtime$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestFunction_String_Runtime$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

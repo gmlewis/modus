@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestGenerateMetadata_HelloPrimitives$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestGenerateMetadata_HelloPrimitives$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestPackage_Neo4j$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestPackage_Neo4j$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestPackage_Time$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestPackage_Time$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

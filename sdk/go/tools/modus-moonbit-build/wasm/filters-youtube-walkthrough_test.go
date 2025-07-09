@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -run ^TestFilterMetadata.*YoutubeWalkthrough$ ."; -*-
+// -*- compile-command: "NO_COLOR=1 go test -run ^TestFilterMetadata.*YoutubeWalkthrough$ ."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
