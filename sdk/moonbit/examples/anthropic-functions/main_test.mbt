@@ -8,9 +8,9 @@ test "model input serialization" {
   ])
   inspect(
     input.to_json(),
-    content=
+    content=(
       #|Object({"model": String("test-mock-model"), "messages": Array([Object({"role": String("user"), "content": String("what is the stock price of MSFT?")})]), "max_tokens": Number(0), "system": String("")})
-    ,
+    ),
   )
 }
 
@@ -22,8 +22,8 @@ test "model response deserialization" {
   let output : @anthropic.MessagesModelOutput = @json.from_json(json)
   inspect(
     output,
-    content=
+    content=(
       #|{id: "msg_01TePXAo2jkt1hVi1NkswTZU", type_: "message", role: "assistant", content: [{type_: "tool_use", text: None, id: Some("toolu_015VbuAApqwhQ34qxpgyXVv6"), name: Some("stock_price"), input: Some(Object({"symbol": String("MSFT")})), tool_use_id: None, is_error: None, content: None}], model: "claude-3-opus-20240229", stop_reason: "tool_use", stop_sequence: "", usage: {input_tokens: 403, output_tokens: 35}}
-    ,
+    ),
   )
 }

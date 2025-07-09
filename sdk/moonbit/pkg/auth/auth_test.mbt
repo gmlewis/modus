@@ -12,8 +12,8 @@ test "get_jwt_claims_from_string" {
   let claims : TestClaims = get_jwt_claims_from_string(claims_str)
   inspect(
     claims,
-    content=
+    content=(
       #|{sub: "1234567890", name: "John Doe", admin: true}
-    ,
+    ),
   )
 }

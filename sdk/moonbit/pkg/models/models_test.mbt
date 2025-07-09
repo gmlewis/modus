@@ -31,16 +31,16 @@ test "get_model" {
   let model = get_model("test")
   inspect(
     model,
-    content=
+    content=(
       #|{info: Some({name: "test", full_name: "test-mock-model"}), debug: false}
-    ,
+    ),
   )
   let info = model.info()
   inspect(
     info,
-    content=
+    content=(
       #|{name: "test", full_name: "test-mock-model"}
-    ,
+    ),
   )
 }
 

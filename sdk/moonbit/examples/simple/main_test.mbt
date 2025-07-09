@@ -14,9 +14,9 @@ test "log_message" {
   let values = @console.log_call_stack.pop()
   inspect(
     values,
-    content=
+    content=(
       #|["", "Hello, World!"]
-    ,
+    ),
   )
 }
 

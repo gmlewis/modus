@@ -37,7 +37,7 @@ pub fn get_labels(
 }
 
 ///|
-priv suberror ClassificationError String derive(Show, Eq)
+priv suberror ClassificationError String derive(Show)
 
 ///| This function is similar to the previous, but allows multiple items to be classified at a time.
 pub fn get_multiple_classification_labels(

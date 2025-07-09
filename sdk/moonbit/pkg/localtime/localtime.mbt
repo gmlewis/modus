@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-priv suberror LocaltimeError String derive(Show, Eq)
+priv suberror LocaltimeError String derive(Show)
 
 ///| now returns the current time in the given time zone (or the local time zone if none is provided).
 ///

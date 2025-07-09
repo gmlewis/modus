@@ -10,18 +10,18 @@ test "hello_option_empty_string" {
   let got = hello_option_empty_string()
   inspect(
     got,
-    content=
+    content=(
       #|Some("")
-    ,
+    ),
   )
 
   //
   let got = hello_option_empty_string(some=false)
   inspect(
     got,
-    content=
+    content=(
       #|None
-    ,
+    ),
   )
 }
 
@@ -30,18 +30,18 @@ test "hello_option_none" {
   let got = hello_option_none(some=true)
   inspect(
     got,
-    content=
+    content=(
       #|Some("")
-    ,
+    ),
   )
 
   //
   let got = hello_option_none()
   inspect(
     got,
-    content=
+    content=(
       #|None
-    ,
+    ),
   )
 }
 
@@ -50,18 +50,18 @@ test "hello_option_some_string" {
   let got = hello_option_some_string()
   inspect(
     got,
-    content=
+    content=(
       #|Some("Hello, World!")
-    ,
+    ),
   )
 
   //
   let got = hello_option_some_string(some=false)
   inspect(
     got,
-    content=
+    content=(
       #|None
-    ,
+    ),
   )
 }
 

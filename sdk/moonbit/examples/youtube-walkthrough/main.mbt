@@ -28,7 +28,7 @@ pub struct Quote {
 } derive(Show, Eq, ToJson, FromJson)
 
 ///|
-priv suberror QuoteError String derive(Show, Eq)
+priv suberror QuoteError String derive(Show)
 
 ///|
 pub fn get_random_quote() -> Quote raise Error {

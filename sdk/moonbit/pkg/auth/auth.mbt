@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-priv suberror AuthError String derive(Show, Eq)
+priv suberror AuthError String derive(Show)
 
 ///| get_jwt_claims returns the JWT claims from the environment.
 pub fn[T : @json.FromJson] get_jwt_claims() -> T raise Error {

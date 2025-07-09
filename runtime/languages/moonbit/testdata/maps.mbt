@@ -44,7 +44,7 @@ pub fn test_map_lookup_string_string(
   m : Map[String, String],
   key : String
 ) -> String {
-  m.get(key).or_default()
+  m.get(key).unwrap_or_default()
 }
 
 ///|

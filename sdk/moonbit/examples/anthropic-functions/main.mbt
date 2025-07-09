@@ -104,7 +104,7 @@ pub impl @json.FromJson for GlobalQuote with from_json(self, _path) {
 }
 
 ///|
-priv suberror QuoteError String derive(Show, Eq)
+priv suberror QuoteError String derive(Show)
 
 ///|
 fn call_stock_price_api(symbol : String) -> String raise Error {

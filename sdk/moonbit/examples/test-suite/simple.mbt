@@ -136,9 +136,10 @@ pub fn test_abort() -> Unit {
   // Generally, you should not panic.
 
   abort(
-    #|This is a message from an abort.
-    #|This is a second line from an abort.
-    ,
+    (
+      #|This is a message from an abort.
+      #|This is a second line from an abort.
+    ),
   )
 }
 
@@ -167,10 +168,11 @@ pub fn test_logging() -> Unit {
   // This logs an error message, but allows the function to continue.
   @console.error("This is an error message.")
   @console.error(
-    #|This is line 1 of a multi-line error message.
-    #|This is line 2 of a multi-line error message.
-    #|This is line 3 of a multi-line error message.
-    ,
+    (
+      #|This is line 1 of a multi-line error message.
+      #|This is line 2 of a multi-line error message.
+      #|This is line 3 of a multi-line error message.
+    ),
   )
 
   // You can also use MoonBit's built-in printing commands.

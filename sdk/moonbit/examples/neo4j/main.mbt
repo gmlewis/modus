@@ -25,11 +25,12 @@ pub fn create_people_and_relationships() -> String raise Error {
   for person in people.filter(fn(p) { p.value("friends") != None }) {
     let _ = @neo4j.execute_query(
       CONNECTION,
-      #|MATCH (p:Person {name: $person.name})
-      #|        UNWIND $person.friends AS friend_name
-      #|        MATCH (friend:Person {name: friend_name})
-      #|        MERGE (p)-[:KNOWS]->(friend)
-      ,
+      (
+        #|MATCH (p:Person {name: $person.name})
+        #|        UNWIND $person.friends AS friend_name
+        #|        MATCH (friend:Person {name: friend_name})
+        #|        MERGE (p)-[:KNOWS]->(friend)
+      ),
       { "person": person },
     )
 
@@ -47,10 +48,11 @@ pub struct Person {
 pub fn get_alice_friends_under_40() -> Array[Person] raise Error {
   let response = @neo4j.execute_query(
     CONNECTION,
-    #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
-    #|WHERE friend.age < $age
-    #|RETURN friend
-    ,
+    (
+      #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
+      #|WHERE friend.age < $age
+      #|RETURN friend
+    ),
     { "name": "Alice", "age": 40 },
   )
   let persons = []
@@ -67,10 +69,11 @@ pub fn get_alice_friends_under_40() -> Array[Person] raise Error {
 pub fn get_alice_friends_under_40_ages() -> Array[Int] raise Error {
   let response = @neo4j.execute_query(
     CONNECTION,
-    #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
-    #|WHERE friend.age < $age
-    #|RETURN friend.age AS age
-    ,
+    (
+      #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
+      #|WHERE friend.age < $age
+      #|RETURN friend.age AS age
+    ),
     { "name": "Alice", "age": 40 },
   )
   let ages = []
@@ -86,9 +89,10 @@ pub fn get_alice_friends_under_40_ages() -> Array[Int] raise Error {
 pub fn delete_all_nodes() -> String raise Error {
   let _ = @neo4j.execute_query(
     CONNECTION,
-    #|MATCH (n)
-    #|DETACH DELETE n
-    ,
+    (
+      #|MATCH (n)
+      #|DETACH DELETE n
+    ),
     {},
   )
   "All nodes deleted"
