@@ -177,16 +177,18 @@ func convertGoUTF8ToUTF16(str string) []byte {
 
 func (h *stringHandler) doWriteStringBytes(ctx context.Context, wa wasmMemoryWriter, bytes []byte) (uint32, utils.Cleaner, error) {
 	size := uint32(len(bytes))
-	words := uint32((size + 5) / 4)
-	totalSize := words * 4
-	offset, cln, err := wa.allocateAndPinMemory(ctx, totalSize, StringBlockType)
+	// words := uint32((size + 5) / 4)
+	// totalSize := words * 4
+	words := size >> 1
+	// totalSize := uint32(8 * (1 + (words >> 2)))
+	offset, cln, err := wa.allocateAndPinMemory(ctx, words, StringBlockType)
 	if err != nil {
 		return 0, cln, err
 	}
 
-	remainderOffset := words*4 + 7
-	remainder := uint8((size + 3) % 4)
-	wa.Memory().WriteByte(offset-8+remainderOffset, remainder)
+	// remainderOffset := words*4 + 7
+	// remainder := uint8((size + 3) % 4)
+	// wa.Memory().WriteByte(offset-8+remainderOffset, remainder)
 
 	if ok := wa.Memory().Write(offset, bytes); !ok {
 		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (offset: %v, size: %v)", offset, size)
@@ -209,12 +211,14 @@ func stringDataAtOffset(wa wasmMemoryReader, offset uint32) (data []byte, err er
 }
 
 func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err error) {
-	if memBlock[4] != StringBlockType {
-		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, memBlock[4])
+	if memBlock[7] != StringBlockType {
+		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, memBlock[7])
 	}
-	remainderOffset := words*4 + 7
-	remainder := uint32(3 - memBlock[remainderOffset]%4)
-	size := (words-1)*4 + remainder
+
+	// remainderOffset := words*4 + 7
+	// remainder := uint32(3 - memBlock[remainderOffset]%4)
+	// size := (words-1)*4 + remainder
+	size := words * 2
 	if size <= 0 {
 		return nil, nil
 	}

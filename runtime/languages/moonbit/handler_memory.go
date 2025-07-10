@@ -27,7 +27,7 @@ func Ptr[T any](v T) *T {
 const (
 	FixedArrayPrimitiveBlockType = 241
 	PtrArrayBlockType            = 242
-	StringBlockType              = 243
+	StringBlockType              = 80 // 243
 	FixedArrayByteBlockType      = 246
 	TupleBlockType               = 0
 	ZonedDateTimeBlockType       = 3
@@ -59,12 +59,17 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
-	classID = byte(part2 & 0xff)
-	words = part2 >> 8
-	size := uint32(8 + words*4)
+	// classID = byte(part2 & 0xff)
+	classID = byte(part2 >> 24)
+	// words = part2 >> 8
+	words = part2 & 0x00ffffff
+	// size := uint32(8 + words*4)
+	size := uint32(8 * (2 + (words >> 2)))
 	if sizeOverride > 0 {
-		size = 8 + sizeOverride
+		// size = 8 + sizeOverride
+		size = sizeOverride
 	}
+
 	memBlock, ok := wa.Memory().Read(offset, size)
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)

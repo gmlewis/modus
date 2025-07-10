@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run '^TestMemory' ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -7,12 +9,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Tests FAIL with moonc v0.6.20
+
 package moonbit
 
 import (
 	"bytes"
 	"context"
-	"errors"
 	"math"
 	"testing"
 
@@ -31,7 +34,7 @@ type myWasmMockMemory struct {
 	wasm.Memory
 }
 
-func TestMyWasmMock(t *testing.T) {
+func TestMemory_MyWasmMock(t *testing.T) {
 	ctx := t.Context()
 	m := &myWasmMock{}
 	block1, _, _ := m.allocateAndPinMemory(ctx, 16, 241)
@@ -76,11 +79,12 @@ func TestMyWasmMock(t *testing.T) {
 	}
 }
 
-func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, size, classID uint32) (uint32, utils.Cleaner, error) {
-	if size == 0 {
-		return 0, nil, errors.New("size must be greater than 0")
-	}
-	size = 4 * ((size + 3) / 4) // round up to nearest multiple of 4
+func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID uint32) (uint32, utils.Cleaner, error) {
+	// if size == 0 {
+	// 	return 0, nil, errors.New("size must be greater than 0")
+	// }
+	// size = 4 * ((size + 3) / 4) // round up to nearest multiple of 4
+	size := uint32(8 * (1 + (words >> 2)))
 	if m.offset == 0 {
 		m.offset = 48000
 	}
@@ -96,7 +100,8 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, size, classID uin
 		m.m.bytes = append(m.m.bytes, make([]byte, size+8)...)
 	}
 	refCount := uint32(1)
-	memType := ((size / 4) << 8) | classID
+	// memType := ((size / 4) << 8) | classID
+	memType := words | (classID << 24)
 	m.m.WriteUint32Le(offset, refCount)
 	m.m.WriteUint32Le(offset+4, memType)
 	// allocateAndPinMemory always returns a pointer _after_ the memory block header

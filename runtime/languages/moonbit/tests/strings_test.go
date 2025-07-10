@@ -14,6 +14,7 @@
 package moonbit_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/utils"
@@ -45,6 +46,43 @@ func TestStringOptionInput_none(t *testing.T) {
 	fnName := "test_string_option_input_none"
 	if _, err := fixture.CallFunction(t, fnName, nil); err != nil {
 		t.Error(err)
+	}
+}
+
+func TestStringOutputLengths(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+	}{
+		{name: "0", want: ""},
+		{name: "1", want: "1"},
+		{name: "2", want: "12"},
+		{name: "3", want: "123"},
+		{name: "4", want: "1234"},
+		{name: "5", want: "12345"},
+		{name: "6", want: "123456"},
+		{name: "7", want: "1234567"},
+		{name: "8", want: "12345678"},
+		{name: "9", want: "123456789"},
+		{name: "10", want: "1234567890"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			fnName := fmt.Sprintf("test_string_output_len_%v", tt.name)
+			result, err := fixture.CallFunction(t, fnName)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if result == nil {
+				t.Error("expected a result")
+			} else if got, ok := result.(string); !ok {
+				t.Errorf("expected a string, got %T", result)
+			} else if got != tt.want {
+				t.Errorf("%v = %q, want %q", fnName, got, tt.want)
+			}
+		})
 	}
 }
 

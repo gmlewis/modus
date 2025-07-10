@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run '^TestStrings' ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -7,10 +9,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Tests pass with moonc v0.6.20
+
 package moonbit
 
 import (
 	"context"
+	"errors"
+	"log"
 	"testing"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
@@ -20,7 +26,7 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-func TestConvertMoonBitUTF16ToUTF8(t *testing.T) {
+func TestStrings_ConvertMoonBitUTF16ToUTF8(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name     string
@@ -76,7 +82,7 @@ func TestConvertMoonBitUTF16ToUTF8(t *testing.T) {
 	}
 }
 
-func TestConvertGoUTF8ToUTF16(t *testing.T) {
+func TestStrings_ConvertGoUTF8ToUTF16(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name  string
@@ -128,7 +134,12 @@ func (m *mockWasmAdapter) Memory() wasm.Memory {
 
 func (m *mockWasmAdapter) allocateAndPinMemory(ctx context.Context, size, blockType uint32) (uint32, utils.Cleaner, error) {
 	args := m.Called(ctx, size, blockType)
-	return args.Get(0).(uint32), nil, args.Error(2)
+	uint32Val, ok := args.Get(0).(uint32)
+	if !ok {
+		log.Printf("mockWasmAdapter.allocateAndPinMemory() FAILURE: expected uint32, got %T", args.Get(0))
+		return 0, nil, errors.New("mockWasmAdapter.allocateAndPinMemory() expected uint32 return value")
+	}
+	return uint32Val, nil, args.Error(2)
 }
 
 type mockMemory struct {
@@ -137,55 +148,141 @@ type mockMemory struct {
 }
 
 func (m *mockMemory) Read(offset, size uint32) ([]byte, bool) {
+	if m == nil {
+		log.Printf("mockMemory.Read() FAILURE: mockMemory is nil")
+		return nil, false
+	}
 	args := m.Called(offset, size)
-	return args.Get(0).([]byte), args.Bool(1)
+	byteSlice, ok := args.Get(0).([]byte)
+	if !ok {
+		log.Printf("mockMemory.Read() FAILURE: expected []byte, got %T", args.Get(0))
+		return nil, false
+	}
+	boolVal, ok := args.Get(1).(bool)
+	if !ok {
+		log.Printf("mockMemory.Read() FAILURE: expected bool, got %T", args.Get(1))
+		return nil, false
+	}
+	return byteSlice, boolVal
 }
 
-func TestStringDataAtOffset(t *testing.T) {
+func TestStrings_StringDataAtOffset(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
-		name         string
-		offset       uint32
-		memBlock     []byte
-		expectedSize int
-		expectedErr  error
+		name           string
+		memBlock       []byte
+		expectedLength int
+		want           string
+		expectedErr    error
 	}{
 		{
-			name:         "Valid memory block, UTF-16 String 'Hello, ...0!' with remainder 0",
-			offset:       100,
-			memBlock:     []byte{1, 0, 0, 0, 243, 7, 0, 0, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 46, 0, 46, 0, 46, 0, 48, 0, 33, 0, 97, 0, 109, 3},
-			expectedSize: 24,
-			expectedErr:  nil,
+			name:           "empty string",
+			memBlock:       []byte("\xff\xff\xff\xff\x00\x00\x00P\x00\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 0,
 		},
 		{
-			name:         "Valid memory block, UTF-16 String 'Hello, 2!' with remainder 2",
-			offset:       100,
-			memBlock:     []byte{1, 0, 0, 0, 243, 5, 0, 0, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 50, 0, 33, 0, 32, 1},
-			expectedSize: 18,
-			expectedErr:  nil,
+			name:           "length 1 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x01\x00\x00P1\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 2,
+			want:           "1",
+		},
+		{
+			name:           "length 2 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x02\x00\x00P1\x002\x00\x00\x00\x00\x00"),
+			expectedLength: 4,
+			want:           "12",
+		},
+		{
+			name:           "length 3 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x03\x00\x00P1\x002\x003\x00\x00\x00"),
+			expectedLength: 6,
+			want:           "123",
+		},
+		{
+			name:           "length 4 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x04\x00\x00P1\x002\x003\x004\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 8,
+			want:           "1234",
+		},
+		{
+			name:           "length 5 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x05\x00\x00P1\x002\x003\x004\x005\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 10,
+			want:           "12345",
+		},
+		{
+			name:           "length 6 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x06\x00\x00P1\x002\x003\x004\x005\x006\x00\x00\x00\x00\x00"),
+			expectedLength: 12,
+			want:           "123456",
+		},
+		{
+			name:           "length 7 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x07\x00\x00P1\x002\x003\x004\x005\x006\x007\x00\x00\x00"),
+			expectedLength: 14,
+			want:           "1234567",
+		},
+		{
+			name:           "length 8 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x08\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 16,
+			want:           "12345678",
+		},
+		{
+			name:           "length 9 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x09\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x009\x00\x00\x00\x00\x00\x00\x00"),
+			expectedLength: 18,
+			want:           "123456789",
+		},
+		{
+			name:           "length 10 string",
+			memBlock:       []byte("\xff\xff\xff\xff\x0a\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x009\x000\x00\x00\x00\x00\x00"),
+			expectedLength: 20,
+			want:           "1234567890",
+		},
+		{
+			name:           "Valid memory block, UTF-16 String 'Hello, ...0!'",
+			memBlock:       []byte{1, 0, 0, 0, 12, 0, 0, 80, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 46, 0, 46, 0, 46, 0, 48, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			expectedLength: 24,
+			want:           "Hello, ...0!",
+		},
+		{
+			name:           "Valid memory block, UTF-16 String 'Hello, 2!'",
+			memBlock:       []byte{1, 0, 0, 0, 9, 0, 0, 80, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 50, 0, 33, 0, 0, 0, 0, 0, 0, 0},
+			expectedLength: 18,
+			want:           "Hello, 2!",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			offset := uint32(100)
 			mockMem := new(mockMemory)
 			mockWA := new(mockWasmAdapter)
 			mockWA.On("Memory").Return(mockMem)
-			mockMem.On("Read", tt.offset, uint32(8)).Return(tt.memBlock[:8], true)
-			mockMem.On("Read", tt.offset, uint32(len(tt.memBlock))).Return(tt.memBlock, true)
+			mockMem.On("Read", offset, uint32(8)).Return(tt.memBlock[:8], true)
+			mockMem.On("Read", offset, uint32(len(tt.memBlock))).Return(tt.memBlock, true)
 
-			data, err := stringDataAtOffset(mockWA, tt.offset)
+			data, err := stringDataAtOffset(mockWA, offset)
 			size := len(data)
-			if size != tt.expectedSize || (err != nil && err.Error() != tt.expectedErr.Error()) {
+			if size != tt.expectedLength || (err != nil && err.Error() != tt.expectedErr.Error()) {
 				t.Errorf("stringDataAtOffset() = (data: %v, size: %v, err: %v), want (size: %v, err: %v)",
-					data, size, err, tt.expectedSize, tt.expectedErr)
+					data, size, err, tt.expectedLength, tt.expectedErr)
+			}
+
+			s, err := doReadString(data)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if s != tt.want {
+				t.Errorf("doReadString() = '%v', want '%v'", s, tt.want)
 			}
 		})
 	}
 }
 
-func TestDoWriteStringBytes(t *testing.T) {
+func TestStrings_DoWriteStringBytes(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name          string
