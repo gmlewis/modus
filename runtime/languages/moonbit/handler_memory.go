@@ -55,7 +55,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, nil
 	}
 
-	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8))
+	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8+16)) // for debugging - was 8
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
@@ -67,7 +67,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		classID = byte(part2 & 0xff)
 		words = part2 >> 8
 		size = uint32(8 + words*4)
-		log.Printf("  // OLD: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
+		log.Printf("  // OLD-STYLE: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
 	} else {
 		// New-style memory block
 		words = part2 & 0x00ffffff

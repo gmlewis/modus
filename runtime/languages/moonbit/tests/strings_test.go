@@ -108,33 +108,33 @@ func TestStringOutputRepeat(t *testing.T) {
 	}{
 		// NEW: memoryBlockAtOffset(offset: 10408=0x000028A8=[168 40 0 0]): classID: 80, words: 0, size: 16, memBlockHeader: [255 255 255 255 0 0 0 80 0 0 0 0 0 0 0 0]
 		{name: "0"},
-		// NEW: memoryBlockAtOffset(offset: 98864=0x00018230=[48 130 1 0]): classID: 80, words: 800, size: 1616, memBlockHeader: [1 0 0 0 32 3 0 80 49 0 48 0 13 0 0 0]
+		// NEW: memoryBlockAtOffset(offset: 98864=0x00018230=[48 130 1 0]): classID: 80, words: 800, size: 1616, memBlockHeader: [1 0 0 0 32 3 0 80 49 0 48 0 13 0 0 0 0 0 0 0 0 0 0 0]
 		{name: "10", num: 10}, // string length 20
-		// NEW: memoryBlockAtOffset(offset: 120464=0x0001D690=[144 214 1 0]): classID: 80, words: 8000, size: 16016, memBlockHeader: [1 0 0 0 64 31 0 80 49 0 48 0 48 0 0 0]
+		// NEW: memoryBlockAtOffset(offset: 120464=0x0001D690=[144 214 1 0]): classID: 80, words: 8000, size: 16016, memBlockHeader: [1 0 0 0 64 31 0 80 49 0 48 0 48 0 0 0 0 0 0 0 0 0 0 0]
 		{name: "100", num: 100}, // string length 300
-		// NEW: memoryBlockAtOffset(offset: 1104464=0x0010DA50=[80 218 16 0]): classID: 80, words: 336000, size: 672016, memBlockHeader: [1 0 0 0 128 32 5 80 49 0 48 0 48 0 48 0]
+		// NEW: memoryBlockAtOffset(offset: 1104464=0x0010DA50=[80 218 16 0]): classID: 80, words: 336000, size: 672016, memBlockHeader: [1 0 0 0 128 32 5 80 49 0 48 0 48 0 48 0 0 0 0 0 0 0 0 0]
 		{name: "1000", num: 1000}, // string length 4000
-		// NEW: memoryBlockAtOffset(offset: 10176464=0x009B47D0=[208 71 155 0]): classID: 80, words: 3360000, size: 6720016, memBlockHeader: [1 0 0 0 0 69 51 80 49 0 48 0 48 0 48 0]
+		// NEW: memoryBlockAtOffset(offset: 10176464=0x009B47D0=[208 71 155 0]): classID: 80, words: 3360000, size: 6720016, memBlockHeader: [1 0 0 0 0 69 51 80 49 0 48 0 48 0 48 0 48 0 0 0 0 0 0 0]
 		{name: "10000", num: 10000}, // string length 50000
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 0 2 13 0 0 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 0 2 13 0 0 0 0 0 0 0 0 0 0 0]
 		{name: "1", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 50 0 13 0 0 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 50 0 13 0 0 0 0 0 0 0 0 0 0 0]
 		{name: "12", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 50 0 51 0 0 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 80, size: 176, memBlockHeader: [1 0 0 0 80 0 0 0 49 0 50 0 51 0 0 0 0 0 0 0 0 0 0 0]
 		{name: "123", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0 0 0 0 0 0 0 0 0]
 		{name: "1234", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0 53 0 0 0 0 0 0 0]
 		{name: "12345", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0 53 0 54 0 0 0 0 0]
 		{name: "123456", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 336, size: 688, memBlockHeader: [1 0 0 0 80 1 0 0 49 0 50 0 51 0 52 0 53 0 54 0 55 0 0 0]
 		{name: "1234567", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0 53 0 54 0 55 0 56 0]
 		{name: "12345678", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0 53 0 54 0 55 0 56 0]
 		{name: "123456789", num: 1},
-		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0]
+		// NEW: memoryBlockAtOffset(offset: 96160=0x000177A0=[160 119 1 0]): classID: 0, words: 592, size: 1200, memBlockHeader: [1 0 0 0 80 2 0 0 49 0 50 0 51 0 52 0 53 0 54 0 55 0 56 0]
 		{name: "1234567890", num: 1},
 	}
 
