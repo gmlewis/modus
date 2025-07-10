@@ -81,6 +81,16 @@ pub fn test_string_output_len_10() -> String {
 }
 
 ///|
+pub fn test_string_output_len_100000() -> String {
+  "1234567890".repeat(10000)
+}
+
+///|
+pub fn test_string_output_repeat(s : String, num : Int) -> String {
+  s.repeat(num)
+}
+
+///|
 pub fn test_string_output() -> String {
   TEST_STRING
 }

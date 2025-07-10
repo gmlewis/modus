@@ -6,6 +6,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
+pub fn test_array_option_output_bool_none() -> Array[Bool]? {
+  None
+}
+
+///|
+pub fn test_array_option_output_bool_some_0() -> Array[Bool]? {
+  Some([])
+}
+
+///|
 pub fn test_array_output_bool_0() -> Array[Bool] {
   // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 0 0 0 0]
   // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]

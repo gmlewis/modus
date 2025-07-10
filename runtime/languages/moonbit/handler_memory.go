@@ -13,6 +13,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -59,12 +60,20 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
-	// classID = byte(part2 & 0xff)
 	classID = byte(part2 >> 24)
-	// words = part2 >> 8
-	words = part2 & 0x00ffffff
-	// size := uint32(8 + words*4)
-	size := uint32(8 * (2 + (words >> 2)))
+	var size uint32
+	if classID == 0 {
+		// Old-style memory block
+		classID = byte(part2 & 0xff)
+		words = part2 >> 8
+		size = uint32(8 + words*4)
+		log.Printf("  // OLD: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
+	} else {
+		// New-style memory block
+		words = part2 & 0x00ffffff
+		size = uint32(8 * (2 + (words >> 2)))
+		log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
+	}
 	if sizeOverride > 0 {
 		// size = 8 + sizeOverride
 		size = sizeOverride

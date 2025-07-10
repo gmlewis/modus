@@ -211,14 +211,19 @@ func stringDataAtOffset(wa wasmMemoryReader, offset uint32) (data []byte, err er
 }
 
 func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err error) {
-	if memBlock[7] != StringBlockType {
+	var size uint32
+	if memBlock[7] == 0 && memBlock[4] == StringBlockType {
+		// Old-style memory block
+		remainderOffset := words*4 + 7
+		remainder := uint32(3 - memBlock[remainderOffset]%4)
+		size = (words-1)*4 + remainder
+	} else if memBlock[7] == StringBlockType {
+		// New-style memory block
+		size = words * 2
+	} else {
 		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, memBlock[7])
 	}
 
-	// remainderOffset := words*4 + 7
-	// remainder := uint32(3 - memBlock[remainderOffset]%4)
-	// size := (words-1)*4 + remainder
-	size := words * 2
 	if size <= 0 {
 		return nil, nil
 	}

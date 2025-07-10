@@ -172,9 +172,10 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	case FixedArrayPrimitiveBlockType: // Int
 	case FixedArrayByteBlockType, // Byte
 		StringBlockType: // Int16, Char
-		remainderOffset := words*4 + 7
-		remainder := uint32(3 - sliceMemBlock[remainderOffset]%4)
-		size := (words-1)*4 + remainder
+		// remainderOffset := words*4 + 7
+		// remainder := uint32(3 - sliceMemBlock[remainderOffset]%4)
+		// size := (words-1)*4 + remainder
+		size := words
 		if size <= 0 {
 			return []T{}, nil // empty slice
 		}
@@ -298,13 +299,13 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var cln utils.Cleaner
 	var err error
 	if size == 0 {
-		offset, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID) // cannot allocate 0 bytes
+		offset, cln, err = wa.allocateAndPinMemory(ctx, 0, memBlockClassID) // was: 1
 		if err != nil {
 			return 0, cln, err
 		}
 		wa.Memory().WriteByte(offset-3, 0) // overwrite size=1 to size=0
 	} else {
-		offset, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
+		offset, cln, err = wa.allocateAndPinMemory(ctx, size/4, memBlockClassID) // was: size
 		if err != nil {
 			return 0, cln, err
 		}
@@ -348,7 +349,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	if strings.HasPrefix(h.typeDef.Name, "Array[") {
 		// Finally, write the slice memory block.
-		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 8, TupleBlockType)
+		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 2, TupleBlockType) // was: 8
 		innerCln := utils.NewCleanerN(1)
 		innerCln.AddCleaner(sliceCln)
 		if err != nil {

@@ -9,7 +9,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Tests FAIL with moonc v0.6.20
+// Tests pass with moonc v0.6.20
 
 package moonbit
 
@@ -37,17 +37,17 @@ type myWasmMockMemory struct {
 func TestMemory_MyWasmMock(t *testing.T) {
 	ctx := t.Context()
 	m := &myWasmMock{}
-	block1, _, _ := m.allocateAndPinMemory(ctx, 16, 241)
+	block1, _, _ := m.allocateAndPinMemory(ctx, 4, 241) // was: 16
 	m.Memory().WriteUint32Le(block1, 41)
 	m.Memory().WriteUint32Le(block1+4, 42)
 	m.Memory().WriteUint32Le(block1+8, 43)
 	m.Memory().WriteUint32Le(block1+12, 44)
-	block2, _, _ := m.allocateAndPinMemory(ctx, 32, 242)
+	block2, _, _ := m.allocateAndPinMemory(ctx, 8, 242) // was: 32
 	m.Memory().WriteUint32Le(block2, 161)
 	m.Memory().WriteUint32Le(block2+4, 162)
 	m.Memory().WriteUint32Le(block2+8, 163)
 	m.Memory().WriteUint32Le(block2+12, 164)
-	block3, _, _ := m.allocateAndPinMemory(ctx, 8, 243)
+	block3, _, _ := m.allocateAndPinMemory(ctx, 2, 243) // was: 8
 	m.Memory().WriteUint32Le(block3, 81)
 	m.Memory().WriteUint32Le(block3+4, 82)
 
@@ -55,27 +55,27 @@ func TestMemory_MyWasmMock(t *testing.T) {
 	if classID1 != 241 {
 		t.Errorf("classID1 expected 241, got %v", classID1)
 	}
-	wantBlock1 := []byte{1, 0, 0, 0, 241, 4, 0, 0, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
+	wantBlock1 := []byte{1, 0, 0, 0, 4, 0, 0, 241, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
 	if !bytes.Equal(memBlock1, wantBlock1) {
-		t.Errorf("block1 expected %v, got %v", wantBlock1, memBlock1)
+		t.Errorf("block1 expected:\n%v\ngot\n%v", wantBlock1, memBlock1)
 	}
 
 	memBlock2, classID2, _, _ := memoryBlockAtOffset(m, block2-8, 0)
 	if classID2 != 242 {
 		t.Errorf("classID2 expected 242, got %v", classID2)
 	}
-	wantBlock2 := []byte{1, 0, 0, 0, 242, 8, 0, 0, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	wantBlock2 := []byte{1, 0, 0, 0, 8, 0, 0, 242, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	if !bytes.Equal(memBlock2, wantBlock2) {
-		t.Errorf("block2 expected %v, got %v", wantBlock2, memBlock2)
+		t.Errorf("block2 expected:\n%v\ngot\n%v", wantBlock2, memBlock2)
 	}
 
 	memBlock3, classID3, _, _ := memoryBlockAtOffset(m, block3-8, 0)
 	if classID3 != 243 {
 		t.Errorf("classID3 expected 243, got %v", classID3)
 	}
-	wantBlock3 := []byte{1, 0, 0, 0, 243, 2, 0, 0, 81, 0, 0, 0, 82, 0, 0, 0}
+	wantBlock3 := []byte{1, 0, 0, 0, 2, 0, 0, 243, 81, 0, 0, 0, 82, 0, 0, 0}
 	if !bytes.Equal(memBlock3, wantBlock3) {
-		t.Errorf("block3 expected %v, got %v", wantBlock3, memBlock3)
+		t.Errorf("block3 expected:\n%v\ngot\n%v", wantBlock3, memBlock3)
 	}
 }
 
