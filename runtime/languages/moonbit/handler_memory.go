@@ -72,12 +72,8 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	}
 	
 	// For old-style memory blocks, size = 8 (header) + words*4 (data)
-	// All memory blocks use 4 bytes per word, except strings which use 2 bytes per word
-	if classID == StringBlockType {
-		size = uint32(8 + words*2) // UTF-16 characters
-	} else {
-		size = uint32(8 + words*4) // 4-byte words for all other types
-	}
+	// All memory blocks use 4 bytes per word
+	size = uint32(8 + words*4)
 	
 	if sizeOverride > 0 {
 		// sizeOverride is the data size, add header size

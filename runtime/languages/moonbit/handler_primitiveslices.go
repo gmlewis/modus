@@ -194,7 +194,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		if classID == FixedArrayByteBlockType {
 			paddedSize = words * 4 // Convert words to bytes
 		} else {
-			paddedSize = words * 2 // StringBlockType: words * 2 for UTF-16
+			paddedSize = words * 4 // StringBlockType: words * 4 (4 bytes per word)
 		}
 		if paddedSize <= 0 {
 			return []T{}, nil // empty slice
@@ -494,9 +494,37 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				for i := numElements; i < paddedSize/2; i++ {
 					slice = append(slice, zero) // add the padding elements (2 bytes each)
 				}
+			} else {
+				// For multi-element arrays, pad to 4-byte boundaries
+				paddedSize := ((size + 3) / 4) * 4
+				if paddedSize > size {
+					padding := uint8(paddedSize - size - 1) // padding count is padding bytes minus 1
+					writeHeader = func(mem []byte) {
+						// Write padding count at the end
+						mem[paddedSize-1] = padding
+					}
+					size = paddedSize
+					var zero T
+					for i := numElements; i < paddedSize/2; i++ {
+						slice = append(slice, zero) // add the padding elements (2 bytes each)
+					}
+				} else {
+					// If already aligned, add 4 bytes of padding
+					paddedSize = size + 4
+					padding := uint8(3)
+					writeHeader = func(mem []byte) {
+						// Write padding count at the end
+						mem[paddedSize-1] = padding
+					}
+					size = paddedSize
+					var zero T
+					for i := numElements; i < paddedSize/2; i++ {
+						slice = append(slice, zero) // add the padding elements (2 bytes each)
+					}
+				}
 			}
 		}
-		// For non-empty byte arrays and strings, no padding is added
+		// For non-empty byte arrays, no padding is added
 	}
 
 	// Allocate memory
@@ -517,7 +545,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		if memBlockClassID == FixedArrayByteBlockType {
 			allocSize = size // Pass actual data size
 		} else if memBlockClassID == StringBlockType {
-			allocSize = size / 2 // Pass word count
+			allocSize = size / 4 // Pass word count (4 bytes per word)
 		} else {
 			allocSize = size / 4 // Pass word count
 		}

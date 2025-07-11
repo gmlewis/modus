@@ -55,7 +55,7 @@ func TestMemory_MyWasmMock(t *testing.T) {
 	if classID1 != 241 {
 		t.Errorf("classID1 expected 241, got %v", classID1)
 	}
-	wantBlock1 := []byte{1, 0, 0, 0, 241, 4, 0, 0, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
+	wantBlock1 := []byte{1, 0, 0, 0, 4, 0, 0, 241, 41, 0, 0, 0, 42, 0, 0, 0, 43, 0, 0, 0, 44, 0, 0, 0}
 	if !bytes.Equal(memBlock1, wantBlock1) {
 		t.Errorf("block1 expected:\n%v\ngot\n%v", wantBlock1, memBlock1)
 	}
@@ -64,7 +64,7 @@ func TestMemory_MyWasmMock(t *testing.T) {
 	if classID2 != 242 {
 		t.Errorf("classID2 expected 242, got %v", classID2)
 	}
-	wantBlock2 := []byte{1, 0, 0, 0, 242, 8, 0, 0, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	wantBlock2 := []byte{1, 0, 0, 0, 8, 0, 0, 242, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	if !bytes.Equal(memBlock2, wantBlock2) {
 		t.Errorf("block2 expected:\n%v\ngot\n%v", wantBlock2, memBlock2)
 	}
@@ -73,22 +73,20 @@ func TestMemory_MyWasmMock(t *testing.T) {
 	if classID3 != 243 {
 		t.Errorf("classID3 expected 243, got %v", classID3)
 	}
-	wantBlock3 := []byte{1, 0, 0, 0, 243, 2, 0, 0, 81, 0, 0, 0, 82, 0, 0, 0}
+	wantBlock3 := []byte{1, 0, 0, 0, 2, 0, 0, 243, 81, 0, 0, 0, 82, 0, 0, 0}
 	if !bytes.Equal(memBlock3, wantBlock3) {
 		t.Errorf("block3 expected:\n%v\ngot\n%v", wantBlock3, memBlock3)
 	}
 }
 
 func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID uint32) (uint32, utils.Cleaner, error) {
-	// New-style memory block size calculation: 8 (header) + data
+	// Memory block size calculation: 8 (header) + data
 	// Different types have different allocation patterns
 	var size uint32
-	if classID == StringBlockType {
-		size = uint32(8 + words*2) // UTF-16 characters are a special case
-	} else if classID == FixedArrayByteBlockType {
+	if classID == FixedArrayByteBlockType {
 		size = uint32(8 + words) // Byte arrays: words is the actual data size
 	} else {
-		size = uint32(8 + words*4) // Other types: words is the number of words
+		size = uint32(8 + words*4) // All other types: words is the number of 4-byte words
 	}
 	if m.offset == 0 {
 		m.offset = 48000
@@ -109,7 +107,7 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 	// Calculate words field based on type (matching allocateWasmMemory)
 	var actualWords uint32
 	if classID == StringBlockType {
-		actualWords = words // For strings, words is already in UTF-16 characters
+		actualWords = words // For strings, words is the number of 4-byte words
 	} else if classID == FixedArrayByteBlockType {
 		// For byte arrays, words field needs special calculation based on testdata
 		if words <= 4 || words == 0 {

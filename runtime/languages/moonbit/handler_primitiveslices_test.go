@@ -39,9 +39,9 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 		},
 		{
 			name:    "Array[Bool]: []",
-			handler: boolSliceHandler,
-			value:   []bool{},
-			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		handler: boolSliceHandler,
+		value:   []bool{},
+		want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
 		},
 		{
 			name:    "Array[Bool]: [false]",
@@ -80,9 +80,9 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 		},
 		{
 			name:    "Array[Bool?]: []",
-			handler: boolOptionSliceHandler,
-			value:   []*bool{},
-			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
+		handler: boolOptionSliceHandler,
+		value:   []*bool{},
+		want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
 		},
 		{
 			name:    "Array[Bool?]: [nil]",
