@@ -261,8 +261,15 @@ func TestStrings_StringDataAtOffset(t *testing.T) {
 			mockMem := new(mockMemory)
 			mockWA := new(mockWasmAdapter)
 			mockWA.On("Memory").Return(mockMem)
+			// Calculate expected memory block size based on string length
+			// Parse header to get words count
+			part2 := uint32(tt.memBlock[4]) | (uint32(tt.memBlock[5]) << 8) | (uint32(tt.memBlock[6]) << 16) | (uint32(tt.memBlock[7]) << 24)
+			words := part2 & 0x00ffffff
+			expectedSize := uint32(8 + words*2) // 8 bytes header + words*2 bytes data
+			// First call: read header (8 bytes)
 			mockMem.On("Read", offset, uint32(8)).Return(tt.memBlock[:8], true)
-			mockMem.On("Read", offset, uint32(len(tt.memBlock))).Return(tt.memBlock, true)
+			// Second call: read full memory block (calculated size)
+			mockMem.On("Read", offset, expectedSize).Return(tt.memBlock[:expectedSize], true)
 
 			data, err := stringDataAtOffset(mockWA, offset)
 			size := len(data)

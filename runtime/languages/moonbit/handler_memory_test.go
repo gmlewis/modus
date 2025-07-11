@@ -81,11 +81,15 @@ func TestMemory_MyWasmMock(t *testing.T) {
 
 func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID uint32) (uint32, utils.Cleaner, error) {
 	// New-style memory block size calculation: 8 (header) + words*X (data)
-	// For strings, words represent UTF-16 characters (2 bytes each)
-	// For other types, words represent 4-byte units
+	// Different types use different word sizes:
+	// - Strings: words = UTF-16 characters (2 bytes each)
+	// - Bytes: words = byte count (1 byte each)
+	// - Others: words = 4-byte units
 	var size uint32
 	if classID == StringBlockType {
 		size = uint32(8 + words*2) // UTF-16 characters
+	} else if classID == FixedArrayByteBlockType {
+		size = uint32(8 + words*1) // Byte count
 	} else {
 		size = uint32(8 + words*4) // 4-byte words
 	}

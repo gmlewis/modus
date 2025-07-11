@@ -54,7 +54,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, nil
 	}
 
-	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8+16)) // for debugging - was 8
+	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8)) // was 8+16 for debugging
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
@@ -72,10 +72,14 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	}
 	
 	// For new-style memory blocks, size = 8 (header) + words*X (data)
-	// For strings, words represent UTF-16 characters (2 bytes each)
-	// For other types, words represent 4-byte words
+	// Different types use different word sizes:
+	// - Strings: words = UTF-16 characters (2 bytes each)
+	// - Bytes: words = byte count (1 byte each)
+	// - Others: words = 4-byte units
 	if classID == StringBlockType {
 		size = uint32(8 + words*2) // UTF-16 characters
+	} else if classID == FixedArrayByteBlockType {
+		size = uint32(8 + words*1) // Byte count
 	} else {
 		size = uint32(8 + words*4) // 4-byte words
 	}
