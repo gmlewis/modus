@@ -97,11 +97,11 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 	if m.m == nil {
 		m.m = &myWasmMockMemory{
 			offset: m.offset,
-			bytes:  make([]byte, size+8),
+			bytes:  make([]byte, size),
 		}
 	} else {
 		offset += uint32(len(m.m.bytes))
-		m.m.bytes = append(m.m.bytes, make([]byte, size+8)...)
+		m.m.bytes = append(m.m.bytes, make([]byte, size)...)
 	}
 	refCount := uint32(1)
 	// memType := ((size / 4) << 8) | classID
