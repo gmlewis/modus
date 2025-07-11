@@ -266,7 +266,8 @@ func TestStrings_StringDataAtOffset(t *testing.T) {
 			// Parse header to get words count using new memory format
 			part2 := binary.LittleEndian.Uint32(tt.memBlock[4:8])
 			words := part2 & 0xffffff
-			expectedSize := uint32(8 + words*2) // String blocks use 2 bytes per UTF-16 character
+			// For string tests, use actual string data size (words*2 for UTF-16)
+			expectedSize := uint32(8 + words*2)
 			// First call: read header (8 bytes)
 			mockMem.On("Read", offset, uint32(8)).Return(tt.memBlock[:8], true)
 			// Second call: read full memory block (calculated size)
