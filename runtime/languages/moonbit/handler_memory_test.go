@@ -64,7 +64,7 @@ func TestMemory_MyWasmMock(t *testing.T) {
 	if classID2 != 242 {
 		t.Errorf("classID2 expected 242, got %v", classID2)
 	}
-	wantBlock2 := []byte{1, 0, 0, 0, 8, 0, 0, 242, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	wantBlock2 := []byte{1, 0, 0, 0, 8, 0, 0, 242, 161, 0, 0, 0, 162, 0, 0, 0, 163, 0, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	if !bytes.Equal(memBlock2, wantBlock2) {
 		t.Errorf("block2 expected:\n%v\ngot\n%v", wantBlock2, memBlock2)
 	}
@@ -80,11 +80,15 @@ func TestMemory_MyWasmMock(t *testing.T) {
 }
 
 func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID uint32) (uint32, utils.Cleaner, error) {
-	// if size == 0 {
-	// 	return 0, nil, errors.New("size must be greater than 0")
-	// }
-	// size = 4 * ((size + 3) / 4) // round up to nearest multiple of 4
-	size := uint32(8 * (2 + (words >> 2)))
+	// New-style memory block size calculation: 8 (header) + words*X (data)
+	// For strings, words represent UTF-16 characters (2 bytes each)
+	// For other types, words represent 4-byte units
+	var size uint32
+	if classID == StringBlockType {
+		size = uint32(8 + words*2) // UTF-16 characters
+	} else {
+		size = uint32(8 + words*4) // 4-byte words
+	}
 	if m.offset == 0 {
 		m.offset = 48000
 	}
