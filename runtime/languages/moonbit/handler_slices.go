@@ -222,7 +222,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			return 0, cln, err
 		}
 		// Overwrite the memory type to set words=0
-		memType := (memBlockClassID << 24) | 0 // words = 0
+		memType := (memBlockClassID << 24) // words = 0
 		wa.Memory().WriteUint32Le(ptr-4, memType)
 	} else {
 
