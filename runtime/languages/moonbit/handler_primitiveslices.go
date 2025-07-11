@@ -317,17 +317,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var offset uint32
 	var cln utils.Cleaner
 	var err error
-	// Handle empty arrays - they should have minimum 1 word allocation
+	// Handle empty arrays
 	if size == 0 {
-		// Empty arrays get 1 word (4 bytes) allocation
-		offset, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
+		// Empty arrays: byte arrays get 0 words, others get 0 words
+		offset, cln, err = wa.allocateAndPinMemory(ctx, 0, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
-		}
-		// Write 4 bytes of zero data
-		zeroData := make([]byte, 4)
-		if ok := wa.Memory().Write(offset, zeroData); !ok {
-			return 0, cln, errors.New("failed to write zero data to WASM memory")
 		}
 	} else {
 		// For byte arrays, pass the actual data size to allocateAndPinMemory

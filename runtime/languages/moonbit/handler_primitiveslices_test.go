@@ -82,7 +82,7 @@ func TestPrimitiveSlicesEncodeDecode_Bool(t *testing.T) {
 			name:    "Array[Bool?]: []",
 			handler: boolOptionSliceHandler,
 			value:   []*bool{},
-			want:    []byte{1, 0, 0, 0, 241, 1, 0, 0, 0, 0, 0, 0},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Bool?]: [nil]",
