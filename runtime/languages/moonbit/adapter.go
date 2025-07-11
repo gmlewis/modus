@@ -103,7 +103,15 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	}
 
 	refCount := uint32(1)
-	memType := ((size / 4) << 8) | classID
+	// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
+	// For strings, size is already in UTF-16 characters (words)
+	// For other types, size is in bytes and needs to be converted to words
+	words := size
+	if classID != StringBlockType {
+		// For non-strings, convert byte size to words (round up)
+		words = (size + 3) >> 2
+	}
+	memType := words | (classID << 24)
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
 

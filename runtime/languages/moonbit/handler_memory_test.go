@@ -84,7 +84,7 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 	// 	return 0, nil, errors.New("size must be greater than 0")
 	// }
 	// size = 4 * ((size + 3) / 4) // round up to nearest multiple of 4
-	size := uint32(8 * (1 + (words >> 2)))
+	size := uint32(8 * (2 + (words >> 2)))
 	if m.offset == 0 {
 		m.offset = 48000
 	}
