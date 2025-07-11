@@ -170,6 +170,21 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	}
 
 	switch classID {
+	case TupleBlockType: // Array[...] is wrapped in a tuple
+		// Extract the pointer to the actual array data
+		if len(sliceMemBlock) < 12 {
+			return nil, fmt.Errorf("tuple block too small: %v bytes, expected at least 12", len(sliceMemBlock))
+		}
+		sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
+		if sliceOffset == 0 {
+			return nil, fmt.Errorf("tuple contains null pointer to array data")
+		}
+		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, sliceOffset, 0)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read array data from tuple: %w", err)
+		}
+		// Now process the actual array data
+		fallthrough
 	case FixedArrayPrimitiveBlockType: // Int
 	case FixedArrayByteBlockType, // Byte
 		StringBlockType: // Int16, Char
