@@ -466,6 +466,22 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				}
 				// For 2 bytes, no padding is added
 			}
+		} else if memBlockClassID == StringBlockType {
+			// For MoonBit string arrays (Int16/UInt16), add padding for empty arrays
+			if size == 0 {
+				// Empty string arrays are padded to 4 bytes with padding count 3
+				paddedSize := uint32(4)
+				padding := uint8(3)
+				writeHeader = func(mem []byte) {
+					// Write padding count at the end
+					mem[paddedSize-1] = padding
+				}
+				size = paddedSize
+				var zero T
+				for i := numElements; i < paddedSize/2; i++ {
+					slice = append(slice, zero) // add the padding elements (2 bytes each)
+				}
+			}
 		}
 		// For non-empty byte arrays and strings, no padding is added
 	}
@@ -501,9 +517,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// For Int64, UInt64, and Double, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if baseType == "Int64" || baseType == "UInt64" || baseType == "Double" {
-			// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
+			// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
 		numElements := size / 8
-		memType := (numElements << 8) | memBlockClassID
+		memType := (memBlockClassID << 24) | numElements
 		wa.Memory().WriteUint32Le(offset-4, memType)
 		}
 	}

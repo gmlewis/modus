@@ -221,7 +221,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		if err != nil {
 			return 0, cln, err
 		}
-		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
+		// Overwrite the memory type to set words=0
+		memType := (memBlockClassID << 24) | 0 // words = 0
+		wa.Memory().WriteUint32Le(ptr-4, memType)
 	} else {
 
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
@@ -232,14 +234,14 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		// For nullable types, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if elemType.Name() == "Bool?" {
-			// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
+			// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
 			numElements := size / 4
-			memType := (numElements << 8) | memBlockClassID
+			memType := (memBlockClassID << 24) | numElements
 			wa.Memory().WriteUint32Le(ptr-4, memType)
 		} else if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
-			// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
+			// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
 			numElements := size / 8
-			memType := (numElements << 8) | memBlockClassID
+			memType := (memBlockClassID << 24) | numElements
 			wa.Memory().WriteUint32Le(ptr-4, memType)
 		}
 	}

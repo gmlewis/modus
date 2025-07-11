@@ -97,6 +97,10 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	var allocSize uint32
 	if classID == StringBlockType {
 		allocSize = 8 + size*2 // UTF-16 characters
+		// For empty string arrays, allocate extra space for padding
+		if size == 2 {
+			allocSize = 8 + 4 // Allocate 4 bytes for padding
+		}
 	} else if classID == FixedArrayByteBlockType {
 		allocSize = 8 + size // Byte arrays: size is the actual data size
 	} else {
@@ -117,11 +121,15 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	}
 
 	refCount := uint32(1)
-	// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
+	// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
 	// Calculate words field based on type
 	var words uint32
 	if classID == StringBlockType {
 		words = size // For strings, size is already in UTF-16 characters
+		// Special case for empty string arrays with padding: word count should be 1
+		if size == 2 {
+			words = 1
+		}
 	} else if classID == FixedArrayByteBlockType {
 		// For byte arrays, words field needs special calculation based on testdata
 		if size <= 4 || size == 0 {
@@ -134,7 +142,7 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 		words = (size + 3) >> 2
 	}
 
-	memType := (words << 8) | classID
+	memType := (classID << 24) | words
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
 

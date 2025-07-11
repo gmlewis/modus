@@ -60,10 +60,10 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
 	
-	// All memory blocks from the new MoonBit compiler use new-style format
-	// New-style: classID in lower 8 bits, words in upper 24 bits
-	classID = byte(part2 & 0xff)
-	words = part2 >> 8
+	// All memory blocks from the MoonBit compiler use old-style format
+	// Old-style: classID in upper 8 bits, words in lower 24 bits
+	classID = byte(part2 >> 24)
+	words = part2 & 0xffffff
 	var size uint32
 	
 	// Safety check to prevent huge memory allocations
@@ -71,7 +71,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, fmt.Errorf("memory block too large: words=%v, part2=0x%08X, offset=%v", words, part2, debugShowOffset(offset))
 	}
 	
-	// For new-style memory blocks, size = 8 (header) + words*4 (data)
+	// For old-style memory blocks, size = 8 (header) + words*4 (data)
 	// All memory blocks use 4 bytes per word, except strings which use 2 bytes per word
 	if classID == StringBlockType {
 		size = uint32(8 + words*2) // UTF-16 characters

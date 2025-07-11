@@ -85,6 +85,10 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 	var size uint32
 	if classID == StringBlockType {
 		size = uint32(8 + words*2) // UTF-16 characters are a special case
+		// For empty string arrays, allocate extra space for padding
+		if words == 2 {
+			size = uint32(8 + 4) // Allocate 4 bytes for padding
+		}
 	} else if classID == FixedArrayByteBlockType {
 		size = uint32(8 + words) // Byte arrays: words is the actual data size
 	} else {
@@ -105,11 +109,15 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 		m.m.bytes = append(m.m.bytes, make([]byte, size)...)
 	}
 	refCount := uint32(1)
-	// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
+	// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
 	// Calculate words field based on type (matching allocateWasmMemory)
 	var actualWords uint32
 	if classID == StringBlockType {
 		actualWords = words // For strings, words is already in UTF-16 characters
+		// Special case for empty string arrays with padding: word count should be 1
+		if words == 2 {
+			actualWords = 1
+		}
 	} else if classID == FixedArrayByteBlockType {
 		// For byte arrays, words field needs special calculation based on testdata
 		if words <= 4 || words == 0 {
@@ -121,7 +129,7 @@ func (m *myWasmMock) allocateAndPinMemory(ctx context.Context, words, classID ui
 		// For other types, words is already the number of words
 		actualWords = words
 	}
-	memType := (actualWords << 8) | classID
+	memType := (classID << 24) | actualWords
 	m.m.WriteUint32Le(offset, refCount)
 	m.m.WriteUint32Le(offset+4, memType)
 	// allocateAndPinMemory always returns a pointer _after_ the memory block header
