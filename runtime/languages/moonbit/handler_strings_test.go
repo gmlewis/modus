@@ -15,6 +15,7 @@ package moonbit
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
 	"log"
 	"testing"
@@ -177,78 +178,78 @@ func TestStrings_StringDataAtOffset(t *testing.T) {
 	}{
 		{
 			name:           "empty string",
-			memBlock:       []byte("\xff\xff\xff\xff\x00\x00\x00P\x00\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x00\x00\x00\xf3\x00\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 0,
 		},
 		{
 			name:           "length 1 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x01\x00\x00P1\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x01\x00\x00\xf31\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 2,
 			want:           "1",
 		},
 		{
 			name:           "length 2 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x02\x00\x00P1\x002\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x02\x00\x00\xf31\x002\x00\x00\x00\x00\x00"),
 			expectedLength: 4,
 			want:           "12",
 		},
 		{
 			name:           "length 3 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x03\x00\x00P1\x002\x003\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x03\x00\x00\xf31\x002\x003\x00\x00\x00"),
 			expectedLength: 6,
 			want:           "123",
 		},
 		{
 			name:           "length 4 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x04\x00\x00P1\x002\x003\x004\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x04\x00\x00\xf31\x002\x003\x004\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 8,
 			want:           "1234",
 		},
 		{
 			name:           "length 5 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x05\x00\x00P1\x002\x003\x004\x005\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x05\x00\x00\xf31\x002\x003\x004\x005\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 10,
 			want:           "12345",
 		},
 		{
 			name:           "length 6 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x06\x00\x00P1\x002\x003\x004\x005\x006\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x06\x00\x00\xf31\x002\x003\x004\x005\x006\x00\x00\x00\x00\x00"),
 			expectedLength: 12,
 			want:           "123456",
 		},
 		{
 			name:           "length 7 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x07\x00\x00P1\x002\x003\x004\x005\x006\x007\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x07\x00\x00\xf31\x002\x003\x004\x005\x006\x007\x00\x00\x00"),
 			expectedLength: 14,
 			want:           "1234567",
 		},
 		{
 			name:           "length 8 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x08\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x08\x00\x00\xf31\x002\x003\x004\x005\x006\x007\x008\x00\x00\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 16,
 			want:           "12345678",
 		},
 		{
 			name:           "length 9 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x09\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x009\x00\x00\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x09\x00\x00\xf31\x002\x003\x004\x005\x006\x007\x008\x009\x00\x00\x00\x00\x00\x00\x00"),
 			expectedLength: 18,
 			want:           "123456789",
 		},
 		{
 			name:           "length 10 string",
-			memBlock:       []byte("\xff\xff\xff\xff\x0a\x00\x00P1\x002\x003\x004\x005\x006\x007\x008\x009\x000\x00\x00\x00\x00\x00"),
+			memBlock:       []byte("\xff\xff\xff\xff\x0a\x00\x00\xf31\x002\x003\x004\x005\x006\x007\x008\x009\x000\x00\x00\x00\x00\x00"),
 			expectedLength: 20,
 			want:           "1234567890",
 		},
 		{
 			name:           "Valid memory block, UTF-16 String 'Hello, ...0!'",
-			memBlock:       []byte{1, 0, 0, 0, 12, 0, 0, 80, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 46, 0, 46, 0, 46, 0, 48, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			memBlock:       []byte{1, 0, 0, 0, 12, 0, 0, 243, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 46, 0, 46, 0, 46, 0, 48, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			expectedLength: 24,
 			want:           "Hello, ...0!",
 		},
 		{
 			name:           "Valid memory block, UTF-16 String 'Hello, 2!'",
-			memBlock:       []byte{1, 0, 0, 0, 9, 0, 0, 80, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 50, 0, 33, 0, 0, 0, 0, 0, 0, 0},
+			memBlock:       []byte{1, 0, 0, 0, 9, 0, 0, 243, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 44, 0, 32, 0, 50, 0, 33, 0, 0, 0, 0, 0, 0, 0},
 			expectedLength: 18,
 			want:           "Hello, 2!",
 		},
@@ -262,10 +263,10 @@ func TestStrings_StringDataAtOffset(t *testing.T) {
 			mockWA := new(mockWasmAdapter)
 			mockWA.On("Memory").Return(mockMem)
 			// Calculate expected memory block size based on string length
-			// Parse header to get words count
-			part2 := uint32(tt.memBlock[4]) | (uint32(tt.memBlock[5]) << 8) | (uint32(tt.memBlock[6]) << 16) | (uint32(tt.memBlock[7]) << 24)
-			words := part2 & 0x00ffffff
-			expectedSize := uint32(8 + words*2) // 8 bytes header + words*2 bytes data
+			// Parse header to get words count using new memory format
+			part2 := binary.LittleEndian.Uint32(tt.memBlock[4:8])
+			words := part2 & 0xffffff
+			expectedSize := uint32(8 + words*2) // String blocks use 2 bytes per UTF-16 character
 			// First call: read header (8 bytes)
 			mockMem.On("Read", offset, uint32(8)).Return(tt.memBlock[:8], true)
 			// Second call: read full memory block (calculated size)
@@ -273,7 +274,7 @@ func TestStrings_StringDataAtOffset(t *testing.T) {
 
 			data, err := stringDataAtOffset(mockWA, offset)
 			size := len(data)
-			if size != tt.expectedLength || (err != nil && err.Error() != tt.expectedErr.Error()) {
+			if size != tt.expectedLength || !errorsEqual(err, tt.expectedErr) {
 				t.Errorf("stringDataAtOffset() = (data: %v, size: %v, err: %v), want (size: %v, err: %v)",
 					data, size, err, tt.expectedLength, tt.expectedErr)
 			}
@@ -370,4 +371,15 @@ func TestStrings_DoWriteStringBytes(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Helper function to compare errors safely
+func errorsEqual(a, b error) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil || b == nil {
+		return false
+	}
+	return a.Error() == b.Error()
 }
