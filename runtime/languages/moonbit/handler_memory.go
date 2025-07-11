@@ -51,6 +51,7 @@ type wasmMemoryWriter interface {
 }
 
 func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data []byte, classID byte, words uint32, err error) {
+	log.Printf("  // DEBUG: memoryBlockAtOffset called with offset=%v, sizeOverride=%v", debugShowOffset(offset), sizeOverride)
 	if offset == 0 {
 		return nil, 0, 0, nil
 	}
@@ -60,20 +61,23 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
+	log.Printf("  // DEBUG: part2=0x%08X, memBlockHeader=%+v", part2, memBlockHeader)
+	
+	// All memory blocks from the new MoonBit compiler use new-style format
+	// New-style: words in lower 24 bits, classID in upper 8 bits
 	classID = byte(part2 >> 24)
+	words = part2 & 0x00ffffff
 	var size uint32
-	if classID == 0 {
-		// Old-style memory block
-		classID = byte(part2 & 0xff)
-		words = part2 >> 8
-		size = uint32(8 + words*4)
-		log.Printf("  // OLD-STYLE: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
-	} else {
-		// New-style memory block
-		words = part2 & 0x00ffffff
-		size = uint32(8 * (2 + (words >> 2)))
-		log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
+	
+	// Safety check to prevent huge memory allocations
+	if words > 1048576 { // 1MB limit
+		return nil, 0, 0, fmt.Errorf("memory block too large: words=%v, part2=0x%08X, offset=%v", words, part2, debugShowOffset(offset))
 	}
+	
+	// For new-style memory blocks, size = 8 (header) + words*4 (data)
+	size = uint32(8 + words*4)
+	log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
+	
 	if sizeOverride > 0 {
 		// size = 8 + sizeOverride
 		size = sizeOverride
@@ -83,6 +87,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
 	}
+	log.Printf("  // DEBUG: memoryBlockAtOffset returning classID=%v, words=%v, len(memBlock)=%v", classID, words, len(memBlock))
 	return memBlock, classID, words, nil
 }
 

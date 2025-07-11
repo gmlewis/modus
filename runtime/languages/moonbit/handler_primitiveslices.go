@@ -14,7 +14,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 	"time"
@@ -266,7 +265,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	size := numElements * uint32(elemTypeSize)
-	log.Printf("DEBUG: ENCODE: elemType=%s, baseType=%s, numElements=%d, elemTypeSize=%d, size=%d", elemType.Name(), baseType, numElements, elemTypeSize, size)
+
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
 	switch baseType {
