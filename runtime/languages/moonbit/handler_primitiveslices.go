@@ -188,11 +188,18 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			return nil, fmt.Errorf("expected byte data size %v, got %v", paddedSize, len(sliceMemBlock))
 		}
 
-		// Read the padding byte to get the actual size
-		paddingByte := sliceMemBlock[paddedSize+8-1]
-		actualSize := paddedSize - uint32(paddingByte)
-		sliceMemBlock = sliceMemBlock[:actualSize+8]    // trim to the actual size
-		numElements = actualSize / uint32(elemTypeSize) // and adjust the actual number of elements
+		// For byte arrays, use the actual data size
+		if classID == FixedArrayByteBlockType {
+			// For byte arrays, paddedSize is the actual data size
+			sliceMemBlock = sliceMemBlock[:paddedSize+8]
+			numElements = paddedSize / uint32(elemTypeSize)
+		} else {
+			// String type, handle padding
+			paddingByte := sliceMemBlock[paddedSize+8-1]
+			actualSize := paddedSize - uint32(paddingByte)
+			sliceMemBlock = sliceMemBlock[:actualSize+8]
+			numElements = actualSize / uint32(elemTypeSize)
+		}
 	default:
 		return nil, fmt.Errorf("primitiveSliceHandler.Decode: unexpected classID %v", classID)
 	}
@@ -288,20 +295,22 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	// Handle different types based on elemTypeSize
 	if memBlockClassID == FixedArrayByteBlockType || memBlockClassID == StringBlockType {
-		paddedSize := ((size + 3) / 4) * 4
-		padding := uint8((4 - (size % 4)) % 4)
-		if padding != 0 {
+		// For MoonBit byte arrays, only empty arrays have padding
+		if memBlockClassID == FixedArrayByteBlockType && size == 0 {
+			// Empty byte arrays are padded to 4 bytes with padding count
+			paddedSize := uint32(4)
+			padding := uint8(3) // 3 bytes of padding
 			writeHeader = func(mem []byte) {
 				// Write padding byte at the end
 				mem[paddedSize-1] = padding
 			}
+			size = paddedSize
+			var zero T
+			for i := numElements; i < paddedSize; i++ {
+				slice = append(slice, zero) // add the padding bytes
+			}
 		}
-
-		size = paddedSize
-		var zero T
-		for i := numElements; i < paddedSize; i++ {
-			slice = append(slice, zero) // add the padding bytes
-		}
+		// For non-empty byte arrays and strings, no padding is added
 	}
 
 	// Allocate memory
@@ -316,24 +325,18 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 		wa.Memory().WriteByte(offset-3, 0) // overwrite size=1 to size=0
 	} else {
-		// Calculate words based on the actual type
-		var words uint32
+		// For byte arrays, pass the actual data size to allocateAndPinMemory
+		// The allocateWasmMemory function will handle the words calculation
+		var allocSize uint32
 		if memBlockClassID == FixedArrayByteBlockType {
-			// For byte arrays, words calculation based on testdata pattern
-			switch size {
-			case 0, 1, 2, 3:
-				words = 1
-			case 4:
-				words = 2
-			default:
-				words = (size + 3) / 4 // General case: ceil(size/4)
-			}
+			allocSize = size // Pass actual data size
 		} else if memBlockClassID == StringBlockType {
-			words = size / 2 // 2 bytes per word
+			allocSize = size / 2 // Pass word count
 		} else {
-			words = size / 4 // 4 bytes per word
+			allocSize = size / 4 // Pass word count
 		}
-		offset, cln, err = wa.allocateAndPinMemory(ctx, words, memBlockClassID) // was: size/4
+		
+		offset, cln, err = wa.allocateAndPinMemory(ctx, allocSize, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
 		}

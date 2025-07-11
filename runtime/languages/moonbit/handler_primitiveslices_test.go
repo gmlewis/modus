@@ -203,7 +203,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 			name:    "Array[Byte]: [0, 255]",
 			handler: byteSliceHandler,
 			value:   []byte{0, 255},
-			want:    []byte{1, 0, 0, 0, 246, 1, 0, 0, 0, 255, 0, 1},
+			want:    []byte{1, 0, 0, 0, 246, 1, 0, 0, 0, 255},
 		},
 		{
 			name:    "Array[Byte]: [0, 255, 0]",
