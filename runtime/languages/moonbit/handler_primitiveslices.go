@@ -313,7 +313,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// For Int64, UInt64, and Double, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if elemType.Name() == "Int64" || elemType.Name() == "UInt64" || elemType.Name() == "Double" {
-			memType := ((size / 8) << 8) | memBlockClassID
+			// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
+			numElements := size / 8
+			memType := numElements | (memBlockClassID << 24)
 			wa.Memory().WriteUint32Le(offset-4, memType)
 		}
 	}
