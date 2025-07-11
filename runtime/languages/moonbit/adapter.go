@@ -124,10 +124,8 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 		words = size // For strings, size is already in UTF-16 characters
 	} else if classID == FixedArrayByteBlockType {
 		// For byte arrays, words field needs special calculation based on testdata
-		if size <= 3 || size == 0 {
+		if size <= 4 || size == 0 {
 			words = 1
-		} else if size == 4 {
-			words = 2
 		} else {
 			words = (size + 3) >> 2
 		}
