@@ -152,12 +152,24 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	}
 
 	if classID == TupleBlockType { // Used by Array[...] but not by FixedArray[...]
-		numElements = binary.LittleEndian.Uint32(sliceMemBlock[12:16])
-		if numElements == 0 {
-			return []T{}, nil
+		var sliceOffset uint32
+		
+		// Check if we have the full tuple format (2 words = 8 bytes data)
+		if len(sliceMemBlock) >= 16 {
+			// Full tuple format: [header][pointer][numElements]
+			numElements = binary.LittleEndian.Uint32(sliceMemBlock[12:16])
+			if numElements == 0 {
+				return []T{}, nil
+			}
+			sliceOffset = binary.LittleEndian.Uint32(sliceMemBlock[8:12])
+		} else if len(sliceMemBlock) >= 12 {
+			// Compact tuple format: [header][pointer] - numElements in array data
+			sliceOffset = binary.LittleEndian.Uint32(sliceMemBlock[8:12])
+			numElements = 0 // Will be determined from array data
+		} else {
+			return nil, fmt.Errorf("tuple block too small: %v bytes, expected at least 12", len(sliceMemBlock))
 		}
 
-		sliceOffset := binary.LittleEndian.Uint32(sliceMemBlock[8:12])
 		size := numElements * uint32(elemTypeSize)
 		if elemTypeSize != 8 {
 			size = 0 // do not override the memory block size for 1, 2, or 4-byte types.
@@ -167,10 +179,20 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		if err != nil {
 			return nil, err
 		}
+		
+		// If numElements was not set from tuple, get it from array data
+		if numElements == 0 {
+			numElements = words // Use words from array data as element count
+		}
 	}
 
 	switch classID {
 	case TupleBlockType: // Array[...] is wrapped in a tuple
+		// Check if this is an empty array (numElements was set to 0)
+		if numElements == 0 {
+			return []T{}, nil
+		}
+		
 		// Extract the pointer to the actual array data
 		if len(sliceMemBlock) < 12 {
 			return nil, fmt.Errorf("tuple block too small: %v bytes, expected at least 12", len(sliceMemBlock))
@@ -558,9 +580,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// For Int64, UInt64, and Double, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		if baseType == "Int64" || baseType == "UInt64" || baseType == "Double" {
-			// Old-style memory block header: classID in upper 8 bits, words in lower 24 bits
+			// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
 		numElements := size / 8
-		memType := (memBlockClassID << 24) | numElements
+		memType := (numElements << 8) | memBlockClassID
 		wa.Memory().WriteUint32Le(offset-4, memType)
 		}
 	}
