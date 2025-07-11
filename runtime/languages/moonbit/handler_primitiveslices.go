@@ -215,13 +215,13 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 					actualSize = 1
 				} else {
 					// 3 bytes with zero padding or 4 bytes no padding
-					if paddedSize >= 4 && sliceMemBlock[paddedSize+8-1] == 0 {
-						// Check if this is 3 bytes + 1 zero padding
-						actualSize = 3
-					} else {
-						// 4 bytes no padding
-						actualSize = 4
-					}
+				if paddedSize >= 4 && sliceMemBlock[paddedSize+8-1] == 0 {
+					// Check if this is 3 bytes + 1 zero padding
+					actualSize = 3
+				} else {
+					// 4 bytes no padding
+					actualSize = 4
+				}
 				}
 			} else if paddedSize == 8 {
 				// 4 bytes with padding count 3
