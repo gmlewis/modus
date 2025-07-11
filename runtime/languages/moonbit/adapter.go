@@ -134,6 +134,9 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	} else {
 		// For other types, convert byte size to words
 		words = (size + 3) >> 2
+		if words == 0 {
+			words = 1 // Minimum 1 word for empty arrays
+		}
 	}
 
 	memType := (words << 8) | classID
