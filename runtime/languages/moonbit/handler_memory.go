@@ -79,8 +79,8 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
 	
 	if sizeOverride > 0 {
-		// size = 8 + sizeOverride
-		size = sizeOverride
+		// sizeOverride is the data size, add header size
+		size = 8 + sizeOverride
 	}
 
 	memBlock, ok := wa.Memory().Read(offset, size)

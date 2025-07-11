@@ -138,13 +138,20 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	}
 
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+	log.Printf("  // DEBUG: sliceHandler.Decode: numElements=%v, elemTypeSize=%v, len(memBlock)=%v, elemType=%v, isNullable=%v", numElements, elemTypeSize, len(memBlock), elemType.Name(), isNullable)
 	for i := uint32(0); i < numElements; i++ {
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
 			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
+				if 8+i*elemTypeSize+8 > uint32(len(memBlock)) {
+					return nil, fmt.Errorf("slice bounds error: trying to read 8 bytes at offset %v from memBlock of length %v", 8+i*elemTypeSize, len(memBlock))
+				}
 				value = binary.LittleEndian.Uint64(memBlock[8+i*elemTypeSize:])
 			} else {
+				if 8+i*elemTypeSize+4 > uint32(len(memBlock)) {
+					return nil, fmt.Errorf("slice bounds error: trying to read 4 bytes at offset %v from memBlock of length %v", 8+i*elemTypeSize, len(memBlock))
+				}
 				value32 := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
 				value = uint64(value32)
 			}
@@ -218,15 +225,20 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
 	} else {
-		log.Printf("DEBUG: SLICE ENCODE: elemType=%s, numElements=%d, size=%d, memBlockClassID=%d", elemType.Name(), numElements, size, memBlockClassID)
+
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
 		}
 
-		// For `Int?`, `UInt?`, the `words` portion of the memory block
+		// For nullable types, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
-		if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
+		if elemType.Name() == "Bool?" {
+			// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
+			numElements := size / 4
+			memType := numElements | (memBlockClassID << 24)
+			wa.Memory().WriteUint32Le(ptr-4, memType)
+		} else if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
 			// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
 			numElements := size / 8
 			memType := numElements | (memBlockClassID << 24)

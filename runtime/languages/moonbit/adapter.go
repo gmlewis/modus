@@ -13,7 +13,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -93,9 +92,15 @@ func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID u
 
 // Allocate memory within the MoonBit module.
 func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uint32) (uint32, error) {
-	res, err := wa.fnRealloc.Call(ctx, 0, 0, 0, uint64(size))
+	// Always allocate at least 8 bytes for the header
+	allocSize := size
+	if allocSize < 8 {
+		allocSize = 8
+	}
+	
+	res, err := wa.fnRealloc.Call(ctx, 0, 0, 0, uint64(allocSize))
 	if err != nil {
-		return 0, fmt.Errorf("failed to allocate WASM memory (size: %v, id: %v): %w", size, classID, err)
+		return 0, fmt.Errorf("failed to allocate WASM memory (size: %v, id: %v): %w", allocSize, classID, err)
 	}
 
 	offset := uint32(res[0])
@@ -113,10 +118,7 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 		// For non-strings, convert byte size to words (round up)
 		words = (size + 3) >> 2
 	}
-	if classID == FixedArrayPrimitiveBlockType {
-		log.Printf("DEBUG: ADAPTER: allocateWasmMemory(size=%d, classID=%d) -> words=%d", size, classID, words)
-	}
-	log.Printf("  // ALLOC DEBUG: allocateWasmMemory(size=%v, classID=%v) -> words=%v", size, classID, words)
+
 	memType := words | (classID << 24)
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
