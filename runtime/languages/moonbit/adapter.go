@@ -92,8 +92,14 @@ func (wa *wasmAdapter) allocateAndPinMemory(ctx context.Context, size, classID u
 
 // Allocate memory within the MoonBit module.
 func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uint32) (uint32, error) {
-	// Always allocate at least 8 bytes for the header
-	allocSize := size
+	// Allocate header (8 bytes) + data (words * 4 bytes)
+	// except for strings which use words * 2 bytes
+	var allocSize uint32
+	if classID == StringBlockType {
+		allocSize = 8 + size*2 // UTF-16 characters
+	} else {
+		allocSize = 8 + size*4 // 4-byte words
+	}
 	if allocSize < 8 {
 		allocSize = 8
 	}
@@ -109,17 +115,17 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	}
 
 	refCount := uint32(1)
-	// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
+	// New-style memory block header: classID in lower 8 bits, words in upper 24 bits
 	// For strings, size is already in UTF-16 characters (words)
-	// For primitive slices, size is already in words (from size/4 in handler)
+	// For primitive slices, size is already in words (from handler)
 	// For other types, size is in bytes and needs to be converted to words
 	words := size
-	if classID != StringBlockType {
-		// For non-strings, convert byte size to words (round up)
+	if classID != StringBlockType && classID != FixedArrayByteBlockType {
+		// For non-strings and non-byte arrays, convert byte size to words (round up)
 		words = (size + 3) >> 2
 	}
 
-	memType := words | (classID << 24)
+	memType := (words << 8) | classID
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
 
