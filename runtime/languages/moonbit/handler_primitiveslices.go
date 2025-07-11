@@ -139,13 +139,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	}
 
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+	baseType, _, _ := stripErrorAndOption(elemType.Name())
+	if baseType == "Bool" || baseType == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = 4
 	}
 	isNullable := elemType.IsNullable()
-	if isNullable && elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
+	if isNullable && baseType != "Int64" && baseType != "UInt64" {
 		// Int64? and UInt64? both provide pointers to values.
 		elemTypeSize = 8
 	}
@@ -190,7 +191,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	}
 
 	// TODO: Figure out how to not make special cases.
-	if elemType.Name() == "Bool" {
+	if baseType == "Bool" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			item := binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:])
@@ -199,7 +200,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 		return items.Interface(), nil
 	}
-	if elemType.Name() == "Char" {
+	if baseType == "Char" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			val := int16(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
@@ -256,7 +257,8 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	numElements := uint32(len(slice))
 	elemTypeSize := h.converter.TypeSize()
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+	baseType, _, _ := stripErrorAndOption(elemType.Name())
+	if baseType == "Bool" || baseType == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = 4
@@ -265,7 +267,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	size := numElements * uint32(elemTypeSize)
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
-	switch elemType.Name() {
+	switch baseType {
 	case "Bool", "Char", "Int", "UInt", "Int64", "UInt64", "Float", "Double":
 		memBlockClassID = FixedArrayPrimitiveBlockType
 	case "Byte":
@@ -312,7 +314,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 		// For Int64, UInt64, and Double, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
-		if elemType.Name() == "Int64" || elemType.Name() == "UInt64" || elemType.Name() == "Double" {
+		if baseType == "Int64" || baseType == "UInt64" || baseType == "Double" {
 			// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
 			numElements := size / 8
 			memType := numElements | (memBlockClassID << 24)
@@ -321,7 +323,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	var dataBuffer []byte
-	if elemType.Name() == "Bool" {
+	if baseType == "Bool" {
 		dataBuffer = make([]byte, numElements*4)
 		var zero T
 		for i := 0; i < len(slice); i++ {
@@ -331,7 +333,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
 			}
 		}
-	} else if elemType.Name() == "Char" {
+	} else if baseType == "Char" {
 		dataBuffer = make([]byte, numElements*4)
 		for i := 0; i < len(slice); i++ {
 			val := reflect.ValueOf(slice[i])

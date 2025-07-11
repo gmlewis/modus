@@ -13,6 +13,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/modus/runtime/langsupport"
 	"github.com/gmlewis/modus/runtime/utils"
@@ -105,12 +106,14 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	refCount := uint32(1)
 	// New-style memory block header: classID in upper 8 bits, words in lower 24 bits
 	// For strings, size is already in UTF-16 characters (words)
+	// For primitive slices, size is already in words (from size/4 in handler)
 	// For other types, size is in bytes and needs to be converted to words
 	words := size
-	if classID != StringBlockType {
-		// For non-strings, convert byte size to words (round up)
+	if classID != StringBlockType && classID != FixedArrayPrimitiveBlockType && classID != FixedArrayByteBlockType {
+		// For non-strings and non-primitive-arrays, convert byte size to words (round up)
 		words = (size + 3) >> 2
 	}
+	log.Printf("  // ALLOC DEBUG: allocateWasmMemory(size=%v, classID=%v) -> words=%v", size, classID, words)
 	memType := words | (classID << 24)
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
