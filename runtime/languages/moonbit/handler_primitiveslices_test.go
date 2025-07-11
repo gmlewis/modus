@@ -226,7 +226,7 @@ func TestPrimitiveSlicesEncodeDecode_Byte(t *testing.T) {
 			name:    "Array[Byte?]: []",
 			handler: byteOptionSliceHandler,
 			value:   []*byte{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Byte?]: [nil]",
@@ -335,7 +335,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 			name:    "Array[Char]: []",
 			handler: charSliceHandler,
 			value:   []int16{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char]: [0]",
@@ -376,7 +376,7 @@ func TestPrimitiveSlicesEncodeDecode_Char(t *testing.T) {
 			name:    "Array[Char?]: []",
 			handler: charOptionSliceHandler,
 			value:   []*int16{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Char?]: [nil]",
@@ -526,7 +526,7 @@ func TestPrimitiveSlicesEncodeDecode_Int16(t *testing.T) {
 			name:    "Array[Int16?]: []",
 			handler: int16OptionSliceHandler,
 			value:   []*int16{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int16?]: [nil]",
@@ -676,7 +676,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt16(t *testing.T) {
 			name:    "Array[UInt16?]: []",
 			handler: uint16OptionSliceHandler,
 			value:   []*uint16{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt16?]: [nil]",
@@ -812,7 +812,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			name:    "Array[Int]: []",
 			handler: intSliceHandler,
 			value:   []int32{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int]: [-2147483648]",
@@ -865,7 +865,7 @@ func TestPrimitiveSlicesEncodeDecode_Int(t *testing.T) {
 			name:    "Array[Int?]: []",
 			handler: intOptionSliceHandler,
 			value:   []*int32{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int?]: [nil]",
@@ -988,7 +988,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			name:    "Array[UInt]: []",
 			handler: uintSliceHandler,
 			value:   []uint32{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt]: [0]",
@@ -1035,7 +1035,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt(t *testing.T) {
 			name:    "Array[UInt?]: []",
 			handler: uintOptionSliceHandler,
 			value:   []*uint32{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt?]: [nil]",
@@ -1152,7 +1152,7 @@ func TestPrimitiveSlicesEncodeDecode_Int64(t *testing.T) {
 			name:    "Array[Int64]: []",
 			handler: int64SliceHandler,
 			value:   []int64{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[Int64]: [-9223372036854775808]",
@@ -1295,7 +1295,7 @@ func TestPrimitiveSlicesEncodeDecode_UInt64(t *testing.T) {
 			name:    "Array[UInt64]: []",
 			handler: uint64SliceHandler,
 			value:   []uint64{},
-			want:    []byte{1, 0, 0, 0, 0, 0, 0, 241},
+			want:    []byte{1, 0, 0, 0, 241, 0, 0, 0},
 		},
 		{
 			name:    "Array[UInt64]: [0]",
