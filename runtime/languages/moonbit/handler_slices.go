@@ -226,7 +226,16 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		wa.Memory().WriteUint32Le(ptr-4, memType)
 	} else {
 
-		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
+		// Convert size to appropriate allocation unit based on type
+		var allocSize uint32
+		if memBlockClassID == uint32(FixedArrayByteBlockType) {
+			allocSize = size // Byte arrays: size is actual data size
+		} else if memBlockClassID == uint32(StringBlockType) {
+			allocSize = size / 2 // String arrays: size is UTF-16 character count
+		} else {
+			allocSize = size / 4 // Other arrays: size is word count
+		}
+		ptr, cln, err = wa.allocateAndPinMemory(ctx, allocSize, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
 		}
