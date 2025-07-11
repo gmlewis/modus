@@ -13,7 +13,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 
@@ -138,7 +137,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	}
 
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
-	log.Printf("  // DEBUG: sliceHandler.Decode: numElements=%v, elemTypeSize=%v, len(memBlock)=%v, elemType=%v, isNullable=%v", numElements, elemTypeSize, len(memBlock), elemType.Name(), isNullable)
 	for i := uint32(0); i < numElements; i++ {
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {

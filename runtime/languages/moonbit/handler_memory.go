@@ -13,7 +13,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -51,7 +50,6 @@ type wasmMemoryWriter interface {
 }
 
 func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data []byte, classID byte, words uint32, err error) {
-	log.Printf("  // DEBUG: memoryBlockAtOffset called with offset=%v, sizeOverride=%v", debugShowOffset(offset), sizeOverride)
 	if offset == 0 {
 		return nil, 0, 0, nil
 	}
@@ -61,7 +59,6 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
-	log.Printf("  // DEBUG: part2=0x%08X, memBlockHeader=%+v", part2, memBlockHeader)
 	
 	// All memory blocks from the new MoonBit compiler use new-style format
 	// New-style: words in lower 24 bits, classID in upper 8 bits
@@ -76,7 +73,6 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	
 	// For new-style memory blocks, size = 8 (header) + words*4 (data)
 	size = uint32(8 + words*4)
-	log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
 	
 	if sizeOverride > 0 {
 		// sizeOverride is the data size, add header size
@@ -87,7 +83,6 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlock from WASM memory: (offset: %v, size: %v)", debugShowOffset(offset), size)
 	}
-	log.Printf("  // DEBUG: memoryBlockAtOffset returning classID=%v, words=%v, len(memBlock)=%v", classID, words, len(memBlock))
 	return memBlock, classID, words, nil
 }
 
