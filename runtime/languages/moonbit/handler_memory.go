@@ -27,7 +27,7 @@ func Ptr[T any](v T) *T {
 const (
 	FixedArrayPrimitiveBlockType = 241
 	PtrArrayBlockType            = 242
-	StringBlockType              = 80 // 243
+	StringBlockType              = 243 // Changed from 80
 	FixedArrayByteBlockType      = 246
 	TupleBlockType               = 0
 	ZonedDateTimeBlockType       = 3
