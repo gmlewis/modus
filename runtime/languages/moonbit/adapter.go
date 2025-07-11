@@ -109,9 +109,12 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	// For primitive slices, size is already in words (from size/4 in handler)
 	// For other types, size is in bytes and needs to be converted to words
 	words := size
-	if classID != StringBlockType && classID != FixedArrayPrimitiveBlockType && classID != FixedArrayByteBlockType {
-		// For non-strings and non-primitive-arrays, convert byte size to words (round up)
+	if classID != StringBlockType {
+		// For non-strings, convert byte size to words (round up)
 		words = (size + 3) >> 2
+	}
+	if classID == FixedArrayPrimitiveBlockType {
+		log.Printf("DEBUG: ADAPTER: allocateWasmMemory(size=%d, classID=%d) -> words=%d", size, classID, words)
 	}
 	log.Printf("  // ALLOC DEBUG: allocateWasmMemory(size=%v, classID=%v) -> words=%v", size, classID, words)
 	memType := words | (classID << 24)

@@ -13,6 +13,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"log"
 	"reflect"
 	"strings"
 
@@ -217,6 +218,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
 	} else {
+		log.Printf("DEBUG: SLICE ENCODE: elemType=%s, numElements=%d, size=%d, memBlockClassID=%d", elemType.Name(), numElements, size, memBlockClassID)
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
