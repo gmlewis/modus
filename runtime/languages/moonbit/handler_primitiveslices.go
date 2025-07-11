@@ -467,11 +467,24 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				// For 2 bytes, no padding is added
 			}
 		} else if memBlockClassID == StringBlockType {
-			// For MoonBit string arrays (Int16/UInt16), add padding for empty arrays
+			// For MoonBit string arrays (Int16/UInt16), add padding for small arrays
 			if size == 0 {
 				// Empty string arrays are padded to 4 bytes with padding count 3
 				paddedSize := uint32(4)
 				padding := uint8(3)
+				writeHeader = func(mem []byte) {
+					// Write padding count at the end
+					mem[paddedSize-1] = padding
+				}
+				size = paddedSize
+				var zero T
+				for i := numElements; i < paddedSize/2; i++ {
+					slice = append(slice, zero) // add the padding elements (2 bytes each)
+				}
+			} else if size == 2 {
+				// Single string elements are padded to 4 bytes with padding count 1
+				paddedSize := uint32(4)
+				padding := uint8(1)
 				writeHeader = func(mem []byte) {
 					// Write padding count at the end
 					mem[paddedSize-1] = padding
