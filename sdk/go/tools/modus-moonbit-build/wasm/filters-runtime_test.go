@@ -25,9 +25,10 @@ const (
 
 func TestFilterMetadata_Runtime(t *testing.T) {
 	config := &config.Config{
-		SourceDir:    runtimePath,
-		OutputDir:    runtimeBuildPath,
-		WasmFileName: "testdata.wasm",
+		CompilerOptions: []string{"--debug"},
+		SourceDir:       runtimePath,
+		OutputDir:       runtimeBuildPath,
+		WasmFileName:    "testdata.wasm",
 	}
 	testFilterMetadataHelper(t, config, wantRuntimeBeforeFilter, wantRuntimeAfterFilter)
 }

@@ -23,13 +23,14 @@ import (
 )
 
 const (
-	minMoonBitVersion = "0.1.20250107"
-	wasmBuildDir      = "target/wasm/release/build"
+	minMoonBitVersion   = "0.1.20250107"
+	wasmDebugBuildDir   = "target/wasm/debug/build"
+	wasmReleaseBuildDir = "target/wasm/release/build"
 )
 
 func moonFmt(config *config.Config) error {
 	args := []string{"fmt"}
-	args = append(args, config.CompilerOptions...)
+	//	args = append(args, config.CompilerOptions...)
 
 	log.Printf("\nRunning: %v '%v'", config.CompilerPath, strings.Join(args, "' '"))
 	cmd := exec.Command(config.CompilerPath, args...)
@@ -75,6 +76,13 @@ func Compile(config *config.Config) error {
 
 	if err := moonTestWasmGC(config); err != nil {
 		return err
+	}
+
+	wasmBuildDir := wasmReleaseBuildDir
+	for _, arg := range config.CompilerOptions {
+		if arg == "--debug" {
+			wasmBuildDir = wasmDebugBuildDir
+		}
 	}
 
 	args := []string{"build", "--target", "wasm"}

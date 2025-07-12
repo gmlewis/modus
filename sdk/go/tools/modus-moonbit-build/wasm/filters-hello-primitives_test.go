@@ -27,9 +27,10 @@ const (
 
 func TestFilterMetadata_HelloPrimitives(t *testing.T) {
 	config := &config.Config{
-		SourceDir:    helloPrimitivesPath,
-		OutputDir:    helloPrimitivesBuildPath,
-		WasmFileName: "hello-primitives.wasm",
+		CompilerOptions: []string{"--debug"},
+		SourceDir:       helloPrimitivesPath,
+		OutputDir:       helloPrimitivesBuildPath,
+		WasmFileName:    "hello-primitives.wasm",
 	}
 	copyOfBefore := deepCopyMetadata(t, wantHelloPrimitivesBeforeFilter)
 	testFilterMetadataHelper(t, config, copyOfBefore, wantHelloPrimitivesAfterFilter)

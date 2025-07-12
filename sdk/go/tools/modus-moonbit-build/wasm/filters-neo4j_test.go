@@ -27,9 +27,10 @@ const (
 
 func TestFilterMetadata_Neo4j(t *testing.T) {
 	config := &config.Config{
-		SourceDir:    neo4jPath,
-		OutputDir:    neo4jBuildPath,
-		WasmFileName: "neo4j.wasm",
+		CompilerOptions: []string{"--debug"},
+		SourceDir:       neo4jPath,
+		OutputDir:       neo4jBuildPath,
+		WasmFileName:    "neo4j.wasm",
 	}
 	copyOfBefore := deepCopyMetadata(t, wantNeo4jBeforeFilter)
 	testFilterMetadataHelper(t, config, copyOfBefore, wantNeo4jAfterFilter)

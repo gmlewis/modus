@@ -25,9 +25,10 @@ const (
 
 func TestFilterMetadata_YoutubeWalkthrough(t *testing.T) {
 	config := &config.Config{
-		SourceDir:    youtubePath,
-		OutputDir:    youtubeBuildPath,
-		WasmFileName: "youtube-walkthrough.wasm",
+		CompilerOptions: []string{"--debug"},
+		SourceDir:       youtubePath,
+		OutputDir:       youtubeBuildPath,
+		WasmFileName:    "youtube-walkthrough.wasm",
 	}
 	copyOfBefore := deepCopyMetadata(t, wantYoutubeWalkthroughBeforeFilter)
 	testFilterMetadataHelper(t, config, copyOfBefore, wantYoutubeWalkthroughAfterFilter)
