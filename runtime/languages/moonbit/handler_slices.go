@@ -211,7 +211,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Allocate memory
 	if size == 0 {
-		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID) // cannot allocate 0 bytes
+		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
 		}

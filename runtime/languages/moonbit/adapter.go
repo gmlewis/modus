@@ -22,20 +22,15 @@ import (
 
 func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 	return &wasmAdapter{
-		mod:         mod,
-		visitedPtrs: make(map[uint32]int),
-		// pub fn cabi_realloc(src_offset : Int, src_size : Int, _dst_alignment : Int, dst_size : Int) -> Int
+		mod:                                    mod,
+		visitedPtrs:                            make(map[uint32]int),
 		fnRealloc:                              mod.ExportedFunction("cabi_realloc"),
-		fnPtr2str:                              mod.ExportedFunction("ptr2str"), // pub fn ptr2str(ptr : Int) -> String
+		fnPtr2str:                              mod.ExportedFunction("ptr2str"),
 		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
-		// pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration raise Error
-		fnDurationFromNanos: mod.ExportedFunction("duration_from_nanos"),
-		// pub fn read_map(key_type_name_ptr : Int, value_type_name_ptr : Int, map_ptr : Int) -> Int64
-		fnReadMap: mod.ExportedFunction("read_map"),
-		// pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, key_ptr : Int, value_ptr : Int) -> Int
-		fnWriteMap: mod.ExportedFunction("write_map"),
-		// pub fn ptr_to_none() -> Int {
-		fnPtrToNone: mod.ExportedFunction("ptr_to_none"),
+		fnDurationFromNanos:                    mod.ExportedFunction("duration_from_nanos"),
+		fnReadMap:                              mod.ExportedFunction("read_map"),
+		fnWriteMap:                             mod.ExportedFunction("write_map"),
+		fnPtrToNone:                            mod.ExportedFunction("ptr_to_none"),
 	}
 }
 
@@ -117,11 +112,11 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 // 	if err != nil {
 // 		return fmt.Errorf("failed to free WASM memory (offset: %v): %w", offset, err)
 // 	}
-
+//
 // 	ptr := uint32(res[0])
 // 	if ptr != 0 {
 // 		return fmt.Errorf("failed to free WASM memory: non-zero result: %v", ptr)
 // 	}
-
+//
 // 	return nil
 // }

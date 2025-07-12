@@ -13,7 +13,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"log"
 
 	"github.com/gmlewis/modus/runtime/utils"
 	wasm "github.com/tetratelabs/wazero/api"
@@ -26,9 +25,10 @@ func Ptr[T any](v T) *T {
 }
 
 const (
+	// TODO: Fix these:
 	FixedArrayPrimitiveBlockType = 241
 	PtrArrayBlockType            = 242
-	StringBlockType              = 80 // 243
+	StringBlockType              = 243
 	FixedArrayByteBlockType      = 246
 	TupleBlockType               = 0
 	ZonedDateTimeBlockType       = 3
@@ -37,7 +37,7 @@ const (
 	PlainDateTimeBlockType       = 2
 	PlainDateBlockType           = 3
 	PlainTimeBlockType           = 4
-	OptionBlockType              = 1 // TODO
+	OptionBlockType              = 1
 )
 
 // For testing purposes:
@@ -55,28 +55,24 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, nil
 	}
 
-	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8+16)) // for debugging - was 8
+	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8))
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))
 	}
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
 	classID = byte(part2 >> 24)
 	var size uint32
+	// TODO: fix this
 	if classID == 0 {
-		// Old-style memory block
 		classID = byte(part2 & 0xff)
 		words = part2 >> 8
 		size = uint32(8 + words*4)
-		log.Printf("  // OLD-STYLE: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
 	} else {
-		// New-style memory block
 		words = part2 & 0x00ffffff
 		size = uint32(8 * (2 + (words >> 2)))
-		log.Printf("  // NEW: memoryBlockAtOffset(offset: %v): classID: %v, words: %v, size: %v, memBlockHeader: %+v", debugShowOffset(offset), classID, words, size, memBlockHeader)
 	}
 	if sizeOverride > 0 {
-		// size = 8 + sizeOverride
-		size = sizeOverride
+		size = 8 + sizeOverride
 	}
 
 	memBlock, ok := wa.Memory().Read(offset, size)

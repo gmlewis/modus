@@ -93,9 +93,6 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 			} else {
 				return p.NewSliceHandler(ctx, ti)
 			}
-			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
-			// Even a `FixedArray` in MoonBit is similar to a slice in Go because
-			// its length is not encoded as part of its type.
 		}
 	} else if ti.IsMap() {
 		return p.NewMapHandler(ctx, ti)

@@ -24,33 +24,28 @@ fn _host_echo4(message : Int) -> Int = "modus_test" "echo4"
 
 ///|
 pub fn host_echo1(message : String) -> String {
-  let ptr = @ffi.str2ptr(message) - 8
-  let result = _host_echo1(ptr)
-  @ffi.ptr2str(result + 8)
+  let ptr = cast(message)
+  cast(_host_echo1(ptr))
 }
 
 ///|
 pub fn host_echo2(message : String?) -> String {
   match message {
-    None => {
-      let result = _host_echo2(0)
-      @ffi.ptr2str(result + 8)
-    }
+    None => cast(_host_echo2(0))
     Some(m) => {
-      let ptr = @ffi.str2ptr(m) - 8
-      let result = _host_echo2(ptr)
-      @ffi.ptr2str(result + 8)
+      let ptr = cast(m)
+      cast(_host_echo2(ptr))
     }
   }
 }
 
 ///|
 pub fn host_echo3(message : String) -> String? {
-  let ptr = @ffi.str2ptr(message) - 8
+  let ptr = cast(message)
   let result = _host_echo3(ptr)
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result + 8))
+    _ => Some(cast(result))
   }
 }
 
@@ -59,13 +54,13 @@ pub fn host_echo4(message : String?) -> String? {
   let result = match message {
     None => _host_echo4(0)
     Some(m) => {
-      let ptr = @ffi.str2ptr(m) - 8
+      let ptr = cast(m)
       _host_echo4(ptr)
     }
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result + 8))
+    _ => Some(cast(result))
   }
 }
 
@@ -83,7 +78,7 @@ fn host_encode_strings1(items : Array[String]?) -> String? {
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result + 8))
+    _ => Some(cast(result))
   }
 }
 
@@ -101,6 +96,6 @@ fn host_encode_strings2(items : Array[String?]?) -> String? {
   }
   match result {
     0 => None
-    _ => Some(@ffi.ptr2str(result + 8))
+    _ => Some(cast(result))
   }
 }

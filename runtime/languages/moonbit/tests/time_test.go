@@ -196,7 +196,6 @@ func TestTimeDurationOptionInput_none_style2(t *testing.T) {
 func TestTimeDurationOutput(t *testing.T) {
 	fnName := "test_duration_output"
 
-	// memoryBlockAtOffset(offset: 92048=0x00016790=[144 103 1 0], size: 20=8+words*4), classID=0(Tuple), words=3, memBlock=[2 0 0 0 0 3 0 0 5 0 0 0 0 0 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

@@ -32,8 +32,6 @@ func TestArrayInput_int16_option(t *testing.T) {
 func TestArrayOutput_int16_option(t *testing.T) {
 	fnName := "test_array_output_int16_option"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 3 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 11 0 0 0 255 255 255 255 33 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -51,7 +49,6 @@ func TestArrayOutput_int16_option(t *testing.T) {
 
 func getInt16OptionArray() []*int16 {
 	a := int16(11)
-	// b := 22
 	c := int16(33)
 	return []*int16{&a, nil, &c}
 }
