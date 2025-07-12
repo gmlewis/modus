@@ -66,6 +66,10 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		pkg.MoonPkgJSON.LinkTargets["wasm"] = wasmLinkTarget
 	}
 
+	// Ensure that `warn-list` and `supported-target` have been set.
+	pkg.MoonPkgJSON.WarnList = "-44"
+	pkg.MoonPkgJSON.SupportedTargets = []string{"wasm"}
+
 	// TODO: Only include the exports that are actually needed.
 	overrides := []string{ // clear out existing exports
 		"cabi_realloc",

@@ -115,5 +115,9 @@
       ],
       "export-memory-name": "memory"
     }
-  }
+  },
+  "warn-list": "-44",
+  "supported-targets": [
+    "wasm"
+  ]
 }

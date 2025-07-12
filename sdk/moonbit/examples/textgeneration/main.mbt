@@ -7,14 +7,16 @@
 // about the options available on the model, which you can set on the input object.
 
 // This model name should match the one defined in the modus.json manifest file.
+
 ///|
 const MODEL_NAME = "text-generator"
 
 // This function generates some text based on the instruction and prompt provided.
+
 ///|
-fn generate_text(instruction : String, prompt : String) -> String!Error {
+fn generate_text(instruction : String, prompt : String) -> String raise Error {
   // The imported ChatModel type follows the OpenAI Chat completion model input format.
-  let model = @models.get_model!(MODEL_NAME)
+  let model = @models.get_model(MODEL_NAME)
 
   // We'll start by creating an input object using the instruction and prompt provided.
   let input = @models.create_input(
