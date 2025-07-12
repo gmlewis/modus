@@ -6,7 +6,7 @@
 
 PROJECTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 pushd ../../tools/modus-moonbit-build > /dev/null
-go run . "$PROJECTDIR"
+go run . "$PROJECTDIR" --debug
 exit_code=$?
 popd > /dev/null
 exit $exit_code
