@@ -23,7 +23,7 @@ import (
 )
 
 const (
-	minMoonBitVersion   = "0.1.20250107"
+	minMoonBitVersion = "0.1.20250704"
 	wasmDebugBuildDir   = "target/wasm/debug/build"
 	wasmReleaseBuildDir = "target/wasm/release/build"
 )
