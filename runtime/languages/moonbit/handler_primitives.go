@@ -229,9 +229,9 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			return nil, nil
 		case h.typeInfo.Name() == "Char?" && vals[0] >= 0xffffffff:
 			return nil, nil
-		case h.typeInfo.Name() == "Int16?" && vals[0] >= 0xffffffff:
+		case h.typeInfo.Name() == "Int16?" && vals[0] == 0x8000:
 			return nil, nil
-		case h.typeInfo.Name() == "UInt16?" && vals[0] >= 0xffffffff:
+		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff:
 			return nil, nil
 		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000:
 			return nil, nil
@@ -283,10 +283,12 @@ func (h *primitiveHandler[T]) Encode(ctx context.Context, wasmAdapter langsuppor
 				return []uint64{0xffffffff}, nil, nil
 			case h.typeInfo.Name() == "Char?",
 				h.typeInfo.Name() == "Int?",
-				h.typeInfo.Name() == "Int16?",
-				h.typeInfo.Name() == "UInt?",
-				h.typeInfo.Name() == "UInt16?":
+				h.typeInfo.Name() == "UInt?":
 				return []uint64{0x100000000}, nil, nil
+			case h.typeInfo.Name() == "Int16?":
+				return []uint64{0x8000}, nil, nil
+			case h.typeInfo.Name() == "UInt16?":
+				return []uint64{0xffffffff}, nil, nil
 			case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 				h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
 				ptr, cln, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes

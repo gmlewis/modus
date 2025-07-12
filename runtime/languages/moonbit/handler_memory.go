@@ -62,8 +62,16 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 	part2 := binary.LittleEndian.Uint32(memBlockHeader[4:8])
 	classID = byte(part2 >> 24)
 	var size uint32
-	// TODO: fix this
-	if classID == 0 {
+
+	// For strings, extract the length from the lower 28 bits
+	if classID == StringBlockType {
+		// String length is in the lower 28 bits (in characters)
+		words = part2 & 0x0FFFFFFF
+		// Size is 8 bytes header + (length * 2) bytes for UTF-16 data, padded to 4-byte boundary
+		dataSize := words * 2
+		paddedSize := (dataSize + 3) & ^uint32(3) // Round up to next 4-byte boundary
+		size = 8 + paddedSize
+	} else if classID == 0 {
 		classID = byte(part2 & 0xff)
 		words = part2 >> 8
 		size = uint32(8 + words*4)
