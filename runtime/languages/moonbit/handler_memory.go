@@ -28,7 +28,7 @@ const (
 	// TODO: Fix these:
 	FixedArrayPrimitiveBlockType = 241
 	PtrArrayBlockType            = 242
-	StringBlockType              = 243
+	StringBlockType              = 80
 	FixedArrayByteBlockType      = 246
 	TupleBlockType               = 0
 	ZonedDateTimeBlockType       = 3
