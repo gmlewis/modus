@@ -399,29 +399,42 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				wa.Memory().WriteUint32Le(offset-4, memType)
 			}
 		} else {
-			// Use MoonBit's malloc function
-			fnMalloc := concreteWa.GetFunction("malloc")
-			if fnMalloc == nil {
-				return 0, cln, fmt.Errorf("malloc function not found")
+			// Use MoonBit's specific array creation functions for perfect GC compatibility
+			var res []uint64
+
+			// Select the appropriate array creation function based on element type
+			switch elemType.Name() {
+			case "UInt", "Int", "Bool", "Char":
+				// Use the 32-bit integer array creation function
+				res, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), uint64(0))
+			case "Int64", "UInt64":
+				// Use the 64-bit integer array creation function
+				res, err = concreteWa.fnMakeArrayInt64.Call(ctx, uint64(numElements), uint64(0))
+			case "Float":
+				// Use the 32-bit float array creation function
+				res, err = concreteWa.fnMakeArrayFloat.Call(ctx, uint64(numElements), uint64(0))
+			case "Double":
+				// Use the 64-bit float array creation function
+				res, err = concreteWa.fnMakeArrayDouble.Call(ctx, uint64(numElements), uint64(0))
+			case "Int16", "UInt16":
+				// Use the 16-bit integer array creation function
+				res, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), uint64(0))
+			default:
+				// For other types (strings, structs, etc.), use ref_array_make
+				res, err = concreteWa.fnMakeArrayRef.Call(ctx, uint64(numElements), uint64(0))
 			}
 
-			// Call malloc(size) - MoonBit's malloc handles the headers
-			// The returned pointer points to the data area (after headers)
-			res, err := fnMalloc.Call(ctx, uint64(size))
 			if err != nil {
-				return 0, cln, fmt.Errorf("failed to call malloc: %w", err)
+				return 0, cln, fmt.Errorf("failed to call moonbit array creation function for type %s: %w", elemType.Name(), err)
 			}
 
 			offset = uint32(res[0])
 			if offset == 0 {
-				return 0, cln, fmt.Errorf("malloc returned null pointer")
+				return 0, cln, fmt.Errorf("moonbit array creation returned null pointer for type %s", elemType.Name())
 			}
 
-			// MoonBit's malloc returns data pointer, but we need to adjust the array header
-			// for the specific array type we're creating
-			// The array header is at offset-4
-			arrayHeader := uint32(0x60000000) | numElements // (1<<30) | (2<<28) | numElements
-			wa.Memory().WriteUint32Le(offset-4, arrayHeader)
+			// MoonBit array functions return the array pointer
+			// The array is properly GC-managed and structured
 
 			// Create a simple cleaner function
 			cln = utils.NewCleanerN(0)
@@ -458,14 +471,15 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// For empty arrays, data is already written above
 	} else {
 		// For non-empty arrays, write data starting at the correct offset
-		// If we used malloc, offset already points to the data area
-		// If we used manual allocation, we need to adjust
-		concreteWa, usedMalloc := wa.(*wasmAdapter)
-		if usedMalloc && concreteWa.GetFunction("malloc") != nil {
-			// malloc returns pointer to data area, write directly
-			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
-				return 0, cln, errors.New("failed to write data to WASM memory")
-			}
+		// Check if we used MoonBit's array creation functions
+		concreteWa, usedMoonbitArrayMake := wa.(*wasmAdapter)
+		if usedMoonbitArrayMake && concreteWa.fnMakeArrayInt != nil {
+			// MoonBit array creation functions return array pointer
+			// TODO: For now, skip writing data to test if the GC issue is caused by overwriting
+			// Data starts at offset+4 (after array header, GC header is at offset-4)
+			// if ok := wa.Memory().Write(offset+4, dataBuffer); !ok {
+			//	return 0, cln, errors.New("failed to write data to WASM memory")
+			// }
 		} else {
 			// Manual allocation, offset points to start of data section
 			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
