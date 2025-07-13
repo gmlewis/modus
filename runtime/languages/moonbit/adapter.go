@@ -31,7 +31,13 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnMalloc:                               mod.ExportedFunction("malloc"),
 		fnFree:                                 mod.ExportedFunction("free"),
 		fnCopy:                                 mod.ExportedFunction("copy"),
+		fnPtr2doubleArray:                      mod.ExportedFunction("ptr2double_array"),
+		fnPtr2floatArray:                       mod.ExportedFunction("ptr2float_array"),
+		fnPtr2int64Array:                       mod.ExportedFunction("ptr2int64_array"),
+		fnPtr2intArray:                         mod.ExportedFunction("ptr2int_array"),
 		fnPtr2str:                              mod.ExportedFunction("ptr2str"),
+		fnPtr2uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
+		fnPtr2uintArray:                        mod.ExportedFunction("ptr2uint_array"),
 		fnMakeArrayFloat:                       mod.ExportedFunction("moonbit_float32_array_make"),
 		fnMakeArrayDouble:                      mod.ExportedFunction("moonbit_float_array_make"),
 		fnMakeArrayInt:                         mod.ExportedFunction("moonbit_i32_array_make"),
@@ -56,7 +62,13 @@ type wasmAdapter struct {
 	fnMalloc          wasm.Function
 	fnFree            wasm.Function
 	fnCopy            wasm.Function
+	fnPtr2doubleArray wasm.Function
+	fnPtr2floatArray  wasm.Function
+	fnPtr2int64Array  wasm.Function
+	fnPtr2intArray    wasm.Function
 	fnPtr2str         wasm.Function
+	fnPtr2uint64Array wasm.Function
+	fnPtr2uintArray   wasm.Function
 	fnMakeArrayFloat  wasm.Function
 	fnMakeArrayDouble wasm.Function
 	fnMakeArrayInt    wasm.Function
