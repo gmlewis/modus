@@ -213,8 +213,16 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 				return []T{}, nil
 			}
 		}
-	case FixedArrayByteBlockType, // Byte
-		StringBlockType: // Int16, Char
+	case 80: // StringBlockType - FixedArray[Int16/UInt16]
+		// For Int16/UInt16 arrays, handle similar to other primitive arrays
+		if numElements == 0 && len(sliceMemBlock) > 8 {
+			// Calculate numElements from actual memory block data size
+			dataSize := len(sliceMemBlock) - 8 // subtract header size
+			numElements = uint32(dataSize) / uint32(elemTypeSize)
+		} else if numElements == 0 {
+			return []T{}, nil
+		}
+	case FixedArrayByteBlockType: // Byte
 		// remainderOffset := words*4 + 7
 		// remainder := uint32(3 - sliceMemBlock[remainderOffset]%4)
 		// size := (words-1)*4 + remainder
@@ -399,44 +407,20 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				wa.Memory().WriteUint32Le(offset-4, memType)
 			}
 		} else {
-			// Use MoonBit's specific array creation functions for perfect GC compatibility
-			var res []uint64
-
-			// Select the appropriate array creation function based on element type
-			switch elemType.Name() {
-			case "UInt", "Int", "Bool", "Char":
-				// Use the 32-bit integer array creation function
-				res, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), uint64(0))
-			case "Int64", "UInt64":
-				// Use the 64-bit integer array creation function
-				res, err = concreteWa.fnMakeArrayInt64.Call(ctx, uint64(numElements), uint64(0))
-			case "Float":
-				// Use the 32-bit float array creation function
-				res, err = concreteWa.fnMakeArrayFloat.Call(ctx, uint64(numElements), uint64(0))
-			case "Double":
-				// Use the 64-bit float array creation function
-				res, err = concreteWa.fnMakeArrayDouble.Call(ctx, uint64(numElements), uint64(0))
-			case "Int16", "UInt16":
-				// Use the 16-bit integer array creation function
-				res, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), uint64(0))
-			default:
-				// For other types (strings, structs, etc.), use ref_array_make
-				res, err = concreteWa.fnMakeArrayRef.Call(ctx, uint64(numElements), uint64(0))
-			}
-
+			// Use malloc + ptr2*_array approach for GC-compatible arrays
+			// Step 1: Allocate raw memory for our data using MoonBit's malloc
+			malloc_res, err := concreteWa.fnMalloc.Call(ctx, uint64(size))
 			if err != nil {
-				return 0, cln, fmt.Errorf("failed to call moonbit array creation function for type %s: %w", elemType.Name(), err)
+				return 0, cln, fmt.Errorf("failed to call moonbit malloc: %w", err)
 			}
-
-			offset = uint32(res[0])
-			if offset == 0 {
-				return 0, cln, fmt.Errorf("moonbit array creation returned null pointer for type %s", elemType.Name())
+			if len(malloc_res) == 0 || malloc_res[0] == 0 {
+				return 0, cln, errors.New("moonbit malloc returned null pointer")
 			}
+			dataPtr := uint32(malloc_res[0])
 
-			// MoonBit array functions return the array pointer
-			// The array is properly GC-managed and structured
-
-			// Create a simple cleaner function
+			// Step 2: We'll write data later and then convert to proper array
+			// For now, store the data pointer
+			offset = dataPtr
 			cln = utils.NewCleanerN(0)
 		}
 	}
@@ -470,17 +454,52 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	if size == 0 {
 		// For empty arrays, data is already written above
 	} else {
-		// For non-empty arrays, write data starting at the correct offset
-		// Check if we used MoonBit's array creation functions
-		concreteWa, usedMoonbitArrayMake := wa.(*wasmAdapter)
-		if usedMoonbitArrayMake && concreteWa.fnMakeArrayInt != nil {
-			// MoonBit array creation functions return array pointer
-			// Data starts at offset+8 (after GC header and array header)
-			if ok := wa.Memory().Write(offset+8, dataBuffer); !ok {
-				return 0, cln, errors.New("failed to write data to WASM memory")
+		// For non-empty arrays, write data and convert to proper MoonBit array
+		concreteWa, ok := wa.(*wasmAdapter)
+		if ok && concreteWa.fnMalloc != nil {
+			// Step 1: Write our data to the allocated memory
+			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
+				return 0, cln, errors.New("failed to write data to allocated memory")
+			}
+
+			// Step 2: Convert raw memory to proper MoonBit array using ptr2*_array
+			var arrayPtr []uint64
+			var err error
+			switch elemType.Name() {
+			case "UInt":
+				arrayPtr, err = concreteWa.fnPtr2UIntArray.Call(ctx, uint64(offset), uint64(numElements))
+			case "Int", "Bool", "Char":
+				arrayPtr, err = concreteWa.fnPtr2IntArray.Call(ctx, uint64(offset), uint64(numElements))
+			case "Float":
+				arrayPtr, err = concreteWa.fnPtr2FloatArray.Call(ctx, uint64(offset), uint64(numElements))
+			case "Double":
+				arrayPtr, err = concreteWa.fnPtr2DoubleArray.Call(ctx, uint64(offset), uint64(numElements))
+			case "Int64":
+				arrayPtr, err = concreteWa.fnPtr2Int64Array.Call(ctx, uint64(offset), uint64(numElements))
+			case "UInt64":
+				arrayPtr, err = concreteWa.fnPtr2UInt64Array.Call(ctx, uint64(offset), uint64(numElements))
+			case "Int16", "UInt16":
+				// For Int16/UInt16, fallback to manual approach since no ptr2*_array function
+				// The data is already written, so we're done
+			case "Byte":
+				// For Byte arrays, also use manual approach
+				// The data is already written, so we're done
+			default:
+				return 0, cln, fmt.Errorf("unsupported type for ptr2*_array conversion: %s", elemType.Name())
+			}
+
+			if err != nil {
+				return 0, cln, fmt.Errorf("failed to convert to array using ptr2*_array for type %s: %w", elemType.Name(), err)
+			}
+
+			// Update offset to point to the proper array (if conversion was used)
+			if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+				offset = uint32(arrayPtr[0])
+				// The array is now properly GC-managed, return early to skip manual headers
+				return offset, cln, nil
 			}
 		} else {
-			// Manual allocation, offset points to start of data section
+			// Fallback to manual allocation approach
 			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
 				return 0, cln, errors.New("failed to write data to WASM memory")
 			}
