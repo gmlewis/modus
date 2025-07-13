@@ -111,14 +111,45 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		}
 
 		if words == 1 {
-			// sliceOffset is the pointer to the single-slice element.
+			// For single element arrays, handle nullable primitives like multi-element arrays
 			items := reflect.MakeSlice(h.typeInfo.ReflectedType(), 1, 1)
-			item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
-			if err != nil {
-				return nil, err
-			}
-			if !utils.HasNil(item) {
-				items.Index(0).Set(reflect.ValueOf(item))
+
+			if elemType.IsPrimitive() && isNullable {
+				// For nullable primitives, the sliceOffset might be the None sentinel value
+				var value uint64
+				if sliceOffset == 0xffffffff {
+					// Special case: sliceOffset itself is the None sentinel
+					value = uint64(sliceOffset)
+				} else {
+					// Read the value from the sliceOffset location
+					memData, ok := wa.Memory().Read(sliceOffset, elemTypeSize)
+					if !ok {
+						return nil, fmt.Errorf("failed to read element data from memory offset %d", sliceOffset)
+					}
+
+					if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
+						value = binary.LittleEndian.Uint64(memData)
+					} else {
+						value32 := binary.LittleEndian.Uint32(memData)
+						value = uint64(value32)
+					}
+				}
+				item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
+				if err != nil {
+					return nil, err
+				}
+				if !utils.HasNil(item) {
+					items.Index(0).Set(reflect.ValueOf(item))
+				}
+			} else {
+				// sliceOffset is the pointer to the single-slice element.
+				item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
+				if err != nil {
+					return nil, err
+				}
+				if !utils.HasNil(item) {
+					items.Index(0).Set(reflect.ValueOf(item))
+				}
 			}
 			return items.Interface(), nil
 		}
