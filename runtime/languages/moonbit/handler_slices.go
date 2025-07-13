@@ -256,6 +256,12 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			return 0, cln, err
 		}
 		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
+	} else if elemType.IsNullable() && strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+		// For non-empty nullable arrays, use MoonBit's array creation functions
+		ptr, cln, err = h.createNullableArrayWithMoonBit(ctx, wasmAdapter, slice, elemType)
+		if err != nil {
+			return 0, cln, err
+		}
 	} else {
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
@@ -323,4 +329,77 @@ func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmA
 	}
 
 	return uint32(results[0]), nil
+}
+
+// createNullableArrayWithMoonBit uses MoonBit's own array creation functions
+// to create arrays with the correct memory structure for nullable elements.
+func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, elemType langsupport.TypeInfo) (uint32, utils.Cleaner, error) {
+	numElements := uint32(len(slice))
+
+	// Determine the appropriate MoonBit array creation function and None value
+	var funcName string
+	var noneValue uint64
+	switch elemType.Name() {
+	case "Bool?":
+		funcName = "moonbit_i32_array_make"
+		noneValue = uint64(uint32(0xffffffff)) // -1 as uint32, then converted to uint64
+	case "Byte?":
+		funcName = "moonbit_i32_array_make"
+		noneValue = 0xffffffff
+	case "Char?":
+		funcName = "moonbit_int16_array_make"
+		noneValue = 0xffffffff
+	case "Int16?":
+		funcName = "moonbit_int16_array_make"
+		noneValue = 0x8000 // sentinel for Int16?
+	case "UInt16?":
+		funcName = "moonbit_int16_array_make"
+		noneValue = 0xffffffff
+	case "Int?", "UInt?":
+		funcName = "moonbit_i32_array_make"
+		noneValue = 0x100000000 // sentinel for Int?/UInt?
+	case "Int64?", "UInt64?":
+		funcName = "moonbit_int64_array_make"
+		noneValue = 0x100000000 // will need special handling
+	case "Float?":
+		funcName = "moonbit_float32_array_make"
+		noneValue = 0x100000000 // will need special handling
+	case "Double?":
+		funcName = "moonbit_float_array_make"
+		noneValue = 0x100000000 // will need special handling
+	default:
+		return 0, nil, fmt.Errorf("unsupported nullable element type for MoonBit array creation: %s", elemType.Name())
+	}
+
+	// Get the MoonBit array creation function
+	fn := wasmAdapter.GetFunction(funcName)
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function %s not found in WASM module", funcName)
+	}
+
+	// For single-element arrays, we can use the None value directly
+	if numElements == 1 {
+		// Check if the element is nil (using utils.HasNil for proper nil detection)
+		if utils.HasNil(slice[0]) {
+			// Call the function with size=1 and None value
+			results, err := fn.Call(ctx, uint64(numElements), noneValue)
+			if err != nil {
+				return 0, nil, fmt.Errorf("failed to call %s: %w", funcName, err)
+			}
+
+			if len(results) != 1 {
+				return 0, nil, fmt.Errorf("expected 1 result from %s, got %d", funcName, len(results))
+			}
+
+			// For FixedArray, we need to return ptr-8 to match the pattern
+			if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+				return uint32(results[0]) - 8, nil, nil
+			}
+			return uint32(results[0]), nil, nil
+		}
+	}
+
+	// For more complex cases, we would need to create the array and populate elements
+	// For now, fall back to the original approach
+	return 0, nil, fmt.Errorf("complex nullable arrays not yet implemented with MoonBit functions (numElements=%d, first_element_nil=%v)", numElements, utils.HasNil(slice[0]))
 }
