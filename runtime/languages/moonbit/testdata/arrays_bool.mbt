@@ -82,36 +82,42 @@ pub fn test_array_input_bool_0(val : Array[Bool]) -> Unit raise Error {
   // println("expected: \{expected}")
   // println("val: \{cast_to_ptr(val)}")
   // println("val: \{val}")
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_1(val : Array[Bool]) -> Unit raise Error {
   let expected = test_array_output_bool_1()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_2(val : Array[Bool]) -> Unit raise Error {
   let expected = test_array_output_bool_2()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_3(val : Array[Bool]) -> Unit raise Error {
   let expected = test_array_output_bool_3()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_4(val : Array[Bool]) -> Unit raise Error {
   let expected = test_array_output_bool_4()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_option_0(val : Array[Bool?]) -> Unit raise Error {
   let expected = test_array_output_bool_option_0()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -120,6 +126,7 @@ pub fn test_array_input_bool_option_1_none(
   val : Array[Bool?]
 ) -> Unit raise Error {
   let expected = test_array_output_bool_option_1_none()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -128,6 +135,7 @@ pub fn test_array_input_bool_option_1_false(
   val : Array[Bool?]
 ) -> Unit raise Error {
   let expected = test_array_output_bool_option_1_false()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -136,23 +144,27 @@ pub fn test_array_input_bool_option_1_true(
   val : Array[Bool?]
 ) -> Unit raise Error {
   let expected = test_array_output_bool_option_1_true()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_option_2(val : Array[Bool?]) -> Unit raise Error {
   let expected = test_array_output_bool_option_2()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_option_3(val : Array[Bool?]) -> Unit raise Error {
   let expected = test_array_output_bool_option_3()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
 pub fn test_array_input_bool_option_4(val : Array[Bool?]) -> Unit raise Error {
   let expected = test_array_output_bool_option_4()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }

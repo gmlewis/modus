@@ -8,6 +8,7 @@
 ///|
 pub fn test_array_input_char_empty(val : Array[Char]) -> Unit raise Error {
   let expected = []
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -69,6 +70,7 @@ pub fn test_array_output_char_option_4() -> Array[Char?] {
 ///|
 pub fn test_array_input_char_option(val : Array[Char?]) -> Unit raise Error {
   let expected = get_char_option_array()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 

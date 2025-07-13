@@ -78,13 +78,15 @@ pub fn test_fixedarray_output_int_option_4() -> FixedArray[Int?] {
 ///|
 pub fn test_fixedarray_input_int_0(val : FixedArray[Int]) -> Unit raise Error {
   let expected = test_fixedarray_output_int_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_input_int_1(val : FixedArray[Int]) -> Unit raise Error {
   let expected = test_fixedarray_output_int_1()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -92,7 +94,8 @@ pub fn test_fixedarray_input_int_1_min(
   val : FixedArray[Int]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_1_min()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -100,25 +103,29 @@ pub fn test_fixedarray_input_int_1_max(
   val : FixedArray[Int]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_1_max()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_input_int_2(val : FixedArray[Int]) -> Unit raise Error {
   let expected = test_fixedarray_output_int_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_input_int_3(val : FixedArray[Int]) -> Unit raise Error {
   let expected = test_fixedarray_output_int_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
 pub fn test_fixedarray_input_int_4(val : FixedArray[Int]) -> Unit raise Error {
   let expected = test_fixedarray_output_int_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -126,7 +133,8 @@ pub fn test_fixedarray_input_int_option_0(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -134,7 +142,8 @@ pub fn test_fixedarray_input_int_option_1_none(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_1_none()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -142,7 +151,8 @@ pub fn test_fixedarray_input_int_option_1_min(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_1_min()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -150,7 +160,8 @@ pub fn test_fixedarray_input_int_option_1_max(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_1_max()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -158,7 +169,8 @@ pub fn test_fixedarray_input_int_option_2(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -166,7 +178,8 @@ pub fn test_fixedarray_input_int_option_3(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -174,5 +187,6 @@ pub fn test_fixedarray_input_int_option_4(
   val : FixedArray[Int?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int_option_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }

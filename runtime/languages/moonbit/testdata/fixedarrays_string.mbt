@@ -65,7 +65,8 @@ pub fn test_fixedarray_input_string_0(
   val : FixedArray[String]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -73,7 +74,8 @@ pub fn test_fixedarray_input_string_1(
   val : FixedArray[String]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_1()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -81,7 +83,8 @@ pub fn test_fixedarray_input_string_2(
   val : FixedArray[String]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -89,7 +92,8 @@ pub fn test_fixedarray_input_string_3(
   val : FixedArray[String]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -97,7 +101,8 @@ pub fn test_fixedarray_input_string_4(
   val : FixedArray[String]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -105,7 +110,8 @@ pub fn test_fixedarray_input_string_option_0(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -113,7 +119,8 @@ pub fn test_fixedarray_input_string_option_1_none(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_1_none()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -121,7 +128,8 @@ pub fn test_fixedarray_input_string_option_1_some(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_1_some()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -129,7 +137,8 @@ pub fn test_fixedarray_input_string_option_2(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -137,7 +146,8 @@ pub fn test_fixedarray_input_string_option_3(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -145,5 +155,6 @@ pub fn test_fixedarray_input_string_option_4(
   val : FixedArray[String?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_string_option_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }

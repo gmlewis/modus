@@ -8,6 +8,7 @@
 ///|
 pub fn test_array_input_string(val : Array[String]) -> Unit raise Error {
   let expected = ["abc", "def", "ghi"]
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -29,6 +30,7 @@ pub fn test_array_output_string_none() -> Array[String]? {
 ///|
 pub fn test_array_input_string_empty(val : Array[String]) -> Unit raise Error {
   let expected = []
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -40,6 +42,7 @@ pub fn test_array_output_string_empty() -> Array[String] {
 ///|
 pub fn test_array_input_string_option(val : Array[String?]) -> Unit raise Error {
   let expected = get_string_option_array()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -65,6 +68,7 @@ pub fn test2d_array_input_string(
     ["jkl", "mno", "pqr"],
     ["stu", "vwx", "yz"],
   ]
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -90,6 +94,7 @@ pub fn test2d_array_input_string_empty(
   val : Array[Array[String]]
 ) -> Unit raise Error {
   let expected = []
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -103,6 +108,7 @@ pub fn test2d_array_input_string_inner_empty(
   val : Array[Array[String]]
 ) -> Unit raise Error {
   let expected = [[]]
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 

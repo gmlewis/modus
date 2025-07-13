@@ -80,7 +80,8 @@ pub fn test_fixedarray_input_int16_0(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -88,7 +89,8 @@ pub fn test_fixedarray_input_int16_1(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_1()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -96,7 +98,8 @@ pub fn test_fixedarray_input_int16_1_min(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_1_min()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -104,7 +107,8 @@ pub fn test_fixedarray_input_int16_1_max(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_1_max()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -112,7 +116,8 @@ pub fn test_fixedarray_input_int16_2(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -120,7 +125,8 @@ pub fn test_fixedarray_input_int16_3(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -128,7 +134,8 @@ pub fn test_fixedarray_input_int16_4(
   val : FixedArray[Int16]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -136,7 +143,8 @@ pub fn test_fixedarray_input_int16_option_0(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_0()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -144,7 +152,8 @@ pub fn test_fixedarray_input_int16_option_1_none(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_1_none()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -152,7 +161,8 @@ pub fn test_fixedarray_input_int16_option_1_min(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_1_min()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -160,7 +170,8 @@ pub fn test_fixedarray_input_int16_option_1_max(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_1_max()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -168,7 +179,8 @@ pub fn test_fixedarray_input_int16_option_2(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_2()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -176,7 +188,8 @@ pub fn test_fixedarray_input_int16_option_3(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_3()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -184,5 +197,6 @@ pub fn test_fixedarray_input_int16_option_4(
   val : FixedArray[Int16?]
 ) -> Unit raise Error {
   let expected = test_fixedarray_output_int16_option_4()
-  assert_eq(val, expected)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }

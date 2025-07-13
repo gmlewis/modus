@@ -8,6 +8,7 @@
 ///|
 pub fn test_array_input_int_empty(val : Array[Int]) -> Unit raise Error {
   let expected = []
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -86,6 +87,7 @@ pub fn test_array_input_int_option(val : Array[Int?]) -> Unit raise Error {
   let expected = get_int_option_array()
   // println("expected: \{expected}")
   // println("val: \{val}")
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 

@@ -8,6 +8,7 @@
 ///|
 pub fn test_array_input_int16_empty(val : Array[Int16]) -> Unit raise Error {
   let expected = []
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
@@ -84,6 +85,7 @@ pub fn test_array_output_int16_option_4() -> Array[Int16?] {
 ///|
 pub fn test_array_input_int16_option(val : Array[Int16?]) -> Unit raise Error {
   let expected = get_int16_option_array()
+  assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
