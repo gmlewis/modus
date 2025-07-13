@@ -44,12 +44,6 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnMakeArrayInt16:                       mod.ExportedFunction("moonbit_int16_array_make"),
 		fnMakeArrayInt64:                       mod.ExportedFunction("moonbit_int64_array_make"),
 		fnMakeArrayRef:                         mod.ExportedFunction("moonbit_ref_array_make"),
-		fnPtr2UIntArray:                        mod.ExportedFunction("ptr2uint_array"),
-		fnPtr2IntArray:                         mod.ExportedFunction("ptr2int_array"),
-		fnPtr2FloatArray:                       mod.ExportedFunction("ptr2float_array"),
-		fnPtr2DoubleArray:                      mod.ExportedFunction("ptr2double_array"),
-		fnPtr2Int64Array:                       mod.ExportedFunction("ptr2int64_array"),
-		fnPtr2UInt64Array:                      mod.ExportedFunction("ptr2uint64_array"),
 		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
 		fnDurationFromNanos:                    mod.ExportedFunction("duration_from_nanos"),
 		fnReadMap:                              mod.ExportedFunction("read_map"),
@@ -81,12 +75,6 @@ type wasmAdapter struct {
 	fnMakeArrayInt16  wasm.Function
 	fnMakeArrayInt64  wasm.Function
 	fnMakeArrayRef    wasm.Function
-	fnPtr2UIntArray   wasm.Function
-	fnPtr2IntArray    wasm.Function
-	fnPtr2FloatArray  wasm.Function
-	fnPtr2DoubleArray wasm.Function
-	fnPtr2Int64Array  wasm.Function
-	fnPtr2UInt64Array wasm.Function
 	// used to convert Go time.Time to MoonBit @time.ZonedDateTime
 	fnZonedDateTimeFromUnixSecondsAndNanos wasm.Function
 	// used to convert Go time.Duration to MoonBit @time.Duration

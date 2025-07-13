@@ -467,17 +467,17 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			var err error
 			switch elemType.Name() {
 			case "UInt":
-				arrayPtr, err = concreteWa.fnPtr2UIntArray.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Int", "Bool", "Char":
-				arrayPtr, err = concreteWa.fnPtr2IntArray.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Float":
-				arrayPtr, err = concreteWa.fnPtr2FloatArray.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2floatArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Double":
-				arrayPtr, err = concreteWa.fnPtr2DoubleArray.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2doubleArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Int64":
-				arrayPtr, err = concreteWa.fnPtr2Int64Array.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2int64Array.Call(ctx, uint64(offset), uint64(numElements))
 			case "UInt64":
-				arrayPtr, err = concreteWa.fnPtr2UInt64Array.Call(ctx, uint64(offset), uint64(numElements))
+				arrayPtr, err = concreteWa.fnPtr2uint64Array.Call(ctx, uint64(offset), uint64(numElements))
 			case "Int16", "UInt16":
 				// For Int16/UInt16, fallback to manual approach since no ptr2*_array function
 				// The data is already written, so we're done
