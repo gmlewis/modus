@@ -331,9 +331,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
 	switch elemType.Name() {
-	case "Bool":
-		memBlockClassID = 96 // Bool arrays use UInt infrastructure in current MoonBit
-	case "Char", "Int", "Float":
+	case "Bool", "Char", "Int", "Float":
 		memBlockClassID = FixedArrayPrimitiveBlockType // 241
 	case "UInt":
 		memBlockClassID = 96 // FixedArray[UInt] in current MoonBit version
@@ -371,20 +369,18 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var err error
 	if size == 0 {
 		// For empty arrays, manually create the exact structure MoonBit produces
-		// MoonBit empty arrays: [4294967295, (classID << 24) | 0, 0, 0] (16 bytes)
+		// MoonBit empty FixedArray[UInt]: [4294967295, 1610612736, 0, 0] (16 bytes)
 		offset, cln, err = wa.allocateAndPinMemory(ctx, 4, memBlockClassID) // 4 words = 16 bytes
 		if err != nil {
 			return 0, cln, err
 		}
-		// For empty arrays, use the correct classID in the header
-		headerValue := memBlockClassID << 24
 		// Manually write the exact structure that MoonBit expects
-		wa.Memory().WriteUint32Le(offset, 4294967295)    // Special marker for empty array
-		wa.Memory().WriteUint32Le(offset+4, headerValue) // (classID << 24) | 0
-		wa.Memory().WriteUint32Le(offset+8, 0)           // padding
-		wa.Memory().WriteUint32Le(offset+12, 0)          // padding
-		// Empty array structure is now complete// Fix the header to match: memType should indicate 4 words
-		memType := (4 << 8) | memBlockClassID // 4 words, correct classID
+		wa.Memory().WriteUint32Le(offset, 4294967295)   // Special marker for empty array
+		wa.Memory().WriteUint32Le(offset+4, 1610612736) // (96 << 24) | 0
+		wa.Memory().WriteUint32Le(offset+8, 0)          // padding
+		wa.Memory().WriteUint32Le(offset+12, 0)         // padding
+		// Fix the header to match: memType should indicate 4 words
+		memType := (4 << 8) | memBlockClassID // 4 words, classID 96
 		wa.Memory().WriteUint32Le(offset-4, memType)
 	} else {
 		// For non-empty arrays, use MoonBit's exported malloc function
