@@ -211,9 +211,13 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Allocate memory
 	if size == 0 {
-		// For empty optional arrays, return the singleton address used by MoonBit
+		// For empty optional arrays, call the appropriate MoonBit function to get the singleton
 		if elemType.IsNullable() && strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-			return 27168, nil, nil
+			singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter, elemType)
+			if err != nil {
+				return 0, nil, err
+			}
+			return singletonPtr, nil, nil
 		}
 
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
@@ -266,4 +270,57 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 	return slicePtr - 8, cln, nil
+}
+
+// getEmptyOptionalArraySingleton calls the appropriate MoonBit function to get
+// the singleton address for an empty optional array of the given element type.
+func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmAdapter langsupport.WasmAdapter, elemType langsupport.TypeInfo) (uint32, error) {
+	// Map element type names to their corresponding MoonBit function names
+	var funcName string
+	switch elemType.Name() {
+	case "Bool?":
+		funcName = "test_fixedarray_output_bool_option_0"
+	case "Byte?":
+		funcName = "test_fixedarray_output_byte_option_0"
+	case "Char?":
+		funcName = "test_fixedarray_output_char_option_0"
+	case "Double?":
+		funcName = "test_fixedarray_output_double_option_0"
+	case "Float?":
+		funcName = "test_fixedarray_output_float_option_0"
+	case "Int16?":
+		funcName = "test_fixedarray_output_int16_option_0"
+	case "Int64?":
+		funcName = "test_fixedarray_output_int64_option_0"
+	case "Int?":
+		funcName = "test_fixedarray_output_int_option_0"
+	case "String?":
+		funcName = "test_fixedarray_output_string_option_0"
+	case "UInt16?":
+		funcName = "test_fixedarray_output_uint16_option_0"
+	case "UInt64?":
+		funcName = "test_fixedarray_output_uint64_option_0"
+	case "UInt?":
+		funcName = "test_fixedarray_output_uint_option_0"
+	default:
+		return 0, fmt.Errorf("unsupported optional element type for empty FixedArray: %s", elemType.Name())
+	}
+
+	// Get the function from the WASM module
+	fn := wasmAdapter.GetFunction(funcName)
+	if fn == nil {
+		return 0, fmt.Errorf("function %s not found in WASM module", funcName)
+	}
+
+	// Call the function to get the singleton address
+	results, err := fn.Call(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("failed to call %s: %w", funcName, err)
+	}
+
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from %s, got %d", funcName, len(results))
+	}
+
+	return uint32(results[0]), nil
 }
