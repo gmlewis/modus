@@ -211,6 +211,11 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Allocate memory
 	if size == 0 {
+		// For empty optional arrays, return the singleton address used by MoonBit
+		if elemType.IsNullable() && strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+			return 27168, nil, nil
+		}
+
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
