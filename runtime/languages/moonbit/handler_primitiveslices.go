@@ -375,25 +375,57 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		memType := (4 << 8) | memBlockClassID // 4 words, classID 96
 		wa.Memory().WriteUint32Le(offset-4, memType)
 	} else {
-		// For non-empty arrays, manually create the proper MoonBit array structure
-		// We need: GC Header (4 bytes) + Array Header (4 bytes) + Elements (4*numElements bytes)
-		// The allocateAndPinMemory handles the GC header
-		allocSize := (size + 8) / 4 // +8 for array header, convert to words
-		offset, cln, err = wa.allocateAndPinMemory(ctx, allocSize, memBlockClassID)
-		if err != nil {
-			return 0, cln, err
+		// For non-empty arrays, use MoonBit's exported malloc function
+		// This ensures GC compatibility by using MoonBit's own allocation
+		// Cast to concrete adapter type to access GetFunction
+		concreteWa, ok := wa.(*wasmAdapter)
+		if !ok {
+			// Fall back to manual allocation if we can't access GetFunction
+			allocSize := size / 4
+			if numElements == 1 {
+				// For 1-element arrays, allocate space for [elem, header, elem] = 3 words
+				allocSize = 3
+			}
+
+			offset, cln, err = wa.allocateAndPinMemory(ctx, allocSize, memBlockClassID)
+			if err != nil {
+				return 0, cln, err
+			}
+
+			// For Int64, UInt64, and Double, the `words` portion of the memory block
+			// indicates the number of elements in the slice, not the number of 16-bit words.
+			if elemType.Name() == "Int64" || elemType.Name() == "UInt64" || elemType.Name() == "Double" {
+				memType := ((size / 8) << 8) | memBlockClassID
+				wa.Memory().WriteUint32Le(offset-4, memType)
+			}
+		} else {
+			// Use MoonBit's malloc function
+			fnMalloc := concreteWa.GetFunction("malloc")
+			if fnMalloc == nil {
+				return 0, cln, fmt.Errorf("malloc function not found")
+			}
+
+			// Call malloc(size) - MoonBit's malloc handles the headers
+			// The returned pointer points to the data area (after headers)
+			res, err := fnMalloc.Call(ctx, uint64(size))
+			if err != nil {
+				return 0, cln, fmt.Errorf("failed to call malloc: %w", err)
+			}
+
+			offset = uint32(res[0])
+			if offset == 0 {
+				return 0, cln, fmt.Errorf("malloc returned null pointer")
+			}
+
+			// MoonBit's malloc returns data pointer, but we need to adjust the array header
+			// for the specific array type we're creating
+			// The array header is at offset-4
+			arrayHeader := uint32(0x60000000) | numElements // (1<<30) | (2<<28) | numElements
+			wa.Memory().WriteUint32Le(offset-4, arrayHeader)
+
+			// Create a simple cleaner function
+			cln = utils.NewCleanerN(0)
 		}
-		
-		// Write the Array Header at offset 0 (GC header is at offset-4)
-		// Array Header format for FixedArray[UInt]:
-		// Bits 30-31: Kind (1 = array) = 0x40000000
-		// Bits 28-29: Element size shift (2 = 4-byte elements) = 0x20000000 
-		// Bits 0-27: Length = numElements
-		arrayHeader := uint32(0x60000000) | numElements // (1<<30) | (2<<28) | numElements
-		wa.Memory().WriteUint32Le(offset, arrayHeader)
-		
-		// The data will be written at offset+4 (after array header)
-		// Note: we'll adjust the data writing below
 	}
 
 	var dataBuffer []byte
@@ -425,11 +457,40 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	if size == 0 {
 		// For empty arrays, data is already written above
 	} else {
-		// For non-empty arrays, write data starting at offset+4 (after array header)
-		// The GC header is at offset-4, array header at offset, data at offset+4
-		if ok := wa.Memory().Write(offset+4, dataBuffer); !ok {
-			return 0, cln, errors.New("failed to write data to WASM memory")
+		// For non-empty arrays, write data starting at the correct offset
+		// If we used malloc, offset already points to the data area
+		// If we used manual allocation, we need to adjust
+		concreteWa, usedMalloc := wa.(*wasmAdapter)
+		if usedMalloc && concreteWa.GetFunction("malloc") != nil {
+			// malloc returns pointer to data area, write directly
+			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
+				return 0, cln, errors.New("failed to write data to WASM memory")
+			}
+		} else {
+			// Manual allocation, offset points to start of data section
+			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
+				return 0, cln, errors.New("failed to write data to WASM memory")
+			}
 		}
+	}
+
+	// For FixedArray, try minimal header addition for 1-element arrays
+	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") && numElements == 1 {
+		// For 1-element arrays, try expanding to match MoonBit's [elem, header, elem] pattern
+		// Allocate additional space and restructure as [first_elem, header, first_elem]
+		header := (memBlockClassID << 24) | numElements // (96 << 24) | 1 = 1610612737
+
+		// Read the current element
+		firstElem, _ := wa.Memory().ReadUint32Le(offset)
+
+		// Write the structured format: [elem, header, elem]
+		wa.Memory().WriteUint32Le(offset, firstElem)   // first element
+		wa.Memory().WriteUint32Le(offset+4, header)    // header
+		wa.Memory().WriteUint32Le(offset+8, firstElem) // duplicate element
+
+		// Update the allocation header to reflect 3 words instead of 1
+		newMemType := (3 << 8) | memBlockClassID // 3 words, classID 96
+		wa.Memory().WriteUint32Le(offset-4, newMemType)
 	}
 
 	if strings.HasPrefix(h.typeDef.Name, "Array[") {
@@ -447,7 +508,15 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-		return offset, cln, nil // Return raw offset for FixedArray
+		// For FixedArray, adjust return value based on allocation method
+		concreteWa, usedMalloc := wa.(*wasmAdapter)
+		if usedMalloc && concreteWa.GetFunction("malloc") != nil && size > 0 {
+			// malloc returns data pointer, but we need array pointer
+			return offset - 8, cln, nil
+		} else {
+			// Manual allocation or empty array, return as-is
+			return offset, cln, nil
+		}
 	}
 
 	return offset, cln, nil
