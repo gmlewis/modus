@@ -475,11 +475,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		concreteWa, usedMoonbitArrayMake := wa.(*wasmAdapter)
 		if usedMoonbitArrayMake && concreteWa.fnMakeArrayInt != nil {
 			// MoonBit array creation functions return array pointer
-			// TODO: For now, skip writing data to test if the GC issue is caused by overwriting
-			// Data starts at offset+4 (after array header, GC header is at offset-4)
-			// if ok := wa.Memory().Write(offset+4, dataBuffer); !ok {
-			//	return 0, cln, errors.New("failed to write data to WASM memory")
-			// }
+			// Data starts at offset+8 (after GC header and array header)
+			if ok := wa.Memory().Write(offset+8, dataBuffer); !ok {
+				return 0, cln, errors.New("failed to write data to WASM memory")
+			}
 		} else {
 			// Manual allocation, offset points to start of data section
 			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
