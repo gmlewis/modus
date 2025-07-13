@@ -211,12 +211,20 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Allocate memory
 	if size == 0 {
-		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
+		// For empty arrays, manually create the exact structure MoonBit produces
+		// MoonBit empty arrays: [4294967295, (classID << 24) | 0, 0, 0] (16 bytes)
+		ptr, cln, err = wa.allocateAndPinMemory(ctx, 4, memBlockClassID) // 4 words = 16 bytes
 		if err != nil {
 			return 0, cln, err
 		}
-		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
-	} else {
+		// Manually write the exact structure that MoonBit expects
+		// Structure: [RefCount, Array Header, padding...]
+		wa.Memory().WriteUint32Le(ptr-8, 1)               // RefCount = 1
+		wa.Memory().WriteUint32Le(ptr-4, memBlockClassID) // Array Header: [classID, 0, 0, 0]
+		wa.Memory().WriteUint32Le(ptr, 0)                 // padding
+		wa.Memory().WriteUint32Le(ptr+4, 0)               // padding
+		wa.Memory().WriteUint32Le(ptr+8, 0)               // padding
+		wa.Memory().WriteUint32Le(ptr+12, 0)              // padding} else {
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
