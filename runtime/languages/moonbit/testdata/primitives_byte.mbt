@@ -17,13 +17,11 @@ pub fn test_byte_input_max(b : Byte) -> Unit raise Error {
 
 ///|
 pub fn test_byte_output_min() -> Byte {
-  // primitiveHandler.Decode(vals: [0])
   0
 }
 
 ///|
 pub fn test_byte_output_max() -> Byte {
-  // primitiveHandler.Decode(vals: [255])
   @byte.max_value
 }
 
@@ -44,18 +42,15 @@ pub fn test_byte_option_input_none(b : Byte?) -> Unit raise Error {
 
 ///|
 pub fn test_byte_option_output_min() -> Byte? {
-  // primitiveHandler.Decode(vals: [0])
   Some(0)
 }
 
 ///|
 pub fn test_byte_option_output_max() -> Byte? {
-  // primitiveHandler.Decode(vals: [255])
   Some(@byte.max_value)
 }
 
 ///|
 pub fn test_byte_option_output_none() -> Byte? {
-  // primitiveHandler.Decode(vals: [4294967295])
   None
 }

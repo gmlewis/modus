@@ -17,36 +17,26 @@ pub fn test_array_option_output_bool_some_0() -> Array[Bool]? {
 
 ///|
 pub fn test_array_output_bool_0() -> Array[Bool] {
-  // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 0 0 0 0]
-  // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   []
 }
 
 ///|
 pub fn test_array_output_bool_1() -> Array[Bool] {
-  // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 1 0 0 0]
-  // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
   [true]
 }
 
 ///|
 pub fn test_array_output_bool_2() -> Array[Bool] {
-  // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 2 0 0 0]
-  // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 0 0 0 0 1 0 0 0]
   [false, true]
 }
 
 ///|
 pub fn test_array_output_bool_3() -> Array[Bool] {
-  // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 3 0 0 0]
-  // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 1 0 0 0 1 0 0 0 1 0 0 0]
   [true, true, true]
 }
 
 ///|
 pub fn test_array_output_bool_4() -> Array[Bool] {
-  // memoryBlockAtOffset(offset: 49056=0x0000BFA0=[160 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 192 190 0 0 4 0 0 0]
-  // memoryBlockAtOffset(offset: 48832=0x0000BEC0=[192 190 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
   [false, false, false, false]
 }
 
@@ -88,12 +78,10 @@ pub fn test_array_output_bool_option_4() -> Array[Bool?] {
 ///|
 pub fn test_array_input_bool_0(val : Array[Bool]) -> Unit raise Error {
   let expected = test_array_output_bool_0()
-  println("expected: \{cast_to_ptr(expected)}")
-  println("expected: \{dump_mem_block(cast_to_ptr(expected))}")
-  println("expected: \{expected}")
-  println("val: \{cast_to_ptr(val)}")
-  println("val: \{dump_mem_block(cast_to_ptr(val))}")
-  println("val: \{val}")
+  // println("expected: \{cast_to_ptr(expected)}")
+  // println("expected: \{expected}")
+  // println("val: \{cast_to_ptr(val)}")
+  // println("val: \{val}")
   assert_eq(expected, val)
 }
 

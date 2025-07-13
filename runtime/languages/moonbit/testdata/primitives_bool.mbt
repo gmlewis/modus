@@ -17,13 +17,11 @@ pub fn test_bool_input_true(b : Bool) -> Unit raise Error {
 
 ///|
 pub fn test_bool_output_false() -> Bool {
-  // primitiveHandler.Decode(vals: [0])
   false
 }
 
 ///|
 pub fn test_bool_output_true() -> Bool {
-  // primitiveHandler.Decode(vals: [1])
   true
 }
 
@@ -44,18 +42,15 @@ pub fn test_bool_option_input_none(b : Bool?) -> Unit raise Error {
 
 ///|
 pub fn test_bool_option_output_false() -> Bool? {
-  // primitiveHandler.Decode(vals: [0])
   Some(false)
 }
 
 ///|
 pub fn test_bool_option_output_true() -> Bool? {
-  // primitiveHandler.Decode(vals: [1])
   Some(true)
 }
 
 ///|
 pub fn test_bool_option_output_none() -> Bool? {
-  // primitiveHandler.Decode(vals: [4294967295])
   None
 }
