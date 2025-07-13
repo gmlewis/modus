@@ -84,7 +84,7 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 
 func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v", len(vals))
 	}
 
 	if vals[0] == 0 {

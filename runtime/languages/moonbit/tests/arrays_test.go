@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test ./... 2>&1 | grep 'FAIL: '"; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
