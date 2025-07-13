@@ -55,6 +55,11 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, nil
 	}
 
+	// Check for invalid small offsets that suggest incorrect function return handling
+	if offset < 1000 {
+		return nil, 0, 0, fmt.Errorf("invalid memory offset %d: function may be returning direct values instead of pointers (check function metadata/compilation)", offset)
+	}
+
 	memBlockHeader, ok := wa.Memory().Read(offset, uint32(8))
 	if !ok {
 		return nil, 0, 0, fmt.Errorf("failed to read memBlockHeader from WASM memory: (offset: %v, size: 8)", debugShowOffset(offset))

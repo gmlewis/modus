@@ -99,7 +99,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") { // TODO: "String?" is not a "primitive" type, probably can be removed.
 		elemTypeSize = 8
 	}
-	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType {
+	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == 112 {
 		memBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize)
 		if err != nil {
 			return nil, err

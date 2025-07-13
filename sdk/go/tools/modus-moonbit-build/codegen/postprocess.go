@@ -240,6 +240,30 @@ pub fn ptr_to_none() -> Int {
 
 ///|
 fn cast[A, B](a : A) -> B = "%identity"
+
+///|
+pub fn moonbit_float32_array_make(size : Int, val : Float) -> Int =
+  #|(func (param i32) (param f32) (result i32) local.get 0 local.get 1 call $moonbit.float32_array_make)
+
+///|
+pub fn moonbit_float_array_make(size : Int, val : Double) -> Int =
+  #|(func (param i32) (param f64) (result i32) local.get 0 local.get 1 call $moonbit.float_array_make)
+
+///|
+pub fn moonbit_i32_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.i32_array_make)
+
+///|
+pub fn moonbit_int16_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.int16_array_make)
+
+///|
+pub fn moonbit_int64_array_make(size : Int, val : Int64) -> Int =
+  #|(func (param i32) (param i64) (result i32) local.get 0 local.get 1 call $moonbit.int64_array_make)
+
+///|
+pub fn moonbit_ref_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.ref_array_make)
 `
 
 func writePostProcessHeader(b *bytes.Buffer, meta *metadata.Metadata, imports map[string]string) {
