@@ -30,7 +30,7 @@ func TestArrayOutput_bool_option_none(t *testing.T) {
 		t.Error("expected a nil result")
 	}
 
-	// testInputSide(t, fnName, expected)
+	testInputSide(t, fnName, expected)
 }
 
 func TestArrayOutput_bool_option_some_0(t *testing.T) {
@@ -51,7 +51,7 @@ func TestArrayOutput_bool_option_some_0(t *testing.T) {
 		t.Errorf("expected %v, got %v", expected, r)
 	}
 
-	// testInputSide(t, fnName, expected)
+	testInputSide(t, fnName, expected)
 }
 
 func TestArrayOutput_bool_0(t *testing.T) {
