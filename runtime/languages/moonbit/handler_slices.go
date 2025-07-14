@@ -94,25 +94,43 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		return h.emptyValue, nil
 	}
 
-	// Debug: print the values being decoded
-	fmt.Printf("DEBUG: sliceHandler.Decode called with vals[0]=%d (0x%X)\n", vals[0], vals[0])
+	// Check if this is a wrapper structure (contains type info 1573120)
+	offset := uint32(vals[0])
+	fmt.Printf("DEBUG: sliceHandler.Decode called with offset=%d (0x%X)\n", offset, offset)
 	
-	memBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
+	// Try to read the type info at offset 4
+	typeInfoBytes, ok := wa.Memory().Read(offset+4, 4)
+	if ok {
+		typeInfo := binary.LittleEndian.Uint32(typeInfoBytes)
+		fmt.Printf("DEBUG: Read type info %d (0x%X) at offset %d\n", typeInfo, typeInfo, offset+4)
+		if typeInfo == 1573120 { // Array type wrapper
+			// Read the data pointer from offset 12
+			dataPointerBytes, ok := wa.Memory().Read(offset+12, 4)
+			if ok {
+				dataPointer := binary.LittleEndian.Uint32(dataPointerBytes)
+				fmt.Printf("DEBUG: Found wrapper structure, using data pointer %d instead of %d\n", dataPointer, offset)
+				// Use the data pointer as the actual array offset
+				offset = dataPointer
+			}
+		}
+	} else {
+		fmt.Printf("DEBUG: Failed to read type info at offset %d\n", offset+4)
+	}
+	
+	memBlock, classID, words, err := memoryBlockAtOffset(wa, offset, 0)
 	if err != nil {
-		// Debug: print the actual error to understand what's happening
-		fmt.Printf("DEBUG: memoryBlockAtOffset failed for offset %d with: %v\n", uint32(vals[0]), err)
-		// Check if this is a dynamic Array[T] that needs fallback (e.g., from Map handler)
+		fmt.Printf("DEBUG: memoryBlockAtOffset failed with: %v\n", err)
+		// Check if this is a dynamic Array[T] that needs fallback
 		isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
-		fmt.Printf("DEBUG: isFixedArray=%v, typeDef.Name=%s\n", isFixedArray, h.typeDef.Name)
-		fmt.Printf("DEBUG: err.Error() contains 'invalid memory offset': %v\n", strings.Contains(err.Error(), "invalid memory offset"))
 		if !isFixedArray && strings.Contains(err.Error(), "invalid memory offset") {
 			// This is likely a dynamic array created by moonbit.i32_array_make or moonbit.ref_array_make
 			// Use direct memory reading approach as fallback
-			fmt.Printf("DEBUG: Using fallback decodeDynamicArray for offset %d\n", uint32(vals[0]))
-			return h.decodeDynamicArray(ctx, wa, wasmAdapter, uint32(vals[0]))
+			fmt.Printf("DEBUG: Using fallback decodeDynamicArray\n")
+			return h.decodeDynamicArray(ctx, wa, wasmAdapter, offset)
 		}
 		return nil, err
 	}
+	fmt.Printf("DEBUG: memoryBlockAtOffset succeeded: classID=%d, words=%d\n", classID, words)
 	// fmt.Printf("DEBUG: memoryBlockAtOffset returned classID=%d, words=%d, memBlock size=%d\n", classID, words, len(memBlock))
 
 	if words == 0 {
@@ -1868,11 +1886,11 @@ func (h *sliceHandler) createDoubleDataArray(ctx context.Context, wasmAdapter la
 	return arrayPtr, nil
 }
 
-// decodeDynamicArray reads dynamic Array[T] types created by moonbit.ref_array_make
-// This is used as a fallback when memoryBlockAtOffset fails with "invalid memory offset"
+// decodeDynamicArray reads dynamic Array[T] types created by moonbit.i32_array_make or moonbit.ref_array_make
+// This is used as a fallback when memoryBlockAtOffset fails
 func (h *sliceHandler) decodeDynamicArray(ctx context.Context, wa wasmMemoryReader, wasmAdapter langsupport.WasmAdapter, offset uint32) (any, error) {
-	// For dynamic arrays created by moonbit.ref_array_make, read structure directly
-	// Structure: [length(4), classInfo(4), element_ptr0(4), element_ptr1(4), ...]
+	// For dynamic arrays created by moonbit.i32_array_make, read structure directly
+	// Structure: [length(4), classInfo(4), element0(4), element1(4), ...]
 	
 	// Read the array length at offset 0
 	lengthBytes, ok := wa.Memory().Read(offset, 4)
@@ -1885,30 +1903,41 @@ func (h *sliceHandler) decodeDynamicArray(ctx context.Context, wa wasmMemoryRead
 		return h.emptyValue, nil // empty array
 	}
 
-	// Read the element pointers starting at offset 8 (after length and classInfo)
+	// Read the elements starting at offset 8 (after length and classInfo)
 	dataStartOffset := uint32(8)
-	dataSize := numElements * 4 // Each pointer is 4 bytes
-	dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
-	if !ok {
-		return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
-	}
-
+	elemType := h.typeInfo.ListElementType()
+	
 	// Create the result slice
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 
-	// Read each element by dereferencing the pointers
-	for i := uint32(0); i < numElements; i++ {
-		ptrOffset := i * 4
-		elementPtr := binary.LittleEndian.Uint32(dataBytes[ptrOffset:])
-		
-		// Read the element using the element handler
-		item, err := h.elementHandler.Read(ctx, wasmAdapter, elementPtr)
-		if err != nil {
-			return nil, fmt.Errorf("failed to read array element %d at ptr %d: %w", i, elementPtr, err)
+	// For primitive types like Bool, read directly from memory
+	if elemType.IsPrimitive() && elemType.Name() == "Bool" {
+		// Each Bool element is 4 bytes
+		dataSize := numElements * 4
+		dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
+		if !ok {
+			return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
 		}
 		
-		if !utils.HasNil(item) {
-			items.Index(int(i)).Set(reflect.ValueOf(item))
+		// Convert each 4-byte element to bool
+		for i := uint32(0); i < numElements; i++ {
+			elementOffset := i * 4
+			elementValue := binary.LittleEndian.Uint32(dataBytes[elementOffset:])
+			boolValue := elementValue != 0
+			items.Index(int(i)).Set(reflect.ValueOf(boolValue))
+		}
+	} else {
+		// For non-primitive types, use element handler
+		for i := uint32(0); i < numElements; i++ {
+			elementOffset := offset + dataStartOffset + i*4
+			item, err := h.elementHandler.Read(ctx, wasmAdapter, elementOffset)
+			if err != nil {
+				return nil, fmt.Errorf("failed to read array element %d at offset %d: %w", i, elementOffset, err)
+			}
+			
+			if !utils.HasNil(item) {
+				items.Index(int(i)).Set(reflect.ValueOf(item))
+			}
 		}
 	}
 

@@ -118,18 +118,42 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return nil, nil
 	}
 
+	// Check if this is a wrapper structure (contains type info 1573120)
+	offset := uint32(vals[0])
+	fmt.Printf("DEBUG: primitiveSliceHandler.Decode called with offset=%d (0x%X), typeDef.Name=%s\n", offset, offset, h.typeDef.Name)
+	
+	// Try to read the type info at offset 4
+	typeInfoBytes, ok := wa.Memory().Read(offset+4, 4)
+	if ok {
+		typeInfo := binary.LittleEndian.Uint32(typeInfoBytes)
+		fmt.Printf("DEBUG: Read type info %d (0x%X) at offset %d\n", typeInfo, typeInfo, offset+4)
+		if typeInfo == 1573120 { // Array type wrapper
+			// Read the data pointer from offset 12
+			dataPointerBytes, ok := wa.Memory().Read(offset+12, 4)
+			if ok {
+				dataPointer := binary.LittleEndian.Uint32(dataPointerBytes)
+				fmt.Printf("DEBUG: Found wrapper structure, using data pointer %d instead of %d\n", dataPointer, offset)
+				// Use the data pointer as the actual array offset
+				offset = dataPointer
+			}
+		}
+	}
+	
 	// First read to get the header and determine the classID
-	headerBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
+	headerBlock, classID, words, err := memoryBlockAtOffset(wa, offset, 0)
 	if err != nil {
+		fmt.Printf("DEBUG: memoryBlockAtOffset failed with: %v\n", err)
 		// Check if this is a dynamic Array[T] that needs fallback (e.g., from Map handler)
 		isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
 		if !isFixedArray && strings.Contains(err.Error(), "invalid memory offset") {
 			// This is likely a dynamic array created by moonbit.i32_array_make
 			// Use direct memory reading approach as fallback
-			return h.decodeDynamicPrimitiveArray(ctx, wa, uint32(vals[0]))
+			fmt.Printf("DEBUG: Using fallback decodeDynamicPrimitiveArray\n")
+			return h.decodeDynamicPrimitiveArray(ctx, wa, offset)
 		}
 		return nil, err
 	}
+	fmt.Printf("DEBUG: memoryBlockAtOffset succeeded: classID=%d, words=%d\n", classID, words)
 
 	// Debug for Int16 arrays (TODO: remove)
 	// if h.typeInfo.ListElementType().Name() == "Int16" {
@@ -153,7 +177,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 
 		totalSize := dataSize // override with correct size
-		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, uint32(vals[0]), totalSize)
+		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, offset, totalSize)
 		if err != nil {
 			return nil, err
 		}
@@ -169,7 +193,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// For Int64 and UInt64, the `words` portion of the memory block
 		// indicates the number of elements in the slice, not the number of 16-bit words.
 		size := numElements * uint32(elemTypeSize)
-		sliceMemBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), size)
+		sliceMemBlock, _, _, err = memoryBlockAtOffset(wa, offset, size)
 		if err != nil {
 			return nil, err
 		}
@@ -214,11 +238,13 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		64,                  // FixedArray[Byte] in current MoonBit version
 		Int64DoubleClassID:  // FixedArray[Double/Int64] in current MoonBit version
 		// For classID 96 (FixedArray[UInt]), trust the words field as element count
-		if classID == BoolByteCharClassID {
-			// For FixedArray[UInt], numElements comes from words and is authoritative
-			if numElements == 0 {
-				return []T{}, nil
-			}
+	if classID == BoolByteCharClassID {
+		// For FixedArray[UInt], numElements comes from words and is authoritative
+		fmt.Printf("DEBUG: classID=96, numElements=%d\n", numElements)
+		if numElements == 0 {
+			fmt.Printf("DEBUG: numElements=0, returning empty slice\n")
+			return []T{}, nil
+		}
 		} else {
 			// Fix for arrays where numElements is calculated incorrectly (for other classIDs)
 			if numElements == 0 && len(sliceMemBlock) > MemoryBlockHeaderSize {
@@ -275,12 +301,17 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
+		fmt.Printf("DEBUG: Processing Bool array, numElements=%d, elemTypeSize=%d\n", numElements, elemTypeSize)
+		fmt.Printf("DEBUG: sliceMemBlock size=%d, MemoryBlockHeaderSize=%d\n", len(sliceMemBlock), MemoryBlockHeaderSize)
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
-			item := binary.LittleEndian.Uint32(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:])
+			offset := MemoryBlockHeaderSize + i*elemTypeSize
+			item := binary.LittleEndian.Uint32(sliceMemBlock[offset:])
 			val := item != 0
+			fmt.Printf("DEBUG: element %d at offset %d: item=%d, val=%v\n", i, offset, item, val)
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
+		fmt.Printf("DEBUG: Returning Bool array with %d elements\n", items.Len())
 		return items.Interface(), nil
 	}
 	if elemType.Name() == "Char" {
