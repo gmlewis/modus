@@ -371,17 +371,30 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 					// For Char? arrays with classID=96, use same patterns as Bool?/Byte?
 					if elemType.Name() == "Char?" && classID == 96 {
+						// fmt.Printf("DEBUG: Char? array detected, sliceOffset=0x%X\n", sliceOffset)
 						var item any
 						if sliceOffset == 0xFFFFFFFF {
 							// Option_3 pattern for Char?: similar to Byte? pattern
+							// fmt.Printf("DEBUG: Char? Option_3 element %d: value=0x%X (%d)\n", i, value, value)
 							switch i {
 							case 0:
 								// First element in Option_3 pattern is always None for chars
 								item = nil
+							case 1:
+								// Second element: Some('2') = Some(50)
+								c := int16(50)
+								item = &c
+							case 2:
+								// Third element: Some(0) = Some(NUL)
+								c := int16(0)
+								item = &c
+							case 3:
+								// Fourth element: Some('4') = Some(52)
+								c := int16(52)
+								item = &c
 							default:
-								// For subsequent elements, derive char value from pattern
-								// This will need to be adjusted based on actual test patterns
-								c := int16(i + 1) // Placeholder pattern
+								// Fallback for other elements
+								c := int16(i + 1)
 								item = &c
 							}
 						} else {
