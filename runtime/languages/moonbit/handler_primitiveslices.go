@@ -1000,3 +1000,97 @@ func (h *primitiveSliceHandler[T]) createDoubleDataArray(ctx context.Context, wa
 
 	return arrayPtr, nil
 }
+
+// decodeDynamicPrimitiveArray reads dynamic Array[T] types created by moonbit.i32_array_make
+// This is used as a fallback when memoryBlockAtOffset fails with "invalid memory offset"
+func (h *primitiveSliceHandler[T]) decodeDynamicPrimitiveArray(ctx context.Context, wa wasmMemoryReader, offset uint32) (any, error) {
+	// For dynamic arrays created by moonbit.i32_array_make, read structure directly
+	// Structure: [length(4), classInfo(4), element0(4), element1(4), ...]
+
+	// Read the array length at offset 0
+	lengthBytes, ok := wa.Memory().Read(offset, 4)
+	if !ok {
+		return nil, fmt.Errorf("failed to read array length at offset %d", offset)
+	}
+	numElements := binary.LittleEndian.Uint32(lengthBytes)
+
+	// Dynamic array decode logic
+
+	if numElements == 0 {
+		return []T{}, nil // empty array
+	}
+
+	elemType := h.typeInfo.ListElementType()
+	elemTypeSize := h.converter.TypeSize()
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
+		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
+		elemTypeSize = MoonBitBoolSize
+	}
+
+	// Read the data elements starting at offset 8 (after length and classInfo)
+	dataStartOffset := uint32(8)
+	dataSize := numElements * uint32(elemTypeSize)
+	dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
+	if !ok {
+		return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
+	}
+
+	// Create the result slice
+	items := make([]T, numElements)
+
+	// Read each element directly from the data
+	for i := uint32(0); i < numElements; i++ {
+		var item T
+		offset := i * uint32(elemTypeSize) // Data starts at beginning of dataBytes
+
+		switch elemType.Name() {
+		case "Bool":
+			value := binary.LittleEndian.Uint32(dataBytes[offset:])
+			boolValue := value != 0
+			item = any(boolValue).(T)
+		case "Int":
+			value := binary.LittleEndian.Uint32(dataBytes[offset:])
+			intValue := int32(value)
+			item = any(intValue).(T)
+		case "Byte":
+			value := binary.LittleEndian.Uint32(dataBytes[offset:]) // MoonBit stores bytes as 4-byte values
+			byteValue := byte(value)
+			item = any(byteValue).(T)
+		case "Char":
+			value := binary.LittleEndian.Uint32(dataBytes[offset:]) // MoonBit stores chars as 4-byte values
+			charValue := int16(value)
+			item = any(charValue).(T)
+		case "Int16":
+			value := binary.LittleEndian.Uint16(dataBytes[offset:])
+			int16Value := int16(value)
+			item = any(int16Value).(T)
+		case "UInt16":
+			value := binary.LittleEndian.Uint16(dataBytes[offset:])
+			uint16Value := uint16(value)
+			item = any(uint16Value).(T)
+		case "Int64":
+			value := binary.LittleEndian.Uint64(dataBytes[offset:])
+			int64Value := int64(value)
+			item = any(int64Value).(T)
+		case "UInt64":
+			value := binary.LittleEndian.Uint64(dataBytes[offset:])
+			uint64Value := uint64(value)
+			item = any(uint64Value).(T)
+		case "Float":
+			value := binary.LittleEndian.Uint32(dataBytes[offset:])
+			floatValue := math.Float32frombits(value)
+			item = any(floatValue).(T)
+		case "Double":
+			value := binary.LittleEndian.Uint64(dataBytes[offset:])
+			doubleValue := math.Float64frombits(value)
+			item = any(doubleValue).(T)
+		default:
+			return nil, fmt.Errorf("unsupported dynamic primitive array element type: %s", elemType.Name())
+		}
+
+		items[i] = item
+	}
+
+	return items, nil
+}
