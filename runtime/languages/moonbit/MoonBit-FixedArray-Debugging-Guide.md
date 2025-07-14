@@ -63,9 +63,13 @@ Based on successful fixes, FixedArray types fall into these categories:
 - `Int16` - Use `moonbit_int16_array_make` (classID 80)
 - Other primitive types work with various `ptr2*_array` functions
 
-**Category D: Other Types (Still Failing)**
+**Category D: ClassID 96 Optional Types (Fixed)**
+- `Int16?` - Use direct storage with 32768 as None value (classID 96)
+- Other classID 96 types: `Bool?`, `Byte?`, `Char?` - all working
+
+**Category E: Other Types (Still Failing)**
 - `Int?`, `UInt?`, `String?` - Various issues
-- `Int16?`, `UInt16?` - Different memory patterns (offset 32768)
+- `UInt16?` - Similar to Int16? but needs verification
 - `UInt16` - Needs manual handling (no moonbit_uint16_array_make)
 
 ## Proven Fix Pattern for Category B Types (64-bit Reference Optionals)
@@ -158,6 +162,20 @@ For primitive types like `Int16` - use `moonbit_*_array_make` functions:
 case "Int16":
     // Use moonbit_int16_array_make
     arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+    // Write data to the created array
+```
+
+## Proven Fix Pattern for Category D Types (ClassID 96 Optional)
+
+For primitive types like `Int16` - use `moonbit_*_array_make` functions:
+
+### Int16 Fix (Successfully Implemented)
+
+1. **Use moonbit_int16_array_make instead of ptr2*_array:**
+```go
+case "Int16":
+    // Use moonbit_int16_array_make
+    arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
     if err != nil {
         return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
     }
@@ -225,6 +243,13 @@ From `adapter.go`, these functions are available:
 3. **Direct data writing works** - write at offset+8+i*elemSize
 4. **No ptr2*_array needed** - MoonBit functions handle GC integration
 5. **Pattern applies to other primitives** - each type has its own `moonbit_*_array_make`
+
+### Int16? Fix (Category D)
+1. **ClassID 96 needs direct memory reading** - must add to memory reading condition
+2. **32768 is inline None value** - stored directly, not dereferenced like 10248
+3. **Uses moonbit_i32_array_make** - same as Bool?/Char?, not moonbit_int16_array_make
+4. **Direct value storage pattern** - None=32768, Some values as 32-bit integers
+5. **Critical insight**: WAT analysis revealed exact memory layout and None value
 
 ## Testing Strategy
 

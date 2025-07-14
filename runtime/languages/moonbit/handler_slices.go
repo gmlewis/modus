@@ -111,7 +111,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") { // TODO: "String?" is not a "primitive" type, probably can be removed.
 		elemTypeSize = 8
 	}
-	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == 112 || classID == 160 {
+	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == 112 || classID == 160 || classID == 96 {
 		memBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize)
 		if err != nil {
 			return nil, err
@@ -159,7 +159,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 				if !utils.HasNil(item) {
 					items.Index(0).Set(reflect.ValueOf(item))
 				}
-			} else if (elemType.Name() == "Bool?" || elemType.Name() == "Byte?" || elemType.Name() == "Char?") && classID == 96 && sliceOffset > 0 && sliceOffset < 1000 {
+			} else if (elemType.Name() == "Bool?" || elemType.Name() == "Byte?" || elemType.Name() == "Char?" || elemType.Name() == "Int16?") && classID == 96 && sliceOffset > 0 && sliceOffset < 1000 {
 				// Compact layout for single-element Bool?/Byte? arrays: sliceOffset contains the value
 				// fmt.Printf("DEBUG: Single-element compact layout, sliceOffset=%d\n", sliceOffset)
 				var item any
@@ -189,6 +189,15 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					// For Char?, sliceOffset directly contains the char value
 					c := int16(sliceOffset)
 					item = &c
+				} else if elemType.Name() == "Int16?" {
+					// For Int16?, check if sliceOffset is the None value (32768)
+					if sliceOffset == 32768 {
+						item = nil // None
+					} else {
+						// Some(int16Value) - sliceOffset contains the int16 value
+						i := int16(sliceOffset)
+						item = &i
+					}
 				}
 				// fmt.Printf("DEBUG: Single-element decoded: %T=%v\n", item, item)
 				if !utils.HasNil(item) {
@@ -425,6 +434,34 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 						continue
 					}
 
+					// For Int16? arrays with classID=96, handle 32768 as None value
+					if elemType.Name() == "Int16?" && classID == 96 {
+						var item any
+						// Int16? uses 32768 as None value (from WAT analysis)
+						switch value {
+						case 32768:
+							// 32768 = None for Int16?
+							item = nil
+						default:
+							// Direct int16 value = Some(int16Value)
+							if value <= 65535 { // Valid int16 range (handles negative via wraparound)
+								i := int16(value)
+								item = &i
+							} else {
+								// Fallback for out-of-range values
+								var err error
+								item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
+								if err != nil {
+									return nil, err
+								}
+							}
+						}
+						if !utils.HasNil(item) {
+							items.Index(int(i)).Set(reflect.ValueOf(item))
+						}
+						continue
+					}
+
 					// For other nullable primitives, use normal decoding
 					item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
 					if err != nil {
@@ -437,14 +474,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					continue
 				}
 				ptr := binary.LittleEndian.Uint32(memBlock[dataStartOffset+int(i)*int(elemTypeSize):])
-				// Handle None singleton pointers for different optional types
+				// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
 				var item any
 				var err error
 				if ptr == 10248 {
-					// None singleton pointer for 64-bit reference types - return nil
-					item = nil
-				} else if ptr == 32768 {
-					// None singleton pointer for Int16? - return nil
+					// None singleton pointer - return nil
 					item = nil
 				} else {
 					item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -493,14 +527,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			continue
 		}
 		ptr := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
-		// Handle None singleton pointers for different optional types
+		// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
 		var item any
 		var err error
 		if ptr == 10248 {
-			// None singleton pointer for 64-bit reference types - return nil
-			item = nil
-		} else if ptr == 32768 {
-			// None singleton pointer for Int16? - return nil
+			// None singleton pointer - return nil
 			item = nil
 		} else {
 			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -564,13 +595,17 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		memBlockClassID = 96
 		// For Byte? arrays, use similar approach as Bool? but with byte values
 		return h.createByteArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
-	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Int16?" {
-		// These types use reference-based storage
+	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+		// These types use classID=160 and moonbit_ref_array_make
 		return h.createRefArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "Char?" {
 		memBlockClassID = 96
 		// For Char? arrays, use similar approach as Bool?/Byte? but with char values
 		return h.createCharArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
+	} else if elemType.Name() == "Int16?" {
+		memBlockClassID = 96
+		// For Int16? arrays, use similar approach as Char? but with 32768 as None value
+		return h.createInt16ArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	}
 
 	// Allocate memory
@@ -998,13 +1033,8 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 	for i, val := range slice {
 		var elementPtr uint32
 		if utils.HasNil(val) {
-			// None value - use the appropriate None singleton pointer
-			elemType := h.typeInfo.ListElementType()
-			if elemType.Name() == "Int16?" {
-				elementPtr = 32768 // None singleton for Int16?
-			} else {
-				elementPtr = 10248 // None singleton for 64-bit reference types
-			}
+			// None value - use the None singleton pointer
+			elementPtr = 10248
 		} else {
 			// Some value - encode the element and get its pointer
 			results, cln, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
@@ -1025,5 +1055,64 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 	}
 
 	// Return arrayPtr for FixedArray
+	return arrayPtr, nil, nil
+}
+
+// createInt16ArrayWithMoonBit creates an Int16? array using MoonBit's i32_array_make function
+// Based on the WAT analysis: uses moonbit.i32_array_make and stores 32768 as None value
+func (h *sliceHandler) createInt16ArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, delegate to existing logic
+		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
+		if err != nil {
+			return 0, nil, err
+		}
+		return singletonPtr, nil, nil
+	}
+
+	// Step 1: Use moonbit_i32_array_make(numElements, -1) exactly like the WAT
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_i32_array_make not found in WASM module")
+	}
+
+	// Call moonbit_i32_array_make(numElements, -1) - exactly like the WAT
+	initialValue := uint64(0xFFFFFFFF) // -1 in uint64 form
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Step 2: Write actual element values at the correct offsets (exactly like the WAT)
+	for i, val := range slice {
+		var encodedValue uint32
+		if utils.HasNil(val) {
+			// For None values, use 32768 exactly like the WAT
+			encodedValue = 32768
+		} else if int16Ptr, ok := val.(*int16); ok {
+			// For Some values, store the int16 value as uint32 (sign extend for negative values)
+			if *int16Ptr < 0 {
+				// Sign extend negative values to 32-bit
+				encodedValue = uint32(int32(*int16Ptr))
+			} else {
+				// Positive values can be used directly
+				encodedValue = uint32(*int16Ptr)
+			}
+		} else {
+			return 0, nil, fmt.Errorf("invalid Int16? value: expected nil or *int16, got %T", val)
+		}
+
+		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
+		offset := arrayPtr + 8 + uint32(i)*4
+		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
+	}
+
+	// Return arrayPtr
 	return arrayPtr, nil, nil
 }
