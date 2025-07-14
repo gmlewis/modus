@@ -272,13 +272,11 @@ pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration raise Error {
 ///|
 pub fn read_map(
   key_type_name_ptr : Int,
-  key_type_name_len : Int,
   value_type_name_ptr : Int,
-  value_type_name_len : Int,
   map_ptr : Int
 ) -> Int64 {
-  let key_type_name = ptr2str(key_type_name_ptr + 8, key_type_name_len)
-  let value_type_name = ptr2str(value_type_name_ptr + 8, value_type_name_len)
+  let key_type_name : String = cast(key_type_name_ptr)
+  let value_type_name : String = cast(value_type_name_ptr)
   match (key_type_name, value_type_name) {
     ("Int", "Double") => read_map_helper_0(map_ptr)
     ("Int", "Float") => read_map_helper_1(map_ptr)
