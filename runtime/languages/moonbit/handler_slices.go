@@ -108,7 +108,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	elemTypeSize := StandardPtrSize // elemType.Size()
 	isNullable := elemType.IsNullable()
 	if isNullable && elemType.IsPrimitive() &&
-		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") { // TODO: "String?" is not a "primitive" type, probably can be removed.
+		(elemType.Name() == "Int?" || elemType.Name() == "UInt?") {
 		elemTypeSize = Int64Size
 	}
 	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == Int64DoubleClassID || classID == RefArrayClassID || classID == BoolByteCharClassID {
@@ -263,7 +263,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 						} else {
 							offset = dataStartOffset + int(i)*int(elemTypeSize)
 						}
-						if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
+						if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
 							value = binary.LittleEndian.Uint64(memBlock[offset:])
 						} else {
 							value32 := binary.LittleEndian.Uint32(memBlock[offset:])
@@ -496,8 +496,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 				// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
 				var item any
 				var err error
-				if ptr == NoneSingletonPointer {
-					// None singleton pointer - return nil
+				if (elemType.Name() == "String?" && ptr == 0) || ptr == NoneSingletonPointer {
+					// None value - String? uses 0, others use NoneSingletonPointer
 					item = nil
 				} else {
 					item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -530,7 +530,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		if elemType.IsPrimitive() && isNullable {
 			var value uint64
-			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
+			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
 				value = binary.LittleEndian.Uint64(memBlock[MemoryBlockHeaderSize+i*uint32(elemTypeSize):])
 			} else {
 				value32 := binary.LittleEndian.Uint32(memBlock[MemoryBlockHeaderSize+i*uint32(elemTypeSize):])
@@ -562,8 +562,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
 		var item any
 		var err error
-		if ptr == NoneSingletonPointer {
-			// None singleton pointer - return nil
+		if (elemType.Name() == "String?" && ptr == 0) || ptr == NoneSingletonPointer {
+			// None value - String? uses 0, others use NoneSingletonPointer
 			item = nil
 		} else {
 			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -627,8 +627,8 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		memBlockClassID = BoolByteCharClassID
 		// For Byte? arrays, use similar approach as Bool? but with byte values
 		return h.createByteArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
-	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
-		// These types use classID=160 and moonbit_ref_array_make
+	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "String?" {
+		// These types use moonbit_ref_array_make
 		return h.createRefArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "String" {
 		// FixedArray[String] uses moonbit_ref_array_make (non-optional strings)
@@ -1071,8 +1071,14 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 	for i, val := range slice {
 		var elementPtr uint32
 		if utils.HasNil(val) {
-			// None value - use the None singleton pointer
-			elementPtr = NoneSingletonPointer
+			// None value - different None values for different types
+			if h.typeInfo.ListElementType().Name() == "String?" {
+				// String? uses 0 as None value (from WAT analysis)
+				elementPtr = 0
+			} else {
+				// Other optional reference types use NoneSingletonPointer
+				elementPtr = NoneSingletonPointer
+			}
 		} else {
 			// Some value - encode the element and get its pointer
 			results, cln, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
