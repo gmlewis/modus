@@ -59,11 +59,18 @@ Based on successful fixes, FixedArray types fall into these categories:
 - Use `moonbit_ref_array_make` 
 - Need None singleton handling (offset 10248)
 
-**Category C: Other Types (Still Failing)**
+**Category C: Primitive Non-Optional Types (Fixed)**
+- `Int16` - Use `moonbit_int16_array_make` (classID 80)
+- Other primitive types work with various `ptr2*_array` functions
+
+**Category D: Other Types (Still Failing)**
 - `Int?`, `UInt?`, `String?` - Various issues
 - `Int16?`, `UInt16?` - Different memory patterns (offset 32768)
+- `UInt16` - Needs manual handling (no moonbit_uint16_array_make)
 
-## Proven Fix Pattern for Category B Types
+## Proven Fix Pattern for Category B Types (64-bit Reference Optionals)
+
+For `Double?`, `Float?`, `Int64?`, `UInt64?` - use `moonbit_ref_array_make`
 
 ### Reading Side Fix
 
@@ -140,6 +147,53 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 4. **Fix reading first, then writing** - decoding reveals the memory structure
 5. **Group similar types together** - they often share the same patterns
 
+## Proven Fix Pattern for Category C Types (Primitive Non-Optional)
+
+For primitive types like `Int16` - use `moonbit_*_array_make` functions:
+
+### Int16 Fix (Successfully Implemented)
+
+1. **Use moonbit_int16_array_make instead of ptr2*_array:**
+```go
+case "Int16":
+    // Use moonbit_int16_array_make
+    arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+    if err != nil {
+        return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
+    }
+    // Write data to the created array
+    if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+        int16ArrayPtr := uint32(arrayPtr[0])
+        // Write individual int16 values at offset+8+i*2
+        for i := uint32(0); i < numElements; i++ {
+            val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
+            int16Addr := int16ArrayPtr + 8 + i*2
+            wa.Memory().WriteUint16Le(int16Addr, val)
+        }
+        offset = int16ArrayPtr
+        return offset, cln, nil
+    }
+```
+
+2. **Pattern works because:**
+   - Uses MoonBit's own array creation function
+   - Proper GC integration
+   - Correct memory layout (classID 80 for Int16)
+   - Direct data writing at proper offsets
+
+### Available MoonBit Array Functions
+
+From `adapter.go`, these functions are available:
+- `moonbit_int16_array_make` ✅ (working)
+- `moonbit_i32_array_make` ✅ (used by Bool?)
+- `moonbit_float_array_make` ✅ (used by Double)
+- `moonbit_float32_array_make` ✅ (used by Float)
+- `moonbit_int64_array_make` ✅ (used by Int64)
+- `moonbit_ref_array_make` ✅ (used by Double?/Float?/Int64?/UInt64?)
+- `moonbit_bytes_make` ✅ (used by Byte)
+
+**Missing:** `moonbit_uint16_array_make` - UInt16 still needs manual handling
+
 ## Debugging Remaining Failures
 
 ### For Int16? (offset 32768 issue)
@@ -156,13 +210,21 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 1. String arrays have different memory layout entirely
 2. Check if they use UTF-16 encoding or other string-specific handling
 
-## Key Insights from Successful Fix
+## Key Insights from Successful Fixes
 
+### Double? Fix (Category B)
 1. **Real classID was 160, not 242** - documentation was wrong
 2. **None singleton at 10248 is shared** - all Category B types use it
 3. **moonbit_ref_array_make is the key** - manual memory allocation didn't work
 4. **Element pointers vs values** - Category B stores pointers to Option objects
 5. **WAT analysis revealed everything** - without it, would still be guessing
+
+### Int16 Fix (Category C)
+1. **Use MoonBit runtime functions** - `moonbit_int16_array_make` vs manual allocation
+2. **ClassID 80 is correct** - StringBlockType for Int16/UInt16
+3. **Direct data writing works** - write at offset+8+i*elemSize
+4. **No ptr2*_array needed** - MoonBit functions handle GC integration
+5. **Pattern applies to other primitives** - each type has its own `moonbit_*_array_make`
 
 ## Testing Strategy
 

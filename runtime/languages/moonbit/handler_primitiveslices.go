@@ -123,6 +123,11 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return nil, err
 	}
 
+	// Debug for Int16 arrays (TODO: remove)
+	// if h.typeInfo.ListElementType().Name() == "Int16" {
+	//	fmt.Printf("DEBUG: Int16 array - classID=%d, words=%d, headerBlock size=%d\n", classID, words, len(headerBlock))
+	// }
+
 	// For new classIDs, calculate the correct size and re-read
 	var sliceMemBlock []byte
 	if classID == 96 || classID == 64 || classID == 112 {
@@ -485,8 +490,29 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				arrayPtr, err = concreteWa.fnPtr2int64Array.Call(ctx, uint64(offset), uint64(numElements))
 			case "UInt64":
 				arrayPtr, err = concreteWa.fnPtr2uint64Array.Call(ctx, uint64(offset), uint64(numElements))
-			case "Int16", "UInt16":
-				// For Int16/UInt16, fallback to manual approach since no ptr2*_array function
+			case "Int16":
+				// For Int16, use moonbit_int16_array_make
+				arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+				if err != nil {
+					return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
+				}
+				// Write data to the created array
+				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+					int16ArrayPtr := uint32(arrayPtr[0])
+					// Write individual int16 values to the allocated array
+					for i := uint32(0); i < numElements; i++ {
+						val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
+						// Write each int16 at offset+8+i*2 (data starts at offset 8)
+						int16Addr := int16ArrayPtr + 8 + i*2
+						wa.Memory().WriteUint16Le(int16Addr, val)
+					}
+					// Update offset to point to the int16 array
+					offset = int16ArrayPtr
+					// Return early since the array is properly allocated and initialized
+					return offset, cln, nil
+				}
+			case "UInt16":
+				// For UInt16, fallback to manual approach since no moonbit_uint16_array_make function
 				// The data is already written, so we're done
 			case "Byte":
 				// For Byte arrays, use the exported moonbit_bytes_make function
