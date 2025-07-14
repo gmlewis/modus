@@ -740,7 +740,6 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 	arrayPtr := uint32(results[0])
 
 	// Write bool values (0=false, 1=true)
-	fmt.Printf("DEBUG: Writing %d bool elements to array at %d\n", len(slice), arrayPtr)
 	for i, val := range slice {
 		var boolValue uint32
 		if boolVal, ok := any(val).(bool); ok && boolVal {
@@ -748,7 +747,6 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 		}
 		// For dynamic arrays, data starts at offset 8 (after length and classInfo)
 		offset := arrayPtr + 8 + uint32(i)*StandardPtrSize
-		fmt.Printf("DEBUG: Writing bool[%d] = %v (value=%d) at offset %d\n", i, any(val), boolValue, offset)
 		wa.Memory().WriteUint32Le(offset, boolValue)
 	}
 
@@ -1016,15 +1014,15 @@ func (h *primitiveSliceHandler[T]) createDoubleDataArray(ctx context.Context, wa
 func (h *primitiveSliceHandler[T]) decodeDynamicPrimitiveArray(ctx context.Context, wa wasmMemoryReader, offset uint32) (any, error) {
 	// For dynamic arrays created by moonbit.i32_array_make, read structure directly
 	// Structure: [length(4), classInfo(4), element0(4), element1(4), ...]
-	
+
 	// Read the array length at offset 0
 	lengthBytes, ok := wa.Memory().Read(offset, 4)
 	if !ok {
 		return nil, fmt.Errorf("failed to read array length at offset %d", offset)
 	}
 	numElements := binary.LittleEndian.Uint32(lengthBytes)
-	fmt.Printf("DEBUG: Dynamic array decode - offset=%d, numElements=%d\n", offset, numElements)
-	
+	// Dynamic array successfully decoded
+
 	if numElements == 0 {
 		return []T{}, nil // empty array
 	}
@@ -1039,7 +1037,7 @@ func (h *primitiveSliceHandler[T]) decodeDynamicPrimitiveArray(ctx context.Conte
 
 	// Read the data elements starting at offset 8 (after length and classInfo)
 	dataStartOffset := uint32(8)
-	dataSize := numElements * uint32(elemTypeSize) 
+	dataSize := numElements * uint32(elemTypeSize)
 	dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
 	if !ok {
 		return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
