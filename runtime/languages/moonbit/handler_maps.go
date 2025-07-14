@@ -132,7 +132,23 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 		return nil, err
 	}
 
-	params := []uint64{keyTypeNamePtr[0], valueTypeNamePtr[0], uint64(offset)}
+	// Extract string data pointer and length for key type name
+	keyStringPtr, keyStringLen, err := h.getStringPtrAndLength(wa, uint32(keyTypeNamePtr[0]))
+	if err != nil {
+		return nil, fmt.Errorf("failed to get key type name string info: %w", err)
+	}
+
+	// Extract string data pointer and length for value type name
+	valueStringPtr, valueStringLen, err := h.getStringPtrAndLength(wa, uint32(valueTypeNamePtr[0]))
+	if err != nil {
+		return nil, fmt.Errorf("failed to get value type name string info: %w", err)
+	}
+
+	params := []uint64{uint64(keyStringPtr), uint64(keyStringLen), uint64(valueStringPtr), uint64(valueStringLen), uint64(offset)}
+	// Debug: check parameter values
+	if keyStringPtr == 0 || valueStringPtr == 0 {
+		return nil, fmt.Errorf("string pointers are zero: keyPtr=%d, valuePtr=%d", keyStringPtr, valueStringPtr)
+	}
 	res, err := wa.(*wasmAdapter).fnReadMap.Call(ctx, params...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read %s from WASM memory: %w", h.typeInfo.Name(), err)
@@ -141,6 +157,11 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 	r := res[0]
 	pKeys := uint32(r >> 32)
 	pVals := uint32(r)
+
+	// Check if pointers are valid
+	if pKeys == 0 && pVals == 0 {
+		return nil, fmt.Errorf("read_map returned null pointers for keys and values")
+	}
 
 	keys, err := h.sliceOfKeysHandler.Read(ctx, wa, pKeys)
 	if err != nil {
@@ -250,4 +271,28 @@ func (h *mapHandler) doWriteMap(ctx context.Context, wa langsupport.WasmAdapter,
 	}
 
 	return uint32(res[0]), cln, nil
+}
+
+// getStringPtrAndLength extracts the string data pointer and length from a MoonBit string object
+func (h *mapHandler) getStringPtrAndLength(wa langsupport.WasmAdapter, stringObjectPtr uint32) (uint32, uint32, error) {
+	if stringObjectPtr == 0 {
+		return 0, 0, nil
+	}
+
+	// Read the memory block to get the string length
+	_, classID, words, err := memoryBlockAtOffset(wa, stringObjectPtr, 0)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	if classID != StringBlockType {
+		return 0, 0, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, classID)
+	}
+
+	// The string data starts at offset 8 (after the header)
+	stringDataPtr := stringObjectPtr + 8
+	// The length is in the words field
+	stringLength := words
+
+	return stringDataPtr, stringLength, nil
 }
