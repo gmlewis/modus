@@ -133,6 +133,12 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			elemTypeSize = 4
 		}
 		dataSize := words * uint32(elemTypeSize)
+
+		// For empty arrays (words=0), return empty slice immediately
+		if words == 0 {
+			return []T{}, nil
+		}
+
 		totalSize := dataSize // override with correct size
 		sliceMemBlock, classID, words, err = memoryBlockAtOffset(wa, uint32(vals[0]), totalSize)
 		if err != nil {
@@ -482,8 +488,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				// For Int16/UInt16, fallback to manual approach since no ptr2*_array function
 				// The data is already written, so we're done
 			case "Byte":
-				// For Byte arrays, also use manual approach
-				// The data is already written, so we're done
+				// For Byte arrays, use the new "moonbit_bytes_make" (fnBytesMake).
 			default:
 				return 0, cln, fmt.Errorf("unsupported type for ptr2*_array conversion: %s", elemType.Name())
 			}

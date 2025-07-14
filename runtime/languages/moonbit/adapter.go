@@ -38,6 +38,7 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnPtr2str:                              mod.ExportedFunction("ptr2str"),
 		fnPtr2uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
 		fnPtr2uintArray:                        mod.ExportedFunction("ptr2uint_array"),
+		fnBytesMake:                            mod.ExportedFunction("moonbit_bytes_make"),
 		fnMakeArrayFloat:                       mod.ExportedFunction("moonbit_float32_array_make"),
 		fnMakeArrayDouble:                      mod.ExportedFunction("moonbit_float_array_make"),
 		fnMakeArrayInt:                         mod.ExportedFunction("moonbit_i32_array_make"),
@@ -69,6 +70,7 @@ type wasmAdapter struct {
 	fnPtr2str         wasm.Function
 	fnPtr2uint64Array wasm.Function
 	fnPtr2uintArray   wasm.Function
+	fnBytesMake       wasm.Function
 	fnMakeArrayFloat  wasm.Function
 	fnMakeArrayDouble wasm.Function
 	fnMakeArrayInt    wasm.Function
