@@ -46,7 +46,7 @@ const (
 
 	// None singleton values for optional types
 	NoneSentinelUInt32      = 0xFFFFFFFF // None value for Bool?, Byte?, Char?
-	NoneSingletonPointer    = 10248      // None singleton pointer for 64-bit reference types
+	NoneSingletonPointer    = 10248      // None singleton pointer for 64-bit reference types (confirmed by WAT analysis)
 	NoneValueInt16          = 32768      // None value for Int16?
 	NoneValueInt            = 1          // None value for Int? (was 4294967296)// Memory layout constants
 	MemoryBlockHeaderSize   = 8          // Standard memory block header size

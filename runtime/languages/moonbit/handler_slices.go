@@ -646,9 +646,10 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		var item any
 		var err error
 
-		// Check if this pointer points to a None singleton by reading memory content
+		// Check if this pointer points to a None singleton using runtime detection
+		// WAT shows static addresses, but runtime uses different GC-allocated addresses
 		if h.isNoneSingleton(wa, ptr) {
-			// This is a None singleton
+			// This is a None singleton object
 			item = nil
 		} else {
 			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -674,10 +675,9 @@ func (h *sliceHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmA
 }
 
 // isNoneSingleton checks if a pointer points to a None singleton object
-// None singletons have the pattern: [255 255 255 255] [0 0 0 0] (RefCount -1, Type 0)
+// Based on WAT analysis, None singletons can be detected by their memory content
 func (h *sliceHandler) isNoneSingleton(wa wasmMemoryReader, ptr uint32) bool {
 	if ptr == 0 {
-		// For Int64?, null pointer might represent Some(0) rather than None
 		return false // null pointer is not a None singleton
 	}
 
@@ -688,15 +688,8 @@ func (h *sliceHandler) isNoneSingleton(wa wasmMemoryReader, ptr uint32) bool {
 		return false // couldn't read memory
 	}
 
-	// Check for None singleton patterns
-	// Pattern 1: [255 255 255 255] [0 0 0 0] (from documentation)
-	if len(bytes) >= 8 &&
-		bytes[0] == 0xFF && bytes[1] == 0xFF && bytes[2] == 0xFF && bytes[3] == 0xFF &&
-		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
-		return true
-	}
-
-	// Pattern 2: [0 0 0 0] [0 0 0 0] (observed for ptr=4)
+	// Check for observed None singleton pattern: [00 00 00 00 00 00 00 00]
+	// This pattern was observed at runtime for None objects
 	if len(bytes) >= 8 &&
 		bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0x00 && bytes[3] == 0x00 &&
 		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
