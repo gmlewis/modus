@@ -293,11 +293,19 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
+		fmt.Printf("DEBUG: Reading Bool array - classID=%d, numElements=%d, elemTypeSize=%d\n", classID, numElements, elemTypeSize)
+		fmt.Printf("DEBUG: sliceMemBlock size=%d, first 16 bytes:\n", len(sliceMemBlock))
+		for i := 0; i < 16 && i < len(sliceMemBlock); i += 4 {
+			value := binary.LittleEndian.Uint32(sliceMemBlock[i:])
+			fmt.Printf("DEBUG:   offset %d: %d (0x%X)\n", i, value, value)
+		}
+		
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			offset := MemoryBlockHeaderSize + i*elemTypeSize
 			item := binary.LittleEndian.Uint32(sliceMemBlock[offset:])
 			val := item != 0
+			fmt.Printf("DEBUG: Element %d at offset %d: item=%d, val=%v\n", i, offset, item, val)
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
 		return items.Interface(), nil
@@ -362,6 +370,13 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
+	
+	// TEMPORARY: Force Array[Bool] to use fixed array infrastructure to avoid wrapper issues
+	if !isFixedArray && elemType.Name() == "Bool" {
+		fmt.Printf("DEBUG: Forcing Array[Bool] to use fixed array infrastructure\n")
+		isFixedArray = true
+	}
+	
 	if !isFixedArray {
 		// For dynamic Array[T], use MoonBit's native array creation functions
 		return h.createDynamicPrimitiveArray(ctx, wa, slice, numElements, elemType)
@@ -377,7 +392,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var memBlockClassID uint32
 	var writeHeader func([]byte)
 	switch elemType.Name() {
-	case "Bool", "Char", "Int", "Float":
+	case "Bool":
+		// TEMP FIX: Use BoolByteCharClassID (96) for Bool to match WAT-generated arrays
+		memBlockClassID = BoolByteCharClassID // 96
+	case "Char", "Int", "Float":
 		memBlockClassID = FixedArrayPrimitiveBlockType // 241
 	case "UInt":
 		memBlockClassID = BoolByteCharClassID // FixedArray[UInt] in current MoonBit version
@@ -712,9 +730,32 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 		return 0, nil, fmt.Errorf("failed to create data array for %s: %w", elemType.Name(), err)
 	}
 
-	// For dynamic arrays, return the data array pointer directly
-	// The issue is that MoonBit expects wrapper structure but we can't create it manually
-	// due to GC compatibility issues. This is a fundamental limitation.
+	// Try creating wrapper structure using cabi_realloc (one more attempt)
+	fn := wasmAdapter.GetFunction("cabi_realloc")
+	if fn != nil {
+		// cabi_realloc(old_ptr, old_size, align, new_size)
+		results, err := fn.Call(ctx, uint64(0), uint64(0), uint64(4), uint64(16))
+		if err == nil && len(results) == 1 {
+			wrapperPtr := uint32(results[0])
+			fmt.Printf("DEBUG: Created wrapper structure at %d\n", wrapperPtr)
+
+			// Write wrapper structure exactly like WAT function
+			// Offset 0: refCount (set to 0 like WAT does)
+			wa.Memory().WriteUint32Le(wrapperPtr, 0)
+			// Offset 4: typeInfo (1573120 from WAT analysis)
+			wa.Memory().WriteUint32Le(wrapperPtr+4, 1573120)
+			// Offset 8: length
+			wa.Memory().WriteUint32Le(wrapperPtr+8, numElements)
+			// Offset 12: arrayPtr
+			wa.Memory().WriteUint32Le(wrapperPtr+12, dataArrayPtr)
+
+			fmt.Printf("DEBUG: Wrapper structure created - returning %d instead of %d\n", wrapperPtr, dataArrayPtr)
+			return wrapperPtr, utils.NewCleaner(), nil
+		}
+	}
+
+	// Fallback to data array pointer if wrapper creation fails
+	fmt.Printf("DEBUG: Wrapper creation failed, returning data array pointer %d\n", dataArrayPtr)
 	return dataArrayPtr, utils.NewCleaner(), nil
 }
 
@@ -739,7 +780,36 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 
 	arrayPtr := uint32(results[0])
 
-	// Write bool values (0=false, 1=true)
+	// moonbit_ref_array_make creates reference arrays - maybe I need to create boolean pointers?
+	// Let me go back to moonbit_i32_array_make which matches the WAT analysis
+	fmt.Printf("DEBUG: Switching back to moonbit_i32_array_make to match WAT function\n")
+
+	// Try calling moonbit_i32_array_make instead
+	fn2 := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn2 != nil {
+		// Create array with initial value 0 (false)
+		results2, err := fn2.Call(ctx, uint64(numElements), uint64(0))
+		if err == nil && len(results2) == 1 {
+			arrayPtr2 := uint32(results2[0])
+			fmt.Printf("DEBUG: moonbit_i32_array_make created array at %d\n", arrayPtr2)
+
+			// Write bool values to the i32 array
+			for i, val := range slice {
+				var boolValue uint32
+				if boolVal, ok := any(val).(bool); ok && boolVal {
+					boolValue = 1
+				}
+				offset := arrayPtr2 + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+				fmt.Printf("DEBUG: Writing to i32 array element %d: val=%v, boolValue=%d at offset %d\n", i, val, boolValue, offset)
+				wa.Memory().WriteUint32Le(offset, boolValue)
+			}
+
+			// Return the i32 array pointer instead
+			return arrayPtr2, nil
+		}
+	}
+
+	// Fallback to original ref_array approach if i32_array_make failed
 	for i, val := range slice {
 		var boolValue uint32
 		if boolVal, ok := any(val).(bool); ok && boolVal {
