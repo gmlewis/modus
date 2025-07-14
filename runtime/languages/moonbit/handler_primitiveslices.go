@@ -872,12 +872,12 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 // Helper functions for creating data arrays for different primitive types
 
 func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// Use moonbit_i32_array_make to create complete Array[Bool] with all false values
+	// Use moonbit_i32_array_make - this should create the correct Bool array type info
 	if wasmAdapter.fnMakeArrayInt == nil {
 		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
 	}
 
-	// Create complete Array[Bool] with all false (0) values
+	// Create Array[Bool] using i32 array function (correct for Bool type info)
 	results, err := wasmAdapter.fnMakeArrayInt.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
 		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
@@ -888,18 +888,47 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 
 	arrayPtr := uint32(results[0])
 
-	// Update memory directly where true values should be
-	// Try compressed format: store bools as bytes instead of 32-bit integers
+	// Debug: Read the initial array structure
+	if debugBytes, ok := wa.Memory().Read(arrayPtr, 16); ok {
+		fmt.Printf("DEBUG: Initial Array[Bool] at %d: ", arrayPtr)
+		for i := 0; i < 16; i += 4 {
+			if i < len(debugBytes) {
+				value := binary.LittleEndian.Uint32(debugBytes[i:i+4])
+				fmt.Printf("[%d]=%d(0x%X) ", i, value, value)
+			}
+		}
+		fmt.Printf("\n")
+	}
+
+	// Update memory directly where true values should be (back to 32-bit approach)
+	fmt.Printf("DEBUG: Updating %d elements\n", len(slice))
 	for i, val := range slice {
 		if boolVal, ok := any(val).(bool); ok {
-			var boolByte byte
+			offset := arrayPtr + 8 + uint32(i)*4 // 8 = header size, 4 bytes per bool
+			var value uint32
 			if boolVal {
-				boolByte = 1
+				value = 1
 			}
-			// Try byte storage (compression hypothesis)
-			offset := arrayPtr + 8 + uint32(i) // 8 = header size, 1 byte per bool
-			wa.Memory().Write(offset, []byte{boolByte})
+			wa.Memory().WriteUint32Le(offset, value)
+			fmt.Printf("DEBUG: Element %d: wrote %v as %d at offset %d\n", i, boolVal, value, offset)
+			// Verify the write
+			if readBack, ok := wa.Memory().Read(offset, 4); ok {
+				readValue := binary.LittleEndian.Uint32(readBack)
+				fmt.Printf("DEBUG: Read back: %d\n", readValue)
+			}
 		}
+	}
+
+	// Debug: Read the final array structure
+	if debugBytes, ok := wa.Memory().Read(arrayPtr, 16); ok {
+		fmt.Printf("DEBUG: Final Array[Bool] at %d: ", arrayPtr)
+		for i := 0; i < 16; i += 4 {
+			if i < len(debugBytes) {
+				value := binary.LittleEndian.Uint32(debugBytes[i:i+4])
+				fmt.Printf("[%d]=%d(0x%X) ", i, value, value)
+			}
+		}
+		fmt.Printf("\n")
 	}
 
 	// Return the complete Array[Bool] pointer (no wrapper creation needed)
