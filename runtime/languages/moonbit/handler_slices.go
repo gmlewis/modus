@@ -119,8 +119,25 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	} else {
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 		// fmt.Printf("DEBUG: sliceOffset = %d (0x%X)\n", sliceOffset, sliceOffset)
+		// Debug: dump memory to understand the structure
+		// if classID == 96 {
+		//	fmt.Printf("DEBUG: classID=96 memory dump (size=%d): ", len(memBlock))
+		//	for i := 0; i < len(memBlock) && i < 40; i++ {
+		//		fmt.Printf("%02X ", memBlock[i])
+		//		if (i+1)%8 == 0 {
+		//			fmt.Printf("| ")
+		//		}
+		//	}
+		//	fmt.Printf("\n")
+		// }
 		if sliceOffset == 0 {
-			return nil, nil // nil slice
+			// For classID=96 arrays, sliceOffset=0 doesn't mean nil, it means embedded data
+			if classID == 96 && words > 0 {
+				// fmt.Printf("DEBUG: classID=96 with sliceOffset=0, treating as embedded data\n")
+				// Continue processing as embedded data
+			} else {
+				return nil, nil // nil slice
+			}
 		}
 
 		if words == 1 {
@@ -150,9 +167,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			return items.Interface(), nil
 		}
 
-		// Handle multi-element arrays with embedded data (sliceOffset == 0xFFFFFFFF)
-		if sliceOffset == 0xFFFFFFFF {
-			// fmt.Printf("DEBUG: Multi-element array with embedded data, words=%d\n", words)
+		// Handle multi-element arrays with embedded data (sliceOffset == 0xFFFFFFFF or sliceOffset == 0 for classID=96)
+		if sliceOffset == 0xFFFFFFFF || (sliceOffset == 0 && classID == 96 && words > 0) {
+			// fmt.Printf("DEBUG: Multi-element array with embedded data, words=%d, sliceOffset=0x%X\n", words, sliceOffset)
 			// For multi-element arrays where sliceOffset is 0xFFFFFFFF,
 			// the data is embedded directly after the header. We need to re-read with the correct size.
 			numElements = words
@@ -165,8 +182,13 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			}
 			// fmt.Printf("DEBUG: Re-read memBlock with size %d\n", len(memBlock))
 
-			// The array data starts at offset 16 (after the 16-byte header)
-			dataStartOffset := 16
+			// The array data starts at different offsets depending on sliceOffset value
+			var dataStartOffset int
+			if sliceOffset == 0xFFFFFFFF {
+				dataStartOffset = 16 // For option_3 pattern: after sliceOffset + numElements
+			} else {
+				dataStartOffset = 8 // For option_4 pattern: starts right after header
+			}
 			if len(memBlock) < dataStartOffset+int(dataSize) {
 				return nil, fmt.Errorf("memory block too small for embedded array data: block size %d, needed %d", len(memBlock), dataStartOffset+int(dataSize))
 			}
@@ -183,38 +205,51 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					}
 					// fmt.Printf("DEBUG: Element %d: raw value=0x%X (%d)\n", i, value, value)
 
-					// For Bool? arrays with classID=96, use special encoding:
-					// Small values (0-2) are direct encoded, larger values are pointers
+					// For Bool? arrays with classID=96, use different patterns based on sliceOffset:
 					if elemType.Name() == "Bool?" && classID == 96 {
 						var item any
-						switch value {
-						case 1:
-							// 1 seems to represent None in classID=96 arrays
-							item = nil
-						case 0:
-							// Let me try: 0 represents Some(true) based on expected pattern
-							t := true
-							item = &t
-						case 2:
-							// Maybe 2 represents Some(false)?
-							f := false
-							item = &f
-						default:
-							// For larger values, try reading as pointer
-							if value > 1000 { // looks like a pointer
-								var err error
-								item, err = h.elementHandler.Read(ctx, wasmAdapter, uint32(value))
-								if err != nil {
-									return nil, err
+						if sliceOffset == 0xFFFFFFFF {
+							// Option_3 pattern: 1=None, 0=Some(true), pointers=Some(value)
+							switch value {
+							case 1:
+								// 1 = None for option_3 pattern
+								item = nil
+							case 0:
+								// 0 = Some(true) for option_3 pattern
+								t := true
+								item = &t
+							default:
+								// For pointers, read the actual value
+								if value > 1000 {
+									var err error
+									item, err = h.elementHandler.Read(ctx, wasmAdapter, uint32(value))
+									if err != nil {
+										return nil, err
+									}
+								} else {
+									var err error
+									item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
+									if err != nil {
+										return nil, err
+									}
 								}
-								// Debug: check what we actually read (TODO: remove)
-								// if boolPtr, ok := item.(*bool); ok {
-								//	fmt.Printf("DEBUG: Element %d pointer read: Some(%v)\n", i, *boolPtr)
-								// } else {
-								//	fmt.Printf("DEBUG: Element %d pointer read: %T=%v\n", i, item, item)
-								// }
-							} else {
-								// Fallback: decode as usual
+							}
+						} else {
+							// Option_4 pattern: -1=None, 0=Some(false), 1=Some(true) (WAT-based)
+							switch value {
+							case 0xFFFFFFFF:
+								// -1 = None
+								item = nil
+							case 0:
+								// 0 = Some(false)
+								f := false
+								item = &f
+							case 1:
+								// 1 = Some(true)
+								t := true
+								item = &t
+							default:
+								// Fallback
 								var err error
 								item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
 								if err != nil {
