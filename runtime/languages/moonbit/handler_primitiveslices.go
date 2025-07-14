@@ -502,9 +502,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				fmt.Printf("DEBUG: Element %d: false (0)\n", i)
 			} else {
 				fmt.Printf("DEBUG: Element %d: true (1)\n", i)
-									fmt.Printf("DEBUG: Raw dataBuffer for element %d: %02x %02x %02x %02x\n", i, dataBuffer[i*4], dataBuffer[i*4+1], dataBuffer[i*4+2], dataBuffer[i*4+3])
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
-								fmt.Printf("DEBUG: After writing 1: %02x %02x %02x %02x\n", dataBuffer[i*4], dataBuffer[i*4+1], dataBuffer[i*4+2], dataBuffer[i*4+3])
 			}
 		}
 	} else if elemType.Name() == "Char" {
