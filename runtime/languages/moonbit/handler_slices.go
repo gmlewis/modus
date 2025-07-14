@@ -159,6 +159,31 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 				if !utils.HasNil(item) {
 					items.Index(0).Set(reflect.ValueOf(item))
 				}
+			} else if elemType.Name() == "Bool?" && classID == 96 && sliceOffset > 0 && sliceOffset < 1000 {
+				// Compact layout for single-element Bool? arrays: sliceOffset contains the value
+				// fmt.Printf("DEBUG: Single-element compact layout, sliceOffset=%d\n", sliceOffset)
+				var item any
+				switch sliceOffset {
+				case 1:
+					// 1 = Some(true) for single-element compact layout
+					t := true
+					item = &t
+				case 0:
+					// 0 = Some(false) for single-element compact layout
+					f := false
+					item = &f
+				default:
+					// Fallback to normal decode
+					var err error
+					item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(sliceOffset)})
+					if err != nil {
+						return nil, err
+					}
+				}
+				// fmt.Printf("DEBUG: Single-element decoded: %T=%v\n", item, item)
+				if !utils.HasNil(item) {
+					items.Index(0).Set(reflect.ValueOf(item))
+				}
 			} else {
 				// sliceOffset is the pointer to the single-slice element.
 				item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
