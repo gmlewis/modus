@@ -492,12 +492,16 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	var dataBuffer []byte
 	if elemType.Name() == "Bool" {
+		fmt.Printf("DEBUG: Creating Bool array - numElements=%d, size=%d, memBlockClassID=%d\n", numElements, size, memBlockClassID)
+		fmt.Printf("DEBUG: Array allocation - offset=%d\n", offset)
 		dataBuffer = make([]byte, numElements*4)
 		var zero T
 		for i := 0; i < len(slice); i++ {
 			if slice[i] == zero {
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 0)
+				fmt.Printf("DEBUG: Element %d: false (0)\n", i)
 			} else {
+				fmt.Printf("DEBUG: Element %d: true (1)\n", i)
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
 			}
 		}
@@ -533,7 +537,31 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			switch elemType.Name() {
 			case "UInt":
 				arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
-			case "Int", "Bool", "Char":
+			case "Bool":
+				// SPECIAL: Don't use fnPtr2intArray for Bool - create structure directly
+				fmt.Printf("DEBUG: Skipping fnPtr2intArray for Bool, creating structure directly\n")
+				// The data is already written at offset, just return the offset
+				// We need to create the [length, classInfo, data...] structure
+				// Allocate new memory for the complete structure
+				structOffset, structCln, err := wa.allocateAndPinMemory(ctx, numElements+2, memBlockClassID)
+				if err != nil {
+					return 0, cln, fmt.Errorf("failed to allocate structure memory: %w", err)
+				}
+				cln.AddCleaner(structCln)
+				
+				// Write the structure: [length, classInfo, data...]
+				wa.Memory().WriteUint32Le(structOffset, numElements) // length
+				wa.Memory().WriteUint32Le(structOffset+4, (uint32(numElements)<<8)|memBlockClassID) // classInfo
+				
+				// Copy the data
+				for i := uint32(0); i < numElements; i++ {
+					value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
+					wa.Memory().WriteUint32Le(structOffset+8+i*4, value)
+					fmt.Printf("DEBUG: Wrote element %d: %d at offset %d\n", i, value, structOffset+8+i*4)
+				}
+				
+				return structOffset, cln, nil
+			case "Int", "Char":
 				arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Float":
 				arrayPtr, err = concreteWa.fnPtr2floatArray.Call(ctx, uint64(offset), uint64(numElements))
