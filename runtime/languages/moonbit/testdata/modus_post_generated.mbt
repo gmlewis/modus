@@ -228,6 +228,13 @@ pub fn ptr_to_none() -> Int {
 fn[A, B] cast(a : A) -> B = "%identity"
 
 ///|
+pub fn moonbit_bytes_to_array(ptr : Int) -> Int {
+  let bytes : Bytes = cast(ptr)
+  let result = bytes.to_array()
+  cast(result)
+}
+
+///|
 pub fn moonbit_bytes_make(size : Int, val : Int) -> Int =
   #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.bytes_make)
 

@@ -35052,22 +35052,22 @@
     i32.const 123
     i32.store offset=8 align=1
     local.get $ptr/15816)
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct3::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1521/3765 i32) (param $*x_1522/3766 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct3::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1524/3765 i32) (param $*x_1525/3766 i32) (result i32)
     (local $c/9573 i32) (local $c/9574 i32) (local $b/9575 i32) (local $b/9576 i32) (local $a/9577 i32) (local $a/9578 i32) (local $*tmp/13177 i32) (local $*field/13178 i32) (local $*field/13179 i32) (local $*cnt/14088 i32) (local $*new_cnt/14089 i32) (local $*cnt/14090 i32) (local $*new_cnt/14091 i32)
-    local.get $*x_1521/3765
+    local.get $*x_1524/3765
     i32.load offset=8 align=1
     local.set $a/9577
-    local.get $*x_1522/3766
+    local.get $*x_1525/3766
     i32.load offset=8 align=1
     local.set $a/9578
     local.get $a/9577
     local.get $a/9578
     i32.eq
     if (result i32)  ;; label = @1
-      local.get $*x_1521/3765
+      local.get $*x_1524/3765
       i32.load offset=12 align=1
       local.set $b/9575
-      local.get $*x_1522/3766
+      local.get $*x_1525/3766
       i32.load offset=12 align=1
       local.set $b/9576
       local.get $b/9575
@@ -35077,10 +35077,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1521/3765
+      local.get $*x_1524/3765
       i32.load offset=16 align=1
       local.set $*field/13179
-      local.get $*x_1521/3765
+      local.get $*x_1524/3765
       i32.load align=1
       local.tee $*cnt/14088
       i32.const 1
@@ -35092,7 +35092,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14089
-        local.get $*x_1521/3765
+        local.get $*x_1524/3765
         local.get $*new_cnt/14089
         i32.store align=1
       else
@@ -35100,16 +35100,16 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1521/3765
+          local.get $*x_1524/3765
           call $moonbit.free
         end
       end
       local.get $*field/13179
       local.set $c/9573
-      local.get $*x_1522/3766
+      local.get $*x_1525/3766
       i32.load offset=16 align=1
       local.set $*field/13178
-      local.get $*x_1522/3766
+      local.get $*x_1525/3766
       i32.load align=1
       local.tee $*cnt/14090
       i32.const 1
@@ -35121,7 +35121,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14091
-        local.get $*x_1522/3766
+        local.get $*x_1525/3766
         local.get $*new_cnt/14091
         i32.store align=1
       else
@@ -35129,7 +35129,7 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1522/3766
+          local.get $*x_1525/3766
           call $moonbit.free
         end
       end
@@ -35145,84 +35145,84 @@
       call $moonbit.decref
       local.get $*tmp/13177
     else
-      local.get $*x_1522/3766
+      local.get $*x_1525/3766
       call $moonbit.decref
-      local.get $*x_1521/3765
+      local.get $*x_1524/3765
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct3::output (type $<<UInt64>=>Int>=>Int) (param $*x_1525/3764 i32) (param $*x_1526/3763 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct3::output (type $<<UInt64>=>Int>=>Int) (param $*x_1528/3764 i32) (param $*x_1529/3763 i32) (result i32)
     (local $*bind/9569 i32) (local $a/9570 i32) (local $b/9571 i32) (local $c/9572 i32) (local $*field/13180 i32) (local $*cnt/14092 i32) (local $*new_cnt/14093 i32)
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 135592
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 135576
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1525/3764
+    local.get $*x_1528/3764
     i32.load offset=8 align=1
     local.set $a/9570
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     local.get $a/9570
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 124984
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 135560
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1525/3764
+    local.get $*x_1528/3764
     i32.load offset=12 align=1
     local.set $b/9571
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     local.get $b/9571
     call $@moonbitlang/core/builtin.Logger::write_object|Int|
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 124984
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.const 135544
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1525/3764
+    local.get $*x_1528/3764
     i32.load offset=16 align=1
     local.set $*field/13180
-    local.get $*x_1525/3764
+    local.get $*x_1528/3764
     i32.load align=1
     local.tee $*cnt/14092
     i32.const 1
@@ -35234,7 +35234,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14093
-      local.get $*x_1525/3764
+      local.get $*x_1528/3764
       local.get $*new_cnt/14093
       i32.store align=1
     else
@@ -35242,40 +35242,40 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1525/3764
+        local.get $*x_1528/3764
         call $moonbit.free
       end
     end
     local.get $*field/13180
     local.set $c/9572
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     call $moonbit.incref
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     local.get $c/9572
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1526/3763
+    local.get $*x_1529/3763
     local.tee $*bind/9569
     i32.const 135528
     local.get $*bind/9569
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct4::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1585/3761 i32) (param $*x_1586/3762 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct4::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1588/3761 i32) (param $*x_1589/3762 i32) (result i32)
     (local $c/9563 i32) (local $c/9564 i32) (local $b/9565 i32) (local $b/9566 i32) (local $a/9567 i32) (local $a/9568 i32) (local $*field/13181 i32) (local $*field/13182 i32) (local $*cnt/14094 i32) (local $*new_cnt/14095 i32) (local $*cnt/14096 i32) (local $*new_cnt/14097 i32)
-    local.get $*x_1585/3761
+    local.get $*x_1588/3761
     i32.load offset=8 align=1
     local.set $a/9567
-    local.get $*x_1586/3762
+    local.get $*x_1589/3762
     i32.load offset=8 align=1
     local.set $a/9568
     local.get $a/9567
     local.get $a/9568
     i32.eq
     if (result i32)  ;; label = @1
-      local.get $*x_1585/3761
+      local.get $*x_1588/3761
       i32.load offset=12 align=1
       local.set $b/9565
-      local.get $*x_1586/3762
+      local.get $*x_1589/3762
       i32.load offset=12 align=1
       local.set $b/9566
       local.get $b/9565
@@ -35285,10 +35285,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1585/3761
+      local.get $*x_1588/3761
       i32.load offset=16 align=1
       local.set $*field/13182
-      local.get $*x_1585/3761
+      local.get $*x_1588/3761
       i32.load align=1
       local.tee $*cnt/14094
       i32.const 1
@@ -35303,7 +35303,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14095
-        local.get $*x_1585/3761
+        local.get $*x_1588/3761
         local.get $*new_cnt/14095
         i32.store align=1
       else
@@ -35311,16 +35311,16 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1585/3761
+          local.get $*x_1588/3761
           call $moonbit.free
         end
       end
       local.get $*field/13182
       local.set $c/9563
-      local.get $*x_1586/3762
+      local.get $*x_1589/3762
       i32.load offset=16 align=1
       local.set $*field/13181
-      local.get $*x_1586/3762
+      local.get $*x_1589/3762
       i32.load align=1
       local.tee $*cnt/14096
       i32.const 1
@@ -35335,7 +35335,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14097
-        local.get $*x_1586/3762
+        local.get $*x_1589/3762
         local.get $*new_cnt/14097
         i32.store align=1
       else
@@ -35343,7 +35343,7 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1586/3762
+          local.get $*x_1589/3762
           call $moonbit.free
         end
       end
@@ -35353,84 +35353,84 @@
       local.get $c/9564
       call $@moonbitlang/core/builtin.Eq::Option::op_equal|String|
     else
-      local.get $*x_1586/3762
+      local.get $*x_1589/3762
       call $moonbit.decref
-      local.get $*x_1585/3761
+      local.get $*x_1588/3761
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct4::output (type $<<UInt64>=>Int>=>Int) (param $*x_1589/3760 i32) (param $*x_1590/3759 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct4::output (type $<<UInt64>=>Int>=>Int) (param $*x_1592/3760 i32) (param $*x_1593/3759 i32) (result i32)
     (local $*bind/9559 i32) (local $a/9560 i32) (local $b/9561 i32) (local $c/9562 i32) (local $*field/13183 i32) (local $*cnt/14098 i32) (local $*new_cnt/14099 i32)
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 135592
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 135576
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1589/3760
+    local.get $*x_1592/3760
     i32.load offset=8 align=1
     local.set $a/9560
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     local.get $a/9560
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 124984
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 135560
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1589/3760
+    local.get $*x_1592/3760
     i32.load offset=12 align=1
     local.set $b/9561
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     local.get $b/9561
     call $@moonbitlang/core/builtin.Logger::write_object|Int|
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 124984
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.const 135544
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1589/3760
+    local.get $*x_1592/3760
     i32.load offset=16 align=1
     local.set $*field/13183
-    local.get $*x_1589/3760
+    local.get $*x_1592/3760
     i32.load align=1
     local.tee $*cnt/14098
     i32.const 1
@@ -35445,7 +35445,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14099
-      local.get $*x_1589/3760
+      local.get $*x_1592/3760
       local.get $*new_cnt/14099
       i32.store align=1
     else
@@ -35453,31 +35453,31 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1589/3760
+        local.get $*x_1592/3760
         call $moonbit.free
       end
     end
     local.get $*field/13183
     local.set $c/9562
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     call $moonbit.incref
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     local.get $c/9562
     call $@moonbitlang/core/builtin.Logger::write_object|Option<String>|
     drop
-    local.get $*x_1590/3759
+    local.get $*x_1593/3759
     local.tee $*bind/9559
     i32.const 135528
     local.get $*bind/9559
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct5::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1631/3757 i32) (param $*x_1632/3758 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct5::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1634/3757 i32) (param $*x_1635/3758 i32) (result i32)
     (local $f/9547 f64) (local $f/9548 f64) (local $e/9549 f64) (local $e/9550 f64) (local $d/9551 i32) (local $d/9552 i32) (local $c/9553 i32) (local $c/9554 i32) (local $b/9555 i32) (local $b/9556 i32) (local $a/9557 i32) (local $a/9558 i32) (local $*field/13184 f64) (local $*field/13185 f64) (local $*field/13186 i32) (local $*field/13187 i32) (local $*tmp/13188 i32) (local $*field/13189 i32) (local $*field/13190 i32) (local $*tmp/13191 i32) (local $*field/13192 i32) (local $*field/13193 i32) (local $*tmp/13194 i32) (local $*field/13195 i32) (local $*field/13196 i32)
-    local.get $*x_1631/3757
+    local.get $*x_1634/3757
     i32.load offset=24 align=1
     local.tee $*field/13196
     local.set $a/9557
-    local.get $*x_1632/3758
+    local.get $*x_1635/3758
     i32.load offset=24 align=1
     local.tee $*field/13195
     local.set $a/9558
@@ -35486,11 +35486,11 @@
     call $moonbit.string_equal
     local.tee $*tmp/13194
     if (result i32)  ;; label = @1
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       i32.load offset=28 align=1
       local.tee $*field/13193
       local.set $b/9555
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       i32.load offset=28 align=1
       local.tee $*field/13192
       local.set $b/9556
@@ -35502,11 +35502,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       i32.load offset=32 align=1
       local.tee $*field/13190
       local.set $c/9553
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       i32.load offset=32 align=1
       local.tee $*field/13189
       local.set $c/9554
@@ -35518,11 +35518,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       i32.load offset=36 align=1
       local.tee $*field/13187
       local.set $d/9551
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       i32.load offset=36 align=1
       local.tee $*field/13186
       local.tee $d/9552
@@ -35536,10 +35536,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       f64.load offset=8 align=1
       local.set $e/9549
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       f64.load offset=8 align=1
       local.set $e/9550
       local.get $e/9549
@@ -35549,17 +35549,17 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       f64.load offset=16 align=1
       local.set $*field/13185
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       call $moonbit.decref
       local.get $*field/13185
       local.set $f/9547
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       f64.load offset=16 align=1
       local.set $*field/13184
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       call $moonbit.decref
       local.get $*field/13184
       local.set $f/9548
@@ -35567,255 +35567,255 @@
       local.get $f/9548
       f64.eq
     else
-      local.get $*x_1632/3758
+      local.get $*x_1635/3758
       call $moonbit.decref
-      local.get $*x_1631/3757
+      local.get $*x_1634/3757
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct5::output (type $<<UInt64>=>Int>=>Int) (param $*x_1635/3756 i32) (param $*x_1636/3755 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct5::output (type $<<UInt64>=>Int>=>Int) (param $*x_1638/3756 i32) (param $*x_1639/3755 i32) (result i32)
     (local $*bind/9540 i32) (local $a/9541 i32) (local $b/9542 i32) (local $c/9543 i32) (local $d/9544 i32) (local $e/9545 f64) (local $f/9546 f64) (local $*field/13197 f64) (local $*field/13198 i32) (local $*field/13199 i32) (local $*field/13200 i32) (local $*field/13201 i32)
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135592
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135576
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     i32.load offset=24 align=1
     local.tee $*field/13201
     local.tee $a/9541
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $a/9541
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 124984
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135560
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     i32.load offset=28 align=1
     local.tee $*field/13200
     local.tee $b/9542
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $b/9542
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 124984
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135544
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     i32.load offset=32 align=1
     local.tee $*field/13199
     local.tee $c/9543
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $c/9543
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 124984
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135640
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     i32.load offset=36 align=1
     local.tee $*field/13198
     local.tee $d/9544
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $d/9544
     call $@moonbitlang/core/builtin.Logger::write_object|@moonbitlang/core/builtin.Array<String>|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 124984
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135624
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     f64.load offset=8 align=1
     local.set $e/9545
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $e/9545
     call $@moonbitlang/core/builtin.Logger::write_object|Double|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 124984
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.const 135608
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     f64.load offset=16 align=1
     local.set $*field/13197
-    local.get $*x_1635/3756
+    local.get $*x_1638/3756
     call $moonbit.decref
     local.get $*field/13197
     local.set $f/9546
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     call $moonbit.incref
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.get $f/9546
     call $@moonbitlang/core/builtin.Logger::write_object|Double|
     drop
-    local.get $*x_1636/3755
+    local.get $*x_1639/3755
     local.tee $*bind/9540
     i32.const 135528
     local.get $*bind/9540
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct1::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1652/3753 i32) (param $*x_1653/3754 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct1::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1655/3753 i32) (param $*x_1656/3754 i32) (result i32)
     (local $a/9538 i32) (local $a/9539 i32) (local $*field/13202 i32) (local $*field/13203 i32)
-    local.get $*x_1652/3753
+    local.get $*x_1655/3753
     i32.load offset=8 align=1
     local.set $*field/13203
-    local.get $*x_1652/3753
+    local.get $*x_1655/3753
     call $moonbit.decref
     local.get $*field/13203
     local.set $a/9538
-    local.get $*x_1653/3754
+    local.get $*x_1656/3754
     i32.load offset=8 align=1
     local.set $*field/13202
-    local.get $*x_1653/3754
+    local.get $*x_1656/3754
     call $moonbit.decref
     local.get $*field/13202
     local.set $a/9539
     local.get $a/9538
     local.get $a/9539
     i32.eq)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct1::output (type $<<UInt64>=>Int>=>Int) (param $*x_1656/3752 i32) (param $*x_1657/3751 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct1::output (type $<<UInt64>=>Int>=>Int) (param $*x_1659/3752 i32) (param $*x_1660/3751 i32) (result i32)
     (local $*bind/9536 i32) (local $a/9537 i32) (local $*field/13204 i32)
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     call $moonbit.incref
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     i32.const 135592
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     call $moonbit.incref
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     i32.const 135576
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1656/3752
+    local.get $*x_1659/3752
     i32.load offset=8 align=1
     local.set $*field/13204
-    local.get $*x_1656/3752
+    local.get $*x_1659/3752
     call $moonbit.decref
     local.get $*field/13204
     local.set $a/9537
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     call $moonbit.incref
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     local.get $a/9537
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1657/3751
+    local.get $*x_1660/3751
     local.tee $*bind/9536
     i32.const 135528
     local.get $*bind/9536
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpResponse::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1706/3749 i32) (param $*x_1707/3750 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpResponse::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1709/3749 i32) (param $*x_1710/3750 i32) (result i32)
     (local $body/9528 i32) (local $body/9529 i32) (local $headers/9530 i32) (local $headers/9531 i32) (local $statusText/9532 i32) (local $statusText/9533 i32) (local $status/9534 i32) (local $status/9535 i32) (local $*field/13205 i32) (local $*field/13206 i32) (local $*field/13207 i32) (local $*field/13208 i32) (local $*tmp/13209 i32) (local $*field/13210 i32) (local $*field/13211 i32) (local $*cnt/14100 i32) (local $*field/14101 i32) (local $*field/14102 i32) (local $*new_cnt/14103 i32) (local $*cnt/14104 i32) (local $*field/14105 i32) (local $*field/14106 i32) (local $*new_cnt/14107 i32)
-    local.get $*x_1706/3749
+    local.get $*x_1709/3749
     i32.load16_u offset=8 align=1
     local.set $status/9534
-    local.get $*x_1707/3750
+    local.get $*x_1710/3750
     i32.load16_u offset=8 align=1
     local.set $status/9535
     local.get $status/9534
     local.get $status/9535
     call $@moonbitlang/core/builtin.Eq::UInt16::op_equal
     if (result i32)  ;; label = @1
-      local.get $*x_1706/3749
+      local.get $*x_1709/3749
       i32.load offset=12 align=1
       local.tee $*field/13211
       local.set $statusText/9532
-      local.get $*x_1707/3750
+      local.get $*x_1710/3750
       i32.load offset=12 align=1
       local.tee $*field/13210
       local.set $statusText/9533
@@ -35827,11 +35827,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1706/3749
+      local.get $*x_1709/3749
       i32.load offset=16 align=1
       local.tee $*field/13208
       local.set $headers/9530
-      local.get $*x_1707/3750
+      local.get $*x_1710/3750
       i32.load offset=16 align=1
       local.tee $*field/13207
       local.tee $headers/9531
@@ -35851,10 +35851,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1706/3749
+      local.get $*x_1709/3749
       i32.load offset=20 align=1
       local.set $*field/13206
-      local.get $*x_1706/3749
+      local.get $*x_1709/3749
       i32.load align=1
       local.tee $*cnt/14100
       i32.const 1
@@ -35866,7 +35866,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14103
-        local.get $*x_1706/3749
+        local.get $*x_1709/3749
         local.get $*new_cnt/14103
         i32.store align=1
       else
@@ -35874,27 +35874,27 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1706/3749
+          local.get $*x_1709/3749
           i32.load offset=16 align=1
           local.tee $*field/14102
           if  ;; label = @4
             local.get $*field/14102
             call $moonbit.decref
           end
-          local.get $*x_1706/3749
+          local.get $*x_1709/3749
           i32.load offset=12 align=1
           local.tee $*field/14101
           call $moonbit.decref
-          local.get $*x_1706/3749
+          local.get $*x_1709/3749
           call $moonbit.free
         end
       end
       local.get $*field/13206
       local.set $body/9528
-      local.get $*x_1707/3750
+      local.get $*x_1710/3750
       i32.load offset=20 align=1
       local.set $*field/13205
-      local.get $*x_1707/3750
+      local.get $*x_1710/3750
       i32.load align=1
       local.tee $*cnt/14104
       i32.const 1
@@ -35906,7 +35906,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14107
-        local.get $*x_1707/3750
+        local.get $*x_1710/3750
         local.get $*new_cnt/14107
         i32.store align=1
       else
@@ -35914,18 +35914,18 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1707/3750
+          local.get $*x_1710/3750
           i32.load offset=16 align=1
           local.tee $*field/14106
           if  ;; label = @4
             local.get $*field/14106
             call $moonbit.decref
           end
-          local.get $*x_1707/3750
+          local.get $*x_1710/3750
           i32.load offset=12 align=1
           local.tee $*field/14105
           call $moonbit.decref
-          local.get $*x_1707/3750
+          local.get $*x_1710/3750
           call $moonbit.free
         end
       end
@@ -35935,83 +35935,83 @@
       local.get $body/9529
       call $@moonbitlang/core/builtin.Eq::@moonbitlang/core/builtin.Array::op_equal|Byte|
     else
-      local.get $*x_1707/3750
+      local.get $*x_1710/3750
       call $moonbit.decref
-      local.get $*x_1706/3749
+      local.get $*x_1709/3749
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpResponse::output (type $<<UInt64>=>Int>=>Int) (param $*x_1710/3748 i32) (param $*x_1711/3747 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpResponse::output (type $<<UInt64>=>Int>=>Int) (param $*x_1713/3748 i32) (param $*x_1714/3747 i32) (result i32)
     (local $*bind/9523 i32) (local $status/9524 i32) (local $statusText/9525 i32) (local $headers/9526 i32) (local $body/9527 i32) (local $*field/13212 i32) (local $*field/13213 i32) (local $*field/13214 i32) (local $*cnt/14108 i32) (local $*field/14109 i32) (local $*field/14110 i32) (local $*new_cnt/14111 i32)
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 135592
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 135752
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1710/3748
+    local.get $*x_1713/3748
     i32.load16_u offset=8 align=1
     local.set $status/9524
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     local.get $status/9524
     call $@moonbitlang/core/builtin.Logger::write_object|UInt16|
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 124984
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 135712
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1710/3748
+    local.get $*x_1713/3748
     i32.load offset=12 align=1
     local.tee $*field/13214
     local.tee $statusText/9525
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     local.get $statusText/9525
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 124984
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 135680
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1710/3748
+    local.get $*x_1713/3748
     i32.load offset=16 align=1
     local.tee $*field/13213
     local.tee $headers/9526
@@ -36019,32 +36019,32 @@
       local.get $headers/9526
       call $moonbit.incref
     end
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     local.get $headers/9526
     call $@moonbitlang/core/builtin.Logger::write_object|Option<HttpHeaders>|
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 124984
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.const 135656
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1710/3748
+    local.get $*x_1713/3748
     i32.load offset=20 align=1
     local.set $*field/13212
-    local.get $*x_1710/3748
+    local.get $*x_1713/3748
     i32.load align=1
     local.tee $*cnt/14108
     i32.const 1
@@ -36056,7 +36056,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14111
-      local.get $*x_1710/3748
+      local.get $*x_1713/3748
       local.get $*new_cnt/14111
       i32.store align=1
     else
@@ -36064,39 +36064,39 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1710/3748
+        local.get $*x_1713/3748
         i32.load offset=16 align=1
         local.tee $*field/14110
         if  ;; label = @3
           local.get $*field/14110
           call $moonbit.decref
         end
-        local.get $*x_1710/3748
+        local.get $*x_1713/3748
         i32.load offset=12 align=1
         local.tee $*field/14109
         call $moonbit.decref
-        local.get $*x_1710/3748
+        local.get $*x_1713/3748
         call $moonbit.free
       end
     end
     local.get $*field/13212
     local.set $body/9527
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     call $moonbit.incref
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     local.get $body/9527
     call $@moonbitlang/core/builtin.Logger::write_object|@moonbitlang/core/builtin.Array<Byte>|
     drop
-    local.get $*x_1711/3747
+    local.get $*x_1714/3747
     local.tee $*bind/9523
     i32.const 135528
     local.get $*bind/9523
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestError::output (type $<<UInt64>=>Int>=>Int) (param $*x_1714/3744 i32) (param $*x_1715/3743 i32) (result i32)
-    (local $*err_payload_1716/3742 i32) (local $*TestError/3745 i32) (local $**err_payload_1716/3746 i32) (local $*bind/9522 i32) (local $*field/13215 i32) (local $*cnt/14112 i32) (local $*new_cnt/14113 i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestError::output (type $<<UInt64>=>Int>=>Int) (param $*x_1717/3744 i32) (param $*x_1718/3743 i32) (result i32)
+    (local $*err_payload_1719/3742 i32) (local $*TestError/3745 i32) (local $**err_payload_1719/3746 i32) (local $*bind/9522 i32) (local $*field/13215 i32) (local $*cnt/14112 i32) (local $*new_cnt/14113 i32)
     block  ;; label = @1
-      local.get $*x_1714/3744
+      local.get $*x_1717/3744
       local.tee $*TestError/3745
       i32.load offset=8 align=1
       local.set $*field/13215
@@ -36125,36 +36125,36 @@
         end
       end
       local.get $*field/13215
-      local.tee $**err_payload_1716/3746
-      local.set $*err_payload_1716/3742
+      local.tee $**err_payload_1719/3746
+      local.set $*err_payload_1719/3742
       br 0 (;@1;)
     end
-    local.get $*x_1715/3743
+    local.get $*x_1718/3743
     call $moonbit.incref
-    local.get $*x_1715/3743
+    local.get $*x_1718/3743
     i32.const 135784
-    local.get $*x_1715/3743
+    local.get $*x_1718/3743
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1715/3743
+    local.get $*x_1718/3743
     call $moonbit.incref
-    local.get $*x_1715/3743
-    local.get $*err_payload_1716/3742
+    local.get $*x_1718/3743
+    local.get $*err_payload_1719/3742
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1715/3743
+    local.get $*x_1718/3743
     local.tee $*bind/9522
     i32.const 134376
     local.get $*bind/9522
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpHeaders::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1798/3739 i32) (param $*x_1799/3740 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpHeaders::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1801/3739 i32) (param $*x_1802/3740 i32) (result i32)
     (local $data/9520 i32) (local $data/9521 i32) (local $*field/13216 i32) (local $*field/13217 i32) (local $*cnt/14114 i32) (local $*new_cnt/14115 i32) (local $*cnt/14116 i32) (local $*new_cnt/14117 i32)
-    local.get $*x_1798/3739
+    local.get $*x_1801/3739
     i32.load offset=8 align=1
     local.set $*field/13217
-    local.get $*x_1798/3739
+    local.get $*x_1801/3739
     i32.load align=1
     local.tee $*cnt/14114
     i32.const 1
@@ -36166,7 +36166,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14115
-      local.get $*x_1798/3739
+      local.get $*x_1801/3739
       local.get $*new_cnt/14115
       i32.store align=1
     else
@@ -36174,16 +36174,16 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1798/3739
+        local.get $*x_1801/3739
         call $moonbit.free
       end
     end
     local.get $*field/13217
     local.set $data/9520
-    local.get $*x_1799/3740
+    local.get $*x_1802/3740
     i32.load offset=8 align=1
     local.set $*field/13216
-    local.get $*x_1799/3740
+    local.get $*x_1802/3740
     i32.load align=1
     local.tee $*cnt/14116
     i32.const 1
@@ -36195,7 +36195,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14117
-      local.get $*x_1799/3740
+      local.get $*x_1802/3740
       local.get $*new_cnt/14117
       i32.store align=1
     else
@@ -36203,7 +36203,7 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1799/3740
+        local.get $*x_1802/3740
         call $moonbit.free
       end
     end
@@ -36212,28 +36212,28 @@
     local.get $data/9520
     local.get $data/9521
     call $@moonbitlang/core/builtin.Eq::@moonbitlang/core/builtin.Map::op_equal|String+Option<HttpHeader>|)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpHeaders::output (type $<<UInt64>=>Int>=>Int) (param $*x_1802/3738 i32) (param $*x_1803/3737 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpHeaders::output (type $<<UInt64>=>Int>=>Int) (param $*x_1805/3738 i32) (param $*x_1806/3737 i32) (result i32)
     (local $*bind/9518 i32) (local $data/9519 i32) (local $*field/13218 i32) (local $*cnt/14118 i32) (local $*new_cnt/14119 i32)
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     call $moonbit.incref
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     i32.const 135592
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     call $moonbit.incref
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     i32.const 135816
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1802/3738
+    local.get $*x_1805/3738
     i32.load offset=8 align=1
     local.set $*field/13218
-    local.get $*x_1802/3738
+    local.get $*x_1805/3738
     i32.load align=1
     local.tee $*cnt/14118
     i32.const 1
@@ -36245,7 +36245,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14119
-      local.get $*x_1802/3738
+      local.get $*x_1805/3738
       local.get $*new_cnt/14119
       i32.store align=1
     else
@@ -36253,47 +36253,47 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1802/3738
+        local.get $*x_1805/3738
         call $moonbit.free
       end
     end
     local.get $*field/13218
     local.set $data/9519
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     call $moonbit.incref
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     local.get $data/9519
     call $@moonbitlang/core/builtin.Logger::write_object|@moonbitlang/core/builtin.Map<String*Option<HttpHeader>>|
     drop
-    local.get $*x_1803/3737
+    local.get $*x_1806/3737
     local.tee $*bind/9518
     i32.const 135528
     local.get $*bind/9518
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct2::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1824/3735 i32) (param $*x_1825/3736 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestStruct2::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1827/3735 i32) (param $*x_1828/3736 i32) (result i32)
     (local $b/9514 i32) (local $b/9515 i32) (local $a/9516 i32) (local $a/9517 i32) (local $*field/13219 i32) (local $*field/13220 i32)
-    local.get $*x_1824/3735
+    local.get $*x_1827/3735
     i32.load offset=8 align=1
     local.set $a/9516
-    local.get $*x_1825/3736
+    local.get $*x_1828/3736
     i32.load offset=8 align=1
     local.set $a/9517
     local.get $a/9516
     local.get $a/9517
     i32.eq
     if (result i32)  ;; label = @1
-      local.get $*x_1824/3735
+      local.get $*x_1827/3735
       i32.load offset=12 align=1
       local.set $*field/13220
-      local.get $*x_1824/3735
+      local.get $*x_1827/3735
       call $moonbit.decref
       local.get $*field/13220
       local.set $b/9514
-      local.get $*x_1825/3736
+      local.get $*x_1828/3736
       i32.load offset=12 align=1
       local.set $*field/13219
-      local.get $*x_1825/3736
+      local.get $*x_1828/3736
       call $moonbit.decref
       local.get $*field/13219
       local.set $b/9515
@@ -36301,81 +36301,81 @@
       local.get $b/9515
       i32.eq
     else
-      local.get $*x_1825/3736
+      local.get $*x_1828/3736
       call $moonbit.decref
-      local.get $*x_1824/3735
+      local.get $*x_1827/3735
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct2::output (type $<<UInt64>=>Int>=>Int) (param $*x_1828/3734 i32) (param $*x_1829/3733 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestStruct2::output (type $<<UInt64>=>Int>=>Int) (param $*x_1831/3734 i32) (param $*x_1832/3733 i32) (result i32)
     (local $*bind/9511 i32) (local $a/9512 i32) (local $b/9513 i32) (local $*field/13221 i32)
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.const 135592
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.const 135576
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1828/3734
+    local.get $*x_1831/3734
     i32.load offset=8 align=1
     local.set $a/9512
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     local.get $a/9512
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.const 124984
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.const 135560
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1828/3734
+    local.get $*x_1831/3734
     i32.load offset=12 align=1
     local.set $*field/13221
-    local.get $*x_1828/3734
+    local.get $*x_1831/3734
     call $moonbit.decref
     local.get $*field/13221
     local.set $b/9513
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     call $moonbit.incref
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     local.get $b/9513
     call $@moonbitlang/core/builtin.Logger::write_object|Int|
     drop
-    local.get $*x_1829/3733
+    local.get $*x_1832/3733
     local.tee $*bind/9511
     i32.const 135528
     local.get $*bind/9511
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpHeader::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1832/3731 i32) (param $*x_1833/3732 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.HttpHeader::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1835/3731 i32) (param $*x_1836/3732 i32) (result i32)
     (local $values/9507 i32) (local $values/9508 i32) (local $name/9509 i32) (local $name/9510 i32) (local $*field/13222 i32) (local $*field/13223 i32) (local $*tmp/13224 i32) (local $*field/13225 i32) (local $*field/13226 i32) (local $*cnt/14120 i32) (local $*field/14121 i32) (local $*new_cnt/14122 i32) (local $*cnt/14123 i32) (local $*field/14124 i32) (local $*new_cnt/14125 i32)
-    local.get $*x_1832/3731
+    local.get $*x_1835/3731
     i32.load offset=8 align=1
     local.tee $*field/13226
     local.set $name/9509
-    local.get $*x_1833/3732
+    local.get $*x_1836/3732
     i32.load offset=8 align=1
     local.tee $*field/13225
     local.set $name/9510
@@ -36384,10 +36384,10 @@
     call $moonbit.string_equal
     local.tee $*tmp/13224
     if (result i32)  ;; label = @1
-      local.get $*x_1832/3731
+      local.get $*x_1835/3731
       i32.load offset=12 align=1
       local.set $*field/13223
-      local.get $*x_1832/3731
+      local.get $*x_1835/3731
       i32.load align=1
       local.tee $*cnt/14120
       i32.const 1
@@ -36399,7 +36399,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14122
-        local.get $*x_1832/3731
+        local.get $*x_1835/3731
         local.get $*new_cnt/14122
         i32.store align=1
       else
@@ -36407,20 +36407,20 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1832/3731
+          local.get $*x_1835/3731
           i32.load offset=8 align=1
           local.tee $*field/14121
           call $moonbit.decref
-          local.get $*x_1832/3731
+          local.get $*x_1835/3731
           call $moonbit.free
         end
       end
       local.get $*field/13223
       local.set $values/9507
-      local.get $*x_1833/3732
+      local.get $*x_1836/3732
       i32.load offset=12 align=1
       local.set $*field/13222
-      local.get $*x_1833/3732
+      local.get $*x_1836/3732
       i32.load align=1
       local.tee $*cnt/14123
       i32.const 1
@@ -36432,7 +36432,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14125
-        local.get $*x_1833/3732
+        local.get $*x_1836/3732
         local.get $*new_cnt/14125
         i32.store align=1
       else
@@ -36440,11 +36440,11 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1833/3732
+          local.get $*x_1836/3732
           i32.load offset=8 align=1
           local.tee $*field/14124
           call $moonbit.decref
-          local.get $*x_1833/3732
+          local.get $*x_1836/3732
           call $moonbit.free
         end
       end
@@ -36454,61 +36454,61 @@
       local.get $values/9508
       call $@moonbitlang/core/builtin.Eq::@moonbitlang/core/builtin.Array::op_equal|String|
     else
-      local.get $*x_1833/3732
+      local.get $*x_1836/3732
       call $moonbit.decref
-      local.get $*x_1832/3731
+      local.get $*x_1835/3731
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpHeader::output (type $<<UInt64>=>Int>=>Int) (param $*x_1836/3730 i32) (param $*x_1837/3729 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.HttpHeader::output (type $<<UInt64>=>Int>=>Int) (param $*x_1839/3730 i32) (param $*x_1840/3729 i32) (result i32)
     (local $*bind/9504 i32) (local $name/9505 i32) (local $values/9506 i32) (local $*field/13227 i32) (local $*field/13228 i32) (local $*cnt/14126 i32) (local $*field/14127 i32) (local $*new_cnt/14128 i32)
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.const 135592
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.const 135872
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1836/3730
+    local.get $*x_1839/3730
     i32.load offset=8 align=1
     local.tee $*field/13228
     local.tee $name/9505
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     local.get $name/9505
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.const 124984
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.const 135840
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1836/3730
+    local.get $*x_1839/3730
     i32.load offset=12 align=1
     local.set $*field/13227
-    local.get $*x_1836/3730
+    local.get $*x_1839/3730
     i32.load align=1
     local.tee $*cnt/14126
     i32.const 1
@@ -36520,7 +36520,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14128
-      local.get $*x_1836/3730
+      local.get $*x_1839/3730
       local.get $*new_cnt/14128
       i32.store align=1
     else
@@ -36528,44 +36528,44 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1836/3730
+        local.get $*x_1839/3730
         i32.load offset=8 align=1
         local.tee $*field/14127
         call $moonbit.decref
-        local.get $*x_1836/3730
+        local.get $*x_1839/3730
         call $moonbit.free
       end
     end
     local.get $*field/13227
     local.set $values/9506
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     call $moonbit.incref
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     local.get $values/9506
     call $@moonbitlang/core/builtin.Logger::write_object|@moonbitlang/core/builtin.Array<String>|
     drop
-    local.get $*x_1837/3729
+    local.get $*x_1840/3729
     local.tee $*bind/9504
     i32.const 135528
     local.get $*bind/9504
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestRecursiveStruct::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1867/3727 i32) (param $*x_1868/3728 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestRecursiveStruct::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1870/3727 i32) (param $*x_1871/3728 i32) (result i32)
     (local $b/9500 i32) (local $b/9501 i32) (local $a/9502 i32) (local $a/9503 i32) (local $*field/13229 i32) (local $*field/13230 i32) (local $*cnt/14129 i32) (local $*new_cnt/14130 i32) (local $*cnt/14131 i32) (local $*new_cnt/14132 i32)
-    local.get $*x_1867/3727
+    local.get $*x_1870/3727
     i32.load offset=8 align=1
     local.set $a/9502
-    local.get $*x_1868/3728
+    local.get $*x_1871/3728
     i32.load offset=8 align=1
     local.set $a/9503
     local.get $a/9502
     local.get $a/9503
     i32.eq
     if (result i32)  ;; label = @1
-      local.get $*x_1867/3727
+      local.get $*x_1870/3727
       i32.load offset=12 align=1
       local.set $*field/13230
-      local.get $*x_1867/3727
+      local.get $*x_1870/3727
       i32.load align=1
       local.tee $*cnt/14129
       i32.const 1
@@ -36580,7 +36580,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14130
-        local.get $*x_1867/3727
+        local.get $*x_1870/3727
         local.get $*new_cnt/14130
         i32.store align=1
       else
@@ -36588,16 +36588,16 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1867/3727
+          local.get $*x_1870/3727
           call $moonbit.free
         end
       end
       local.get $*field/13230
       local.set $b/9500
-      local.get $*x_1868/3728
+      local.get $*x_1871/3728
       i32.load offset=12 align=1
       local.set $*field/13229
-      local.get $*x_1868/3728
+      local.get $*x_1871/3728
       i32.load align=1
       local.tee $*cnt/14131
       i32.const 1
@@ -36612,7 +36612,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14132
-        local.get $*x_1868/3728
+        local.get $*x_1871/3728
         local.get $*new_cnt/14132
         i32.store align=1
       else
@@ -36620,7 +36620,7 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1868/3728
+          local.get $*x_1871/3728
           call $moonbit.free
         end
       end
@@ -36630,59 +36630,59 @@
       local.get $b/9501
       call $@moonbitlang/core/builtin.Eq::Option::op_equal|TestRecursiveStruct|
     else
-      local.get $*x_1868/3728
+      local.get $*x_1871/3728
       call $moonbit.decref
-      local.get $*x_1867/3727
+      local.get $*x_1870/3727
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestRecursiveStruct::output (type $<<UInt64>=>Int>=>Int) (param $*x_1871/3726 i32) (param $*x_1872/3725 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestRecursiveStruct::output (type $<<UInt64>=>Int>=>Int) (param $*x_1874/3726 i32) (param $*x_1875/3725 i32) (result i32)
     (local $*bind/9497 i32) (local $a/9498 i32) (local $b/9499 i32) (local $*field/13231 i32) (local $*cnt/14133 i32) (local $*new_cnt/14134 i32)
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.const 135592
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.const 135576
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1871/3726
+    local.get $*x_1874/3726
     i32.load offset=8 align=1
     local.set $a/9498
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     local.get $a/9498
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.const 124984
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.const 135560
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1871/3726
+    local.get $*x_1874/3726
     i32.load offset=12 align=1
     local.set $*field/13231
-    local.get $*x_1871/3726
+    local.get $*x_1874/3726
     i32.load align=1
     local.tee $*cnt/14133
     i32.const 1
@@ -36697,7 +36697,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14134
-      local.get $*x_1871/3726
+      local.get $*x_1874/3726
       local.get $*new_cnt/14134
       i32.store align=1
     else
@@ -36705,40 +36705,40 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1871/3726
+        local.get $*x_1874/3726
         call $moonbit.free
       end
     end
     local.get $*field/13231
     local.set $b/9499
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     call $moonbit.incref
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     local.get $b/9499
     call $@moonbitlang/core/builtin.Logger::write_object|Option<TestRecursiveStruct>|
     drop
-    local.get $*x_1872/3725
+    local.get $*x_1875/3725
     local.tee $*bind/9497
     i32.const 135528
     local.get $*bind/9497
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0))
-  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestSmorgasbordStruct::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1875/3723 i32) (param $*x_1876/3724 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Eq::@modus/testdata.TestSmorgasbordStruct::op_equal (type $<<UInt64>=>Int>=>Int) (param $*x_1878/3723 i32) (param $*x_1879/3724 i32) (result i32)
     (local $noneU64/9425 i32) (local $noneU64/9426 i32) (local $someU64/9427 i32) (local $someU64/9428 i32) (local $noneU32/9429 i64) (local $noneU32/9430 i64) (local $someU32/9431 i64) (local $someU32/9432 i64) (local $noneU16/9433 i32) (local $noneU16/9434 i32) (local $someU16/9435 i32) (local $someU16/9436 i32) (local $noneString/9437 i32) (local $noneString/9438 i32) (local $someString/9439 i32) (local $someString/9440 i32) (local $noneI64/9441 i32) (local $noneI64/9442 i32) (local $someI64/9443 i32) (local $someI64/9444 i32) (local $noneI32/9445 i64) (local $noneI32/9446 i64) (local $someI32/9447 i64) (local $someI32/9448 i64) (local $noneI16/9449 i32) (local $noneI16/9450 i32) (local $someI16/9451 i32) (local $someI16/9452 i32) (local $noneDouble/9453 i32) (local $noneDouble/9454 i32) (local $someDouble/9455 i32) (local $someDouble/9456 i32) (local $noneFloat/9457 i32) (local $noneFloat/9458 i32) (local $someFloat/9459 i32) (local $someFloat/9460 i32) (local $noneChar/9461 i32) (local $noneChar/9462 i32) (local $someChar/9463 i32) (local $someChar/9464 i32) (local $noneByte/9465 i32) (local $noneByte/9466 i32) (local $someByte/9467 i32) (local $someByte/9468 i32) (local $noneBool/9469 i32) (local $noneBool/9470 i32) (local $someBool/9471 i32) (local $someBool/9472 i32) (local $u64/9473 i64) (local $u64/9474 i64) (local $u32/9475 i32) (local $u32/9476 i32) (local $u16/9477 i32) (local $u16/9478 i32) (local $s/9479 i32) (local $s/9480 i32) (local $i64/9481 i64) (local $i64/9482 i64) (local $i32/9483 i32) (local $i32/9484 i32) (local $i16/9485 i32) (local $i16/9486 i32) (local $d/9487 f64) (local $d/9488 f64) (local $f/9489 f32) (local $f/9490 f32) (local $c/9491 i32) (local $c/9492 i32) (local $byte/9493 i32) (local $byte/9494 i32) (local $bool/9495 i32) (local $bool/9496 i32) (local $*field/13232 i32) (local $*field/13233 i32) (local $*field/13234 i32) (local $*field/13235 i32) (local $*field/13236 i32) (local $*field/13237 i32) (local $*field/13238 i32) (local $*field/13239 i32) (local $*field/13240 i32) (local $*field/13241 i32) (local $*field/13242 i32) (local $*field/13243 i32) (local $*field/13244 i32) (local $*field/13245 i32) (local $*field/13246 i32) (local $*field/13247 i32) (local $*field/13248 i32) (local $*field/13249 i32) (local $*field/13250 i32) (local $*field/13251 i32) (local $*tmp/13252 i32) (local $*field/13253 i32) (local $*field/13254 i32) (local $*cnt/14135 i32) (local $*field/14136 i32) (local $*field/14137 i32) (local $*field/14138 i32) (local $*field/14139 i32) (local $*field/14140 i32) (local $*field/14141 i32) (local $*field/14142 i32) (local $*field/14143 i32) (local $*field/14144 i32) (local $*field/14145 i32) (local $*new_cnt/14146 i32) (local $*cnt/14147 i32) (local $*field/14148 i32) (local $*field/14149 i32) (local $*field/14150 i32) (local $*field/14151 i32) (local $*field/14152 i32) (local $*field/14153 i32) (local $*field/14154 i32) (local $*field/14155 i32) (local $*field/14156 i32) (local $*field/14157 i32) (local $*new_cnt/14158 i32)
-    local.get $*x_1875/3723
+    local.get $*x_1878/3723
     i32.load offset=8 align=1
     local.set $bool/9495
-    local.get $*x_1876/3724
+    local.get $*x_1879/3724
     i32.load offset=8 align=1
     local.set $bool/9496
     local.get $bool/9495
     local.get $bool/9496
     i32.eq
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load8_u offset=12
       local.set $byte/9493
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load8_u offset=12
       local.set $byte/9494
       local.get $byte/9493
@@ -36748,10 +36748,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=16 align=1
       local.set $c/9491
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=16 align=1
       local.set $c/9492
       local.get $c/9491
@@ -36761,10 +36761,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       f32.load offset=20 align=1
       local.set $f/9489
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       f32.load offset=20 align=1
       local.set $f/9490
       local.get $f/9489
@@ -36774,10 +36774,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       f64.load offset=24 align=1
       local.set $d/9487
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       f64.load offset=24 align=1
       local.set $d/9488
       local.get $d/9487
@@ -36787,10 +36787,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load16_s offset=32 align=1
       local.set $i16/9485
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load16_s offset=32 align=1
       local.set $i16/9486
       local.get $i16/9485
@@ -36800,10 +36800,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=36 align=1
       local.set $i32/9483
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=36 align=1
       local.set $i32/9484
       local.get $i32/9483
@@ -36813,10 +36813,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=40 align=1
       local.set $i64/9481
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=40 align=1
       local.set $i64/9482
       local.get $i64/9481
@@ -36826,11 +36826,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=136 align=1
       local.tee $*field/13254
       local.set $s/9479
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=136 align=1
       local.tee $*field/13253
       local.set $s/9480
@@ -36842,10 +36842,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load16_u offset=48 align=1
       local.set $u16/9477
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load16_u offset=48 align=1
       local.set $u16/9478
       local.get $u16/9477
@@ -36855,10 +36855,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=52 align=1
       local.set $u32/9475
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=52 align=1
       local.set $u32/9476
       local.get $u32/9475
@@ -36868,10 +36868,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=56 align=1
       local.set $u64/9473
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=56 align=1
       local.set $u64/9474
       local.get $u64/9473
@@ -36881,10 +36881,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=64 align=1
       local.set $someBool/9471
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=64 align=1
       local.set $someBool/9472
       local.get $someBool/9471
@@ -36894,10 +36894,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=68 align=1
       local.set $noneBool/9469
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=68 align=1
       local.set $noneBool/9470
       local.get $noneBool/9469
@@ -36907,10 +36907,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=72 align=1
       local.set $someByte/9467
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=72 align=1
       local.set $someByte/9468
       local.get $someByte/9467
@@ -36920,10 +36920,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=76 align=1
       local.set $noneByte/9465
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=76 align=1
       local.set $noneByte/9466
       local.get $noneByte/9465
@@ -36933,10 +36933,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=80 align=1
       local.set $someChar/9463
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=80 align=1
       local.set $someChar/9464
       local.get $someChar/9463
@@ -36946,10 +36946,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=84 align=1
       local.set $noneChar/9461
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=84 align=1
       local.set $noneChar/9462
       local.get $noneChar/9461
@@ -36959,11 +36959,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=140 align=1
       local.tee $*field/13251
       local.set $someFloat/9459
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=140 align=1
       local.tee $*field/13250
       local.tee $someFloat/9460
@@ -36977,11 +36977,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=144 align=1
       local.tee $*field/13249
       local.set $noneFloat/9457
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=144 align=1
       local.tee $*field/13248
       local.tee $noneFloat/9458
@@ -36995,11 +36995,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=148 align=1
       local.tee $*field/13247
       local.set $someDouble/9455
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=148 align=1
       local.tee $*field/13246
       local.tee $someDouble/9456
@@ -37013,11 +37013,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=152 align=1
       local.tee $*field/13245
       local.set $noneDouble/9453
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=152 align=1
       local.tee $*field/13244
       local.tee $noneDouble/9454
@@ -37031,10 +37031,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=88 align=1
       local.set $someI16/9451
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=88 align=1
       local.set $someI16/9452
       local.get $someI16/9451
@@ -37044,10 +37044,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=92 align=1
       local.set $noneI16/9449
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=92 align=1
       local.set $noneI16/9450
       local.get $noneI16/9449
@@ -37057,10 +37057,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=96 align=1
       local.set $someI32/9447
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=96 align=1
       local.set $someI32/9448
       local.get $someI32/9447
@@ -37070,10 +37070,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=104 align=1
       local.set $noneI32/9445
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=104 align=1
       local.set $noneI32/9446
       local.get $noneI32/9445
@@ -37083,11 +37083,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=156 align=1
       local.tee $*field/13243
       local.set $someI64/9443
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=156 align=1
       local.tee $*field/13242
       local.tee $someI64/9444
@@ -37101,11 +37101,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=160 align=1
       local.tee $*field/13241
       local.set $noneI64/9441
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=160 align=1
       local.tee $*field/13240
       local.tee $noneI64/9442
@@ -37119,11 +37119,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=164 align=1
       local.tee $*field/13239
       local.set $someString/9439
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=164 align=1
       local.tee $*field/13238
       local.tee $someString/9440
@@ -37143,11 +37143,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=168 align=1
       local.tee $*field/13237
       local.set $noneString/9437
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=168 align=1
       local.tee $*field/13236
       local.tee $noneString/9438
@@ -37167,10 +37167,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=112 align=1
       local.set $someU16/9435
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=112 align=1
       local.set $someU16/9436
       local.get $someU16/9435
@@ -37180,10 +37180,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=116 align=1
       local.set $noneU16/9433
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=116 align=1
       local.set $noneU16/9434
       local.get $noneU16/9433
@@ -37193,10 +37193,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=120 align=1
       local.set $someU32/9431
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=120 align=1
       local.set $someU32/9432
       local.get $someU32/9431
@@ -37206,10 +37206,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i64.load offset=128 align=1
       local.set $noneU32/9429
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i64.load offset=128 align=1
       local.set $noneU32/9430
       local.get $noneU32/9429
@@ -37219,11 +37219,11 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=172 align=1
       local.tee $*field/13235
       local.set $someU64/9427
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=172 align=1
       local.tee $*field/13234
       local.tee $someU64/9428
@@ -37237,10 +37237,10 @@
       i32.const 0
     end
     if (result i32)  ;; label = @1
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load offset=176 align=1
       local.set $*field/13233
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       i32.load align=1
       local.tee $*cnt/14135
       i32.const 1
@@ -37252,7 +37252,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14146
-        local.get $*x_1875/3723
+        local.get $*x_1878/3723
         local.get $*new_cnt/14146
         i32.store align=1
       else
@@ -37260,62 +37260,62 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=172 align=1
           local.tee $*field/14145
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=168 align=1
           local.tee $*field/14144
           if  ;; label = @4
             local.get $*field/14144
             call $moonbit.decref
           end
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=164 align=1
           local.tee $*field/14143
           if  ;; label = @4
             local.get $*field/14143
             call $moonbit.decref
           end
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=160 align=1
           local.tee $*field/14142
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=156 align=1
           local.tee $*field/14141
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=152 align=1
           local.tee $*field/14140
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=148 align=1
           local.tee $*field/14139
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=144 align=1
           local.tee $*field/14138
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=140 align=1
           local.tee $*field/14137
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           i32.load offset=136 align=1
           local.tee $*field/14136
           call $moonbit.decref
-          local.get $*x_1875/3723
+          local.get $*x_1878/3723
           call $moonbit.free
         end
       end
       local.get $*field/13233
       local.set $noneU64/9425
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load offset=176 align=1
       local.set $*field/13232
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       i32.load align=1
       local.tee $*cnt/14147
       i32.const 1
@@ -37327,7 +37327,7 @@
         i32.const 1
         i32.sub
         local.set $*new_cnt/14158
-        local.get $*x_1876/3724
+        local.get $*x_1879/3724
         local.get $*new_cnt/14158
         i32.store align=1
       else
@@ -37335,53 +37335,53 @@
         i32.const 1
         i32.eq
         if  ;; label = @3
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=172 align=1
           local.tee $*field/14157
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=168 align=1
           local.tee $*field/14156
           if  ;; label = @4
             local.get $*field/14156
             call $moonbit.decref
           end
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=164 align=1
           local.tee $*field/14155
           if  ;; label = @4
             local.get $*field/14155
             call $moonbit.decref
           end
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=160 align=1
           local.tee $*field/14154
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=156 align=1
           local.tee $*field/14153
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=152 align=1
           local.tee $*field/14152
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=148 align=1
           local.tee $*field/14151
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=144 align=1
           local.tee $*field/14150
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=140 align=1
           local.tee $*field/14149
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           i32.load offset=136 align=1
           local.tee $*field/14148
           call $moonbit.decref
-          local.get $*x_1876/3724
+          local.get $*x_1879/3724
           call $moonbit.free
         end
       end
@@ -37391,745 +37391,745 @@
       local.get $noneU64/9426
       call $@moonbitlang/core/builtin.Eq::Option::op_equal|UInt64|
     else
-      local.get $*x_1876/3724
+      local.get $*x_1879/3724
       call $moonbit.decref
-      local.get $*x_1875/3723
+      local.get $*x_1878/3723
       call $moonbit.decref
       i32.const 0
     end)
-  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestSmorgasbordStruct::output (type $<<UInt64>=>Int>=>Int) (param $*x_1879/3722 i32) (param $*x_1880/3721 i32) (result i32)
+  (func $@moonbitlang/core/builtin.Show::@modus/testdata.TestSmorgasbordStruct::output (type $<<UInt64>=>Int>=>Int) (param $*x_1882/3722 i32) (param $*x_1883/3721 i32) (result i32)
     (local $*bind/9388 i32) (local $bool/9389 i32) (local $byte/9390 i32) (local $c/9391 i32) (local $f/9392 f32) (local $d/9393 f64) (local $i16/9394 i32) (local $i32/9395 i32) (local $i64/9396 i64) (local $s/9397 i32) (local $u16/9398 i32) (local $u32/9399 i32) (local $u64/9400 i64) (local $someBool/9401 i32) (local $noneBool/9402 i32) (local $someByte/9403 i32) (local $noneByte/9404 i32) (local $someChar/9405 i32) (local $noneChar/9406 i32) (local $someFloat/9407 i32) (local $noneFloat/9408 i32) (local $someDouble/9409 i32) (local $noneDouble/9410 i32) (local $someI16/9411 i32) (local $noneI16/9412 i32) (local $someI32/9413 i64) (local $noneI32/9414 i64) (local $someI64/9415 i32) (local $noneI64/9416 i32) (local $someString/9417 i32) (local $noneString/9418 i32) (local $someU16/9419 i32) (local $noneU16/9420 i32) (local $someU32/9421 i64) (local $noneU32/9422 i64) (local $someU64/9423 i32) (local $noneU64/9424 i32) (local $*field/13255 i32) (local $*field/13256 i32) (local $*field/13257 i32) (local $*field/13258 i32) (local $*field/13259 i32) (local $*field/13260 i32) (local $*field/13261 i32) (local $*field/13262 i32) (local $*field/13263 i32) (local $*field/13264 i32) (local $*field/13265 i32) (local $*cnt/14159 i32) (local $*field/14160 i32) (local $*field/14161 i32) (local $*field/14162 i32) (local $*field/14163 i32) (local $*field/14164 i32) (local $*field/14165 i32) (local $*field/14166 i32) (local $*field/14167 i32) (local $*field/14168 i32) (local $*field/14169 i32) (local $*new_cnt/14170 i32)
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135592
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136880
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=8 align=1
     local.set $bool/9389
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $bool/9389
     call $@moonbitlang/core/builtin.Logger::write_object|Bool|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136856
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load8_u offset=12
     local.set $byte/9390
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $byte/9390
     call $@moonbitlang/core/builtin.Logger::write_object|Byte|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135544
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=16 align=1
     local.set $c/9391
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $c/9391
     call $@moonbitlang/core/builtin.Logger::write_object|Char|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135608
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     f32.load offset=20 align=1
     local.set $f/9392
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $f/9392
     call $@moonbitlang/core/builtin.Logger::write_object|Float|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135640
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     f64.load offset=24 align=1
     local.set $d/9393
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $d/9393
     call $@moonbitlang/core/builtin.Logger::write_object|Double|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136832
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load16_s offset=32 align=1
     local.set $i16/9394
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $i16/9394
     call $@moonbitlang/core/builtin.Logger::write_object|Int16|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136808
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=36 align=1
     local.set $i32/9395
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $i32/9395
     call $@moonbitlang/core/builtin.Logger::write_object|Int|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136784
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=40 align=1
     local.set $i64/9396
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $i64/9396
     call $@moonbitlang/core/builtin.Logger::write_object|Int64|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136768
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=136 align=1
     local.tee $*field/13265
     local.tee $s/9397
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $s/9397
     call $@moonbitlang/core/builtin.Logger::write_object|String|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136744
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load16_u offset=48 align=1
     local.set $u16/9398
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $u16/9398
     call $@moonbitlang/core/builtin.Logger::write_object|UInt16|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136720
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=52 align=1
     local.set $u32/9399
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $u32/9399
     call $@moonbitlang/core/builtin.Logger::write_object|UInt|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136696
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=56 align=1
     local.set $u64/9400
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $u64/9400
     call $@moonbitlang/core/builtin.Logger::write_object|UInt64|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136664
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=64 align=1
     local.set $someBool/9401
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someBool/9401
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Bool>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136632
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=68 align=1
     local.set $noneBool/9402
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneBool/9402
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Bool>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136600
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=72 align=1
     local.set $someByte/9403
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someByte/9403
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Byte>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136568
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=76 align=1
     local.set $noneByte/9404
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneByte/9404
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Byte>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136536
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=80 align=1
     local.set $someChar/9405
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someChar/9405
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Char>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136504
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=84 align=1
     local.set $noneChar/9406
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneChar/9406
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Char>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136472
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=140 align=1
     local.tee $*field/13264
     local.tee $someFloat/9407
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someFloat/9407
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Float>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136440
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=144 align=1
     local.tee $*field/13263
     local.tee $noneFloat/9408
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneFloat/9408
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Float>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136400
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=148 align=1
     local.tee $*field/13262
     local.tee $someDouble/9409
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someDouble/9409
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Double>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136360
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=152 align=1
     local.tee $*field/13261
     local.tee $noneDouble/9410
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneDouble/9410
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Double>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136328
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=88 align=1
     local.set $someI16/9411
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someI16/9411
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int16>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136296
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=92 align=1
     local.set $noneI16/9412
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneI16/9412
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int16>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136264
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=96 align=1
     local.set $someI32/9413
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someI32/9413
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136232
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=104 align=1
     local.set $noneI32/9414
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneI32/9414
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136200
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=156 align=1
     local.tee $*field/13260
     local.tee $someI64/9415
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someI64/9415
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int64>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136168
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=160 align=1
     local.tee $*field/13259
     local.tee $noneI64/9416
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneI64/9416
     call $@moonbitlang/core/builtin.Logger::write_object|Option<Int64>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136128
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=164 align=1
     local.tee $*field/13258
     local.tee $someString/9417
@@ -38137,29 +38137,29 @@
       local.get $someString/9417
       call $moonbit.incref
     end
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someString/9417
     call $@moonbitlang/core/builtin.Logger::write_object|Option<String>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136088
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=168 align=1
     local.tee $*field/13257
     local.tee $noneString/9418
@@ -38167,159 +38167,159 @@
       local.get $noneString/9418
       call $moonbit.incref
     end
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneString/9418
     call $@moonbitlang/core/builtin.Logger::write_object|Option<String>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136056
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=112 align=1
     local.set $someU16/9419
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someU16/9419
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt16>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 136024
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=116 align=1
     local.set $noneU16/9420
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneU16/9420
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt16>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135992
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=120 align=1
     local.set $someU32/9421
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someU32/9421
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135960
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i64.load offset=128 align=1
     local.set $noneU32/9422
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneU32/9422
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135928
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=172 align=1
     local.tee $*field/13256
     local.tee $someU64/9423
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $someU64/9423
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt64>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 124984
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.const 135896
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     i32.load offset=8 align=1
     call_indirect (type $@moonbitlang/core/builtin.Logger.method_0)
     drop
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load offset=176 align=1
     local.set $*field/13255
-    local.get $*x_1879/3722
+    local.get $*x_1882/3722
     i32.load align=1
     local.tee $*cnt/14159
     i32.const 1
@@ -38331,7 +38331,7 @@
       i32.const 1
       i32.sub
       local.set $*new_cnt/14170
-      local.get $*x_1879/3722
+      local.get $*x_1882/3722
       local.get $*new_cnt/14170
       i32.store align=1
     else
@@ -38339,65 +38339,65 @@
       i32.const 1
       i32.eq
       if  ;; label = @2
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=172 align=1
         local.tee $*field/14169
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=168 align=1
         local.tee $*field/14168
         if  ;; label = @3
           local.get $*field/14168
           call $moonbit.decref
         end
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=164 align=1
         local.tee $*field/14167
         if  ;; label = @3
           local.get $*field/14167
           call $moonbit.decref
         end
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=160 align=1
         local.tee $*field/14166
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=156 align=1
         local.tee $*field/14165
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=152 align=1
         local.tee $*field/14164
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=148 align=1
         local.tee $*field/14163
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=144 align=1
         local.tee $*field/14162
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=140 align=1
         local.tee $*field/14161
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         i32.load offset=136 align=1
         local.tee $*field/14160
         call $moonbit.decref
-        local.get $*x_1879/3722
+        local.get $*x_1882/3722
         call $moonbit.free
       end
     end
     local.get $*field/13255
     local.set $noneU64/9424
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     call $moonbit.incref
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.get $noneU64/9424
     call $@moonbitlang/core/builtin.Logger::write_object|Option<UInt64>|
     drop
-    local.get $*x_1880/3721
+    local.get $*x_1883/3721
     local.tee $*bind/9388
     i32.const 135528
     local.get $*bind/9388
