@@ -89,7 +89,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	if vals[0] == 0xFFFFFFFF || uint32(vals[0]) == 0xFFFFFFFF {
 		// MoonBit returned an error/sentinel value - this might be a None array or error
 		// For now, return empty array to avoid memory access errors
-		fmt.Printf("DEBUG: Detected 0xFFFFFFFF sentinel value, returning empty array\n")
+		// fmt.Printf("DEBUG: Detected 0xFFFFFFFF sentinel value, returning empty array\n")
 		return h.emptyValue, nil
 	}
 
@@ -340,6 +340,8 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	// Special case: Bool? arrays use classID=96 in current MoonBit version
 	if elemType.Name() == "Bool?" {
 		memBlockClassID = 96
+		// For Bool? arrays, use MoonBit's own array creation function
+		return h.createBoolArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	}
 
 	// Allocate memory
@@ -370,6 +372,11 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			memType := ((size / 8) << 8) | memBlockClassID
 			wa.Memory().WriteUint32Le(ptr-4, memType)
 		}
+		// For Bool? arrays with classID=96, MoonBit functions handle memType automatically
+		// Just set the sliceOffset to indicate embedded data (but MoonBit already does this)
+		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
+			// fmt.Printf("DEBUG: Bool? array with classID=96, letting MoonBit handle structure\n")
+		}
 	}
 
 	innerCln := utils.NewCleanerN(len(slice))
@@ -387,18 +394,29 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			// Write boolean values directly as uint32 instead of using pointers
 			var encodedValue uint32
 			if utils.HasNil(val) {
-				encodedValue = 0 // Try: None = 0 in classID=96 encoding
+				encodedValue = 0xFFFFFFFF // None = -1 (0xFFFFFFFF) from WAT analysis
 			} else if boolPtr, ok := val.(*bool); ok {
 				if *boolPtr {
-					encodedValue = 2 // Try: Some(true) = 2 in classID=96 encoding
+					encodedValue = 1 // Some(true) = 1 from WAT analysis
 				} else {
-					encodedValue = 1 // Try: Some(false) = 1 in classID=96 encoding
+					encodedValue = 0 // Some(false) = 0 (inferred)
 				}
 			} else {
 				return 0, cln, fmt.Errorf("invalid Bool? value: expected nil or *bool, got %T", val)
 			}
-			// fmt.Printf("DEBUG: Writing Bool? element %d: value=%d at offset=%d\n", i, encodedValue, ptr+uint32(i)*elemTypeSize)
-			wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, encodedValue)
+			// For classID=96 arrays, elements start at ptr+8 (after sliceOffset and numElements)
+			if memBlockClassID == 96 {
+				wa.Memory().WriteUint32Le(ptr+8+uint32(i)*elemTypeSize, encodedValue)
+			} else {
+				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, encodedValue)
+			}
+			// fmt.Printf("DEBUG: Writing Bool? element %d: value=%d at offset=%d\n", i, encodedValue, offset)
+			// For classID=96 arrays, elements start at ptr+8 (after sliceOffset and numElements)
+			if memBlockClassID == 96 {
+				wa.Memory().WriteUint32Le(ptr+8+uint32(i)*elemTypeSize, encodedValue)
+			} else {
+				wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, encodedValue)
+			}
 		} else {
 			// Normal element writing for other types
 			c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val)
@@ -410,7 +428,12 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}
 
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-		return ptr - 8, cln, nil
+		finalPtr := ptr - 8
+		// Debug: dump memory structure for Bool? arrays
+		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
+			// fmt.Printf("DEBUG: Created Bool? array, ptr=%d, finalPtr=%d\n", ptr, finalPtr)
+		}
+		return finalPtr, cln, nil
 	}
 
 	// Finally, write the slice memory block.
@@ -447,8 +470,9 @@ func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmA
 	return uint32(results[0]), nil
 }
 
-// encodeClassID96BoolArray creates a Bool? array with classID=96 that matches MoonBit's memory layout
-func (h *sliceHandler) encodeClassID96BoolArray(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+// createBoolArrayWithMoonBit creates a Bool? array using MoonBit's i32_array_make function
+// This matches exactly what MoonBit does in test_fixedarray_output_bool_option_3
+func (h *sliceHandler) createBoolArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
 	if numElements == 0 {
 		// For empty arrays, delegate to existing logic
 		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
@@ -458,9 +482,50 @@ func (h *sliceHandler) encodeClassID96BoolArray(ctx context.Context, wasmAdapter
 		return singletonPtr, nil, nil
 	}
 
-	// For Bool? arrays, fallback to the normal encoding path but ensure classID=96
-	// The issue might be that the normal path needs to be modified for Bool? only
-	return 0, nil, fmt.Errorf("encodeClassID96BoolArray: temporarily disabled, falling back to normal path")
+	// Step 1: Use moonbit.i32_array_make(numElements, -1) like the WAT does
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_i32_array_make not found in WASM module")
+	}
+
+	// Call moonbit.i32_array_make(numElements, -1) - exactly like the WAT
+	initialValue := uint64(0xFFFFFFFF) // -1 in uint64 form
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+	// fmt.Printf("DEBUG: moonbit_i32_array_make(%d, -1) returned ptr=%d (0x%X)\n", numElements, arrayPtr, arrayPtr)
+
+	// Step 2: Write actual element values at the correct offsets (like the WAT does)
+	for i, val := range slice {
+		var encodedValue uint32
+		if utils.HasNil(val) {
+			encodedValue = 0xFFFFFFFF // None = -1
+		} else if boolPtr, ok := val.(*bool); ok {
+			if *boolPtr {
+				encodedValue = 1 // Some(true) = 1
+			} else {
+				encodedValue = 0 // Some(false) = 0
+			}
+		} else {
+			return 0, nil, fmt.Errorf("invalid Bool? value: expected nil or *bool, got %T", val)
+		}
+
+		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16)
+		offset := arrayPtr + 8 + uint32(i)*4
+		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
+		// fmt.Printf("DEBUG: Wrote element %d: value=%d (0x%X) at offset=%d\n", i, encodedValue, encodedValue, offset)
+	}
+
+	// Step 3: Return arrayPtr (like the WAT does)
+	// fmt.Printf("DEBUG: Returning arrayPtr=%d (0x%X)\n", arrayPtr, arrayPtr)
+	return arrayPtr, nil, nil
 }
 
 // createNullableArrayWithMoonBit uses MoonBit's own array creation functions
