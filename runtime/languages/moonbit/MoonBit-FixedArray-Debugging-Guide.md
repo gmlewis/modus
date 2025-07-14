@@ -589,3 +589,218 @@ if !elemType.IsNullable() && elemType.IsPrimitive() {
 4. Test both input and output directions
 
 This guide now captures the complete debugging methodology from basic WAT analysis through complex type-specific None value handling, based on successful fixes across all major array categories.
+## MAJOR UPDATE: Array[Byte] Success Case Study (2024-12-14)
+
+### Complete Fix: From Failing to 100% Success
+
+**Problem**: All Array[Byte] tests failing (`TestArrayOutput_byte_[0-4]`) while other primitive types worked.
+
+**Root Cause**: Array[Byte] was being forced to use fixed array infrastructure instead of leveraging MoonBit's native array creation.
+
+**Solution**: Three-step approach using MoonBit's `fnBytes2Array` function.
+
+### New Category: Native MoonBit Array Creation
+
+**Category X: Native Array Creation (Array[Byte])**
+- Use MoonBit's specialized functions for optimal integration
+- Don't manually create memory structures
+- Leverage MoonBit's built-in type conversions
+
+### Breakthrough Debugging Technique: User-Exported Functions
+
+**Key Discovery**: User had already exported `moonbit_bytes_to_array` function but it wasn't being used.
+
+**Lesson**: Check `adapter.go` for available functions before implementing manual solutions:
+```go
+fnBytes2Array: mod.ExportedFunction("moonbit_bytes_to_array"),
+```
+
+**Pattern**: When MoonBit provides specialized functions, use them instead of general-purpose alternatives.
+
+### Detailed Implementation Success
+
+#### Step 1: Remove Infrastructure Forcing
+
+**Old (incorrect) approach**:
+```go
+// TEMPORARY: Force Array[Bool] and Array[Byte] to use fixed array infrastructure
+if !isFixedArray && (elemType.Name() == "Bool" || elemType.Name() == "Byte") {
+    isFixedArray = true
+}
+```
+
+**Fixed approach**:
+```go
+// TEMPORARY: Force Array[Bool] to use fixed array infrastructure
+// Array[Byte] now uses dynamic array path with fnBytes2Array
+if !isFixedArray && elemType.Name() == "Bool" {
+    isFixedArray = true
+}
+```
+
+#### Step 2: Three-Step Array Creation
+
+**Implemented in `createByteDataArray` function**:
+```go
+// Step 1: Create Bytes object using moonbit_bytes_make
+fn := wasmAdapter.GetFunction("moonbit_bytes_make")
+results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+bytesPtr := uint32(results[0])
+
+// Step 2: Write byte data to Bytes object
+for i, val := range slice {
+    if byteVal, ok := any(val).(byte); ok {
+        offset := bytesPtr + 8 + uint32(i)
+        wa.Memory().Write(offset, []byte{byteVal})
+    }
+}
+
+// Step 3: Convert Bytes to Array[Byte] using fnBytes2Array
+wasmAdapter.fnBytes2Array.Call(ctx, uint64(bytesPtr))
+```
+
+#### Step 3: Decode Logic for Bytes Objects
+
+**Detection Pattern**:
+```go
+if typeInfo == 1573120 { // Array wrapper
+    dataPtr := readUint32(offset + 12)
+    if elemType.Name() == "Byte" {
+        bytesTypeInfo := readUint32(dataPtr + 4)
+        if (bytesTypeInfo & 0xFF000000) == 0x40000000 {
+            // This is a Bytes object, adjust to actual data
+            offset = dataPtr + 8
+            isBytesData = true
+        }
+    }
+}
+```
+
+**Special handling for Bytes data**:
+```go
+if isBytesData && elemType.Name() == "Byte" {
+    // Read raw byte data directly
+    dataBytes, ok := wa.Memory().Read(offset, arrayLength)
+    // Convert to Go slice
+    items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(arrayLength), int(arrayLength))
+    for i := uint32(0); i < arrayLength; i++ {
+        val := h.converter.Decode(uint64(dataBytes[i]))
+        items.Index(int(i)).Set(reflect.ValueOf(val))
+    }
+    return items.Interface(), nil
+}
+```
+
+### Critical Insights for Future Development
+
+#### 1. Size-Mismatched Types Need Special Handling
+
+**Size-mismatched types** (Go vs MoonBit representation):
+- `Bool`: Go bool (1 byte) vs MoonBit Bool (4 bytes)
+- `Byte`: Go uint8 (1 byte) vs MoonBit Byte (varies by context)
+
+**Size-matched types** (work with standard infrastructure):
+- `Int16`, `Int64`, `Float`, `Double`: Direct size correspondence
+
+#### 2. MoonBit's Type System Complexity
+
+**Array[Byte] is special** because:
+- Has dedicated `moonbit_bytes_make` function
+- Uses `moonbit_bytes_to_array` for conversion
+- Implements compression algorithm internally
+- Not treated as "primitive" in the traditional sense
+
+**Pattern recognition**:
+- If a type has dedicated MoonBit functions, use them
+- Don't assume all primitive types work the same way
+- Check for specialized conversion functions
+
+#### 3. Debugging Sequence for Size-Mismatched Types
+
+**Step 1**: Check for specialized MoonBit functions
+```bash
+grep -n "moonbit_.*_make" adapter.go
+grep -n "moonbit_.*_to_" adapter.go
+```
+
+**Step 2**: Analyze WAT output for the specific type
+```bash
+grep -A 30 "test_array_output_byte_" build/testdata.wat
+```
+
+**Step 3**: Look for conversion patterns
+- Does MoonBit convert between internal types?
+- Are there intermediate representations?
+- What's the final memory layout?
+
+**Step 4**: Implement the MoonBit-native approach
+- Use MoonBit's own functions
+- Follow the exact conversion sequence
+- Handle the resulting memory layout
+
+### Verification Results
+
+**All Array[Byte] tests now pass**:
+```bash
+$ go test -run TestArrayOutput_byte_[0-4]
+--- PASS: TestArrayOutput_byte_0 (0.01s)
+--- PASS: TestArrayOutput_byte_1 (0.00s)
+--- PASS: TestArrayOutput_byte_2 (0.00s)
+--- PASS: TestArrayOutput_byte_3 (0.00s)
+--- PASS: TestArrayOutput_byte_4 (0.00s)
+PASS
+```
+
+**No regression in other types**:
+- Array[Int], Array[Int16], Array[Float] still work
+- Array[Bool] still uses fixed infrastructure (unchanged)
+
+### Updated Fix Categories
+
+**Category A: Simple Types (Working)**
+- `Bool?`, `Byte?`, `Char?` - Use classID 96
+
+**Category B: 64-bit Reference Types (Fixed)**
+- `Double?`, `Float?`, `Int64?`, `UInt64?` - Use classID 160
+
+**Category C: Primitive Non-Optional Types (Fixed)**
+- `Int16` - Use `moonbit_int16_array_make`
+
+**Category D: ClassID 96 Optional Types (Fixed)**
+- `Int16?` - Use direct storage with custom None values
+
+**Category E: Int64-based Optional Types (Fixed)**
+- `Int?` - Use `moonbit_int64_array_make`
+
+**Category F: Reference Non-optional Types (Fixed)**
+- `String` - Use `moonbit_ref_array_make`
+
+**Category G: Reference Optional with Custom None (Fixed)**
+- `String?` - Use `moonbit_ref_array_make` with 0 as None
+
+**Category X: Native MoonBit Array Creation (NEW - Fixed)**
+- `Array[Byte]` - Use `moonbit_bytes_make` + `fnBytes2Array`
+- Pattern: Specialized MoonBit functions for optimal integration
+
+### General Principles from Array[Byte] Success
+
+1. **Check for native MoonBit functions first** - Always better than manual implementation
+2. **Follow MoonBit's type system** - Don't force types into wrong categories
+3. **Use conversion functions** - MoonBit provides type-specific converters
+4. **Test all sizes** - Edge cases (empty arrays) reveal different behaviors
+5. **Trust WAT analysis** - Shows exactly what MoonBit generates
+6. **Understand memory layout hierarchy** - Wrappers pointing to specialized objects
+
+### Next Steps for Remaining Failures
+
+**Array[Bool] (still failing)**:
+- Could use similar approach with `moonbit_bool_array_make` if it exists
+- Or find appropriate MoonBit conversion functions
+- Check if there's a `fnBools2Array` equivalent
+
+**Other size-mismatched types**:
+- Apply same analysis pattern: check for specialized functions
+- Look for conversion functions in WAT output
+- Implement native MoonBit approach rather than manual infrastructure
+
+This case study demonstrates that the most effective approach is to work **with** MoonBit's type system rather than against it, using the language's own optimized functions for best results.
