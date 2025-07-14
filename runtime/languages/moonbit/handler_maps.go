@@ -149,6 +149,10 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 	if keyStringPtr == 0 || valueStringPtr == 0 {
 		return nil, fmt.Errorf("string pointers are zero: keyPtr=%d, valuePtr=%d", keyStringPtr, valueStringPtr)
 	}
+	// Debug: log parameters being passed
+	if keyStringLen == 0 || valueStringLen == 0 {
+		return nil, fmt.Errorf("string lengths are zero: keyLen=%d, valueLen=%d", keyStringLen, valueStringLen)
+	}
 	res, err := wa.(*wasmAdapter).fnReadMap.Call(ctx, params...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read %s from WASM memory: %w", h.typeInfo.Name(), err)
@@ -158,9 +162,9 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 	pKeys := uint32(r >> 32)
 	pVals := uint32(r)
 
-	// Check if pointers are valid
+	// Debug: check return values
 	if pKeys == 0 && pVals == 0 {
-		return nil, fmt.Errorf("read_map returned null pointers for keys and values")
+		return nil, fmt.Errorf("read_map returned null pointers for keys and values (keyType=%s, valueType=%s, offset=%d)", keyTypeName, valueTypeName, offset)
 	}
 
 	keys, err := h.sliceOfKeysHandler.Read(ctx, wa, pKeys)
