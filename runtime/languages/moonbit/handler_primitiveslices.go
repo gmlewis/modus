@@ -160,7 +160,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// Calculate the correct size for these classIDs
 		elemTypeSize := h.converter.TypeSize()
 		elemType := h.typeInfo.ListElementType()
-		if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+		if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 			elemTypeSize = MoonBitBoolSize
 		}
 		dataSize := words * uint32(elemTypeSize)
@@ -194,7 +194,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	}
 
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = MoonBitBoolSize
@@ -242,7 +242,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			if numElements == 0 && len(sliceMemBlock) > MemoryBlockHeaderSize {
 				// Calculate numElements from actual memory block data size
 				dataSize := len(sliceMemBlock) - MemoryBlockHeaderSize // subtract header size
-				if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+				if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 					elemTypeSize = MoonBitBoolSize
 				}
 				numElements = uint32(dataSize) / uint32(elemTypeSize)
@@ -283,7 +283,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// Calculate numElements from available data
 		dataSize := len(sliceMemBlock) - MemoryBlockHeaderSize
 		elemTypeSize := h.converter.TypeSize()
-		if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+		if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 			elemTypeSize = MoonBitBoolSize
 		}
 		numElements = uint32(dataSize) / uint32(elemTypeSize)
@@ -371,9 +371,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
 	
-	// TEMPORARY: Force Array[Bool] to use fixed array infrastructure to avoid wrapper issues
-	if !isFixedArray && elemType.Name() == "Bool" {
-		fmt.Printf("DEBUG: Forcing Array[Bool] to use fixed array infrastructure\n")
+	// TEMPORARY: Force Array[Bool] and Array[Byte] to use fixed array infrastructure to avoid wrapper issues
+	if !isFixedArray && (elemType.Name() == "Bool" || elemType.Name() == "Byte") {
+		fmt.Printf("DEBUG: Forcing Array[%s] to use fixed array infrastructure\n", elemType.Name())
 		isFixedArray = true
 	}
 	
@@ -382,7 +382,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		return h.createDynamicPrimitiveArray(ctx, wa, slice, numElements, elemType)
 	}
 
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = MoonBitBoolSize
@@ -510,6 +510,15 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		for i := 0; i < len(slice); i++ {
 			val := reflect.ValueOf(slice[i])
 			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Int()))
+		}
+	} else if elemType.Name() == "Byte" {
+		// For Byte arrays, MoonBit expects 4-byte values in fixed array infrastructure
+		fmt.Printf("DEBUG: Creating Byte array - numElements=%d, size=%d\n", numElements, size)
+		dataBuffer = make([]byte, numElements*4)
+		for i := 0; i < len(slice); i++ {
+			val := reflect.ValueOf(slice[i])
+			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Uint()))
+			fmt.Printf("DEBUG: Element %d: byte %d (0x%02X) stored as 4-byte value\n", i, val.Uint(), val.Uint())
 		}
 	} else {
 		// Allocate data buffer and write using the appropriate function
@@ -803,8 +812,32 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 
 	// Step 2: Create wrapper structure using cabi_realloc (MoonBit allocator)
 	// Array[T] wrapper structure: [refCount, 1573120, length, dataPtr]
-	// Return data array directly like Int does (no wrapper creation)
-	fmt.Printf("DEBUG: Returning data array directly at %d (no wrapper creation, matching Int)\n", offset)
+	// Array[Byte] needs wrapper structure according to WAT analysis
+	// Check if we need wrapper creation for Array[Byte]
+	if elemType.Name() == "Byte" {
+		// Create wrapper structure for Array[Byte] according to WAT analysis
+		// Based on WAT analysis: [refCount(4), typeInfo(4), length(4), arrayPtr(4)]
+		wrapperPtr, wrapperCln, err := wa.allocateAndPinMemory(ctx, 16, 0)
+		if err != nil {
+			fmt.Printf("DEBUG: Failed to allocate wrapper object: %v\n", err)
+			return offset, utils.NewCleaner(), nil
+		}
+
+		// Write wrapper structure (WAT analysis)
+		// Offset 0: refCount (not set, handled by GC)
+		// Offset 4: typeInfo (1573120 from WAT analysis)
+		wa.Memory().WriteUint32Le(wrapperPtr+4, 1573120)
+		// Offset 8: length
+		wa.Memory().WriteUint32Le(wrapperPtr+8, numElements)
+		// Offset 12: arrayPtr
+		wa.Memory().WriteUint32Le(wrapperPtr+12, offset)
+
+		fmt.Printf("DEBUG: Array[Byte] - created wrapper structure at %d pointing to data at %d\n", wrapperPtr, offset)
+		return wrapperPtr, wrapperCln, nil
+	}
+
+	// Other types return data array directly
+	fmt.Printf("DEBUG: Returning data array directly at %d (no wrapper creation)\n", offset)
 	return offset, utils.NewCleaner(), nil
 }
 
@@ -904,30 +937,30 @@ func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wa
 }
 
 func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// Use moonbit_bytes_make (match Int exactly)
-	fn := wasmAdapter.GetFunction("moonbit_bytes_make")
+	// Use moonbit_i32_array_make as indicated in comment
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
 	if fn == nil {
-		return 0, fmt.Errorf("function moonbit_bytes_make not found")
+		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
 	}
 
 	// Create array with initial value 0
 	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
-		return 0, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
+		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
 	}
 	if len(results) != 1 {
-		return 0, fmt.Errorf("expected 1 result from moonbit_bytes_make, got %d", len(results))
+		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
 	}
 
 	arrayPtr := uint32(results[0])
 
-	// Write byte values (match Int exactly)
+	// Write byte values as 4-byte values at 4-byte intervals (fix overlapping writes)
 	fmt.Printf("DEBUG: Writing %d bytes to array at %d\n", len(slice), arrayPtr)
 	for i, val := range slice {
 		if byteVal, ok := any(val).(byte); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*4
 			wa.Memory().WriteUint32Le(offset, uint32(byteVal))
-			fmt.Printf("DEBUG: Wrote byte %d (0x%02X) at offset %d matching Int pattern\n", byteVal, byteVal, offset)
+			fmt.Printf("DEBUG: Wrote byte %d (0x%02X) at offset %d as 4-byte value\n", byteVal, byteVal, offset)
 		}
 	}
 
@@ -1151,7 +1184,7 @@ func (h *primitiveSliceHandler[T]) decodeDynamicPrimitiveArray(ctx context.Conte
 
 	elemType := h.typeInfo.ListElementType()
 	elemTypeSize := h.converter.TypeSize()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = MoonBitBoolSize
