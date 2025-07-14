@@ -630,6 +630,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
 		// These types use classID=160 and moonbit_ref_array_make
 		return h.createRefArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
+	} else if elemType.Name() == "String" {
+		// FixedArray[String] uses moonbit_ref_array_make (non-optional strings)
+		return h.createStringArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "Char?" {
 		memBlockClassID = BoolByteCharClassID
 		// For Char? arrays, use similar approach as Bool?/Byte? but with char values
@@ -1202,5 +1205,67 @@ func (h *sliceHandler) createIntArrayWithMoonBit(ctx context.Context, wasmAdapte
 	}
 
 	// Return arrayPtr
+	return arrayPtr, nil, nil
+}
+
+// createStringArrayWithMoonBit creates a String array using MoonBit's ref_array_make function
+// Based on the WAT analysis: uses moonbit.ref_array_make and stores pointers to string objects
+func (h *sliceHandler) createStringArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, we might need special handling
+		// But for now, let's try the standard ref_array_make approach
+	}
+
+	// Step 1: Use moonbit_ref_array_make(numElements, initValue) like the WAT does
+	fn := wasmAdapter.GetFunction("moonbit_ref_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_ref_array_make not found in WASM module")
+	}
+
+	// Call moonbit.ref_array_make(numElements, initValue) - from WAT: call $moonbit.ref_array_make with 12768
+	// We'll use 0 as initial value and then overwrite with actual string pointers
+	initialValue := uint64(0)
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_ref_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_ref_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Step 2: Write actual string pointers at the correct offsets
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return 0, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
+
+	// Write string pointers to the array
+	for i, val := range slice {
+		var stringPtr uint32
+		if val == nil {
+			// For nil strings, use 0 (though this shouldn't happen for non-optional strings)
+			stringPtr = 0
+		} else {
+			// Encode the string and get its pointer
+			results, cln, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
+			if err != nil {
+				return 0, nil, fmt.Errorf("failed to encode string element %d: %w", i, err)
+			}
+			if len(results) != 1 {
+				return 0, nil, fmt.Errorf("expected 1 result from string encoding, got %d", len(results))
+			}
+			// TODO: handle cleanup properly
+			_ = cln
+			stringPtr = uint32(results[0])
+		}
+
+		// Write pointer at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
+		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+		wa.Memory().WriteUint32Le(offset, stringPtr)
+	}
+
+	// Return arrayPtr for FixedArray
 	return arrayPtr, nil, nil
 }
