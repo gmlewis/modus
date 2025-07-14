@@ -96,6 +96,7 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 
 	// Check for invalid small offsets that suggest incorrect function return handling
 	if offset < MinValidMemoryOffset {
+		fmt.Printf("DEBUG: memoryBlockAtOffset called with invalid offset %d\n", offset)
 		return nil, 0, 0, fmt.Errorf("invalid memory offset %d: function may be returning direct values instead of pointers (check function metadata/compilation)", offset)
 	}
 

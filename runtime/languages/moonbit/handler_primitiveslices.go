@@ -121,6 +121,13 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	// First read to get the header and determine the classID
 	headerBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
 	if err != nil {
+		// Check if this is a dynamic Array[T] that needs fallback (e.g., from Map handler)
+		isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
+		if !isFixedArray && strings.Contains(err.Error(), "invalid memory offset") {
+			// This is likely a dynamic array created by moonbit.i32_array_make
+			// Use direct memory reading approach as fallback
+			return h.decodeDynamicPrimitiveArray(ctx, wa, uint32(vals[0]))
+		}
 		return nil, err
 	}
 

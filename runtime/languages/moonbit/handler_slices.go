@@ -94,8 +94,23 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		return h.emptyValue, nil
 	}
 
+	// Debug: print the values being decoded
+	fmt.Printf("DEBUG: sliceHandler.Decode called with vals[0]=%d (0x%X)\n", vals[0], vals[0])
+	
 	memBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
 	if err != nil {
+		// Debug: print the actual error to understand what's happening
+		fmt.Printf("DEBUG: memoryBlockAtOffset failed for offset %d with: %v\n", uint32(vals[0]), err)
+		// Check if this is a dynamic Array[T] that needs fallback (e.g., from Map handler)
+		isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
+		fmt.Printf("DEBUG: isFixedArray=%v, typeDef.Name=%s\n", isFixedArray, h.typeDef.Name)
+		fmt.Printf("DEBUG: err.Error() contains 'invalid memory offset': %v\n", strings.Contains(err.Error(), "invalid memory offset"))
+		if !isFixedArray && strings.Contains(err.Error(), "invalid memory offset") {
+			// This is likely a dynamic array created by moonbit.i32_array_make or moonbit.ref_array_make
+			// Use direct memory reading approach as fallback
+			fmt.Printf("DEBUG: Using fallback decodeDynamicArray for offset %d\n", uint32(vals[0]))
+			return h.decodeDynamicArray(ctx, wa, wasmAdapter, uint32(vals[0]))
+		}
 		return nil, err
 	}
 	// fmt.Printf("DEBUG: memoryBlockAtOffset returned classID=%d, words=%d, memBlock size=%d\n", classID, words, len(memBlock))
@@ -1851,4 +1866,51 @@ func (h *sliceHandler) createDoubleDataArray(ctx context.Context, wasmAdapter la
 	}
 
 	return arrayPtr, nil
+}
+
+// decodeDynamicArray reads dynamic Array[T] types created by moonbit.ref_array_make
+// This is used as a fallback when memoryBlockAtOffset fails with "invalid memory offset"
+func (h *sliceHandler) decodeDynamicArray(ctx context.Context, wa wasmMemoryReader, wasmAdapter langsupport.WasmAdapter, offset uint32) (any, error) {
+	// For dynamic arrays created by moonbit.ref_array_make, read structure directly
+	// Structure: [length(4), classInfo(4), element_ptr0(4), element_ptr1(4), ...]
+	
+	// Read the array length at offset 0
+	lengthBytes, ok := wa.Memory().Read(offset, 4)
+	if !ok {
+		return nil, fmt.Errorf("failed to read array length at offset %d", offset)
+	}
+	numElements := binary.LittleEndian.Uint32(lengthBytes)
+	
+	if numElements == 0 {
+		return h.emptyValue, nil // empty array
+	}
+
+	// Read the element pointers starting at offset 8 (after length and classInfo)
+	dataStartOffset := uint32(8)
+	dataSize := numElements * 4 // Each pointer is 4 bytes
+	dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
+	if !ok {
+		return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
+	}
+
+	// Create the result slice
+	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
+
+	// Read each element by dereferencing the pointers
+	for i := uint32(0); i < numElements; i++ {
+		ptrOffset := i * 4
+		elementPtr := binary.LittleEndian.Uint32(dataBytes[ptrOffset:])
+		
+		// Read the element using the element handler
+		item, err := h.elementHandler.Read(ctx, wasmAdapter, elementPtr)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read array element %d at ptr %d: %w", i, elementPtr, err)
+		}
+		
+		if !utils.HasNil(item) {
+			items.Index(int(i)).Set(reflect.ValueOf(item))
+		}
+	}
+
+	return items.Interface(), nil
 }
