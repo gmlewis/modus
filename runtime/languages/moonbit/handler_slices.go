@@ -437,11 +437,14 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					continue
 				}
 				ptr := binary.LittleEndian.Uint32(memBlock[dataStartOffset+int(i)*int(elemTypeSize):])
-				// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
+				// Handle None singleton pointers for different optional types
 				var item any
 				var err error
 				if ptr == 10248 {
-					// None singleton pointer - return nil
+					// None singleton pointer for 64-bit reference types - return nil
+					item = nil
+				} else if ptr == 32768 {
+					// None singleton pointer for Int16? - return nil
 					item = nil
 				} else {
 					item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -490,11 +493,14 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			continue
 		}
 		ptr := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
-		// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
+		// Handle None singleton pointers for different optional types
 		var item any
 		var err error
 		if ptr == 10248 {
-			// None singleton pointer - return nil
+			// None singleton pointer for 64-bit reference types - return nil
+			item = nil
+		} else if ptr == 32768 {
+			// None singleton pointer for Int16? - return nil
 			item = nil
 		} else {
 			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -558,8 +564,8 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		memBlockClassID = 96
 		// For Byte? arrays, use similar approach as Bool? but with byte values
 		return h.createByteArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
-	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
-		// These types use classID=160 and moonbit_ref_array_make
+	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" || elemType.Name() == "Int16?" {
+		// These types use reference-based storage
 		return h.createRefArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "Char?" {
 		memBlockClassID = 96
@@ -992,8 +998,13 @@ func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapte
 	for i, val := range slice {
 		var elementPtr uint32
 		if utils.HasNil(val) {
-			// None value - use the None singleton pointer
-			elementPtr = 10248
+			// None value - use the appropriate None singleton pointer
+			elemType := h.typeInfo.ListElementType()
+			if elemType.Name() == "Int16?" {
+				elementPtr = 32768 // None singleton for Int16?
+			} else {
+				elementPtr = 10248 // None singleton for 64-bit reference types
+			}
 		} else {
 			// Some value - encode the element and get its pointer
 			results, cln, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
