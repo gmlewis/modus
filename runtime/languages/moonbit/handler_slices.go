@@ -111,45 +111,14 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		}
 
 		if words == 1 {
-			// For single element arrays, handle nullable primitives like multi-element arrays
+			// sliceOffset is the pointer to the single-slice element.
 			items := reflect.MakeSlice(h.typeInfo.ReflectedType(), 1, 1)
-
-			if elemType.IsPrimitive() && isNullable {
-				// For nullable primitives, the sliceOffset might be the None sentinel value
-				var value uint64
-				if sliceOffset == 0xffffffff {
-					// Special case: sliceOffset itself is the None sentinel
-					value = uint64(sliceOffset)
-				} else {
-					// Read the value from the sliceOffset location
-					memData, ok := wa.Memory().Read(sliceOffset, elemTypeSize)
-					if !ok {
-						return nil, fmt.Errorf("failed to read element data from memory offset %d", sliceOffset)
-					}
-
-					if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
-						value = binary.LittleEndian.Uint64(memData)
-					} else {
-						value32 := binary.LittleEndian.Uint32(memData)
-						value = uint64(value32)
-					}
-				}
-				item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
-				if err != nil {
-					return nil, err
-				}
-				if !utils.HasNil(item) {
-					items.Index(0).Set(reflect.ValueOf(item))
-				}
-			} else {
-				// sliceOffset is the pointer to the single-slice element.
-				item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
-				if err != nil {
-					return nil, err
-				}
-				if !utils.HasNil(item) {
-					items.Index(0).Set(reflect.ValueOf(item))
-				}
+			item, err := h.elementHandler.Read(ctx, wasmAdapter, sliceOffset)
+			if err != nil {
+				return nil, err
+			}
+			if !utils.HasNil(item) {
+				items.Index(0).Set(reflect.ValueOf(item))
 			}
 			return items.Interface(), nil
 		}
@@ -242,26 +211,11 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Allocate memory
 	if size == 0 {
-		// For empty optional arrays, use the singleton from MoonBit's ptr_to_none function
-		if elemType.IsNullable() && strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-			singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
-			if err != nil {
-				return 0, nil, err
-			}
-			return singletonPtr, nil, nil
-		}
-
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, 1, memBlockClassID)
 		if err != nil {
 			return 0, cln, err
 		}
 		wa.Memory().WriteByte(ptr-3, 0) // overwrite size=1 to size=0
-	} else if elemType.IsNullable() && strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-		// For non-empty nullable arrays, use MoonBit's array creation functions
-		ptr, cln, err = h.createNullableArrayWithMoonBit(ctx, wasmAdapter, slice, elemType)
-		if err != nil {
-			return 0, cln, err
-		}
 	} else {
 		ptr, cln, err = wa.allocateAndPinMemory(ctx, size, memBlockClassID)
 		if err != nil {
@@ -307,115 +261,4 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 	return slicePtr - 8, cln, nil
-}
-
-// getEmptyOptionalArraySingleton calls MoonBit's ptr_to_none function to get
-// the singleton address for empty optional arrays.
-func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmAdapter langsupport.WasmAdapter) (uint32, error) {
-	// Use the exported ptr_to_none function from modus_post_generated.mbt
-	fn := wasmAdapter.GetFunction("ptr_to_none")
-	if fn == nil {
-		return 0, fmt.Errorf("function ptr_to_none not found in WASM module")
-	}
-
-	// Call the function to get the singleton address
-	results, err := fn.Call(ctx)
-	if err != nil {
-		return 0, fmt.Errorf("failed to call ptr_to_none: %w", err)
-	}
-
-	if len(results) != 1 {
-		return 0, fmt.Errorf("expected 1 result from ptr_to_none, got %d", len(results))
-	}
-
-	return uint32(results[0]), nil
-}
-
-// createNullableArrayWithMoonBit uses MoonBit's own array creation functions
-// to create arrays with the correct memory structure for nullable elements.
-func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, elemType langsupport.TypeInfo) (uint32, utils.Cleaner, error) {
-	numElements := uint32(len(slice))
-
-	// Determine the appropriate MoonBit array creation function
-	var funcName string
-	switch elemType.Name() {
-	case "Bool?":
-		funcName = "moonbit_i32_array_make"
-	case "Byte?":
-		funcName = "moonbit_i32_array_make"
-	case "Char?":
-		funcName = "moonbit_int16_array_make"
-	case "Int16?":
-		funcName = "moonbit_int16_array_make"
-	case "UInt16?":
-		funcName = "moonbit_int16_array_make"
-	case "Int?", "UInt?":
-		funcName = "moonbit_i32_array_make"
-	case "Int64?", "UInt64?":
-		funcName = "moonbit_int64_array_make"
-	case "Float?":
-		funcName = "moonbit_float32_array_make"
-	case "Double?":
-		funcName = "moonbit_float_array_make"
-	default:
-		return 0, nil, fmt.Errorf("unsupported nullable element type for MoonBit array creation: %s", elemType.Name())
-	}
-
-	// Get the MoonBit array creation function
-	fn := wasmAdapter.GetFunction(funcName)
-	if fn == nil {
-		return 0, nil, fmt.Errorf("function %s not found in WASM module", funcName)
-	}
-
-	// For single-element arrays, create array with MoonBit function then write data
-	if numElements == 1 {
-		// Step 1: Create array with MoonBit function (using -1 as initial value)
-		initialValue := uint64(0xffffffff) // -1 as initial value
-		results, err := fn.Call(ctx, uint64(numElements), initialValue)
-		if err != nil {
-			return 0, nil, fmt.Errorf("failed to call %s: %w", funcName, err)
-		}
-
-		if len(results) != 1 {
-			return 0, nil, fmt.Errorf("expected 1 result from %s, got %d", funcName, len(results))
-		}
-
-		arrayPtr := uint32(results[0])
-
-		// Step 2: Write the actual data value at arrayPtr+8
-		var actualValue uint32
-		if utils.HasNil(slice[0]) {
-			actualValue = 0xffffffff // None value
-		} else {
-			// For non-nil values, encode the actual value
-			if elemType.Name() == "Bool?" {
-				if boolVal, ok := slice[0].(*bool); ok {
-					if *boolVal {
-						actualValue = 1 // true
-					} else {
-						actualValue = 2 // false (trying different value than 0)
-					}
-				} else {
-					return 0, nil, fmt.Errorf("expected *bool but got %T", slice[0])
-				}
-			} else {
-				// For other types, would need specific encoding logic
-				return 0, nil, fmt.Errorf("non-nil values for %s not yet implemented", elemType.Name())
-			}
-		}
-
-		// Write the actual value at offset 8
-		wa, ok := wasmAdapter.(wasmMemoryWriter)
-		if !ok {
-			return 0, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
-		}
-		wa.Memory().WriteUint32Le(arrayPtr+8, actualValue)
-
-		// Step 3: Don't modify the header - let MoonBit function handle it// Return the array pointer with FixedArray adjustment
-		return arrayPtr - 8, nil, nil
-	}
-
-	// For more complex cases, we would need to create the array and populate elements
-	// For now, fall back to the original approach
-	return 0, nil, fmt.Errorf("complex nullable arrays not yet implemented with MoonBit functions (numElements=%d, first_element_nil=%v)", numElements, utils.HasNil(slice[0]))
 }
