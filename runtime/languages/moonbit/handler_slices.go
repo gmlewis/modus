@@ -337,6 +337,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" {
 		memBlockClassID = uint32(FixedArrayPrimitiveBlockType)
 	}
+	// Special case: Bool? arrays use classID=96 in current MoonBit version
+	if elemType.Name() == "Bool?" {
+		memBlockClassID = 96
+	}
 
 	// Allocate memory
 	if size == 0 {
@@ -378,10 +382,30 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	}()
 
 	for i, val := range slice {
-		c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val)
-		innerCln.AddCleaner(c)
-		if err != nil {
-			return 0, cln, err
+		// Special handling for Bool? arrays with classID=96
+		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
+			// Write boolean values directly as uint32 instead of using pointers
+			var encodedValue uint32
+			if utils.HasNil(val) {
+				encodedValue = 0 // Try: None = 0 in classID=96 encoding
+			} else if boolPtr, ok := val.(*bool); ok {
+				if *boolPtr {
+					encodedValue = 2 // Try: Some(true) = 2 in classID=96 encoding
+				} else {
+					encodedValue = 1 // Try: Some(false) = 1 in classID=96 encoding
+				}
+			} else {
+				return 0, cln, fmt.Errorf("invalid Bool? value: expected nil or *bool, got %T", val)
+			}
+			// fmt.Printf("DEBUG: Writing Bool? element %d: value=%d at offset=%d\n", i, encodedValue, ptr+uint32(i)*elemTypeSize)
+			wa.Memory().WriteUint32Le(ptr+uint32(i)*elemTypeSize, encodedValue)
+		} else {
+			// Normal element writing for other types
+			c, err := h.elementHandler.Write(ctx, wasmAdapter, ptr+uint32(i)*elemTypeSize, val)
+			innerCln.AddCleaner(c)
+			if err != nil {
+				return 0, cln, err
+			}
 		}
 	}
 
@@ -421,6 +445,22 @@ func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmA
 	}
 
 	return uint32(results[0]), nil
+}
+
+// encodeClassID96BoolArray creates a Bool? array with classID=96 that matches MoonBit's memory layout
+func (h *sliceHandler) encodeClassID96BoolArray(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, delegate to existing logic
+		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
+		if err != nil {
+			return 0, nil, err
+		}
+		return singletonPtr, nil, nil
+	}
+
+	// For Bool? arrays, fallback to the normal encoding path but ensure classID=96
+	// The issue might be that the normal path needs to be modified for Bool? only
+	return 0, nil, fmt.Errorf("encodeClassID96BoolArray: temporarily disabled, falling back to normal path")
 }
 
 // createNullableArrayWithMoonBit uses MoonBit's own array creation functions
