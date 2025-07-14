@@ -428,14 +428,12 @@ func writeFuncWriteMap(b *bytes.Buffer, keys []string, pairs pairsMapT) {
 ///|
 pub fn write_map(
   key_type_name_ptr : Int,
-  key_type_name_len : Int,
   value_type_name_ptr : Int,
-  value_type_name_len : Int,
   keys_ptr : Int,
   values_ptr : Int
 ) -> Int {
-  let key_type_name = ptr2str(key_type_name_ptr + 8, key_type_name_len)
-  let value_type_name = ptr2str(value_type_name_ptr + 8, value_type_name_len)
+  let key_type_name : String = cast(key_type_name_ptr)
+  let value_type_name : String = cast(value_type_name_ptr)
   match (key_type_name, value_type_name) {
 `)
 
