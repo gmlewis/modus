@@ -78,6 +78,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
+	
+	// DEBUG: check type for Array vs FixedArray
+	fmt.Printf("DEBUG: Decoding type=%s\n", h.typeDef.Name)
 
 	if vals[0] == 0 {
 		return nil, nil
@@ -150,6 +153,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		if err != nil {
 			return nil, err
 		}
+
 	} else {
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 		// fmt.Printf("DEBUG: sliceOffset = %d (0x%X)\n", sliceOffset, sliceOffset)
@@ -609,7 +613,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 	for i := uint32(0); i < numElements; i++ {
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
-		if elemType.IsPrimitive() && isNullable {
+		// For Int64? and UInt64?, use reference-based storage (not primitive)
+		if elemType.IsPrimitive() && isNullable && elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 			var value uint64
 			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
 				value = binary.LittleEndian.Uint64(memBlock[MemoryBlockHeaderSize+i*uint32(elemTypeSize):])
@@ -643,8 +648,10 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
 		var item any
 		var err error
-		if (elemType.Name() == "String?" && ptr == 0) || ptr == NoneSingletonPointer {
-			// None value - String? uses 0, others use NoneSingletonPointer
+
+		// Check if this pointer points to a None singleton by reading memory content
+		if h.isNoneSingleton(wa, ptr) {
+			// This is a None singleton
 			item = nil
 		} else {
 			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
@@ -667,6 +674,39 @@ func (h *sliceHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmA
 	}
 
 	return []uint64{uint64(ptr)}, cln, nil
+}
+
+// isNoneSingleton checks if a pointer points to a None singleton object
+// None singletons have the pattern: [255 255 255 255] [0 0 0 0] (RefCount -1, Type 0)
+func (h *sliceHandler) isNoneSingleton(wa wasmMemoryReader, ptr uint32) bool {
+	if ptr == 0 {
+		// For Int64?, null pointer might represent Some(0) rather than None
+		return false // null pointer is not a None singleton
+	}
+
+	// Try to read 8 bytes from the pointer location
+	memory := wa.Memory()
+	bytes, ok := memory.Read(ptr, 8)
+	if !ok {
+		return false // couldn't read memory
+	}
+
+	// Check for None singleton patterns
+	// Pattern 1: [255 255 255 255] [0 0 0 0] (from documentation)
+	if len(bytes) >= 8 &&
+		bytes[0] == 0xFF && bytes[1] == 0xFF && bytes[2] == 0xFF && bytes[3] == 0xFF &&
+		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
+		return true
+	}
+
+	// Pattern 2: [0 0 0 0] [0 0 0 0] (observed for ptr=4)
+	if len(bytes) >= 8 &&
+		bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0x00 && bytes[3] == 0x00 &&
+		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
+		return true
+	}
+
+	return false
 }
 
 func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport.WasmAdapter, obj any) (ptr uint32, cln utils.Cleaner, err error) {
@@ -695,6 +735,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
+	fmt.Printf("DEBUG: Type=%s, isFixedArray=%v\n", h.typeDef.Name, isFixedArray)
 	if !isFixedArray {
 		// For dynamic Array[T], use MoonBit's native array creation functions
 		return h.createDynamicArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
