@@ -803,9 +803,8 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 
 	// Step 2: Create wrapper structure using cabi_realloc (MoonBit allocator)
 	// Array[T] wrapper structure: [refCount, 1573120, length, dataPtr]
-	// moonbit_i32_array_make and similar functions should return complete Array[T] structures
-	// No wrapper creation needed - return the data array directly
-	fmt.Printf("DEBUG: Returning data array directly at %d (no wrapper creation)\n", offset)
+	// Return data array directly like Int does (no wrapper creation)
+	fmt.Printf("DEBUG: Returning data array directly at %d (no wrapper creation, matching Int)\n", offset)
 	return offset, utils.NewCleaner(), nil
 }
 
@@ -905,7 +904,7 @@ func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wa
 }
 
 func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// Use moonbit_bytes_make as indicated in WAT analysis
+	// Use moonbit_bytes_make (match Int exactly)
 	fn := wasmAdapter.GetFunction("moonbit_bytes_make")
 	if fn == nil {
 		return 0, fmt.Errorf("function moonbit_bytes_make not found")
@@ -922,15 +921,13 @@ func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa w
 
 	arrayPtr := uint32(results[0])
 
-	// Write byte values as 1-byte values (not 4-byte like Int arrays)
+	// Write byte values (match Int exactly)
 	fmt.Printf("DEBUG: Writing %d bytes to array at %d\n", len(slice), arrayPtr)
 	for i, val := range slice {
 		if byteVal, ok := any(val).(byte); ok {
 			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)
-			if !wa.Memory().Write(offset, []byte{byteVal}) {
-				return 0, fmt.Errorf("failed to write byte at offset %d", offset)
-			}
-			fmt.Printf("DEBUG: Wrote byte %d (0x%02X) at offset %d as 1-byte value\n", byteVal, byteVal, offset)
+			wa.Memory().WriteUint32Le(offset, uint32(byteVal))
+			fmt.Printf("DEBUG: Wrote byte %d (0x%02X) at offset %d matching Int pattern\n", byteVal, byteVal, offset)
 		}
 	}
 
