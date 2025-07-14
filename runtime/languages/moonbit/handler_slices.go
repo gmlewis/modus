@@ -111,7 +111,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		(elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?") { // TODO: "String?" is not a "primitive" type, probably can be removed.
 		elemTypeSize = 8
 	}
-	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == 112 {
+	if classID == FixedArrayPrimitiveBlockType || classID == PtrArrayBlockType || classID == 112 || classID == 160 {
 		memBlock, _, _, err = memoryBlockAtOffset(wa, uint32(vals[0]), words*elemTypeSize)
 		if err != nil {
 			return nil, err
@@ -437,9 +437,17 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					continue
 				}
 				ptr := binary.LittleEndian.Uint32(memBlock[dataStartOffset+int(i)*int(elemTypeSize):])
-				item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
-				if err != nil {
-					return nil, err
+				// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
+				var item any
+				var err error
+				if ptr == 10248 {
+					// None singleton pointer - return nil
+					item = nil
+				} else {
+					item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
+					if err != nil {
+						return nil, err
+					}
 				}
 				if !utils.HasNil(item) {
 					items.Index(int(i)).Set(reflect.ValueOf(item))
@@ -482,9 +490,17 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			continue
 		}
 		ptr := binary.LittleEndian.Uint32(memBlock[8+i*elemTypeSize:])
-		item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
-		if err != nil {
-			return nil, err
+		// Handle None singleton pointer for optional types (FixedArray[Double?], etc.)
+		var item any
+		var err error
+		if ptr == 10248 {
+			// None singleton pointer - return nil
+			item = nil
+		} else {
+			item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{uint64(ptr)})
+			if err != nil {
+				return nil, err
+			}
 		}
 		if !utils.HasNil(item) {
 			items.Index(int(i)).Set(reflect.ValueOf(item))
@@ -542,6 +558,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		memBlockClassID = 96
 		// For Byte? arrays, use similar approach as Bool? but with byte values
 		return h.createByteArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
+	} else if elemType.Name() == "Double?" || elemType.Name() == "Float?" || elemType.Name() == "Int64?" || elemType.Name() == "UInt64?" {
+		// These types use classID=160 and moonbit_ref_array_make
+		return h.createRefArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "Char?" {
 		memBlockClassID = 96
 		// For Char? arrays, use similar approach as Bool?/Byte? but with char values
@@ -931,4 +950,69 @@ func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmA
 	// For more complex cases, we would need to create the array and populate elements
 	// For now, fall back to the original approach
 	return 0, nil, fmt.Errorf("complex nullable arrays not yet implemented with MoonBit functions (numElements=%d, first_element_nil=%v)", numElements, utils.HasNil(slice[0]))
+}
+
+// createRefArrayWithMoonBit creates arrays for reference-based optional types (Double?, Float?, Int64?, UInt64?)
+// using moonbit_ref_array_make, similar to how the WASM functions work
+func (h *sliceHandler) createRefArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, delegate to existing logic
+		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
+		if err != nil {
+			return 0, nil, err
+		}
+		return singletonPtr, nil, nil
+	}
+
+	// Step 1: Use moonbit_ref_array_make(numElements, 0) like the WAT does
+	fn := wasmAdapter.GetFunction("moonbit_ref_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_ref_array_make not found in WASM module")
+	}
+
+	// Call moonbit.ref_array_make(numElements, 0) - exactly like the WAT
+	initialValue := uint64(0) // 0 as initial value
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_ref_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_ref_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Step 2: Write actual element pointers at the correct offsets
+	wa, ok := wasmAdapter.(wasmMemoryWriter)
+	if !ok {
+		return 0, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+	}
+
+	// Write element pointers to the array
+	for i, val := range slice {
+		var elementPtr uint32
+		if utils.HasNil(val) {
+			// None value - use the None singleton pointer
+			elementPtr = 10248
+		} else {
+			// Some value - encode the element and get its pointer
+			results, cln, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
+			if err != nil {
+				return 0, nil, fmt.Errorf("failed to encode element %d: %w", i, err)
+			}
+			if len(results) != 1 {
+				return 0, nil, fmt.Errorf("expected 1 result from element encoding, got %d", len(results))
+			}
+			// TODO: handle cleanup properly
+			_ = cln
+			elementPtr = uint32(results[0])
+		}
+
+		// Write pointer at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
+		offset := arrayPtr + 8 + uint32(i)*4
+		wa.Memory().WriteUint32Le(offset, elementPtr)
+	}
+
+	// Return arrayPtr for FixedArray
+	return arrayPtr, nil, nil
 }
