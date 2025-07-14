@@ -713,25 +713,28 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 	}
 
 	// For dynamic arrays, return the data array pointer directly
-	// The wrapper structure is created by the MoonBit runtime when needed
+	// The issue is that MoonBit expects wrapper structure but we can't create it manually
+	// due to GC compatibility issues. This is a fundamental limitation.
 	return dataArrayPtr, utils.NewCleaner(), nil
 }
 
 // Helper functions for creating data arrays for different primitive types
 
 func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	// Try using moonbit.ref_array_make instead of moonbit.i32_array_make
+	// This might create the wrapper structure automatically
+	fn := wasmAdapter.GetFunction("moonbit_ref_array_make")
 	if fn == nil {
-		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+		return 0, fmt.Errorf("function moonbit_ref_array_make not found")
 	}
 
-	// Create array with initial value 0 (false)
+	// Create array with length and default value 0
 	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
-		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+		return 0, fmt.Errorf("failed to call moonbit_ref_array_make: %w", err)
 	}
 	if len(results) != 1 {
-		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+		return 0, fmt.Errorf("expected 1 result from moonbit_ref_array_make, got %d", len(results))
 	}
 
 	arrayPtr := uint32(results[0])
