@@ -2,13 +2,13 @@
 
 ## Overview
 
-This document provides a comprehensive analysis of MoonBit's nullable array memory patterns in WebAssembly linear memory, based on extensive reverse engineering of `FixedArray[Bool?]`, `FixedArray[Byte?]`, `FixedArray[Char?]`, `FixedArray[Int16?]`, `FixedArray[Int?]`, and reference-based optional types like `FixedArray[Double?]`.
+This document provides a comprehensive analysis of MoonBit's array memory patterns in WebAssembly linear memory, based on extensive reverse engineering of nullable arrays (`FixedArray[Bool?]`, `FixedArray[Byte?]`, `FixedArray[Char?]`, `FixedArray[Int16?]`, `FixedArray[Int?]`, `FixedArray[String?]`), reference-based optional types (`FixedArray[Double?]`), and non-optional reference types (`FixedArray[String]`).
 
 ## Key Discoveries
 
-### 1. Five Distinct Memory Layout Categories
+### 1. Seven Distinct Memory Layout Categories
 
-MoonBit nullable arrays (`FixedArray[T?]`) use **five different memory layout categories** depending on the element type and storage requirements:
+MoonBit array types use **seven different memory layout categories** depending on the element type, optionality, and storage requirements:
 
 #### Category A: Direct Storage with Custom None (Bool?, Byte?, Char?, Int16?)
 - **ClassID**: 96
@@ -34,9 +34,23 @@ MoonBit nullable arrays (`FixedArray[T?]`) use **five different memory layout ca
 - **Storage**: 64-bit values (8 bytes per element)
 - **None Value**: 4294967296 (1 << 32)
 
-#### Category E: Complex Types (String?, UInt?)
-- **Status**: Partially understood or not yet implemented
-- **Storage**: Varies by type complexity
+#### Category E: Reference Non-Optional (String)
+- **ClassID**: Uses ref array infrastructure
+- **Function**: `moonbit_ref_array_make`
+- **Storage**: Pointers to string objects
+- **None Value**: N/A (not nullable)
+- **Key insight**: Non-optional types can use reference storage for efficiency
+
+#### Category F: Reference Optional with Custom None (String?)
+- **ClassID**: Uses ref array infrastructure
+- **Function**: `moonbit_ref_array_make`
+- **Storage**: Pointers to Option[String] objects
+- **None Value**: 0 (null pointer, not 10248)
+- **Key insight**: Same infrastructure, different None semantics
+
+#### Category G: Complex Types (UInt?)
+- **Status**: Not yet implemented
+- **Storage**: Unknown
 
 ### 2. Size-Based Layout Patterns (Within Categories)
 
@@ -154,6 +168,32 @@ func test_fixedarray_output_bool_option_3
 
 **Critical Insight**: Despite Int being 32-bit, Int? arrays use 64-bit storage internally
 
+### Category E: Reference Non-Optional
+
+#### FixedArray[String] (uses ref infrastructure)
+
+**Encoding**:
+- Each element → Pointer to String object (not direct string data)
+- **Array Creation**: Uses `moonbit_ref_array_make(numElements, 0)`
+- **Memory Layout**: Array of 32-bit pointers to string objects
+- **Element Offsets**: `arrayPtr + 8 + i*4`
+
+**Key Insight**: Non-optional strings use reference storage for efficiency, not just because they're optional
+
+### Category F: Reference Optional with Custom None
+
+#### FixedArray[String?] (uses ref infrastructure but different None)
+
+**Encoding**:
+- `None` → `0` (null pointer)
+- `Some(string)` → Pointer to Option[String] object containing string
+
+**Array Creation**: Uses `moonbit_ref_array_make(numElements, 0)`
+**Memory Layout**: Array of 32-bit pointers to Option[String] objects
+**Element Offsets**: `arrayPtr + 8 + i*4`
+
+**Critical Insight**: Same infrastructure as Category B but with type-specific None value (0 vs 10248)
+
 ## WebAssembly Implementation Details
 
 ### Array Creation Functions
@@ -268,6 +308,19 @@ func createIntArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
 3. Use `4294967296` for None values
 4. Return `arrayPtr`
 
+**Category E Pattern (Non-optional Reference)**:
+1. Call `moonbit_ref_array_make(numElements, 0)`
+2. Encode each string element to get pointer
+3. Write string pointers at `arrayPtr+8+i*4`
+4. Return `arrayPtr`
+
+**Category F Pattern (Optional Reference with Custom None)**:
+1. Call `moonbit_ref_array_make(numElements, 0)`
+2. For None elements: write `0`
+3. For Some elements: encode and write pointer to Option object
+4. Write pointers at `arrayPtr+8+i*4`
+5. Return `arrayPtr`
+
 ### Decoding Logic
 
 Category-based pattern detection and decoding:
@@ -306,6 +359,15 @@ if elemType.Name() == "Int?" {
         item = nil
     } else {
         item = &int32(value)
+    }
+}
+
+// Category E & F: Reference storage (non-optional and optional)
+if classID == 160 || elemType.Name() == "String" || elemType.Name() == "String?" {
+    if (elemType.Name() == "String?" && ptr == 0) || ptr == 10248 {
+        item = nil  // Custom None handling
+    } else {
+        item = decodePointer(ptr)
     }
 }
 ```
@@ -353,11 +415,12 @@ func EqualPtrSlice[T comparable](t *testing.T, got, want []*T) {
 - **Category B**: `FixedArray[Double?]`, `FixedArray[Float?]`, `FixedArray[Int64?]`, `FixedArray[UInt64?]`
 - **Category C**: `FixedArray[Int16]`, `FixedArray[Byte]`, most non-optional primitives
 - **Category D**: `FixedArray[Int?]`
+- **Category E**: `FixedArray[String]`
+- **Category F**: `FixedArray[String?]`
 
 ### 🔄 Needs Investigation
 - `FixedArray[UInt?]` → Likely similar to Int? but may use different None value
 - `FixedArray[UInt16?]` → Should follow Int16? pattern but needs verification
-- `FixedArray[String?]` → Complex UTF-16 string handling required
 
 ### 📝 Key Success Factors
 
@@ -366,5 +429,25 @@ func EqualPtrSlice[T comparable](t *testing.T, got, want []*T) {
 3. **Understand None Values**: Each category has different None representation
 4. **Category-Based Approach**: Group similar types and apply proven patterns
 5. **Constants for Maintainability**: Replace magic numbers with well-named constants
+6. **Type System Awareness**: Understand MoonBit's primitive vs non-primitive classification
+7. **Infrastructure Sharing Patterns**: Same MoonBit function can have different semantics
+8. **Custom None Value Handling**: Even within same category, None values can differ
 
-The architecture is now mature and extensible, supporting systematic addition of new nullable types following the established category patterns.
+### 🎆 Major Architectural Discoveries
+
+**Reference Storage ≠ Optional**: The String array fixes revealed that:
+- Non-optional types can use reference storage for efficiency
+- `FixedArray[String]` uses `moonbit_ref_array_make` despite being non-optional
+- Reference storage is an implementation detail, not tied to optionality
+
+**Infrastructure Sharing with Different Semantics**: The String? fix revealed that:
+- Multiple types can use the same MoonBit function (`moonbit_ref_array_make`)
+- But have completely different None value patterns (0 vs 10248)
+- Requires type-specific conditional logic within shared infrastructure
+
+**Type System Classification Matters**: 
+- MoonBit's `IsPrimitive()` classification affects handler routing
+- String is NOT primitive → goes to `handler_slices.go`
+- This affects which patterns and functions are available
+
+The architecture is now mature and extensible, supporting systematic addition of new types following the established category patterns, with awareness of type system complexities and infrastructure sharing patterns.

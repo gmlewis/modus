@@ -72,9 +72,17 @@ Based on successful fixes, FixedArray types fall into these categories:
 - **Key insight**: Int? elements stored as 64-bit values despite being 32-bit integers
 - Sign-extended encoding: int32 values become int64 in memory
 
-**Category F: Other Types (Status Unknown)**
+**Category F: Reference Non-optional Types (Fixed)**
+- `String` - Uses `moonbit_ref_array_make` to store pointers to string objects
+- **Key insight**: Non-optional strings use reference storage, not direct storage
+
+**Category G: Reference Optional with Custom None (Fixed)**
+- `String?` - Uses `moonbit_ref_array_make` with 0 as None value (not 10248)
+- **Critical insight**: Not all Category B types use the same None value
+- Demonstrates type-specific None patterns within same infrastructure
+
+**Category H: Other Types (Status Unknown)**
 - `UInt?` - Likely similar to Int? but needs verification
-- `String?` - Complex string handling with UTF-16 encoding
 - `UInt16?` - Similar to Int16? but needs verification
 - `UInt16` - Needs manual handling (no moonbit_uint16_array_make)
 
@@ -240,6 +248,72 @@ if elemType.Name() == "Int?" {
 - Elements stored 8 bytes apart (not 4)
 - Sign extension required for negative values
 
+## Proven Fix Pattern for Category F Types (Reference Non-optional)
+
+For `String` arrays - use `moonbit_ref_array_make` with pointer storage:
+
+### String Fix (Successfully Implemented)
+
+**Pattern**: Reference Storage for Non-optional Strings
+
+**Writing Side:**
+```go
+func (h *sliceHandler) createStringArrayWithMoonBit(...) {
+    // Use moonbit_ref_array_make(numElements, 0)
+    fn := wasmAdapter.GetFunction("moonbit_ref_array_make")
+    results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+    
+    // Encode strings and write pointers
+    for i, val := range slice {
+        results, _, err := h.elementHandler.Encode(ctx, wasmAdapter, val)
+        stringPtr := uint32(results[0])
+        // Write at arrayPtr + 8 + i*4
+        offset := arrayPtr + 8 + uint32(i)*4
+        wa.Memory().WriteUint32Le(offset, stringPtr)
+    }
+}
+```
+
+**Key insights for String:**
+- Non-optional strings still use reference storage (unexpected!)
+- Uses same `moonbit_ref_array_make` as optional reference types
+- Demonstrates that reference storage isn't exclusive to optional types
+- String is NOT considered "primitive" by MoonBit's type system
+
+## Proven Fix Pattern for Category G Types (Reference Optional with Custom None)
+
+For `String?` arrays - use `moonbit_ref_array_make` with type-specific None handling:
+
+### String? Fix (Successfully Implemented)
+
+**Pattern**: Reference Storage + Custom None Value
+
+1. **Remove from primitive handling**: String? was incorrectly treated as primitive
+2. **Add to reference array creation**: Use same infrastructure as Double?/Float?
+3. **Custom None value handling**:
+
+```go
+// Writing Side
+if utils.HasNil(val) {
+    if h.typeInfo.ListElementType().Name() == "String?" {
+        elementPtr = 0  // String? uses 0 as None
+    } else {
+        elementPtr = NoneSingletonPointer  // Others use 10248
+    }
+}
+
+// Reading Side  
+if (elemType.Name() == "String?" && ptr == 0) || ptr == NoneSingletonPointer {
+    item = nil  // Handle both None patterns
+}
+```
+
+**Key insights for String?:**
+- Uses `moonbit_ref_array_make` like other Category B types
+- **Critical discovery**: Different None value (0 vs 10248) within same category
+- Proves that even within infrastructure categories, type-specific handling is needed
+- WAT analysis showed exact None value pattern: `i32.const 0` for None elements
+
 ### Int16 Fix (Category C - Successfully Implemented)
 
 1. **Use moonbit_int16_array_make instead of ptr2*_array:**
@@ -278,7 +352,7 @@ From `adapter.go`, these functions are available:
 - `moonbit_int64_array_make` ✅ (used by Int64 and Int?)
 - `moonbit_float_array_make` ✅ (used by Double)
 - `moonbit_float32_array_make` ✅ (used by Float)
-- `moonbit_ref_array_make` ✅ (used by Double?/Float?/Int64?/UInt64?)
+- `moonbit_ref_array_make` ✅ (used by Double?/Float?/Int64?/UInt64?, String, String?)
 - `moonbit_bytes_make` ✅ (used by Byte)
 
 **Missing:** `moonbit_uint16_array_make` - UInt16 still needs manual handling
@@ -381,11 +455,137 @@ if value == NoneValueInt {
 6. **WAT analysis critical**: Without it, would never have discovered the int64 storage pattern
 7. **Pattern unique**: Only Int? uses this storage approach so far
 
+### String Fix (Category F)
+1. **Non-optional but uses reference storage** - Unexpected! String isn't "primitive"
+2. **Uses moonbit_ref_array_make** - Same as optional reference types
+3. **Stores pointers to string objects** - Not direct string data
+4. **Routed to handler_slices.go** - Because String is not considered primitive
+5. **WAT analysis revealed pattern**: `call $moonbit.ref_array_make` with string pointers
+6. **Demonstrates reference storage ≠ optional**: Reference storage used for efficiency, not just optionality
+
+### String? Fix (Category G)
+1. **Initially misclassified as primitive** - Was treated like Int?/UInt? incorrectly
+2. **Actually uses reference storage** - Like other Category B types but with twist
+3. **Custom None value (0)** - Different from NoneSingletonPointer (10248) used by numeric types
+4. **Type-specific None handling required** - Even within same infrastructure category
+5. **WAT analysis showed None pattern**: `i32.const 0` for None elements
+6. **Proves category complexity**: Same moonbit function, different None semantics
+7. **Required dual None value logic**: Handle both 0 and 10248 in decoding
+
+## Advanced Insights from String Array Fixes
+
+### Type Classification Surprises
+
+**Discovered**: MoonBit's type system classifications don't always match intuition:
+
+1. **String is NOT primitive** - Routed to `handler_slices.go` not `handler_primitiveslices.go`
+2. **Reference storage ≠ Optional** - Non-optional String uses reference storage for efficiency
+3. **Infrastructure sharing with different semantics** - String? uses `moonbit_ref_array_make` but with different None value
+
+**Routing Logic** (from `planner.go`):
+```go
+if !elemType.IsNullable() && elemType.IsPrimitive() {
+    return p.NewPrimitiveSliceHandler(ti)  // → handler_primitiveslices.go
+} else {
+    return p.NewSliceHandler(ctx, ti)      // → handler_slices.go
+}
+```
+
+**Key insight**: String fails `IsPrimitive()` check, so goes to slice handler.
+
+### None Value Complexity
+
+**Discovered**: None values are not uniform even within same infrastructure:
+
+| Type Category | MoonBit Function | None Value | Storage |
+|---------------|------------------|------------|----------|
+| Bool?, Byte?, Char? | `moonbit_i32_array_make` | `0xFFFFFFFF` | Direct 32-bit |
+| Int16? | `moonbit_i32_array_make` | `32768` | Direct 32-bit |
+| Double?, Float?, Int64?, UInt64? | `moonbit_ref_array_make` | `10248` | Pointer to singleton |
+| String? | `moonbit_ref_array_make` | `0` | Pointer (null) |
+| Int? | `moonbit_int64_array_make` | `4294967296` | Direct 64-bit |
+
+**Critical insight**: Even types using the same MoonBit function can have different None semantics.
+
+### WAT Analysis Patterns
+
+**Proven technique**: Look for these WAT patterns to understand array types:
+
+1. **Function call patterns**:
+   ```wat
+   call $moonbit.i32_array_make     ; Direct storage, 32-bit elements
+   call $moonbit.ref_array_make     ; Reference storage, pointer elements  
+   call $moonbit.int64_array_make   ; Direct storage, 64-bit elements
+   ```
+
+2. **Initialization patterns**:
+   ```wat
+   i32.const 4 i32.const -1    ; Initialize with -1 (0xFFFFFFFF)
+   i32.const 4 i32.const 0     ; Initialize with 0
+   i32.const 4 i32.const 12768 ; Initialize with specific value
+   ```
+
+3. **Storage patterns**:
+   ```wat
+   i32.store offset=8  align=1     ; Store at 8-byte intervals
+   i32.store offset=12 align=1     ; 4-byte pointer storage
+   i64.store offset=16 align=1     ; 8-byte direct storage
+   ```
+
+### Debugging Strategy Evolution
+
+**Level 1: Basic WAT Analysis**
+- Find the function name
+- Identify storage pattern (direct vs reference)
+- Note initialization values
+
+**Level 2: None Value Detection**
+- Analyze what values represent None
+- Check if None is stored inline or as pointer
+- Identify singleton addresses vs direct values
+
+**Level 3: Type System Understanding**
+- Understand MoonBit's primitive vs non-primitive classification
+- Learn routing logic in planner
+- Recognize infrastructure sharing patterns
+
+**Level 4: Cross-Type Pattern Recognition**
+- Identify when types share infrastructure but differ in semantics
+- Understand type-specific handling within shared functions
+- Design conditional logic for mixed patterns
+
 ## Testing Strategy
 
 1. **Test reading first:** Fix `TestFixedArrayOutput_*` before input tests
-2. **Test in groups:** Fix all Category B types together (Double?, Float?, Int64?, UInt64?)
+2. **Test in groups:** Fix all Category types together, but expect type-specific variations
 3. **Verify working tests still work:** Don't break Bool?, Byte?, Char?
 4. **Use specific test runs:** `go test -run ^TestFixedArrayOutput_double_option_4`
+5. **Test both String and String?:** Verify non-optional and optional variants separately
+6. **Check None value handling:** Test arrays with None elements specifically
 
-This guide captures the most effective techniques learned from successfully fixing the Double? test and should significantly speed up debugging of remaining failures.
+## Future Type Implementation Guide
+
+### Step 1: WAT Analysis
+1. Find the `test_fixedarray_output_*` function
+2. Identify MoonBit function used (`moonbit.*_array_make`)
+3. Note initialization value and storage offsets
+4. Analyze None value patterns
+
+### Step 2: Classification
+1. Determine if type is "primitive" per MoonBit
+2. Check routing destination (primitiveslices vs slices)
+3. Identify category based on MoonBit function used
+
+### Step 3: Implementation
+1. Add to appropriate creation function condition
+2. Handle type-specific None values if needed
+3. Update both encoding and decoding logic
+4. Add constants for any new magic numbers
+
+### Step 4: Testing
+1. Test specific failing case first
+2. Run full type suite (0, 1, 2, 3, 4 variants)
+3. Verify no regressions in existing types
+4. Test both input and output directions
+
+This guide now captures the complete debugging methodology from basic WAT analysis through complex type-specific None value handling, based on successful fixes across all major array categories.
