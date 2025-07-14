@@ -502,7 +502,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				fmt.Printf("DEBUG: Element %d: false (0)\n", i)
 			} else {
 				fmt.Printf("DEBUG: Element %d: true (1)\n", i)
+									fmt.Printf("DEBUG: Raw dataBuffer for element %d: %02x %02x %02x %02x\n", i, dataBuffer[i*4], dataBuffer[i*4+1], dataBuffer[i*4+2], dataBuffer[i*4+3])
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
+								fmt.Printf("DEBUG: After writing 1: %02x %02x %02x %02x\n", dataBuffer[i*4], dataBuffer[i*4+1], dataBuffer[i*4+2], dataBuffer[i*4+3])
 			}
 		}
 	} else if elemType.Name() == "Char" {
@@ -538,29 +540,57 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			case "UInt":
 				arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Bool":
-				// SPECIAL: Don't use fnPtr2intArray for Bool - create structure directly
-				fmt.Printf("DEBUG: Skipping fnPtr2intArray for Bool, creating structure directly\n")
-				// The data is already written at offset, just return the offset
-				// We need to create the [length, classInfo, data...] structure
-				// Allocate new memory for the complete structure
-				structOffset, structCln, err := wa.allocateAndPinMemory(ctx, numElements+2, memBlockClassID)
+				// SPECIAL: Use moonbit_i32_array_make for Bool arrays like the WAT functions do
+				fmt.Printf("DEBUG: Using moonbit_i32_array_make for Bool array\n")
+				// Use the same function as WAT: moonbit.i32_array_make(numElements, 0)
+				arrayPtr, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), 0)
 				if err != nil {
-					return 0, cln, fmt.Errorf("failed to allocate structure memory: %w", err)
+					return 0, cln, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
 				}
-				cln.AddCleaner(structCln)
-				
-				// Write the structure: [length, classInfo, data...]
-				wa.Memory().WriteUint32Le(structOffset, numElements) // length
-				wa.Memory().WriteUint32Le(structOffset+4, (uint32(numElements)<<8)|memBlockClassID) // classInfo
-				
-				// Copy the data
-				for i := uint32(0); i < numElements; i++ {
-					value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
-					wa.Memory().WriteUint32Le(structOffset+8+i*4, value)
-					fmt.Printf("DEBUG: Wrote element %d: %d at offset %d\n", i, value, structOffset+8+i*4)
+				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+					boolArrayPtr := uint32(arrayPtr[0])
+					fmt.Printf("DEBUG: Created Bool array at offset %d\n", boolArrayPtr)
+					// Debug: Read the created array structure
+					headerBytes, ok := wa.Memory().Read(boolArrayPtr, 16)
+					if ok {
+						fmt.Printf("DEBUG: Array structure at %d: ", boolArrayPtr)
+						for i := 0; i < 16; i += 4 {
+							value := binary.LittleEndian.Uint32(headerBytes[i:])
+							fmt.Printf("offset %d: %d (0x%X) ", i, value, value)
+						}
+						fmt.Printf("\n")
+					}
+					// Write individual bool values to the allocated array
+					for i := uint32(0); i < numElements; i++ {
+						value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
+						// Write each bool at offset+8+i*4 (data starts at offset 8)
+						boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
+						wa.Memory().WriteUint32Le(boolAddr, value)
+						fmt.Printf("DEBUG: Wrote bool element %d: %d at offset %d\n", i, value, boolAddr)
+						// Verify the write
+						readBack, ok := wa.Memory().Read(boolAddr, 4)
+						if ok {
+							verifyValue := binary.LittleEndian.Uint32(readBack)
+							fmt.Printf("DEBUG: Read back element %d: %d (wrote %d)\n", i, verifyValue, value)
+						}
+					}
+					// Update offset to point to the bool array
+					// Debug: Read the array structure again after writes
+					headerBytes2, ok := wa.Memory().Read(boolArrayPtr, 16)
+					if ok {
+						fmt.Printf("DEBUG: Array structure after writes at %d: ", boolArrayPtr)
+						for i := 0; i < 16; i += 4 {
+							value := binary.LittleEndian.Uint32(headerBytes2[i:])
+							fmt.Printf("offset %d: %d (0x%X) ", i, value, value)
+						}
+						fmt.Printf("\n")
+					}
+					offset = boolArrayPtr
+					// Return early since the array is properly allocated and initialized
+					return offset, cln, nil
 				}
-				
-				return structOffset, cln, nil
+				// If array creation failed, fall back to default behavior
+				fmt.Printf("DEBUG: moonbit_i32_array_make failed, falling back\n")
 			case "Int", "Char":
 				arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Float":
