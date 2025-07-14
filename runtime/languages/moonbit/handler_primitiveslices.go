@@ -118,13 +118,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return nil, nil
 	}
 
-	// Check if this is a dynamic Array[T] (not FixedArray[T])
-	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
-	if !isFixedArray {
-		// For dynamic Array[T], read data array directly (no wrapper structure)
-		return h.decodeDynamicPrimitiveArray(ctx, wa, uint32(vals[0]))
-	}
-
 	// First read to get the header and determine the classID
 	headerBlock, classID, words, err := memoryBlockAtOffset(wa, uint32(vals[0]), 0)
 	if err != nil {
@@ -745,8 +738,7 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 		if boolVal, ok := any(val).(bool); ok && boolVal {
 			boolValue = 1
 		}
-		// For dynamic arrays, data starts at offset 8 (after length and classInfo)
-		offset := arrayPtr + 8 + uint32(i)*StandardPtrSize
+		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 		wa.Memory().WriteUint32Le(offset, boolValue)
 	}
 
@@ -777,7 +769,7 @@ func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wa
 	// Write int values
 	for i, val := range slice {
 		if intVal, ok := any(val).(int32); ok {
-			offset := arrayPtr + 8 + uint32(i)*StandardPtrSize
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 			wa.Memory().WriteUint32Le(offset, uint32(intVal))
 		}
 	}
@@ -805,7 +797,7 @@ func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa w
 	// Write byte values as uint32
 	for i, val := range slice {
 		if byteVal, ok := any(val).(byte); ok {
-			offset := arrayPtr + 8 + uint32(i)*StandardPtrSize
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 			wa.Memory().WriteUint32Le(offset, uint32(byteVal))
 		}
 	}
@@ -833,7 +825,7 @@ func (h *primitiveSliceHandler[T]) createCharDataArray(ctx context.Context, wa w
 	// Write char values as uint32
 	for i, val := range slice {
 		if charVal, ok := any(val).(int16); ok {
-			offset := arrayPtr + 8 + uint32(i)*StandardPtrSize
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 			wa.Memory().WriteUint32Le(offset, uint32(charVal))
 		}
 	}
@@ -861,7 +853,7 @@ func (h *primitiveSliceHandler[T]) createInt16DataArray(ctx context.Context, wa 
 	// Write int16 values
 	for i, val := range slice {
 		if int16Val, ok := any(val).(int16); ok {
-			offset := arrayPtr + 8 + uint32(i)*2 // int16 = 2 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // int16 = 2 bytes
 			wa.Memory().WriteUint16Le(offset, uint16(int16Val))
 		}
 	}
@@ -889,7 +881,7 @@ func (h *primitiveSliceHandler[T]) createUInt16DataArray(ctx context.Context, wa
 	// Write uint16 values
 	for i, val := range slice {
 		if uint16Val, ok := any(val).(uint16); ok {
-			offset := arrayPtr + 8 + uint32(i)*2 // uint16 = 2 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // uint16 = 2 bytes
 			wa.Memory().WriteUint16Le(offset, uint16Val)
 		}
 	}
@@ -917,7 +909,7 @@ func (h *primitiveSliceHandler[T]) createInt64DataArray(ctx context.Context, wa 
 	// Write int64 values
 	for i, val := range slice {
 		if int64Val, ok := any(val).(int64); ok {
-			offset := arrayPtr + 8 + uint32(i)*8 // int64 = 8 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // int64 = 8 bytes
 			wa.Memory().WriteUint64Le(offset, uint64(int64Val))
 		}
 	}
@@ -945,7 +937,7 @@ func (h *primitiveSliceHandler[T]) createUInt64DataArray(ctx context.Context, wa
 	// Write uint64 values
 	for i, val := range slice {
 		if uint64Val, ok := any(val).(uint64); ok {
-			offset := arrayPtr + 8 + uint32(i)*8 // uint64 = 8 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // uint64 = 8 bytes
 			wa.Memory().WriteUint64Le(offset, uint64Val)
 		}
 	}
@@ -973,7 +965,7 @@ func (h *primitiveSliceHandler[T]) createFloatDataArray(ctx context.Context, wa 
 	// Write float32 values
 	for i, val := range slice {
 		if float32Val, ok := any(val).(float32); ok {
-			offset := arrayPtr + 8 + uint32(i)*4 // float32 = 4 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*4 // float32 = 4 bytes
 			wa.Memory().WriteFloat32Le(offset, float32Val)
 		}
 	}
@@ -1001,103 +993,10 @@ func (h *primitiveSliceHandler[T]) createDoubleDataArray(ctx context.Context, wa
 	// Write float64 values
 	for i, val := range slice {
 		if float64Val, ok := any(val).(float64); ok {
-			offset := arrayPtr + 8 + uint32(i)*8 // float64 = 8 bytes
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // float64 = 8 bytes
 			wa.Memory().WriteFloat64Le(offset, float64Val)
 		}
 	}
 
 	return arrayPtr, nil
-}
-
-// decodeDynamicPrimitiveArray reads dynamic Array[T] types directly from data array pointer
-// This handles the case where MoonBit returns data array pointer directly (not wrapper)
-func (h *primitiveSliceHandler[T]) decodeDynamicPrimitiveArray(ctx context.Context, wa wasmMemoryReader, offset uint32) (any, error) {
-	// For dynamic arrays created by moonbit.i32_array_make, read structure directly
-	// Structure: [length(4), classInfo(4), element0(4), element1(4), ...]
-
-	// Read the array length at offset 0
-	lengthBytes, ok := wa.Memory().Read(offset, 4)
-	if !ok {
-		return nil, fmt.Errorf("failed to read array length at offset %d", offset)
-	}
-	numElements := binary.LittleEndian.Uint32(lengthBytes)
-	// Dynamic array successfully decoded
-
-	if numElements == 0 {
-		return []T{}, nil // empty array
-	}
-
-	elemType := h.typeInfo.ListElementType()
-	elemTypeSize := h.converter.TypeSize()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
-		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
-		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
-		elemTypeSize = MoonBitBoolSize
-	}
-
-	// Read the data elements starting at offset 8 (after length and classInfo)
-	dataStartOffset := uint32(8)
-	dataSize := numElements * uint32(elemTypeSize)
-	dataBytes, ok := wa.Memory().Read(offset+dataStartOffset, dataSize)
-	if !ok {
-		return nil, fmt.Errorf("failed to read dynamic array data at offset %d, size %d", offset+dataStartOffset, dataSize)
-	}
-
-	// Create the result slice
-	items := make([]T, numElements)
-
-	// Read each element directly from the data
-	for i := uint32(0); i < numElements; i++ {
-		var item T
-		offset := i * uint32(elemTypeSize) // Data starts at beginning of dataBytes
-
-		switch elemType.Name() {
-		case "Bool":
-			value := binary.LittleEndian.Uint32(dataBytes[offset:])
-			boolValue := value != 0
-			item = any(boolValue).(T)
-		case "Int":
-			value := binary.LittleEndian.Uint32(dataBytes[offset:])
-			intValue := int32(value)
-			item = any(intValue).(T)
-		case "Byte":
-			value := binary.LittleEndian.Uint32(dataBytes[offset:]) // MoonBit stores bytes as 4-byte values
-			byteValue := byte(value)
-			item = any(byteValue).(T)
-		case "Char":
-			value := binary.LittleEndian.Uint32(dataBytes[offset:]) // MoonBit stores chars as 4-byte values
-			charValue := int16(value)
-			item = any(charValue).(T)
-		case "Int16":
-			value := binary.LittleEndian.Uint16(dataBytes[offset:])
-			int16Value := int16(value)
-			item = any(int16Value).(T)
-		case "UInt16":
-			value := binary.LittleEndian.Uint16(dataBytes[offset:])
-			uint16Value := uint16(value)
-			item = any(uint16Value).(T)
-		case "Int64":
-			value := binary.LittleEndian.Uint64(dataBytes[offset:])
-			int64Value := int64(value)
-			item = any(int64Value).(T)
-		case "UInt64":
-			value := binary.LittleEndian.Uint64(dataBytes[offset:])
-			uint64Value := uint64(value)
-			item = any(uint64Value).(T)
-		case "Float":
-			value := binary.LittleEndian.Uint32(dataBytes[offset:])
-			floatValue := math.Float32frombits(value)
-			item = any(floatValue).(T)
-		case "Double":
-			value := binary.LittleEndian.Uint64(dataBytes[offset:])
-			doubleValue := math.Float64frombits(value)
-			item = any(doubleValue).(T)
-		default:
-			return nil, fmt.Errorf("unsupported dynamic primitive array element type: %s", elemType.Name())
-		}
-
-		items[i] = item
-	}
-
-	return items, nil
 }
