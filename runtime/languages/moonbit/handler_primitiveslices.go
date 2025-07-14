@@ -413,12 +413,8 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
 	
-	// TEMPORARY: Force Array[Bool] to use fixed array infrastructure
-	// Array[Byte] now uses dynamic array path with fnBytes2Array
-	if !isFixedArray && elemType.Name() == "Bool" {
-		fmt.Printf("DEBUG: Forcing Array[%s] to use fixed array infrastructure\n", elemType.Name())
-		isFixedArray = true
-	}
+	// Both Array[Bool] and Array[Byte] now use dynamic array path with native MoonBit functions
+	// Array[Bool] uses moonbit_i32_array_make, Array[Byte] uses fnBytes2Array
 	
 	if !isFixedArray {
 		// For dynamic Array[T], use MoonBit's native array creation functions
@@ -862,32 +858,10 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 		return offset, utils.NewCleaner(), nil
 	}
 
-	// Array[Bool] needs wrapper creation because createBoolDataArray only returns the data array
+	// Array[Bool] doesn't need wrapper creation because moonbit_i32_array_make returns a complete Array[Bool]
 	if elemType.Name() == "Bool" {
-		// Use MoonBit's malloc function like WAT does
-		// wasmAdapter is already available from the function scope
-
-		// Allocate 16 bytes for wrapper using moonbit.gc.malloc
-		mallocResults, err := wasmAdapter.fnMalloc.Call(ctx, uint64(16))
-		if err != nil {
-			return 0, utils.NewCleaner(), fmt.Errorf("failed to call moonbit malloc: %w", err)
-		}
-		if len(mallocResults) != 1 || mallocResults[0] == 0 {
-			return 0, utils.NewCleaner(), fmt.Errorf("moonbit malloc returned invalid result")
-		}
-
-		wrapperPtr := uint32(mallocResults[0])
-
-		// Write wrapper structure (matching WAT pattern)
-		// Offset 0: refCount (not set by WAT, handled by GC)
-		// Offset 4: typeInfo (1573120 from WAT)
-		wa.Memory().WriteUint32Le(wrapperPtr+4, 1573120)
-		// Offset 8: length
-		wa.Memory().WriteUint32Le(wrapperPtr+8, numElements)
-		// Offset 12: dataPtr
-		wa.Memory().WriteUint32Le(wrapperPtr+12, offset)
-
-		return wrapperPtr, utils.NewCleaner(), nil
+		// moonbit_i32_array_make already returns a complete Array[Bool] object, no wrapper needed
+		return offset, utils.NewCleaner(), nil
 	}
 
 	// Other types return data array directly
@@ -898,13 +872,12 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 // Helper functions for creating data arrays for different primitive types
 
 func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// Based on WAT analysis: Array[Bool] uses moonbit.i32_array_make + manual wrapper creation
-	// Step 1: Create data array using moonbit_i32_array_make
+	// Use moonbit_i32_array_make to create complete Array[Bool] with all false values
 	if wasmAdapter.fnMakeArrayInt == nil {
 		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
 	}
 
-	// Create i32 array with initial value 0 (false)
+	// Create complete Array[Bool] with all false (0) values
 	results, err := wasmAdapter.fnMakeArrayInt.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
 		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
@@ -913,20 +886,24 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
 	}
 
-	dataArrayPtr := uint32(results[0])
+	arrayPtr := uint32(results[0])
 
-	// Step 2: Write bool values as 32-bit integers
+	// Update memory directly where true values should be
+	// Try compressed format: store bools as bytes instead of 32-bit integers
 	for i, val := range slice {
-		var boolValue uint32
-		if boolVal, ok := any(val).(bool); ok && boolVal {
-			boolValue = 1
+		if boolVal, ok := any(val).(bool); ok {
+			var boolByte byte
+			if boolVal {
+				boolByte = 1
+			}
+			// Try byte storage (compression hypothesis)
+			offset := arrayPtr + 8 + uint32(i) // 8 = header size, 1 byte per bool
+			wa.Memory().Write(offset, []byte{boolByte})
 		}
-		offset := dataArrayPtr + 8 + uint32(i)*4 // 8 = header size, 4 = i32 size
-		wa.Memory().WriteUint32Le(offset, boolValue)
 	}
 
-	// Return the data array pointer - wrapper creation happens in createDynamicPrimitiveArray
-	return dataArrayPtr, nil
+	// Return the complete Array[Bool] pointer (no wrapper creation needed)
+	return arrayPtr, nil
 }
 
 func (h *primitiveSliceHandler[T]) createStringDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
