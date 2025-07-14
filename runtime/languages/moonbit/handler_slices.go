@@ -509,6 +509,25 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 						continue
 					}
 
+					// For UInt? arrays, handle 4294967296 as None value
+					if elemType.Name() == "UInt?" {
+						var item any
+						// UInt? uses 4294967296 (1 << 32) as None value (from WAT analysis)
+						switch value {
+						case NoneValueInt:
+							// 4294967296 = None for UInt?
+							item = nil
+						default:
+							// Direct uint32 value = Some(uint32Value) - zero extend from 64-bit
+							u := uint32(value)
+							item = &u
+						}
+						if !utils.HasNil(item) {
+							items.Index(int(i)).Set(reflect.ValueOf(item))
+						}
+						continue
+					}
+
 					// For other nullable primitives, use normal decoding
 					item, err := h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
 					if err != nil {
@@ -676,6 +695,9 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 	} else if elemType.Name() == "Int?" {
 		// For Int? arrays, use moonbit_int64_array_make and 4294967296 as None value
 		return h.createIntArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
+	} else if elemType.Name() == "UInt?" {
+		// For UInt? arrays, use moonbit_int64_array_make and 4294967296 as None value
+		return h.createUIntArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	}
 
 	// Allocate memory
@@ -1187,6 +1209,59 @@ func (h *sliceHandler) createInt16ArrayWithMoonBit(ctx context.Context, wasmAdap
 		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
 		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
+	}
+
+	// Return arrayPtr
+	return arrayPtr, nil, nil
+}
+
+// createUIntArrayWithMoonBit creates a UInt? array using MoonBit's int64_array_make function
+// Based on the WAT analysis: uses moonbit.int64_array_make and stores 4294967296 as None value
+func (h *sliceHandler) createUIntArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, delegate to existing logic
+		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
+		if err != nil {
+			return 0, nil, err
+		}
+		return singletonPtr, nil, nil
+	}
+
+	// Step 1: Use moonbit_int64_array_make(numElements, 0) exactly like the WAT
+	fn := wasmAdapter.GetFunction("moonbit_int64_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_int64_array_make not found in WASM module")
+	}
+
+	// Call moonbit_int64_array_make(numElements, 0) - exactly like the WAT
+	initialValue := uint64(0) // 0 as initial value
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_int64_array_make: %w", err)
+	}
+
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_int64_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Step 2: Write actual element values at the correct offsets (exactly like the WAT)
+	for i, val := range slice {
+		var encodedValue uint64
+		if utils.HasNil(val) {
+			// For None values, use 4294967296 exactly like the WAT
+			encodedValue = NoneValueInt
+		} else if uint32Ptr, ok := val.(*uint32); ok {
+			// For Some values, zero-extend the uint32 value to uint64
+			encodedValue = uint64(*uint32Ptr)
+		} else {
+			return 0, nil, fmt.Errorf("invalid UInt? value: expected nil or *uint32, got %T", val)
+		}
+
+		// Write at arrayPtr + 8 + i*8 (matching WAT offsets: 8, 16, 24, 32)
+		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*Int64Size
+		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint64Le(offset, encodedValue)
 	}
 
 	// Return arrayPtr
