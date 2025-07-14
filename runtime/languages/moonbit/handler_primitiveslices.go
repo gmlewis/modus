@@ -120,20 +120,62 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// Check if this is a wrapper structure (contains type info 1573120)
 	offset := uint32(vals[0])
+	isBytesData := false
+	var arrayLength uint32
 
 	// Try to read the type info at offset 4
 	typeInfoBytes, ok := wa.Memory().Read(offset+4, 4)
 	if ok {
 		typeInfo := binary.LittleEndian.Uint32(typeInfoBytes)
 		if typeInfo == 1573120 { // Array type wrapper
-			// Read the data pointer from offset 12
+			// Read the length and data pointer from the wrapper
+			lengthBytes, ok := wa.Memory().Read(offset+8, 4)
+			if ok {
+				arrayLength = binary.LittleEndian.Uint32(lengthBytes)
+			}
 			dataPointerBytes, ok := wa.Memory().Read(offset+12, 4)
 			if ok {
 				dataPointer := binary.LittleEndian.Uint32(dataPointerBytes)
-				// Use the data pointer as the actual array offset
-				offset = dataPointer
+				// Check if data pointer is pointing to a Bytes object (for Array[Byte] from fnBytes2Array)
+				if elemType := h.typeInfo.ListElementType(); elemType.Name() == "Byte" {
+					// Check if this is a Bytes object by reading its type info
+					if bytesTypeBytes, ok := wa.Memory().Read(dataPointer+4, 4); ok {
+						bytesTypeInfo := binary.LittleEndian.Uint32(bytesTypeBytes)
+						// Check if this is a Bytes object (has pattern 0x4000000X where X is length)
+						if (bytesTypeInfo & 0xFF000000) == 0x40000000 { // Bytes type info pattern
+							// This is a Bytes object, adjust offset to actual data and use special handling
+							offset = dataPointer + 8 // Skip Bytes header
+							isBytesData = true
+						} else {
+							offset = dataPointer
+						}
+					} else {
+						offset = dataPointer
+					}
+				} else {
+					offset = dataPointer
+				}
 			}
 		}
+	}
+
+	// Special handling for Array[Byte] data from fnBytes2Array
+	if isBytesData && h.typeInfo.ListElementType().Name() == "Byte" {
+		if arrayLength == 0 {
+			return []T{}, nil
+		}
+		// Read raw byte data directly
+		dataBytes, ok := wa.Memory().Read(offset, arrayLength)
+		if !ok {
+			return nil, fmt.Errorf("failed to read byte data at offset %d, length %d", offset, arrayLength)
+		}
+		// Convert to slice
+		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(arrayLength), int(arrayLength))
+		for i := uint32(0); i < arrayLength; i++ {
+			val := h.converter.Decode(uint64(dataBytes[i]))
+			items.Index(int(i)).Set(reflect.ValueOf(val))
+		}
+		return items.Interface(), nil
 	}
 
 	// First read to get the header and determine the classID
@@ -371,8 +413,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
 	
-	// TEMPORARY: Force Array[Bool] and Array[Byte] to use fixed array infrastructure to avoid wrapper issues
-	if !isFixedArray && (elemType.Name() == "Bool" || elemType.Name() == "Byte") {
+	// TEMPORARY: Force Array[Bool] to use fixed array infrastructure to avoid wrapper issues
+	// Array[Byte] now uses dynamic array path with fnBytes2Array
+	if !isFixedArray && elemType.Name() == "Bool" {
 		fmt.Printf("DEBUG: Forcing Array[%s] to use fixed array infrastructure\n", elemType.Name())
 		isFixedArray = true
 	}
@@ -812,28 +855,11 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 
 	// Step 2: Create wrapper structure using cabi_realloc (MoonBit allocator)
 	// Array[T] wrapper structure: [refCount, 1573120, length, dataPtr]
-	// Array[Byte] needs wrapper structure according to WAT analysis
-	// Check if we need wrapper creation for Array[Byte]
+	// Array[Byte] doesn't need wrapper creation because fnBytes2Array already returns a complete Array[Byte] object
 	if elemType.Name() == "Byte" {
-		// Create wrapper structure for Array[Byte] according to WAT analysis
-		// Based on WAT analysis: [refCount(4), typeInfo(4), length(4), arrayPtr(4)]
-		wrapperPtr, wrapperCln, err := wa.allocateAndPinMemory(ctx, 16, 0)
-		if err != nil {
-			fmt.Printf("DEBUG: Failed to allocate wrapper object: %v\n", err)
-			return offset, utils.NewCleaner(), nil
-		}
-
-		// Write wrapper structure (WAT analysis)
-		// Offset 0: refCount (not set, handled by GC)
-		// Offset 4: typeInfo (1573120 from WAT analysis)
-		wa.Memory().WriteUint32Le(wrapperPtr+4, 1573120)
-		// Offset 8: length
-		wa.Memory().WriteUint32Le(wrapperPtr+8, numElements)
-		// Offset 12: arrayPtr
-		wa.Memory().WriteUint32Le(wrapperPtr+12, offset)
-
-		fmt.Printf("DEBUG: Array[Byte] - created wrapper structure at %d pointing to data at %d\n", wrapperPtr, offset)
-		return wrapperPtr, wrapperCln, nil
+		// fnBytes2Array already returns a complete Array[Byte] object, no wrapper needed
+		// fnBytes2Array returned complete Array[Byte] object
+		return offset, utils.NewCleaner(), nil
 	}
 
 	// Other types return data array directly
@@ -937,32 +963,49 @@ func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wa
 }
 
 func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// Use moonbit_i32_array_make as indicated in comment
-	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	// Step 1: Create Bytes object using moonbit_bytes_make
+	fn := wasmAdapter.GetFunction("moonbit_bytes_make")
 	if fn == nil {
-		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+		return 0, fmt.Errorf("function moonbit_bytes_make not found")
 	}
 
-	// Create array with initial value 0
 	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
-		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+		return 0, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
 	}
 	if len(results) != 1 {
-		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+		return 0, fmt.Errorf("expected 1 result from moonbit_bytes_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	bytesPtr := uint32(results[0])
 
-	// Write byte values as 4-byte values at 4-byte intervals (fix overlapping writes)
-	fmt.Printf("DEBUG: Writing %d bytes to array at %d\n", len(slice), arrayPtr)
+	// Step 2: Write byte data to Bytes object
+	// Writing bytes to Bytes object
 	for i, val := range slice {
 		if byteVal, ok := any(val).(byte); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*4
-			wa.Memory().WriteUint32Le(offset, uint32(byteVal))
-			fmt.Printf("DEBUG: Wrote byte %d (0x%02X) at offset %d as 4-byte value\n", byteVal, byteVal, offset)
+			offset := bytesPtr + MemoryBlockHeaderSize + uint32(i)
+			if !wa.Memory().Write(offset, []byte{byteVal}) {
+				return 0, fmt.Errorf("failed to write byte at offset %d", offset)
+			}
+			// Wrote byte to Bytes object
 		}
 	}
+
+	// Step 3: Convert Bytes to Array[Byte] using fnBytes2Array
+	if wasmAdapter.fnBytes2Array == nil {
+		return 0, fmt.Errorf("fnBytes2Array not available")
+	}
+
+	arrayResults, err := wasmAdapter.fnBytes2Array.Call(ctx, uint64(bytesPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnBytes2Array: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnBytes2Array, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
+	// Successfully converted Bytes to Array[Byte] using fnBytes2Array
 
 	return arrayPtr, nil
 }
