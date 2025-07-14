@@ -86,6 +86,7 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		"ptr2str",
 		"ptr2uint64_array",
 		"ptr2uint_array",
+		"moonbit_bytes_to_array",
 		"moonbit_bytes_make",
 		"moonbit_float32_array_make",
 		"moonbit_float_array_make",
