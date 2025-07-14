@@ -336,37 +336,27 @@ func (h *sliceHandler) getEmptyOptionalArraySingleton(ctx context.Context, wasmA
 func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, elemType langsupport.TypeInfo) (uint32, utils.Cleaner, error) {
 	numElements := uint32(len(slice))
 
-	// Determine the appropriate MoonBit array creation function and None value
+	// Determine the appropriate MoonBit array creation function
 	var funcName string
-	var noneValue uint64
 	switch elemType.Name() {
 	case "Bool?":
 		funcName = "moonbit_i32_array_make"
-		noneValue = uint64(uint32(0xffffffff)) // -1 as uint32, then converted to uint64
 	case "Byte?":
 		funcName = "moonbit_i32_array_make"
-		noneValue = 0xffffffff
 	case "Char?":
 		funcName = "moonbit_int16_array_make"
-		noneValue = 0xffffffff
 	case "Int16?":
 		funcName = "moonbit_int16_array_make"
-		noneValue = 0x8000 // sentinel for Int16?
 	case "UInt16?":
 		funcName = "moonbit_int16_array_make"
-		noneValue = 0xffffffff
 	case "Int?", "UInt?":
 		funcName = "moonbit_i32_array_make"
-		noneValue = 0x100000000 // sentinel for Int?/UInt?
 	case "Int64?", "UInt64?":
 		funcName = "moonbit_int64_array_make"
-		noneValue = 0x100000000 // will need special handling
 	case "Float?":
 		funcName = "moonbit_float32_array_make"
-		noneValue = 0x100000000 // will need special handling
 	case "Double?":
 		funcName = "moonbit_float_array_make"
-		noneValue = 0x100000000 // will need special handling
 	default:
 		return 0, nil, fmt.Errorf("unsupported nullable element type for MoonBit array creation: %s", elemType.Name())
 	}
@@ -377,26 +367,52 @@ func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmA
 		return 0, nil, fmt.Errorf("function %s not found in WASM module", funcName)
 	}
 
-	// For single-element arrays, we can use the None value directly
+	// For single-element arrays, create array with MoonBit function then write data
 	if numElements == 1 {
-		// Check if the element is nil (using utils.HasNil for proper nil detection)
-		if utils.HasNil(slice[0]) {
-			// Call the function with size=1 and None value
-			results, err := fn.Call(ctx, uint64(numElements), noneValue)
-			if err != nil {
-				return 0, nil, fmt.Errorf("failed to call %s: %w", funcName, err)
-			}
-
-			if len(results) != 1 {
-				return 0, nil, fmt.Errorf("expected 1 result from %s, got %d", funcName, len(results))
-			}
-
-			// For FixedArray, we need to return ptr-8 to match the pattern
-			if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-				return uint32(results[0]) - 8, nil, nil
-			}
-			return uint32(results[0]), nil, nil
+		// Step 1: Create array with MoonBit function (using -1 as initial value)
+		initialValue := uint64(0xffffffff) // -1 as initial value
+		results, err := fn.Call(ctx, uint64(numElements), initialValue)
+		if err != nil {
+			return 0, nil, fmt.Errorf("failed to call %s: %w", funcName, err)
 		}
+
+		if len(results) != 1 {
+			return 0, nil, fmt.Errorf("expected 1 result from %s, got %d", funcName, len(results))
+		}
+
+		arrayPtr := uint32(results[0])
+
+		// Step 2: Write the actual data value at arrayPtr+8
+		var actualValue uint32
+		if utils.HasNil(slice[0]) {
+			actualValue = 0xffffffff // None value
+		} else {
+			// For non-nil values, encode the actual value
+			if elemType.Name() == "Bool?" {
+				if boolVal, ok := slice[0].(*bool); ok {
+					if *boolVal {
+						actualValue = 1 // true
+					} else {
+						actualValue = 0 // false
+					}
+				} else {
+					return 0, nil, fmt.Errorf("expected *bool but got %T", slice[0])
+				}
+			} else {
+				// For other types, would need specific encoding logic
+				return 0, nil, fmt.Errorf("non-nil values for %s not yet implemented", elemType.Name())
+			}
+		}
+
+		// Write the actual value at offset 8
+		wa, ok := wasmAdapter.(wasmMemoryWriter)
+		if !ok {
+			return 0, nil, fmt.Errorf("expected a wasmMemoryWriter, got %T", wasmAdapter)
+		}
+		wa.Memory().WriteUint32Le(arrayPtr+8, actualValue)
+
+		// Step 3: Return the array pointer with FixedArray adjustment
+		return arrayPtr - 8, nil, nil
 	}
 
 	// For more complex cases, we would need to create the array and populate elements
