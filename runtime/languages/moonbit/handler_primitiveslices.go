@@ -14,6 +14,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"math"
 	"reflect"
 	"strings"
 	"time"
@@ -332,6 +333,14 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	numElements := uint32(len(slice))
 	elemTypeSize := h.converter.TypeSize()
 	elemType := h.typeInfo.ListElementType()
+
+	// Check if this is a dynamic Array[T] (not FixedArray[T])
+	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
+	if !isFixedArray {
+		// For dynamic Array[T], use MoonBit's native array creation functions
+		return h.createDynamicPrimitiveArray(ctx, wa, slice, numElements, elemType)
+	}
+
 	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
@@ -621,4 +630,373 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	return offset, cln, nil
+}
+
+// createDynamicPrimitiveArray creates dynamic Array[T] types for primitive types using MoonBit's native functions
+// This handles the two-level structure: wrapper object + data array
+func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Context, wa wasmMemoryWriter, slice []T, numElements uint32, elemType langsupport.TypeInfo) (uint32, utils.Cleaner, error) {
+	// Convert wasmMemoryWriter to WasmAdapter for function calls
+	wasmAdapter, ok := wa.(*wasmAdapter)
+	if !ok {
+		return 0, nil, fmt.Errorf("expected *wasmAdapter, got %T", wa)
+	}
+	// Step 1: Create the data array using appropriate MoonBit function
+	var dataArrayPtr uint32
+	var err error
+
+	switch elemType.Name() {
+	case "Bool":
+		// Array[Bool] → moonbit.i32_array_make
+		dataArrayPtr, err = h.createBoolDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "String":
+		// Array[String] → moonbit.ref_array_make
+		dataArrayPtr, err = h.createStringDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Int":
+		// Array[Int] → moonbit.i32_array_make
+		dataArrayPtr, err = h.createIntDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Byte":
+		// Array[Byte] → moonbit.i32_array_make (bytes are stored as i32)
+		dataArrayPtr, err = h.createByteDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Char":
+		// Array[Char] → moonbit.i32_array_make (chars are stored as i32)
+		dataArrayPtr, err = h.createCharDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Int16":
+		// Array[Int16] → moonbit.int16_array_make
+		dataArrayPtr, err = h.createInt16DataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "UInt16":
+		// Array[UInt16] → moonbit.int16_array_make
+		dataArrayPtr, err = h.createUInt16DataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Int64":
+		// Array[Int64] → moonbit.int64_array_make
+		dataArrayPtr, err = h.createInt64DataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "UInt64":
+		// Array[UInt64] → moonbit.int64_array_make
+		dataArrayPtr, err = h.createUInt64DataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Float":
+		// Array[Float] → moonbit.float32_array_make
+		dataArrayPtr, err = h.createFloatDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	case "Double":
+		// Array[Double] → moonbit.float_array_make
+		dataArrayPtr, err = h.createDoubleDataArray(ctx, wa, wasmAdapter, slice, numElements)
+	default:
+		return 0, nil, fmt.Errorf("unsupported dynamic primitive array element type: %s", elemType.Name())
+	}
+
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to create data array for %s: %w", elemType.Name(), err)
+	}
+
+	// For dynamic arrays, return the data array pointer directly (not a wrapper)
+	// This matches MoonBit's expectation based on WAT analysis
+	return dataArrayPtr, utils.NewCleaner(), nil
+
+	// NOTE: The code below for wrapper creation is left for reference but not used
+	// Dynamic Array[T] expects direct data array pointer, not wrapper structure
+
+	// Step 2: Create the wrapper object (16 bytes)
+	// Based on WAT analysis: [refCount(4), typeInfo(4), length(4), arrayPtr(4)]
+	wrapperPtr, cln, err := wa.allocateAndPinMemory(ctx, 16, 0) // Use classID=0 for wrapper
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to allocate wrapper object: %w", err)
+	}
+
+	// Write wrapper structure (based on WAT analysis)
+	// Offset 0: refCount (not set, handled by GC)
+	// Offset 4: typeInfo (1573120 from WAT analysis)
+	wa.Memory().WriteUint32Le(wrapperPtr+4, 1573120)
+	// Offset 8: length
+	wa.Memory().WriteUint32Le(wrapperPtr+8, numElements)
+	// Offset 12: arrayPtr
+	wa.Memory().WriteUint32Le(wrapperPtr+12, dataArrayPtr)
+
+	// This code is not reached for dynamic arrays
+	return wrapperPtr, cln, nil
+}
+
+// Helper functions for creating data arrays for different primitive types
+
+func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+	}
+
+	// Create array with initial value 0 (false)
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write bool values (0=false, 1=true)
+	for i, val := range slice {
+		var boolValue uint32
+		if boolVal, ok := any(val).(bool); ok && boolVal {
+			boolValue = 1
+		}
+		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+		wa.Memory().WriteUint32Le(offset, boolValue)
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createStringDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	return 0, fmt.Errorf("String arrays should not be handled by primitiveSliceHandler")
+}
+
+func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write int values
+	for i, val := range slice {
+		if intVal, ok := any(val).(int32); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+			wa.Memory().WriteUint32Le(offset, uint32(intVal))
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write byte values as uint32
+	for i, val := range slice {
+		if byteVal, ok := any(val).(byte); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+			wa.Memory().WriteUint32Le(offset, uint32(byteVal))
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createCharDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write char values as uint32
+	for i, val := range slice {
+		if charVal, ok := any(val).(int16); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+			wa.Memory().WriteUint32Le(offset, uint32(charVal))
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createInt16DataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_int16_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_int16_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_int16_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write int16 values
+	for i, val := range slice {
+		if int16Val, ok := any(val).(int16); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // int16 = 2 bytes
+			wa.Memory().WriteUint16Le(offset, uint16(int16Val))
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createUInt16DataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_int16_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_int16_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_int16_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write uint16 values
+	for i, val := range slice {
+		if uint16Val, ok := any(val).(uint16); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // uint16 = 2 bytes
+			wa.Memory().WriteUint16Le(offset, uint16Val)
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createInt64DataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_int64_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_int64_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_int64_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_int64_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write int64 values
+	for i, val := range slice {
+		if int64Val, ok := any(val).(int64); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // int64 = 8 bytes
+			wa.Memory().WriteUint64Le(offset, uint64(int64Val))
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createUInt64DataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_int64_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_int64_array_make not found")
+	}
+
+	// Create array with initial value 0
+	results, err := fn.Call(ctx, uint64(numElements), uint64(0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_int64_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_int64_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write uint64 values
+	for i, val := range slice {
+		if uint64Val, ok := any(val).(uint64); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // uint64 = 8 bytes
+			wa.Memory().WriteUint64Le(offset, uint64Val)
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createFloatDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_float32_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_float32_array_make not found")
+	}
+
+	// Create array with initial value 0.0
+	results, err := fn.Call(ctx, uint64(numElements), math.Float64bits(0.0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_float32_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_float32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write float32 values
+	for i, val := range slice {
+		if float32Val, ok := any(val).(float32); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*4 // float32 = 4 bytes
+			wa.Memory().WriteFloat32Le(offset, float32Val)
+		}
+	}
+
+	return arrayPtr, nil
+}
+
+func (h *primitiveSliceHandler[T]) createDoubleDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	fn := wasmAdapter.GetFunction("moonbit_float_array_make")
+	if fn == nil {
+		return 0, fmt.Errorf("function moonbit_float_array_make not found")
+	}
+
+	// Create array with initial value 0.0
+	results, err := fn.Call(ctx, uint64(numElements), math.Float64bits(0.0))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call moonbit_float_array_make: %w", err)
+	}
+	if len(results) != 1 {
+		return 0, fmt.Errorf("expected 1 result from moonbit_float_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Write float64 values
+	for i, val := range slice {
+		if float64Val, ok := any(val).(float64); ok {
+			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // float64 = 8 bytes
+			wa.Memory().WriteFloat64Le(offset, float64Val)
+		}
+	}
+
+	return arrayPtr, nil
 }

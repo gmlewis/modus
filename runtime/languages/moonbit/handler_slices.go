@@ -861,7 +861,7 @@ func (h *sliceHandler) createDynamicArrayWithMoonBit(ctx context.Context, wasmAd
 		// Array[Byte] → moonbit.i32_array_make (bytes are stored as i32)
 		dataArrayPtr, err = h.createByteDataArray(ctx, wasmAdapter, slice, numElements)
 	case "Char":
-		// Array[Char] → moonbit.i32_array_make (chars are stored as i32) 
+		// Array[Char] → moonbit.i32_array_make (chars are stored as i32)
 		dataArrayPtr, err = h.createCharDataArray(ctx, wasmAdapter, slice, numElements)
 	case "Int16":
 		// Array[Int16] → moonbit.int16_array_make
