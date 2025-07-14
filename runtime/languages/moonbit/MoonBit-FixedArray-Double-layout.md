@@ -32,7 +32,7 @@ Double Array Data (32 bytes):
  RefCount   Type+Length     8 bytes        8 bytes        8 bytes
 ```
 
-### FixedArray[Double?] (Optional) - Type 242 with Reference-Based Storage
+### FixedArray[Double?] (Optional) - Type 160 with Reference-Based Storage
 
 **Memory Layout:**
 FixedArray[Double?] uses **reference-based storage** identical to Array[Int64?] and Array[UInt64?]:
@@ -43,7 +43,7 @@ FixedArray[Double?] Object (12+ bytes):
 │ RefCount        │ Array Header    │ Pointer[0]      │ Pointer[1]      │
 │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-        1            Type 242        → None/Some      → None/Some...
+        1            Type 160        → None/Some      → None/Some...
 ```
 
 **Option Object Representation:**
@@ -65,7 +65,7 @@ FixedArray[Double?] Object (12+ bytes):
 **Key Implementation Details:**
 
 1. **WAT Function**: Uses `moonbit.ref_array_make` (shared with other reference-based optional arrays)
-2. **Array Header**: Type 242 (FixedArray[String]) - reuses string infrastructure for pointer storage
+2. **Array Header**: Type 160 (64-bit reference types) - specialized classID for Double?/Float?/Int64?/UInt64?
 3. **Element Storage**: 4-byte pointers to Option objects, not direct values
 4. **None Optimization**: Shared singleton object with RefCount -1 (immortal)
 5. **Some Objects**: Each requires separate 16-byte allocation with 2097153 header
@@ -99,7 +99,7 @@ Offset: 0x0000BFC0 (Some(3.0))
 2. **Memory Efficiency Trade-off**:
    - FixedArray[Double]: 8 bytes per element (optimal for IEEE 754)
    - FixedArray[Double?]: 4-byte pointer + 16-byte Option object (≥20 bytes per Some value)
-3. **Type System Switch**: Changes from specialized double type to Type 242 (string/pointer array)
+3. **Type System Switch**: Changes from specialized double type to Type 160 (64-bit reference array)
 4. **Access Pattern Change**: Direct f64.load vs pointer dereference + f64.load
 
 **Why No NaN Sentinel Encoding:**
@@ -135,7 +135,7 @@ The analysis of FixedArray[Double] and FixedArray[Double?] is now complete! This
 
 **Key Takeaways:**
 1. **FixedArray[Double] uses specialized 8-byte IEEE 754 storage** with dedicated floating-point operations for optimal performance
-2. **FixedArray[Double?] uses reference-based storage** (Type 242) identical to other 64-bit optional types, avoiding NaN sentinels
+2. **FixedArray[Double?] uses reference-based storage** (Type 160) identical to other 64-bit optional types, avoiding NaN sentinels
 3. **Standards compliance over optimization** - maintains full IEEE 754 semantics rather than using NaN values as None sentinels
 4. **Significant memory overhead for optionality** - ≥2.5x memory cost due to separate Option object allocation
 5. **Semantic clarity preserved** - Some(NaN) and None remain distinct, maintaining mathematical precision
@@ -147,3 +147,20 @@ This design demonstrates MoonBit's prioritization of:
 - **Mathematical Correctness**: All valid floating-point values remain accessible
 
 The contrast between efficient direct storage for FixedArray[Double] and expensive reference-based storage for FixedArray[Double?] highlights the fundamental challenge of adding optionality to types that use their full bit space for valid values.
+
+## Correction Notes (Updated After Successful Implementation)
+
+**ClassID Correction**: The actual classID used by FixedArray[Double?] is **160**, not 242 as originally analyzed. This was discovered through:
+1. Debug output showing `classID=160` in runtime execution
+2. WAT analysis confirming the memory layout
+3. Successful implementation requiring classID 160 handling
+
+**Implementation Requirements**:
+1. **Reading**: Add classID 160 to decoding conditions alongside 241/242/112
+2. **Writing**: Use `moonbit_ref_array_make` function instead of manual memory allocation
+3. **None Handling**: Special case for None singleton pointer at offset 10248
+4. **Applies to**: Double?, Float?, Int64?, UInt64? (all 64-bit reference types)
+
+**Working Go Implementation**: See commit "Fix FixedArrayOutput double option test" for complete implementation details.
+
+This correction demonstrates the importance of runtime debugging over static analysis when dealing with compiler-generated memory layouts.

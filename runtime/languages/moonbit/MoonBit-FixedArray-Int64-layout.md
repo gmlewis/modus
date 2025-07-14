@@ -31,7 +31,7 @@ FixedArray Data (32 bytes):
  RefCount  Type+Len    Element[0]        Element[1]        Element[2]
 ```
 
-### FixedArray[Int64?] (Optional) - Type 242 with Reference-Based Storage
+### FixedArray[Int64?] (Optional) - Type 160 with Reference-Based Storage
 
 **Memory Layout:**
 FixedArray[Int64?] uses **identical structure to Array[Int64?]** with reference-based storage:
@@ -42,7 +42,7 @@ FixedArray[Int64?] Object (12+ bytes):
 │ RefCount        │ Array Header    │ Pointer[0]      │ Pointer[1]      │
 │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-     1573120          Type 242        → None/Some      → None/Some...
+     1573120          Type 160        → None/Some      → None/Some...
 ```
 
 **Option Object Representation:**
@@ -64,7 +64,7 @@ FixedArray[Int64?] Object (12+ bytes):
 **Key Implementation Details:**
 
 1. **WAT Function**: Uses `moonbit.ref_array_make` (shared with Array[Int64?])
-2. **Array Header**: Type 242 (FixedArray[String]) - reuses string infrastructure for pointer storage
+2. **Array Header**: Type 160 (64-bit reference types) - specialized classID for Double?/Float?/Int64?/UInt64?
 3. **Element Storage**: 4-byte pointers to Option objects, not direct values
 4. **None Optimization**: Shared singleton object with RefCount -1 (immortal)
 5. **Some Objects**: Each requires separate 16-byte allocation with 2097153 header
@@ -139,7 +139,7 @@ The analysis of FixedArray[Int64] and FixedArray[Int64?] is now complete! This r
 
 **Key Takeaways:**
 1. **FixedArray[Int64] shares identical implementation with Array[Int64]** - same WAT functions, same Type 241, same direct 8-byte storage
-2. **FixedArray[Int64?] also shares implementation with Array[Int64?]** - same reference-based approach with Type 242 and separate Option objects
+2. **FixedArray[Int64?] also shares implementation with Array[Int64?]** - same reference-based approach with Type 160 and separate Option objects
 3. **No FixedArray vs Array distinction** at the implementation level for 64-bit integers
 4. **Mathematical constraints dominate** - full 64-bit space prevents any sentinel encoding optimizations
 5. **Most expensive optional representation** - requires ~2.5x memory overhead due to separate object allocation
@@ -159,3 +159,7 @@ This completes our comprehensive understanding of MoonBit's type optimization hi
 - **No available sentinel space** → Expensive reference-based encoding
 
 FixedArray[Int64] represents the mathematical limit case where type safety and full value range utilization prevent any memory optimization for optional variants. This demonstrates how mathematical properties of types fundamentally constrain optimization opportunities in systems programming languages.
+
+## Correction Notes (Updated After Successful Implementation)
+
+**ClassID Correction**: The actual classID used by FixedArray[Int64?] is **160**, not 242 as originally analyzed. This correction applies to all 64-bit reference types: Double?, Float?, Int64?, UInt64?. See MoonBit-FixedArray-Debugging-Guide.md for complete implementation details and the successful fix pattern.

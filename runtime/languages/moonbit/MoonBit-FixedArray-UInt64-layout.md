@@ -162,3 +162,12 @@ The analysis of `FixedArray[UInt64]` is now complete! This reveals the most expe
 5. **Expensive (250%+ overhead)**: Full bit space types (UInt64?, Int64?, Double?, Float?)
 
 This completes our comprehensive analysis of all MoonBit FixedArray integer types, revealing the sophisticated optimization strategies MoonBit employs based on the mathematical properties of each type!
+
+## Implementation Notes (Updated After Successful Fix)
+
+**ClassID**: FixedArray[UInt64?] uses **classID 160** (64-bit reference types) along with Double?, Float?, and Int64?. The implementation requires:
+1. **moonbit_ref_array_make** for array creation
+2. **None singleton handling** at offset 10248
+3. **Special decoding path** for classID 160
+
+See MoonBit-FixedArray-Debugging-Guide.md for complete implementation details and the successful fix pattern.

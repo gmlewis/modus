@@ -32,7 +32,7 @@ Float Array Data (20 bytes):
  RefCount   Type+Length     4 bytes        4 bytes        4 bytes
 ```
 
-### FixedArray[Float?] (Optional) - Type 242 with Compact Reference-Based Storage
+### FixedArray[Float?] (Optional) - Type 160 with Compact Reference-Based Storage
 
 **Memory Layout:**
 FixedArray[Float?] uses **reference-based storage** with more compact Option objects than Double:
@@ -43,7 +43,7 @@ FixedArray[Float?] Object (12+ bytes):
 │ RefCount        │ Array Header    │ Pointer[0]      │ Pointer[1]      │
 │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-        1            Type 242        → None/Some      → None/Some...
+        1            Type 160        → None/Some      → None/Some...
 ```
 
 **Option Object Representation:**
@@ -65,7 +65,7 @@ FixedArray[Float?] Object (12+ bytes):
 **Key Implementation Details:**
 
 1. **WAT Function**: Uses `moonbit.ref_array_make` (shared with other reference-based optional arrays)
-2. **Array Header**: Type 242 (FixedArray[String]) - reuses string infrastructure for pointer storage
+2. **Array Header**: Type 160 (64-bit reference types) - specialized classID for Double?/Float?/Int64?/UInt64?
 3. **Element Storage**: 4-byte pointers to Option objects, not direct values
 4. **None Optimization**: Shared singleton object with RefCount -1 (immortal)
 5. **Compact Some Objects**: Only 12 bytes per Some value (vs 16 for Double Option objects)
@@ -100,7 +100,7 @@ Offset: 0x0000BFC0 (Some(3.0) - 12 bytes)
    - FixedArray[Float]: 4 bytes per element (optimal for IEEE 754 single-precision)
    - FixedArray[Float?]: 4-byte pointer + 12-byte Option object (≥16 bytes per Some value)
 3. **Compact Option Objects**: Float options use 12 bytes vs 16 bytes for Double options
-4. **Type System Consistency**: Same Type 242 as other reference-based optional arrays
+4. **Type System Consistency**: Same Type 160 as other 64-bit reference-based optional arrays
 
 **Float vs Double Comparison:**
 
@@ -136,7 +136,7 @@ Like Double, Float doesn't use NaN values as sentinels because:
 
 - **Compact Option Objects**: 12-byte Float options vs 16-byte Double options (25% memory savings)
 - **Efficient Packing**: 4-byte elements enable better cache utilization than 8-byte doubles
-- **Unified Infrastructure**: Shares Type 242 with other reference-based optionals
+- **Unified Infrastructure**: Shares Type 160 with other 64-bit reference-based optionals
 
 This analysis reveals MoonBit's attention to memory efficiency within its design constraints. While FixedArray[Float?] still uses the expensive reference-based approach (due to IEEE 754 compliance requirements), it optimizes Option object size compared to Double, demonstrating the compiler's awareness of the different memory requirements for different floating-point precisions.
 
@@ -157,3 +157,7 @@ This design showcases MoonBit's sophisticated memory optimization within design 
 - **Unified Infrastructure**: Consistent reference-based approach across all floating-point optionals
 
 The Float vs Double comparison reveals MoonBit's attention to memory efficiency - while both use expensive reference-based optionals, Float achieves meaningful memory savings through compact Option objects, demonstrating that the compiler optimizes within its architectural constraints rather than applying one-size-fits-all solutions.
+
+## Correction Notes (Updated After Successful Implementation)
+
+**ClassID Correction**: The actual classID used by FixedArray[Float?] is **160**, not 242 as originally analyzed. This correction applies to all 64-bit reference types: Double?, Float?, Int64?, UInt64?. See MoonBit-FixedArray-Debugging-Guide.md for complete implementation details and the successful fix pattern.
