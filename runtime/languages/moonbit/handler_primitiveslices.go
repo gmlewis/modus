@@ -352,7 +352,8 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	// Handle different types based on elemTypeSize
-	if memBlockClassID == 64 || memBlockClassID == StringBlockType { // Byte (64) or Int16/UInt16 (80)
+	// Note: Skip padding for Byte arrays when using moonbit_bytes_make
+	if memBlockClassID == StringBlockType { // Int16/UInt16 (80) - Byte arrays (64) use moonbit_bytes_make
 		paddedSize := ((size + 4) / 4) * 4
 		padding := uint8(3 - (size % 4))
 		if padding != 0 {
@@ -488,7 +489,26 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				// For Int16/UInt16, fallback to manual approach since no ptr2*_array function
 				// The data is already written, so we're done
 			case "Byte":
-				// For Byte arrays, use the new "moonbit_bytes_make" (fnBytesMake).
+				// For Byte arrays, use the exported moonbit_bytes_make function
+				arrayPtr, err = concreteWa.fnBytesMake.Call(ctx, uint64(numElements), 0)
+				if err != nil {
+					return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
+				}
+				// Write individual bytes to the allocated array
+				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+					byteArrayPtr := uint32(arrayPtr[0])
+					for i, b := range dataBuffer {
+						// Write each byte at offset+8+i (data starts at offset 8)
+						byteAddr := byteArrayPtr + 8 + uint32(i)
+						if ok := wa.Memory().Write(byteAddr, []byte{b}); !ok {
+							return 0, cln, fmt.Errorf("failed to write byte at address %d", byteAddr)
+						}
+					}
+					// Update offset to point to the byte array
+					offset = byteArrayPtr
+					// Return early since the array is properly allocated and initialized
+					return offset, cln, nil
+				}
 			default:
 				return 0, cln, fmt.Errorf("unsupported type for ptr2*_array conversion: %s", elemType.Name())
 			}
