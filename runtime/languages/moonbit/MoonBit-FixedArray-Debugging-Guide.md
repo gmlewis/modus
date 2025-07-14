@@ -67,8 +67,14 @@ Based on successful fixes, FixedArray types fall into these categories:
 - `Int16?` - Use direct storage with 32768 as None value (classID 96)
 - Other classID 96 types: `Bool?`, `Byte?`, `Char?` - all working
 
-**Category E: Other Types (Still Failing)**
-- `Int?`, `UInt?`, `String?` - Various issues
+**Category E: Int64-based Optional Types (Fixed)**
+- `Int?` - Uses `moonbit_int64_array_make` with 4294967296 (1 << 32) as None value
+- **Key insight**: Int? elements stored as 64-bit values despite being 32-bit integers
+- Sign-extended encoding: int32 values become int64 in memory
+
+**Category F: Other Types (Status Unknown)**
+- `UInt?` - Likely similar to Int? but needs verification
+- `String?` - Complex string handling with UTF-16 encoding
 - `UInt16?` - Similar to Int16? but needs verification
 - `UInt16` - Needs manual handling (no moonbit_uint16_array_make)
 
@@ -167,9 +173,74 @@ case "Int16":
 
 ## Proven Fix Pattern for Category D Types (ClassID 96 Optional)
 
-For primitive types like `Int16` - use `moonbit_*_array_make` functions:
+For types like `Int16?` - use `moonbit_i32_array_make` functions:
 
-### Int16 Fix (Successfully Implemented)
+### Int16? Fix (Successfully Implemented)
+
+**Pattern**: ClassID 96 + Direct Storage + Custom None Value
+
+1. **Reading Side:**
+```go
+if elemType.Name() == "Int16?" && classID == 96 {
+    switch value {
+    case 32768:  // NoneValueInt16 constant
+        item = nil
+    default:
+        i := int16(value)
+        item = &i
+    }
+}
+```
+
+2. **Writing Side:**
+```go
+func (h *sliceHandler) createInt16ArrayWithMoonBit(...) {
+    // Use moonbit_i32_array_make(numElements, -1)
+    fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+    results, err := fn.Call(ctx, uint64(numElements), uint64(0xFFFFFFFF))
+    
+    // Write elements as 32-bit values with custom None
+    for i, val := range slice {
+        var encodedValue uint32
+        if utils.HasNil(val) {
+            encodedValue = 32768  // None value for Int16?
+        } else {
+            encodedValue = uint32(*val.(*int16))
+        }
+        // Write at arrayPtr + 8 + i*4
+    }
+}
+```
+
+## Proven Fix Pattern for Category E Types (Int64-based Optional)
+
+For `Int?` arrays - use `moonbit_int64_array_make` with special None handling:
+
+### Int? Fix (Successfully Implemented)
+
+**Pattern**: Int64 Storage + 4294967296 None Value
+
+1. **Reading Side:**
+```go
+if elemType.Name() == "Int?" {
+    if value == 4294967296 {  // NoneValueInt constant (1 << 32)
+        // None value, leave as nil
+    } else {
+        intVal := int32(value)  // Convert from 64-bit to 32-bit
+        items.Index(int(i)).Set(reflect.ValueOf(&intVal))
+    }
+}
+```
+
+2. **Writing Side uses moonbit_int64_array_make with 64-bit storage**
+
+**Key insights for Int?:**
+- Uses 64-bit storage even though Int is 32-bit
+- None value is `1 << 32` (4294967296), not 0xFFFFFFFF
+- Elements stored 8 bytes apart (not 4)
+- Sign extension required for negative values
+
+### Int16 Fix (Category C - Successfully Implemented)
 
 1. **Use moonbit_int16_array_make instead of ptr2*_array:**
 ```go
@@ -202,11 +273,11 @@ case "Int16":
 ### Available MoonBit Array Functions
 
 From `adapter.go`, these functions are available:
-- `moonbit_int16_array_make` ✅ (working)
-- `moonbit_i32_array_make` ✅ (used by Bool?)
+- `moonbit_int16_array_make` ✅ (working for Int16)
+- `moonbit_i32_array_make` ✅ (used by Bool?, Byte?, Char?, Int16?)
+- `moonbit_int64_array_make` ✅ (used by Int64 and Int?)
 - `moonbit_float_array_make` ✅ (used by Double)
 - `moonbit_float32_array_make` ✅ (used by Float)
-- `moonbit_int64_array_make` ✅ (used by Int64)
 - `moonbit_ref_array_make` ✅ (used by Double?/Float?/Int64?/UInt64?)
 - `moonbit_bytes_make` ✅ (used by Byte)
 
@@ -227,6 +298,56 @@ From `adapter.go`, these functions are available:
 ### For String? (similar to fixed types but different issues)
 1. String arrays have different memory layout entirely
 2. Check if they use UTF-16 encoding or other string-specific handling
+
+## Code Quality: Magic Numbers → Constants Refactoring
+
+**Completed**: All magic numbers in moonbit handlers have been replaced with well-named constants.
+
+### Constants Categories
+
+**ClassID Constants:**
+```go
+BoolByteCharClassID = 96   // Bool?, Byte?, Char?, Int16?, UInt arrays
+Int64DoubleClassID  = 112  // Int64, UInt64, Double arrays  
+RefArrayClassID     = 160  // Double?, Float?, Int64?, UInt64? arrays
+StringBlockType     = 80   // Int16/UInt16 arrays
+```
+
+**None Singleton Values:**
+```go
+NoneSentinelUInt32   = 0xFFFFFFFF // Bool?, Byte?, Char?
+NoneSingletonPointer = 10248      // 64-bit reference types
+NoneValueInt16       = 32768      // Int16?
+NoneValueInt         = 4294967296 // Int? (1 << 32)
+```
+
+**Memory Layout Constants:**
+```go
+MemoryBlockHeaderSize = 8    // Standard header size
+MinValidMemoryOffset  = 1000 // Valid address threshold
+MoonBitBoolSize      = 4    // MoonBit Bool size vs Go's 1 byte
+StandardPtrSize      = 4    // Standard pointer size
+Int64Size           = 8    // Int64/UInt64 size
+```
+
+**Benefits:**
+- **Maintainability**: Clear meaning instead of scattered magic numbers
+- **Debugging**: Easy to identify None values and classIDs
+- **Consistency**: Centralized definitions prevent errors
+- **Documentation**: Constants serve as inline documentation
+
+**Usage Pattern:**
+```go
+// Before (unclear)
+if value == 4294967296 {
+    item = nil
+}
+
+// After (self-documenting)
+if value == NoneValueInt {
+    item = nil
+}
+```
 
 ## Key Insights from Successful Fixes
 
@@ -250,6 +371,15 @@ From `adapter.go`, these functions are available:
 3. **Uses moonbit_i32_array_make** - same as Bool?/Char?, not moonbit_int16_array_make
 4. **Direct value storage pattern** - None=32768, Some values as 32-bit integers
 5. **Critical insight**: WAT analysis revealed exact memory layout and None value
+
+### Int? Fix (Category E)
+1. **Uses moonbit_int64_array_make** - NOT moonbit_i32_array_make despite being 32-bit int
+2. **64-bit storage for 32-bit values** - each Int? element takes 8 bytes in memory
+3. **None value is 4294967296** - (1 << 32), completely different from other None values
+4. **Sign extension required** - int32 values must be sign-extended to int64 for storage
+5. **Memory layout**: Elements at offsets 8, 16, 24, 32 (8-byte spacing)
+6. **WAT analysis critical**: Without it, would never have discovered the int64 storage pattern
+7. **Pattern unique**: Only Int? uses this storage approach so far
 
 ## Testing Strategy
 

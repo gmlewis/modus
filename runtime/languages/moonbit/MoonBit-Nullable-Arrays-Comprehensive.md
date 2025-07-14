@@ -2,13 +2,45 @@
 
 ## Overview
 
-This document provides a comprehensive analysis of MoonBit's nullable array memory patterns in WebAssembly linear memory, based on extensive reverse engineering of `FixedArray[Bool?]`, `FixedArray[Byte?]`, and `FixedArray[Char?]` implementations.
+This document provides a comprehensive analysis of MoonBit's nullable array memory patterns in WebAssembly linear memory, based on extensive reverse engineering of `FixedArray[Bool?]`, `FixedArray[Byte?]`, `FixedArray[Char?]`, `FixedArray[Int16?]`, `FixedArray[Int?]`, and reference-based optional types like `FixedArray[Double?]`.
 
 ## Key Discoveries
 
-### 1. Three Distinct Memory Layout Patterns
+### 1. Five Distinct Memory Layout Categories
 
-MoonBit nullable arrays (`FixedArray[T?]`) use **three different memory layout patterns** depending on array size and content:
+MoonBit nullable arrays (`FixedArray[T?]`) use **five different memory layout categories** depending on the element type and storage requirements:
+
+#### Category A: Direct Storage with Custom None (Bool?, Byte?, Char?, Int16?)
+- **ClassID**: 96
+- **Function**: `moonbit_i32_array_make`
+- **Storage**: Direct 32-bit values
+- **None Values**: Type-specific (0xFFFFFFFF for most, 32768 for Int16?)
+
+#### Category B: Reference Storage with Singleton None (Double?, Float?, Int64?, UInt64?)
+- **ClassID**: 160
+- **Function**: `moonbit_ref_array_make`
+- **Storage**: Pointers to Option objects
+- **None Value**: 10248 (shared singleton pointer)
+
+#### Category C: Non-Optional Primitives (Int16, Byte, etc.)
+- **ClassID**: Various (80 for Int16, 64 for Byte, etc.)
+- **Function**: Type-specific (`moonbit_int16_array_make`, `moonbit_bytes_make`)
+- **Storage**: Direct primitive values
+- **None Value**: N/A (not nullable)
+
+#### Category D: Int64-Based Storage (Int?)
+- **ClassID**: Uses int64 array infrastructure
+- **Function**: `moonbit_int64_array_make`
+- **Storage**: 64-bit values (8 bytes per element)
+- **None Value**: 4294967296 (1 << 32)
+
+#### Category E: Complex Types (String?, UInt?)
+- **Status**: Partially understood or not yet implemented
+- **Storage**: Varies by type complexity
+
+### 2. Size-Based Layout Patterns (Within Categories)
+
+Within each category, arrays use **three different memory layout patterns** depending on array size and content:
 
 #### Pattern 1: Empty Arrays (Shared Constants)
 ```wat
@@ -56,7 +88,9 @@ func test_fixedarray_output_bool_option_3
 
 ## Type-Specific Encoding Patterns
 
-### FixedArray[Bool?] (classID=96)
+### Category A: Direct Storage Types
+
+#### FixedArray[Bool?] (classID=96)
 
 **Standard Encoding**:
 - `None` → `-1` (0xFFFFFFFF)
@@ -87,17 +121,69 @@ func test_fixedarray_output_bool_option_3
 **Option_3 Pattern**: Hardcoded for specific test:
 - `[None, Some('2'), Some(0), Some('4')]` → `[None, Some(50), Some(0), Some(52)]`
 
+#### FixedArray[Int16?] (classID=96)
+
+**Standard Encoding**:
+- `None` → `32768` (unique None value, NOT 0xFFFFFFFF)
+- `Some(int16Value)` → `int16Value` (sign-extended to 32-bit)
+
+**Key Difference**: Uses `32768` as None value instead of `-1`
+
+### Category B: Reference Storage Types
+
+#### FixedArray[Double?], FixedArray[Float?], FixedArray[Int64?], FixedArray[UInt64?] (classID=160)
+
+**Encoding**:
+- `None` → Pointer to singleton at `10248`
+- `Some(value)` → Pointer to heap-allocated Option object
+
+**Array Creation**: Uses `moonbit_ref_array_make(numElements, 0)`
+**Memory Layout**: Array of 32-bit pointers, each pointing to Option objects
+
+### Category D: Int64-Based Storage
+
+#### FixedArray[Int?] (uses int64 infrastructure)
+
+**Standard Encoding**:
+- `None` → `4294967296` (1 << 32)
+- `Some(int32Value)` → `int64(int32Value)` (sign-extended)
+
+**Array Creation**: Uses `moonbit_int64_array_make(numElements, 0)`
+**Memory Layout**: Array of 64-bit values (8 bytes per element)
+**Element Offsets**: `arrayPtr + 8 + i*8` (not i*4)
+
+**Critical Insight**: Despite Int being 32-bit, Int? arrays use 64-bit storage internally
+
 ## WebAssembly Implementation Details
 
 ### Array Creation Functions
 
-**All nullable arrays use**:
+**Category A (Bool?, Byte?, Char?, Int16?) use**:
 ```wat
 moonbit.i32_array_make(numElements, -1)
 ```
 - Creates array initialized with `-1` (None)
 - Returns pointer to array structure
 - Data starts at `arrayPtr + 8`
+- Elements are 4 bytes each
+
+**Category B (Double?, Float?, Int64?, UInt64?) use**:
+```wat
+moonbit.ref_array_make(numElements, 0)
+```
+- Creates array of pointers initialized with `0`
+- Returns pointer to array structure
+- Data starts at `arrayPtr + 8`
+- Elements are 4-byte pointers
+
+**Category D (Int?) uses**:
+```wat
+moonbit.int64_array_make(numElements, 0)
+```
+- Creates array initialized with `0`
+- Returns pointer to array structure
+- Data starts at `arrayPtr + 8`
+- Elements are 8 bytes each
 
 **For bytes, MoonBit also has**:
 ```wat
@@ -152,20 +238,41 @@ The Go decoder uses this detection sequence:
 
 Each nullable type has a dedicated creation function:
 ```go
+// Category A: Direct storage
 func createBoolArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
 func createByteArrayWithMoonBit(...) (uint32, utils.Cleaner, error) 
 func createCharArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
+func createInt16ArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
+
+// Category B: Reference storage
+func createRefArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
+
+// Category D: Int64-based storage
+func createIntArrayWithMoonBit(...) (uint32, utils.Cleaner, error)
 ```
 
-All use the same pattern:
+**Category A Pattern**:
 1. Call `moonbit_i32_array_make(numElements, -1)`
 2. Write element values at `arrayPtr+8+i*4`
 3. Return `arrayPtr`
 
+**Category B Pattern**:
+1. Call `moonbit_ref_array_make(numElements, 0)`
+2. Encode elements and write pointers at `arrayPtr+8+i*4`
+3. Use `10248` for None values
+4. Return `arrayPtr`
+
+**Category D Pattern**:
+1. Call `moonbit_int64_array_make(numElements, 0)`
+2. Sign-extend int32 values and write at `arrayPtr+8+i*8`
+3. Use `4294967296` for None values
+4. Return `arrayPtr`
+
 ### Decoding Logic
 
-Pattern detection and decoding:
+Category-based pattern detection and decoding:
 ```go
+// Category A: Direct storage (classID 96)
 if classID == 96 {
     if words == 0 {
         return []T{}, nil  // Empty
@@ -176,7 +283,30 @@ if classID == 96 {
     if sliceOffset == 0xFFFFFFFF {
         // Option_3 pattern
     }
-    // Regular pattern
+    // Regular pattern - type-specific None values
+    if elemType.Name() == "Int16?" && value == 32768 {
+        item = nil
+    } else if value == 0xFFFFFFFF {
+        item = nil
+    }
+}
+
+// Category B: Reference storage (classID 160)
+if classID == 160 {
+    if ptr == 10248 {
+        item = nil  // None singleton
+    } else {
+        item = decodePointer(ptr)
+    }
+}
+
+// Category D: Int64-based storage
+if elemType.Name() == "Int?" {
+    if value == 4294967296 {
+        item = nil
+    } else {
+        item = &int32(value)
+    }
 }
 ```
 
@@ -216,11 +346,25 @@ func EqualPtrSlice[T comparable](t *testing.T, got, want []*T) {
 
 7. **WAT as Ground Truth**: WebAssembly output reveals the actual implementation, which may differ from documentation
 
-## Future Extensions
+## Implementation Status
 
-This architecture supports additional nullable types:
-- `FixedArray[Int?]`, `FixedArray[UInt?]` → same `classID=96` pattern
-- `FixedArray[Float?]`, `FixedArray[Double?]` → may use different classIDs
-- `FixedArray[String?]` → complex due to string memory layout
+### ✅ Fully Working
+- **Category A**: `FixedArray[Bool?]`, `FixedArray[Byte?]`, `FixedArray[Char?]`, `FixedArray[Int16?]`
+- **Category B**: `FixedArray[Double?]`, `FixedArray[Float?]`, `FixedArray[Int64?]`, `FixedArray[UInt64?]`
+- **Category C**: `FixedArray[Int16]`, `FixedArray[Byte]`, most non-optional primitives
+- **Category D**: `FixedArray[Int?]`
 
-The pattern detection and decoding framework is extensible to handle new types following the same memory layout principles.
+### 🔄 Needs Investigation
+- `FixedArray[UInt?]` → Likely similar to Int? but may use different None value
+- `FixedArray[UInt16?]` → Should follow Int16? pattern but needs verification
+- `FixedArray[String?]` → Complex UTF-16 string handling required
+
+### 📝 Key Success Factors
+
+1. **WAT Analysis First**: Every successful fix started with WebAssembly analysis
+2. **Use MoonBit Functions**: Always prefer `moonbit_*_array_make` over manual allocation
+3. **Understand None Values**: Each category has different None representation
+4. **Category-Based Approach**: Group similar types and apply proven patterns
+5. **Constants for Maintainability**: Replace magic numbers with well-named constants
+
+The architecture is now mature and extensible, supporting systematic addition of new nullable types following the established category patterns.
