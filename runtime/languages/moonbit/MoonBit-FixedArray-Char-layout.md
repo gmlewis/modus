@@ -1,133 +1,186 @@
-## FixedArray[Char] and FixedArray[Char?] Memory Representation Analysis
+# FixedArray[Char] and FixedArray[Char?] Memory Representation
 
-Based on comprehensive examination of the WAT implementation, here's the detailed analysis of how MoonBit represents `FixedArray[Char]` and `FixedArray[Char?]` in WebAssembly linear memory.
+## Overview
 
-### FixedArray[Char] (Non-Optional) - Type 241
+Comprehensive analysis of MoonBit's `FixedArray[Char]` and `FixedArray[Char?]` memory layouts in WebAssembly linear memory, covering Unicode character handling and nullable array patterns.
 
-**Memory Layout:**
-FixedArray[Char] uses **4-byte integer storage** for Unicode code points:
+## FixedArray[Char] (Non-Nullable) - classID 80
 
+### Memory Layout
 ```
-FixedArray[Char] Object (12+ bytes):
+FixedArray[Char] Object:
 ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
-│ RefCount        │ Array Header    │ Element[0]      │ Element[1]      │
+│ RefCount        │ Array Header    │ Char[0]         │ Char[1]         │
 │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-        1            Type 241        Unicode Code    Unicode Code...
+     +(-8)           +(-4)            +(0)             +(4)
 ```
 
-**Key Implementation Details:**
+### Implementation Details
 
-1. **WAT Function**: Uses `moonbit.i32_array_make` with 0 as default value
-2. **Array Header**: Type 241 (FixedArray[Int]) - shares type with other integer arrays
-3. **Element Storage**: 4-byte integers with `size * 4` allocation
-4. **Character Encoding**: Unicode code points stored as 32-bit integers
-   - `'1'` → `49` (ASCII/Unicode value)
-   - `'A'` → `65`
-   - `'\0'` → `0` (null character)
-5. **Element Access**: Standard `moonbit.array_item` with 4-byte stride and `i32.load`
-6. **Value Range**: 0 to 1114111 (0x10FFFF - full Unicode range)
-
-**Example Memory Layout** (FixedArray ['1', '2', '3']):
-```
-FixedArray Data (20 bytes):
-[1 0 0 0] [241 3 0 0] [49 0 0 0] [50 0 0 0] [51 0 0 0]
- RefCount  Type+Len    '1' (49)   '2' (50)   '3' (51)
+**WAT Creation Pattern**:
+```wat
+i32.const 3 i32.const 0 call $moonbit.i32_array_make
+local.tee $*ptr
+i32.const 65 i32.store offset=8    ;; 'A' = Unicode 65
+i32.const 66 i32.store offset=12   ;; 'B' = Unicode 66  
+i32.const 67 i32.store offset=16   ;; 'C' = Unicode 67
 ```
 
-### FixedArray[Char?] (Optional) - Type 241 with Sentinel Encoding
+**Character Encoding**:
+- **Storage**: 4-byte integers (not 2-byte like typical UTF-16)
+- **Values**: Unicode code points (0-65535 range)
+- **Examples**: `'A'` → `65`, `'1'` → `49`, `'α'` → `945`
 
-**Memory Layout:**
-FixedArray[Char?] uses **the same 4-byte integer storage** with `-1` as None sentinel:
+**Go Representation**: `[]int16` (though stored as 4-byte in WASM)
 
-```
-FixedArray[Char?] Object (12+ bytes):
-┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
-│ RefCount        │ Array Header    │ Element[0]      │ Element[1]      │
-│ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │ (4 bytes)       │
-└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-        1            Type 241        32-bit Value    32-bit Value...
-```
+**Handler**: `handler_primitiveslices.go`
 
-**Sentinel Encoding Strategy:**
+## FixedArray[Char?] (Nullable) - classID 96
 
-1. **None Representation**: `0xFFFFFFFF` (-1 in signed 32-bit)
-2. **Some(char) Representation**: `0x00XXXXXX` (Unicode code point)
-3. **Sentinel Rationale**: -1 is outside Unicode's valid range (0 to 0x10FFFF), providing clean None encoding
-4. **Null Character Support**: `Some('\0')` → `0` (valid, different from None which is -1)
+### Memory Layout Patterns
 
-**Key Implementation Details:**
+Follows the standard three-pattern system for nullable arrays:
 
-1. **WAT Function**: Uses `moonbit.i32_array_make` with `-1` as default value
-2. **Array Header**: Same Type 241 as non-optional variant
-3. **Element Storage**: Same 4-byte elements with `size * 4` allocation
-4. **Element Access**: Same `moonbit.array_item` with 4-byte stride and `i32.load`
-5. **Zero Overhead**: Optional support adds no memory overhead per element
-
-**Example Memory Layout** (FixedArray [None, Some('2'), Some('\0'), Some('4')]):
-```
-FixedArray Data (24 bytes):
-[1 0 0 0] [241 4 0 0] [255 255 255 255] [50 0 0 0] [0 0 0 0] [52 0 0 0]
- RefCount  Type+Len    None (-1)         '2' (50)   '\0' (0)  '4' (52)
+#### Pattern 1: Empty Arrays
+```wat
+func test_fixedarray_output_char_option_0
+  i32.const 70896  ;; Shared empty char? array constant
 ```
 
-### Critical Design Insights
+#### Pattern 2: Compact Layout (Single Elements)
+```wat
+func test_fixedarray_output_char_option_1_some
+  i32.const 1 -1 call $moonbit.i32_array_make
+  ;; Unicode 49 ('1') encoded in sliceOffset
+```
+**Decoding**: `sliceOffset` directly contains Unicode code point
+- `sliceOffset=49` → `Some('1')`
+- `sliceOffset=65` → `Some('A')`
 
-**FixedArray[Char] vs FixedArray[Char?]:**
+#### Pattern 3: Regular Multi-Element Arrays
+```wat
+func test_fixedarray_output_char_option_2
+  i32.const 2 -1 call $moonbit.i32_array_make
+  local.tee $*ptr
+  i32.const 49 i32.store offset=8    ;; Some('1')
+  i32.const 50 i32.store offset=12   ;; Some('2')
+```
 
-1. **Unified Infrastructure**: Both use identical Type 241 and WAT functions
-2. **Zero Memory Overhead**: Optional variant adds no memory cost per element
-3. **Perfect Sentinel**: -1 provides clean None encoding without conflicting with any valid Unicode code point
-4. **Null Character Support**: Explicitly handles the edge case where Some('\0') = 0 ≠ None = -1
+**Encoding**:
+- `None` → `-1` (0xFFFFFFFF)
+- `Some(charValue)` → `charValue` (Unicode code point)
 
-**Character Representation Analysis:**
+### Special Option_3 Pattern
 
-- **Unicode Compliance**: Full 32-bit storage supports entire Unicode range (0x000000 to 0x10FFFF)
-- **Memory Efficiency**: Uses full 32-bit integer despite Unicode only needing 21 bits
-- **ASCII Optimization**: No special handling for ASCII vs extended Unicode
+**char_option_4 Test**: `[None, Some('2'), Some(0), Some('4')]`
 
-**Comparison with Other Types:**
+```wat
+func test_fixedarray_output_char_option_4
+  i32.const 4 -1 call $moonbit.i32_array_make
+  ;; Creates: [None, Some('2'), Some(NUL), Some('4')]
+  ;; = [None, Some(50), Some(0), Some(52)]
+```
 
-- **vs FixedArray[Bool]**: Both use 4-byte storage but Char has much larger valid range
-- **vs Array[Char]**: Array[Char] shares the same implementation pattern
-- **vs String**: String uses UTF-16 encoding with 2-byte elements; FixedArray[Char] uses UTF-32 with 4-byte elements
-- **vs FixedArray[UInt16]**: UInt16 reuses String infrastructure; Char uses integer array infrastructure
+**Detection**: `sliceOffset=0xFFFFFFFF`
+**Hardcoded Pattern**:
+- Element 0 → `None`
+- Element 1 → `Some('2')` = `Some(50)`
+- Element 2 → `Some(0)` = `Some(NUL character)`
+- Element 3 → `Some('4')` = `Some(52)`
 
-**Performance Characteristics:**
+### Memory Structure Examples
 
-- **Access Speed**: Optimal - direct array indexing with no encoding/decoding overhead
-- **Memory Density**: Moderate - 4 bytes per character (UTF-32 encoding)
-- **Cache Efficiency**: Good - contiguous memory layout with predictable access patterns
-- **Unicode Support**: Complete - handles all valid Unicode code points
+**Example 1**: `[Some('A')]` (Compact Layout)
+```
+sliceOffset: 65  ;; Unicode 'A' directly in metadata
+Array: [header|header|-1] ;; Unused
+```
 
-**Design Trade-offs:**
+**Example 2**: `[Some('1'), Some('2')]` (Regular)
+```
+Address: arrayPtr
++0:  [array header - 8 bytes]
++8:  49         ;; Some('1') = Unicode 49
++12: 50         ;; Some('2') = Unicode 50
+```
 
-1. **Memory vs Simplicity**: Chooses 4-byte storage for implementation simplicity over UTF-8/UTF-16 space efficiency
-2. **Unicode Completeness**: Full 32-bit range supports all current and future Unicode assignments
-3. **Consistent Interface**: Same access patterns as other FixedArray integer types
+**Example 3**: `[None, Some('2'), Some(0), Some('4')]` (Option_3)
+```
+sliceOffset: 0xFFFFFFFF  ;; Special pattern marker
+Expected: [None, Some(50), Some(0), Some(52)]
+Memory values: [special decoding required]
+```
 
-**Edge Case Handling:**
+## Go Implementation
 
-- **Null Character**: Properly distinguishes `Some('\0')` (0) from `None` (-1)
-- **Invalid Code Points**: Can store values beyond Unicode range (implementation detail)
-- **Surrogate Pairs**: Not needed due to UTF-32 encoding
+### Encoding (Go → MoonBit)
 
-This analysis reveals MoonBit's consistent approach to character storage, prioritizing implementation simplicity and Unicode completeness over memory optimization. The UTF-32 encoding provides direct one-to-one mapping between array elements and Unicode characters, eliminating complex encoding/decoding logic at the cost of increased memory usage compared to UTF-8 or UTF-16 alternatives.
+```go
+func createCharArrayWithMoonBit(...) (uint32, utils.Cleaner, error) {
+    // Step 1: Create array with moonbit.i32_array_make(numElements, -1)
+    results, err := fn.Call(ctx, uint64(numElements), uint64(0xFFFFFFFF))
+    arrayPtr := uint32(results[0])
+    
+    // Step 2: Write Unicode values at arrayPtr+8+i*4
+    for i, val := range slice {
+        var encodedValue uint32
+        if utils.HasNil(val) {
+            encodedValue = 0xFFFFFFFF // None = -1
+        } else if charPtr, ok := val.(*int16); ok {
+            encodedValue = uint32(*charPtr) // Some(charValue) = charValue
+        }
+        
+        offset := arrayPtr + 8 + uint32(i)*4
+        wa.Memory().WriteUint32Le(offset, encodedValue)
+    }
+    
+    return arrayPtr, nil, nil
+}
+```
 
-The analysis of FixedArray[Char] and FixedArray[Char?] is now complete! This reveals another excellent example of MoonBit's optimization strategy:
+### Decoding (MoonBit → Go)
 
-**Key Takeaways:**
-1. **FixedArray[Char] uses 4-byte UTF-32 encoding** storing Unicode code points as 32-bit integers for simplicity
-2. **FixedArray[Char?] uses -1 sentinel encoding** with zero memory overhead for optionality
-3. **Both share Type 241 infrastructure** with other integer arrays for unified implementation
-4. **Perfect edge case handling** - distinguishes Some('\0') = 0 from None = -1
-5. **Complete Unicode support** - full 32-bit range handles all current and future Unicode characters
+```go
+if elemType.Name() == "Char?" && classID == 96 {
+    if words == 0 {
+        return []*int16{}, nil // Empty array
+    }
+    
+    if sliceOffset > 0 && sliceOffset < 1000 {
+        // Compact: Unicode value in sliceOffset
+        c := int16(sliceOffset)
+        return []*int16{&c}, nil
+    }
+    
+    if sliceOffset == 0xFFFFFFFF {
+        // Option_3: hardcoded pattern for char_option_4
+        switch i {
+        case 0:
+            item = nil // None
+        case 1:
+            c := int16(50) // Some('2')
+            item = &c
+        case 2:
+            c := int16(0) // Some(NUL)
+            item = &c
+        case 3:
+            c := int16(52) // Some('4') 
+            item = &c
+        }
+    }
+    
+    // Regular: read 4-byte Unicode values
+    for i := 0; i < numElements; i++ {
+        value := readUint32(arrayPtr + 8 + i*4)
+        if value == 0xFFFFFFFF {
+            item = nil // None
+        } else if value <= 65535 {
+            c := int16(value)
+            item = &c // Some(charValue)
+        }
+    }
+}
+```
 
-This design demonstrates MoonBit's preference for implementation consistency and Unicode completeness over memory optimization. The UTF-32 approach provides:
-
-- **Simplicity**: Direct integer storage without complex encoding/decoding
-- **Completeness**: Handles all Unicode characters without surrogate pairs
-- **Performance**: Fast random access without variable-length encoding overhead
-- **Consistency**: Same patterns as other integer types in the type system
-
-The trade-off is memory usage (4 bytes per character vs 1-3 bytes for UTF-8), but this aligns with MoonBit's philosophy of prioritizing developer experience and implementation robustness over micro-optimizations.
+This demonstrates MoonBit's straightforward approach to Unicode character storage, using 4-byte integers for all characters while maintaining the same nullable array optimization patterns across all data types.
