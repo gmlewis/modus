@@ -138,6 +138,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			} else {
 				return nil, nil // nil slice
 			}
+		} else if sliceOffset > 0 && sliceOffset < 1000 && classID == 96 && words > 0 {
+			// For classID=96 arrays, small sliceOffset values (1-999) are the first element value
+			// This is option_2 pattern: sliceOffset contains element[0], remaining elements follow
+			// fmt.Printf("DEBUG: classID=96 with sliceOffset=%d, treating as compact layout\n", sliceOffset)
+			// Continue processing as compact embedded data
 		}
 
 		if words == 1 {
@@ -167,8 +172,8 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			return items.Interface(), nil
 		}
 
-		// Handle multi-element arrays with embedded data (sliceOffset == 0xFFFFFFFF or sliceOffset == 0 for classID=96)
-		if sliceOffset == 0xFFFFFFFF || (sliceOffset == 0 && classID == 96 && words > 0) {
+		// Handle multi-element arrays with embedded data (various patterns for classID=96)
+		if sliceOffset == 0xFFFFFFFF || (sliceOffset == 0 && classID == 96 && words > 0) || (sliceOffset > 0 && sliceOffset < 1000 && classID == 96 && words > 0) {
 			// fmt.Printf("DEBUG: Multi-element array with embedded data, words=%d, sliceOffset=0x%X\n", words, sliceOffset)
 			// For multi-element arrays where sliceOffset is 0xFFFFFFFF,
 			// the data is embedded directly after the header. We need to re-read with the correct size.
@@ -184,8 +189,13 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 			// The array data starts at different offsets depending on sliceOffset value
 			var dataStartOffset int
+			var isCompactLayout bool
 			if sliceOffset == 0xFFFFFFFF {
 				dataStartOffset = 16 // For option_3 pattern: after sliceOffset + numElements
+			} else if sliceOffset > 0 && sliceOffset < 1000 {
+				// Option_2 compact pattern: sliceOffset contains element[0], data starts at offset 12
+				dataStartOffset = 12
+				isCompactLayout = true
 			} else {
 				dataStartOffset = 8 // For option_4 pattern: starts right after header
 			}
@@ -197,11 +207,24 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			for i := uint32(0); i < numElements; i++ {
 				if elemType.IsPrimitive() && isNullable {
 					var value uint64
-					if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
-						value = binary.LittleEndian.Uint64(memBlock[dataStartOffset+int(i)*int(elemTypeSize):])
+					if isCompactLayout && i == 0 {
+						// For compact layout, element[0] comes from sliceOffset
+						value = uint64(sliceOffset)
 					} else {
-						value32 := binary.LittleEndian.Uint32(memBlock[dataStartOffset+int(i)*int(elemTypeSize):])
-						value = uint64(value32)
+						// For other elements, read from memory
+						var offset int
+						if isCompactLayout {
+							// For compact layout, skip element[0] and read remaining elements
+							offset = dataStartOffset + int(i-1)*int(elemTypeSize)
+						} else {
+							offset = dataStartOffset + int(i)*int(elemTypeSize)
+						}
+						if elemType.Name() == "Int?" || elemType.Name() == "UInt?" || elemType.Name() == "String?" {
+							value = binary.LittleEndian.Uint64(memBlock[offset:])
+						} else {
+							value32 := binary.LittleEndian.Uint32(memBlock[offset:])
+							value = uint64(value32)
+						}
 					}
 					// fmt.Printf("DEBUG: Element %d: raw value=0x%X (%d)\n", i, value, value)
 
