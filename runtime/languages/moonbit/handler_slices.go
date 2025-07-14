@@ -78,9 +78,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	if len(vals) != 1 {
 		return nil, fmt.Errorf("expected 1 value when decoding a slice but got %v: %+v", len(vals), vals)
 	}
-	
-	// DEBUG: check type for Array vs FixedArray
-	fmt.Printf("DEBUG: Decoding type=%s\n", h.typeDef.Name)
 
 	if vals[0] == 0 {
 		return nil, nil
@@ -735,7 +732,7 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
-	fmt.Printf("DEBUG: Type=%s, isFixedArray=%v\n", h.typeDef.Name, isFixedArray)
+
 	if !isFixedArray {
 		// For dynamic Array[T], use MoonBit's native array creation functions
 		return h.createDynamicArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
