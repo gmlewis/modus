@@ -5316,6 +5316,21 @@ pub fn __modus_test_uint64_option_output_none() -> UInt64? {
 }
 
 ///|
+pub fn __modus_debug_array_bool_input(val : Array[Bool]) -> String {
+  debug_array_bool_input(val)
+}
+
+///|
+pub fn __modus_test_debug_array_bool_1(val : Array[Bool]) -> Unit raise Error {
+  test_debug_array_bool_1(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
 pub fn __modus_test_string_input(s : String) -> Unit raise Error {
   test_string_input(s) catch {
     e => {
