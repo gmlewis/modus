@@ -135,7 +135,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		elemTypeSize := h.converter.TypeSize()
 		elemType := h.typeInfo.ListElementType()
 		if elemType.Name() == "Bool" || elemType.Name() == "Char" {
-			elemTypeSize = 4
+			elemTypeSize = MoonBitBoolSize
 		}
 		dataSize := words * uint32(elemTypeSize)
 
@@ -171,12 +171,12 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
-		elemTypeSize = 4
+		elemTypeSize = MoonBitBoolSize
 	}
 	isNullable := elemType.IsNullable()
 	if isNullable && elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
 		// Int64? and UInt64? both provide pointers to values.
-		elemTypeSize = 8
+		elemTypeSize = Int64Size
 	}
 
 	if classID == TupleBlockType { // Used by Array[...] but not by FixedArray[...]
@@ -202,33 +202,33 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	switch classID {
 	case FixedArrayPrimitiveBlockType, // Int
-		96,  // FixedArray[UInt] in current MoonBit version
-		64,  // FixedArray[Byte] in current MoonBit version
-		112: // FixedArray[Double/Int64] in current MoonBit version
+		BoolByteCharClassID, // FixedArray[UInt] in current MoonBit version
+		64,                  // FixedArray[Byte] in current MoonBit version
+		Int64DoubleClassID:  // FixedArray[Double/Int64] in current MoonBit version
 		// For classID 96 (FixedArray[UInt]), trust the words field as element count
-		if classID == 96 {
+		if classID == BoolByteCharClassID {
 			// For FixedArray[UInt], numElements comes from words and is authoritative
 			if numElements == 0 {
 				return []T{}, nil
 			}
 		} else {
 			// Fix for arrays where numElements is calculated incorrectly (for other classIDs)
-			if numElements == 0 && len(sliceMemBlock) > 8 {
+			if numElements == 0 && len(sliceMemBlock) > MemoryBlockHeaderSize {
 				// Calculate numElements from actual memory block data size
-				dataSize := len(sliceMemBlock) - 8 // subtract header size
+				dataSize := len(sliceMemBlock) - MemoryBlockHeaderSize // subtract header size
 				if elemType.Name() == "Bool" || elemType.Name() == "Char" {
-					elemTypeSize = 4
+					elemTypeSize = MoonBitBoolSize
 				}
 				numElements = uint32(dataSize) / uint32(elemTypeSize)
 			} else if numElements == 0 {
 				return []T{}, nil
 			}
 		}
-	case 80: // StringBlockType - FixedArray[Int16/UInt16]
+	case StringBlockType: // FixedArray[Int16/UInt16]
 		// For Int16/UInt16 arrays, handle similar to other primitive arrays
-		if numElements == 0 && len(sliceMemBlock) > 8 {
+		if numElements == 0 && len(sliceMemBlock) > MemoryBlockHeaderSize {
 			// Calculate numElements from actual memory block data size
-			dataSize := len(sliceMemBlock) - 8 // subtract header size
+			dataSize := len(sliceMemBlock) - MemoryBlockHeaderSize // subtract header size
 			numElements = uint32(dataSize) / uint32(elemTypeSize)
 		} else if numElements == 0 {
 			return []T{}, nil
@@ -250,15 +250,15 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	case TupleBlockType: // classID 0 - can occur for shared empty arrays
 		// For TupleBlockType (classID 0), calculate element count from memory block
 		// In current MoonBit, this case occurs for inner arrays of Some([...])
-		if len(sliceMemBlock) <= 8 {
+		if len(sliceMemBlock) <= MemoryBlockHeaderSize {
 			return []T{}, nil // Only header, truly empty
 		}
 		// If we have data, treat it like a regular primitive array
 		// Calculate numElements from available data
-		dataSize := len(sliceMemBlock) - 8
+		dataSize := len(sliceMemBlock) - MemoryBlockHeaderSize
 		elemTypeSize := h.converter.TypeSize()
 		if elemType.Name() == "Bool" || elemType.Name() == "Char" {
-			elemTypeSize = 4
+			elemTypeSize = MoonBitBoolSize
 		}
 		numElements = uint32(dataSize) / uint32(elemTypeSize)
 	default:
@@ -269,7 +269,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	if elemType.Name() == "Bool" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
-			item := binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:])
+			item := binary.LittleEndian.Uint32(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:])
 			val := item != 0
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
@@ -278,7 +278,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	if elemType.Name() == "Char" {
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
-			val := int16(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
+			val := int16(binary.LittleEndian.Uint32(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:]))
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
 		return items.Interface(), nil
@@ -288,14 +288,14 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 	for i := 0; i < int(numElements); i++ {
 		var v uint64
 		switch elemTypeSize {
-		case 8:
-			v = binary.LittleEndian.Uint64(sliceMemBlock[8+i*elemTypeSize:])
-		case 4:
-			v = uint64(binary.LittleEndian.Uint32(sliceMemBlock[8+i*elemTypeSize:]))
+		case Int64Size:
+			v = binary.LittleEndian.Uint64(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:])
+		case StandardPtrSize:
+			v = uint64(binary.LittleEndian.Uint32(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:]))
 		case 2:
-			v = uint64(binary.LittleEndian.Uint16(sliceMemBlock[8+i*elemTypeSize:]))
+			v = uint64(binary.LittleEndian.Uint16(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize:]))
 		case 1:
-			v = uint64(sliceMemBlock[8+i*elemTypeSize])
+			v = uint64(sliceMemBlock[MemoryBlockHeaderSize+i*elemTypeSize])
 		default:
 			return nil, fmt.Errorf("unsupported element type size: %v", elemTypeSize)
 		}
@@ -335,7 +335,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
-		elemTypeSize = 4
+		elemTypeSize = MoonBitBoolSize
 	}
 
 	size := numElements * uint32(elemTypeSize)
@@ -345,11 +345,11 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	case "Bool", "Char", "Int", "Float":
 		memBlockClassID = FixedArrayPrimitiveBlockType // 241
 	case "UInt":
-		memBlockClassID = 96 // FixedArray[UInt] in current MoonBit version
+		memBlockClassID = BoolByteCharClassID // FixedArray[UInt] in current MoonBit version
 	case "Byte":
 		memBlockClassID = 64 // FixedArray[Byte] in current MoonBit version
 	case "Int64", "UInt64", "Double":
-		memBlockClassID = 112 // FixedArray[Double/Int64] in current MoonBit version
+		memBlockClassID = Int64DoubleClassID // FixedArray[Double/Int64] in current MoonBit version
 	case "Int16", "UInt16":
 		memBlockClassID = StringBlockType // 80
 	default:
@@ -387,10 +387,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			return 0, cln, err
 		}
 		// Manually write the exact structure that MoonBit expects
-		wa.Memory().WriteUint32Le(offset, 4294967295)   // Special marker for empty array
-		wa.Memory().WriteUint32Le(offset+4, 1610612736) // (96 << 24) | 0
-		wa.Memory().WriteUint32Le(offset+8, 0)          // padding
-		wa.Memory().WriteUint32Le(offset+12, 0)         // padding
+		wa.Memory().WriteUint32Le(offset, EmptyArrayMarker1)   // Special marker for empty array
+		wa.Memory().WriteUint32Le(offset+4, EmptyArrayMarker2) // (96 << 24) | 0
+		wa.Memory().WriteUint32Le(offset+8, 0)                 // padding
+		wa.Memory().WriteUint32Le(offset+12, 0)                // padding
 		// Fix the header to match: memType should indicate 4 words
 		memType := (4 << 8) | memBlockClassID // 4 words, classID 96
 		wa.Memory().WriteUint32Le(offset-4, memType)
@@ -503,7 +503,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					for i := uint32(0); i < numElements; i++ {
 						val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
 						// Write each int16 at offset+8+i*2 (data starts at offset 8)
-						int16Addr := int16ArrayPtr + 8 + i*2
+						int16Addr := int16ArrayPtr + MemoryBlockHeaderSize + i*2
 						wa.Memory().WriteUint16Le(int16Addr, val)
 					}
 					// Update offset to point to the int16 array
@@ -525,7 +525,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					byteArrayPtr := uint32(arrayPtr[0])
 					for i, b := range dataBuffer {
 						// Write each byte at offset+8+i (data starts at offset 8)
-						byteAddr := byteArrayPtr + 8 + uint32(i)
+						byteAddr := byteArrayPtr + MemoryBlockHeaderSize + uint32(i)
 						if ok := wa.Memory().Write(byteAddr, []byte{b}); !ok {
 							return 0, cln, fmt.Errorf("failed to write byte at address %d", byteAddr)
 						}
@@ -567,9 +567,9 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		firstElem, _ := wa.Memory().ReadUint32Le(offset)
 
 		// Write the structured format: [elem, header, elem]
-		wa.Memory().WriteUint32Le(offset, firstElem)   // first element
-		wa.Memory().WriteUint32Le(offset+4, header)    // header
-		wa.Memory().WriteUint32Le(offset+8, firstElem) // duplicate element
+		wa.Memory().WriteUint32Le(offset, firstElem)                       // first element
+		wa.Memory().WriteUint32Le(offset+4, header)                        // header
+		wa.Memory().WriteUint32Le(offset+MemoryBlockHeaderSize, firstElem) // duplicate element
 
 		// Update the allocation header to reflect 3 words instead of 1
 		newMemType := (3 << 8) | memBlockClassID // 3 words, classID 96
@@ -584,7 +584,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		if err != nil {
 			return 0, cln, err
 		}
-		wa.Memory().WriteUint32Le(slicePtr, offset-8)
+		wa.Memory().WriteUint32Le(slicePtr, offset-MemoryBlockHeaderSize)
 		wa.Memory().WriteUint32Le(slicePtr+4, numElements)
 
 		return slicePtr - 8, cln, nil
