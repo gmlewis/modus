@@ -462,6 +462,34 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 						continue
 					}
 
+					// For UInt16? arrays with classID=96, handle 0xFFFFFFFF as None value
+					if elemType.Name() == "UInt16?" && classID == BoolByteCharClassID {
+						var item any
+						// UInt16? uses 0xFFFFFFFF as None value (from WAT analysis)
+						switch value {
+						case NoneSentinelUInt32:
+							// 0xFFFFFFFF = None for UInt16?
+							item = nil
+						default:
+							// Direct uint16 value = Some(uint16Value)
+							if value <= 65535 { // Valid uint16 range
+								u := uint16(value)
+								item = &u
+							} else {
+								// Fallback for out-of-range values
+								var err error
+								item, err = h.elementHandler.Decode(ctx, wasmAdapter, []uint64{value})
+								if err != nil {
+									return nil, err
+								}
+							}
+						}
+						if !utils.HasNil(item) {
+							items.Index(int(i)).Set(reflect.ValueOf(item))
+						}
+						continue
+					}
+
 					// For Int? arrays, handle 4294967296 as None value
 					if elemType.Name() == "Int?" {
 						var item any
@@ -641,6 +669,10 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		memBlockClassID = BoolByteCharClassID
 		// For Int16? arrays, use similar approach as Char? but with 32768 as None value
 		return h.createInt16ArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
+	} else if elemType.Name() == "UInt16?" {
+		memBlockClassID = BoolByteCharClassID
+		// For UInt16? arrays, use similar approach as Int16? but with 0xFFFFFFFF as None value
+		return h.createUInt16ArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
 	} else if elemType.Name() == "Int?" {
 		// For Int? arrays, use moonbit_int64_array_make and 4294967296 as None value
 		return h.createIntArrayWithMoonBit(ctx, wasmAdapter, slice, numElements)
@@ -1150,6 +1182,59 @@ func (h *sliceHandler) createInt16ArrayWithMoonBit(ctx context.Context, wasmAdap
 			}
 		} else {
 			return 0, nil, fmt.Errorf("invalid Int16? value: expected nil or *int16, got %T", val)
+		}
+
+		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
+		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
+		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
+	}
+
+	// Return arrayPtr
+	return arrayPtr, nil, nil
+}
+
+// createUInt16ArrayWithMoonBit creates a UInt16? array using MoonBit's i32_array_make function
+// Based on the WAT analysis: uses moonbit.i32_array_make and stores 0xFFFFFFFF as None value
+func (h *sliceHandler) createUInt16ArrayWithMoonBit(ctx context.Context, wasmAdapter langsupport.WasmAdapter, slice []any, numElements uint32) (uint32, utils.Cleaner, error) {
+	if numElements == 0 {
+		// For empty arrays, delegate to existing logic
+		singletonPtr, err := h.getEmptyOptionalArraySingleton(ctx, wasmAdapter)
+		if err != nil {
+			return 0, nil, err
+		}
+		return singletonPtr, nil, nil
+	}
+
+	// Step 1: Use moonbit_i32_array_make(numElements, -1) exactly like the WAT
+	fn := wasmAdapter.GetFunction("moonbit_i32_array_make")
+	if fn == nil {
+		return 0, nil, fmt.Errorf("function moonbit_i32_array_make not found in WASM module")
+	}
+
+	// Call moonbit_i32_array_make(numElements, -1) - exactly like the WAT
+	initialValue := uint64(NoneSentinelUInt32) // -1 in uint64 form
+	results, err := fn.Call(ctx, uint64(numElements), initialValue)
+	if err != nil {
+		return 0, nil, fmt.Errorf("failed to call moonbit_i32_array_make: %w", err)
+	}
+
+	if len(results) != 1 {
+		return 0, nil, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
+	}
+
+	arrayPtr := uint32(results[0])
+
+	// Step 2: Write actual element values at the correct offsets (exactly like the WAT)
+	for i, val := range slice {
+		var encodedValue uint32
+		if utils.HasNil(val) {
+			// For None values, use 0xFFFFFFFF exactly like the WAT
+			encodedValue = NoneSentinelUInt32
+		} else if uint16Ptr, ok := val.(*uint16); ok {
+			// For Some values, store the uint16 value as uint32 (no sign extension needed)
+			encodedValue = uint32(*uint16Ptr)
+		} else {
+			return 0, nil, fmt.Errorf("invalid UInt16? value: expected nil or *uint16, got %T", val)
 		}
 
 		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16, 20)
