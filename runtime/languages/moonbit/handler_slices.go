@@ -393,7 +393,7 @@ func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmA
 					if *boolVal {
 						actualValue = 1 // true
 					} else {
-						actualValue = 0 // false
+						actualValue = 2 // false (trying different value than 0)
 					}
 				} else {
 					return 0, nil, fmt.Errorf("expected *bool but got %T", slice[0])
@@ -411,7 +411,7 @@ func (h *sliceHandler) createNullableArrayWithMoonBit(ctx context.Context, wasmA
 		}
 		wa.Memory().WriteUint32Le(arrayPtr+8, actualValue)
 
-		// Step 3: Return the array pointer with FixedArray adjustment
+		// Step 3: Don't modify the header - let MoonBit function handle it// Return the array pointer with FixedArray adjustment
 		return arrayPtr - 8, nil, nil
 	}
 
