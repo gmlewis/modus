@@ -512,8 +512,26 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					return offset, cln, nil
 				}
 			case "UInt16":
-				// For UInt16, fallback to manual approach since no moonbit_uint16_array_make function
-				// The data is already written, so we're done
+				// For UInt16, use moonbit_int16_array_make (same as Int16)
+				arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+				if err != nil {
+					return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make for UInt16: %w", err)
+				}
+				// Write data to the created array
+				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+					uint16ArrayPtr := uint32(arrayPtr[0])
+					// Write individual uint16 values to the allocated array
+					for i := uint32(0); i < numElements; i++ {
+						val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
+						// Write each uint16 at offset+8+i*2 (data starts at offset 8)
+						uint16Addr := uint16ArrayPtr + MemoryBlockHeaderSize + i*2
+						wa.Memory().WriteUint16Le(uint16Addr, val)
+					}
+					// Update offset to point to the uint16 array
+					offset = uint16ArrayPtr
+					// Return early since the array is properly allocated and initialized
+					return offset, cln, nil
+				}
 			case "Byte":
 				// For Byte arrays, use the exported moonbit_bytes_make function
 				arrayPtr, err = concreteWa.fnBytesMake.Call(ctx, uint64(numElements), 0)
