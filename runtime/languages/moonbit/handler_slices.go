@@ -83,8 +83,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		return nil, nil
 	}
 
-	// Debug: print the actual value being decoded (TODO: remove)
-
 	// Handle MoonBit sentinel values for problematic arrays
 	if vals[0] == NoneSentinelUInt32 || uint32(vals[0]) == NoneSentinelUInt32 {
 		// MoonBit returned an error/sentinel value - this might be a None array or error
@@ -98,17 +96,14 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	// Try to read the type info at offset 4
 	typeInfoBytes, ok := wa.Memory().Read(offset+4, 4)
 	if ok {
-		typeInfo := binary.LittleEndian.Uint32(typeInfoBytes)
-		if typeInfo == 1573120 { // Array type wrapper
+		if binary.LittleEndian.Uint32(typeInfoBytes) == 1573120 { // Array type wrapper
 			// Read the data pointer from offset 12
-			dataPointerBytes, ok := wa.Memory().Read(offset+12, 4)
-			if ok {
+			if dataPointerBytes, ok := wa.Memory().Read(offset+12, 4); ok {
 				dataPointer := binary.LittleEndian.Uint32(dataPointerBytes)
 				// Use the data pointer as the actual array offset
 				offset = dataPointer
 			}
 		}
-	} else {
 	}
 
 	memBlock, classID, words, err := memoryBlockAtOffset(wa, offset, 0)
@@ -141,27 +136,13 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			return nil, err
 		}
 
-
 	} else {
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
-		// Debug: dump memory to understand the structure
-		// if classID == 96 {
-		//	for i := 0; i < len(memBlock) && i < 40; i++ {
-		//		if (i+1)%8 == 0 {
-		//		}
-		//	}
-		// }
 		if sliceOffset == 0 {
 			// For classID=96 arrays, sliceOffset=0 doesn't mean nil, it means embedded data
-			if classID == BoolByteCharClassID && words > 0 {
-				// Continue processing as embedded data
-			} else {
+			if classID != BoolByteCharClassID {
 				return nil, nil // nil slice
 			}
-		} else if sliceOffset > 0 && sliceOffset < MinValidMemoryOffset && classID == BoolByteCharClassID && words > 0 {
-			// For classID=96 arrays, small sliceOffset values (1-999) are the first element value
-			// This is option_2 pattern: sliceOffset contains element[0], remaining elements follow
-			// Continue processing as compact embedded data
 		}
 
 		if words == 1 {
@@ -572,8 +553,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 		size := numElements * uint32(elemTypeSize)
 
-		memBlock, _, _, err = memoryBlockAtOffset(wa, sliceOffset, size)
-		if err != nil {
+		if memBlock, _, _, err = memoryBlockAtOffset(wa, sliceOffset, size); err != nil {
 			return nil, err
 		}
 	}
@@ -851,15 +831,6 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		}
 	}
 
-	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-		finalPtr := ptr - 8
-		// Debug: dump memory structure for Bool? arrays
-		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
-		}
-		return finalPtr, cln, nil
-	}
-
-	// For FixedArray, return the adjusted pointer
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
 		finalPtr := ptr - 8
 		return finalPtr, cln, nil

@@ -191,10 +191,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		return nil, err
 	}
 
-	// Debug for Int16 arrays (TODO: remove)
-	// if h.typeInfo.ListElementType().Name() == "Int16" {
-	// }
-
 	// For new classIDs, calculate the correct size and re-read
 	var sliceMemBlock []byte
 	if classID == 96 || classID == 64 || classID == 112 {
@@ -334,9 +330,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
-		for i := 0; i < 16 && i < len(sliceMemBlock); i += 4 {
-		}
-		
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			offset := MemoryBlockHeaderSize + i*elemTypeSize
@@ -406,10 +399,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	// Check if this is a dynamic Array[T] (not FixedArray[T])
 	isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
-	
+
 	// Both Array[Bool] and Array[Byte] now use dynamic array path with native MoonBit functions
 	// Array[Bool] uses moonbit_i32_array_make, Array[Byte] uses fnBytes2Array
-	
+
 	if !isFixedArray {
 		// For dynamic Array[T], use MoonBit's native array creation functions
 		return h.createDynamicPrimitiveArray(ctx, wa, slice, numElements, elemType)
@@ -582,31 +575,18 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				}
 				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
 					boolArrayPtr := uint32(arrayPtr[0])
-					// Debug: Read the created array structure
-					if ok {
-						for i := 0; i < 16; i += 4 {
-						}
-					}
 					// Write individual bool values to the allocated array
 					for i := uint32(0); i < numElements; i++ {
 						value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
 						// Write each bool at offset+8+i*4 (data starts at offset 8)
 						boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
 						wa.Memory().WriteUint32Le(boolAddr, value)
-						// Verify the write
-						if ok {
-						}
 					}
 					// Update offset to point to the bool array
-					// Debug: Read the array structure again after writes
-					if ok {
-						for i := 0; i < 16; i += 4 {
-						}
-					}
 					offset = boolArrayPtr
 					// Return early since the array is properly allocated and initialized
 					// Let Array wrapper creation happen
-	return offset, cln, nil
+					return offset, cln, nil
 					// return offset, cln, nil
 				}
 				// If array creation failed, fall back to default behavior
@@ -640,7 +620,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					offset = int16ArrayPtr
 					// Return early since the array is properly allocated and initialized
 					// Let Array wrapper creation happen
-	return offset, cln, nil
+					return offset, cln, nil
 					// return offset, cln, nil
 				}
 			case "UInt16":
@@ -663,7 +643,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					offset = uint16ArrayPtr
 					// Return early since the array is properly allocated and initialized
 					// Let Array wrapper creation happen
-	return offset, cln, nil
+					return offset, cln, nil
 					// return offset, cln, nil
 				}
 			case "Byte":
@@ -686,7 +666,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					offset = byteArrayPtr
 					// Return early since the array is properly allocated and initialized
 					// Let Array wrapper creation happen
-	return offset, cln, nil
+					return offset, cln, nil
 					// return offset, cln, nil
 				}
 			default:
@@ -702,8 +682,8 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				offset = uint32(arrayPtr[0])
 				// The array is now properly GC-managed, return early to skip manual headers
 				// Let Array wrapper creation happen
-	return offset, cln, nil
-					// return offset, cln, nil
+				return offset, cln, nil
+				// return offset, cln, nil
 			}
 		} else {
 			// Fallback to manual allocation approach
@@ -755,14 +735,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		} else {
 			// Manual allocation or empty array, return as-is
 			// Let Array wrapper creation happen
-	return offset, cln, nil
-					// return offset, cln, nil
+			return offset, cln, nil
+			// return offset, cln, nil
 		}
 	}
 
-	// Let Array wrapper creation happen
 	return offset, cln, nil
-					// return offset, cln, nil
 }
 
 // createDynamicPrimitiveArray creates dynamic Array[T] types for primitive types using MoonBit's native functions
@@ -857,14 +835,6 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 
 	arrayPtr := uint32(results[0])
 
-	// Debug: Read the initial array structure
-	if debugBytes, ok := wa.Memory().Read(arrayPtr, 16); ok {
-		for i := 0; i < 16; i += 4 {
-			if i < len(debugBytes) {
-			}
-		}
-	}
-
 	// Update memory directly where true values should be (back to 32-bit approach)
 	for i, val := range slice {
 		if boolVal, ok := any(val).(bool); ok {
@@ -938,13 +908,7 @@ func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa w
 			if !wa.Memory().Write(offset, []byte{byteVal}) {
 				return 0, fmt.Errorf("failed to write byte at offset %d", offset)
 			}
-			// Wrote byte to Bytes object
 		}
-	}
-
-	// Step 3: Convert Bytes to Array[Byte] using fnBytes2Array
-	if wasmAdapter.fnBytes2Array == nil {
-		return 0, fmt.Errorf("fnBytes2Array not available")
 	}
 
 	arrayResults, err := wasmAdapter.fnBytes2Array.Call(ctx, uint64(bytesPtr))
@@ -956,7 +920,6 @@ func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa w
 	}
 
 	arrayPtr := uint32(arrayResults[0])
-	// Successfully converted Bytes to Array[Byte] using fnBytes2Array
 
 	return arrayPtr, nil
 }
