@@ -84,54 +84,44 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	}
 
 	// Debug: print the actual value being decoded (TODO: remove)
-	// fmt.Printf("DEBUG: sliceHandler.Decode vals[0] = %d (0x%X)\n", vals[0], vals[0])
 
 	// Handle MoonBit sentinel values for problematic arrays
 	if vals[0] == NoneSentinelUInt32 || uint32(vals[0]) == NoneSentinelUInt32 {
 		// MoonBit returned an error/sentinel value - this might be a None array or error
 		// For now, return empty array to avoid memory access errors
-		// fmt.Printf("DEBUG: Detected 0xFFFFFFFF sentinel value, returning empty array\n")
 		return h.emptyValue, nil
 	}
 
 	// Check if this is a wrapper structure (contains type info 1573120)
 	offset := uint32(vals[0])
-	fmt.Printf("DEBUG: sliceHandler.Decode called with offset=%d (0x%X)\n", offset, offset)
 
 	// Try to read the type info at offset 4
 	typeInfoBytes, ok := wa.Memory().Read(offset+4, 4)
 	if ok {
 		typeInfo := binary.LittleEndian.Uint32(typeInfoBytes)
-		fmt.Printf("DEBUG: Read type info %d (0x%X) at offset %d\n", typeInfo, typeInfo, offset+4)
 		if typeInfo == 1573120 { // Array type wrapper
 			// Read the data pointer from offset 12
 			dataPointerBytes, ok := wa.Memory().Read(offset+12, 4)
 			if ok {
 				dataPointer := binary.LittleEndian.Uint32(dataPointerBytes)
-				fmt.Printf("DEBUG: Found wrapper structure, using data pointer %d instead of %d\n", dataPointer, offset)
 				// Use the data pointer as the actual array offset
 				offset = dataPointer
 			}
 		}
 	} else {
-		fmt.Printf("DEBUG: Failed to read type info at offset %d\n", offset+4)
 	}
 
 	memBlock, classID, words, err := memoryBlockAtOffset(wa, offset, 0)
 	if err != nil {
-		fmt.Printf("DEBUG: memoryBlockAtOffset failed with: %v\n", err)
 		// Check if this is a dynamic Array[T] that needs fallback
 		isFixedArray := strings.HasPrefix(h.typeDef.Name, "FixedArray[")
 		if !isFixedArray && strings.Contains(err.Error(), "invalid memory offset") {
 			// This is likely a dynamic array created by moonbit.i32_array_make or moonbit.ref_array_make
 			// Use direct memory reading approach as fallback
-			fmt.Printf("DEBUG: Using fallback decodeDynamicArray\n")
 			return h.decodeDynamicArray(ctx, wa, wasmAdapter, offset)
 		}
 		return nil, err
 	}
-	fmt.Printf("DEBUG: memoryBlockAtOffset succeeded: classID=%d, words=%d\n", classID, words)
-	// fmt.Printf("DEBUG: memoryBlockAtOffset returned classID=%d, words=%d, memBlock size=%d\n", classID, words, len(memBlock))
 
 	if words == 0 {
 		return h.emptyValue, nil // empty slice
@@ -154,22 +144,16 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 	} else {
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
-		// fmt.Printf("DEBUG: sliceOffset = %d (0x%X)\n", sliceOffset, sliceOffset)
 		// Debug: dump memory to understand the structure
 		// if classID == 96 {
-		//	fmt.Printf("DEBUG: classID=96 memory dump (size=%d): ", len(memBlock))
 		//	for i := 0; i < len(memBlock) && i < 40; i++ {
-		//		fmt.Printf("%02X ", memBlock[i])
 		//		if (i+1)%8 == 0 {
-		//			fmt.Printf("| ")
 		//		}
 		//	}
-		//	fmt.Printf("\n")
 		// }
 		if sliceOffset == 0 {
 			// For classID=96 arrays, sliceOffset=0 doesn't mean nil, it means embedded data
 			if classID == BoolByteCharClassID && words > 0 {
-				// fmt.Printf("DEBUG: classID=96 with sliceOffset=0, treating as embedded data\n")
 				// Continue processing as embedded data
 			} else {
 				return nil, nil // nil slice
@@ -177,7 +161,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 		} else if sliceOffset > 0 && sliceOffset < MinValidMemoryOffset && classID == BoolByteCharClassID && words > 0 {
 			// For classID=96 arrays, small sliceOffset values (1-999) are the first element value
 			// This is option_2 pattern: sliceOffset contains element[0], remaining elements follow
-			// fmt.Printf("DEBUG: classID=96 with sliceOffset=%d, treating as compact layout\n", sliceOffset)
 			// Continue processing as compact embedded data
 		}
 
@@ -197,7 +180,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 				}
 			} else if (elemType.Name() == "Bool?" || elemType.Name() == "Byte?" || elemType.Name() == "Char?" || elemType.Name() == "Int16?") && classID == BoolByteCharClassID && sliceOffset > 0 && sliceOffset < MinValidMemoryOffset {
 				// Compact layout for single-element Bool?/Byte? arrays: sliceOffset contains the value
-				// fmt.Printf("DEBUG: Single-element compact layout, sliceOffset=%d\n", sliceOffset)
 				var item any
 				if elemType.Name() == "Bool?" {
 					switch sliceOffset {
@@ -235,7 +217,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 						item = &i
 					}
 				}
-				// fmt.Printf("DEBUG: Single-element decoded: %T=%v\n", item, item)
 				if !utils.HasNil(item) {
 					items.Index(0).Set(reflect.ValueOf(item))
 				}
@@ -254,7 +235,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 		// Handle multi-element arrays with embedded data (various patterns for classID=96)
 		if sliceOffset == NoneSentinelUInt32 || (sliceOffset == 0 && classID == BoolByteCharClassID && words > 0) || (sliceOffset > 0 && sliceOffset < MinValidMemoryOffset && classID == BoolByteCharClassID && words > 0) {
-			// fmt.Printf("DEBUG: Multi-element array with embedded data, words=%d, sliceOffset=0x%X\n", words, sliceOffset)
 			// For multi-element arrays where sliceOffset is 0xFFFFFFFF,
 			// the data is embedded directly after the header. We need to re-read with the correct size.
 			numElements = words
@@ -265,7 +245,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			if err != nil {
 				return nil, err
 			}
-			// fmt.Printf("DEBUG: Re-read memBlock with size %d\n", len(memBlock))
 
 			// The array data starts at different offsets depending on sliceOffset value
 			var dataStartOffset int
@@ -306,13 +285,11 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 							value = uint64(value32)
 						}
 					}
-					// fmt.Printf("DEBUG: Element %d: raw value=0x%X (%d)\n", i, value, value)
 
 					// For Bool? arrays with classID=96, use different patterns based on sliceOffset:
 					if elemType.Name() == "Bool?" && classID == BoolByteCharClassID {
 						var item any
 						if sliceOffset == NoneSentinelUInt32 {
-							// fmt.Printf("DEBUG: Bool? Option_3 element %d: value=0x%X (%d)\n", i, value, value)
 							// Option_3 pattern: 1=None, 0=Some(true), pointers=Some(value)
 							switch value {
 							case 1:
@@ -361,7 +338,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 								}
 							}
 						}
-						// fmt.Printf("DEBUG: Element %d: decoded item=%v, isNil=%v\n", i, item, utils.HasNil(item))
 						if !utils.HasNil(item) {
 							items.Index(int(i)).Set(reflect.ValueOf(item))
 						}
@@ -370,7 +346,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 					// For Byte? arrays with classID=96, use same patterns as Bool?
 					if elemType.Name() == "Byte?" && classID == BoolByteCharClassID {
-						// fmt.Printf("DEBUG: Byte? decoding element %d: value=0x%X (%d), sliceOffset=0x%X\n", i, value, value, sliceOffset)
 						var item any
 						if sliceOffset == NoneSentinelUInt32 {
 							// Option_3 pattern for Byte?: try to derive pattern from memory values
@@ -407,7 +382,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 								}
 							}
 						}
-						// fmt.Printf("DEBUG: Byte? Element %d: decoded item=%v, isNil=%v\n", i, item, utils.HasNil(item))
 						if !utils.HasNil(item) {
 							items.Index(int(i)).Set(reflect.ValueOf(item))
 						}
@@ -416,11 +390,9 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 
 					// For Char? arrays with classID=96, use same patterns as Bool?/Byte?
 					if elemType.Name() == "Char?" && classID == BoolByteCharClassID {
-						// fmt.Printf("DEBUG: Char? array detected, sliceOffset=0x%X\n", sliceOffset)
 						var item any
 						if sliceOffset == NoneSentinelUInt32 {
 							// Option_3 pattern for Char?: similar to Byte? pattern
-							// fmt.Printf("DEBUG: Char? Option_3 element %d: value=0x%X (%d)\n", i, value, value)
 							switch i {
 							case 0:
 								// First element in Option_3 pattern is always None for chars
@@ -463,7 +435,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 								}
 							}
 						}
-						// fmt.Printf("DEBUG: Char? Element %d: decoded item=%v, isNil=%v\n", i, item, utils.HasNil(item))
 						if !utils.HasNil(item) {
 							items.Index(int(i)).Set(reflect.ValueOf(item))
 						}
@@ -569,7 +540,6 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					if err != nil {
 						return nil, err
 					}
-					// fmt.Printf("DEBUG: Element %d: decoded item=%v, isNil=%v\n", i, item, utils.HasNil(item))
 					if !utils.HasNil(item) {
 						items.Index(int(i)).Set(reflect.ValueOf(item))
 					}
@@ -831,7 +801,6 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		// For Bool? arrays with classID=96, MoonBit functions handle memType automatically
 		// Just set the sliceOffset to indicate embedded data (but MoonBit already does this)
 		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
-			// fmt.Printf("DEBUG: Bool? array with classID=96, letting MoonBit handle structure\n")
 		}
 	}
 
@@ -866,7 +835,6 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 			} else {
 				wa.Memory().WriteUint32Le(ptr+uint32(i)*uint32(elemTypeSize), encodedValue)
 			}
-			// fmt.Printf("DEBUG: Writing Bool? element %d: value=%d at offset=%d\n", i, encodedValue, offset)
 			// For classID=96 arrays, elements start at ptr+8 (after sliceOffset and numElements)
 			if memBlockClassID == BoolByteCharClassID {
 				wa.Memory().WriteUint32Le(ptr+MemoryBlockHeaderSize+uint32(i)*uint32(elemTypeSize), encodedValue)
@@ -887,7 +855,6 @@ func (h *sliceHandler) doWriteSlice(ctx context.Context, wasmAdapter langsupport
 		finalPtr := ptr - 8
 		// Debug: dump memory structure for Bool? arrays
 		if elemType.Name() == "Bool?" && memBlockClassID == 96 {
-			// fmt.Printf("DEBUG: Created Bool? array, ptr=%d, finalPtr=%d\n", ptr, finalPtr)
 		}
 		return finalPtr, cln, nil
 	}
@@ -1028,7 +995,6 @@ func (h *sliceHandler) createBoolArrayWithMoonBit(ctx context.Context, wasmAdapt
 	}
 
 	arrayPtr := uint32(results[0])
-	// fmt.Printf("DEBUG: moonbit_i32_array_make(%d, -1) returned ptr=%d (0x%X)\n", numElements, arrayPtr, arrayPtr)
 
 	// Step 2: Write actual element values at the correct offsets (like the WAT does)
 	for i, val := range slice {
@@ -1048,11 +1014,9 @@ func (h *sliceHandler) createBoolArrayWithMoonBit(ctx context.Context, wasmAdapt
 		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16)
 		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
-		// fmt.Printf("DEBUG: Wrote element %d: value=%d (0x%X) at offset=%d\n", i, encodedValue, encodedValue, offset)
 	}
 
 	// Step 3: Return arrayPtr (like the WAT does)
-	// fmt.Printf("DEBUG: Returning arrayPtr=%d (0x%X)\n", arrayPtr, arrayPtr)
 	return arrayPtr, nil, nil
 }
 
@@ -1084,7 +1048,6 @@ func (h *sliceHandler) createByteArrayWithMoonBit(ctx context.Context, wasmAdapt
 	}
 
 	arrayPtr := uint32(results[0])
-	// fmt.Printf("DEBUG: moonbit_i32_array_make(%d, -1) returned ptr=%d (0x%X)\n", numElements, arrayPtr, arrayPtr)
 
 	// Step 2: Write actual element values at the correct offsets (like the WAT does)
 	for i, val := range slice {
@@ -1100,11 +1063,9 @@ func (h *sliceHandler) createByteArrayWithMoonBit(ctx context.Context, wasmAdapt
 		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16)
 		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
-		// fmt.Printf("DEBUG: Wrote Byte? element %d: value=%d (0x%X) at offset=%d\n", i, encodedValue, encodedValue, offset)
 	}
 
 	// Step 3: Return arrayPtr (like the WAT does)
-	// fmt.Printf("DEBUG: Returning Byte? arrayPtr=%d (0x%X)\n", arrayPtr, arrayPtr)
 	return arrayPtr, nil, nil
 }
 
@@ -1136,7 +1097,6 @@ func (h *sliceHandler) createCharArrayWithMoonBit(ctx context.Context, wasmAdapt
 	}
 
 	arrayPtr := uint32(results[0])
-	// fmt.Printf("DEBUG: moonbit_i32_array_make(%d, -1) returned ptr=%d (0x%X)\n", numElements, arrayPtr, arrayPtr)
 
 	// Step 2: Write actual element values at the correct offsets (like the WAT does)
 	for i, val := range slice {
@@ -1152,11 +1112,9 @@ func (h *sliceHandler) createCharArrayWithMoonBit(ctx context.Context, wasmAdapt
 		// Write at arrayPtr + 8 + i*4 (matching WAT offsets: 8, 12, 16)
 		offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*StandardPtrSize
 		wasmAdapter.(wasmMemoryWriter).Memory().WriteUint32Le(offset, encodedValue)
-		// fmt.Printf("DEBUG: Wrote Char? element %d: value=%d (0x%X) at offset=%d\n", i, encodedValue, encodedValue, offset)
 	}
 
 	// Step 3: Return arrayPtr (like the WAT does)
-	// fmt.Printf("DEBUG: Returning Char? arrayPtr=%d (0x%X)\n", arrayPtr, arrayPtr)
 	return arrayPtr, nil, nil
 }
 
