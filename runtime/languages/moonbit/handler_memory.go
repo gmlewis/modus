@@ -42,20 +42,20 @@ const (
 	OptionBlockType              = 1
 
 	// Additional classID values discovered through testing
-	BoolByteCharClassID = 96  // Used for Bool?, Byte?, Char?, Int16?, UInt arrays
-	Int64DoubleClassID  = 112 // Used for Int64, UInt64, Double arrays
-	RefArrayClassID     = 160 // Used for Double?, Float?, Int64?, UInt64? arrays
+	BoolByteCharClassID = 96  // Used for `Bool?`, `Byte?`, `Char?`, `Int16?`, `UInt` arrays
+	Int64DoubleClassID  = 112 // Used for `Int64`, `UInt64`, `Double` arrays
+	RefArrayClassID     = 160 // Used for `Double?`, `Float?`, `Int64?`, `UInt64?` arrays
 
 	// None singleton values for optional types
-	NoneSentinelUInt32      = 0xFFFFFFFF // None value for Bool?, Byte?, Char?
-	NoneSingletonPointer    = 10248      // None singleton pointer for 64-bit reference types (confirmed by WAT analysis)
-	NoneValueInt16          = 32768      // None value for Int16?
-	NoneValueInt            = 4          // None value for Int?/UInt? (determined from runtime testing)// Memory layout constants
-	MemoryBlockHeaderSize   = 8          // Standard memory block header size
-	MemoryBlockHeaderSizeLg = 16         // Extended header size for some arrays
-	MinValidMemoryOffset    = 1000       // Minimum valid memory address threshold
-	EmptyArrayMarker1       = 4294967295 // Special marker for empty arrays
-	EmptyArrayMarker2       = 1610612736 // Special marker for empty arrays
+	NoneSentinelUInt32      = 0xFFFFFFFF  // None value for `Bool?`, `Byte?`, `Char?`
+	NoneSingletonPointer    = 10248       // None singleton pointer for 64-bit reference types (confirmed by WAT analysis)
+	NoneValueInt16          = 32768       // None value for Int16?
+	NoneValueInt            = 0x100000000 // None value for `Int?`
+	MemoryBlockHeaderSize   = 8           // Standard memory block header size
+	MemoryBlockHeaderSizeLg = 16          // Extended header size for some arrays
+	MinValidMemoryOffset    = 1000        // Minimum valid memory address threshold
+	EmptyArrayMarker1       = 4294967295  // Special marker for empty arrays
+	EmptyArrayMarker2       = 1610612736  // Special marker for empty arrays
 
 	// Bit manipulation constants
 	ClassIDShift           = 24         // Bit shift for classID extraction

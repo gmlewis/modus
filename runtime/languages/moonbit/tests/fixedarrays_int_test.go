@@ -9,7 +9,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Tests FAIL with moonc v0.6.18+8382ed77e
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -181,7 +181,6 @@ func TestFixedArrayOutput_int_option_0(t *testing.T) {
 }
 
 func TestFixedArrayOutput_int_option_1_none(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_int_option_1_none"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -262,7 +261,6 @@ func TestFixedArrayOutput_int_option_2(t *testing.T) {
 }
 
 func TestFixedArrayOutput_int_option_3(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_int_option_3"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -286,7 +284,6 @@ func TestFixedArrayOutput_int_option_3(t *testing.T) {
 }
 
 func TestFixedArrayOutput_int_option_4(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_int_option_4"
 
 	result, err := fixture.CallFunction(t, fnName)

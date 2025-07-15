@@ -9,7 +9,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Tests FAIL with moonc v0.6.18+8382ed77e
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
