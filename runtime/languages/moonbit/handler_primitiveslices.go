@@ -547,29 +547,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	case "UInt":
 		arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
 	case "Bool":
-		// SPECIAL: Use moonbit_bytes_make for Bool arrays like the WAT functions do
-		// Use the same function as WAT: moonbit.i32_array_make(numElements, 0)
-		arrayPtr, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), 0)
-		if err != nil {
-			return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
-		}
-		if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-			boolArrayPtr := uint32(arrayPtr[0])
-			// Write individual bool values to the allocated array
-			for i := uint32(0); i < numElements; i++ {
-				value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
-				// Write each bool at offset+8+i*4 (data starts at offset 8)
-				boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
-				wa.Memory().WriteUint32Le(boolAddr, value)
-			}
-			// Update offset to point to the bool array
-			offset = boolArrayPtr
-			// Return early since the array is properly allocated and initialized
-			// Let Array wrapper creation happen
-			return offset, cln, nil
-			// return offset, cln, nil
-		}
-		// If array creation failed, fall back to default behavior
+		arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 	case "Int", "Char":
 		arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 	case "Float":
@@ -766,28 +744,14 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 		return 0, nil, fmt.Errorf("failed to create data array for %s: %w", elemType.Name(), err)
 	}
 
-	// Step 2: Create wrapper structure using cabi_realloc (MoonBit allocator)
-	// Array[T] wrapper structure: [refCount, 1573120, length, dataPtr]
-	// Array[Byte] doesn't need wrapper creation because fnBytes2Array already returns a complete Array[Byte] object
-	if elemType.Name() == "Byte" {
-		// fnBytes2Array already returns a complete Array[Byte] object, no wrapper needed
-		// fnBytes2Array returned complete Array[Byte] object
-		return offset, utils.NewCleaner(), nil
-	}
-
-	// Array[Bool] doesn't need wrapper creation because moonbit_i32_array_make returns a complete Array[Bool]
-	if elemType.Name() == "Bool" {
-		// moonbit_i32_array_make already returns a complete Array[Bool] object, no wrapper needed
-		return offset, utils.NewCleaner(), nil
-	}
-
-	// Other types return data array directly
 	return offset, utils.NewCleaner(), nil
 }
 
 // Helper functions for creating data arrays for different primitive types
 
 func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
+	// TODO: Note that createDoubleDataArray works, but createBoolDataArray fails. Why?
+
 	// Use moonbit_i32_array_make - this should create the correct Bool array type info
 	if wasmAdapter.fnMakeArrayInt == nil {
 		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
