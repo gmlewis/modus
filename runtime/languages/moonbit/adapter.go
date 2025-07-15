@@ -24,10 +24,22 @@ import (
 
 func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 	return &wasmAdapter{
-		mod:           mod,
-		visitedPtrs:   make(map[uint32]int),
-		fnBytes2Array: mod.ExportedFunction("moonbit_bytes_to_array"),
-		fnBytesMake:   mod.ExportedFunction("moonbit_bytes_make"),
+		mod:                    mod,
+		visitedPtrs:            make(map[uint32]int),
+		fnArrayBoolFromFixed:   mod.ExportedFunction("moonbit_array_bool_from_fixed"),
+		fnArrayByteFromFixed:   mod.ExportedFunction("moonbit_array_byte_from_fixed"),
+		fnArrayCharFromFixed:   mod.ExportedFunction("moonbit_array_char_from_fixed"),
+		fnArrayDoubleFromFixed: mod.ExportedFunction("moonbit_array_double_from_fixed"),
+		fnArrayFloatFromFixed:  mod.ExportedFunction("moonbit_array_float_from_fixed"),
+		fnArrayInt16FromFixed:  mod.ExportedFunction("moonbit_array_int16_from_fixed"),
+		fnArrayInt64FromFixed:  mod.ExportedFunction("moonbit_array_int64_from_fixed"),
+		fnArrayIntFromFixed:    mod.ExportedFunction("moonbit_array_int_from_fixed"),
+		fnArrayStringFromFixed: mod.ExportedFunction("moonbit_array_string_from_fixed"),
+		fnArrayUInt16FromFixed: mod.ExportedFunction("moonbit_array_uint16_from_fixed"),
+		fnArrayUInt64FromFixed: mod.ExportedFunction("moonbit_array_uint64_from_fixed"),
+		fnArrayUIntFromFixed:   mod.ExportedFunction("moonbit_array_uint_from_fixed"),
+		fnBytes2Array:          mod.ExportedFunction("moonbit_bytes_to_array"),
+		fnBytesMake:            mod.ExportedFunction("moonbit_bytes_make"),
 		// fnCopy:                                 mod.ExportedFunction("copy"),
 		fnDurationFromNanos: mod.ExportedFunction("duration_from_nanos"),
 		// fnFree:                                 mod.ExportedFunction("free"),
@@ -45,8 +57,8 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnPtr2IntArray:    mod.ExportedFunction("ptr2int_array"),
 		fnPtr2None:        mod.ExportedFunction("ptr_to_none"),
 		// fnPtr2Str:                              mod.ExportedFunction("ptr2str"),
-		fnPtr2Uint64Array: mod.ExportedFunction("ptr2uint64_array"),
-		fnPtr2UintArray:   mod.ExportedFunction("ptr2uint_array"),
+		fnPtr2UInt64Array: mod.ExportedFunction("ptr2uint64_array"),
+		fnPtr2UIntArray:   mod.ExportedFunction("ptr2uint_array"),
 		fnPtrToNone:       mod.ExportedFunction("ptr_to_none"),
 		fnReadMap:         mod.ExportedFunction("read_map"),
 		fnRealloc:         mod.ExportedFunction("cabi_realloc"),
@@ -58,10 +70,22 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 }
 
 type wasmAdapter struct {
-	mod           wasm.Module
-	visitedPtrs   map[uint32]int
-	fnBytes2Array wasm.Function
-	fnBytesMake   wasm.Function
+	mod                    wasm.Module
+	visitedPtrs            map[uint32]int
+	fnArrayBoolFromFixed   wasm.Function
+	fnArrayByteFromFixed   wasm.Function
+	fnArrayCharFromFixed   wasm.Function
+	fnArrayDoubleFromFixed wasm.Function
+	fnArrayFloatFromFixed  wasm.Function
+	fnArrayInt16FromFixed  wasm.Function
+	fnArrayInt64FromFixed  wasm.Function
+	fnArrayIntFromFixed    wasm.Function
+	fnArrayStringFromFixed wasm.Function
+	fnArrayUInt16FromFixed wasm.Function
+	fnArrayUInt64FromFixed wasm.Function
+	fnArrayUIntFromFixed   wasm.Function
+	fnBytes2Array          wasm.Function
+	fnBytesMake            wasm.Function
 	// fnCopy        wasm.Function
 	// used to convert Go time.Duration to MoonBit @time.Duration
 	fnDurationFromNanos wasm.Function
@@ -80,8 +104,8 @@ type wasmAdapter struct {
 	fnPtr2IntArray    wasm.Function
 	fnPtr2None        wasm.Function
 	// fnPtr2Str           wasm.Function
-	fnPtr2Uint64Array wasm.Function
-	fnPtr2UintArray   wasm.Function
+	fnPtr2UInt64Array wasm.Function
+	fnPtr2UIntArray   wasm.Function
 	fnPtrToNone       wasm.Function
 	fnReadMap         wasm.Function
 	fnRealloc         wasm.Function

@@ -249,6 +249,90 @@ pub fn moonbit_bytes_to_array(ptr : Int) -> Int {
 }
 
 ///|
+pub fn moonbit_array_bool_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Bool] = cast(ptr)
+  let arr : Array[Bool] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_byte_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Byte] = cast(ptr)
+  let arr : Array[Byte] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_char_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Char] = cast(ptr)
+  let arr : Array[Char] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_double_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Double] = cast(ptr)
+  let arr : Array[Double] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_float_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Float] = cast(ptr)
+  let arr : Array[Float] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_int16_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Int16] = cast(ptr)
+  let arr : Array[Int16] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_int64_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Int64] = cast(ptr)
+  let arr : Array[Int64] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_int_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[Int] = cast(ptr)
+  let arr : Array[Int] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_string_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[String] = cast(ptr)
+  let arr : Array[String] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_uint16_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[UInt16] = cast(ptr)
+  let arr : Array[UInt16] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_uint64_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[UInt64] = cast(ptr)
+  let arr : Array[UInt64] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
+pub fn moonbit_array_uint_from_fixed(ptr : Int) -> Int {
+  let fa : FixedArray[UInt] = cast(ptr)
+  let arr : Array[UInt] = Array::from_fixed_array(fa)
+  cast(arr)
+}
+
+///|
 pub fn moonbit_bytes_make(size : Int, val : Int) -> Int =
   #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.bytes_make)
 

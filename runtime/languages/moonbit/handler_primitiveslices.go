@@ -545,7 +545,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	var arrayPtr []uint64
 	switch elemType.Name() {
 	case "UInt":
-		arrayPtr, err = concreteWa.fnPtr2UintArray.Call(ctx, uint64(offset), uint64(numElements))
+		arrayPtr, err = concreteWa.fnPtr2UIntArray.Call(ctx, uint64(offset), uint64(numElements))
 	case "Bool":
 		arrayPtr, err = concreteWa.fnPtr2IntArray.Call(ctx, uint64(offset), uint64(numElements))
 	case "Int", "Char":
@@ -557,7 +557,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	case "Int64":
 		arrayPtr, err = concreteWa.fnPtr2Int64Array.Call(ctx, uint64(offset), uint64(numElements))
 	case "UInt64":
-		arrayPtr, err = concreteWa.fnPtr2Uint64Array.Call(ctx, uint64(offset), uint64(numElements))
+		arrayPtr, err = concreteWa.fnPtr2UInt64Array.Call(ctx, uint64(offset), uint64(numElements))
 	case "Int16":
 		// For Int16, use moonbit_int16_array_make
 		arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
