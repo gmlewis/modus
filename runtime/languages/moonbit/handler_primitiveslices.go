@@ -651,7 +651,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	// }
 
 	// For FixedArray, try minimal header addition for 1-element arrays
-	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") && numElements == 1 {
+	if isFixedArray && numElements == 1 {
 		// For 1-element arrays, try expanding to match MoonBit's [elem, header, elem] pattern
 		// Allocate additional space and restructure as [first_elem, header, first_elem]
 		header := (memBlockClassID << 24) | numElements // (96 << 24) | 1 = 1610612737
@@ -669,7 +669,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		wa.Memory().WriteUint32Le(offset-4, newMemType)
 	}
 
-	if strings.HasPrefix(h.typeDef.Name, "Array[") {
+	if !isFixedArray {
 		// Finally, write the slice memory block.
 		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 2, TupleBlockType) // was: 8
 		innerCln := utils.NewCleanerN(1)
@@ -683,7 +683,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		return slicePtr - 8, cln, nil
 	}
 
-	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
+	if isFixedArray {
 		return offset - 8, cln, nil
 	}
 
