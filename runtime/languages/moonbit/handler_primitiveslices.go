@@ -193,7 +193,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// Debug for Int16 arrays (TODO: remove)
 	// if h.typeInfo.ListElementType().Name() == "Int16" {
-	//	fmt.Printf("DEBUG: Int16 array - classID=%d, words=%d, headerBlock size=%d\n", classID, words, len(headerBlock))
 	// }
 
 	// For new classIDs, calculate the correct size and re-read
@@ -335,11 +334,7 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
-		fmt.Printf("DEBUG: Reading Bool array - classID=%d, numElements=%d, elemTypeSize=%d\n", classID, numElements, elemTypeSize)
-		fmt.Printf("DEBUG: sliceMemBlock size=%d, first 16 bytes:\n", len(sliceMemBlock))
 		for i := 0; i < 16 && i < len(sliceMemBlock); i += 4 {
-			value := binary.LittleEndian.Uint32(sliceMemBlock[i:])
-			fmt.Printf("DEBUG:   offset %d: %d (0x%X)\n", i, value, value)
 		}
 		
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
@@ -347,7 +342,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 			offset := MemoryBlockHeaderSize + i*elemTypeSize
 			item := binary.LittleEndian.Uint32(sliceMemBlock[offset:])
 			val := item != 0
-			fmt.Printf("DEBUG: Element %d at offset %d: item=%d, val=%v\n", i, offset, item, val)
 			items.Index(int(i)).Set(reflect.ValueOf(val))
 		}
 		return items.Interface(), nil
@@ -531,16 +525,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	var dataBuffer []byte
 	if elemType.Name() == "Bool" {
-		fmt.Printf("DEBUG: Creating Bool array - numElements=%d, size=%d, memBlockClassID=%d\n", numElements, size, memBlockClassID)
-		fmt.Printf("DEBUG: Array allocation - offset=%d\n", offset)
 		dataBuffer = make([]byte, numElements*4)
 		var zero T
 		for i := 0; i < len(slice); i++ {
 			if slice[i] == zero {
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 0)
-				fmt.Printf("DEBUG: Element %d: false (0)\n", i)
 			} else {
-				fmt.Printf("DEBUG: Element %d: true (1)\n", i)
 				binary.LittleEndian.PutUint32(dataBuffer[i*4:], 1)
 			}
 		}
@@ -552,12 +542,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		}
 	} else if elemType.Name() == "Byte" {
 		// For Byte arrays, MoonBit expects 4-byte values in fixed array infrastructure
-		fmt.Printf("DEBUG: Creating Byte array - numElements=%d, size=%d\n", numElements, size)
 		dataBuffer = make([]byte, numElements*4)
 		for i := 0; i < len(slice); i++ {
 			val := reflect.ValueOf(slice[i])
 			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Uint()))
-			fmt.Printf("DEBUG: Element %d: byte %d (0x%02X) stored as 4-byte value\n", i, val.Uint(), val.Uint())
 		}
 	} else {
 		// Allocate data buffer and write using the appropriate function
@@ -587,7 +575,6 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Bool":
 				// SPECIAL: Use moonbit_bytes_make for Bool arrays like the WAT functions do
-				fmt.Printf("DEBUG: Using moonbit_bytes_make for Bool array\n")
 				// Use the same function as WAT: moonbit.i32_array_make(numElements, 0)
 				arrayPtr, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), 0)
 				if err != nil {
@@ -595,16 +582,10 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 				}
 				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
 					boolArrayPtr := uint32(arrayPtr[0])
-					fmt.Printf("DEBUG: Created Bool array at offset %d\n", boolArrayPtr)
 					// Debug: Read the created array structure
-					headerBytes, ok := wa.Memory().Read(boolArrayPtr, 16)
 					if ok {
-						fmt.Printf("DEBUG: Array structure at %d: ", boolArrayPtr)
 						for i := 0; i < 16; i += 4 {
-							value := binary.LittleEndian.Uint32(headerBytes[i:])
-							fmt.Printf("offset %d: %d (0x%X) ", i, value, value)
 						}
-						fmt.Printf("\n")
 					}
 					// Write individual bool values to the allocated array
 					for i := uint32(0); i < numElements; i++ {
@@ -612,24 +593,15 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 						// Write each bool at offset+8+i*4 (data starts at offset 8)
 						boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
 						wa.Memory().WriteUint32Le(boolAddr, value)
-						fmt.Printf("DEBUG: Wrote bool element %d: %d at offset %d\n", i, value, boolAddr)
 						// Verify the write
-						readBack, ok := wa.Memory().Read(boolAddr, 4)
 						if ok {
-							verifyValue := binary.LittleEndian.Uint32(readBack)
-							fmt.Printf("DEBUG: Read back element %d: %d (wrote %d)\n", i, verifyValue, value)
 						}
 					}
 					// Update offset to point to the bool array
 					// Debug: Read the array structure again after writes
-					headerBytes2, ok := wa.Memory().Read(boolArrayPtr, 16)
 					if ok {
-						fmt.Printf("DEBUG: Array structure after writes at %d: ", boolArrayPtr)
 						for i := 0; i < 16; i += 4 {
-							value := binary.LittleEndian.Uint32(headerBytes2[i:])
-							fmt.Printf("offset %d: %d (0x%X) ", i, value, value)
 						}
-						fmt.Printf("\n")
 					}
 					offset = boolArrayPtr
 					// Return early since the array is properly allocated and initialized
@@ -638,7 +610,6 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 					// return offset, cln, nil
 				}
 				// If array creation failed, fall back to default behavior
-				fmt.Printf("DEBUG: moonbit_bytes_make failed, falling back\n")
 			case "Int", "Char":
 				arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
 			case "Float":
@@ -763,7 +734,6 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 
 	if strings.HasPrefix(h.typeDef.Name, "Array[") {
 		// Finally, write the slice memory block.
-		fmt.Printf("DEBUG: Creating Array wrapper for %s, offset=%d\n", "Array", offset)
 		slicePtr, sliceCln, err := wa.allocateAndPinMemory(ctx, 2, TupleBlockType) // was: 8
 		innerCln := utils.NewCleanerN(1)
 		innerCln.AddCleaner(sliceCln)
@@ -865,7 +835,6 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 	}
 
 	// Other types return data array directly
-	fmt.Printf("DEBUG: Returning data array directly at %d (no wrapper creation)\n", offset)
 	return offset, utils.NewCleaner(), nil
 }
 
@@ -890,18 +859,13 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 
 	// Debug: Read the initial array structure
 	if debugBytes, ok := wa.Memory().Read(arrayPtr, 16); ok {
-		fmt.Printf("DEBUG: Initial Array[Bool] at %d: ", arrayPtr)
 		for i := 0; i < 16; i += 4 {
 			if i < len(debugBytes) {
-				value := binary.LittleEndian.Uint32(debugBytes[i:i+4])
-				fmt.Printf("[%d]=%d(0x%X) ", i, value, value)
 			}
 		}
-		fmt.Printf("\n")
 	}
 
 	// Update memory directly where true values should be (back to 32-bit approach)
-	fmt.Printf("DEBUG: Updating %d elements\n", len(slice))
 	for i, val := range slice {
 		if boolVal, ok := any(val).(bool); ok {
 			offset := arrayPtr + 8 + uint32(i)*4 // 8 = header size, 4 bytes per bool
@@ -910,25 +874,7 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 				value = 1
 			}
 			wa.Memory().WriteUint32Le(offset, value)
-			fmt.Printf("DEBUG: Element %d: wrote %v as %d at offset %d\n", i, boolVal, value, offset)
-			// Verify the write
-			if readBack, ok := wa.Memory().Read(offset, 4); ok {
-				readValue := binary.LittleEndian.Uint32(readBack)
-				fmt.Printf("DEBUG: Read back: %d\n", readValue)
-			}
 		}
-	}
-
-	// Debug: Read the final array structure
-	if debugBytes, ok := wa.Memory().Read(arrayPtr, 16); ok {
-		fmt.Printf("DEBUG: Final Array[Bool] at %d: ", arrayPtr)
-		for i := 0; i < 16; i += 4 {
-			if i < len(debugBytes) {
-				value := binary.LittleEndian.Uint32(debugBytes[i:i+4])
-				fmt.Printf("[%d]=%d(0x%X) ", i, value, value)
-			}
-		}
-		fmt.Printf("\n")
 	}
 
 	// Return the complete Array[Bool] pointer (no wrapper creation needed)
