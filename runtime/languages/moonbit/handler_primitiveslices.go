@@ -479,48 +479,27 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		// Fix the header to match: memType should indicate 4 words
 		memType := (4 << 8) | memBlockClassID // 4 words, classID 96
 		wa.Memory().WriteUint32Le(offset-4, memType)
-	} else {
-		// For non-empty arrays, use MoonBit's exported malloc function
-		// This ensures GC compatibility by using MoonBit's own allocation
-		// Cast to concrete adapter type to access GetFunction
-		concreteWa, ok := wa.(*wasmAdapter)
-		if !ok {
-			// Fall back to manual allocation if we can't access GetFunction
-			allocSize := size / 4
-			if numElements == 1 {
-				// For 1-element arrays, allocate space for [elem, header, elem] = 3 words
-				allocSize = 3
-			}
-
-			offset, cln, err = wa.allocateAndPinMemory(ctx, allocSize, memBlockClassID)
-			if err != nil {
-				return 0, cln, err
-			}
-
-			// For Int64, UInt64, and Double, the `words` portion of the memory block
-			// indicates the number of elements in the slice, not the number of 16-bit words.
-			if elemType.Name() == "Int64" || elemType.Name() == "UInt64" || elemType.Name() == "Double" {
-				memType := ((size / 8) << 8) | memBlockClassID
-				wa.Memory().WriteUint32Le(offset-4, memType)
-			}
-		} else {
-			// Use malloc + ptr2*_array approach for GC-compatible arrays
-			// Step 1: Allocate raw memory for our data using MoonBit's malloc
-			malloc_res, err := concreteWa.fnMalloc.Call(ctx, uint64(size))
-			if err != nil {
-				return 0, cln, fmt.Errorf("failed to call moonbit malloc: %w", err)
-			}
-			if len(malloc_res) == 0 || malloc_res[0] == 0 {
-				return 0, cln, errors.New("moonbit malloc returned null pointer")
-			}
-			dataPtr := uint32(malloc_res[0])
-
-			// Step 2: We'll write data later and then convert to proper array
-			// For now, store the data pointer
-			offset = dataPtr
-			cln = utils.NewCleanerN(0)
-		}
+		return offset, cln, nil
 	}
+
+	// For non-empty arrays, use MoonBit's exported malloc function
+	// This ensures GC compatibility by using MoonBit's own allocation
+	concreteWa, ok := wa.(*wasmAdapter)
+	// Use malloc + ptr2*_array approach for GC-compatible arrays
+	// Step 1: Allocate raw memory for our data using MoonBit's malloc
+	malloc_res, err := concreteWa.fnMalloc.Call(ctx, uint64(size))
+	if err != nil {
+		return 0, cln, fmt.Errorf("failed to call moonbit malloc: %w", err)
+	}
+	if len(malloc_res) == 0 || malloc_res[0] == 0 {
+		return 0, cln, errors.New("moonbit malloc returned null pointer")
+	}
+	dataPtr := uint32(malloc_res[0])
+
+	// Step 2: We'll write data later and then convert to proper array
+	// For now, store the data pointer
+	offset = dataPtr
+	cln = utils.NewCleanerN(0)
 
 	var dataBuffer []byte
 	if elemType.Name() == "Bool" {
@@ -556,149 +535,142 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	// Write the data buffer
-	if size == 0 {
-		// For empty arrays, data is already written above
-	} else {
-		// For non-empty arrays, write data and convert to proper MoonBit array
-		concreteWa, ok := wa.(*wasmAdapter)
-		if ok && concreteWa.fnMalloc != nil {
-			// Step 1: Write our data to the allocated memory
-			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
-				return 0, cln, errors.New("failed to write data to allocated memory")
-			}
-
-			// Step 2: Convert raw memory to proper MoonBit array using ptr2*_array
-			var arrayPtr []uint64
-			var err error
-			switch elemType.Name() {
-			case "UInt":
-				arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
-			case "Bool":
-				// SPECIAL: Use moonbit_bytes_make for Bool arrays like the WAT functions do
-				// Use the same function as WAT: moonbit.i32_array_make(numElements, 0)
-				arrayPtr, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), 0)
-				if err != nil {
-					return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
-				}
-				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-					boolArrayPtr := uint32(arrayPtr[0])
-					// Write individual bool values to the allocated array
-					for i := uint32(0); i < numElements; i++ {
-						value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
-						// Write each bool at offset+8+i*4 (data starts at offset 8)
-						boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
-						wa.Memory().WriteUint32Le(boolAddr, value)
-					}
-					// Update offset to point to the bool array
-					offset = boolArrayPtr
-					// Return early since the array is properly allocated and initialized
-					// Let Array wrapper creation happen
-					return offset, cln, nil
-					// return offset, cln, nil
-				}
-				// If array creation failed, fall back to default behavior
-			case "Int", "Char":
-				arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
-			case "Float":
-				arrayPtr, err = concreteWa.fnPtr2floatArray.Call(ctx, uint64(offset), uint64(numElements))
-			case "Double":
-				arrayPtr, err = concreteWa.fnPtr2doubleArray.Call(ctx, uint64(offset), uint64(numElements))
-			case "Int64":
-				arrayPtr, err = concreteWa.fnPtr2int64Array.Call(ctx, uint64(offset), uint64(numElements))
-			case "UInt64":
-				arrayPtr, err = concreteWa.fnPtr2uint64Array.Call(ctx, uint64(offset), uint64(numElements))
-			case "Int16":
-				// For Int16, use moonbit_int16_array_make
-				arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
-				if err != nil {
-					return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
-				}
-				// Write data to the created array
-				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-					int16ArrayPtr := uint32(arrayPtr[0])
-					// Write individual int16 values to the allocated array
-					for i := uint32(0); i < numElements; i++ {
-						val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
-						// Write each int16 at offset+8+i*2 (data starts at offset 8)
-						int16Addr := int16ArrayPtr + MemoryBlockHeaderSize + i*2
-						wa.Memory().WriteUint16Le(int16Addr, val)
-					}
-					// Update offset to point to the int16 array
-					offset = int16ArrayPtr
-					// Return early since the array is properly allocated and initialized
-					// Let Array wrapper creation happen
-					return offset, cln, nil
-					// return offset, cln, nil
-				}
-			case "UInt16":
-				// For UInt16, use moonbit_int16_array_make (same as Int16)
-				arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
-				if err != nil {
-					return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make for UInt16: %w", err)
-				}
-				// Write data to the created array
-				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-					uint16ArrayPtr := uint32(arrayPtr[0])
-					// Write individual uint16 values to the allocated array
-					for i := uint32(0); i < numElements; i++ {
-						val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
-						// Write each uint16 at offset+8+i*2 (data starts at offset 8)
-						uint16Addr := uint16ArrayPtr + MemoryBlockHeaderSize + i*2
-						wa.Memory().WriteUint16Le(uint16Addr, val)
-					}
-					// Update offset to point to the uint16 array
-					offset = uint16ArrayPtr
-					// Return early since the array is properly allocated and initialized
-					// Let Array wrapper creation happen
-					return offset, cln, nil
-					// return offset, cln, nil
-				}
-			case "Byte":
-				// For Byte arrays, use the exported moonbit_bytes_make function
-				arrayPtr, err = concreteWa.fnBytesMake.Call(ctx, uint64(numElements), 0)
-				if err != nil {
-					return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
-				}
-				// Write individual bytes to the allocated array
-				if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-					byteArrayPtr := uint32(arrayPtr[0])
-					for i, b := range dataBuffer {
-						// Write each byte at offset+8+i (data starts at offset 8)
-						byteAddr := byteArrayPtr + MemoryBlockHeaderSize + uint32(i)
-						if ok := wa.Memory().Write(byteAddr, []byte{b}); !ok {
-							return 0, cln, fmt.Errorf("failed to write byte at address %d", byteAddr)
-						}
-					}
-					// Update offset to point to the byte array
-					offset = byteArrayPtr
-					// Return early since the array is properly allocated and initialized
-					// Let Array wrapper creation happen
-					return offset, cln, nil
-					// return offset, cln, nil
-				}
-			default:
-				return 0, cln, fmt.Errorf("unsupported type for ptr2*_array conversion: %s", elemType.Name())
-			}
-
-			if err != nil {
-				return 0, cln, fmt.Errorf("failed to convert to array using ptr2*_array for type %s: %w", elemType.Name(), err)
-			}
-
-			// Update offset to point to the proper array (if conversion was used)
-			if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
-				offset = uint32(arrayPtr[0])
-				// The array is now properly GC-managed, return early to skip manual headers
-				// Let Array wrapper creation happen
-				return offset, cln, nil
-				// return offset, cln, nil
-			}
-		} else {
-			// Fallback to manual allocation approach
-			if ok := wa.Memory().Write(offset, dataBuffer); !ok {
-				return 0, cln, errors.New("failed to write data to WASM memory")
-			}
-		}
+	// For non-empty arrays, write data and convert to proper MoonBit array
+	// Step 1: Write our data to the allocated memory
+	if ok := wa.Memory().Write(offset, dataBuffer); !ok {
+		return 0, cln, errors.New("failed to write data to allocated memory")
 	}
+
+	// Step 2: Convert raw memory to proper MoonBit array using ptr2*_array
+	var arrayPtr []uint64
+	switch elemType.Name() {
+	case "UInt":
+		arrayPtr, err = concreteWa.fnPtr2uintArray.Call(ctx, uint64(offset), uint64(numElements))
+	case "Bool":
+		// SPECIAL: Use moonbit_bytes_make for Bool arrays like the WAT functions do
+		// Use the same function as WAT: moonbit.i32_array_make(numElements, 0)
+		arrayPtr, err = concreteWa.fnMakeArrayInt.Call(ctx, uint64(numElements), 0)
+		if err != nil {
+			return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
+		}
+		if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+			boolArrayPtr := uint32(arrayPtr[0])
+			// Write individual bool values to the allocated array
+			for i := uint32(0); i < numElements; i++ {
+				value := binary.LittleEndian.Uint32(dataBuffer[i*4:])
+				// Write each bool at offset+8+i*4 (data starts at offset 8)
+				boolAddr := boolArrayPtr + MemoryBlockHeaderSize + i*4
+				wa.Memory().WriteUint32Le(boolAddr, value)
+			}
+			// Update offset to point to the bool array
+			offset = boolArrayPtr
+			// Return early since the array is properly allocated and initialized
+			// Let Array wrapper creation happen
+			return offset, cln, nil
+			// return offset, cln, nil
+		}
+		// If array creation failed, fall back to default behavior
+	case "Int", "Char":
+		arrayPtr, err = concreteWa.fnPtr2intArray.Call(ctx, uint64(offset), uint64(numElements))
+	case "Float":
+		arrayPtr, err = concreteWa.fnPtr2floatArray.Call(ctx, uint64(offset), uint64(numElements))
+	case "Double":
+		arrayPtr, err = concreteWa.fnPtr2doubleArray.Call(ctx, uint64(offset), uint64(numElements))
+	case "Int64":
+		arrayPtr, err = concreteWa.fnPtr2int64Array.Call(ctx, uint64(offset), uint64(numElements))
+	case "UInt64":
+		arrayPtr, err = concreteWa.fnPtr2uint64Array.Call(ctx, uint64(offset), uint64(numElements))
+	case "Int16":
+		// For Int16, use moonbit_int16_array_make
+		arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+		if err != nil {
+			return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make: %w", err)
+		}
+		// Write data to the created array
+		if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+			int16ArrayPtr := uint32(arrayPtr[0])
+			// Write individual int16 values to the allocated array
+			for i := uint32(0); i < numElements; i++ {
+				val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
+				// Write each int16 at offset+8+i*2 (data starts at offset 8)
+				int16Addr := int16ArrayPtr + MemoryBlockHeaderSize + i*2
+				wa.Memory().WriteUint16Le(int16Addr, val)
+			}
+			// Update offset to point to the int16 array
+			offset = int16ArrayPtr
+			// Return early since the array is properly allocated and initialized
+			// Let Array wrapper creation happen
+			return offset, cln, nil
+			// return offset, cln, nil
+		}
+	case "UInt16":
+		// For UInt16, use moonbit_int16_array_make (same as Int16)
+		arrayPtr, err = concreteWa.fnMakeArrayInt16.Call(ctx, uint64(numElements), 0)
+		if err != nil {
+			return 0, cln, fmt.Errorf("failed to call moonbit_int16_array_make for UInt16: %w", err)
+		}
+		// Write data to the created array
+		if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+			uint16ArrayPtr := uint32(arrayPtr[0])
+			// Write individual uint16 values to the allocated array
+			for i := uint32(0); i < numElements; i++ {
+				val := binary.LittleEndian.Uint16(dataBuffer[i*2:])
+				// Write each uint16 at offset+8+i*2 (data starts at offset 8)
+				uint16Addr := uint16ArrayPtr + MemoryBlockHeaderSize + i*2
+				wa.Memory().WriteUint16Le(uint16Addr, val)
+			}
+			// Update offset to point to the uint16 array
+			offset = uint16ArrayPtr
+			// Return early since the array is properly allocated and initialized
+			// Let Array wrapper creation happen
+			return offset, cln, nil
+			// return offset, cln, nil
+		}
+	case "Byte":
+		// For Byte arrays, use the exported moonbit_bytes_make function
+		arrayPtr, err = concreteWa.fnBytesMake.Call(ctx, uint64(numElements), 0)
+		if err != nil {
+			return 0, cln, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
+		}
+		// Write individual bytes to the allocated array
+		if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+			byteArrayPtr := uint32(arrayPtr[0])
+			for i, b := range dataBuffer {
+				// Write each byte at offset+8+i (data starts at offset 8)
+				byteAddr := byteArrayPtr + MemoryBlockHeaderSize + uint32(i)
+				if ok := wa.Memory().Write(byteAddr, []byte{b}); !ok {
+					return 0, cln, fmt.Errorf("failed to write byte at address %d", byteAddr)
+				}
+			}
+			// Update offset to point to the byte array
+			offset = byteArrayPtr
+			// Return early since the array is properly allocated and initialized
+			// Let Array wrapper creation happen
+			return offset, cln, nil
+			// return offset, cln, nil
+		}
+	default:
+		return 0, cln, fmt.Errorf("unsupported type for ptr2*_array conversion: %s", elemType.Name())
+	}
+
+	if err != nil {
+		return 0, cln, fmt.Errorf("failed to convert to array using ptr2*_array for type %s: %w", elemType.Name(), err)
+	}
+
+	// Update offset to point to the proper array (if conversion was used)
+	if len(arrayPtr) > 0 && arrayPtr[0] != 0 {
+		offset = uint32(arrayPtr[0])
+		// The array is now properly GC-managed, return early to skip manual headers
+		// Let Array wrapper creation happen
+		return offset, cln, nil
+		// return offset, cln, nil
+	}
+	// } else {
+	// 	// Fallback to manual allocation approach
+	// 	if ok := wa.Memory().Write(offset, dataBuffer); !ok {
+	// 		return 0, cln, errors.New("failed to write data to WASM memory")
+	// 	}
+	// }
 
 	// For FixedArray, try minimal header addition for 1-element arrays
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") && numElements == 1 {
@@ -734,17 +706,7 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 	}
 
 	if strings.HasPrefix(h.typeDef.Name, "FixedArray[") {
-		// For FixedArray, adjust return value based on allocation method
-		concreteWa, usedMalloc := wa.(*wasmAdapter)
-		if usedMalloc && concreteWa.GetFunction("malloc") != nil && size > 0 {
-			// malloc returns data pointer, but we need array pointer
-			return offset - 8, cln, nil
-		} else {
-			// Manual allocation or empty array, return as-is
-			// Let Array wrapper creation happen
-			return offset, cln, nil
-			// return offset, cln, nil
-		}
+		return offset - 8, cln, nil
 	}
 
 	return offset, cln, nil
