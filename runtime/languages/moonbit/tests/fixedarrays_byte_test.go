@@ -62,7 +62,6 @@ func TestFixedArrayOutput_byte_1(t *testing.T) {
 }
 
 func TestFixedArrayOutput_byte_2(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_byte_2"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -84,7 +83,6 @@ func TestFixedArrayOutput_byte_2(t *testing.T) {
 }
 
 func TestFixedArrayOutput_byte_3(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_byte_3"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -106,7 +104,6 @@ func TestFixedArrayOutput_byte_3(t *testing.T) {
 }
 
 func TestFixedArrayOutput_byte_4(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output_byte_4"
 
 	result, err := fixture.CallFunction(t, fnName)

@@ -413,7 +413,8 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 		return h.createDynamicPrimitiveArray(ctx, wa, slice, numElements, elemType)
 	}
 
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+	// if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = MoonBitBoolSize
@@ -539,11 +540,12 @@ func (h *primitiveSliceHandler[T]) doWriteSlice(ctx context.Context, wa wasmMemo
 			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Int()))
 		}
 	} else if elemType.Name() == "Byte" {
-		// For Byte arrays, MoonBit expects 4-byte values in fixed array infrastructure
-		dataBuffer = make([]byte, numElements*4)
+		// For Byte arrays, MoonBit expects 1-byte values in fixed array infrastructure
+		dataBuffer = make([]byte, numElements)
 		for i := 0; i < len(slice); i++ {
 			val := reflect.ValueOf(slice[i])
-			binary.LittleEndian.PutUint32(dataBuffer[i*4:], uint32(val.Uint()))
+			// binary.LittleEndian.PutUint32(dataBuffer[i:], uint32(val.Uint()))
+			dataBuffer[i] = uint8(val.Uint())
 		}
 	} else {
 		// Allocate data buffer and write using the appropriate function
