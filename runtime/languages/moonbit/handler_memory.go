@@ -86,14 +86,6 @@ func memoryBlockAtOffset(wa wasmMemoryReader, offset, sizeOverride uint32) (data
 		return nil, 0, 0, nil
 	}
 
-	// Handle None singleton pointer for optional types
-	if offset == NoneSingletonPointer {
-		// This is the None singleton - return a special marker that can be detected
-		// The None singleton has structure [255 255 255 255] [0 0 0 0]
-		// Return mock data that will be interpreted as None
-		return []byte{255, 255, 255, 255, 0, 0, 0, 0}, 0, 0, nil
-	}
-
 	// Try to read the memory block header directly
 	memBlockHeader, ok := wa.Memory().Read(offset, MemoryBlockHeaderSize)
 	if !ok {
