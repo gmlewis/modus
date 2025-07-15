@@ -22,28 +22,63 @@ import (
 
 func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 	return &wasmAdapter{
-		mod:         mod,
-		visitedPtrs: make(map[uint32]int),
-		// pub fn cabi_realloc(src_offset : Int, src_size : Int, _dst_alignment : Int, dst_size : Int) -> Int
+		mod:                                    mod,
+		visitedPtrs:                            make(map[uint32]int),
 		fnRealloc:                              mod.ExportedFunction("cabi_realloc"),
-		fnPtr2str:                              mod.ExportedFunction("ptr2str"), // pub fn ptr2str(ptr : Int) -> String
+		fnStore8:                               mod.ExportedFunction("store8"),
+		fnStore32:                              mod.ExportedFunction("store32"),
+		fnLoad32:                               mod.ExportedFunction("load32"),
+		fnMalloc:                               mod.ExportedFunction("malloc"),
+		fnFree:                                 mod.ExportedFunction("free"),
+		fnCopy:                                 mod.ExportedFunction("copy"),
+		fnPtr2doubleArray:                      mod.ExportedFunction("ptr2double_array"),
+		fnPtr2floatArray:                       mod.ExportedFunction("ptr2float_array"),
+		fnPtr2int64Array:                       mod.ExportedFunction("ptr2int64_array"),
+		fnPtr2intArray:                         mod.ExportedFunction("ptr2int_array"),
+		fnPtr2str:                              mod.ExportedFunction("ptr2str"),
+		fnPtr2uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
+		fnPtr2uintArray:                        mod.ExportedFunction("ptr2uint_array"),
+		fnBytes2Array:                          mod.ExportedFunction("moonbit_bytes_to_array"),
+		fnBytesMake:                            mod.ExportedFunction("moonbit_bytes_make"),
+		fnMakeArrayFloat:                       mod.ExportedFunction("moonbit_float32_array_make"),
+		fnMakeArrayDouble:                      mod.ExportedFunction("moonbit_float_array_make"),
+		fnMakeArrayInt:                         mod.ExportedFunction("moonbit_i32_array_make"),
+		fnMakeArrayInt16:                       mod.ExportedFunction("moonbit_int16_array_make"),
+		fnMakeArrayInt64:                       mod.ExportedFunction("moonbit_int64_array_make"),
+		fnMakeArrayRef:                         mod.ExportedFunction("moonbit_ref_array_make"),
 		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
-		// pub fn duration_from_nanos(nanoseconds : Int64) -> @time.Duration raise Error
-		fnDurationFromNanos: mod.ExportedFunction("duration_from_nanos"),
-		// pub fn read_map(key_type_name_ptr : Int, value_type_name_ptr : Int, map_ptr : Int) -> Int64
-		fnReadMap: mod.ExportedFunction("read_map"),
-		// pub fn write_map(key_type_name_ptr : Int, value_type_name_ptr : Int, key_ptr : Int, value_ptr : Int) -> Int
-		fnWriteMap: mod.ExportedFunction("write_map"),
-		// pub fn ptr_to_none() -> Int {
-		fnPtrToNone: mod.ExportedFunction("ptr_to_none"),
+		fnDurationFromNanos:                    mod.ExportedFunction("duration_from_nanos"),
+		fnReadMap:                              mod.ExportedFunction("read_map"),
+		fnWriteMap:                             mod.ExportedFunction("write_map"),
+		fnPtrToNone:                            mod.ExportedFunction("ptr_to_none"),
 	}
 }
 
 type wasmAdapter struct {
-	mod         wasm.Module
-	visitedPtrs map[uint32]int
-	fnRealloc   wasm.Function
-	fnPtr2str   wasm.Function
+	mod               wasm.Module
+	visitedPtrs       map[uint32]int
+	fnRealloc         wasm.Function
+	fnStore8          wasm.Function
+	fnStore32         wasm.Function
+	fnLoad32          wasm.Function
+	fnMalloc          wasm.Function
+	fnFree            wasm.Function
+	fnCopy            wasm.Function
+	fnPtr2doubleArray wasm.Function
+	fnPtr2floatArray  wasm.Function
+	fnPtr2int64Array  wasm.Function
+	fnPtr2intArray    wasm.Function
+	fnPtr2str         wasm.Function
+	fnPtr2uint64Array wasm.Function
+	fnPtr2uintArray   wasm.Function
+	fnBytes2Array     wasm.Function
+	fnBytesMake       wasm.Function
+	fnMakeArrayFloat  wasm.Function
+	fnMakeArrayDouble wasm.Function
+	fnMakeArrayInt    wasm.Function
+	fnMakeArrayInt16  wasm.Function
+	fnMakeArrayInt64  wasm.Function
+	fnMakeArrayRef    wasm.Function
 	// used to convert Go time.Time to MoonBit @time.ZonedDateTime
 	fnZonedDateTimeFromUnixSecondsAndNanos wasm.Function
 	// used to convert Go time.Duration to MoonBit @time.Duration
@@ -103,7 +138,18 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 	}
 
 	refCount := uint32(1)
-	memType := ((size / 4) << 8) | classID
+	var memType uint32
+
+	// For strings, use the correct format: classID in upper 4 bits, length in lower 28 bits
+	if classID == 80 { // StringBlockType
+		// Size parameter represents the string length in characters for strings
+		// Put classID in upper 4 bits (bits 28-31) and length in lower 28 bits (bits 0-27)
+		memType = (classID << 24) | (size & 0x0FFFFFFF)
+	} else {
+		// For other types, use the original format
+		memType = ((size / 4) << 8) | classID
+	}
+
 	wa.Memory().WriteUint32Le(offset-8, refCount)
 	wa.Memory().WriteUint32Le(offset-4, memType)
 
@@ -117,11 +163,11 @@ func (wa *wasmAdapter) allocateWasmMemory(ctx context.Context, size, classID uin
 // 	if err != nil {
 // 		return fmt.Errorf("failed to free WASM memory (offset: %v): %w", offset, err)
 // 	}
-
+//
 // 	ptr := uint32(res[0])
 // 	if ptr != 0 {
 // 		return fmt.Errorf("failed to free WASM memory: non-zero result: %v", ptr)
 // 	}
-
+//
 // 	return nil
 // }

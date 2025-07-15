@@ -84,7 +84,7 @@ func (h *stringHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, o
 
 func (h *stringHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v: %+v", len(vals), vals)
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding a string but got %v", len(vals))
 	}
 
 	if vals[0] == 0 {
@@ -177,23 +177,21 @@ func convertGoUTF8ToUTF16(str string) []byte {
 
 func (h *stringHandler) doWriteStringBytes(ctx context.Context, wa wasmMemoryWriter, bytes []byte) (uint32, utils.Cleaner, error) {
 	size := uint32(len(bytes))
-	// words := uint32((size + 5) / 4)
-	// totalSize := words * 4
-	words := size >> 1
-	// totalSize := uint32(8 * (1 + (words >> 2)))
-	offset, cln, err := wa.allocateAndPinMemory(ctx, words, StringBlockType)
+	// String length in characters (bytes / 2 since UTF-16 uses 2 bytes per character)
+	lengthInChars := size / 2
+
+	// Allocate memory using the length in characters
+	offset, cln, err := wa.allocateAndPinMemory(ctx, lengthInChars, StringBlockType)
 	if err != nil {
 		return 0, cln, err
 	}
 
-	// remainderOffset := words*4 + 7
-	// remainder := uint8((size + 3) % 4)
-	// wa.Memory().WriteByte(offset-8+remainderOffset, remainder)
-
+	// Write the string data at the offset (after the 8-byte header)
 	if ok := wa.Memory().Write(offset, bytes); !ok {
 		return 0, cln, fmt.Errorf("failed to write string data to WASM memory (offset: %v, size: %v)", offset, size)
 	}
 
+	// Return the pointer to the beginning of the memory block (including header)
 	return offset - 8, cln, nil
 }
 
@@ -211,24 +209,17 @@ func stringDataAtOffset(wa wasmMemoryReader, offset uint32) (data []byte, err er
 }
 
 func stringDataFromMemBlock(memBlock []byte, words uint32) (data []byte, err error) {
-	var size uint32
-	if memBlock[7] == 0 && memBlock[4] == StringBlockType {
-		// Old-style memory block
-		remainderOffset := words*4 + 7
-		remainder := uint32(3 - memBlock[remainderOffset]%4)
-		size = (words-1)*4 + remainder
-	} else if memBlock[7] == StringBlockType {
-		// New-style memory block
-		size = words * 2
-	} else {
-		return nil, fmt.Errorf("expected MoonBit String block type %v, got %v", StringBlockType, memBlock[7])
-	}
+	// The words parameter contains the string length in characters (from lower 28 bits)
+	// Each character is 2 bytes (UTF-16), so data size is words * 2
+	size := words * 2
 
-	if size <= 0 {
+	if size == 0 {
 		return nil, nil
 	}
+
+	// Ensure we don't read beyond the memory block
 	if int(size)+8 > len(memBlock) {
-		return nil, fmt.Errorf("expected string data size %v, got %v", size, len(memBlock))
+		return nil, fmt.Errorf("expected string data size %v, got %v", size, len(memBlock)-8)
 	}
 
 	return memBlock[8 : size+8], nil

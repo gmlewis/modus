@@ -180,12 +180,9 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 	if !strings.HasSuffix(typ, "]") {
 		return false
 	}
-	// MoonBit Arrays and FixedArrays are similar to Go slices.
 	return strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
 }
 
-// MoonBit does not have an equivalent fixed-length array type where the
-// length is declared in the type.  Instead, a MoonBit Array is a slice type.
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
 	return false
 }
@@ -552,8 +549,6 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 		// time.Time has 3 fields: 8 byte uint64, 8 byte int64, 4 byte pointer
 		return 20, nil
 	}
-
-	// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
 
 	return lti.getSizeOfStruct(ctx, typ)
 }

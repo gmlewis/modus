@@ -240,6 +240,41 @@ pub fn ptr_to_none() -> Int {
 
 ///|
 fn cast[A, B](a : A) -> B = "%identity"
+
+///|
+pub fn moonbit_bytes_to_array(ptr : Int) -> Int {
+  let bytes : Bytes = cast(ptr)
+  let result = bytes.to_array()
+  cast(result)
+}
+
+///|
+pub fn moonbit_bytes_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.bytes_make)
+
+///|
+pub fn moonbit_float32_array_make(size : Int, val : Float) -> Int =
+  #|(func (param i32) (param f32) (result i32) local.get 0 local.get 1 call $moonbit.float32_array_make)
+
+///|
+pub fn moonbit_float_array_make(size : Int, val : Double) -> Int =
+  #|(func (param i32) (param f64) (result i32) local.get 0 local.get 1 call $moonbit.float_array_make)
+
+///|
+pub fn moonbit_i32_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.i32_array_make)
+
+///|
+pub fn moonbit_int16_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.int16_array_make)
+
+///|
+pub fn moonbit_int64_array_make(size : Int, val : Int64) -> Int =
+  #|(func (param i32) (param i64) (result i32) local.get 0 local.get 1 call $moonbit.int64_array_make)
+
+///|
+pub fn moonbit_ref_array_make(size : Int, val : Int) -> Int =
+  #|(func (param i32) (param i32) (result i32) local.get 0 local.get 1 call $moonbit.ref_array_make)
 `
 
 func writePostProcessHeader(b *bytes.Buffer, meta *metadata.Metadata, imports map[string]string) {
@@ -347,15 +382,9 @@ func writeFuncReadMap(b *bytes.Buffer, keys []string, pairs pairsMapT) {
 	buf := &bytes.Buffer{}
 	buf.WriteString(`
 ///|
-pub fn read_map(
-  key_type_name_ptr : Int,
-  key_type_name_len : Int,
-  value_type_name_ptr : Int,
-  value_type_name_len : Int,
-  map_ptr : Int
-) -> Int64 {
-  let key_type_name = ptr2str(key_type_name_ptr + 8, key_type_name_len)
-  let value_type_name = ptr2str(value_type_name_ptr + 8, value_type_name_len)
+pub fn read_map(key_type_name_ptr : Int, value_type_name_ptr : Int, map_ptr : Int) -> Int64 {
+  let key_type_name : String = cast(key_type_name_ptr)
+  let value_type_name : String = cast(value_type_name_ptr)
   match (key_type_name, value_type_name) {
 `)
 
@@ -406,14 +435,12 @@ func writeFuncWriteMap(b *bytes.Buffer, keys []string, pairs pairsMapT) {
 ///|
 pub fn write_map(
   key_type_name_ptr : Int,
-  key_type_name_len : Int,
   value_type_name_ptr : Int,
-  value_type_name_len : Int,
   keys_ptr : Int,
   values_ptr : Int
 ) -> Int {
-  let key_type_name = ptr2str(key_type_name_ptr + 8, key_type_name_len)
-  let value_type_name = ptr2str(value_type_name_ptr + 8, value_type_name_len)
+  let key_type_name : String = cast(key_type_name_ptr)
+  let value_type_name : String = cast(value_type_name_ptr)
   match (key_type_name, value_type_name) {
 `)
 

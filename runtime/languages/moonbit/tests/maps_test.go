@@ -237,11 +237,6 @@ func TestMapInput_int_float(t *testing.T) {
 func TestMapOutput_int_float(t *testing.T) {
 	fnName := "test_map_output_int_float"
 
-	// memoryBlockAtOffset(offset: 94304=0x00017060=[96 112 1 0], size: 40=8+words*4), classID=0(Tuple), words=8, memBlock=[1 0 0 0 0 8 0 0 224 111 1 0 48 112 1 0 3 0 0 0 8 0 0 0 7 0 0 0 6 0 0 0 176 112 1 0 80 113 1 0]
-	// GML: handler_maps.go: mapHandler.Decode: sliceOffset=[224 111 1 0]=94176
-	// GML: handler_maps.go: mapHandler.Decode: numElements=[3 0 0 0]=3
-	// memoryBlockAtOffset(offset: 94176=0x00016FE0=[224 111 1 0], size: 40=8+words*4), classID=242(FixedArray[String]), words=8, memBlock=[1 0 0 0 242 8 0 0 0 0 0 0 0 113 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 176 112 1 0 80 113 1 0]
-	// GML: handler_maps.go: mapHandler.Decode: (sliceOffset: 94176, numElements: 3), sliceMemBlock([224 111 1 0]=@94176)=(40 bytes)=[1 0 0 0 242 8 0 0 0 0 0 0 0 113 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 176 112 1 0 80 113 1 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -283,9 +278,6 @@ func TestMapInput_int_double(t *testing.T) {
 func TestMapOutput_int_double(t *testing.T) {
 	fnName := "test_map_output_int_double"
 
-	// memoryBlockAtOffset(offset: 49312=0x0000C0A0=[160 192 0 0], size: 40=8+words*4), moonBitType=0(Tuple), words=8, memBlock=[1 0 0 0 0 8 0 0 32 192 0 0 112 192 0 0 3 0 0 0 8 0 0 0 7 0 0 0 6 0 0 0 240 192 0 0 144 193 0 0]
-	// memoryBlockAtOffset(offset: 49184=0x0000C020=[32 192 0 0], size: 40=8+words*4), moonBitType=242(), words=8, memBlock=[1 0 0 0 242 8 0 0 0 0 0 0 64 193 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 240 192 0 0 144 193 0 0]
-	// memoryBlockAtOffset(offset: 49472=0x0000C140=[64 193 0 0], size: 32=8+words*4), moonBitType=0(Tuple), words=6, memBlock=[3 0 0 0 0 6 0 0 1 0 0 0 0 0 0 0 233 232 223 241 2 0 0 0 154 153 153 153 153 153 1 64]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

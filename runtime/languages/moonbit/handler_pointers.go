@@ -102,9 +102,6 @@ func (h *pointerHandler) readData(ctx context.Context, wa langsupport.WasmAdapte
 	}
 
 	kind := reflect.ValueOf(data).Kind()
-	// The following line broke lots of tests, although I think it is the right thing to do:
-	// TODO: Investigate and maybe change the tests so we don't see things like `*map` and `*[]`.
-	// if kind == reflect.Ptr || kind == reflect.Map || kind == reflect.Slice {
 	if kind == reflect.Ptr {
 		// data is already a reference type
 		return data, nil

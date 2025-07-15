@@ -49,7 +49,6 @@ func TestArrayOutput_uint16_option(t *testing.T) {
 
 func getUint16OptionArray() []*uint16 {
 	a := uint16(11)
-	// b := 22
 	c := uint16(33)
 	return []*uint16{&a, nil, &c}
 }

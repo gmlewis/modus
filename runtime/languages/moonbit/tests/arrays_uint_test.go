@@ -55,7 +55,6 @@ func TestArrayOutput_uint_option(t *testing.T) {
 
 func getUIntOptionArray() []*uint32 {
 	a := uint32(11)
-	// b := 22
 	c := uint32(33)
 	return []*uint32{&a, nil, &c}
 }

@@ -54,7 +54,7 @@ func (h *durationHandler) Write(ctx context.Context, wa langsupport.WasmAdapter,
 // Decode should always be passed an address to a @time.Duration in memory.
 func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding duration but got %v: %+v", len(vals), vals)
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding duration but got %v", len(vals))
 	}
 
 	// MoonBit is configured to return a @time.Duration from the moonbitlang/x/time package:
@@ -67,7 +67,7 @@ func (h *durationHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter
 		return nil, err
 	}
 	if len(memBlock) != 20 { // TODO
-		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding duration but got %v: %+v", len(memBlock), memBlock)
+		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding duration but got %v", len(memBlock))
 	}
 
 	second := time.Duration(binary.LittleEndian.Uint64(memBlock[8:]))

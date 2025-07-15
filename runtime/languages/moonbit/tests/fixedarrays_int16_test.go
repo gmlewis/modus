@@ -23,7 +23,6 @@ import (
 func TestFixedArrayOutput_int16_0(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_0"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=243(String), words=1, memBlock=[1 0 0 0 243 1 0 0 0 0 0 3]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -44,7 +43,6 @@ func TestFixedArrayOutput_int16_0(t *testing.T) {
 func TestFixedArrayOutput_int16_1(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_1"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=243(String), words=1, memBlock=[1 0 0 0 243 1 0 0 1 0 0 1]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -65,7 +63,6 @@ func TestFixedArrayOutput_int16_1(t *testing.T) {
 func TestFixedArrayOutput_int16_1_min(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_1_min"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=243(String), words=1, memBlock=[1 0 0 0 243 1 0 0 0 128 0 1]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -86,7 +83,6 @@ func TestFixedArrayOutput_int16_1_min(t *testing.T) {
 func TestFixedArrayOutput_int16_1_max(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_1_max"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=243(String), words=1, memBlock=[1 0 0 0 243 1 0 0 255 127 0 1]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -107,7 +103,6 @@ func TestFixedArrayOutput_int16_1_max(t *testing.T) {
 func TestFixedArrayOutput_int16_2(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_2"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[1 0 0 0 243 2 0 0 0 128 255 127 0 0 0 3]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -128,7 +123,6 @@ func TestFixedArrayOutput_int16_2(t *testing.T) {
 func TestFixedArrayOutput_int16_3(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_3"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=243(String), words=2, memBlock=[1 0 0 0 243 2 0 0 1 0 2 0 3 0 0 1]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -149,7 +143,6 @@ func TestFixedArrayOutput_int16_3(t *testing.T) {
 func TestFixedArrayOutput_int16_4(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_4"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=243(String), words=3, memBlock=[1 0 0 0 243 3 0 0 1 0 2 0 3 0 4 0 0 0 0 3]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -170,7 +163,6 @@ func TestFixedArrayOutput_int16_4(t *testing.T) {
 func TestFixedArrayOutput_int16_option_0(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_0"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 8=8+words*4), classID=241(FixedArray[Primitive]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -191,7 +183,6 @@ func TestFixedArrayOutput_int16_option_0(t *testing.T) {
 func TestFixedArrayOutput_int16_option_1_none(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_1_none"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -212,7 +203,6 @@ func TestFixedArrayOutput_int16_option_1_none(t *testing.T) {
 func TestFixedArrayOutput_int16_option_1_min(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_1_min"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 128 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -233,7 +223,6 @@ func TestFixedArrayOutput_int16_option_1_min(t *testing.T) {
 func TestFixedArrayOutput_int16_option_1_max(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_1_max"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 127 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -254,7 +243,6 @@ func TestFixedArrayOutput_int16_option_1_max(t *testing.T) {
 func TestFixedArrayOutput_int16_option_2(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_2"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 1 0 0 0 2 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -275,7 +263,6 @@ func TestFixedArrayOutput_int16_option_2(t *testing.T) {
 func TestFixedArrayOutput_int16_option_3(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_3"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 11 0 0 0 255 255 255 255 33 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -299,7 +286,6 @@ func TestFixedArrayOutput_int16_option_3(t *testing.T) {
 func TestFixedArrayOutput_int16_option_4(t *testing.T) {
 	fnName := "test_fixedarray_output_int16_option_4"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 255 255 255 255 0 128 255 255 0 0 0 0 255 127 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

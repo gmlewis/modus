@@ -23,17 +23,17 @@ pub fn test_char_output_min() -> Char {
 
 ///|
 pub fn test_char_output_max() -> Char {
-  Int::unsafe_to_char(32767) // TODO: @int16.max_value))
+  Int::unsafe_to_char(@int16.max_value.to_int())
 }
 
 ///|
 pub fn test_char_option_input_min(c : Char?) -> Unit raise Error {
-  assert_eq(c, Some(Int::unsafe_to_char(-32768))) // TODO: @int16.min_value)))
+  assert_eq(c, Some(Int::unsafe_to_char(@int16.min_value.to_int())))
 }
 
 ///|
 pub fn test_char_option_input_max(c : Char?) -> Unit raise Error {
-  assert_eq(c, Some(Int::unsafe_to_char(32767))) // TODO: @int16.max_value)))
+  assert_eq(c, Some(Int::unsafe_to_char(@int16.max_value.to_int())))
 }
 
 ///|
@@ -43,16 +43,15 @@ pub fn test_char_option_input_none(c : Char?) -> Unit raise Error {
 
 ///|
 pub fn test_char_option_output_min() -> Char? {
-  Some(Int::unsafe_to_char(-32768)) // TODO: @int16.min_value))
+  Some(Int::unsafe_to_char(@int16.min_value.to_int()))
 }
 
 ///|
 pub fn test_char_option_output_max() -> Char? {
-  Some(Int::unsafe_to_char(32767)) // TODO: @int16.max_value))
+  Some(Int::unsafe_to_char(@int16.max_value.to_int()))
 }
 
 ///|
 pub fn test_char_option_output_none() -> Char? {
-  // primitiveHandler.Decode(vals: [4294967295])
   None
 }

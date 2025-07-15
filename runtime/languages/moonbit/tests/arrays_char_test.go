@@ -23,8 +23,6 @@ func TestArrayInput_char_option(t *testing.T) {
 	fnName := "test_array_input_char_option"
 	s := getCharOptionArray()
 
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 49 0 0 0 255 255 255 255 51 0 0 0]
 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 		t.Error(err)
 	}
@@ -33,8 +31,6 @@ func TestArrayInput_char_option(t *testing.T) {
 func TestArrayOutput_char_option(t *testing.T) {
 	fnName := "test_array_output_char_option"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 3 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 49 0 0 0 255 255 255 255 51 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -60,8 +56,6 @@ func TestArrayInput_char_empty(t *testing.T) {
 	fnName := "test_array_input_char_empty"
 	s := []int16{}
 
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 0 0 0 0]
 	if _, err := fixture.CallFunction(t, fnName, s); err != nil {
 		t.Error(err)
 	}
@@ -70,8 +64,6 @@ func TestArrayInput_char_empty(t *testing.T) {
 func TestArrayOutput_char_0(t *testing.T) {
 	fnName := "test_array_output_char_0"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 0 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -90,8 +82,6 @@ func TestArrayOutput_char_0(t *testing.T) {
 func TestArrayOutput_char_1(t *testing.T) {
 	fnName := "test_array_output_char_1"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 1 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 49 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -110,8 +100,6 @@ func TestArrayOutput_char_1(t *testing.T) {
 func TestArrayOutput_char_2(t *testing.T) {
 	fnName := "test_array_output_char_2"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 2 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 49 0 0 0 50 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -130,8 +118,6 @@ func TestArrayOutput_char_2(t *testing.T) {
 func TestArrayOutput_char_3(t *testing.T) {
 	fnName := "test_array_output_char_3"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 3 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 49 0 0 0 50 0 0 0 51 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -150,8 +136,6 @@ func TestArrayOutput_char_3(t *testing.T) {
 func TestArrayOutput_char_4(t *testing.T) {
 	fnName := "test_array_output_char_4"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 4 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 49 0 0 0 50 0 0 0 51 0 0 0 52 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -170,8 +154,6 @@ func TestArrayOutput_char_4(t *testing.T) {
 func TestArrayOutput_char_option_0(t *testing.T) {
 	fnName := "test_array_output_char_option_0"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 0 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -190,8 +172,6 @@ func TestArrayOutput_char_option_0(t *testing.T) {
 func TestArrayOutput_char_option_1_none(t *testing.T) {
 	fnName := "test_array_output_char_option_1_none"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 1 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -210,8 +190,6 @@ func TestArrayOutput_char_option_1_none(t *testing.T) {
 func TestArrayOutput_char_option_1_some(t *testing.T) {
 	fnName := "test_array_output_char_option_1_some"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 1 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 49 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -230,8 +208,6 @@ func TestArrayOutput_char_option_1_some(t *testing.T) {
 func TestArrayOutput_char_option_2(t *testing.T) {
 	fnName := "test_array_output_char_option_2"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 2 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 16=8+words*4), moonBitType=241(FixedArray[Int]), words=2, memBlock=[1 0 0 0 241 2 0 0 49 0 0 0 50 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -250,8 +226,6 @@ func TestArrayOutput_char_option_2(t *testing.T) {
 func TestArrayOutput_char_option_3(t *testing.T) {
 	fnName := "test_array_output_char_option_3"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 3 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 255 255 255 255 255 255 255 255 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -270,8 +244,6 @@ func TestArrayOutput_char_option_3(t *testing.T) {
 func TestArrayOutput_char_option_4(t *testing.T) {
 	fnName := "test_array_output_char_option_4"
 
-	// memoryBlockAtOffset(offset: 52320=0x0000CC60=[96 204 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 128 203 0 0 4 0 0 0]
-	// memoryBlockAtOffset(offset: 52096=0x0000CB80=[128 203 0 0], size: 24=8+words*4), moonBitType=241(FixedArray[Int]), words=4, memBlock=[1 0 0 0 241 4 0 0 255 255 255 255 50 0 0 0 0 0 0 0 52 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

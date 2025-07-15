@@ -37,7 +37,7 @@ var testRecursiveStruct = func() *TestRecursiveStruct {
 }()
 
 // Note that testRecursiveStruct and testRecursiveStructAsMap must
-// both represents two nodes that point to each other for the MoonBit
+// both represent two nodes that point to each other for the MoonBit
 // tests to pass. The first struct must have A=true and the second must
 // have A=false.
 var testRecursiveStructAsMap = func() map[string]any {
@@ -68,10 +68,6 @@ func TestRecursiveStructOptionInput(t *testing.T) {
 
 func TestRecursiveStructInput_map(t *testing.T) {
 	fnName := "test_recursive_struct_input"
-
-	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap    =%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap).Pointer())
-	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap.b  =%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap["b"]).Pointer())
-	// log.Printf("GML: TestRecursiveStructInput_map: testRecursiveStructAsMap.b.b=%v=0x%[1]x", reflect.ValueOf(testRecursiveStructAsMap["b"].(map[string]any)["b"]).Pointer())
 
 	if _, err := fixture.CallFunction(t, fnName, testRecursiveStructAsMap); err != nil {
 		t.Error(err)

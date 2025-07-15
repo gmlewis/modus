@@ -53,7 +53,7 @@ func (h *timeHandler) Write(ctx context.Context, wa langsupport.WasmAdapter, off
 
 func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, vals []uint64) (any, error) {
 	if len(vals) != 1 {
-		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding time but got %v: %+v", len(vals), vals)
+		return nil, fmt.Errorf("MoonBit: expected 1 value when decoding time but got %v", len(vals))
 	}
 
 	// MoonBit is configured to return a @time.ZonedDateTime from the moonbitlang/x/time package:
@@ -69,7 +69,7 @@ func (h *timeHandler) Decode(ctx context.Context, wa langsupport.WasmAdapter, va
 		return nil, err
 	}
 	if len(memBlock) != 20 {
-		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding time but got %v: %+v", len(memBlock), memBlock)
+		return nil, fmt.Errorf("MoonBit: expected 20 bytes when decoding time but got %v", len(memBlock))
 	}
 
 	datetimePtr := binary.LittleEndian.Uint32(memBlock[8:])

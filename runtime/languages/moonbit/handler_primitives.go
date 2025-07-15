@@ -37,7 +37,6 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	switch typ {
 	case "Bool":
 		return newPrimitiveHandler[bool](ti), nil
-		// https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number
 	case "Int16": // 16-bit signed integer, e.g. `(42 : Int16)`
 		return newPrimitiveHandler[int16](ti), nil
 	case "Int", "Unit": // 32-bit signed integer, e.g. `42` (or `Unit!Error` or `Unit raise Error`)
@@ -59,7 +58,7 @@ func (p *planner) NewPrimitiveHandler(ti langsupport.TypeInfo) (h langsupport.Ty
 	case "Byte": // either a single ASCII character, e.g. `b'a'`, `b'\xff'`
 		return newPrimitiveHandler[uint8](ti), nil
 	// case "BigInt": // represents numeric values larger than other types, e.g. `10000000000000000000000N`
-	// case "String": // holds a sequence of UTF-16 code units, e.g. `"Hello, World!"`
+	// case "String": // not handled here - holds a sequence of UTF-16 code units, e.g. `"Hello, World!"`
 	case "@time.Duration":
 		return newPrimitiveHandler[time.Duration](ti), nil
 	default:
@@ -125,7 +124,7 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wasmadapter langsupport
 					return nil, fmt.Errorf("failed to call ptr_to_none for type %v to memory offset %v", h.typeInfo.Name(), offset)
 				}
 			} else { // used only during unit testing since we can't call the plugin here.
-				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
+				noneBlock, c, err := wa.allocateAndPinMemory(ctx, 1, 0)
 				if err != nil {
 					return c, err
 				}
@@ -160,7 +159,7 @@ func (h *primitiveHandler[T]) Write(ctx context.Context, wasmadapter langsupport
 			"UInt64?",
 			"Float?",
 			"Double?":
-			// TODO: Would it be easier/safer/better to write helper functions and never call allocateAndPinMemory directly?
+			// TODO: Would it be easier/safer/better to write helper functions and never call allocateAndPinMemory directly? Or maybe this should use @ffi functions instead?
 			ptr, cln, err := wa.allocateAndPinMemory(ctx, elementSize, OptionBlockType)
 			if err != nil {
 				return cln, err
@@ -228,14 +227,11 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			return nil, nil
 		case h.typeInfo.Name() == "Byte?" && vals[0] == 0xffffffff:
 			return nil, nil
-		// Char?==None==0xffffffff but Array[Char?]==[None]==0x100000000
 		case h.typeInfo.Name() == "Char?" && vals[0] >= 0xffffffff:
 			return nil, nil
-		// Int16?==None==0xffffffff but Array[Int16?]==[None]==0x100000000
-		case h.typeInfo.Name() == "Int16?" && vals[0] >= 0xffffffff:
+		case h.typeInfo.Name() == "Int16?" && vals[0] == 0x8000:
 			return nil, nil
-		// UInt16?==None==0xffffffff but Array[UInt16?]==[None]==0x100000000
-		case h.typeInfo.Name() == "UInt16?" && vals[0] >= 0xffffffff:
+		case h.typeInfo.Name() == "UInt16?" && vals[0] == 0xffffffff:
 			return nil, nil
 		case h.typeInfo.Name() == "Int?" && vals[0] == 0x100000000:
 			return nil, nil
@@ -247,9 +243,12 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
 			}
-			if memBlockHeader == 0x00000000ffffffff { // constant 'None' in MoonBit
+
+			// Check for None singleton patterns
+			if memBlockHeader == 0x00000000ffffffff { // original documented pattern
 				return nil, nil
 			}
+
 			result, ok := h.converter.Read(wa.Memory(), uint32(vals[0]+8))
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
@@ -287,10 +286,12 @@ func (h *primitiveHandler[T]) Encode(ctx context.Context, wasmAdapter langsuppor
 				return []uint64{0xffffffff}, nil, nil
 			case h.typeInfo.Name() == "Char?",
 				h.typeInfo.Name() == "Int?",
-				h.typeInfo.Name() == "Int16?",
-				h.typeInfo.Name() == "UInt?",
-				h.typeInfo.Name() == "UInt16?":
+				h.typeInfo.Name() == "UInt?":
 				return []uint64{0x100000000}, nil, nil
+			case h.typeInfo.Name() == "Int16?":
+				return []uint64{0x8000}, nil, nil
+			case h.typeInfo.Name() == "UInt16?":
+				return []uint64{0xffffffff}, nil, nil
 			case h.typeInfo.Name() == "Int64?", h.typeInfo.Name() == "UInt64?",
 				h.typeInfo.Name() == "Float?", h.typeInfo.Name() == "Double?":
 				ptr, cln, err := wa.allocateAndPinMemory(ctx, 1, 0) // cannot allocate 0 bytes
