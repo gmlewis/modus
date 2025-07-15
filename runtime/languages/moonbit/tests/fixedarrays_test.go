@@ -589,7 +589,6 @@ func TestFixedArrayInput1_byte(t *testing.T) {
 }
 
 func TestFixedArrayInput2_byte(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_input2_byte"
 	arr := [2]byte{1, 2}
 
@@ -638,7 +637,6 @@ func TestFixedArrayOutput1_byte(t *testing.T) {
 }
 
 func TestFixedArrayOutput2_byte(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_fixedarray_output2_byte"
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
