@@ -151,6 +151,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			return nil, err
 		}
 
+
 	} else {
 		sliceOffset := binary.LittleEndian.Uint32(memBlock[8:12])
 		// fmt.Printf("DEBUG: sliceOffset = %d (0x%X)\n", sliceOffset, sliceOffset)
@@ -611,7 +612,14 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 	for i := uint32(0); i < numElements; i++ {
 		// TODO: This is all quite a hack - figure out how to make this an elegant solution.
 		// For Int64? and UInt64?, use reference-based storage (not primitive)
-		if elemType.IsPrimitive() && isNullable && elemType.Name() != "Int64?" && elemType.Name() != "UInt64?" {
+		// Handle primitive nullable types that use direct storage vs reference storage
+		// Based on analysis: Bool?, Byte?, Char?, Int16?, UInt16?, Int?, UInt? use direct storage
+		// while Int64?, UInt64?, Float?, Double?, String? use reference storage
+		useDirectStorage := elemType.IsPrimitive() && isNullable &&
+			(elemType.Name() == "Bool?" || elemType.Name() == "Byte?" || elemType.Name() == "Char?" ||
+				elemType.Name() == "Int16?" || elemType.Name() == "UInt16?" || elemType.Name() == "Int?" || elemType.Name() == "UInt?")
+
+		if useDirectStorage {
 			var value uint64
 			if elemType.Name() == "Int?" || elemType.Name() == "UInt?" {
 				value = binary.LittleEndian.Uint64(memBlock[MemoryBlockHeaderSize+i*uint32(elemTypeSize):])
@@ -620,7 +628,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 				value = uint64(value32)
 			}
 
-			// Special handling for Int? arrays - check for None value
+			// Special handling for Int?/UInt? arrays - check for None value
 			if elemType.Name() == "Int?" {
 				if value == NoneValueInt {
 					// None value for Int?, leave as nil (zero value)
@@ -628,6 +636,16 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 					// Some(int32Value) - convert from 64-bit to int32
 					intVal := int32(value)
 					items.Index(int(i)).Set(reflect.ValueOf(&intVal))
+				}
+				continue
+			}
+			if elemType.Name() == "UInt?" {
+				if value == NoneValueInt {
+					// None value for UInt?, leave as nil (zero value)
+				} else {
+					// Some(uint32Value) - convert from 64-bit to uint32
+					uintVal := uint32(value)
+					items.Index(int(i)).Set(reflect.ValueOf(&uintVal))
 				}
 				continue
 			}
@@ -656,6 +674,7 @@ func (h *sliceHandler) Decode(ctx context.Context, wasmAdapter langsupport.WasmA
 			if err != nil {
 				return nil, err
 			}
+
 		}
 		if !utils.HasNil(item) {
 			items.Index(int(i)).Set(reflect.ValueOf(item))
@@ -675,7 +694,7 @@ func (h *sliceHandler) Encode(ctx context.Context, wasmAdapter langsupport.WasmA
 }
 
 // isNoneSingleton checks if a pointer points to a None singleton object
-// Based on WAT analysis, None singletons can be detected by their memory content
+// Based on runtime analysis, None singletons can be detected by their memory content
 func (h *sliceHandler) isNoneSingleton(wa wasmMemoryReader, ptr uint32) bool {
 	if ptr == 0 {
 		return false // null pointer is not a None singleton
@@ -688,10 +707,17 @@ func (h *sliceHandler) isNoneSingleton(wa wasmMemoryReader, ptr uint32) bool {
 		return false // couldn't read memory
 	}
 
-	// Check for observed None singleton pattern: [00 00 00 00 00 00 00 00]
-	// This pattern was observed at runtime for None objects
+	// Check for observed None singleton patterns:
+	// Pattern 1: [00 00 00 00 00 00 00 00] - observed for Int64? None objects
 	if len(bytes) >= 8 &&
 		bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0x00 && bytes[3] == 0x00 &&
+		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
+		return true
+	}
+
+	// Pattern 2: [FF FF FF FF 00 00 00 00] - documented None pattern (RefCount -1, Type 0)
+	if len(bytes) >= 8 &&
+		bytes[0] == 0xFF && bytes[1] == 0xFF && bytes[2] == 0xFF && bytes[3] == 0xFF &&
 		bytes[4] == 0x00 && bytes[5] == 0x00 && bytes[6] == 0x00 && bytes[7] == 0x00 {
 		return true
 	}

@@ -48,7 +48,7 @@ const (
 	NoneSentinelUInt32      = 0xFFFFFFFF // None value for Bool?, Byte?, Char?
 	NoneSingletonPointer    = 10248      // None singleton pointer for 64-bit reference types (confirmed by WAT analysis)
 	NoneValueInt16          = 32768      // None value for Int16?
-	NoneValueInt            = 1          // None value for Int? (was 4294967296)// Memory layout constants
+	NoneValueInt            = 4          // None value for Int?/UInt? (determined from runtime testing)// Memory layout constants
 	MemoryBlockHeaderSize   = 8          // Standard memory block header size
 	MemoryBlockHeaderSizeLg = 16         // Extended header size for some arrays
 	MinValidMemoryOffset    = 1000       // Minimum valid memory address threshold

@@ -243,9 +243,12 @@ func (h *primitiveHandler[T]) Decode(ctx context.Context, wasmAdapter langsuppor
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
 			}
-			if memBlockHeader == 0x00000000ffffffff { // constant 'None' in MoonBit
+
+			// Check for None singleton patterns
+			if memBlockHeader == 0x00000000ffffffff { // original documented pattern
 				return nil, nil
 			}
+
 			result, ok := h.converter.Read(wa.Memory(), uint32(vals[0]+8))
 			if !ok {
 				return nil, fmt.Errorf("failed to read pointer %v from memory", vals[0]+8)
