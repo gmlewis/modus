@@ -330,9 +330,6 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 
 	// TODO: Figure out how to not make special cases.
 	if elemType.Name() == "Bool" {
-		for i := 0; i < 16 && i < len(sliceMemBlock); i += 4 {
-		}
-
 		items := reflect.MakeSlice(h.typeInfo.ReflectedType(), int(numElements), int(numElements))
 		for i := 0; i < int(numElements); i++ {
 			offset := MemoryBlockHeaderSize + i*elemTypeSize
