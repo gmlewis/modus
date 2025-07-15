@@ -6,13 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_double_empty(val : Array[Double]) -> Unit raise Error {
-  let expected = []
-  assert_eq(expected.length(), val.length())
-  assert_eq(expected, val)
-}
-
-///|
 pub fn test_array_output_double_0() -> Array[Double] {
   []
 }
@@ -59,7 +52,7 @@ pub fn test_array_output_double_option_2() -> Array[Double?] {
 
 ///|
 pub fn test_array_output_double_option_3() -> Array[Double?] {
-  [None, None, None]
+  [Some(11), None, Some(33)]
 }
 
 ///|
@@ -68,20 +61,90 @@ pub fn test_array_output_double_option_4() -> Array[Double?] {
 }
 
 ///|
-pub fn test_array_input_double_option(val : Array[Double?]) -> Unit raise Error {
-  let expected = get_double_option_array()
-  // println("expected: \{expected}")
-  // println("val: \{val}")
+pub fn test_array_input_double_0(val : Array[Double]) -> Unit raise Error {
+  let expected = test_array_output_double_0()
   assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_output_double_option() -> Array[Double?] {
-  get_double_option_array()
+pub fn test_array_input_double_1(val : Array[Double]) -> Unit raise Error {
+  let expected = test_array_output_double_1()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
-fn get_double_option_array() -> Array[Double?] {
-  [Some(1), None, Some(3)]
+pub fn test_array_input_double_2(val : Array[Double]) -> Unit raise Error {
+  let expected = test_array_output_double_2()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_3(val : Array[Double]) -> Unit raise Error {
+  let expected = test_array_output_double_3()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_4(val : Array[Double]) -> Unit raise Error {
+  let expected = test_array_output_double_4()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_0(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_0()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_1_none(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_1_none()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_1_some(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_1_some()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_2(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_2()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_3(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_3()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_double_option_4(
+  val : Array[Double?]
+) -> Unit raise Error {
+  let expected = test_array_output_double_option_4()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }

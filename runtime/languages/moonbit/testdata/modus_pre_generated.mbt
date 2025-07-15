@@ -449,18 +449,6 @@ pub fn __modus_test_array_output_char_option() -> Array[Char?] {
 }
 
 ///|
-pub fn __modus_test_array_input_double_empty(
-  val : Array[Double]
-) -> Unit raise Error {
-  test_array_input_double_empty(val) catch {
-    e => {
-      @console.error(e.to_string())
-      raise e
-    }
-  }
-}
-
-///|
 pub fn __modus_test_array_output_double_0() -> Array[Double] {
   test_array_output_double_0()
 }
@@ -516,10 +504,10 @@ pub fn __modus_test_array_output_double_option_4() -> Array[Double?] {
 }
 
 ///|
-pub fn __modus_test_array_input_double_option(
-  val : Array[Double?]
+pub fn __modus_test_array_input_double_0(
+  val : Array[Double]
 ) -> Unit raise Error {
-  test_array_input_double_option(val) catch {
+  test_array_input_double_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -528,15 +516,118 @@ pub fn __modus_test_array_input_double_option(
 }
 
 ///|
-pub fn __modus_test_array_output_double_option() -> Array[Double?] {
-  test_array_output_double_option()
+pub fn __modus_test_array_input_double_1(
+  val : Array[Double]
+) -> Unit raise Error {
+  test_array_input_double_1(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
 }
 
 ///|
-pub fn __modus_test_array_input_float_empty(
-  val : Array[Float]
+pub fn __modus_test_array_input_double_2(
+  val : Array[Double]
 ) -> Unit raise Error {
-  test_array_input_float_empty(val) catch {
+  test_array_input_double_2(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_3(
+  val : Array[Double]
+) -> Unit raise Error {
+  test_array_input_double_3(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_4(
+  val : Array[Double]
+) -> Unit raise Error {
+  test_array_input_double_4(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_0(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_0(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_1_none(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_1_none(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_1_some(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_1_some(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_2(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_2(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_3(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_3(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_double_option_4(
+  val : Array[Double?]
+) -> Unit raise Error {
+  test_array_input_double_option_4(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -600,10 +691,8 @@ pub fn __modus_test_array_output_float_option_4() -> Array[Float?] {
 }
 
 ///|
-pub fn __modus_test_array_input_float_option(
-  val : Array[Float?]
-) -> Unit raise Error {
-  test_array_input_float_option(val) catch {
+pub fn __modus_test_array_input_float_0(val : Array[Float]) -> Unit raise Error {
+  test_array_input_float_0(val) catch {
     e => {
       @console.error(e.to_string())
       raise e
@@ -612,8 +701,115 @@ pub fn __modus_test_array_input_float_option(
 }
 
 ///|
-pub fn __modus_test_array_output_float_option() -> Array[Float?] {
-  test_array_output_float_option()
+pub fn __modus_test_array_input_float_1(val : Array[Float]) -> Unit raise Error {
+  test_array_input_float_1(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_2(val : Array[Float]) -> Unit raise Error {
+  test_array_input_float_2(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_3(val : Array[Float]) -> Unit raise Error {
+  test_array_input_float_3(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_4(val : Array[Float]) -> Unit raise Error {
+  test_array_input_float_4(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_0(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_0(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_1_none(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_1_none(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_1_some(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_1_some(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_2(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_2(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_3(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_3(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
+}
+
+///|
+pub fn __modus_test_array_input_float_option_4(
+  val : Array[Float?]
+) -> Unit raise Error {
+  test_array_input_float_option_4(val) catch {
+    e => {
+      @console.error(e.to_string())
+      raise e
+    }
+  }
 }
 
 ///|

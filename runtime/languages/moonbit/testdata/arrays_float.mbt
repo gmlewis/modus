@@ -6,13 +6,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_float_empty(val : Array[Float]) -> Unit raise Error {
-  let expected = []
-  assert_eq(expected.length(), val.length())
-  assert_eq(expected, val)
-}
-
-///|
 pub fn test_array_output_float_0() -> Array[Float] {
   []
 }
@@ -59,7 +52,7 @@ pub fn test_array_output_float_option_2() -> Array[Float?] {
 
 ///|
 pub fn test_array_output_float_option_3() -> Array[Float?] {
-  [None, None, None]
+  [Some(11), None, Some(33)]
 }
 
 ///|
@@ -68,20 +61,82 @@ pub fn test_array_output_float_option_4() -> Array[Float?] {
 }
 
 ///|
-pub fn test_array_input_float_option(val : Array[Float?]) -> Unit raise Error {
-  let expected = get_float_option_array()
-  // println("expected: \{expected}")
-  // println("val: \{val}")
+pub fn test_array_input_float_0(val : Array[Float]) -> Unit raise Error {
+  let expected = test_array_output_float_0()
   assert_eq(expected.length(), val.length())
   assert_eq(expected, val)
 }
 
 ///|
-pub fn test_array_output_float_option() -> Array[Float?] {
-  get_float_option_array()
+pub fn test_array_input_float_1(val : Array[Float]) -> Unit raise Error {
+  let expected = test_array_output_float_1()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
-fn get_float_option_array() -> Array[Float?] {
-  [Some(1), None, Some(3)]
+pub fn test_array_input_float_2(val : Array[Float]) -> Unit raise Error {
+  let expected = test_array_output_float_2()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_3(val : Array[Float]) -> Unit raise Error {
+  let expected = test_array_output_float_3()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_4(val : Array[Float]) -> Unit raise Error {
+  let expected = test_array_output_float_4()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_0(val : Array[Float?]) -> Unit raise Error {
+  let expected = test_array_output_float_option_0()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_1_none(
+  val : Array[Float?]
+) -> Unit raise Error {
+  let expected = test_array_output_float_option_1_none()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_1_some(
+  val : Array[Float?]
+) -> Unit raise Error {
+  let expected = test_array_output_float_option_1_some()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_2(val : Array[Float?]) -> Unit raise Error {
+  let expected = test_array_output_float_option_2()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_3(val : Array[Float?]) -> Unit raise Error {
+  let expected = test_array_output_float_option_3()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
+}
+
+///|
+pub fn test_array_input_float_option_4(val : Array[Float?]) -> Unit raise Error {
+  let expected = test_array_output_float_option_4()
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }

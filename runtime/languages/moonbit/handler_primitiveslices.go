@@ -750,8 +750,6 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 // Helper functions for creating data arrays for different primitive types
 
 func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa wasmMemoryWriter, wasmAdapter *wasmAdapter, slice []T, numElements uint32) (uint32, error) {
-	// TODO: Note that createDoubleDataArray works, but createBoolDataArray fails. Why?
-
 	// Use moonbit_i32_array_make - this should create the correct Bool array type info
 	if wasmAdapter.fnMakeArrayInt == nil {
 		return 0, fmt.Errorf("function moonbit_i32_array_make not found")
