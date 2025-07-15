@@ -23,6 +23,7 @@ import (
 
 	"github.com/gmlewis/modus/runtime/httpclient"
 	"github.com/gmlewis/modus/runtime/testutils"
+	"github.com/rs/zerolog"
 )
 
 var basePath = func() string {
@@ -33,6 +34,7 @@ var basePath = func() string {
 var fixture *testutils.WasmTestFixture
 
 func TestMain(m *testing.M) {
+	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	log.SetFlags(0)
 	path := filepath.Join(basePath, "..", "testdata", "build", "testdata.wasm")
 

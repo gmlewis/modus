@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 5s ./..."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -197,7 +199,8 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		// Calculate the correct size for these classIDs
 		elemTypeSize := h.converter.TypeSize()
 		elemType := h.typeInfo.ListElementType()
-		if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+		// if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+		if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 			elemTypeSize = MoonBitBoolSize
 		}
 		dataSize := words * uint32(elemTypeSize)
@@ -230,8 +233,10 @@ func (h *primitiveSliceHandler[T]) Decode(ctx context.Context, wasmAdapter langs
 		}
 	}
 
+	// TODO: Why are we doing this all over again?!?!?!?
 	elemType := h.typeInfo.ListElementType()
-	if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+	// if elemType.Name() == "Bool" || elemType.Name() == "Char" || elemType.Name() == "Byte" {
+	if elemType.Name() == "Bool" || elemType.Name() == "Char" {
 		// A MoonBit Bool is 4 bytes whereas a Go bool is 1 byte.
 		// A MoonBit Array[Char] uses 4 bytes per element instead of 2.
 		elemTypeSize = MoonBitBoolSize
