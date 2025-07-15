@@ -33,13 +33,14 @@ func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 		fnMalloc:                               mod.ExportedFunction("malloc"),
 		fnFree:                                 mod.ExportedFunction("free"),
 		fnCopy:                                 mod.ExportedFunction("copy"),
-		fnPtr2doubleArray:                      mod.ExportedFunction("ptr2double_array"),
-		fnPtr2floatArray:                       mod.ExportedFunction("ptr2float_array"),
-		fnPtr2int64Array:                       mod.ExportedFunction("ptr2int64_array"),
-		fnPtr2intArray:                         mod.ExportedFunction("ptr2int_array"),
-		fnPtr2str:                              mod.ExportedFunction("ptr2str"),
-		fnPtr2uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
-		fnPtr2uintArray:                        mod.ExportedFunction("ptr2uint_array"),
+		fnPtr2DoubleArray:                      mod.ExportedFunction("ptr2double_array"),
+		fnPtr2FloatArray:                       mod.ExportedFunction("ptr2float_array"),
+		fnPtr2Int64Array:                       mod.ExportedFunction("ptr2int64_array"),
+		fnPtr2IntArray:                         mod.ExportedFunction("ptr2int_array"),
+		fnPtr2None:                             mod.ExportedFunction("ptr_to_none"),
+		fnPtr2Str:                              mod.ExportedFunction("ptr2str"),
+		fnPtr2Uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
+		fnPtr2UintArray:                        mod.ExportedFunction("ptr2uint_array"),
 		fnBytes2Array:                          mod.ExportedFunction("moonbit_bytes_to_array"),
 		fnBytesMake:                            mod.ExportedFunction("moonbit_bytes_make"),
 		fnMakeArrayFloat:                       mod.ExportedFunction("moonbit_float32_array_make"),
@@ -66,13 +67,14 @@ type wasmAdapter struct {
 	fnMalloc          wasm.Function
 	fnFree            wasm.Function
 	fnCopy            wasm.Function
-	fnPtr2doubleArray wasm.Function
-	fnPtr2floatArray  wasm.Function
-	fnPtr2int64Array  wasm.Function
-	fnPtr2intArray    wasm.Function
-	fnPtr2str         wasm.Function
-	fnPtr2uint64Array wasm.Function
-	fnPtr2uintArray   wasm.Function
+	fnPtr2DoubleArray wasm.Function
+	fnPtr2FloatArray  wasm.Function
+	fnPtr2Int64Array  wasm.Function
+	fnPtr2IntArray    wasm.Function
+	fnPtr2None        wasm.Function
+	fnPtr2Str         wasm.Function
+	fnPtr2Uint64Array wasm.Function
+	fnPtr2UintArray   wasm.Function
 	fnBytes2Array     wasm.Function
 	fnBytesMake       wasm.Function
 	fnMakeArrayFloat  wasm.Function
