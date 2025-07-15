@@ -24,72 +24,72 @@ import (
 
 func NewWasmAdapter(mod wasm.Module) langsupport.WasmAdapter {
 	return &wasmAdapter{
-		mod:                                    mod,
-		visitedPtrs:                            make(map[uint32]int),
-		fnRealloc:                              mod.ExportedFunction("cabi_realloc"),
-		fnStore8:                               mod.ExportedFunction("store8"),
-		fnStore32:                              mod.ExportedFunction("store32"),
-		fnLoad32:                               mod.ExportedFunction("load32"),
-		fnMalloc:                               mod.ExportedFunction("malloc"),
-		fnFree:                                 mod.ExportedFunction("free"),
-		fnCopy:                                 mod.ExportedFunction("copy"),
-		fnPtr2DoubleArray:                      mod.ExportedFunction("ptr2double_array"),
-		fnPtr2FloatArray:                       mod.ExportedFunction("ptr2float_array"),
-		fnPtr2Int64Array:                       mod.ExportedFunction("ptr2int64_array"),
-		fnPtr2IntArray:                         mod.ExportedFunction("ptr2int_array"),
-		fnPtr2None:                             mod.ExportedFunction("ptr_to_none"),
-		fnPtr2Str:                              mod.ExportedFunction("ptr2str"),
-		fnPtr2Uint64Array:                      mod.ExportedFunction("ptr2uint64_array"),
-		fnPtr2UintArray:                        mod.ExportedFunction("ptr2uint_array"),
-		fnBytes2Array:                          mod.ExportedFunction("moonbit_bytes_to_array"),
-		fnBytesMake:                            mod.ExportedFunction("moonbit_bytes_make"),
-		fnMakeArrayFloat:                       mod.ExportedFunction("moonbit_float32_array_make"),
-		fnMakeArrayDouble:                      mod.ExportedFunction("moonbit_float_array_make"),
-		fnMakeArrayInt:                         mod.ExportedFunction("moonbit_i32_array_make"),
-		fnMakeArrayInt16:                       mod.ExportedFunction("moonbit_int16_array_make"),
-		fnMakeArrayInt64:                       mod.ExportedFunction("moonbit_int64_array_make"),
-		fnMakeArrayRef:                         mod.ExportedFunction("moonbit_ref_array_make"),
-		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
-		fnDurationFromNanos:                    mod.ExportedFunction("duration_from_nanos"),
-		fnReadMap:                              mod.ExportedFunction("read_map"),
+		mod:           mod,
+		visitedPtrs:   make(map[uint32]int),
+		fnBytes2Array: mod.ExportedFunction("moonbit_bytes_to_array"),
+		fnBytesMake:   mod.ExportedFunction("moonbit_bytes_make"),
+		// fnCopy:                                 mod.ExportedFunction("copy"),
+		fnDurationFromNanos: mod.ExportedFunction("duration_from_nanos"),
+		// fnFree:                                 mod.ExportedFunction("free"),
+		// fnLoad32:                               mod.ExportedFunction("load32"),
+		fnMakeArrayDouble: mod.ExportedFunction("moonbit_float_array_make"),
+		fnMakeArrayFloat:  mod.ExportedFunction("moonbit_float32_array_make"),
+		fnMakeArrayInt16:  mod.ExportedFunction("moonbit_int16_array_make"),
+		fnMakeArrayInt64:  mod.ExportedFunction("moonbit_int64_array_make"),
+		fnMakeArrayInt:    mod.ExportedFunction("moonbit_i32_array_make"),
+		fnMakeArrayRef:    mod.ExportedFunction("moonbit_ref_array_make"),
+		fnMalloc:          mod.ExportedFunction("malloc"),
+		fnPtr2DoubleArray: mod.ExportedFunction("ptr2double_array"),
+		fnPtr2FloatArray:  mod.ExportedFunction("ptr2float_array"),
+		fnPtr2Int64Array:  mod.ExportedFunction("ptr2int64_array"),
+		fnPtr2IntArray:    mod.ExportedFunction("ptr2int_array"),
+		fnPtr2None:        mod.ExportedFunction("ptr_to_none"),
+		// fnPtr2Str:                              mod.ExportedFunction("ptr2str"),
+		fnPtr2Uint64Array: mod.ExportedFunction("ptr2uint64_array"),
+		fnPtr2UintArray:   mod.ExportedFunction("ptr2uint_array"),
+		fnPtrToNone:       mod.ExportedFunction("ptr_to_none"),
+		fnReadMap:         mod.ExportedFunction("read_map"),
+		fnRealloc:         mod.ExportedFunction("cabi_realloc"),
+		// fnStore32:                              mod.ExportedFunction("store32"),
+		// fnStore8:                               mod.ExportedFunction("store8"),
 		fnWriteMap:                             mod.ExportedFunction("write_map"),
-		fnPtrToNone:                            mod.ExportedFunction("ptr_to_none"),
+		fnZonedDateTimeFromUnixSecondsAndNanos: mod.ExportedFunction("zoned_date_time_from_unix_seconds_and_nanos"),
 	}
 }
 
 type wasmAdapter struct {
-	mod               wasm.Module
-	visitedPtrs       map[uint32]int
-	fnRealloc         wasm.Function
-	fnStore8          wasm.Function
-	fnStore32         wasm.Function
-	fnLoad32          wasm.Function
+	mod           wasm.Module
+	visitedPtrs   map[uint32]int
+	fnBytes2Array wasm.Function
+	fnBytesMake   wasm.Function
+	// fnCopy        wasm.Function
+	// used to convert Go time.Duration to MoonBit @time.Duration
+	fnDurationFromNanos wasm.Function
+	// fnFree              wasm.Function
+	// fnLoad32            wasm.Function
+	fnMakeArrayDouble wasm.Function
+	fnMakeArrayFloat  wasm.Function
+	fnMakeArrayInt    wasm.Function
+	fnMakeArrayInt16  wasm.Function
+	fnMakeArrayInt64  wasm.Function
+	fnMakeArrayRef    wasm.Function
 	fnMalloc          wasm.Function
-	fnFree            wasm.Function
-	fnCopy            wasm.Function
 	fnPtr2DoubleArray wasm.Function
 	fnPtr2FloatArray  wasm.Function
 	fnPtr2Int64Array  wasm.Function
 	fnPtr2IntArray    wasm.Function
 	fnPtr2None        wasm.Function
-	fnPtr2Str         wasm.Function
+	// fnPtr2Str           wasm.Function
 	fnPtr2Uint64Array wasm.Function
 	fnPtr2UintArray   wasm.Function
-	fnBytes2Array     wasm.Function
-	fnBytesMake       wasm.Function
-	fnMakeArrayFloat  wasm.Function
-	fnMakeArrayDouble wasm.Function
-	fnMakeArrayInt    wasm.Function
-	fnMakeArrayInt16  wasm.Function
-	fnMakeArrayInt64  wasm.Function
-	fnMakeArrayRef    wasm.Function
+	fnPtrToNone       wasm.Function
+	fnReadMap         wasm.Function
+	fnRealloc         wasm.Function
+	// fnStore32           wasm.Function
+	// fnStore8            wasm.Function
+	fnWriteMap wasm.Function
 	// used to convert Go time.Time to MoonBit @time.ZonedDateTime
 	fnZonedDateTimeFromUnixSecondsAndNanos wasm.Function
-	// used to convert Go time.Duration to MoonBit @time.Duration
-	fnDurationFromNanos wasm.Function
-	fnReadMap           wasm.Function
-	fnWriteMap          wasm.Function
-	fnPtrToNone         wasm.Function
 }
 
 func (*wasmAdapter) TypeInfo() langsupport.LanguageTypeInfo {
