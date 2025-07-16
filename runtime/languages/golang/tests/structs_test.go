@@ -13,7 +13,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 type TestStruct1 struct {

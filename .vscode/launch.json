@@ -80,6 +80,20 @@
       }
     },
     {
+      "name": "Debug Build Example MoonBit App",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "${workspaceFolder}/sdk/moonbit/examples/${input:exampleApp}"
+      ],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
       "name": "Debug Build Runtime AssemblyScript Test App",
       "type": "node-terminal",
       "request": "launch",
@@ -103,10 +117,40 @@
       }
     },
     {
+      "name": "Debug Build Runtime MoonBit Test App",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "${workspaceFolder}/runtime/languages/moonbit/testdata"
+      ],
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
       "name": "Debug Modus CLI",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/cli/bin/modus.js",
+      "env": {
+        "FORCE_COLOR": "1",
+        "MODUS_DEBUG": "true"
+      }
+    },
+    {
+      "name": "Debug MoonBit End-to-End Tests",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/sdk/go/tools/modus-moonbit-build",
+      "args": [
+        "-notimeout",
+        "-test",
+        "${workspaceFolder}/sdk/go/tools/modus-moonbit-build/end-to-end-tests.json"
+      ],
       "env": {
         "FORCE_COLOR": "1",
         "MODUS_DEBUG": "true"
@@ -131,6 +175,10 @@
         {
           "label": "Go",
           "value": "go"
+        },
+        {
+          "label": "MoonBit",
+          "value": "moonbit"
         }
       ]
     },

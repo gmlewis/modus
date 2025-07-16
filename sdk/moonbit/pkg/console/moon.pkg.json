@@ -1,0 +1,15 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/testutils",
+    "gmlewis/modus/wit/ffi"
+  ],
+  "targets": {
+    "console_notwasm.mbt": [
+      "not",
+      "wasm"
+    ],
+    "console_wasm.mbt": [
+      "wasm"
+    ]
+  }
+}

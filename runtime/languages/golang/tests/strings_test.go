@@ -12,7 +12,7 @@ package golang_test
 import (
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 // "Hello World" in Japanese

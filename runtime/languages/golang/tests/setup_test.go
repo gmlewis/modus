@@ -16,7 +16,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/testutils"
+	"github.com/gmlewis/modus/runtime/testutils"
 )
 
 var basePath = func() string {

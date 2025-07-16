@@ -15,11 +15,11 @@ import (
 
 	"os"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/config"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/extractor"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/gitinfo"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/metadata"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/modinfo"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/config"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/extractor"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/gitinfo"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/modinfo"
 )
 
 const sdkName = "modus-sdk-go"

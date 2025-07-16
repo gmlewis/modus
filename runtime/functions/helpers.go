@@ -12,7 +12,7 @@ package functions
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
+	"github.com/gmlewis/modus/lib/metadata"
 )
 
 func CreateParametersMap(fn *metadata.Function, paramValues ...any) (map[string]any, error) {

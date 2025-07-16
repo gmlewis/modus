@@ -12,7 +12,7 @@
 package db
 
 import (
-	"github.com/hypermodeinc/modus/sdk/go/pkg/testutils"
+	"github.com/gmlewis/modus/sdk/go/pkg/testutils"
 )
 
 var DatabaseQueryCallStack = testutils.NewCallStack()

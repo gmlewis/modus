@@ -1,0 +1,33 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/http",
+    "gmlewis/modus/pkg/console"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_create_github_issue:create_github_issue",
+        "__modus_get_example_html:get_example_html",
+        "__modus_get_random_image:get_random_image",
+        "__modus_get_random_quote:get_random_quote",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}

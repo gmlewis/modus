@@ -67,6 +67,9 @@ export async function installBuildTools(sdk: SDK, sdkVersion: string) {
     case SDK.Go:
       await installGoBuildTools(sdkVersion);
       break;
+    case SDK.MoonBit:
+      await installMoonBitBuildTools(sdkVersion);
+      break;
   }
 }
 
@@ -84,6 +87,30 @@ async function installGoBuildTools(sdkVersion: string) {
   }
 
   const module = `github.com/${GitHubOwner}/${GitHubRepo}/sdk/go/tools/modus-go-build@${sdkVersion}`;
+  await execFile("go", ["install", module], {
+    shell: true,
+    env: {
+      ...process.env,
+      GOBIN: sdkPath,
+    },
+  });
+}
+
+
+async function installMoonBitBuildTools(sdkVersion: string) {
+  const sdkPath = vi.getSdkPath(SDK.MoonBit, sdkVersion);
+
+  const ext = os.platform() === "win32" ? ".exe" : "";
+  const buildTool = path.join(sdkPath, "modus-moonbit-build" + ext);
+  if (await fs.exists(buildTool)) {
+    return;
+  }
+
+  if (!(await isOnline())) {
+    throw new Error("Could not find the Modus MoonBit build tool. Please try again when you are online.");
+  }
+
+  const module = `github.com/${GitHubOwner}/${GitHubRepo}/sdk/go/tools/modus-moonbit-build@${sdkVersion}`;
   await execFile("go", ["install", module], {
     shell: true,
     env: {

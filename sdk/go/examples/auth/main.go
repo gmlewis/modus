@@ -7,7 +7,7 @@
 package main
 
 import (
-	"github.com/hypermodeinc/modus/sdk/go/pkg/auth"
+	"github.com/gmlewis/modus/sdk/go/pkg/auth"
 )
 
 // This is a sample struct that represents the claims in a JWT token.

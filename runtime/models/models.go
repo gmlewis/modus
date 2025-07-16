@@ -13,16 +13,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/httpclient"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/utils"
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/httpclient"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/secrets"
-	"github.com/hypermodeinc/modus/runtime/utils"
 )
 
 func GetModel(modelName string) (*manifest.ModelInfo, error) {
@@ -54,13 +55,17 @@ func InvokeModel(ctx context.Context, modelName string, input string) (string, e
 		return "", err
 	}
 
+	log.Printf("GML: InvokeModel(modelName=%q): input:\n%v", modelName, input)
+
 	// NOTE: Bedrock support is temporarily disabled
 	// TODO: use the provider pattern instead of branching
 	// if model.Connection == "aws-bedrock" {
 	// 	return invokeAwsBedrockModel(ctx, model, input)
 	// }
 
-	return PostToModelEndpoint[string](ctx, model, input)
+	s, err := PostToModelEndpoint[string](ctx, model, input)
+	log.Printf("GML: InvokeModel(modelName=%q): output:\n%v", modelName, s)
+	return s, err
 }
 
 func PostToModelEndpoint[TResult any](ctx context.Context, model *manifest.ModelInfo, payload any) (TResult, error) {

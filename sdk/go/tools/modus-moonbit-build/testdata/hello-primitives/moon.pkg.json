@@ -1,0 +1,32 @@
+{
+  "import": [
+    "moonbitlang/x/time"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_hello_primitive_time_duration_max:hello_primitive_time_duration_max",
+        "__modus_hello_primitive_time_duration_min:hello_primitive_time_duration_min",
+        "cabi_realloc",
+        "copy",
+        "duration_from_nanos",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map",
+        "zoned_date_time_from_unix_seconds_and_nanos"
+      ],
+      "export-memory-name": "memory"
+    }
+  }
+}

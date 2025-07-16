@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 type Neo4jOption func(*neo4jOptions)

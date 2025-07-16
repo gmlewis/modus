@@ -17,8 +17,8 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/metadata"
-	"github.com/hypermodeinc/modus/sdk/go/tools/modus-go-build/utils"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/metadata"
+	"github.com/gmlewis/modus/sdk/go/tools/modus-go-build/utils"
 )
 
 func LogToConsole(meta *metadata.Metadata) {

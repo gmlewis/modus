@@ -1,0 +1,9008 @@
+{
+  "plugin": "testdata",
+  "module": "@runtime-testdata",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv9qpd7rack45r008rjg",
+  "buildTs": "2025-03-14T04:12:36.292Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
+  "fnExports": {
+    "add": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "call_test_time_option_input_none": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime?"
+        }
+      ]
+    },
+    "call_test_time_option_input_some": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime?"
+        }
+      ]
+    },
+    "echo1": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "echo2": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "echo3": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "echo4": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "encode_strings1": {
+      "parameters": [
+        {
+          "name": "items",
+          "type": "Array[String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "encode_strings2": {
+      "parameters": [
+        {
+          "name": "items",
+          "type": "Array[String?]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "get_int_option_fixedarray1": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "get_int_ptr_array2": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "get_map_array2": {
+      "results": [
+        {
+          "type": "FixedArray[Map[String, String]]"
+        }
+      ]
+    },
+    "get_map_ptr_array2": {
+      "results": [
+        {
+          "type": "FixedArray[Map[String, String]?]"
+        }
+      ]
+    },
+    "get_option_int_fixedarray1": {
+      "results": [
+        {
+          "type": "FixedArray[Int]?"
+        }
+      ]
+    },
+    "get_option_int_fixedarray2": {
+      "results": [
+        {
+          "type": "FixedArray[Int]?"
+        }
+      ]
+    },
+    "get_option_string_fixedarray1": {
+      "results": [
+        {
+          "type": "FixedArray[String]?"
+        }
+      ]
+    },
+    "get_option_string_fixedarray2": {
+      "results": [
+        {
+          "type": "FixedArray[String]?"
+        }
+      ]
+    },
+    "get_string_option_array2": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "get_string_option_fixedarray1": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "host_echo1": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "host_echo2": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "host_echo3": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "host_echo4": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "test2d_array_input_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Array[String]]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test2d_array_input_string_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Array[String]]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test2d_array_input_string_inner_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Array[String]]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test2d_array_input_string_inner_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Array[String]?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test2d_array_input_string_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Array[String]]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test2d_array_output_string": {
+      "results": [
+        {
+          "type": "Array[Array[String]]"
+        }
+      ]
+    },
+    "test2d_array_output_string_empty": {
+      "results": [
+        {
+          "type": "Array[Array[String]]"
+        }
+      ]
+    },
+    "test2d_array_output_string_inner_empty": {
+      "results": [
+        {
+          "type": "Array[Array[String]]"
+        }
+      ]
+    },
+    "test2d_array_output_string_inner_none": {
+      "results": [
+        {
+          "type": "Array[Array[String]?]"
+        }
+      ]
+    },
+    "test2d_array_output_string_none": {
+      "results": [
+        {
+          "type": "Array[Array[String]]?"
+        }
+      ]
+    },
+    "test_array_input_bool_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_1_false": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_1_true": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_bool_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_option_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_byte_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_char_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_char_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_double_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_double_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_float_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_float_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_int16_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_int16_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_int_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_int_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_string_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_string_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_string_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_uint16_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_uint16_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_uint_empty": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_input_uint_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "Array[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_array_output_bool_0": {
+      "results": [
+        {
+          "type": "Array[Bool]"
+        }
+      ]
+    },
+    "test_array_output_bool_1": {
+      "results": [
+        {
+          "type": "Array[Bool]"
+        }
+      ]
+    },
+    "test_array_output_bool_2": {
+      "results": [
+        {
+          "type": "Array[Bool]"
+        }
+      ]
+    },
+    "test_array_output_bool_3": {
+      "results": [
+        {
+          "type": "Array[Bool]"
+        }
+      ]
+    },
+    "test_array_output_bool_4": {
+      "results": [
+        {
+          "type": "Array[Bool]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_0": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_1_false": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_1_true": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_2": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_3": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_bool_option_4": {
+      "results": [
+        {
+          "type": "Array[Bool?]"
+        }
+      ]
+    },
+    "test_array_output_byte_0": {
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "test_array_output_byte_1": {
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "test_array_output_byte_2": {
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "test_array_output_byte_3": {
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "test_array_output_byte_4": {
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "test_array_output_byte_option_0": {
+      "results": [
+        {
+          "type": "Array[Byte?]"
+        }
+      ]
+    },
+    "test_array_output_byte_option_1": {
+      "results": [
+        {
+          "type": "Array[Byte?]"
+        }
+      ]
+    },
+    "test_array_output_byte_option_2": {
+      "results": [
+        {
+          "type": "Array[Byte?]"
+        }
+      ]
+    },
+    "test_array_output_byte_option_3": {
+      "results": [
+        {
+          "type": "Array[Byte?]"
+        }
+      ]
+    },
+    "test_array_output_byte_option_4": {
+      "results": [
+        {
+          "type": "Array[Byte?]"
+        }
+      ]
+    },
+    "test_array_output_char_0": {
+      "results": [
+        {
+          "type": "Array[Char]"
+        }
+      ]
+    },
+    "test_array_output_char_1": {
+      "results": [
+        {
+          "type": "Array[Char]"
+        }
+      ]
+    },
+    "test_array_output_char_2": {
+      "results": [
+        {
+          "type": "Array[Char]"
+        }
+      ]
+    },
+    "test_array_output_char_3": {
+      "results": [
+        {
+          "type": "Array[Char]"
+        }
+      ]
+    },
+    "test_array_output_char_4": {
+      "results": [
+        {
+          "type": "Array[Char]"
+        }
+      ]
+    },
+    "test_array_output_char_option": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_0": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_1_some": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_2": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_3": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_char_option_4": {
+      "results": [
+        {
+          "type": "Array[Char?]"
+        }
+      ]
+    },
+    "test_array_output_double_0": {
+      "results": [
+        {
+          "type": "Array[Double]"
+        }
+      ]
+    },
+    "test_array_output_double_1": {
+      "results": [
+        {
+          "type": "Array[Double]"
+        }
+      ]
+    },
+    "test_array_output_double_2": {
+      "results": [
+        {
+          "type": "Array[Double]"
+        }
+      ]
+    },
+    "test_array_output_double_3": {
+      "results": [
+        {
+          "type": "Array[Double]"
+        }
+      ]
+    },
+    "test_array_output_double_4": {
+      "results": [
+        {
+          "type": "Array[Double]"
+        }
+      ]
+    },
+    "test_array_output_double_option": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_0": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_1_some": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_2": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_3": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_double_option_4": {
+      "results": [
+        {
+          "type": "Array[Double?]"
+        }
+      ]
+    },
+    "test_array_output_float_0": {
+      "results": [
+        {
+          "type": "Array[Float]"
+        }
+      ]
+    },
+    "test_array_output_float_1": {
+      "results": [
+        {
+          "type": "Array[Float]"
+        }
+      ]
+    },
+    "test_array_output_float_2": {
+      "results": [
+        {
+          "type": "Array[Float]"
+        }
+      ]
+    },
+    "test_array_output_float_3": {
+      "results": [
+        {
+          "type": "Array[Float]"
+        }
+      ]
+    },
+    "test_array_output_float_4": {
+      "results": [
+        {
+          "type": "Array[Float]"
+        }
+      ]
+    },
+    "test_array_output_float_option": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_0": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_1_some": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_2": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_3": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_float_option_4": {
+      "results": [
+        {
+          "type": "Array[Float?]"
+        }
+      ]
+    },
+    "test_array_output_int16_0": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_1": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_1_max": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_1_min": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_2": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_3": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_4": {
+      "results": [
+        {
+          "type": "Array[Int16]"
+        }
+      ]
+    },
+    "test_array_output_int16_option": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_0": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_1_max": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_1_min": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_2": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_3": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int16_option_4": {
+      "results": [
+        {
+          "type": "Array[Int16?]"
+        }
+      ]
+    },
+    "test_array_output_int64_0": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_1": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_1_max": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_1_min": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_2": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_3": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_4": {
+      "results": [
+        {
+          "type": "Array[Int64]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_0": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_1_max": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_1_min": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_2": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_3": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int64_option_4": {
+      "results": [
+        {
+          "type": "Array[Int64?]"
+        }
+      ]
+    },
+    "test_array_output_int_0": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_1": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_1_max": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_1_min": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_2": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_3": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_4": {
+      "results": [
+        {
+          "type": "Array[Int]"
+        }
+      ]
+    },
+    "test_array_output_int_option": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_0": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_1_max": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_1_min": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_1_none": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_2": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_3": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_int_option_4": {
+      "results": [
+        {
+          "type": "Array[Int?]"
+        }
+      ]
+    },
+    "test_array_output_string": {
+      "results": [
+        {
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "test_array_output_string_empty": {
+      "results": [
+        {
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "test_array_output_string_none": {
+      "results": [
+        {
+          "type": "Array[String]?"
+        }
+      ]
+    },
+    "test_array_output_string_option": {
+      "results": [
+        {
+          "type": "Array[String?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_0": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_1": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_2": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_3": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_4": {
+      "results": [
+        {
+          "type": "Array[UInt16]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_0": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_1_none": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_2": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_3": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint16_option_4": {
+      "results": [
+        {
+          "type": "Array[UInt16?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_0": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_1": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_2": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_3": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_4": {
+      "results": [
+        {
+          "type": "Array[UInt64]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_0": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_1_none": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_2": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_3": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint64_option_4": {
+      "results": [
+        {
+          "type": "Array[UInt64?]"
+        }
+      ]
+    },
+    "test_array_output_uint_0": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_1": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_2": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_3": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_4": {
+      "results": [
+        {
+          "type": "Array[UInt]"
+        }
+      ]
+    },
+    "test_array_output_uint_option": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_0": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_1_max": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_1_min": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_1_none": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_2": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_3": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_array_output_uint_option_4": {
+      "results": [
+        {
+          "type": "Array[UInt?]"
+        }
+      ]
+    },
+    "test_bool_input_false": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_bool_input_true": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bool"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_bool_option_input_false": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bool?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_bool_option_input_none": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bool?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_bool_option_input_true": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Bool?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_bool_option_output_false": {
+      "results": [
+        {
+          "type": "Bool?"
+        }
+      ]
+    },
+    "test_bool_option_output_none": {
+      "results": [
+        {
+          "type": "Bool?"
+        }
+      ]
+    },
+    "test_bool_option_output_true": {
+      "results": [
+        {
+          "type": "Bool?"
+        }
+      ]
+    },
+    "test_bool_output_false": {
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ]
+    },
+    "test_bool_output_true": {
+      "results": [
+        {
+          "type": "Bool"
+        }
+      ]
+    },
+    "test_byte_input_max": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Byte"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_byte_input_min": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Byte"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_byte_option_input_max": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Byte?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_byte_option_input_min": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Byte?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_byte_option_input_none": {
+      "parameters": [
+        {
+          "name": "b",
+          "type": "Byte?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_byte_option_output_max": {
+      "results": [
+        {
+          "type": "Byte?"
+        }
+      ]
+    },
+    "test_byte_option_output_min": {
+      "results": [
+        {
+          "type": "Byte?"
+        }
+      ]
+    },
+    "test_byte_option_output_none": {
+      "results": [
+        {
+          "type": "Byte?"
+        }
+      ]
+    },
+    "test_byte_output_max": {
+      "results": [
+        {
+          "type": "Byte"
+        }
+      ]
+    },
+    "test_byte_output_min": {
+      "results": [
+        {
+          "type": "Byte"
+        }
+      ]
+    },
+    "test_char_input_max": {
+      "parameters": [
+        {
+          "name": "c",
+          "type": "Char"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_char_input_min": {
+      "parameters": [
+        {
+          "name": "c",
+          "type": "Char"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_char_option_input_max": {
+      "parameters": [
+        {
+          "name": "c",
+          "type": "Char?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_char_option_input_min": {
+      "parameters": [
+        {
+          "name": "c",
+          "type": "Char?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_char_option_input_none": {
+      "parameters": [
+        {
+          "name": "c",
+          "type": "Char?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_char_option_output_max": {
+      "results": [
+        {
+          "type": "Char?"
+        }
+      ]
+    },
+    "test_char_option_output_min": {
+      "results": [
+        {
+          "type": "Char?"
+        }
+      ]
+    },
+    "test_char_option_output_none": {
+      "results": [
+        {
+          "type": "Char?"
+        }
+      ]
+    },
+    "test_char_output_max": {
+      "results": [
+        {
+          "type": "Char"
+        }
+      ]
+    },
+    "test_char_output_min": {
+      "results": [
+        {
+          "type": "Char"
+        }
+      ]
+    },
+    "test_double_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Double"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_double_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Double"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_double_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Double?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_double_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Double?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_double_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Double?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_double_option_output_max": {
+      "results": [
+        {
+          "type": "Double?"
+        }
+      ]
+    },
+    "test_double_option_output_min": {
+      "results": [
+        {
+          "type": "Double?"
+        }
+      ]
+    },
+    "test_double_option_output_none": {
+      "results": [
+        {
+          "type": "Double?"
+        }
+      ]
+    },
+    "test_double_output_max": {
+      "results": [
+        {
+          "type": "Double"
+        }
+      ]
+    },
+    "test_double_output_min": {
+      "results": [
+        {
+          "type": "Double"
+        }
+      ]
+    },
+    "test_duration_input": {
+      "parameters": [
+        {
+          "name": "d",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_duration_option_input": {
+      "parameters": [
+        {
+          "name": "d",
+          "type": "@time.Duration?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_duration_option_input_none": {
+      "parameters": [
+        {
+          "name": "d",
+          "type": "@time.Duration?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_duration_option_input_none_style2": {
+      "parameters": [
+        {
+          "name": "d?",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_duration_option_input_style2": {
+      "parameters": [
+        {
+          "name": "d?",
+          "type": "@time.Duration"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_duration_option_output": {
+      "results": [
+        {
+          "type": "@time.Duration?"
+        }
+      ]
+    },
+    "test_duration_option_output_none": {
+      "results": [
+        {
+          "type": "@time.Duration?"
+        }
+      ]
+    },
+    "test_duration_output": {
+      "results": [
+        {
+          "type": "@time.Duration"
+        }
+      ]
+    },
+    "test_fixedarray_input0_byte": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input0_int_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input0_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input0_string_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input1_byte": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input1_int_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input1_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input1_string_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_byte": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_int_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_map": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Map[String, String]]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_map_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Map[String, String]?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_string_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_struct": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[TestStruct2]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input2_struct_option": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[TestStruct2?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_1_false": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_1_true": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_bool_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Bool?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_option_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_byte_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Byte?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_1_some": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_char_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Char?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_1_some": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_double_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Double?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_1_some": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_float_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Float?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int16_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int64_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_int_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_1_some": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_string_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint16_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt16?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint64_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt64?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_1": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_0": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_1_max": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_1_min": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_1_none": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_2": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_3": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_input_uint_option_4": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[UInt?]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_fixedarray_output0_byte": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output0_int_option": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output0_string": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output0_string_option": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output1_byte": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output1_int_option": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output1_string": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output1_string_option": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_byte": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_int_option": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_map": {
+      "results": [
+        {
+          "type": "FixedArray[Map[String, String]]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_map_option": {
+      "results": [
+        {
+          "type": "FixedArray[Map[String, String]?]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_string": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_string_option": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_struct": {
+      "results": [
+        {
+          "type": "FixedArray[TestStruct2]"
+        }
+      ]
+    },
+    "test_fixedarray_output2_struct_option": {
+      "results": [
+        {
+          "type": "FixedArray[TestStruct2?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_0": {
+      "results": [
+        {
+          "type": "FixedArray[Bool]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_1": {
+      "results": [
+        {
+          "type": "FixedArray[Bool]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_2": {
+      "results": [
+        {
+          "type": "FixedArray[Bool]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_3": {
+      "results": [
+        {
+          "type": "FixedArray[Bool]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_4": {
+      "results": [
+        {
+          "type": "FixedArray[Bool]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_1_false": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_1_true": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_bool_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Bool?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_0": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_1": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_2": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_3": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_4": {
+      "results": [
+        {
+          "type": "FixedArray[Byte]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Byte?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_option_1": {
+      "results": [
+        {
+          "type": "FixedArray[Byte?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Byte?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Byte?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_byte_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Byte?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_0": {
+      "results": [
+        {
+          "type": "FixedArray[Char]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_1": {
+      "results": [
+        {
+          "type": "FixedArray[Char]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_2": {
+      "results": [
+        {
+          "type": "FixedArray[Char]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_3": {
+      "results": [
+        {
+          "type": "FixedArray[Char]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_4": {
+      "results": [
+        {
+          "type": "FixedArray[Char]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_1_some": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_char_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Char?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_0": {
+      "results": [
+        {
+          "type": "FixedArray[Double]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_1": {
+      "results": [
+        {
+          "type": "FixedArray[Double]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_2": {
+      "results": [
+        {
+          "type": "FixedArray[Double]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_3": {
+      "results": [
+        {
+          "type": "FixedArray[Double]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_4": {
+      "results": [
+        {
+          "type": "FixedArray[Double]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_1_some": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_double_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Double?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_0": {
+      "results": [
+        {
+          "type": "FixedArray[Float]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_1": {
+      "results": [
+        {
+          "type": "FixedArray[Float]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_2": {
+      "results": [
+        {
+          "type": "FixedArray[Float]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_3": {
+      "results": [
+        {
+          "type": "FixedArray[Float]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_4": {
+      "results": [
+        {
+          "type": "FixedArray[Float]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_1_some": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_float_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Float?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_1": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int16_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_1": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int64_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_1": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_int_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[Int?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_0": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_1": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_2": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_3": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_4": {
+      "results": [
+        {
+          "type": "FixedArray[String]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_1_some": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_string_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[String?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_1": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint16_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt16?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_1": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint64_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt64?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_1": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_0": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_1_max": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_1_min": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_1_none": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_2": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_3": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_fixedarray_output_uint_option_4": {
+      "results": [
+        {
+          "type": "FixedArray[UInt?]"
+        }
+      ]
+    },
+    "test_float_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Float"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_float_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Float"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_float_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Float?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_float_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Float?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_float_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Float?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_float_option_output_max": {
+      "results": [
+        {
+          "type": "Float?"
+        }
+      ]
+    },
+    "test_float_option_output_min": {
+      "results": [
+        {
+          "type": "Float?"
+        }
+      ]
+    },
+    "test_float_option_output_none": {
+      "results": [
+        {
+          "type": "Float?"
+        }
+      ]
+    },
+    "test_float_output_max": {
+      "results": [
+        {
+          "type": "Float"
+        }
+      ]
+    },
+    "test_float_output_min": {
+      "results": [
+        {
+          "type": "Float"
+        }
+      ]
+    },
+    "test_generate_map_string_string_output": {
+      "results": [
+        {
+          "type": "Map[String, String]"
+        }
+      ]
+    },
+    "test_http_header": {
+      "parameters": [
+        {
+          "name": "h",
+          "type": "HttpHeader?"
+        }
+      ]
+    },
+    "test_http_header_map": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, HttpHeader?]"
+        }
+      ]
+    },
+    "test_http_headers": {
+      "parameters": [
+        {
+          "name": "h",
+          "type": "HttpHeaders"
+        }
+      ]
+    },
+    "test_http_response_headers": {
+      "parameters": [
+        {
+          "name": "r",
+          "type": "HttpResponse?"
+        }
+      ]
+    },
+    "test_http_response_headers_output": {
+      "results": [
+        {
+          "type": "HttpResponse?"
+        }
+      ]
+    },
+    "test_int16_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int16"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int16_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int16"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int16_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int16_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int16_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int16_option_output_max": {
+      "results": [
+        {
+          "type": "Int16?"
+        }
+      ]
+    },
+    "test_int16_option_output_min": {
+      "results": [
+        {
+          "type": "Int16?"
+        }
+      ]
+    },
+    "test_int16_option_output_none": {
+      "results": [
+        {
+          "type": "Int16?"
+        }
+      ]
+    },
+    "test_int16_output_max": {
+      "results": [
+        {
+          "type": "Int16"
+        }
+      ]
+    },
+    "test_int16_output_min": {
+      "results": [
+        {
+          "type": "Int16"
+        }
+      ]
+    },
+    "test_int64_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int64_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int64"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int64_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int64_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int64_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int64_option_output_max": {
+      "results": [
+        {
+          "type": "Int64?"
+        }
+      ]
+    },
+    "test_int64_option_output_min": {
+      "results": [
+        {
+          "type": "Int64?"
+        }
+      ]
+    },
+    "test_int64_option_output_none": {
+      "results": [
+        {
+          "type": "Int64?"
+        }
+      ]
+    },
+    "test_int64_output_max": {
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ]
+    },
+    "test_int64_output_min": {
+      "results": [
+        {
+          "type": "Int64"
+        }
+      ]
+    },
+    "test_int_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Int?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_int_option_output_max": {
+      "results": [
+        {
+          "type": "Int?"
+        }
+      ]
+    },
+    "test_int_option_output_min": {
+      "results": [
+        {
+          "type": "Int?"
+        }
+      ]
+    },
+    "test_int_option_output_none": {
+      "results": [
+        {
+          "type": "Int?"
+        }
+      ]
+    },
+    "test_int_output_max": {
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "test_int_output_min": {
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "test_iterate_map_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ]
+    },
+    "test_map_input_int_double": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[Int, Double]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_input_int_float": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[Int, Float]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_input_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_lookup_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        },
+        {
+          "name": "key",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "test_map_option_input_string_string": {
+      "parameters": [
+        {
+          "name": "m",
+          "type": "Map[String, String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_map_option_output_string_string": {
+      "results": [
+        {
+          "type": "Map[String, String]?"
+        }
+      ]
+    },
+    "test_map_output_int_double": {
+      "results": [
+        {
+          "type": "Map[Int, Double]"
+        }
+      ]
+    },
+    "test_map_output_int_float": {
+      "results": [
+        {
+          "type": "Map[Int, Float]"
+        }
+      ]
+    },
+    "test_map_output_string_string": {
+      "results": [
+        {
+          "type": "Map[String, String]"
+        }
+      ]
+    },
+    "test_option_fixedarray_input1_int": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_option_fixedarray_input1_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_option_fixedarray_input2_int": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[Int]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_option_fixedarray_input2_string": {
+      "parameters": [
+        {
+          "name": "val",
+          "type": "FixedArray[String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_option_fixedarray_output1_int": {
+      "results": [
+        {
+          "type": "FixedArray[Int]?"
+        }
+      ]
+    },
+    "test_option_fixedarray_output1_string": {
+      "results": [
+        {
+          "type": "FixedArray[String]?"
+        }
+      ]
+    },
+    "test_option_fixedarray_output2_int": {
+      "results": [
+        {
+          "type": "FixedArray[Int]?"
+        }
+      ]
+    },
+    "test_option_fixedarray_output2_string": {
+      "results": [
+        {
+          "type": "FixedArray[String]?"
+        }
+      ]
+    },
+    "test_recursive_struct_input": {
+      "parameters": [
+        {
+          "name": "r1",
+          "type": "TestRecursiveStruct"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_recursive_struct_option_input": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestRecursiveStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_recursive_struct_option_input_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestRecursiveStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_recursive_struct_option_output": {
+      "results": [
+        {
+          "type": "TestRecursiveStruct?"
+        }
+      ]
+    },
+    "test_recursive_struct_option_output_map": {
+      "results": [
+        {
+          "type": "TestRecursiveStruct_map?"
+        }
+      ]
+    },
+    "test_recursive_struct_option_output_none": {
+      "results": [
+        {
+          "type": "TestRecursiveStruct?"
+        }
+      ]
+    },
+    "test_recursive_struct_output": {
+      "results": [
+        {
+          "type": "TestRecursiveStruct"
+        }
+      ]
+    },
+    "test_recursive_struct_output_map": {
+      "results": [
+        {
+          "type": "TestRecursiveStruct_map"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_input": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_input": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_input_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestSmorgasbordStruct?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_map": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_map_none": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_option_output_none": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct?"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_output": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct"
+        }
+      ]
+    },
+    "test_smorgasbord_struct_output_map": {
+      "results": [
+        {
+          "type": "TestSmorgasbordStruct_map"
+        }
+      ]
+    },
+    "test_string_input": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_string_option_input": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_string_option_input_none": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_string_option_output": {
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "test_string_option_output_none": {
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "test_string_output": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "test_struct_containing_map_input_string_string": {
+      "parameters": [
+        {
+          "name": "s",
+          "type": "TestStructWithMap"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_containing_map_output_string_string": {
+      "results": [
+        {
+          "type": "TestStructWithMap"
+        }
+      ]
+    },
+    "test_struct_input1": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct1"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_input2": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct2"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_input3": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct3"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_input4": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct4"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_input4_with_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct4"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_input5": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct5"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input1": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct1?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input1_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct1?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input2": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct2?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input2_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct2?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input3": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct3?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input3_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct3?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input4": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct4?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input4_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct4?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input4_with_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct4?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input5": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct5?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_input5_none": {
+      "parameters": [
+        {
+          "name": "o",
+          "type": "TestStruct5?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_struct_option_output1": {
+      "results": [
+        {
+          "type": "TestStruct1?"
+        }
+      ]
+    },
+    "test_struct_option_output1_map": {
+      "results": [
+        {
+          "type": "TestStruct1_map?"
+        }
+      ]
+    },
+    "test_struct_option_output1_none": {
+      "results": [
+        {
+          "type": "TestStruct1?"
+        }
+      ]
+    },
+    "test_struct_option_output2": {
+      "results": [
+        {
+          "type": "TestStruct2?"
+        }
+      ]
+    },
+    "test_struct_option_output2_map": {
+      "results": [
+        {
+          "type": "TestStruct2_map?"
+        }
+      ]
+    },
+    "test_struct_option_output2_none": {
+      "results": [
+        {
+          "type": "TestStruct2?"
+        }
+      ]
+    },
+    "test_struct_option_output3": {
+      "results": [
+        {
+          "type": "TestStruct3?"
+        }
+      ]
+    },
+    "test_struct_option_output3_map": {
+      "results": [
+        {
+          "type": "TestStruct3_map?"
+        }
+      ]
+    },
+    "test_struct_option_output3_none": {
+      "results": [
+        {
+          "type": "TestStruct3?"
+        }
+      ]
+    },
+    "test_struct_option_output4": {
+      "results": [
+        {
+          "type": "TestStruct4?"
+        }
+      ]
+    },
+    "test_struct_option_output4_map": {
+      "results": [
+        {
+          "type": "TestStruct4_map?"
+        }
+      ]
+    },
+    "test_struct_option_output4_map_with_none": {
+      "results": [
+        {
+          "type": "TestStruct4_map?"
+        }
+      ]
+    },
+    "test_struct_option_output4_none": {
+      "results": [
+        {
+          "type": "TestStruct4?"
+        }
+      ]
+    },
+    "test_struct_option_output4_with_none": {
+      "results": [
+        {
+          "type": "TestStruct4?"
+        }
+      ]
+    },
+    "test_struct_option_output5": {
+      "results": [
+        {
+          "type": "TestStruct5?"
+        }
+      ]
+    },
+    "test_struct_option_output5_map": {
+      "results": [
+        {
+          "type": "TestStruct5_map?"
+        }
+      ]
+    },
+    "test_struct_option_output5_none": {
+      "results": [
+        {
+          "type": "TestStruct5?"
+        }
+      ]
+    },
+    "test_struct_output1": {
+      "results": [
+        {
+          "type": "TestStruct1"
+        }
+      ]
+    },
+    "test_struct_output1_map": {
+      "results": [
+        {
+          "type": "TestStruct1_map"
+        }
+      ]
+    },
+    "test_struct_output2": {
+      "results": [
+        {
+          "type": "TestStruct2"
+        }
+      ]
+    },
+    "test_struct_output2_map": {
+      "results": [
+        {
+          "type": "TestStruct2_map"
+        }
+      ]
+    },
+    "test_struct_output3": {
+      "results": [
+        {
+          "type": "TestStruct3"
+        }
+      ]
+    },
+    "test_struct_output3_map": {
+      "results": [
+        {
+          "type": "TestStruct3_map"
+        }
+      ]
+    },
+    "test_struct_output4": {
+      "results": [
+        {
+          "type": "TestStruct4"
+        }
+      ]
+    },
+    "test_struct_output4_map": {
+      "results": [
+        {
+          "type": "TestStruct4_map"
+        }
+      ]
+    },
+    "test_struct_output4_map_with_none": {
+      "results": [
+        {
+          "type": "TestStruct4_map"
+        }
+      ]
+    },
+    "test_struct_output4_with_none": {
+      "results": [
+        {
+          "type": "TestStruct4"
+        }
+      ]
+    },
+    "test_struct_output5": {
+      "results": [
+        {
+          "type": "TestStruct5"
+        }
+      ]
+    },
+    "test_struct_output5_map": {
+      "results": [
+        {
+          "type": "TestStruct5_map"
+        }
+      ]
+    },
+    "test_time_input": {
+      "parameters": [
+        {
+          "name": "t",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_input": {
+      "parameters": [
+        {
+          "name": "t",
+          "type": "@time.ZonedDateTime?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_input_none": {
+      "parameters": [
+        {
+          "name": "t",
+          "type": "@time.ZonedDateTime?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_input_none_style2": {
+      "parameters": [
+        {
+          "name": "t?",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_input_style2": {
+      "parameters": [
+        {
+          "name": "t?",
+          "type": "@time.ZonedDateTime"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_time_option_output": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime?"
+        }
+      ]
+    },
+    "test_time_option_output_none": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime?"
+        }
+      ]
+    },
+    "test_time_output": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime"
+        }
+      ]
+    },
+    "test_tuple_output": {
+      "results": [
+        {
+          "type": "(Int, Bool, String)"
+        }
+      ]
+    },
+    "test_uint16_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt16"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint16_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt16"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint16_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint16_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint16_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt16?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint16_option_output_max": {
+      "results": [
+        {
+          "type": "UInt16?"
+        }
+      ]
+    },
+    "test_uint16_option_output_min": {
+      "results": [
+        {
+          "type": "UInt16?"
+        }
+      ]
+    },
+    "test_uint16_option_output_none": {
+      "results": [
+        {
+          "type": "UInt16?"
+        }
+      ]
+    },
+    "test_uint16_output_max": {
+      "results": [
+        {
+          "type": "UInt16"
+        }
+      ]
+    },
+    "test_uint16_output_min": {
+      "results": [
+        {
+          "type": "UInt16"
+        }
+      ]
+    },
+    "test_uint64_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt64"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint64_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt64"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint64_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint64_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint64_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt64?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint64_option_output_max": {
+      "results": [
+        {
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "test_uint64_option_output_min": {
+      "results": [
+        {
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "test_uint64_option_output_none": {
+      "results": [
+        {
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "test_uint64_output_max": {
+      "results": [
+        {
+          "type": "UInt64"
+        }
+      ]
+    },
+    "test_uint64_output_min": {
+      "results": [
+        {
+          "type": "UInt64"
+        }
+      ]
+    },
+    "test_uint_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint_option_input_max": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint_option_input_min": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint_option_input_none": {
+      "parameters": [
+        {
+          "name": "n",
+          "type": "UInt?"
+        }
+      ],
+      "results": [
+        {
+          "type": "Unit!Error"
+        }
+      ]
+    },
+    "test_uint_option_output_max": {
+      "results": [
+        {
+          "type": "UInt?"
+        }
+      ]
+    },
+    "test_uint_option_output_min": {
+      "results": [
+        {
+          "type": "UInt?"
+        }
+      ]
+    },
+    "test_uint_option_output_none": {
+      "results": [
+        {
+          "type": "UInt?"
+        }
+      ]
+    },
+    "test_uint_output_max": {
+      "results": [
+        {
+          "type": "UInt"
+        }
+      ]
+    },
+    "test_uint_output_min": {
+      "results": [
+        {
+          "type": "UInt"
+        }
+      ]
+    }
+  },
+  "fnImports": {
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    },
+    "modus_test.add": {
+      "parameters": [
+        {
+          "name": "a",
+          "type": "Int"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ],
+      "results": [
+        {
+          "type": "Int"
+        }
+      ]
+    },
+    "modus_test.echo1": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "modus_test.echo2": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "modus_test.echo3": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "modus_test.echo4": {
+      "parameters": [
+        {
+          "name": "message",
+          "type": "String?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "modus_test.encodeStrings1": {
+      "parameters": [
+        {
+          "name": "items",
+          "type": "Array[String]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    },
+    "modus_test.encodeStrings2": {
+      "parameters": [
+        {
+          "name": "items",
+          "type": "Array[String?]?"
+        }
+      ],
+      "results": [
+        {
+          "type": "String?"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(Int, Bool, String)": {
+      "id": 130,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Bool"
+        },
+        {
+          "name": "2",
+          "type": "String"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 69,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "@ffi.XExternByteArray": {
+      "id": 141
+    },
+    "@ffi.XExternString": {
+      "id": 98
+    },
+    "@ffi.XExternStringArray": {
+      "id": 143
+    },
+    "@testutils.CallStack[T]": {
+      "id": 177,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
+    },
+    "@testutils.T": {
+      "id": 107
+    },
+    "@time.Duration": {
+      "id": 93
+    },
+    "@time.Duration!Error": {
+      "id": 114
+    },
+    "@time.Duration?": {
+      "id": 51
+    },
+    "@time.Period": {
+      "id": 185
+    },
+    "@time.Period!Error": {
+      "id": 179
+    },
+    "@time.PlainDate": {
+      "id": 58
+    },
+    "@time.PlainDate!Error": {
+      "id": 15
+    },
+    "@time.PlainDateTime": {
+      "id": 89
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 64
+    },
+    "@time.PlainTime": {
+      "id": 186
+    },
+    "@time.PlainTime!Error": {
+      "id": 66
+    },
+    "@time.Weekday": {
+      "id": 182
+    },
+    "@time.Zone": {
+      "id": 84
+    },
+    "@time.Zone!Error": {
+      "id": 147
+    },
+    "@time.ZoneOffset": {
+      "id": 140
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 88
+    },
+    "@time.ZonedDateTime": {
+      "id": 61
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 63
+    },
+    "@time.ZonedDateTime?": {
+      "id": 76
+    },
+    "Array[@testutils.T]": {
+      "id": 116
+    },
+    "Array[Array[@testutils.T]]": {
+      "id": 178
+    },
+    "Array[Array[String]?]": {
+      "id": 145
+    },
+    "Array[Array[String]]": {
+      "id": 156
+    },
+    "Array[Array[String]]?": {
+      "id": 50
+    },
+    "Array[Bool?]": {
+      "id": 102
+    },
+    "Array[Bool]": {
+      "id": 148
+    },
+    "Array[Byte?]": {
+      "id": 83
+    },
+    "Array[Byte]": {
+      "id": 161
+    },
+    "Array[Char?]": {
+      "id": 138
+    },
+    "Array[Char]": {
+      "id": 55
+    },
+    "Array[Double?]": {
+      "id": 85
+    },
+    "Array[Double]": {
+      "id": 4
+    },
+    "Array[Float?]": {
+      "id": 183
+    },
+    "Array[Float]": {
+      "id": 65
+    },
+    "Array[HttpHeader?]": {
+      "id": 75
+    },
+    "Array[Int16?]": {
+      "id": 103
+    },
+    "Array[Int16]": {
+      "id": 49
+    },
+    "Array[Int64?]": {
+      "id": 73
+    },
+    "Array[Int64]": {
+      "id": 53
+    },
+    "Array[Int?]": {
+      "id": 7
+    },
+    "Array[Int]": {
+      "id": 44
+    },
+    "Array[String?]": {
+      "id": 74
+    },
+    "Array[String?]?": {
+      "id": 106
+    },
+    "Array[String]": {
+      "id": 113
+    },
+    "Array[String]?": {
+      "id": 81
+    },
+    "Array[UInt16?]": {
+      "id": 14
+    },
+    "Array[UInt16]": {
+      "id": 72
+    },
+    "Array[UInt64?]": {
+      "id": 80
+    },
+    "Array[UInt64]": {
+      "id": 160
+    },
+    "Array[UInt?]": {
+      "id": 164
+    },
+    "Array[UInt]": {
+      "id": 56
+    },
+    "Bool": {
+      "id": 162
+    },
+    "Bool?": {
+      "id": 135
+    },
+    "Byte": {
+      "id": 126
+    },
+    "Byte?": {
+      "id": 6
+    },
+    "Char": {
+      "id": 189
+    },
+    "Char?": {
+      "id": 128
+    },
+    "Double": {
+      "id": 100
+    },
+    "Double?": {
+      "id": 95
+    },
+    "FixedArray[Bool?]": {
+      "id": 157
+    },
+    "FixedArray[Bool]": {
+      "id": 70
+    },
+    "FixedArray[Byte?]": {
+      "id": 165
+    },
+    "FixedArray[Byte]": {
+      "id": 163
+    },
+    "FixedArray[Char?]": {
+      "id": 109
+    },
+    "FixedArray[Char]": {
+      "id": 134
+    },
+    "FixedArray[Double?]": {
+      "id": 21
+    },
+    "FixedArray[Double]": {
+      "id": 151
+    },
+    "FixedArray[Float?]": {
+      "id": 136
+    },
+    "FixedArray[Float]": {
+      "id": 92
+    },
+    "FixedArray[Int16?]": {
+      "id": 187
+    },
+    "FixedArray[Int16]": {
+      "id": 121
+    },
+    "FixedArray[Int64?]": {
+      "id": 82
+    },
+    "FixedArray[Int64]": {
+      "id": 108
+    },
+    "FixedArray[Int?]": {
+      "id": 159
+    },
+    "FixedArray[Int]": {
+      "id": 60
+    },
+    "FixedArray[Int]?": {
+      "id": 131
+    },
+    "FixedArray[Map[String, String]?]": {
+      "id": 190
+    },
+    "FixedArray[Map[String, String]]": {
+      "id": 168
+    },
+    "FixedArray[String?]": {
+      "id": 139
+    },
+    "FixedArray[String]": {
+      "id": 5
+    },
+    "FixedArray[String]?": {
+      "id": 115
+    },
+    "FixedArray[TestStruct2?]": {
+      "id": 105
+    },
+    "FixedArray[TestStruct2]": {
+      "id": 171
+    },
+    "FixedArray[UInt16?]": {
+      "id": 133
+    },
+    "FixedArray[UInt16]": {
+      "id": 180
+    },
+    "FixedArray[UInt64?]": {
+      "id": 146
+    },
+    "FixedArray[UInt64]": {
+      "id": 155
+    },
+    "FixedArray[UInt?]": {
+      "id": 170
+    },
+    "FixedArray[UInt]": {
+      "id": 174
+    },
+    "Float": {
+      "id": 87
+    },
+    "Float?": {
+      "id": 132
+    },
+    "HttpHeader": {
+      "id": 169,
+      "fields": [
+        {
+          "name": "name",
+          "type": "String"
+        },
+        {
+          "name": "values",
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "HttpHeader?": {
+      "id": 16,
+      "fields": [
+        {
+          "name": "name",
+          "type": "String"
+        },
+        {
+          "name": "values",
+          "type": "Array[String]"
+        }
+      ]
+    },
+    "HttpHeaders": {
+      "id": 11,
+      "fields": [
+        {
+          "name": "data",
+          "type": "Map[String, HttpHeader?]"
+        }
+      ]
+    },
+    "HttpHeaders.HttpHeader?": {
+      "id": 12
+    },
+    "HttpHeaders?": {
+      "id": 46,
+      "fields": [
+        {
+          "name": "data",
+          "type": "Map[String, HttpHeader?]"
+        }
+      ]
+    },
+    "HttpHeaders?.HttpHeader?": {
+      "id": 48
+    },
+    "HttpResponse": {
+      "id": 172,
+      "fields": [
+        {
+          "name": "status",
+          "type": "UInt16"
+        },
+        {
+          "name": "statusText",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "HttpHeaders?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "HttpResponse.HttpHeaders?": {
+      "id": 173
+    },
+    "HttpResponse?": {
+      "id": 118,
+      "fields": [
+        {
+          "name": "status",
+          "type": "UInt16"
+        },
+        {
+          "name": "statusText",
+          "type": "String"
+        },
+        {
+          "name": "headers",
+          "type": "HttpHeaders?"
+        },
+        {
+          "name": "body",
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "HttpResponse?.HttpHeaders?": {
+      "id": 119
+    },
+    "Int": {
+      "id": 20
+    },
+    "Int16": {
+      "id": 62
+    },
+    "Int16?": {
+      "id": 123
+    },
+    "Int64": {
+      "id": 124
+    },
+    "Int64?": {
+      "id": 79
+    },
+    "Int?": {
+      "id": 122
+    },
+    "Map[Int, Double]": {
+      "id": 117
+    },
+    "Map[Int, Float]": {
+      "id": 158
+    },
+    "Map[String, HttpHeader?]": {
+      "id": 137
+    },
+    "Map[String, HttpHeaders.HttpHeader?]": {
+      "id": 13
+    },
+    "Map[String, HttpHeaders?.HttpHeader?]": {
+      "id": 47
+    },
+    "Map[String, String]": {
+      "id": 71
+    },
+    "Map[String, String]?": {
+      "id": 112
+    },
+    "String": {
+      "id": 22
+    },
+    "String?": {
+      "id": 144
+    },
+    "TestRecursiveStruct": {
+      "id": 96,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "mut b",
+          "type": "TestRecursiveStruct?"
+        }
+      ]
+    },
+    "TestRecursiveStruct.TestRecursiveStruct?": {
+      "id": 97
+    },
+    "TestRecursiveStruct?": {
+      "id": 153,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "mut b",
+          "type": "TestRecursiveStruct?"
+        }
+      ]
+    },
+    "TestRecursiveStruct?.TestRecursiveStruct?": {
+      "id": 154
+    },
+    "TestRecursiveStruct_map": {
+      "id": 166,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "mut b",
+          "type": "TestRecursiveStruct_map?"
+        }
+      ]
+    },
+    "TestRecursiveStruct_map.TestRecursiveStruct_map?": {
+      "id": 167
+    },
+    "TestRecursiveStruct_map?": {
+      "id": 67,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "mut b",
+          "type": "TestRecursiveStruct_map?"
+        }
+      ]
+    },
+    "TestRecursiveStruct_map?.TestRecursiveStruct_map?": {
+      "id": 68
+    },
+    "TestSmorgasbordStruct": {
+      "id": 101,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct?": {
+      "id": 129,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct_map": {
+      "id": 23,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestSmorgasbordStruct_map?": {
+      "id": 176,
+      "fields": [
+        {
+          "name": "bool",
+          "type": "Bool"
+        },
+        {
+          "name": "byte",
+          "type": "Byte"
+        },
+        {
+          "name": "c",
+          "type": "Char"
+        },
+        {
+          "name": "f",
+          "type": "Float"
+        },
+        {
+          "name": "d",
+          "type": "Double"
+        },
+        {
+          "name": "i16",
+          "type": "Int16"
+        },
+        {
+          "name": "i32",
+          "type": "Int"
+        },
+        {
+          "name": "i64",
+          "type": "Int64"
+        },
+        {
+          "name": "s",
+          "type": "String"
+        },
+        {
+          "name": "u16",
+          "type": "UInt16"
+        },
+        {
+          "name": "u32",
+          "type": "UInt"
+        },
+        {
+          "name": "u64",
+          "type": "UInt64"
+        },
+        {
+          "name": "someBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "noneBool",
+          "type": "Bool?"
+        },
+        {
+          "name": "someByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "noneByte",
+          "type": "Byte?"
+        },
+        {
+          "name": "someChar",
+          "type": "Char?"
+        },
+        {
+          "name": "noneChar",
+          "type": "Char?"
+        },
+        {
+          "name": "someFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "noneFloat",
+          "type": "Float?"
+        },
+        {
+          "name": "someDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "noneDouble",
+          "type": "Double?"
+        },
+        {
+          "name": "someI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "noneI16",
+          "type": "Int16?"
+        },
+        {
+          "name": "someI32",
+          "type": "Int?"
+        },
+        {
+          "name": "noneI32",
+          "type": "Int?"
+        },
+        {
+          "name": "someI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "noneI64",
+          "type": "Int64?"
+        },
+        {
+          "name": "someString",
+          "type": "String?"
+        },
+        {
+          "name": "noneString",
+          "type": "String?"
+        },
+        {
+          "name": "someU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "noneU16",
+          "type": "UInt16?"
+        },
+        {
+          "name": "someU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "noneU32",
+          "type": "UInt?"
+        },
+        {
+          "name": "someU64",
+          "type": "UInt64?"
+        },
+        {
+          "name": "noneU64",
+          "type": "UInt64?"
+        }
+      ]
+    },
+    "TestStruct1": {
+      "id": 59,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        }
+      ]
+    },
+    "TestStruct1?": {
+      "id": 18,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        }
+      ]
+    },
+    "TestStruct1_map": {
+      "id": 104,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        }
+      ]
+    },
+    "TestStruct1_map?": {
+      "id": 149,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        }
+      ]
+    },
+    "TestStruct2": {
+      "id": 181,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ]
+    },
+    "TestStruct2?": {
+      "id": 99,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ]
+    },
+    "TestStruct2_map": {
+      "id": 110,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ]
+    },
+    "TestStruct2_map?": {
+      "id": 111,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        }
+      ]
+    },
+    "TestStruct3": {
+      "id": 86,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        }
+      ]
+    },
+    "TestStruct3?": {
+      "id": 125,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        }
+      ]
+    },
+    "TestStruct3_map": {
+      "id": 192,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        }
+      ]
+    },
+    "TestStruct3_map?": {
+      "id": 191,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        }
+      ]
+    },
+    "TestStruct4": {
+      "id": 94,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String?"
+        }
+      ]
+    },
+    "TestStruct4?": {
+      "id": 57,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String?"
+        }
+      ]
+    },
+    "TestStruct4_map": {
+      "id": 54,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String?"
+        }
+      ]
+    },
+    "TestStruct4_map?": {
+      "id": 78,
+      "fields": [
+        {
+          "name": "a",
+          "type": "Bool"
+        },
+        {
+          "name": "b",
+          "type": "Int"
+        },
+        {
+          "name": "c",
+          "type": "String?"
+        }
+      ]
+    },
+    "TestStruct5": {
+      "id": 152,
+      "fields": [
+        {
+          "name": "a",
+          "type": "String"
+        },
+        {
+          "name": "b",
+          "type": "String"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        },
+        {
+          "name": "d",
+          "type": "Array[String]"
+        },
+        {
+          "name": "e",
+          "type": "Double"
+        },
+        {
+          "name": "f",
+          "type": "Double"
+        }
+      ]
+    },
+    "TestStruct5?": {
+      "id": 77,
+      "fields": [
+        {
+          "name": "a",
+          "type": "String"
+        },
+        {
+          "name": "b",
+          "type": "String"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        },
+        {
+          "name": "d",
+          "type": "Array[String]"
+        },
+        {
+          "name": "e",
+          "type": "Double"
+        },
+        {
+          "name": "f",
+          "type": "Double"
+        }
+      ]
+    },
+    "TestStruct5_map": {
+      "id": 150,
+      "fields": [
+        {
+          "name": "a",
+          "type": "String"
+        },
+        {
+          "name": "b",
+          "type": "String"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        },
+        {
+          "name": "d",
+          "type": "Array[String]"
+        },
+        {
+          "name": "e",
+          "type": "Double"
+        },
+        {
+          "name": "f",
+          "type": "Double"
+        }
+      ]
+    },
+    "TestStruct5_map?": {
+      "id": 142,
+      "fields": [
+        {
+          "name": "a",
+          "type": "String"
+        },
+        {
+          "name": "b",
+          "type": "String"
+        },
+        {
+          "name": "c",
+          "type": "String"
+        },
+        {
+          "name": "d",
+          "type": "Array[String]"
+        },
+        {
+          "name": "e",
+          "type": "Double"
+        },
+        {
+          "name": "f",
+          "type": "Double"
+        }
+      ]
+    },
+    "TestStructWithMap": {
+      "id": 8,
+      "fields": [
+        {
+          "name": "m",
+          "type": "Map[String, String]"
+        }
+      ]
+    },
+    "UInt": {
+      "id": 90
+    },
+    "UInt16": {
+      "id": 45
+    },
+    "UInt16?": {
+      "id": 188
+    },
+    "UInt64": {
+      "id": 127
+    },
+    "UInt64?": {
+      "id": 175
+    },
+    "UInt?": {
+      "id": 52
+    },
+    "Unit": {
+      "id": 91
+    },
+    "Unit!Error": {
+      "id": 184
+    }
+  }
+}

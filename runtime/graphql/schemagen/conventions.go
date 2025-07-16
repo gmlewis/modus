@@ -48,10 +48,14 @@ func getPrefix(fnName string, prefixes []string) string {
 		}
 
 		// check for a prefix, but only if the prefix is NOT followed by a lowercase letter
-		// for example, we want to match "addPost" but not "additionalPosts"
+		// or underscore. For example, we want to match "addPost" but not "additionalPosts".
+		// Also, we want to match "get_person" but not "getaway".
 		prefixLen := len(prefix)
 		if len(fnName) > prefixLen && strings.HasPrefix(fnNameLowered, prefix) {
 			c := fnName[prefixLen]
+			if c == '_' {
+				return prefix + "_"
+			}
 			if c < 'a' || c > 'z' {
 				return prefix
 			}

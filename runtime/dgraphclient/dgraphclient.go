@@ -12,7 +12,7 @@ package dgraphclient
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/manifestdata"
 )
 
 func Initialize() {

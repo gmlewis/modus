@@ -13,7 +13,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func TestInt8ArrayInput(t *testing.T) {

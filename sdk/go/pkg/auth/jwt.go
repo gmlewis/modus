@@ -13,7 +13,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 func GetJWTClaims[T any]() (T, error) {

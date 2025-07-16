@@ -11,9 +11,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models/openai"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models/openai"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 // In this example, we'll demonstrate how to generated structured data using OpenAI chat models.

@@ -9,4 +9,10 @@ pushd ../../tools/modus-go-build >/dev/null || exit
 go run . "${PROJECTDIR}"
 exit_code=$?
 popd >/dev/null || exit
+
+if command -v wasm2wat >/dev/null 2>&1; then
+  # If wasm2wat is available, run the command
+  wasm2wat build/simple-example.wasm > build/simple-example.wat
+fi
+
 exit "${exit_code}"

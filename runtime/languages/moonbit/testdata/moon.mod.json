@@ -1,0 +1,11 @@
+{
+  "name": "modus/testdata",
+  "version": "0.0.1",
+  "description": "Test data for modus",
+  "deps": {
+    "gmlewis/modus": {
+      "path": "../../../../sdk/moonbit"
+    },
+    "moonbitlang/x": "0.4.21"
+  }
+}

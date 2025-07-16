@@ -1,0 +1,174 @@
+package "gmlewis/modus/pkg/collections"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+const ERROR : String = "error"
+
+const SUCCESS : String = "success"
+
+fn compute_distance(String, String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionSearchResultObject!
+
+fn get_labels(String, String, opts~ : Array[NamespaceOption] = ..) -> Array[String]!
+
+fn get_namespaces(String) -> Array[String]!
+
+fn get_text(String, String, opts~ : Array[NamespaceOption] = ..) -> String!
+
+fn get_texts(String, opts~ : Array[NamespaceOption] = ..) -> Map[String, String]!
+
+fn get_vector(String, String, String, opts~ : Array[NamespaceOption] = ..) -> Array[Float]!
+
+fn host_classify_text(String, String, String, String) -> CollectionClassificationResult!
+
+fn host_compute_distance(String, String, String, String, String) -> CollectionSearchResultObject!
+
+fn host_delete(String, String, String) -> CollectionMutationResult!
+
+fn host_dump_texts(String, String) -> Map[String, String]!
+
+fn host_get_labels(String, String, String) -> Array[String]!
+
+fn host_get_namespaces(String) -> Array[String]!
+
+fn host_get_text(String, String, String) -> String!
+
+fn host_get_vector(String, String, String, String) -> Array[Float]!
+
+fn host_recompute_index(String, String, String) -> SearchMethodMutationResult!
+
+fn host_search(String, Array[String], String, String, Int, Bool) -> CollectionSearchResult!
+
+fn host_search_by_vector(String, Array[String], String, Array[Float], Int, Bool) -> CollectionSearchResult!
+
+fn host_upsert(String, String, Array[String], Array[String], Array[Array[String]]) -> CollectionMutationResult!
+
+fn nn_classify(String, String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionClassificationResult!
+
+fn recompute_search_method(String, String, opts~ : Array[NamespaceOption] = ..) -> SearchMethodMutationResult!
+
+fn remove(String, String, opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+
+fn search(String, String, String, opts~ : Array[SearchOption] = ..) -> CollectionSearchResult!
+
+fn search_by_vector(String, String, Array[Float], opts~ : Array[SearchOption] = ..) -> CollectionSearchResult!
+
+fn upsert(String, String, key~ : String = .., labels~ : Array[String] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+
+fn upsert_batch(String, Array[String], keys~ : Array[String] = .., labels_arr~ : Array[Array[String]] = .., opts~ : Array[NamespaceOption] = ..) -> CollectionMutationResult!
+
+fn with_limit(Int) -> SearchOption
+
+fn with_namespace(String) -> NamespaceOption
+
+fn with_namespaces(Array[String]) -> SearchOption
+
+fn with_return_text(Bool) -> SearchOption
+
+// Types and methods
+pub(all) struct CollectionClassificationLabelObject {
+  label : String
+  confidence : Double
+}
+impl Eq for CollectionClassificationLabelObject
+impl Show for CollectionClassificationLabelObject
+impl ToJson for CollectionClassificationLabelObject
+impl @json.FromJson for CollectionClassificationLabelObject
+
+pub(all) struct CollectionClassificationResult {
+  collection : String
+  status : String
+  error : String
+  search_method : String
+  labels_result : Array[CollectionClassificationLabelObject]
+  cluster : Array[CollectionClassificationResultObject]
+}
+impl Eq for CollectionClassificationResult
+impl Show for CollectionClassificationResult
+impl ToJson for CollectionClassificationResult
+impl @json.FromJson for CollectionClassificationResult
+
+pub(all) struct CollectionClassificationResultObject {
+  key : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+}
+impl Eq for CollectionClassificationResultObject
+impl Show for CollectionClassificationResultObject
+impl ToJson for CollectionClassificationResultObject
+impl @json.FromJson for CollectionClassificationResultObject
+
+pub(all) type! CollectionError String
+impl Eq for CollectionError
+impl Show for CollectionError
+
+pub(all) struct CollectionMutationResult {
+  collection : String
+  status : String
+  error : String
+  operation : String
+  keys : Array[String]
+}
+impl Eq for CollectionMutationResult
+impl Show for CollectionMutationResult
+impl ToJson for CollectionMutationResult
+impl @json.FromJson for CollectionMutationResult
+
+pub(all) struct CollectionSearchResult {
+  collection : String
+  status : String
+  error : String
+  search_method : String
+  objects : Array[CollectionSearchResultObject]
+}
+impl Eq for CollectionSearchResult
+impl Show for CollectionSearchResult
+impl ToJson for CollectionSearchResult
+impl @json.FromJson for CollectionSearchResult
+
+pub(all) struct CollectionSearchResultObject {
+  namespace : String
+  key : String
+  text : String
+  labels : Array[String]
+  distance : Double
+  score : Double
+}
+impl Eq for CollectionSearchResultObject
+impl Show for CollectionSearchResultObject
+impl ToJson for CollectionSearchResultObject
+impl @json.FromJson for CollectionSearchResultObject
+
+pub type NamespaceOption (NamespaceOptions) -> Unit
+
+pub(all) struct NamespaceOptions {
+  mut namespace : String
+}
+
+pub(all) struct SearchMethodMutationResult {
+  collection : String
+  status : String
+  error : String
+  operation : String
+  search_method : String
+}
+impl Eq for SearchMethodMutationResult
+impl Show for SearchMethodMutationResult
+impl ToJson for SearchMethodMutationResult
+impl @json.FromJson for SearchMethodMutationResult
+
+pub(all) type SearchOption (SearchOptions) -> Unit
+
+pub(all) struct SearchOptions {
+  mut namespaces : Array[String]
+  mut limit : Int
+  mut return_text : Bool
+}
+
+// Type aliases
+
+// Traits
+

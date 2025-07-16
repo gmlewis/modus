@@ -14,7 +14,7 @@ package localtime
 import (
 	"time"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/testutils"
+	"github.com/gmlewis/modus/sdk/go/pkg/testutils"
 )
 
 var GetLocalTimeCallStack = testutils.NewCallStack()

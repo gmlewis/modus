@@ -18,8 +18,8 @@ import (
 	"testing"
 
 	"github.com/hypermodeinc/modus/lib/manifest"
-	"github.com/hypermodeinc/modus/runtime/manifestdata"
-	"github.com/hypermodeinc/modus/runtime/secrets"
+	"github.com/gmlewis/modus/runtime/manifestdata"
+	"github.com/gmlewis/modus/runtime/secrets"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -110,7 +110,7 @@ func TestPostExternalModelEndpoint(t *testing.T) {
 		"key2": "value2",
 	}
 	testModel := manifestdata.GetManifest().Models[testModelName]
-	resp, err := PostToModelEndpoint[map[string]string](t.Context(), &testModel, sentenceMap)
+	resp, err := PostToModelEndpoint[map[string]string](context.Background(), &testModel, sentenceMap)
 	assert.NoError(t, err)
 
 	// Expected response is the same as the input sentence map,

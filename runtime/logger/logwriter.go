@@ -12,7 +12,7 @@ package logger
 import (
 	"strings"
 
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/rs/zerolog"
 )

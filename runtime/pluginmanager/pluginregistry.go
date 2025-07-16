@@ -14,8 +14,8 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/hypermodeinc/modus/runtime/plugins"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/plugins"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 // thread-safe globalPluginRegistry of all plugins that are loaded

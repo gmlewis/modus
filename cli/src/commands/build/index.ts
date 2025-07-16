@@ -89,6 +89,20 @@ export default class BuildCommand extends BaseCommand {
           }
           return await execFileWithExitCode(buildTool, ["."], execOpts);
         }
+        case SDK.MoonBit: {
+          const version = app.sdkVersion || (await vi.getLatestInstalledSdkVersion(app.sdk, true));
+          if (!version) {
+            this.logError("No installed version of the Modus MoonBit SDK");
+            return;
+          }
+          let buildTool = path.join(vi.getSdkPath(app.sdk, version), "modus-moonbit-build");
+          if (os.platform() === "win32") buildTool += ".exe";
+          if (!(await fs.exists(buildTool))) {
+            this.logError("Modus MoonBit Build tool is not installed");
+            return;
+          }
+          return await execFileWithExitCode(buildTool, ["."], execOpts);
+        }
         default:
           this.logError("Unsupported SDK");
           this.exit(1);

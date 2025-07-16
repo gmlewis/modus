@@ -14,9 +14,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/collections/in_mem/sequential"
-	"github.com/hypermodeinc/modus/runtime/collections/index"
-	"github.com/hypermodeinc/modus/runtime/collections/utils"
+	"github.com/gmlewis/modus/runtime/collections/in_mem/sequential"
+	"github.com/gmlewis/modus/runtime/collections/index"
+	"github.com/gmlewis/modus/runtime/collections/utils"
 )
 
 var (

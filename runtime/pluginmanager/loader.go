@@ -13,13 +13,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hypermodeinc/modus/lib/metadata"
-	"github.com/hypermodeinc/modus/runtime/db"
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/plugins"
-	"github.com/hypermodeinc/modus/runtime/storage"
-	"github.com/hypermodeinc/modus/runtime/utils"
-	"github.com/hypermodeinc/modus/runtime/wasmhost"
+	"github.com/gmlewis/modus/lib/metadata"
+	"github.com/gmlewis/modus/runtime/db"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/plugins"
+	"github.com/gmlewis/modus/runtime/storage"
+	"github.com/gmlewis/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/wasmhost"
 )
 
 func monitorPlugins(ctx context.Context) {

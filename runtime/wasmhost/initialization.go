@@ -12,8 +12,8 @@ package wasmhost
 import (
 	"context"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/utils"
 
 	"github.com/rs/zerolog"
 )

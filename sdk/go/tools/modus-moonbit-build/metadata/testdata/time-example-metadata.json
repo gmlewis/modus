@@ -1,0 +1,373 @@
+{
+  "plugin": "time-example",
+  "module": "@time-example",
+  "sdk": "modus-sdk-mbt@0.16.5",
+  "buildId": "cv9qpd7rack45r008rl0",
+  "buildTs": "2025-03-14T04:12:36.487Z",
+  "gitRepo": "https://github.com/gmlewis/modus",
+  "gitCommit": "1d8fbedec2e299ae49d60e5dcd0353db67b43b29",
+  "fnExports": {
+    "get_local_time_modus": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current local time using the Modus host Go function."
+        ]
+      }
+    },
+    "get_local_time_moonbit": {
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current local time using the moonbitlang/x/time package."
+        ]
+      }
+    },
+    "get_local_time_zone_id": {
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the local time zone identifier."
+        ]
+      }
+    },
+    "get_time_in_zone_modus": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in a specified time zone using",
+          "the Modus host Go function."
+        ]
+      }
+    },
+    "get_time_in_zone_moonbit": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in a specified time zone using",
+          "the moonbitlang/x/time package."
+        ]
+      }
+    },
+    "get_time_zone_info": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "TimeZoneInfo!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns some basic information about the time zone specified."
+        ]
+      }
+    },
+    "get_utc_time": {
+      "results": [
+        {
+          "type": "@time.ZonedDateTime!Error"
+        }
+      ],
+      "docs": {
+        "lines": [
+          "Returns the current time in UTC."
+        ]
+      }
+    }
+  },
+  "fnImports": {
+    "modus_system.getTimeInZone": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "String"
+        }
+      ]
+    },
+    "modus_system.getTimeZoneData": {
+      "parameters": [
+        {
+          "name": "tz",
+          "type": "String"
+        },
+        {
+          "name": "format",
+          "type": "String"
+        }
+      ],
+      "results": [
+        {
+          "type": "Array[Byte]"
+        }
+      ]
+    },
+    "modus_system.logMessage": {
+      "parameters": [
+        {
+          "name": "level",
+          "type": "String"
+        },
+        {
+          "name": "message",
+          "type": "String"
+        }
+      ]
+    }
+  },
+  "types": {
+    "(Int, Int, Int)": {
+      "id": 26,
+      "fields": [
+        {
+          "name": "0",
+          "type": "Int"
+        },
+        {
+          "name": "1",
+          "type": "Int"
+        },
+        {
+          "name": "2",
+          "type": "Int"
+        }
+      ]
+    },
+    "(String)": {
+      "id": 4,
+      "fields": [
+        {
+          "name": "0",
+          "type": "String"
+        }
+      ]
+    },
+    "@testutils.CallStack[T]": {
+      "id": 34,
+      "fields": [
+        {
+          "name": "items",
+          "type": "Array[Array[@testutils.T]]"
+        }
+      ]
+    },
+    "@testutils.T": {
+      "id": 50
+    },
+    "@time.Duration": {
+      "id": 48
+    },
+    "@time.Duration!Error": {
+      "id": 10
+    },
+    "@time.Period": {
+      "id": 52
+    },
+    "@time.Period!Error": {
+      "id": 8
+    },
+    "@time.PlainDate": {
+      "id": 18
+    },
+    "@time.PlainDate!Error": {
+      "id": 32
+    },
+    "@time.PlainDateTime": {
+      "id": 45
+    },
+    "@time.PlainDateTime!Error": {
+      "id": 54
+    },
+    "@time.PlainTime": {
+      "id": 24
+    },
+    "@time.PlainTime!Error": {
+      "id": 16
+    },
+    "@time.Weekday": {
+      "id": 55
+    },
+    "@time.Zone": {
+      "id": 53
+    },
+    "@time.Zone!Error": {
+      "id": 39
+    },
+    "@time.ZoneOffset": {
+      "id": 47
+    },
+    "@time.ZoneOffset!Error": {
+      "id": 46
+    },
+    "@time.ZonedDateTime": {
+      "id": 6
+    },
+    "@time.ZonedDateTime!Error": {
+      "id": 11
+    },
+    "ArrayView[Byte]": {
+      "id": 33
+    },
+    "Array[@testutils.T]": {
+      "id": 7
+    },
+    "Array[Array[@testutils.T]]": {
+      "id": 35
+    },
+    "Array[Byte]": {
+      "id": 44
+    },
+    "Bool": {
+      "id": 40
+    },
+    "Byte": {
+      "id": 36
+    },
+    "Bytes": {
+      "id": 42
+    },
+    "Bytes!Error": {
+      "id": 41
+    },
+    "Double": {
+      "id": 51
+    },
+    "FixedArray[Byte]": {
+      "id": 38
+    },
+    "FixedArray[Double]": {
+      "id": 15
+    },
+    "FixedArray[Float]": {
+      "id": 28
+    },
+    "FixedArray[Int64]": {
+      "id": 21
+    },
+    "FixedArray[Int]": {
+      "id": 9
+    },
+    "FixedArray[UInt64]": {
+      "id": 22
+    },
+    "FixedArray[UInt]": {
+      "id": 19
+    },
+    "Float": {
+      "id": 23
+    },
+    "Int": {
+      "id": 37
+    },
+    "Int64": {
+      "id": 25
+    },
+    "Iter[Byte]": {
+      "id": 13
+    },
+    "Iter[Char]": {
+      "id": 12
+    },
+    "Result[UInt64, UInt]": {
+      "id": 20
+    },
+    "Result[Unit, UInt]": {
+      "id": 49
+    },
+    "String": {
+      "id": 29
+    },
+    "String!Error": {
+      "id": 14
+    },
+    "TimeZoneInfo": {
+      "id": 31,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
+    "TimeZoneInfo!Error": {
+      "id": 17,
+      "fields": [
+        {
+          "name": "standard_name",
+          "type": "String"
+        },
+        {
+          "name": "standard_offset",
+          "type": "String"
+        },
+        {
+          "name": "daylight_name",
+          "type": "String"
+        },
+        {
+          "name": "daylight_offset",
+          "type": "String"
+        }
+      ]
+    },
+    "UInt": {
+      "id": 30
+    },
+    "UInt64": {
+      "id": 43
+    }
+  }
+}

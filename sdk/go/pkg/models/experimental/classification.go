@@ -12,7 +12,7 @@ package experimental
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
 )
 
 // A model that returns classification results for a list of text strings.

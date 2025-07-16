@@ -13,8 +13,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 var provider storageProvider

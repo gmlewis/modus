@@ -12,7 +12,7 @@ package hostfunctions
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/dgraphclient"
+	"github.com/gmlewis/modus/runtime/dgraphclient"
 )
 
 func init() {

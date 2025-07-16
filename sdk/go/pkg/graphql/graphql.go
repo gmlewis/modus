@@ -12,12 +12,14 @@ package graphql
 import (
 	"errors"
 	"fmt"
+	"log"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/console"
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/console"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 func Execute[T any](connection, statement string, variables map[string]any) (*Response[T], error) {
+	log.Printf("GML: graphql.go: Execute: connection: '%v', statement: '%v', variables: %+v", connection, statement, variables)
 	bytes, err := utils.JsonSerialize(variables)
 	if err != nil {
 		console.Error(err.Error())

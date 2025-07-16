@@ -12,7 +12,7 @@ package hostfunctions
 import (
 	"fmt"
 
-	"github.com/hypermodeinc/modus/runtime/models"
+	"github.com/gmlewis/modus/runtime/models"
 )
 
 func init() {

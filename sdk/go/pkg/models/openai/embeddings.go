@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/models"
+	"github.com/gmlewis/modus/sdk/go/pkg/models"
 )
 
 // Provides input and output types that conform to the OpenAI Embeddings API,

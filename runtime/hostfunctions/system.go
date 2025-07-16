@@ -15,9 +15,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/logger"
-	"github.com/hypermodeinc/modus/runtime/timezones"
-	"github.com/hypermodeinc/modus/runtime/utils"
+	"github.com/gmlewis/modus/runtime/logger"
+	"github.com/gmlewis/modus/runtime/timezones"
+	"github.com/gmlewis/modus/runtime/utils"
 )
 
 func init() {
@@ -69,7 +69,11 @@ func GetTimeInZone(ctx context.Context, tz *string) *string {
 	return &s
 }
 
-func GetTimeZoneData(tz, format *string) []byte {
+func GetTimeZoneData(ctx context.Context, tz, format *string) []byte {
+	if format == nil {
+		fmt := "tzif"
+		format = &fmt
+	}
 	if tz == nil {
 		return nil
 	}

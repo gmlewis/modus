@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypermodeinc/modus/runtime/app"
-	"github.com/hypermodeinc/modus/runtime/httpserver"
-	"github.com/hypermodeinc/modus/runtime/services"
+	"github.com/gmlewis/modus/runtime/app"
+	"github.com/gmlewis/modus/runtime/httpserver"
+	"github.com/gmlewis/modus/runtime/services"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"

@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypermodeinc/modus/sdk/go/pkg/utils"
+	"github.com/gmlewis/modus/sdk/go/pkg/utils"
 )
 
 type HostQueryResponse struct {
