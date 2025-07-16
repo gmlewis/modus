@@ -754,12 +754,12 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 		return 0, fmt.Errorf("expected 1 result from moonbit_i32_array_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	fixedArrayPtr := uint32(results[0])
 
 	// Update memory directly where true values should be (back to 32-bit approach)
 	for i, val := range slice {
 		if boolVal, ok := any(val).(bool); ok {
-			offset := arrayPtr + 8 + uint32(i)*4 // 8 = header size, 4 bytes per bool
+			offset := fixedArrayPtr + 8 + uint32(i)*4 // 8 = header size, 4 bytes per bool
 			var value uint32
 			if boolVal {
 				value = 1
@@ -768,7 +768,17 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 		}
 	}
 
-	// Return the complete Array[Bool] pointer (no wrapper creation needed)
+	// Now convert the FixedArray[Bool] to an Array[Bool]
+	arrayResults, err := wa.(*wasmAdapter).fnArrayBoolFromFixed.Call(ctx, uint64(fixedArrayPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnArrayBoolFromFixed: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnArrayBoolFromFixed, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
+
 	return arrayPtr, nil
 }
 

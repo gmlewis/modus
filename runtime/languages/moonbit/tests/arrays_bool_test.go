@@ -72,7 +72,6 @@ func TestArrayOutput_bool_0(t *testing.T) {
 }
 
 func TestArrayOutput_bool_1(t *testing.T) {
-	t.Skip("TODO: fix this - bool array test failing")
 	fnName := "test_array_output_bool_1"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -94,7 +93,6 @@ func TestArrayOutput_bool_1(t *testing.T) {
 }
 
 func TestArrayOutput_bool_2(t *testing.T) {
-	t.Skip("TODO: fix this - bool array test failing")
 	fnName := "test_array_output_bool_2"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -116,7 +114,6 @@ func TestArrayOutput_bool_2(t *testing.T) {
 }
 
 func TestArrayOutput_bool_3(t *testing.T) {
-	t.Skip("TODO: fix this - bool array test failing")
 	fnName := "test_array_output_bool_3"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -138,7 +135,6 @@ func TestArrayOutput_bool_3(t *testing.T) {
 }
 
 func TestArrayOutput_bool_4(t *testing.T) {
-	t.Skip("TODO: fix this - bool array test failing")
 	fnName := "test_array_output_bool_4"
 
 	result, err := fixture.CallFunction(t, fnName)
