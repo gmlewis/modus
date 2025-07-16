@@ -701,9 +701,9 @@ func (h *primitiveSliceHandler[T]) createDynamicPrimitiveArray(ctx context.Conte
 	case "Bool":
 		// Array[Bool] → moonbit.i32_array_make
 		offset, err = h.createBoolDataArray(ctx, wa, slice, numElements)
-	case "String":
-		// Array[String] → moonbit.ref_array_make
-		offset, err = h.createStringDataArray(ctx, wa, slice, numElements)
+	// case "String":
+	// 	// Array[String] → moonbit.ref_array_make
+	// 	offset, err = h.createStringDataArray(ctx, wa, slice, numElements)
 	case "Int":
 		// Array[Int] → moonbit.i32_array_make
 		offset, err = h.createIntDataArray(ctx, wa, slice, numElements)
@@ -782,9 +782,9 @@ func (h *primitiveSliceHandler[T]) createBoolDataArray(ctx context.Context, wa w
 	return arrayPtr, nil
 }
 
-func (h *primitiveSliceHandler[T]) createStringDataArray(ctx context.Context, wa wasmMemoryWriter, slice []T, numElements uint32) (uint32, error) {
-	return 0, fmt.Errorf("String arrays should not be handled by primitiveSliceHandler")
-}
+// func (h *primitiveSliceHandler[T]) createStringDataArray(ctx context.Context, wa wasmMemoryWriter, slice []T, numElements uint32) (uint32, error) {
+// 	return 0, fmt.Errorf("String arrays should not be handled by primitiveSliceHandler")
+// }
 
 func (h *primitiveSliceHandler[T]) createIntDataArray(ctx context.Context, wa wasmMemoryWriter, slice []T, numElements uint32) (uint32, error) {
 	// Create array with initial value 0
@@ -846,7 +846,7 @@ func (h *primitiveSliceHandler[T]) createByteDataArray(ctx context.Context, wa w
 
 func (h *primitiveSliceHandler[T]) createCharDataArray(ctx context.Context, wa wasmMemoryWriter, slice []T, numElements uint32) (uint32, error) {
 	// Create array with initial value 0
-	results, err := wa.(*wasmAdapter).fnBytesMake.Call(ctx, uint64(numElements), uint64(0))
+	results, err := wa.(*wasmAdapter).fnMakeArrayInt16.Call(ctx, uint64(numElements), uint64(0))
 	if err != nil {
 		return 0, fmt.Errorf("failed to call moonbit_bytes_make: %w", err)
 	}
@@ -854,15 +854,26 @@ func (h *primitiveSliceHandler[T]) createCharDataArray(ctx context.Context, wa w
 		return 0, fmt.Errorf("expected 1 result from moonbit_bytes_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	fixedArrayPtr := uint32(results[0])
 
 	// Write char values as uint32
 	for i, val := range slice {
 		if charVal, ok := any(val).(int16); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)
+			offset := fixedArrayPtr + MemoryBlockHeaderSize + uint32(i)
 			wa.Memory().WriteUint32Le(offset, uint32(charVal))
 		}
 	}
+
+	// Now convert the FixedArray[Char] to an Array[Char]
+	arrayResults, err := wa.(*wasmAdapter).fnArrayCharFromFixed.Call(ctx, uint64(fixedArrayPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnArrayCharFromFixed: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnArrayCharFromFixed, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
 
 	return arrayPtr, nil
 }
