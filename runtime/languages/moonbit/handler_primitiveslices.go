@@ -888,15 +888,26 @@ func (h *primitiveSliceHandler[T]) createInt16DataArray(ctx context.Context, wa 
 		return 0, fmt.Errorf("expected 1 result from moonbit_int16_array_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	fixedArrayPtr := uint32(results[0])
 
 	// Write int16 values
 	for i, val := range slice {
 		if int16Val, ok := any(val).(int16); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // int16 = 2 bytes
+			offset := fixedArrayPtr + MemoryBlockHeaderSize + uint32(i)*2 // int16 = 2 bytes
 			wa.Memory().WriteUint16Le(offset, uint16(int16Val))
 		}
 	}
+
+	// Now convert the FixedArray[Int16] to an Array[Int16]
+	arrayResults, err := wa.(*wasmAdapter).fnArrayInt16FromFixed.Call(ctx, uint64(fixedArrayPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnArrayInt16FromFixed: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnArrayInt16FromFixed, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
 
 	return arrayPtr, nil
 }
@@ -1003,15 +1014,26 @@ func (h *primitiveSliceHandler[T]) createDoubleDataArray(ctx context.Context, wa
 		return 0, fmt.Errorf("expected 1 result from moonbit_float_array_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	fixedArrayPtr := uint32(results[0])
 
 	// Write float64 values
 	for i, val := range slice {
 		if float64Val, ok := any(val).(float64); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // float64 = 8 bytes
+			offset := fixedArrayPtr + MemoryBlockHeaderSize + uint32(i)*8 // float64 = 8 bytes
 			wa.Memory().WriteFloat64Le(offset, float64Val)
 		}
 	}
+
+	// Now convert the FixedArray[Double] to an Array[Double]
+	arrayResults, err := wa.(*wasmAdapter).fnArrayDoubleFromFixed.Call(ctx, uint64(fixedArrayPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnArrayDoubleFromFixed: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnArrayDoubleFromFixed, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
 
 	return arrayPtr, nil
 }
