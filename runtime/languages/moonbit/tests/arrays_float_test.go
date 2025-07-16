@@ -40,7 +40,6 @@ func TestArrayOutput_float_0(t *testing.T) {
 }
 
 func TestArrayOutput_float_1(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_array_output_float_1"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -61,7 +60,6 @@ func TestArrayOutput_float_1(t *testing.T) {
 }
 
 func TestArrayOutput_float_2(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_array_output_float_2"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -82,7 +80,6 @@ func TestArrayOutput_float_2(t *testing.T) {
 }
 
 func TestArrayOutput_float_3(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_array_output_float_3"
 
 	result, err := fixture.CallFunction(t, fnName)
@@ -103,7 +100,6 @@ func TestArrayOutput_float_3(t *testing.T) {
 }
 
 func TestArrayOutput_float_4(t *testing.T) {
-	t.Skip("TODO: fix this")
 	fnName := "test_array_output_float_4"
 
 	result, err := fixture.CallFunction(t, fnName)

@@ -991,15 +991,26 @@ func (h *primitiveSliceHandler[T]) createFloatDataArray(ctx context.Context, wa 
 		return 0, fmt.Errorf("expected 1 result from moonbit_float32_array_make, got %d", len(results))
 	}
 
-	arrayPtr := uint32(results[0])
+	fixedArrayPtr := uint32(results[0])
 
 	// Write float32 values
 	for i, val := range slice {
 		if float32Val, ok := any(val).(float32); ok {
-			offset := arrayPtr + MemoryBlockHeaderSize + uint32(i)*4 // float32 = 4 bytes
+			offset := fixedArrayPtr + MemoryBlockHeaderSize + uint32(i)*4 // float32 = 4 bytes
 			wa.Memory().WriteFloat32Le(offset, float32Val)
 		}
 	}
+
+	// Now convert the FixedArray[Float] to an Array[Float]
+	arrayResults, err := wa.(*wasmAdapter).fnArrayFloatFromFixed.Call(ctx, uint64(fixedArrayPtr))
+	if err != nil {
+		return 0, fmt.Errorf("failed to call fnArrayFloatFromFixed: %w", err)
+	}
+	if len(arrayResults) != 1 {
+		return 0, fmt.Errorf("expected 1 result from fnArrayFloatFromFixed, got %d", len(arrayResults))
+	}
+
+	arrayPtr := uint32(arrayResults[0])
 
 	return arrayPtr, nil
 }
