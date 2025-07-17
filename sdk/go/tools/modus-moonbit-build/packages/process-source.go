@@ -114,16 +114,31 @@ func (p *Package) processPubStructs(typesPkg *types.Package, decls []ast.Decl, m
 	return decls
 }
 
+var openBracketSpaceRE = regexp.MustCompile(`\[\s+`)
+var closeBracketSpaceRE = regexp.MustCompile(`,?\s*\]`)
+
+func sanitizeFnSignature(match string) (fnSig, returnSig string, ok bool) {
+	fnSig = whiteSpaceRE.ReplaceAllString(match, " ")
+	parts := strings.Split(fnSig, " -> ")
+	if len(parts) != 2 {
+		return fnSig, returnSig, false
+	}
+	fnSig = strings.TrimSpace(parts[0])
+	returnSig = strings.TrimSpace(parts[1])
+	returnSig = openBracketSpaceRE.ReplaceAllString(returnSig, "[")
+	returnSig = closeBracketSpaceRE.ReplaceAllString(returnSig, "]")
+	return fnSig, returnSig, true
+}
+
 func (p *Package) processPubFns(typesPkg *types.Package, decls []ast.Decl, m [][]string, fullSrc string) []ast.Decl {
 	for _, match := range m {
 		docs := getDocsForFunction(match[0], fullSrc)
-		fnSig := whiteSpaceRE.ReplaceAllString(match[1], " ")
-		parts := strings.Split(fnSig, " -> ")
-		if len(parts) != 2 {
+
+		fnSig, returnSig, ok := sanitizeFnSignature(match[1])
+		if !ok {
 			continue
 		}
-		fnSig = strings.TrimSpace(parts[0])
-		returnSig := strings.TrimSpace(parts[1])
+
 		ma := argsRE.FindStringSubmatch(fnSig)
 		if len(ma) != 3 {
 			continue
@@ -375,6 +390,9 @@ func (p *Package) GetMoonBitNamedType(typeSignature string) (resultType types.Ty
 }
 
 func (p *Package) getMoonBitNamedType(typesPkg *types.Package, typeSignature string) (resultType types.Type) {
+	if strings.HasSuffix(strings.TrimSpace(typeSignature), ",") {
+		log.Printf("GML: DEBUG: getMoonBitNamedType: typeSignature='%v'", typeSignature)
+	}
 	// Treat a MoonBit tuple like a struct whose field names are "0", "1", etc.
 	if strings.HasPrefix(typeSignature, "(") && strings.HasSuffix(typeSignature, ")") {
 		allArgs := typeSignature[1 : len(typeSignature)-1]

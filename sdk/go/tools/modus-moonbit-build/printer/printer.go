@@ -36,6 +36,9 @@ func Fprint(w io.Writer, fset *token.FileSet, node any) string {
 			resultType = n.Results.List[0].Type.(*ast.Ident).Name
 		}
 		errorIndex := strings.Index(resultType, "!")
+		if i := strings.Index(resultType, " raise "); i >= 0 {
+			errorIndex = i
+		}
 		returnMayRaiseError := errorIndex >= 0
 		if returnMayRaiseError {
 			fmt.Fprintf(w, "(%v) -> %v", strings.Join(params, ", "), resultType)

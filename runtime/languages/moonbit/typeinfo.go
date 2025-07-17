@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 5s ./..."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -31,13 +33,17 @@ func LanguageTypeInfo() langsupport.LanguageTypeInfo {
 
 func GetTypeInfo(ctx context.Context, typeName string, typeCache map[string]langsupport.TypeInfo) (langsupport.TypeInfo, error) {
 	// DO NOT STRIP THE ERROR TYPE HERE! Strip it later.
-	// When an "...!Error" is the return type, two values are returned.
+	// When an "...!Error" (now "... raise Error" as of 'moonc v0.6.18+8382ed77e')
+	// is the return type, two values are returned.
 	// The first value is 0 on failure, and the second value is the actual return type.
 	return langsupport.GetTypeInfo(ctx, _langTypeInfo, typeName, typeCache)
 }
 
 func stripErrorAndOption(typeSignature string) (typ string, hasError, hasOption bool) {
 	if i := strings.Index(typeSignature, "!"); i >= 0 {
+		hasError = true
+		typeSignature = typeSignature[:i]
+	} else if i := strings.Index(typeSignature, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
 		hasError = true
 		typeSignature = typeSignature[:i]
 	}
@@ -105,7 +111,7 @@ func (lti *langTypeInfo) GetNameForType(typ string) string {
 	typ, hasError, _ = stripErrorAndOption(typ)
 
 	if typ == "Unit" && hasError {
-		return "Unit!Error" // Special case - used internally and not by GraphQL.
+		return "Unit raise Error" // (was "Unit!Error) Special case - used internally and not by GraphQL.
 	} else if typ == "Unit" {
 		return "Unit"
 	}
@@ -176,12 +182,9 @@ func (lti *langTypeInfo) IsSliceType(typ string) bool {
 	if !strings.HasSuffix(typ, "]") {
 		return false
 	}
-	// MoonBit Arrays and FixedArrays are similar to Go slices.
 	return strings.HasPrefix(typ, "Array[") || strings.HasPrefix(typ, "FixedArray[")
 }
 
-// MoonBit does not have an equivalent fixed-length array type where the
-// length is declared in the type.  Instead, a MoonBit Array is a slice type.
 func (lti *langTypeInfo) IsArrayType(typ string) bool {
 	return false
 }
@@ -306,6 +309,9 @@ func (lti *langTypeInfo) IsTimestampType(typ string) bool {
 
 func (lti *langTypeInfo) IsErrorType(typ string) (string, bool) {
 	if i := strings.Index(typ, "!"); i >= 0 {
+		return typ[:i], true
+	}
+	if i := strings.Index(typ, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
 		return typ[:i], true
 	}
 	return typ, false
@@ -545,8 +551,6 @@ func (lti *langTypeInfo) GetSizeOfType(ctx context.Context, typ string) (uint32,
 		// time.Time has 3 fields: 8 byte uint64, 8 byte int64, 4 byte pointer
 		return 20, nil
 	}
-
-	// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
 
 	return lti.getSizeOfStruct(ctx, typ)
 }

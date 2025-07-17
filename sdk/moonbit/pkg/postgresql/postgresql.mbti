@@ -5,23 +5,19 @@ import(
 )
 
 // Values
-fn execute(String, String, Json?) -> UInt!
+fn execute(String, String, Json?) -> UInt raise
 
-fn query[T : @json.FromJson](String, String, Json?) -> (Array[T], UInt)!
+fn[T : @json.FromJson] query(String, String, Json?) -> (Array[T], UInt) raise
 
-fn query_scalar[T : @json.FromJson](String, String, Json?) -> (T, UInt)!
-
-fn to_string(Point) -> String
+fn[T : @json.FromJson] query_scalar(String, String, Json?) -> (T, UInt) raise
 
 // Types and methods
 pub(all) struct Location {
   longitude : Double
   latitude : Double
 }
-impl Location {
-  new(Double, Double) -> Self
-  parse(String) -> Self!
-}
+fn Location::new(Double, Double) -> Self
+fn Location::parse(String) -> Self raise
 impl Eq for Location
 impl Show for Location
 impl ToJson for Location
@@ -31,17 +27,15 @@ pub(all) struct Point {
   x : Double
   y : Double
 }
-impl Point {
-  new(Double, Double) -> Self
-  parse(String) -> Self!
-  to_string(Self) -> String
-}
+fn Point::new(Double, Double) -> Self
+fn Point::parse(String) -> Self raise
+fn Point::to_string(Self) -> String
 impl Eq for Point
 impl Show for Point
 impl ToJson for Point
 impl @json.FromJson for Point
 
-pub(all) type! PostgreSqlError String
+pub(all) suberror PostgreSqlError String
 impl Eq for PostgreSqlError
 impl Show for PostgreSqlError
 

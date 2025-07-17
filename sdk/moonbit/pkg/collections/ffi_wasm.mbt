@@ -79,7 +79,7 @@ fn wasmImportUpsert(
 ) -> Int = "modus_collections" "upsert"
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"
 
 ///| Upsert documents into a collection
 pub fn host_upsert(
@@ -88,7 +88,7 @@ pub fn host_upsert(
   keys : Array[String],
   texts : Array[String],
   labels : Array[Array[String]]
-) -> CollectionMutationResult!Error {
+) -> CollectionMutationResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let keys : Int = cast(keys)
@@ -109,7 +109,7 @@ pub fn host_delete(
   collection_name : String,
   namespace : String,
   key : String
-) -> CollectionMutationResult!Error {
+) -> CollectionMutationResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let key : Int = cast(key)
@@ -131,7 +131,7 @@ pub fn host_search(
   text : String,
   limit : Int,
   return_text : Bool
-) -> CollectionSearchResult!Error {
+) -> CollectionSearchResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespaces : Int = cast(namespaces)
   let search_method : Int = cast(search_method)
@@ -156,7 +156,7 @@ pub fn host_classify_text(
   namespace : String,
   search_method : String,
   text : String
-) -> CollectionClassificationResult!Error {
+) -> CollectionClassificationResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let search_method : Int = cast(search_method)
@@ -178,7 +178,7 @@ pub fn host_recompute_index(
   collection_name : String,
   namespace : String,
   search_method : String
-) -> SearchMethodMutationResult!Error {
+) -> SearchMethodMutationResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let search_method : Int = cast(search_method)
@@ -201,7 +201,7 @@ pub fn host_compute_distance(
   search_method : String,
   key1 : String,
   key2 : String
-) -> CollectionSearchResultObject!Error {
+) -> CollectionSearchResultObject raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let search_method : Int = cast(search_method)
@@ -224,7 +224,7 @@ pub fn host_get_text(
   collection_name : String,
   namespace : String,
   key : String
-) -> String!Error {
+) -> String raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let key : Int = cast(key)
@@ -242,7 +242,7 @@ pub fn host_get_text(
 pub fn host_dump_texts(
   collection_name : String,
   namespace : String
-) -> Map[String, String]!Error {
+) -> Map[String, String] raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let result = wasmImportDumpTexts(collection_name, namespace)
@@ -256,7 +256,9 @@ pub fn host_dump_texts(
 }
 
 ///| Get all namespaces in a collection
-pub fn host_get_namespaces(collection_name : String) -> Array[String]!Error {
+pub fn host_get_namespaces(
+  collection_name : String
+) -> Array[String] raise Error {
   let collection_name : Int = cast(collection_name)
   let result = wasmImportGetNamespaces(collection_name)
   guard result != 0 else {
@@ -274,7 +276,7 @@ pub fn host_get_vector(
   namespace : String,
   search_method : String,
   key : String
-) -> Array[Float]!Error {
+) -> Array[Float] raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let search_method : Int = cast(search_method)
@@ -296,7 +298,7 @@ pub fn host_get_labels(
   collection_name : String,
   namespace : String,
   key : String
-) -> Array[String]!Error {
+) -> Array[String] raise Error {
   let collection_name : Int = cast(collection_name)
   let namespace : Int = cast(namespace)
   let key : Int = cast(key)
@@ -318,7 +320,7 @@ pub fn host_search_by_vector(
   vector : Array[Float],
   limit : Int,
   return_text : Bool
-) -> CollectionSearchResult!Error {
+) -> CollectionSearchResult raise Error {
   let collection_name : Int = cast(collection_name)
   let namespaces : Int = cast(namespaces)
   let search_method : Int = cast(search_method)

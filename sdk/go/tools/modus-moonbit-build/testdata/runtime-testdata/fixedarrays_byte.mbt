@@ -56,71 +56,71 @@ pub fn test_fixedarray_output_byte_option_4() -> FixedArray[Byte?] {
 }
 
 ///|
-pub fn test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input_byte_0(val : FixedArray[Byte]) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_0()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input_byte_1(val : FixedArray[Byte]) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_1()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input_byte_2(val : FixedArray[Byte]) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_2()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input_byte_3(val : FixedArray[Byte]) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_3()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
-pub fn test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input_byte_4(val : FixedArray[Byte]) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_4()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
 pub fn test_fixedarray_input_byte_option_0(
   val : FixedArray[Byte?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_option_0()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
 pub fn test_fixedarray_input_byte_option_1(
   val : FixedArray[Byte?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_option_1()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
 pub fn test_fixedarray_input_byte_option_2(
   val : FixedArray[Byte?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_option_2()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
 pub fn test_fixedarray_input_byte_option_3(
   val : FixedArray[Byte?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_option_3()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }
 
 ///|
 pub fn test_fixedarray_input_byte_option_4(
   val : FixedArray[Byte?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = test_fixedarray_output_byte_option_4()
-  assert_eq!(val, expected)
+  assert_eq(val, expected)
 }

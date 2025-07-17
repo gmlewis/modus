@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test ./... 2>&1 | grep 'FAIL: '"; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -6,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests FAIL with moonc v0.6.18+8382ed77e
 
 package moonbit_test
 

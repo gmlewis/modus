@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_int_input_min(n : Int) -> Unit!Error {
-  assert_eq!(@int.min_value, n)
+pub fn test_int_input_min(n : Int) -> Unit raise Error {
+  assert_eq(@int.min_value, n)
 }
 
 ///|
-pub fn test_int_input_max(n : Int) -> Unit!Error {
-  assert_eq!(@int.max_value, n)
+pub fn test_int_input_max(n : Int) -> Unit raise Error {
+  assert_eq(@int.max_value, n)
 }
 
 ///|
@@ -26,18 +26,18 @@ pub fn test_int_output_max() -> Int {
 }
 
 ///|
-pub fn test_int_option_input_min(n : Int?) -> Unit!Error {
-  assert_eq!(n, Some(@int.min_value))
+pub fn test_int_option_input_min(n : Int?) -> Unit raise Error {
+  assert_eq(n, Some(@int.min_value))
 }
 
 ///|
-pub fn test_int_option_input_max(n : Int?) -> Unit!Error {
-  assert_eq!(n, Some(@int.max_value))
+pub fn test_int_option_input_max(n : Int?) -> Unit raise Error {
+  assert_eq(n, Some(@int.max_value))
 }
 
 ///|
-pub fn test_int_option_input_none(n : Int?) -> Unit!Error {
-  assert_eq!(n, None)
+pub fn test_int_option_input_none(n : Int?) -> Unit raise Error {
+  assert_eq(n, None)
 }
 
 ///|

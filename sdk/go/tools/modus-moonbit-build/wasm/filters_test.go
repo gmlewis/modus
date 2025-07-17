@@ -90,6 +90,9 @@ func deepCopyMetadata(t *testing.T, m *metadata.Metadata) *metadata.Metadata {
 	for name, v := range deepCopy.FnExports {
 		v.Name = name
 	}
+	if deepCopy.FnImports == nil {
+		deepCopy.FnImports = metadata.FunctionMap{}
+	}
 	for name, v := range deepCopy.FnImports {
 		v.Name = name
 	}

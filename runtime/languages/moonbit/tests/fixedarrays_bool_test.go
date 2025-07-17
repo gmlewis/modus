@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run ^TestFixedArrayOutput_bool ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -6,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -17,7 +21,6 @@ import (
 func TestFixedArrayOutput_bool_0(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_0"
 
-	// memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -39,7 +42,6 @@ func TestFixedArrayOutput_bool_0(t *testing.T) {
 func TestFixedArrayOutput_bool_1(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_1"
 
-	// memoryBlockAtOffset(offset: 57888=0x0000E220=[32 226 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -61,7 +63,6 @@ func TestFixedArrayOutput_bool_1(t *testing.T) {
 func TestFixedArrayOutput_bool_2(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_2"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 0 0 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -83,7 +84,6 @@ func TestFixedArrayOutput_bool_2(t *testing.T) {
 func TestFixedArrayOutput_bool_3(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_3"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 1 0 0 0 1 0 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -105,7 +105,6 @@ func TestFixedArrayOutput_bool_3(t *testing.T) {
 func TestFixedArrayOutput_bool_4(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_4"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -127,7 +126,6 @@ func TestFixedArrayOutput_bool_4(t *testing.T) {
 func TestFixedArrayOutput_bool_option_0(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_0"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 8=8+words*4), classID=241(FixedArray[Primitive]), words=0, memBlock=[1 0 0 0 241 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -149,7 +147,6 @@ func TestFixedArrayOutput_bool_option_0(t *testing.T) {
 func TestFixedArrayOutput_bool_option_1_none(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_1_none"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -171,7 +168,6 @@ func TestFixedArrayOutput_bool_option_1_none(t *testing.T) {
 func TestFixedArrayOutput_bool_option_1_false(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_1_false"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -194,7 +190,6 @@ func TestFixedArrayOutput_bool_option_1_false(t *testing.T) {
 func TestFixedArrayOutput_bool_option_1_true(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_1_true"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 12=8+words*4), classID=241(FixedArray[Primitive]), words=1, memBlock=[1 0 0 0 241 1 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -217,7 +212,6 @@ func TestFixedArrayOutput_bool_option_1_true(t *testing.T) {
 func TestFixedArrayOutput_bool_option_2(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_2"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 16=8+words*4), classID=241(FixedArray[Primitive]), words=2, memBlock=[1 0 0 0 241 2 0 0 1 0 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -240,7 +234,6 @@ func TestFixedArrayOutput_bool_option_2(t *testing.T) {
 func TestFixedArrayOutput_bool_option_3(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_3"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 20=8+words*4), classID=241(FixedArray[Primitive]), words=3, memBlock=[1 0 0 0 241 3 0 0 255 255 255 255 1 0 0 0 1 0 0 0]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -263,7 +256,6 @@ func TestFixedArrayOutput_bool_option_3(t *testing.T) {
 func TestFixedArrayOutput_bool_option_4(t *testing.T) {
 	fnName := "test_fixedarray_output_bool_option_4"
 
-	// memoryBlockAtOffset(offset: 91936=0x00016720=[32 103 1 0], size: 24=8+words*4), classID=241(FixedArray[Primitive]), words=4, memBlock=[1 0 0 0 241 4 0 0 0 0 0 0 1 0 0 0 0 0 0 0 255 255 255 255]
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)

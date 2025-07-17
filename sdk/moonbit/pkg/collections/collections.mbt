@@ -40,7 +40,7 @@ pub(all) struct CollectionSearchResult {
 
 ///|
 pub(all) struct CollectionSearchResultObject {
-  namespace : String
+  namespace_ : String
   key : String
   text : String
   labels : Array[String]
@@ -74,19 +74,19 @@ pub(all) struct CollectionClassificationResultObject {
 
 ///|
 pub(all) struct NamespaceOptions {
-  mut namespace : String
+  mut namespace_ : String
 }
 
 ///|
 pub type NamespaceOption (NamespaceOptions) -> Unit
 
 ///|
-pub fn with_namespace(namespace : String) -> NamespaceOption {
-  fn(o) { o.namespace = namespace }
+pub fn with_namespace(namespace_ : String) -> NamespaceOption {
+  fn(o) { o.namespace_ = namespace_ }
 }
 
 ///|
-pub(all) type! CollectionError String derive(Show, Eq)
+pub(all) suberror CollectionError String derive(Show, Eq)
 
 ///|
 pub fn upsert_batch(
@@ -95,20 +95,20 @@ pub fn upsert_batch(
   keys~ : Array[String] = [],
   labels_arr~ : Array[Array[String]] = [[]],
   opts~ : Array[NamespaceOption] = []
-) -> CollectionMutationResult!Error {
+) -> CollectionMutationResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
   guard texts.length() > 0 else { raise CollectionError("Text is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_upsert!(collection, ns_opts.namespace, keys, texts, labels_arr)
+  host_upsert(collection, ns_opts.namespace_, keys, texts, labels_arr)
 }
 
 ///|
@@ -118,14 +118,14 @@ pub fn upsert(
   key~ : String = "",
   labels~ : Array[String] = [],
   opts~ : Array[NamespaceOption] = []
-) -> CollectionMutationResult!Error {
+) -> CollectionMutationResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
   guard text != "" else { raise CollectionError("Text is required") }
   let keys = if key == "" { [] } else { [key] }
   let labels_arr = if labels.length() == 0 { [[]] } else { [labels] }
-  upsert_batch!(collection, [text], keys~, labels_arr~, opts~)
+  upsert_batch(collection, [text], keys~, labels_arr~, opts~)
 }
 
 ///|
@@ -133,20 +133,20 @@ pub fn remove(
   collection : String,
   key : String,
   opts~ : Array[NamespaceOption] = []
-) -> CollectionMutationResult!Error {
+) -> CollectionMutationResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
   guard key != "" else { raise CollectionError("Key is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_delete!(collection, ns_opts.namespace, key)
+  host_delete(collection, ns_opts.namespace_, key)
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn search(
   search_method : String,
   text : String,
   opts~ : Array[SearchOption] = []
-) -> CollectionSearchResult!Error {
+) -> CollectionSearchResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -192,11 +192,11 @@ pub fn search(
   //
   let s_opts = { namespaces: [], limit: 10, return_text: false }
   for opt in opts {
-    (opt._)(s_opts)
+    opt.inner()(s_opts)
   }
 
   //
-  host_search!(
+  host_search(
     collection,
     s_opts.namespaces,
     search_method,
@@ -212,7 +212,7 @@ pub fn search_by_vector(
   search_method : String,
   vector : Array[Float],
   opts~ : Array[SearchOption] = []
-) -> CollectionSearchResult!Error {
+) -> CollectionSearchResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -224,11 +224,11 @@ pub fn search_by_vector(
   //
   let s_opts = { namespaces: [], limit: 10, return_text: false }
   for opt in opts {
-    (opt._)(s_opts)
+    opt.inner()(s_opts)
   }
 
   //
-  host_search_by_vector!(
+  host_search_by_vector(
     collection,
     s_opts.namespaces,
     search_method,
@@ -244,7 +244,7 @@ pub fn nn_classify(
   search_method : String,
   text : String,
   opts~ : Array[NamespaceOption] = []
-) -> CollectionClassificationResult!Error {
+) -> CollectionClassificationResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -254,13 +254,13 @@ pub fn nn_classify(
   guard text != "" else { raise CollectionError("Text is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_classify_text!(collection, ns_opts.namespace, search_method, text)
+  host_classify_text(collection, ns_opts.namespace_, search_method, text)
 }
 
 ///|
@@ -268,7 +268,7 @@ pub fn recompute_search_method(
   collection : String,
   search_method : String,
   opts~ : Array[NamespaceOption] = []
-) -> SearchMethodMutationResult!Error {
+) -> SearchMethodMutationResult raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -277,13 +277,13 @@ pub fn recompute_search_method(
   }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_recompute_index!(collection, ns_opts.namespace, search_method)
+  host_recompute_index(collection, ns_opts.namespace_, search_method)
 }
 
 ///|
@@ -293,7 +293,7 @@ pub fn compute_distance(
   key1 : String,
   key2 : String,
   opts~ : Array[NamespaceOption] = []
-) -> CollectionSearchResultObject!Error {
+) -> CollectionSearchResultObject raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -304,15 +304,15 @@ pub fn compute_distance(
   guard key2 != "" else { raise CollectionError("Key2 is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_compute_distance!(
+  host_compute_distance(
     collection,
-    ns_opts.namespace,
+    ns_opts.namespace_,
     search_method,
     key1,
     key2,
@@ -324,49 +324,49 @@ pub fn get_text(
   collection : String,
   key : String,
   opts~ : Array[NamespaceOption] = []
-) -> String!Error {
+) -> String raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
   guard key != "" else { raise CollectionError("Key is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_get_text!(collection, ns_opts.namespace, key)
+  host_get_text(collection, ns_opts.namespace_, key)
 }
 
 ///|
 pub fn get_texts(
   collection : String,
   opts~ : Array[NamespaceOption] = []
-) -> Map[String, String]!Error {
+) -> Map[String, String] raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_dump_texts!(collection, ns_opts.namespace)
+  host_dump_texts(collection, ns_opts.namespace_)
 }
 
 ///|
-pub fn get_namespaces(collection : String) -> Array[String]!Error {
+pub fn get_namespaces(collection : String) -> Array[String] raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
 
   //
-  host_get_namespaces!(collection)
+  host_get_namespaces(collection)
 }
 
 ///|
@@ -375,7 +375,7 @@ pub fn get_vector(
   search_method : String,
   key : String,
   opts~ : Array[NamespaceOption] = []
-) -> Array[Float]!Error {
+) -> Array[Float] raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
@@ -385,13 +385,13 @@ pub fn get_vector(
   guard key != "" else { raise CollectionError("Key is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_get_vector!(collection, ns_opts.namespace, search_method, key)
+  host_get_vector(collection, ns_opts.namespace_, search_method, key)
 }
 
 ///|
@@ -399,18 +399,18 @@ pub fn get_labels(
   collection : String,
   key : String,
   opts~ : Array[NamespaceOption] = []
-) -> Array[String]!Error {
+) -> Array[String] raise Error {
   guard collection != "" else {
     raise CollectionError("Collection name is required")
   }
   guard key != "" else { raise CollectionError("Key is required") }
 
   //
-  let ns_opts = { namespace: "" }
+  let ns_opts = { namespace_: "" }
   for opt in opts {
-    (opt._)(ns_opts)
+    opt.inner()(ns_opts)
   }
 
   //
-  host_get_labels!(collection, ns_opts.namespace, key)
+  host_get_labels(collection, ns_opts.namespace_, key)
 }

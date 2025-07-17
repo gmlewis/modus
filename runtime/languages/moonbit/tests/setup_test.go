@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run '^TestMain' ."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -6,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -19,6 +23,7 @@ import (
 
 	"github.com/gmlewis/modus/runtime/httpclient"
 	"github.com/gmlewis/modus/runtime/testutils"
+	"github.com/rs/zerolog"
 )
 
 var basePath = func() string {
@@ -29,6 +34,7 @@ var basePath = func() string {
 var fixture *testutils.WasmTestFixture
 
 func TestMain(m *testing.M) {
+	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	log.SetFlags(0)
 	path := filepath.Join(basePath, "..", "testdata", "build", "testdata.wasm")
 

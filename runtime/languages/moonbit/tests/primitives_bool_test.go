@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -timeout 30s -tags integration -run ^TestPrimitivesBool github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run ^TestPrimitivesBool github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -8,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -27,7 +29,6 @@ func TestPrimitivesBoolInput_false(t *testing.T) {
 func TestPrimitivesBoolOutput_false(t *testing.T) {
 	fnName := "test_bool_output_false"
 
-	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -53,7 +54,6 @@ func TestPrimitivesBoolInput_true(t *testing.T) {
 func TestPrimitivesBoolOutput_true(t *testing.T) {
 	fnName := "test_bool_output_true"
 
-	// primitiveHandler.Decode(vals: [1])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -84,7 +84,6 @@ func TestPrimitivesBoolOptionInput_false(t *testing.T) {
 func TestPrimitivesBoolOptionOutput_false(t *testing.T) {
 	fnName := "test_bool_option_output_false"
 
-	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -115,7 +114,6 @@ func TestPrimitivesBoolOptionInput_true(t *testing.T) {
 func TestPrimitivesBoolOptionOutput_true(t *testing.T) {
 	fnName := "test_bool_option_output_true"
 
-	// primitiveHandler.Decode(vals: [1])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -141,7 +139,6 @@ func TestPrimitivesBoolOptionInput_none(t *testing.T) {
 func TestPrimitivesBoolOptionOutput_none(t *testing.T) {
 	fnName := "test_bool_option_output_none"
 
-	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)

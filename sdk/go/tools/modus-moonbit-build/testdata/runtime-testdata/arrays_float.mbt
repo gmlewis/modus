@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_float_empty(val : Array[Float]) -> Unit!Error {
+pub fn test_array_input_float_empty(val : Array[Float]) -> Unit raise Error {
   let expected = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -67,11 +67,11 @@ pub fn test_array_output_float_option_4() -> Array[Float?] {
 }
 
 ///|
-pub fn test_array_input_float_option(val : Array[Float?]) -> Unit!Error {
+pub fn test_array_input_float_option(val : Array[Float?]) -> Unit raise Error {
   let expected = get_float_option_array()
   // println("expected: \{expected}")
   // println("val: \{val}")
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|

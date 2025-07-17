@@ -66,19 +66,49 @@ func updateMoonPkgJSON(w io.Writer, pkg *packages.Package, imports map[string]st
 		pkg.MoonPkgJSON.LinkTargets["wasm"] = wasmLinkTarget
 	}
 
+	// Ensure that `warn-list` and `supported-target` have been set.
+	pkg.MoonPkgJSON.WarnList = "-44"
+	pkg.MoonPkgJSON.SupportedTargets = []string{"wasm"}
+
 	// TODO: Only include the exports that are actually needed.
 	overrides := []string{ // clear out existing exports
 		"cabi_realloc",
-		"store8",
-		"store32",
+		"copy",
+		"free",
 		"load32",
 		"malloc",
-		"free",
-		"copy",
+		"moonbit_array_bool_from_fixed",
+		"moonbit_array_byte_from_fixed",
+		"moonbit_array_char_from_fixed",
+		"moonbit_array_double_from_fixed",
+		"moonbit_array_float_from_fixed",
+		"moonbit_array_int16_from_fixed",
+		"moonbit_array_int64_from_fixed",
+		"moonbit_array_int_from_fixed",
+		"moonbit_array_string_from_fixed",
+		"moonbit_array_uint16_from_fixed",
+		"moonbit_array_uint64_from_fixed",
+		"moonbit_array_uint_from_fixed",
+		"moonbit_bytes_make",
+		"moonbit_bytes_to_array",
+		"moonbit_float32_array_make",
+		"moonbit_float_array_make",
+		"moonbit_i32_array_make",
+		"moonbit_int16_array_make",
+		"moonbit_int64_array_make",
+		"moonbit_ref_array_make",
+		"ptr2double_array",
+		"ptr2float_array",
+		"ptr2int64_array",
+		"ptr2int_array",
 		"ptr2str",
-		"read_map",
-		"write_map",
+		"ptr2uint64_array",
+		"ptr2uint_array",
 		"ptr_to_none",
+		"read_map",
+		"store32",
+		"store8",
+		"write_map",
 	}
 	for _, v := range imports {
 		if v == "@time" {

@@ -6,9 +6,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_uint16_empty(val : Array[UInt16]) -> Unit!Error {
+pub fn test_array_input_uint16_empty(val : Array[UInt16]) -> Unit raise Error {
   let expected = []
-  assert_eq!(expected, val)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|
@@ -82,9 +83,10 @@ pub fn test_array_output_uint16_option_4() -> Array[UInt16?] {
 }
 
 ///|
-pub fn test_array_input_uint16_option(val : Array[UInt16?]) -> Unit!Error {
+pub fn test_array_input_uint16_option(val : Array[UInt16?]) -> Unit raise Error {
   let expected = get_uint16_option_array()
-  assert_eq!(expected, val)
+  assert_eq(expected.length(), val.length())
+  assert_eq(expected, val)
 }
 
 ///|

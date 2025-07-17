@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -timeout 30s -tags integration -run ^TestPrimitivesByte github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run ^TestPrimitivesByte github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -8,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -28,7 +30,6 @@ func TestPrimitivesByteInput_min(t *testing.T) {
 func TestPrimitivesByteOutput_min(t *testing.T) {
 	fnName := "test_byte_output_min"
 
-	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -54,7 +55,6 @@ func TestPrimitivesByteInput_max(t *testing.T) {
 func TestPrimitivesByteOutput_max(t *testing.T) {
 	fnName := "test_byte_output_max"
 
-	// primitiveHandler.Decode(vals: [255])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -85,7 +85,6 @@ func TestPrimitivesByteOptionInput_min(t *testing.T) {
 func TestPrimitivesByteOptionOutput_min(t *testing.T) {
 	fnName := "test_byte_option_output_min"
 
-	// primitiveHandler.Decode(vals: [0])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -116,7 +115,6 @@ func TestPrimitivesByteOptionInput_max(t *testing.T) {
 func TestPrimitivesByteOptionOutput_max(t *testing.T) {
 	fnName := "test_byte_option_output_max"
 
-	// primitiveHandler.Decode(vals: [255])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Fatal(err)
@@ -142,7 +140,6 @@ func TestPrimitivesByteOptionInput_none(t *testing.T) {
 func TestPrimitivesByteOptionOutput_none(t *testing.T) {
 	fnName := "test_byte_option_output_none"
 
-	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)

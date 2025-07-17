@@ -325,9 +325,8 @@ func writeFuncWrappers(b *bytes.Buffer, pkg *packages.Package, imports map[strin
 		if hasErrorReturn {
 			b.WriteString("  try ")
 			b.WriteString(name)
-			b.WriteByte('!')
 			b.Write(inputParams.Bytes())
-			b.WriteString(" {\n")
+			b.WriteString(" catch {\n")
 			b.WriteString("    e => {\n")
 			b.WriteString("      @console.error(e.to_string())\n")
 			b.WriteString("      raise e\n")

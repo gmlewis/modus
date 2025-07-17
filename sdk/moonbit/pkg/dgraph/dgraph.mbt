@@ -71,11 +71,11 @@ pub fn new_query(
 }
 
 ///|
-pub(all) type! DgraphError String derive(Show, Eq)
+pub(all) suberror DgraphError String derive(Show, Eq)
 
 ///| Executes a DQL query or mutation on the Dgraph database.
-fn execute(connection : String, request : Request) -> Response!Error {
-  let response = host_execute_query!(connection, request)
+fn execute(connection : String, request : Request) -> Response raise Error {
+  let response = host_execute_query(connection, request)
   if response.is_empty() {
     raise DgraphError("Failed to execute the DQL query.")
   }
@@ -87,7 +87,7 @@ pub fn execute_query(
   connection : String,
   query : Query,
   mutations~ : Array[Mutation] = []
-) -> Response!Error {
+) -> Response raise Error {
   let request = {
     query: Some(query),
     mutations: match mutations.is_empty() {
@@ -95,31 +95,31 @@ pub fn execute_query(
       false => Some(mutations)
     },
   }
-  execute!(connection, request)
+  execute(connection, request)
 }
 
 ///| Executes one or more mutations on the Dgraph database.
 pub fn execute_mutations(
   connection : String,
   mutations : Array[Mutation]
-) -> Response!Error {
+) -> Response raise Error {
   let request = { query: None, mutations: Some(mutations) }
-  execute!(connection, request)
+  execute(connection, request)
 }
 
 ///| Alters the schema of the dgraph database
-pub fn alter_schema(connection : String, schema : String) -> Unit!Error {
-  host_alter_schema!(connection, schema)
+pub fn alter_schema(connection : String, schema : String) -> Unit raise Error {
+  host_alter_schema(connection, schema)
 }
 
 ///| Drops an attribute from the schema.
-pub fn drop_attr(connection : String, attr : String) -> Unit!Error {
-  host_drop_attribute!(connection, attr)
+pub fn drop_attr(connection : String, attr : String) -> Unit raise Error {
+  host_drop_attribute(connection, attr)
 }
 
 ///| Drops all data from the database.
-pub fn drop_all(connection : String) -> Unit!Error {
-  host_drop_all_data!(connection)
+pub fn drop_all(connection : String) -> Unit raise Error {
+  host_drop_all_data(connection)
 }
 
 ///| Ensures proper escaping of RDF string literals

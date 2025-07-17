@@ -13,13 +13,13 @@ fn wasmImportDropAttribute(host_name : Int, attr : Int) -> Int = "modus_dgraph_c
 fn wasmImportDropAllData(host_name : Int) -> Int = "modus_dgraph_client" "dropAllData"
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"
 
 ///| Executes a DQL query or mutation on the Dgraph database.
 pub fn host_execute_query(
   host_name : String,
   request : Request
-) -> Response?!Error {
+) -> Response? raise Error {
   let host_name_ptr = @ffi.str2ptr(host_name) - 8
   let request_ptr : Int = cast(request)
   println(
@@ -38,7 +38,10 @@ pub fn host_execute_query(
 }
 
 ///| Alters the schema of the dgraph database
-pub fn host_alter_schema(host_name : String, schema : String) -> Unit!Error {
+pub fn host_alter_schema(
+  host_name : String,
+  schema : String
+) -> Unit raise Error {
   let host_name_ptr = @ffi.str2ptr(host_name) - 8
   let schema_ptr = @ffi.str2ptr(schema) - 8
   println(
@@ -54,7 +57,10 @@ pub fn host_alter_schema(host_name : String, schema : String) -> Unit!Error {
 }
 
 ///| Drops an attribute from the schema.
-pub fn host_drop_attribute(host_name : String, attr : String) -> Unit!Error {
+pub fn host_drop_attribute(
+  host_name : String,
+  attr : String
+) -> Unit raise Error {
   let host_name_ptr = @ffi.str2ptr(host_name) - 8
   let attr_ptr = @ffi.str2ptr(attr) - 8
   println(
@@ -70,7 +76,7 @@ pub fn host_drop_attribute(host_name : String, attr : String) -> Unit!Error {
 }
 
 ///| Drops all data from the database.
-pub fn host_drop_all_data(host_name : String) -> Unit!Error {
+pub fn host_drop_all_data(host_name : String) -> Unit raise Error {
   let host_name_ptr = @ffi.str2ptr(host_name) - 8
   println(
     "GML: dgraph/ffi_wasm.mbt: CALLING wasmImportDropAllData(host_name_ptr=\{host_name_ptr}",

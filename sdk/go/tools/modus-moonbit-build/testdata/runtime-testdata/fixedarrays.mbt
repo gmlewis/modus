@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_fixedarray_input0_byte(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input0_byte(val : FixedArray[Byte]) -> Unit raise Error {
   let expected : FixedArray[Byte] = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -17,9 +17,11 @@ pub fn test_fixedarray_output0_byte() -> FixedArray[Byte] {
 }
 
 ///|
-pub fn test_fixedarray_input0_string(val : FixedArray[String]) -> Unit!Error {
+pub fn test_fixedarray_input0_string(
+  val : FixedArray[String]
+) -> Unit raise Error {
   let expected : FixedArray[String] = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -30,9 +32,9 @@ pub fn test_fixedarray_output0_string() -> FixedArray[String] {
 ///|
 pub fn test_fixedarray_input0_string_option(
   val : FixedArray[String?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected : FixedArray[String?] = []
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -41,9 +43,11 @@ pub fn test_fixedarray_output0_string_option() -> FixedArray[String?] {
 }
 
 ///|
-pub fn test_fixedarray_input0_int_option(val : FixedArray[Int?]) -> Unit!Error {
+pub fn test_fixedarray_input0_int_option(
+  val : FixedArray[Int?]
+) -> Unit raise Error {
   let expected = get_int_option0_fixedarray()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -57,9 +61,9 @@ fn get_int_option0_fixedarray() -> FixedArray[Int?] {
 }
 
 ///|
-pub fn test_fixedarray_input1_byte(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input1_byte(val : FixedArray[Byte]) -> Unit raise Error {
   let expected : FixedArray[Byte] = [1]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -68,9 +72,11 @@ pub fn test_fixedarray_output1_byte() -> FixedArray[Byte] {
 }
 
 ///|
-pub fn test_fixedarray_input1_string(val : FixedArray[String]) -> Unit!Error {
+pub fn test_fixedarray_input1_string(
+  val : FixedArray[String]
+) -> Unit raise Error {
   let expected : FixedArray[String] = ["abc"]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -81,9 +87,9 @@ pub fn test_fixedarray_output1_string() -> FixedArray[String] {
 ///|
 pub fn test_fixedarray_input1_string_option(
   val : FixedArray[String?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_string_option_fixedarray1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -97,9 +103,11 @@ pub fn get_string_option_fixedarray1() -> FixedArray[String?] {
 }
 
 ///|
-pub fn test_fixedarray_input1_int_option(val : FixedArray[Int?]) -> Unit!Error {
+pub fn test_fixedarray_input1_int_option(
+  val : FixedArray[Int?]
+) -> Unit raise Error {
   let expected = get_int_option_fixedarray1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -113,9 +121,9 @@ pub fn get_int_option_fixedarray1() -> FixedArray[Int?] {
 }
 
 ///|
-pub fn test_fixedarray_input2_byte(val : FixedArray[Byte]) -> Unit!Error {
+pub fn test_fixedarray_input2_byte(val : FixedArray[Byte]) -> Unit raise Error {
   let expected : FixedArray[Byte] = [1, 2]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -124,9 +132,11 @@ pub fn test_fixedarray_output2_byte() -> FixedArray[Byte] {
 }
 
 ///|
-pub fn test_fixedarray_input2_string(val : FixedArray[String]) -> Unit!Error {
+pub fn test_fixedarray_input2_string(
+  val : FixedArray[String]
+) -> Unit raise Error {
   let expected : FixedArray[String] = ["abc", "def"]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -137,9 +147,9 @@ pub fn test_fixedarray_output2_string() -> FixedArray[String] {
 ///|
 pub fn test_fixedarray_input2_string_option(
   val : FixedArray[String?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_string_option_array2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -153,9 +163,11 @@ pub fn get_string_option_array2() -> FixedArray[String?] {
 }
 
 ///|
-pub fn test_fixedarray_input2_int_option(val : FixedArray[Int?]) -> Unit!Error {
+pub fn test_fixedarray_input2_int_option(
+  val : FixedArray[Int?]
+) -> Unit raise Error {
   let expected = get_int_ptr_array2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -171,9 +183,9 @@ pub fn get_int_ptr_array2() -> FixedArray[Int?] {
 ///|
 pub fn test_fixedarray_input2_struct(
   val : FixedArray[TestStruct2]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_struct_fixedarray2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -184,9 +196,9 @@ pub fn test_fixedarray_output2_struct() -> FixedArray[TestStruct2] {
 ///|
 pub fn test_fixedarray_input2_struct_option(
   val : FixedArray[TestStruct2?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_struct_option_fixedarray2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -207,9 +219,9 @@ fn get_struct_option_fixedarray2() -> FixedArray[TestStruct2?] {
 ///|
 pub fn test_fixedarray_input2_map(
   val : FixedArray[Map[String, String]]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_map_array2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -220,9 +232,9 @@ pub fn test_fixedarray_output2_map() -> FixedArray[Map[String, String]] {
 ///|
 pub fn test_fixedarray_input2_map_option(
   val : FixedArray[Map[String, String]?]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_map_ptr_array2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -241,9 +253,11 @@ pub fn get_map_ptr_array2() -> FixedArray[Map[String, String]?] {
 }
 
 ///|
-pub fn test_option_fixedarray_input1_int(val : FixedArray[Int]?) -> Unit!Error {
+pub fn test_option_fixedarray_input1_int(
+  val : FixedArray[Int]?
+) -> Unit raise Error {
   let expected = get_option_int_fixedarray1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -257,9 +271,11 @@ pub fn get_option_int_fixedarray1() -> FixedArray[Int]? {
 }
 
 ///|
-pub fn test_option_fixedarray_input2_int(val : FixedArray[Int]?) -> Unit!Error {
+pub fn test_option_fixedarray_input2_int(
+  val : FixedArray[Int]?
+) -> Unit raise Error {
   let expected = get_option_int_fixedarray2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -275,9 +291,9 @@ pub fn get_option_int_fixedarray2() -> FixedArray[Int]? {
 ///|
 pub fn test_option_fixedarray_input1_string(
   val : FixedArray[String]?
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_option_string_fixedarray1()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -298,9 +314,9 @@ pub fn get_option_string_fixedarray2() -> FixedArray[String]? {
 ///|
 pub fn test_option_fixedarray_input2_string(
   val : FixedArray[String]?
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = get_option_string_fixedarray2()
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|

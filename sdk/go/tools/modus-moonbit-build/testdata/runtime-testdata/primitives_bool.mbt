@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_bool_input_false(b : Bool) -> Unit!Error {
-  assert_eq!(false, b)
+pub fn test_bool_input_false(b : Bool) -> Unit raise Error {
+  assert_eq(false, b)
 }
 
 ///|
-pub fn test_bool_input_true(b : Bool) -> Unit!Error {
-  assert_eq!(true, b)
+pub fn test_bool_input_true(b : Bool) -> Unit raise Error {
+  assert_eq(true, b)
 }
 
 ///|
@@ -28,18 +28,18 @@ pub fn test_bool_output_true() -> Bool {
 }
 
 ///|
-pub fn test_bool_option_input_false(b : Bool?) -> Unit!Error {
-  assert_eq!(Some(false), b)
+pub fn test_bool_option_input_false(b : Bool?) -> Unit raise Error {
+  assert_eq(Some(false), b)
 }
 
 ///|
-pub fn test_bool_option_input_true(b : Bool?) -> Unit!Error {
-  assert_eq!(Some(true), b)
+pub fn test_bool_option_input_true(b : Bool?) -> Unit raise Error {
+  assert_eq(Some(true), b)
 }
 
 ///|
-pub fn test_bool_option_input_none(b : Bool?) -> Unit!Error {
-  assert_eq!(None, b)
+pub fn test_bool_option_input_none(b : Bool?) -> Unit raise Error {
+  assert_eq(None, b)
 }
 
 ///|

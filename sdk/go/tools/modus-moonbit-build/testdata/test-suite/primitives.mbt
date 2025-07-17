@@ -32,14 +32,14 @@ pub fn hello_primitive_byte_max() -> Byte {
 
 ///|
 pub fn hello_primitive_char_min() -> Char {
-  let result = Char::from_int(0) // Char::min_value
+  let result = Int::unsafe_to_char(0) // Char::min_value
   println("hello_primitive_char_min: returning \{result}")
   result
 }
 
 ///|
 pub fn hello_primitive_char_max() -> Char {
-  let result = Char::from_int(65535) // Char::max_value
+  let result = Int::unsafe_to_char(65535) // Char::max_value
   println("hello_primitive_char_max: returning \{result}")
   result
 }

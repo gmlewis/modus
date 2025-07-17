@@ -26,7 +26,9 @@ type MoonPkgJSON struct {
 	Targets map[string][]string `json:"targets,omitempty"`
 	// LinkTargets is a map of link targets (e.g. "wasm", "js", etc.)
 	// followed by its exports.
-	LinkTargets map[string]*LinkTarget `json:"link,omitempty"`
+	LinkTargets      map[string]*LinkTarget `json:"link,omitempty"`
+	WarnList         string                 `json:"warn-list,omitempty"`
+	SupportedTargets []string               `json:"supported-targets,omitempty"`
 }
 
 // LinkTarget represents the JSON format of a link target in moon.pkg.json.

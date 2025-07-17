@@ -10,7 +10,7 @@ PROJECTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 pushd ../../../go/tools/modus-moonbit-build > /dev/null
 MODUS_DEBUG=true
 MODUS_TRACE=true
-go run . "$PROJECTDIR"
+go run . "$PROJECTDIR" --debug
 exit_code=$?
 popd > /dev/null
 

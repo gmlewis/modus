@@ -1,4 +1,4 @@
-// -*- compile-command: "go test ./..."; -*-
+// -*- compile-command: "NO_COLOR=1 go test ./..."; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

@@ -22,7 +22,7 @@
     "get_local_time_moonbit": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -71,7 +71,7 @@
       ],
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -90,7 +90,7 @@
       ],
       "results": [
         {
-          "type": "TimeZoneInfo!Error"
+          "type": "TimeZoneInfo raise Error"
         }
       ],
       "docs": {
@@ -102,7 +102,7 @@
     "get_utc_time": {
       "results": [
         {
-          "type": "@time.ZonedDateTime!Error"
+          "type": "@time.ZonedDateTime raise Error"
         }
       ],
       "docs": {
@@ -198,31 +198,31 @@
     "@time.Duration": {
       "id": 48
     },
-    "@time.Duration!Error": {
+    "@time.Duration raise Error": {
       "id": 10
     },
     "@time.Period": {
       "id": 52
     },
-    "@time.Period!Error": {
+    "@time.Period raise Error": {
       "id": 8
     },
     "@time.PlainDate": {
       "id": 18
     },
-    "@time.PlainDate!Error": {
+    "@time.PlainDate raise Error": {
       "id": 32
     },
     "@time.PlainDateTime": {
       "id": 45
     },
-    "@time.PlainDateTime!Error": {
+    "@time.PlainDateTime raise Error": {
       "id": 54
     },
     "@time.PlainTime": {
       "id": 24
     },
-    "@time.PlainTime!Error": {
+    "@time.PlainTime raise Error": {
       "id": 16
     },
     "@time.Weekday": {
@@ -231,19 +231,19 @@
     "@time.Zone": {
       "id": 53
     },
-    "@time.Zone!Error": {
+    "@time.Zone raise Error": {
       "id": 39
     },
     "@time.ZoneOffset": {
       "id": 47
     },
-    "@time.ZoneOffset!Error": {
+    "@time.ZoneOffset raise Error": {
       "id": 46
     },
     "@time.ZonedDateTime": {
       "id": 6
     },
-    "@time.ZonedDateTime!Error": {
+    "@time.ZonedDateTime raise Error": {
       "id": 11
     },
     "ArrayView[Byte]": {
@@ -267,7 +267,7 @@
     "Bytes": {
       "id": 42
     },
-    "Bytes!Error": {
+    "Bytes raise Error": {
       "id": 41
     },
     "Double": {
@@ -318,7 +318,7 @@
     "String": {
       "id": 29
     },
-    "String!Error": {
+    "String raise Error": {
       "id": 14
     },
     "TimeZoneInfo": {
@@ -342,7 +342,7 @@
         }
       ]
     },
-    "TimeZoneInfo!Error": {
+    "TimeZoneInfo raise Error": {
       "id": 17,
       "fields": [
         {

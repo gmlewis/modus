@@ -10,7 +10,7 @@
     "get_random_quote": {
       "results": [
         {
-          "type": "Quote!Error"
+          "type": "Quote raise Error"
         }
       ]
     },
@@ -163,7 +163,7 @@
         }
       ]
     },
-    "@http.Response!Error": {
+    "@http.Response raise Error": {
       "id": 4,
       "fields": [
         {
@@ -208,7 +208,7 @@
     "@http.T": {
       "id": 16
     },
-    "@http.T!Error": {
+    "@http.T raise Error": {
       "id": 37
     },
     "@testutils.CallStack[T]": {
@@ -305,7 +305,7 @@
         }
       ]
     },
-    "Quote!Error": {
+    "Quote raise Error": {
       "id": 32,
       "fields": [
         {

@@ -15,8 +15,8 @@ pub(all) struct ExampleClaims {
 
 ///| GetJWTClaims is a function that returns the claims in a JWT token,
 /// and parses them into the Claims struct.
-pub fn get_jwt_claims() -> ExampleClaims!Error {
-  @auth.get_jwt_claims!()
+pub fn get_jwt_claims() -> ExampleClaims raise Error {
+  @auth.get_jwt_claims()
 }
 
 ///|
@@ -37,28 +37,28 @@ pub impl @json.FromJson for ExampleClaims with from_json(json, path) {
   guard json is Object(obj) else {
     raise @json.JsonDecodeError((path, "Expected object"))
   }
-  guard obj["exp"] is Some(Number(exp)) else {
+  guard obj.get("exp") is Some(Number(exp)) else {
     raise @json.JsonDecodeError((path, "Expected exp to be Int64"))
   }
   let exp = exp.to_int64()
-  guard obj["iat"] is Some(Number(iat)) else {
+  guard obj.get("iat") is Some(Number(iat)) else {
     raise @json.JsonDecodeError((path, "Expected iat to be Int64"))
   }
   let iat = iat.to_int64()
-  guard obj["iss"] is Some(String(iss)) else {
+  guard obj.get("iss") is Some(String(iss)) else {
     raise @json.JsonDecodeError((path, "Expected iss to be String"))
   }
-  guard obj["jti"] is Some(String(jti)) else {
+  guard obj.get("jti") is Some(String(jti)) else {
     raise @json.JsonDecodeError((path, "Expected jti to be String"))
   }
-  guard obj["nbf"] is Some(Number(nbf)) else {
+  guard obj.get("nbf") is Some(Number(nbf)) else {
     raise @json.JsonDecodeError((path, "Expected nbf to be Int64"))
   }
   let nbf = nbf.to_int64()
-  guard obj["sub"] is Some(String(sub)) else {
+  guard obj.get("sub") is Some(String(sub)) else {
     raise @json.JsonDecodeError((path, "Expected sub to be String"))
   }
-  guard obj["user-id"] is Some(String(userId)) else {
+  guard obj.get("user-id") is Some(String(userId)) else {
     raise @json.JsonDecodeError((path, "Expected user-id to be String"))
   }
   { exp, iat, iss, jti, nbf, sub, userId }

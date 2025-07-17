@@ -5,7 +5,7 @@ import(
 )
 
 // Values
-fn alter_schema(String, String) -> Unit!
+fn alter_schema(String, String) -> Unit raise
 
 fn condition(String) -> Mutation
 
@@ -13,23 +13,23 @@ fn del_json(String) -> Mutation
 
 fn del_nquads(String) -> Mutation
 
-fn drop_all(String) -> Unit!
+fn drop_all(String) -> Unit raise
 
-fn drop_attr(String, String) -> Unit!
+fn drop_attr(String, String) -> Unit raise
 
 fn escape_rdf(String) -> String
 
-fn execute_mutations(String, Array[Mutation]) -> Response!
+fn execute_mutations(String, Array[Mutation]) -> Response raise
 
-fn execute_query(String, Query, mutations~ : Array[Mutation] = ..) -> Response!
+fn execute_query(String, Query, mutations~ : Array[Mutation] = ..) -> Response raise
 
-fn host_alter_schema(String, String) -> Unit!
+fn host_alter_schema(String, String) -> Unit raise
 
-fn host_drop_all_data(String) -> Unit!
+fn host_drop_all_data(String) -> Unit raise
 
-fn host_drop_attribute(String, String) -> Unit!
+fn host_drop_attribute(String, String) -> Unit raise
 
-fn host_execute_query(String, Request) -> Response?!
+fn host_execute_query(String, Request) -> Response? raise
 
 fn new_query(String, variables~ : Map[String, String] = ..) -> Query
 
@@ -38,7 +38,7 @@ fn set_json(String) -> Mutation
 fn set_nquads(String) -> Mutation
 
 // Types and methods
-pub(all) type! DgraphError String
+pub(all) suberror DgraphError String
 impl Eq for DgraphError
 impl Show for DgraphError
 

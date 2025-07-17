@@ -6,11 +6,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub fn test_array_input_string(val : Array[String]) -> Unit!Error {
+pub fn test_array_input_string(val : Array[String]) -> Unit raise Error {
   let expected = ["abc", "def", "ghi"]
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 32 191 0 0 64 191 0 0 96 191 0 0]
   // memoryBlockAtOffset(offset: 49024=0x0000BF80=[128 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 3 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -24,9 +24,9 @@ pub fn test_array_output_string() -> Array[String] {
 }
 
 ///|
-pub fn test_array_input_string_none(val : Array[String]?) -> Unit!Error {
+pub fn test_array_input_string_none(val : Array[String]?) -> Unit raise Error {
   // memoryBlockAtOffset(offset: 0) = (data=0, size=0)
-  assert_eq!(val, None)
+  assert_eq(val, None)
 }
 
 ///|
@@ -36,11 +36,11 @@ pub fn test_array_output_string_none() -> Array[String]? {
 }
 
 ///|
-pub fn test_array_input_string_empty(val : Array[String]) -> Unit!Error {
+pub fn test_array_input_string_empty(val : Array[String]) -> Unit raise Error {
   let expected = []
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 0 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -51,13 +51,13 @@ pub fn test_array_output_string_empty() -> Array[String] {
 }
 
 ///|
-pub fn test_array_input_string_option(val : Array[String?]) -> Unit!Error {
+pub fn test_array_input_string_option(val : Array[String?]) -> Unit raise Error {
   let expected = get_string_option_array()
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=243(String), words=2, memBlock=[1 0 0 0 243 2 0 0 97 0 98 0 99 0 0 1] = 'abc'
   // memoryBlockAtOffset(offset: 48960=0x0000BF40=[64 191 0 0], size: 16=8+words*4), moonBitType=243(String), words=2, memBlock=[1 0 0 0 243 2 0 0 103 0 104 0 105 0 0 1] = 'ghi'
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 20=8+words*4), moonBitType=241(FixedArray[Int]), words=3, memBlock=[1 0 0 0 241 3 0 0 32 191 0 0 0 0 0 0 64 191 0 0]
   // memoryBlockAtOffset(offset: 48992=0x0000BF60=[96 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 3 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -78,13 +78,15 @@ fn get_string_option_array() -> Array[String?] {
 }
 
 ///|
-pub fn test2d_array_input_string(val : Array[Array[String]]) -> Unit!Error {
+pub fn test2d_array_input_string(
+  val : Array[Array[String]]
+) -> Unit raise Error {
   let expected = [
     ["abc", "def", "ghi"],
     ["jkl", "mno", "pqr"],
     ["stu", "vwx", "yz"],
   ]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -112,9 +114,9 @@ pub fn test2d_array_output_string() -> Array[Array[String]] {
 ///|
 pub fn test2d_array_input_string_none(
   val : Array[Array[String]]?
-) -> Unit!Error {
+) -> Unit raise Error {
   // memoryBlockAtOffset(offset: 0) = (data=0, size=0)
-  assert_eq!(val, None)
+  assert_eq(val, None)
 }
 
 ///|
@@ -126,11 +128,11 @@ pub fn test2d_array_output_string_none() -> Array[Array[String]]? {
 ///|
 pub fn test2d_array_input_string_empty(
   val : Array[Array[String]]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = []
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 0 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -143,13 +145,13 @@ pub fn test2d_array_output_string_empty() -> Array[Array[String]] {
 ///|
 pub fn test2d_array_input_string_inner_empty(
   val : Array[Array[String]]
-) -> Unit!Error {
+) -> Unit raise Error {
   let expected = [[]]
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 8=8+words*4), moonBitType=241(FixedArray[Int]), words=0, memBlock=[1 0 0 0 241 0 0 0]
   // memoryBlockAtOffset(offset: 48944=0x0000BF30=[48 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 32 191 0 0 0 0 0 0]
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 48 191 0 0]
   // memoryBlockAtOffset(offset: 48976=0x0000BF50=[80 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 1 0 0 0]
-  assert_eq!(expected, val)
+  assert_eq(expected, val)
 }
 
 ///|
@@ -164,10 +166,10 @@ pub fn test2d_array_output_string_inner_empty() -> Array[Array[String]] {
 ///|
 pub fn test2d_array_input_string_inner_none(
   val : Array[Array[String]?]
-) -> Unit!Error {
+) -> Unit raise Error {
   // memoryBlockAtOffset(offset: 48704=0x0000BE40=[64 190 0 0], size: 12=8+words*4), moonBitType=241(FixedArray[Int]), words=1, memBlock=[1 0 0 0 241 1 0 0 0 0 0 0]
   // memoryBlockAtOffset(offset: 48928=0x0000BF20=[32 191 0 0], size: 16=8+words*4), moonBitType=0(Tuple), words=2, memBlock=[1 0 0 0 0 2 0 0 64 190 0 0 1 0 0 0]
-  assert_eq!(val, [None])
+  assert_eq(val, [None])
 }
 
 ///|

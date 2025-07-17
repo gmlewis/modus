@@ -5,9 +5,9 @@ import(
 )
 
 // Values
-fn execute[T : @json.FromJson](String, String, vars~ : Map[String, Json] = ..) -> Response[T]!
+fn[T : @json.FromJson] execute(String, String, vars~ : Map[String, Json] = ..) -> Response[T] raise
 
-fn host_execute_query(String, String, String) -> String!
+fn host_execute_query(String, String, String) -> String raise
 
 // Types and methods
 pub(all) struct CodeLocation {
@@ -29,7 +29,7 @@ impl Show for ErrorResult
 impl ToJson for ErrorResult
 impl @json.FromJson for ErrorResult
 
-pub(all) type! GraphQLError String
+pub(all) suberror GraphQLError String
 impl Eq for GraphQLError
 impl Show for GraphQLError
 

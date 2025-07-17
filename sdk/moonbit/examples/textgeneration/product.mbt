@@ -19,5 +19,6 @@ let sample_product : Product = {
 }
 
 // since we'll be using this sample data often, we'll serialize it once and store it as a string.
+
 ///|
-let sample_product_json : String = @json.stringify(sample_product.to_json())
+let sample_product_json : String = sample_product.to_json().stringify()

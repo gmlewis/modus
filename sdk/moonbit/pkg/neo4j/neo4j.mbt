@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub(all) type! Neo4jError String derive(Show, Eq)
+pub(all) suberror Neo4jError String derive(Show, Eq)
 
 ///|
 pub(all) type Neo4jOption (Neo4jOptions) -> Unit
@@ -49,9 +49,9 @@ pub(all) struct Node {
 ///|
 pub impl @json.FromJson for Node with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let element_id = @json.from_json!(json.get("ElementId").unwrap())
-  let labels = @json.from_json!(json.get("Labels").unwrap())
-  let props = @json.from_json!(json.get("Props").unwrap())
+  let element_id = @json.from_json(json.get("ElementId").unwrap())
+  let labels = @json.from_json(json.get("Labels").unwrap())
+  let props = @json.from_json(json.get("Props").unwrap())
   { element_id, labels, props }
 }
 
@@ -86,11 +86,11 @@ pub(all) struct Relationship {
 ///|
 pub impl @json.FromJson for Relationship with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let element_id = @json.from_json!(json.get("ElementId").unwrap())
-  let start_element_id = @json.from_json!(json.get("StartElementId").unwrap())
-  let end_element_id = @json.from_json!(json.get("EndElementId").unwrap())
-  let type_ = @json.from_json!(json.get("Type").unwrap())
-  let props = @json.from_json!(json.get("Props").unwrap())
+  let element_id = @json.from_json(json.get("ElementId").unwrap())
+  let start_element_id = @json.from_json(json.get("StartElementId").unwrap())
+  let end_element_id = @json.from_json(json.get("EndElementId").unwrap())
+  let type_ = @json.from_json(json.get("Type").unwrap())
+  let props = @json.from_json(json.get("Props").unwrap())
   { element_id, start_element_id, end_element_id, type_, props }
 }
 
@@ -124,8 +124,8 @@ pub(all) struct Path {
 ///|
 pub impl @json.FromJson for Path with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let nodes = @json.from_json!(json.get("Nodes").unwrap())
-  let relationships = @json.from_json!(json.get("Relationships").unwrap())
+  let nodes = @json.from_json(json.get("Nodes").unwrap())
+  let relationships = @json.from_json(json.get("Relationships").unwrap())
   { nodes, relationships }
 }
 
@@ -168,14 +168,14 @@ pub fn execute_query(
   query : String,
   parameters_json : Map[String, Json],
   opts~ : Array[Neo4jOption] = []
-) -> EagerResult!Error {
+) -> EagerResult raise Error {
   let db_opts = { db_name: "neo4j" }
   for opt in opts {
-    (opt._)(db_opts)
+    opt.inner()(db_opts)
   }
 
   //
-  let response = host_execute_query!(
+  let response = host_execute_query(
     host_name,
     db_opts.db_name,
     query,
@@ -192,17 +192,17 @@ pub fn execute_query(
 }
 
 ///|
-pub fn get_record_value[T : @json.FromJson](
+pub fn[T : @json.FromJson] get_record_value(
   self : Record,
   key : String
-) -> T!Error {
+) -> T raise Error {
   match self.get(key) {
     (value, true) => {
       // @json.from_json!(@json.parse!(value))
       println("GML: neo4j/neo4j.mbt: get_record_value: value='\{value}'")
-      let json = @json.parse!(value)
+      let json = @json.parse(value)
       println("GML: neo4j/neo4j.mbt: get_record_value: json=\{json}")
-      @json.from_json!(json)
+      @json.from_json(json)
     }
     (_, false) => raise Neo4jError("Key not found in record")
   }
@@ -228,15 +228,15 @@ pub fn as_map(self : Record) -> Map[String, String] {
 }
 
 ///|
-pub fn get_property[T : @json.FromJson](
+pub fn[T : @json.FromJson] &Entity::get_property(
   self : &Entity,
   key : String
-) -> T!Error {
+) -> T raise Error {
   let raw_val = self.get_properties().get(key)
   if raw_val.is_empty() {
     raise Neo4jError("Key not found in node")
   }
   let json = raw_val.unwrap()
   println("GML: neo4j/neo4j.mbt: get_property: json=\{json}")
-  @json.from_json!(json)
+  @json.from_json(json)
 }

@@ -5,7 +5,7 @@ fn wasmImportGetModelInfo(model_name : Int) -> Int = "modus_models" "getModelInf
 fn wasmImportInvokeModel(model_name : Int, input : Int) -> Int = "modus_models" "invokeModel"
 
 ///|
-pub fn host_get_model_info(model_name : String) -> ModelInfo!Error {
+pub fn host_get_model_info(model_name : String) -> ModelInfo raise Error {
   let model_name : Int = @ffi.str2ptr(model_name) - 8
   let model_info = wasmImportGetModelInfo(model_name)
   if model_info == 0 {
@@ -18,7 +18,10 @@ pub fn host_get_model_info(model_name : String) -> ModelInfo!Error {
 }
 
 ///|
-pub fn host_invoke_model(model_name : String, input : String) -> String!Error {
+pub fn host_invoke_model(
+  model_name : String,
+  input : String
+) -> String raise Error {
   let model_name : Int = @ffi.str2ptr(model_name) - 8
   let input : Int = @ffi.str2ptr(input) - 8
   let response = wasmImportInvokeModel(model_name, input)
@@ -31,4 +34,4 @@ pub fn host_invoke_model(model_name : String, input : String) -> String!Error {
 }
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"

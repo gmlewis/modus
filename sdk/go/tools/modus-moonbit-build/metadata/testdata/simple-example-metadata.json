@@ -101,7 +101,7 @@
     "get_current_time": {
       "results": [
         {
-          "type": "@time.ZonedDateTime!Error"
+          "type": "@time.ZonedDateTime raise Error"
         }
       ],
       "docs": {
@@ -113,7 +113,7 @@
     "get_current_time_formatted": {
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -241,7 +241,7 @@
       ],
       "results": [
         {
-          "type": "String!Error"
+          "type": "String raise Error"
         }
       ],
       "docs": {
@@ -316,31 +316,31 @@
     "@time.Duration": {
       "id": 15
     },
-    "@time.Duration!Error": {
+    "@time.Duration raise Error": {
       "id": 25
     },
     "@time.Period": {
       "id": 38
     },
-    "@time.Period!Error": {
+    "@time.Period raise Error": {
       "id": 21
     },
     "@time.PlainDate": {
       "id": 27
     },
-    "@time.PlainDate!Error": {
+    "@time.PlainDate raise Error": {
       "id": 6
     },
     "@time.PlainDateTime": {
       "id": 13
     },
-    "@time.PlainDateTime!Error": {
+    "@time.PlainDateTime raise Error": {
       "id": 51
     },
     "@time.PlainTime": {
       "id": 32
     },
-    "@time.PlainTime!Error": {
+    "@time.PlainTime raise Error": {
       "id": 39
     },
     "@time.Weekday": {
@@ -349,19 +349,19 @@
     "@time.Zone": {
       "id": 23
     },
-    "@time.Zone!Error": {
+    "@time.Zone raise Error": {
       "id": 18
     },
     "@time.ZoneOffset": {
       "id": 22
     },
-    "@time.ZoneOffset!Error": {
+    "@time.ZoneOffset raise Error": {
       "id": 50
     },
     "@time.ZonedDateTime": {
       "id": 20
     },
-    "@time.ZonedDateTime!Error": {
+    "@time.ZonedDateTime raise Error": {
       "id": 24
     },
     "ArrayView[Byte]": {
@@ -394,7 +394,7 @@
     "Bytes": {
       "id": 26
     },
-    "Bytes!Error": {
+    "Bytes raise Error": {
       "id": 17
     },
     "FixedArray[Byte]": {
@@ -441,7 +441,7 @@
     "String": {
       "id": 16
     },
-    "String!Error": {
+    "String raise Error": {
       "id": 11
     },
     "UInt": {

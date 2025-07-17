@@ -76,7 +76,7 @@ pub fn Headers::from_map_array(value : Map[String, Array[String]]) -> Headers {
 pub fn append(self : Headers, name : String, value : String) -> Unit {
   let key = name.to_lower()
   if self.data.contains(key) {
-    let header = self.data[key].unwrap().unwrap()
+    let header = self.data.get(key).unwrap().unwrap()
     header.values.push(value)
     self.data[key] = Some(header)
   } else {
@@ -103,7 +103,7 @@ pub fn entries(self : Headers) -> Array[(String, String)] {
 pub fn get(self : Headers, name : String) -> String {
   let key = name.to_lower()
   if self.data.contains(key) {
-    let header = self.data[key].unwrap().unwrap()
+    let header = self.data.get(key).unwrap().unwrap()
     header.values.join(",")
   } else {
     ""

@@ -22,7 +22,7 @@ pub fn Point::new(x : Double, y : Double) -> Point {
 }
 
 ///|
-pub fn Point::parse(s : String) -> Point!Error {
+pub fn Point::parse(s : String) -> Point raise Error {
   let s = s.trim_space()
   let parts = s.split(",").collect()
   if parts.length() != 2 ||
@@ -32,7 +32,7 @@ pub fn Point::parse(s : String) -> Point!Error {
   }
   let s0 = parts[0].trim_start("(").trim_space().to_string()
   let s1 = parts[1].trim_end(")").trim_space().to_string()
-  let x = @strconv.parse_double!(s0)
-  let y = @strconv.parse_double!(s1)
+  let x = @strconv.parse_double(s0)
+  let y = @strconv.parse_double(s1)
   { x, y }
 }

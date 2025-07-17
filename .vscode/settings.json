@@ -20,6 +20,7 @@
   "go.buildTags": "integration",
   "go.lintTool": "golangci-lint",
   "go.testEnvVars": {
+    "NO_COLOR": "1",
     "MODUS_DEBUG": "true"
   },
   "markdownlint.config": {

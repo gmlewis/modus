@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -timeout 30s -tags integration -run ^TestPrimitivesChar github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run ^TestPrimitivesChar github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -8,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests pass with moonc v0.6.20
 
 package moonbit_test
 
@@ -134,7 +136,6 @@ func TestPrimitivesCharOptionInput_none(t *testing.T) {
 func TestPrimitivesCharOptionOutput_none(t *testing.T) {
 	fnName := "test_char_option_output_none"
 
-	// primitiveHandler.Decode(vals: [4294967295])
 	result, err := fixture.CallFunction(t, fnName)
 	if err != nil {
 		t.Error(err)

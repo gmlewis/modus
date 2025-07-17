@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 5s ./..."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -132,6 +134,7 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 		return nil, err
 	}
 
+	// Simple 3-parameter call with string pointers directly
 	params := []uint64{keyTypeNamePtr[0], valueTypeNamePtr[0], uint64(offset)}
 	res, err := wa.(*wasmAdapter).fnReadMap.Call(ctx, params...)
 	if err != nil {
@@ -142,14 +145,19 @@ func (h *mapHandler) Read(ctx context.Context, wa langsupport.WasmAdapter, offse
 	pKeys := uint32(r >> 32)
 	pVals := uint32(r)
 
+	// Check for valid pointers
+	if pKeys == 0 && pVals == 0 {
+		return nil, fmt.Errorf("read_map returned null pointers for keys and values (keyType=%s, valueType=%s, offset=%d)", keyTypeName, valueTypeName, offset)
+	}
+
 	keys, err := h.sliceOfKeysHandler.Read(ctx, wa, pKeys)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to read keys array at offset %d: %w", pKeys, err)
 	}
 
 	vals, err := h.sliceOfValuesHandler.Read(ctx, wa, pVals)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to read values array at offset %d: %w", pVals, err)
 	}
 
 	rvKeys := reflect.ValueOf(keys)

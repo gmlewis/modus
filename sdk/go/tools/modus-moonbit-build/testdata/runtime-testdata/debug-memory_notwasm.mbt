@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-fn cast_to_ptr[A](a : A) -> Int = "%identity"
+fn[A] cast_to_ptr(a : A) -> Int = "%identity"
 
 ///|
 fn dump_mem_block(ptr : Int) -> String {

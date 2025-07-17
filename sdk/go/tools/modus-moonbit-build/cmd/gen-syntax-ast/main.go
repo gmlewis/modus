@@ -1,4 +1,4 @@
-// -*- compile-command: "go run main.go ../../testdata/test-suite"; -*-
+// -*- compile-command: "NO_COLOR=1 go run main.go ../../testdata/test-suite"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.

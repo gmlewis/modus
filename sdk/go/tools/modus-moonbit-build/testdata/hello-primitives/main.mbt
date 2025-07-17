@@ -7,9 +7,7 @@ pub fn hello_primitive_time_duration_min() -> @time.Duration {
 
 ///|
 pub fn hello_primitive_time_duration_max() -> @time.Duration {
-  let result = try {
-    @time.Duration::of!(seconds=@int64.max_value)
-  } catch {
+  let result = @time.Duration::of(seconds=@int64.max_value) catch {
     _ => @time.Duration::zero()
   }
   println("hello_primitive_time_duration_max: returning \{result}")

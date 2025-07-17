@@ -5,9 +5,9 @@ import(
 )
 
 // Values
-fn get_jwt_claims[T : @json.FromJson]() -> T!
+fn[T : @json.FromJson] get_jwt_claims() -> T raise
 
-fn get_jwt_claims_from_string[T : @json.FromJson](String) -> T!
+fn[T : @json.FromJson] get_jwt_claims_from_string(String) -> T raise
 
 // Types and methods
 

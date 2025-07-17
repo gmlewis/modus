@@ -1,3 +1,5 @@
+// -*- compile-command: "NO_COLOR=1 go test -timeout 5s ./..."; -*-
+
 /*
  * Copyright 2024 Hypermode Inc.
  * Licensed under the terms of the Apache License, Version 2.0
@@ -63,6 +65,8 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 	// Strip MoonBit error type suffix.
 	if i := strings.Index(typeName, "!"); i >= 0 {
 		typeName = typeName[:i]
+	} else if i := strings.Index(typeName, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+		typeName = typeName[:i]
 	}
 
 	if handler, ok := p.typeHandlers[typeName]; ok {
@@ -91,9 +95,6 @@ func (p *planner) GetHandler(ctx context.Context, typeName string) (langsupport.
 			} else {
 				return p.NewSliceHandler(ctx, ti)
 			}
-			// MoonBit has _NO_ concept of a Go (fixed-length) "array" type.
-			// Even a `FixedArray` in MoonBit is similar to a slice in Go because
-			// its length is not encoded as part of its type.
 		}
 	} else if ti.IsMap() {
 		return p.NewMapHandler(ctx, ti)
@@ -128,6 +129,9 @@ func (p *planner) GetPlan(ctx context.Context, fnMeta *metadata.Function, fnDef 
 		typeName := result.Type
 		if i := strings.Index(typeName, "!"); i >= 0 {
 			errorType = typeName[i+1:]
+			typeName = typeName[:i]
+		} else if i := strings.Index(typeName, " raise "); i >= 0 { // as of 'moonc v0.6.18+8382ed77e'
+			errorType = typeName[i+len(" raise "):]
 			typeName = typeName[:i]
 		}
 

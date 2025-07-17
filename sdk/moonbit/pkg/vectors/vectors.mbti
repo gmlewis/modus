@@ -1,51 +1,55 @@
 package "gmlewis/modus/pkg/vectors"
 
+import(
+  "moonbitlang/core/bigint"
+)
+
 // Values
-fn abs[T : Absoluteable](Array[T]) -> Array[T]
+fn[T : Absoluteable] abs(Array[T]) -> Array[T]
 
-fn abs_in_place[T : Absoluteable](Array[T]) -> Unit
+fn[T : Absoluteable] abs_in_place(Array[T]) -> Unit
 
-fn add[T : Addable](Array[T], Array[T]) -> Array[T]
+fn[T : Addable] add(Array[T], Array[T]) -> Array[T]
 
-fn add_in_place[T : Addable](Array[T], Array[T]) -> Unit
+fn[T : Addable] add_in_place(Array[T], Array[T]) -> Unit
 
-fn add_number[T : Addable](Array[T], T) -> Array[T]
+fn[T : Addable] add_number(Array[T], T) -> Array[T]
 
-fn add_number_in_place[T : Addable](Array[T], T) -> Unit
+fn[T : Addable] add_number_in_place(Array[T], T) -> Unit
 
-fn divide_number[T : Divideable](Array[T], T) -> Array[T]
+fn[T : Divideable] divide_number(Array[T], T) -> Array[T]
 
-fn divide_number_in_place[T : Divideable](Array[T], T) -> Unit
+fn[T : Divideable] divide_number_in_place(Array[T], T) -> Unit
 
-fn dot[T : Multipliable + Addable + FromInt](Array[T], Array[T]) -> T
+fn[T : Multipliable + Addable + FromInt] dot(Array[T], Array[T]) -> T
 
-fn euclidian_distance[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt](Array[T], Array[T]) -> T
+fn[T : Multipliable + SquareRootable + Addable + Subtractable + FromInt] euclidian_distance(Array[T], Array[T]) -> T
 
-fn magnitude[T : Multipliable + Addable + SquareRootable + FromInt](Array[T]) -> T
+fn[T : Multipliable + Addable + SquareRootable + FromInt] magnitude(Array[T]) -> T
 
-fn max[T : Compare](Array[T]) -> T
+fn[T : Compare] max(Array[T]) -> T
 
-fn mean[T : Addable + Divideable + FromInt](Array[T]) -> T
+fn[T : Addable + Divideable + FromInt] mean(Array[T]) -> T
 
-fn min[T : Compare](Array[T]) -> T
+fn[T : Compare] min(Array[T]) -> T
 
-fn multiply_number[T : Multipliable](Array[T], T) -> Array[T]
+fn[T : Multipliable] multiply_number(Array[T], T) -> Array[T]
 
-fn multiply_number_in_place[T : Multipliable](Array[T], T) -> Unit
+fn[T : Multipliable] multiply_number_in_place(Array[T], T) -> Unit
 
-fn normalize[T : Multipliable + Divideable + Addable + SquareRootable + FromInt](Array[T]) -> Array[T]
+fn[T : Multipliable + Divideable + Addable + SquareRootable + FromInt] normalize(Array[T]) -> Array[T]
 
-fn product[T : Multipliable + FromInt](Array[T]) -> T
+fn[T : Multipliable + FromInt] product(Array[T]) -> T
 
-fn sub[T : Subtractable](Array[T], Array[T]) -> Array[T]
+fn[T : Subtractable] sub(Array[T], Array[T]) -> Array[T]
 
-fn subtract_in_place[T : Subtractable](Array[T], Array[T]) -> Unit
+fn[T : Subtractable] subtract_in_place(Array[T], Array[T]) -> Unit
 
-fn subtract_number[T : Subtractable](Array[T], T) -> Array[T]
+fn[T : Subtractable] subtract_number(Array[T], T) -> Array[T]
 
-fn subtract_number_in_place[T : Subtractable](Array[T], T) -> Unit
+fn[T : Subtractable] subtract_number_in_place(Array[T], T) -> Unit
 
-fn sum[T : Addable + FromInt](Array[T]) -> T
+fn[T : Addable + FromInt] sum(Array[T]) -> T
 
 // Types and methods
 
@@ -72,7 +76,7 @@ impl Addable for UInt16
 impl Addable for UInt64
 impl Addable for Float
 impl Addable for Double
-impl Addable for BigInt
+impl Addable for @bigint.BigInt
 
 pub(open) trait Divideable : Div {
   op_div(Self, Self) -> Self
@@ -86,7 +90,7 @@ impl Divideable for UInt16
 impl Divideable for UInt64
 impl Divideable for Float
 impl Divideable for Double
-impl Divideable for BigInt
+impl Divideable for @bigint.BigInt
 
 pub(open) trait FromInt {
   from_int(Int) -> Self
@@ -107,7 +111,7 @@ impl Multipliable for UInt16
 impl Multipliable for UInt64
 impl Multipliable for Float
 impl Multipliable for Double
-impl Multipliable for BigInt
+impl Multipliable for @bigint.BigInt
 
 pub(open) trait SquareRootable {
   sqrt(Self) -> Self
@@ -129,5 +133,5 @@ impl Subtractable for UInt16
 impl Subtractable for UInt64
 impl Subtractable for Float
 impl Subtractable for Double
-impl Subtractable for BigInt
+impl Subtractable for @bigint.BigInt
 

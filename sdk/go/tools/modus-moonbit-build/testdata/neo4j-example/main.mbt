@@ -7,7 +7,7 @@
 const CONNECTION = "my-database"
 
 ///|
-pub fn create_people_and_relationships() -> String!Error {
+pub fn create_people_and_relationships() -> String raise Error {
   let people : Array[Json] = [
     { "name": "Alice", "age": 42, "friends": ["Bob", "Peter", "Anna"] },
     { "name": "Bob", "age": 19 },
@@ -15,7 +15,7 @@ pub fn create_people_and_relationships() -> String!Error {
     { "name": "Anna", "age": 30 },
   ]
   for person in people {
-    let _ = @neo4j.execute_query!(
+    let _ = @neo4j.execute_query(
       CONNECTION,
       "MERGE (p:Person {name: $person.name, age: $person.age})",
       { "person": person },
@@ -23,7 +23,7 @@ pub fn create_people_and_relationships() -> String!Error {
 
   }
   for person in people.filter(fn(p) { p.value("friends") != None }) {
-    let _ = @neo4j.execute_query!(
+    let _ = @neo4j.execute_query(
       CONNECTION,
       #|MATCH (p:Person {name: $person.name})
       #|        UNWIND $person.friends AS friend_name
@@ -44,8 +44,8 @@ pub struct Person {
 } derive(Show, Eq, ToJson, FromJson)
 
 ///|
-pub fn get_alice_friends_under_40() -> Array[Person]!Error {
-  let response = @neo4j.execute_query!(
+pub fn get_alice_friends_under_40() -> Array[Person] raise Error {
+  let response = @neo4j.execute_query(
     CONNECTION,
     #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
     #|WHERE friend.age < $age
@@ -55,17 +55,17 @@ pub fn get_alice_friends_under_40() -> Array[Person]!Error {
   )
   let persons = []
   for record in response.records {
-    let node : @neo4j.Node = @neo4j.get_record_value!(record, "friend")
-    let name : String = @neo4j.get_property!(node, "name")
-    let age : Int = @neo4j.get_property!(node, "age")
+    let node : @neo4j.Node = record.get_record_value("friend")
+    let name : String = &@neo4j.Entity::get_property(node, "name")
+    let age : Int = &@neo4j.Entity::get_property(node, "age")
     persons.push({ name, age })
   }
   persons
 }
 
 ///|
-pub fn get_alice_friends_under_40_ages() -> Array[Int]!Error {
-  let response = @neo4j.execute_query!(
+pub fn get_alice_friends_under_40_ages() -> Array[Int] raise Error {
+  let response = @neo4j.execute_query(
     CONNECTION,
     #|MATCH (p:Person {name: $name})-[:KNOWS]-(friend:Person)
     #|WHERE friend.age < $age
@@ -75,7 +75,7 @@ pub fn get_alice_friends_under_40_ages() -> Array[Int]!Error {
   )
   let ages = []
   for record in response.records {
-    let age : Int = @neo4j.get_record_value!(record, "age")
+    let age : Int = record.get_record_value("age")
     println("pushing age=\{age}")
     ages.push(age)
   }
@@ -83,8 +83,8 @@ pub fn get_alice_friends_under_40_ages() -> Array[Int]!Error {
 }
 
 ///|
-pub fn delete_all_nodes() -> String!Error {
-  let _ = @neo4j.execute_query!(
+pub fn delete_all_nodes() -> String raise Error {
+  let _ = @neo4j.execute_query(
     CONNECTION,
     #|MATCH (n)
     #|DETACH DELETE n

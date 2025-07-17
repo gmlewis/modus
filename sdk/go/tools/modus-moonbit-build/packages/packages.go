@@ -12,6 +12,8 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
+	"log"
+	"strings"
 	"time"
 
 	"github.com/gmlewis/modus/sdk/go/tools/modus-moonbit-build/utils"
@@ -353,6 +355,9 @@ type Package struct {
 }
 
 func (p *Package) AddPossiblyMissingUnderlyingType(typeName string) {
+	if strings.HasSuffix(strings.TrimSpace(typeName), ",") {
+		log.Printf("GML: DEBUG: AddPossiblyMissingUnderlyingType: typeName='%v'", typeName)
+	}
 	if p.PossiblyMissingUnderlyingTypes == nil {
 		p.PossiblyMissingUnderlyingTypes = map[string]struct{}{}
 	}

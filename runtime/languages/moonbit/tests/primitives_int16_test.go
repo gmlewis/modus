@@ -1,4 +1,4 @@
-// -*- compile-command: "go test -timeout 30s -tags integration -run ^TestPrimitivesInt16 github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
+// -*- compile-command: "NO_COLOR=1 go test -timeout 30s -tags integration -run ^TestPrimitivesInt16 github.com/gmlewis/modus/runtime/languages/moonbit/tests"; -*-
 
 /*
  * Copyright 2024 Hypermode Inc.
@@ -8,6 +8,8 @@
  * SPDX-FileCopyrightText: 2024 Hypermode Inc. <hello@hypermode.com>
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Tests FAIL with moonc v0.6.20
 
 package moonbit_test
 

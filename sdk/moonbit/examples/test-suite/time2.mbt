@@ -16,46 +16,42 @@ let test_duration : Ref[@time.Duration] = { val: @time.Duration::zero() }
 
 ///|
 fn init {
-  test_time.val = try {
-    Some(
-      @time.date_time!(
-        2024,
-        12,
-        31,
-        hour=23,
-        minute=59,
-        second=59,
-        nanosecond=999_999_999,
-      ),
-    )
-  } catch {
+  test_time.val = Some(
+    @time.date_time(
+      2024,
+      12,
+      31,
+      hour=23,
+      minute=59,
+      second=59,
+      nanosecond=999_999_999,
+    ),
+  ) catch {
     _ => abort("Failed to create test time")
   }
-  test_duration.val = try {
-    @time.Duration::of!(seconds=5)
-  } catch {
+  test_duration.val = @time.Duration::of(seconds=5) catch {
     _ => abort("Failed to create test duration")
   }
 }
 
 ///|
-pub fn test_time_input(t : @time.ZonedDateTime) -> Unit!Error {
+pub fn test_time_input(t : @time.ZonedDateTime) -> Unit raise Error {
   guard test_time.val is Some(test_time)
-  assert_eq!(t.to_unix_second(), test_time.to_unix_second())
-  assert_eq!(t.nanosecond(), test_time.nanosecond())
+  assert_eq(t.to_unix_second(), test_time.to_unix_second())
+  assert_eq(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
-pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit!Error {
+pub fn test_time_option_input(t : @time.ZonedDateTime?) -> Unit raise Error {
   guard test_time.val is Some(test_time)
   guard t is Some(t)
-  assert_eq!(t.to_unix_second(), test_time.to_unix_second())
-  assert_eq!(t.nanosecond(), test_time.nanosecond())
+  assert_eq(t.to_unix_second(), test_time.to_unix_second())
+  assert_eq(t.nanosecond(), test_time.nanosecond())
 }
 
 ///|
-pub fn call_test_time_option_input_some() -> Unit!Error {
-  test_time_option_input!(test_time.val)
+pub fn call_test_time_option_input_some() -> Unit raise Error {
+  test_time_option_input(test_time.val)
 }
 
 // ///|

@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ///|
-pub(all) type! ExperimentalError String derive(Show, Eq, FromJson, ToJson)
+pub(all) suberror ExperimentalError String derive(Show, Eq, FromJson, ToJson)
 
 ///| A model that returns classification results for a list of text strings.
 ///
@@ -23,11 +23,11 @@ pub(all) type ClassificationModel @models.ModelBase derive (
 pub fn invoke(
   self : ClassificationModel,
   input : ClassificationModelInput
-) -> ClassificationModelOutput!Error {
+) -> ClassificationModelOutput raise Error {
   let input_json = input.to_json()
-  let output_json = self._.invoke!(input_json)
+  let output_json = self.inner().invoke(input_json)
   // println("got output_json=\{output_json}")
-  @json.from_json!(output_json)
+  @json.from_json(output_json)
 }
 
 // type ClassificationModel struct {
@@ -63,9 +63,9 @@ pub(all) struct ClassifierResult {
 ///|
 pub impl @json.FromJson for ClassifierResult with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let label = @json.from_json!(json.get("label").unwrap())
-  let confidence : Double = @json.from_json!(json.get("confidence").unwrap())
-  let probabilities = @json.from_json!(json.get("probabilities").unwrap())
+  let label = @json.from_json(json.get("label").unwrap())
+  let confidence : Double = @json.from_json(json.get("confidence").unwrap())
+  let probabilities = @json.from_json(json.get("probabilities").unwrap())
   { label, confidence: confidence.to_float(), probabilities }
 }
 
@@ -81,8 +81,8 @@ pub(all) struct ClassifierLabel {
 ///|
 pub impl @json.FromJson for ClassifierLabel with from_json(json, _path) {
   let json : Map[String, Json] = json.as_object().unwrap()
-  let label = @json.from_json!(json.get("label").unwrap())
-  let probability : Double = @json.from_json!(json.get("probability").unwrap())
+  let label = @json.from_json(json.get("label").unwrap())
+  let probability : Double = @json.from_json(json.get("probability").unwrap())
   { label, probability: probability.to_float() }
 }
 
@@ -92,7 +92,7 @@ pub impl @json.FromJson for ClassifierLabel with from_json(json, _path) {
 pub fn ClassificationModel::create_input(
   _self : ClassificationModel,
   content : Array[String]
-) -> ClassificationModelInput!Error {
+) -> ClassificationModelInput raise Error {
   if content.length() == 0 {
     raise ExperimentalError("at least one text string must be provided")
   }

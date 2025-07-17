@@ -12,7 +12,7 @@ pub(all) struct Content {
 
 ///|
 pub fn Content::new(value : Json) -> Content {
-  let data = @json.stringify(value)
+  let data = value.stringify()
   { data, }
 }
 
@@ -22,6 +22,6 @@ pub fn text(self : Content) -> String {
 }
 
 ///|
-pub fn json[T : @json.FromJson](self : Content) -> T!Error {
-  @json.from_json!(@json.parse!(self.data))
+pub fn[T : @json.FromJson] json(self : Content) -> T raise Error {
+  @json.from_json(@json.parse(self.data))
 }

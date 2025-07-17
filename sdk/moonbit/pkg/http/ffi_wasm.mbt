@@ -2,7 +2,7 @@
 fn wasmImportfetch(request : Int) -> Int = "modus_http_client" "fetch"
 
 ///|
-pub fn host_fetch(request : Request) -> Response!Error {
+pub fn host_fetch(request : Request) -> Response raise Error {
   let request : Int = cast(Some(request))
   let response = wasmImportfetch(request)
   if response == 0 {
@@ -13,4 +13,4 @@ pub fn host_fetch(request : Request) -> Response!Error {
 }
 
 ///|
-fn cast[A, B](a : A) -> B = "%identity"
+fn[A, B] cast(a : A) -> B = "%identity"

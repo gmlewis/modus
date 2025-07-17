@@ -5,20 +5,15 @@ import(
 )
 
 // Values
-fn pop[T](CallStack[T]) -> Array[T]
-
-fn push[T](CallStack[T], Array[T]) -> Unit
 
 // Types and methods
 pub(all) struct CallStack[T] {
   items : Array[Array[T]]
 }
-impl CallStack {
-  new[T]() -> Self[T]
-  pop[T](Self[T]) -> Array[T]
-  push[T](Self[T], Array[T]) -> Unit
-  size[T](Self[T]) -> Int
-}
+fn[T] CallStack::new() -> Self[T]
+fn[T] CallStack::pop(Self[T]) -> Array[T]
+fn[T] CallStack::push(Self[T], Array[T]) -> Unit
+fn[T] CallStack::size(Self[T]) -> Int
 impl[T : Eq] Eq for CallStack[T]
 impl[T : Show] Show for CallStack[T]
 impl[T : ToJson] ToJson for CallStack[T]

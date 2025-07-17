@@ -1,0 +1,49 @@
+{
+  "import": [
+    "gmlewis/modus/pkg/console",
+    "gmlewis/modus/wit/interface/wasi",
+    "moonbitlang/x/sys",
+    "moonbitlang/x/time"
+  ],
+  "test-import": [
+    "gmlewis/modus/pkg/testutils"
+  ],
+  "targets": {
+    "modus_post_generated.mbt": [
+      "wasm"
+    ]
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "__modus_test_string_output_len_0:test_string_output_len_0",
+        "__modus_test_string_output_len_10:test_string_output_len_10",
+        "__modus_test_string_output_len_1:test_string_output_len_1",
+        "__modus_test_string_output_len_2:test_string_output_len_2",
+        "__modus_test_string_output_len_3:test_string_output_len_3",
+        "__modus_test_string_output_len_4:test_string_output_len_4",
+        "__modus_test_string_output_len_5:test_string_output_len_5",
+        "__modus_test_string_output_len_6:test_string_output_len_6",
+        "__modus_test_string_output_len_7:test_string_output_len_7",
+        "__modus_test_string_output_len_8:test_string_output_len_8",
+        "__modus_test_string_output_len_9:test_string_output_len_9",
+        "cabi_realloc",
+        "copy",
+        "free",
+        "load32",
+        "malloc",
+        "ptr2str",
+        "ptr_to_none",
+        "read_map",
+        "store32",
+        "store8",
+        "write_map"
+      ],
+      "export-memory-name": "memory"
+    }
+  },
+  "warn-list": "-44",
+  "supported-targets": [
+    "wasm"
+  ]
+}
